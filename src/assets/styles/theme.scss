@@ -1,0 +1,51 @@
+// 内地
+$primary-color: #3c78fa; // 主品牌色
+$primary-color-line: #285ac8; // 主品牌色
+$background-bottom-color: #f1f3f8; // 最底层背景色
+$background-color: #ffffff; // 背景色
+$tip-color: #353547; // 提示文案
+$tip-color25:  rgba($tip-color, 0.25); // 提示文案
+$border-color: #e1e1e1; // 输入线-默认
+$border-color5: rgba($border-color, 0.5); // 输入线
+$sub-title: rgba(53, 53, 71, 0.7); // 次标题颜色
+$auxiliray-text: rgba(53, 53, 71, 0.5); // 辅助文字颜色
+$tip-text: rgba(53, 53, 71, 0.2); // 提示文字颜色
+$text-link-color: #2f79ff; // 大陆版文字链接颜色
+$text-active-color: #c4966d; // 高亮文字颜色
+$text-link-color12: rgba($text-link-color,0.12);
+$text-link-color06: rgba($text-link-color,0.06);
+$text-active-color:#C4966D; // 高亮文字颜色
+
+$text-color: #353547; // 正文颜色
+$text-color7: rgba($text-color, 0.7); // 次标题颜色
+$text-color6: rgba($text-color, 0.6); // 次标题颜色
+$text-color5: rgba($text-color, 0.5); // 辅助文字颜色
+$text-color2: rgba($text-color, 0.2); // 提示文字颜色
+$text-color3: rgba($text-color, 0.3); // 提示文字颜色
+
+$title-color: #393939;
+$title-color5:  rgba($title-color, 0.5);
+
+
+$global-padding: 14px;
+
+$warn-color: #ff744a;
+$active-color: #ff7439;
+$active-content: #193165;
+$detail-border-color: #2b4f80;
+
+// 香港
+$hk-primary-color: #0055ff;
+$hk-text-line-color: #2177ff;
+$hk-title-color: #0ec0f1;
+
+$hk-text-color: #393939; // 正文颜色
+$hk-text-color7: rgba($hk-text-color, 0.7); // 次标题颜色
+$hk-text-color6: rgba($hk-text-color, 0.6); // 辅助文字颜色
+$hk-text-color5: rgba($hk-text-color, 0.5); // 辅助文字颜色
+$hk-text-color2: rgba($hk-text-color, 0.2); // 提示文字颜色
+$hk-text-color3: rgba($hk-text-color, 0.3); // 提示文字颜色
+$hk-text-color4: rgba($hk-text-color, 0.4); // 提示文字颜色
+$hk-text-color1: rgba($hk-text-color, 0.1); // 提示文字颜色
+
+$hk-background-color: #f8f8f8;

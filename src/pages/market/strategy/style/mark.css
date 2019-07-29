@@ -1,0 +1,14 @@
+.mark {
+    display: inline-block;
+    text-align: center;
+    box-sizing: border-box;
+    font-size: 8px;
+    line-height: 10px;
+    height: 12px;
+    width: 12px;
+    border: 1px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+    margin-left: 6px;
+    transform: translateY(-1px);
+}

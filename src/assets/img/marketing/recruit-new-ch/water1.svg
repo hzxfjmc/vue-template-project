@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="26px" viewBox="0 0 21 26" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.3 (67297) - http://www.bohemiancoding.com/sketch -->
+    <title>water 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="-21.3693313%" y1="100%" x2="75.9616404%" y2="25.8170141%" id="linearGradient-1">
+            <stop stop-color="#FFB411" stop-opacity="0" offset="0%"></stop>
+            <stop stop-color="#FFF47E" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="一世免佣首页" transform="translate(-248.000000, -1786.000000)" fill="url(#linearGradient-1)">
+            <g id="02-2-2" transform="translate(106.000000, 1786.000000)">
+                <g id="02-2">
+                    <g id="分组-12">
+                        <g id="water-2" transform="translate(142.671141, 0.000000)">
+                            <g id="water" transform="translate(1.208054, 0.000000)">
+                                <path d="M-2.84217094e-14,15.1523216 C-2.84217094e-14,4.48189691 3.11254608,-0.159102424 9.33763824,1.22932361 C14.3539671,2.34815067 12.9408816,7.49738677 6.16396246,9.98710923 C4.60176931,10.5610319 2.54711516,12.2827693 -2.84217094e-14,15.1523216 Z" id="路径-28"></path>
+                                <path d="M9.66442953,24.9631374 C11.4604735,17.4153847 13.6873715,14.3185329 16.3451237,15.6725821 C17.5779674,16.3006809 18.3725066,18.3074596 14.845426,20.1639542 C13.4251599,20.9115176 11.6981611,22.5112453 9.66442953,24.9631374 Z" id="路径-28"></path>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
