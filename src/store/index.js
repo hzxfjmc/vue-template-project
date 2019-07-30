@@ -8,7 +8,8 @@ import {
     isYouxinIos,
     isYouxinAndroid,
     isYouxinApp,
-    appType
+    appType,
+    lang
 } from '@/utils/html-utils'
 
 Vue.use(Vuex)
@@ -103,6 +104,7 @@ export default modules =>
             isYouxinIos: () => isYouxinIos,
             isYouxinAndroid: () => isYouxinAndroid,
             isYouxinApp: () => isYouxinApp,
-            appType: () => appType
+            appType: () => appType,
+            lang: () => lang
         }
     })
