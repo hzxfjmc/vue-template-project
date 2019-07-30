@@ -255,6 +255,11 @@ module.exports = {
             '/message-server': {
                 target: 'http://10.210.20.39:8809',
                 changOrigin: true
+            },
+            // 债券信息
+            '/finance-server': {
+                target: 'http://admin-dev.yxzq.com',
+                changeOrigin: true
             }
         },
         historyApiFallback: {}
