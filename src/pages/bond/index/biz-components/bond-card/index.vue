@@ -18,15 +18,14 @@
 
 <script>
 import { Tag } from 'vant'
-import { createNamespacedHelpers } from 'vuex'
-const { mapState } = createNamespacedHelpers('bondIndex')
+import { mapGetters } from 'vuex'
 export default {
     name: 'BondCard',
     components: {
         [Tag.name]: Tag
     },
     computed: {
-        ...mapState(['lang'])
+        ...mapGetters(['lang'])
     },
     props: {
         bondInfo: {
