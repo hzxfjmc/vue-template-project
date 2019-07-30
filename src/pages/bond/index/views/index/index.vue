@@ -16,6 +16,7 @@
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
+import { getBondList } from '@/service/bond-message-query.js'
 import BondCard from '../../biz-components/bond-card/index.vue'
 export default {
     name: 'index',
@@ -66,14 +67,18 @@ export default {
         [SwipeItem.name]: SwipeItem,
         BondCard
     },
-    created() {}
+    async created() {
+        console.log(this)
+        let data = await getBondList()
+        console.log(data)
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .bond-index-wrapper {
     min-height: 100%;
-    padding-bottom: 10px;
+    padding-bottom: 77px;
     background-color: #f1f3f8;
     .banner {
         width: 375px;

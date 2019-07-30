@@ -8,43 +8,34 @@
                 color="#2587EB" plain
             ) {{ item }}
         .bond-card__content
-            .flex-fixed-container.bond-card-rate
+            .flex-fixed-container
                 .rate-num {{ bondInfo.rate.value}}
                 .card-tips {{ bondInfo.rate.desc}}
-            .flex-fixed-container.bond-card-interest
+            .flex-fixed-container
                 .interest-num {{ bondInfo.interest.value}}
                 .card-tips {{ bondInfo.interest.desc}}
 </template>
 
 <script>
 import { Tag } from 'vant'
-
+import { createNamespacedHelpers } from 'vuex'
+const { mapState } = createNamespacedHelpers('bondIndex')
 export default {
     name: 'BondCard',
     components: {
         [Tag.name]: Tag
+    },
+    computed: {
+        ...mapState(['lang'])
     },
     props: {
         bondInfo: {
             type: Object,
             default: () => {}
         }
-        // name: {
-        //     type: String,
-        //     default: ''
-        // },
-        // tag: {
-        //     type: Array,
-        //     default: () => []
-        // },
-        // rate: {
-        //     type: Object,
-        //     default: () => {}
-        // },
-        // interest: {
-        //     type: Object,
-        //     default: () => {}
-        // }
+    },
+    mounted() {
+        console.log(this.$store)
     }
 }
 </script>
