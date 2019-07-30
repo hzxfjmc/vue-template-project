@@ -4,7 +4,7 @@ const axios = new httpRequest()
 
 // 获取债券列表
 export const getBondList = () => {
-    return axios.post('/finance-server/doc/finance-server/api/get-bond-list/v1')
+    return axios.post('/finance-server/api/get-bond-list/v1')
 }
 
 // 获取债券信息详情

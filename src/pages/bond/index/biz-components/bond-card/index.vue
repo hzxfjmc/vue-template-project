@@ -5,7 +5,8 @@
             van-tag(
                 v-for="(item, index) in bondInfo.tag"
                 :key="index"
-                color="#2587EB" plain
+                color="#2587EB"
+                plain
             ) {{ item }}
         .bond-card__content
             .flex-fixed-container
