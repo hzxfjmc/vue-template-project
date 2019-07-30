@@ -3,9 +3,12 @@ import router from './router'
 import App from './App.vue'
 import storeMethod from '@/store/index.js'
 const store = storeMethod()
-console.log(store)
+// console.log(store)
 // import i18n from '@/utils/common/plugins/yx-i18n/index.js'
 // Vue.use(i18n, {})
+
+// import '@/mock/index.js'
+
 import '@/utils/common'
 let init = async () => {
     try {
