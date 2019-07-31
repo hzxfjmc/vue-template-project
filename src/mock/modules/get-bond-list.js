@@ -36,7 +36,7 @@ const formatData = formatMockData({
 })
 export default [
     host + '/finance-server/api/get-bond-list/v1',
-    'get',
+    'post',
     // formatData
     function(options) {
         console.log('options:>>>', options)
