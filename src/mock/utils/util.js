@@ -1,4 +1,4 @@
-export let formatMockData = (codeStatus = 0, msg = '', mockData = {}) => {
+export let formatMockData = (mockData = {}, codeStatus = 0, msg = '') => {
     let initFormatObj = {
         code: codeStatus,
         data: mockData,

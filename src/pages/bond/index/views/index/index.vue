@@ -2,11 +2,11 @@
     .bond-index-wrapper
         van-swipe.banner(:autoplay="3000" :show-indicators="false")
             van-swipe-item
-                a(href="####")
-                    img(src="@/assets/img/bond/banner-demo.png")
+                a(href="####" title="")
+                    img(src="@/assets/img/bond/banner-demo.png" alt="")
             van-swipe-item
-                a(href="####")
-                    img(src="@/assets/img/bond/banner-demo.png")
+                a(href="####" title="")
+                    img(src="@/assets/img/bond/banner-demo.png" alt="")
         .bond-list
             bond-card(
                 v-for="(item, index) in bondList"
@@ -28,52 +28,19 @@ export default {
     async created() {
         // console.log(this)
         try {
-            let data = await getBondList()
-            console.log(data)
+            let { bondInfoAndCurrentPriceApiResponses } = await getBondList()
+            this.bondList = bondInfoAndCurrentPriceApiResponses || []
+            console.log(
+                'getBondList:data:>>> ',
+                bondInfoAndCurrentPriceApiResponses
+            )
         } catch (e) {
-            console.log('e:', e)
+            console.log('getBondList:error:>>>', e)
         }
     },
     data() {
         return {
-            bondList: [
-                {
-                    name: '苹果1',
-                    tag: ['高收入', '标签'],
-                    rate: {
-                        value: '3.561%',
-                        desc: '到期年化收益率'
-                    },
-                    interest: {
-                        value: '3月22日、9月22日',
-                        desc: '每半年付息'
-                    }
-                },
-                {
-                    name: '苹果2',
-                    tag: ['高收入2', '标签2'],
-                    rate: {
-                        value: '3.561%',
-                        desc: '到期年化收益率'
-                    },
-                    interest: {
-                        value: '3月22日、9月22日',
-                        desc: '每半年付息'
-                    }
-                },
-                {
-                    name: '苹果3',
-                    tag: ['高收入2', '标签2'],
-                    rate: {
-                        value: '3.561%',
-                        desc: '到期年化收益率'
-                    },
-                    interest: {
-                        value: '3月22日、9月22日',
-                        desc: '每半年付息'
-                    }
-                }
-            ]
+            bondList: []
         }
     }
 }

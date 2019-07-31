@@ -7,9 +7,11 @@ const store = storeMethod()
 // import i18n from '@/utils/common/plugins/yx-i18n/index.js'
 // Vue.use(i18n, {})
 
-// import '@/mock/index.js'
-
 import '@/utils/common'
+
+// mock
+import '@/mock/index.js'
+// console.log(window.XMLHttpRequest)
 let init = async () => {
     try {
         // 刷新 初始化数据 数据持久化1
