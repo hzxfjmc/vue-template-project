@@ -25,9 +25,6 @@ export default {
     components: {
         [Tag.name]: Tag
     },
-    computed: {
-        ...mapGetters(['lang'])
-    },
     props: {
         bondInfo: {
             type: Object,
@@ -36,6 +33,9 @@ export default {
     },
     mounted() {
         // console.log(this.$store)
+    },
+    computed: {
+        ...mapGetters(['lang'])
     }
 }
 </script>

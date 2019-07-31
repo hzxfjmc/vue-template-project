@@ -20,6 +20,20 @@ import { getBondList } from '@/service/finance-server.js'
 import BondCard from '../../biz-components/bond-card/index.vue'
 export default {
     name: 'index',
+    components: {
+        [Swipe.name]: Swipe,
+        [SwipeItem.name]: SwipeItem,
+        BondCard
+    },
+    async created() {
+        // console.log(this)
+        try {
+            let data = await getBondList()
+            console.log(data)
+        } catch (e) {
+            console.log('e:', e)
+        }
+    },
     data() {
         return {
             bondList: [
@@ -61,16 +75,6 @@ export default {
                 }
             ]
         }
-    },
-    components: {
-        [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem,
-        BondCard
-    },
-    async created() {
-        console.log(this)
-        let data = await getBondList()
-        console.log(data)
     }
 }
 </script>
