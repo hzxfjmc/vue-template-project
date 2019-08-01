@@ -1,29 +1,19 @@
 <template lang="pug">
-    .hello
+    .bond-detail-wrapper
+        detail-header
 </template>
 <script>
-import { Swipe, SwipeItem } from 'vant'
-import { getBondList } from '@/service/finance-server.js'
-import BondCard from '../../biz-components/bond-card/index.vue'
+// import { Swipe, SwipeItem } from 'vant'
+// import { getBondList } from '@/service/finance-server.js'
+import DetailHeader from './components/detail-header/index.vue'
 export default {
-    name: 'index',
+    name: 'BondList',
     components: {
-        [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem,
-        BondCard
+        // [Swipe.name]: Swipe,
+        // [SwipeItem.name]: SwipeItem,
+        DetailHeader
     },
-    async created() {
-        try {
-            let { bondInfoAndCurrentPriceApiResponses } = await getBondList()
-            this.bondList = bondInfoAndCurrentPriceApiResponses || []
-            console.log(
-                'getBondList:data:>>> ',
-                bondInfoAndCurrentPriceApiResponses
-            )
-        } catch (e) {
-            console.log('getBondList:error:>>>', e)
-        }
-    },
+    async created() {},
     data() {
         return {
             bondList: []
@@ -31,5 +21,8 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.bond-detail-wrapper {
+    padding: 10px;
+}
+</style>
