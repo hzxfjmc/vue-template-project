@@ -26,7 +26,6 @@ export default {
         BondCard
     },
     async created() {
-        // console.log(this)
         try {
             let { bondInfoAndCurrentPriceApiResponses } = await getBondList()
             this.bondList = bondInfoAndCurrentPriceApiResponses || []
