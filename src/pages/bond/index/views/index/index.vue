@@ -51,7 +51,6 @@ export default {
 .bond-index-wrapper {
     min-height: 100%;
     padding-bottom: 77px;
-    background-color: #f1f3f8;
     .banner {
         width: 375px;
         height: 150px;
