@@ -51,7 +51,7 @@ export default {
         align-items: center;
         h2 {
             margin-right: 8px;
-            font-size: 0.18rem;
+            font-size: 0.36rem;
             color: #272727;
             line-height: 25px;
         }
@@ -59,7 +59,7 @@ export default {
             min-width: 36px;
             height: 16px;
             margin-right: 9px;
-            font-size: 0.1rem;
+            font-size: 0.2rem;
             text-align: center;
             line-height: 14px;
         }
@@ -71,19 +71,19 @@ export default {
         .rate-num {
             margin-bottom: 4px;
             color: #f82648;
-            font-size: 0.24rem;
+            font-size: 0.48rem;
             line-height: 31px;
         }
         .interest-num {
             margin-top: 3px;
             margin-bottom: 7px;
             color: #393939;
-            font-size: 0.18rem;
+            font-size: 0.36rem;
             line-height: 25px;
         }
         .card-tips {
             color: rgba(57, 57, 57, 0.4);
-            font-size: 0.12rem;
+            font-size: 0.24rem;
             line-height: 17px;
         }
     }
