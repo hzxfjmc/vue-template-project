@@ -8,11 +8,13 @@
                 a(href="####" title="")
                     img(src="@/assets/img/bond/banner-demo.png" alt="")
         .bond-list
-            bond-card(
+            router-link(
                 v-for="(item, index) in bondList"
                 :key="index"
-                :bondInfo="item"
+                to="bond-list"
+                title=""
             )
+                bond-card(:bondInfo="item")
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
