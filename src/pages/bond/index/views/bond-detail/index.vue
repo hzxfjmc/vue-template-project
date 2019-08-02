@@ -11,6 +11,9 @@
             TransactionRules
         .faq
             router-link(to="####") 债券常见问题
+        .operate-btn-box
+            div(@click="handleBuyOrSell('buy')") 买入
+            div(@click="handleBuyOrSell('sell')") 卖出
 
 </template>
 <script>
@@ -34,6 +37,15 @@ export default {
     async created() {},
     data() {
         return {}
+    },
+    methods: {
+        handleBuyOrSell(type) {
+            if (type === 'buy') {
+                console.log('buy')
+            } else {
+                console.log('sell')
+            }
+        }
     }
 }
 </script>
@@ -41,6 +53,7 @@ export default {
 .bond-detail-wrapper {
     padding: 10px 10px 48px;
     color: #393939;
+    // 常见问题
     .faq {
         text-align: center;
         margin: 10px auto 12px;
@@ -48,6 +61,28 @@ export default {
             color: #2f79ff;
             font-size: 0.24rem;
             line-height: 17px;
+        }
+    }
+    // 买入卖出按钮
+    .operate-btn-box {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 48px;
+        display: flex;
+        div {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            background-color: #497aff;
+            color: #fff;
+            font-size: 0.32rem;
+            &:last-child {
+                background-color: #ffbf32;
+            }
         }
     }
 }
