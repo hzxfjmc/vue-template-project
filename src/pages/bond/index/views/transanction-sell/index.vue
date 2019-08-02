@@ -1,9 +1,36 @@
 <template lang="pug">
-    div 卖出
+    .transaction-wrapper
+        transacntion-card
+        .operate-btn 确认卖出
 </template>
 
 <script>
-export default {}
+import TransacntionCard from '@/pages/bond/index/biz-components/transaction-card/index.vue'
+export default {
+    name: 'TransanctionBuy',
+    components: {
+        TransacntionCard
+    },
+    data() {
+        return {}
+    }
+}
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.transaction-wrapper {
+    padding: 10px 10px 48px;
+    .operate-btn {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 48px;
+        background-color: #ffbf32;
+        color: #fff;
+        font-size: 16px;
+        text-align: center;
+        line-height: 48px;
+    }
+}
+</style>
