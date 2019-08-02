@@ -5,16 +5,11 @@
             title="苹果"
             desc="苹果 3.651% 2022.03.22"
         )
-        van-row.header-column(type="flex" justify="space-between")
-            van-col
-                .van-col__title 3.651%
-                .van-col__desc 到期年化收益率
-            van-col
-                .van-col__title 3年192天
-                .van-col__desc 剩余期限
-            van-col
-                .van-col__title 2000
-                .van-col__desc 起购金额（美元/份
+        col-msg.header-column(
+            :col-data="colData"
+            :titleStyle="titleStyle"
+            :descStyle="descStyle"
+        )
         .header-features
             media-box.medal(
                 :thumb="featureThumbMedal"
@@ -31,18 +26,45 @@
 <script>
 import { Row, Col } from 'vant'
 import MediaBox from './media-box.vue'
+import ColMsg from '@/pages/bond/index/biz-components/col-msg/index.vue'
 export default {
     name: 'DetailHeader',
     components: {
         [Row.name]: Row,
         [Col.name]: Col,
-        MediaBox
+        MediaBox,
+        ColMsg
     },
     data() {
         return {
             bondThumb: require('@/assets/img/bond/bond-avatar-demo.png'),
             featureThumbMedal: require('@/assets/img/bond/icon-medal.png'),
-            featureThumbMoney: require('@/assets/img/bond/icon-money.png')
+            featureThumbMoney: require('@/assets/img/bond/icon-money.png'),
+            colData: [
+                {
+                    title: '3.651%',
+                    desc: '到期年化收益率'
+                },
+                {
+                    title: '3年192天',
+                    desc: '剩余期限'
+                },
+                {
+                    title: '2000',
+                    desc: '起购金额(美元/份)'
+                }
+            ],
+            titleStyle: {
+                color: '#fff',
+                'font-size': '0.4rem',
+                'line-height': '0.52rem'
+            },
+            descStyle: {
+                'margin-top': '0.04rem',
+                color: 'rgba(255, 255, 255, 0.4)',
+                'font-size': '0.24rem',
+                'line-height': '0.34rem'
+            }
         }
     }
 }
@@ -53,17 +75,6 @@ export default {
     border-radius: 4px;
     .header-column {
         padding: 0 14px 19px;
-    }
-    .van-col__title {
-        color: #fff;
-        font-size: 0.4rem;
-        line-height: 26px;
-    }
-    .van-col__desc {
-        margin-top: 2px;
-        color: rgba(255, 255, 255, 0.4);
-        font-size: 0.24rem;
-        line-height: 17px;
     }
 }
 </style>
