@@ -30,6 +30,29 @@ export default new Router({
             meta: { title: '买入' },
             component: () =>
                 import(`@/pages/bond/index/views/transanction-buy/index.vue`)
+        },
+        {
+            name: 'risk-warning',
+            path: '/risk-warning',
+            meta: { title: '港美股开户' },
+            component: () =>
+                import(`@/pages/bond/index/views/risk-warning/index.vue`)
+        },
+        {
+            name: 'risk-assessment',
+            path: '/risk-warning',
+            meta: { title: '港美股开户' },
+            component: () =>
+                import(`@/pages/bond/index/views/risk-assessment/index.vue`)
+        },
+        {
+            name: 'risk-assessment-result',
+            path: '/risk-assessment-result',
+            meta: { title: '港美股开户' },
+            component: () =>
+                import(
+                    `@/pages/bond/index/views/risk-assessment-result/index.vue`
+                )
         }
     ]
 })
