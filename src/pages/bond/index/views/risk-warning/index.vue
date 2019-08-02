@@ -12,7 +12,7 @@
         .statement
             span 本人声明：细收听风险披露录音，清楚明白并完全接受音频中本人已详细收听风险披露录音，清楚明白中本人已详细收听风险披露录音，清楚明白本人已阅读
             a 《债券协议》
-
+        .operate-btn(disabled) 确认
 </template>
 <script>
 import { Panel } from 'vant'
@@ -29,6 +29,7 @@ export default {
 <style lang="scss" scoped>
 .risk-warning-wrapper {
     min-height: 100%;
+    padding-bottom: 48px;
     background: #fff;
     color: #393939;
     .van-cell {
@@ -94,6 +95,21 @@ export default {
             color: #2f79ff;
             font-size: 0.24rem;
             line-height: 20px;
+        }
+    }
+    .operate-btn {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 48px;
+        color: #fff;
+        font-size: 0.32rem;
+        text-align: center;
+        line-height: 48px;
+        background-color: #0d50d8;
+        &[disabled] {
+            background-color: #dadada;
         }
     }
 }
