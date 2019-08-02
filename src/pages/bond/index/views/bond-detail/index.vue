@@ -7,6 +7,11 @@
             BondPrice
         van-panel(title="债券资料")
             BondInfo
+        van-panel(title="交易规则")
+            TransactionRules
+        .faq
+            router-link(to="####") 债券常见问题
+
 </template>
 <script>
 // import { getBondList } from '@/service/finance-server.js'
@@ -15,6 +20,7 @@ import DetailHeader from './components/detail-header/index.vue'
 import PurchasingProcess from './components/purchasing-process/index.vue'
 import BondPrice from './components/bond-price/index.vue'
 import BondInfo from './components/bond-info/index.vue'
+import TransactionRules from './components/transaction-rules/index.vue'
 export default {
     name: 'BondList',
     components: {
@@ -22,7 +28,8 @@ export default {
         DetailHeader,
         PurchasingProcess,
         BondPrice,
-        BondInfo
+        BondInfo,
+        TransactionRules
     },
     async created() {},
     data() {
@@ -32,8 +39,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bond-detail-wrapper {
-    padding: 10px;
+    padding: 10px 10px 48px;
     color: #393939;
+    .faq {
+        text-align: center;
+        margin: 10px auto 12px;
+        a {
+            color: #2f79ff;
+            font-size: 0.24rem;
+            line-height: 17px;
+        }
+    }
 }
 // 微调 vant panel 样式
 .van-panel {
