@@ -1,19 +1,20 @@
 <template lang="pug">
     .bond-card
         .bond-card__header
-            h2 {{ bondInfo.issuerName }}
-            van-tag(
-                v-for="(item, index) in bondInfo.tags"
-                :key="index"
-                color="#2587EB"
-                plain
-            ) {{ item.name.zhCn }}
+            h2 {{ bondInfo && bondInfo.issuerName }}
+            template(v-if="bondInfo && bondInfo.tags")
+                van-tag(
+                    v-for="(item, index) in bondInfo.tags"
+                    :key="index"
+                    color="#2587EB"
+                    plain
+                ) {{ item.name && item.name.zhCn }}
         .bond-card__content
             .flex-fixed-container
-                .rate-num {{ bondInfo.price.buyYtm}}
+                .rate-num {{ bondInfo && bondInfo.price && bondInfo.price.buyYtm}}
                 .card-tips 到期年化收益率
             .flex-fixed-container
-                .interest-num {{ bondInfo.paymentFrequency.name}}
+                .interest-num {{ bondInfo && bondInfo.paymentFrequency && bondInfo.paymentFrequency.name}}
                 .card-tips 每半年付息
 </template>
 
