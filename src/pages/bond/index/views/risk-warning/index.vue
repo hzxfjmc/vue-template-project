@@ -12,14 +12,16 @@
         .statement
             span 本人声明：细收听风险披露录音，清楚明白并完全接受音频中本人已详细收听风险披露录音，清楚明白中本人已详细收听风险披露录音，清楚明白本人已阅读
             a 《债券协议》
-        .operate-btn(disabled) 确认
+        fixed-operate-btn(text="确认" :disabled="'disabled'")
 </template>
 <script>
 import { Panel } from 'vant'
+import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 export default {
     name: 'RickWarning',
     components: {
-        [Panel.name]: Panel
+        [Panel.name]: Panel,
+        FixedOperateBtn
     },
     data() {
         return {}
@@ -95,21 +97,6 @@ export default {
             color: #2f79ff;
             font-size: 0.24rem;
             line-height: 20px;
-        }
-    }
-    .operate-btn {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 48px;
-        color: #fff;
-        font-size: 0.32rem;
-        text-align: center;
-        line-height: 48px;
-        background-color: #0d50d8;
-        &[disabled] {
-            background-color: #dadada;
         }
     }
 }
