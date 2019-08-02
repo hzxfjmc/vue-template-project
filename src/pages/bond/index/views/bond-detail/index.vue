@@ -42,8 +42,10 @@ export default {
         handleBuyOrSell(type) {
             if (type === 'buy') {
                 console.log('buy')
+                this.$router.push('/transanction-buy')
             } else {
                 console.log('sell')
+                this.$router.push('/transanction-sell')
             }
         }
     }
