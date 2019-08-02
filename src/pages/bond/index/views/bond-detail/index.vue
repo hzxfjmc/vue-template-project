@@ -3,20 +3,22 @@
         detail-header
         van-panel(title="购买流程")
             purchasing-process
+        van-panel(title="债券价格")
+            BondPrice
 </template>
 <script>
-// import { Swipe, SwipeItem } from 'vant'
 // import { getBondList } from '@/service/finance-server.js'
 import { Panel } from 'vant'
 import DetailHeader from './components/detail-header/index.vue'
 import PurchasingProcess from './components/purchasing-process/index.vue'
+import BondPrice from './components/bond-price/index.vue'
 export default {
     name: 'BondList',
     components: {
         [Panel.name]: Panel,
-        // [SwipeItem.name]: SwipeItem,
         DetailHeader,
-        PurchasingProcess
+        PurchasingProcess,
+        BondPrice
     },
     async created() {},
     data() {
