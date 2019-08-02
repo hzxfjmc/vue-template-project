@@ -23,13 +23,6 @@
                     .process-step__circle-container
                         i.process-step__circle
                     .process-step__line
-
-
-        //- van-steps
-        //-     van-step 买家下单
-        //-     van-step 买家下单
-        //-     van-step 买家下单
-        //-     van-step 买家下单
 </template>
 <script>
 import { Step, Steps } from 'vant'
@@ -43,15 +36,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .process-steps {
-    // overflow: hidden;
+    overflow: hidden;
     padding: 0 10px 0 13px;
     background-color: #fff;
 }
 .process-steps__items {
     display: flex;
-    // overflow: hidden;
+    overflow: hidden;
     position: relative;
-    // margin: 0 0 0.2rem;
 }
 .process-step {
     position: relative;
