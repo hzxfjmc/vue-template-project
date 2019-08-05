@@ -16,6 +16,11 @@
                 i.iconfont.icon-about_icon
                 span 什么是风险测评？
             p 您的风评取向不适合购买该产品您的风评取向不适合购买该产品您的风评取向不适合购买该产品
+        .risk-agreement
+            i.iconfont.icon-selected
+            p
+                span 我已阅读并知晓债券相关风险，我已阅读
+                a 《产品资料》
         fixed-operate-btn(text="开始测评")
 </template>
 
@@ -116,6 +121,30 @@ export default {
             font-size: 0.24rem;
             line-height: 18px;
             opacity: 0.4;
+        }
+    }
+    .risk-agreement {
+        position: absolute;
+        bottom: 62px;
+        padding-left: 14px;
+        .icon-selected {
+            margin-right: 7px;
+            color: #2f79ff;
+            font-size: 0.32rem;
+            vertical-align: middle;
+        }
+        p {
+            display: inline-block;
+            font-size: 0.24rem;
+            line-height: 20px;
+            // vertical-align: middle;
+            span {
+                opacity: 0.4;
+            }
+            a {
+                color: #2f79ff;
+                font-size: 0.24rem;
+            }
         }
     }
 }
