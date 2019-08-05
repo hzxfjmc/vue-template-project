@@ -11,7 +11,7 @@
             router-link(
                 v-for="(item, index) in bondList"
                 :key="index"
-                to="bond-list"
+                to="bond-detail"
                 title=""
             )
                 bond-card(:bondInfo="item")
