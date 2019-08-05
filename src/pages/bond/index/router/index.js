@@ -40,7 +40,7 @@ export default new Router({
         },
         {
             name: 'risk-assessment',
-            path: '/risk-warning',
+            path: '/risk-assessment',
             meta: { title: '港美股开户' },
             component: () =>
                 import(`@/pages/bond/index/views/risk-assessment/index.vue`)
