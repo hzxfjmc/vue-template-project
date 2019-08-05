@@ -1,7 +1,7 @@
-// 债券信息查询接口
 import httpRequest from '@/utils/http-request'
 const axios = new httpRequest()
 
+// 债券信息查询接口
 /**
  * 获取债券列表
  */
@@ -53,5 +53,3 @@ export const getCurrentBondPrices = id => {
 export const bondOrder = data => {
     return axios.post('/finance-server/api/bond-order/v1', data)
 }
-
-// 风险提示测评接口
