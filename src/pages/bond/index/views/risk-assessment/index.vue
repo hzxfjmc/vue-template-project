@@ -20,7 +20,7 @@
                                 i.iconfont(
                                     slot="icon"
                                     slot-scope="props"
-                                    :class="props.checked ? 'icon-selected' : 'icon-oval'"
+                                    :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                 )
 
         fixed-operate-btn(text="提交测评" disabled="disabled")
@@ -172,6 +172,12 @@ export default {
         }
         .icon-selected {
             color: #2f79ff;
+        }
+        .icon-unchecked {
+            opacity: 0.4;
+        }
+        .icon-unchecked,
+        .icon-selected {
             font-size: 0.32rem;
         }
     }
