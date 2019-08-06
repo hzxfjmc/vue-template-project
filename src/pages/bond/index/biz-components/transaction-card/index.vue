@@ -1,8 +1,8 @@
 <template lang="pug">
     .transaction-card
         media-box.transanction-header(
-            title="苹果"
-            desc="苹果 3.651% 2022.03.22"
+            :title="bondEditableInfo && bondEditableInfo.issuerInfo || '--'"
+            :desc="bondEditableInfo && bondUneditableInfo && bondEditableInfo.name + ' ' + bondUneditableInfo.couponRate + '% ' + bondUneditableInfo.paymentDate"
         )
         .yx-cell
             .yx-cell__header 买入价格
@@ -43,6 +43,7 @@
 
 <script>
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
+import { getBondDetail } from '@/service/finance-server.js'
 import { Stepper } from 'vant'
 export default {
     name: 'TransacntionCard',
@@ -50,9 +51,27 @@ export default {
         [Stepper.name]: Stepper,
         MediaBox
     },
+    async created() {
+        try {
+            let { bondEditableInfo, bondUneditableInfo } = await getBondDetail(
+                this.$route.query.id
+            )
+            this.bondEditableInfo = bondEditableInfo || []
+            this.bondUneditableInfo = bondUneditableInfo || []
+            console.log(
+                'getBondDetail:data:>>> ',
+                bondEditableInfo,
+                bondUneditableInfo
+            )
+        } catch (e) {
+            console.log('getBondDetail:error:>>>', e)
+        }
+    },
     data() {
         return {
-            value: 1
+            value: 1,
+            bondEditableInfo: null,
+            bondUneditableInfo: null
         }
     }
 }

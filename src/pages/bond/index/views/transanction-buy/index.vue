@@ -1,15 +1,17 @@
 <template lang="pug">
     .transaction-wrapper
         transacntion-card
-        .operate-btn 确认买入
+        fixed-operate-btn(text="确认买入")
 </template>
 
 <script>
+import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import TransacntionCard from '@/pages/bond/index/biz-components/transaction-card/index.vue'
 export default {
     name: 'TransanctionBuy',
     components: {
-        TransacntionCard
+        TransacntionCard,
+        FixedOperateBtn
     },
     data() {
         return {}
