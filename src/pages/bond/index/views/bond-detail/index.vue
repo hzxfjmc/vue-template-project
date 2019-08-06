@@ -1,12 +1,16 @@
 <template lang="pug">
     .bond-detail-wrapper
-        detail-header
+        detail-header(
+        )
         van-panel(title="购买流程")
             purchasing-process
         van-panel(title="债券价格")
             BondPrice
         van-panel(title="债券资料")
-            BondInfo
+            BondInfo(
+                :bondEditableInfo="bondEditableInfo"
+                :bondUneditableInfo="bondUneditableInfo"
+            )
         van-panel(title="交易规则")
             TransactionRules
         .faq
@@ -17,7 +21,7 @@
 
 </template>
 <script>
-// import { getBondList } from '@/service/finance-server.js'
+import { getBondDetail } from '@/service/finance-server.js'
 import { Panel } from 'vant'
 import DetailHeader from './components/detail-header/index.vue'
 import PurchasingProcess from './components/purchasing-process/index.vue'
@@ -34,9 +38,39 @@ export default {
         BondInfo,
         TransactionRules
     },
-    async created() {},
+    async created() {
+        try {
+            let {
+                bondEditableInfo,
+                bondUneditableInfo,
+                currentPrice,
+                prices
+            } = await getBondDetail(this.$route.query.id)
+            this.bondEditableInfo = bondEditableInfo || []
+            this.bondUneditableInfo = bondUneditableInfo || []
+            this.currentPrice = currentPrice || []
+            this.prices = prices || []
+            console.log(
+                'getBondDetail:data:>>> ',
+                bondEditableInfo,
+                bondUneditableInfo,
+                currentPrice,
+                prices
+            )
+        } catch (e) {
+            console.log('getBondDetail:error:>>>', e)
+        }
+    },
     data() {
-        return {}
+        return {
+            bondEditableInfo: null,
+            bondUneditableInfo: null,
+            currentPrice: null,
+            prices: null,
+
+            detailHeaderData: null,
+            bondInfoData: null
+        }
     },
     methods: {
         handleBuyOrSell(type) {

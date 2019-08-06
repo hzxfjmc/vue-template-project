@@ -1,7 +1,7 @@
 <template lang="pug">
     van-row.col-column(type="flex" :justify="justify")
         van-col(v-for="(colItem, index) in colData" :key="index")
-            .van-col__title(:style="titleStyle") {{ colItem.title }}
+            .van-col__title(:style="titleStyle") {{ colItem.value }}
             .van-col__desc(:style="descStyle") {{ colItem.desc }}
 </template>
 <script>

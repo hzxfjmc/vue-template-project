@@ -1,15 +1,13 @@
 <template lang="pug">
     .detail-bond-info-wrapper
         .bond-info-header
-            .part
+            a.pdf(:href="bondEditableInfo && bondEditableInfo.productOverview")
                 i.icon
                 span 产品概览
-            .part
+            a.pdf(:href="bondEditableInfo && bondEditableInfo.raiseManual")
                 i.icon
                 span 募集说明
-        col-msg(:col-data="colData" style="padding-top:0")
-        col-msg(:col-data="colData")
-        col-msg(:col-data="colData")
+        col-msg(:colData="colData")
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -21,22 +19,37 @@ export default {
         [Col.name]: Col,
         ColMsg
     },
-    data() {
-        return {
-            colData: [
+    props: {
+        bondEditableInfo: {
+            type: Object,
+            default: () => {}
+        },
+        bondUneditableInfo: {
+            type: Object,
+            default: () => {}
+        }
+    },
+    computed: {
+        colData() {
+            let obj = [
                 {
-                    title: '苹果',
+                    value: this.bondEditableInfo && this.bondEditableInfo.name,
                     desc: '债券发行人'
                 },
                 {
-                    title: '3.651%',
+                    value:
+                        this.bondUneditableInfo &&
+                        this.bondUneditableInfo.couponRate,
                     desc: '票面利率'
                 },
                 {
-                    title: '3.22、9.22',
+                    value:
+                        this.bondUneditableInfo &&
+                        this.bondUneditableInfo.paymentDate,
                     desc: '付息日'
                 }
             ]
+            return obj
         }
     }
 }
@@ -49,12 +62,13 @@ export default {
         top: 14px;
         right: 14px;
         display: flex;
-        .part {
+        .pdf {
             display: flex;
             align-items: center;
             height: 22px;
             padding: 0 6px;
             border: 1px solid #ebebeb;
+            color: #393939;
             border-radius: 1px;
             &:first-child {
                 margin-right: 10px;
@@ -72,6 +86,9 @@ export default {
                 font-size: 12px;
             }
         }
+    }
+    .col-column:nth-child(2) {
+        padding-top: 0;
     }
 }
 </style>
