@@ -1,5 +1,5 @@
-import { host } from '../utils/host'
-import { formatMockData } from '../utils//util'
+import { host } from '../../utils/host'
+import { formatMockData } from '../../utils/util'
 import Mock from 'mockjs'
 // 获取风险测评题目
 const formatData = formatMockData({

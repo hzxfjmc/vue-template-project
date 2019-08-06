@@ -24,7 +24,7 @@
 
 </template>
 <script>
-import { getBondDetail } from '@/service/finance-server.js'
+import { getBondDetail } from '@/service/finance-info-server.js'
 import { Panel } from 'vant'
 import DetailHeader from './components/detail-header/index.vue'
 import PurchasingProcess from './components/purchasing-process/index.vue'

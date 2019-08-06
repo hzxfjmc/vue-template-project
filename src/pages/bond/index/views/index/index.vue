@@ -18,7 +18,7 @@
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { getBondList } from '@/service/finance-server.js'
+import { getBondList } from '@/service/finance-info-server.js'
 import BondCard from '../../biz-components/bond-card/index.vue'
 export default {
     name: 'index',

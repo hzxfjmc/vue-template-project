@@ -1,5 +1,5 @@
-import { host } from '../utils/host'
-import { formatMockData } from '../utils//util'
+import { host } from '../../utils/host'
+import { formatMockData } from '../../utils/util'
 import Mock from 'mockjs'
 // 债券当前价格
 const formatData = formatMockData({

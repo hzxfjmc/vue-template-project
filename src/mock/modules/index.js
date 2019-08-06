@@ -1,11 +1,24 @@
-import bondDetail from './get-bond-detail'
-import bondList from './get-bond-list'
-import bondPrices from './get-bond-prices'
-import bondCurrentPrices from './get-current-bond-prices'
+// finance-info-server
+import bondDetail from './finance-info-server/get-bond-detail'
+import bondList from './finance-info-server/get-bond-list'
+import bondPrices from './finance-info-server/get-bond-prices'
+import bondCurrentPrices from './finance-info-server/get-current-bond-prices'
+import bondOrder from './finance-info-server/bond-order'
 
+// user-server
+import bondRiskAutograph from './user-server/bond-risk-autograph'
+import riskAssessAnswer from './user-server/risk-assess-answer'
+import riskAssessResult from './user-server/risk-assess-result'
+import riskAssessSubject from './user-server/risk-assess-subject'
 export default {
     bondDetail,
     bondList,
     bondPrices,
-    bondCurrentPrices
+    bondCurrentPrices,
+    bondOrder,
+
+    bondRiskAutograph,
+    riskAssessAnswer,
+    riskAssessResult,
+    riskAssessSubject
 }

@@ -43,7 +43,7 @@
 
 <script>
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
-import { getBondDetail } from '@/service/finance-server.js'
+import { getBondDetail } from '@/service/finance-info-server.js'
 import { Stepper } from 'vant'
 export default {
     name: 'TransacntionCard',
