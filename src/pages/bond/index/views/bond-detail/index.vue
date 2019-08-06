@@ -47,19 +47,22 @@ export default {
                 bondEditableInfo,
                 bondUneditableInfo,
                 currentPrice,
-                prices
+                prices,
+                id
             } = await getBondDetail(this.$route.query.id)
 
             this.bondEditableInfo = bondEditableInfo || []
             this.bondUneditableInfo = bondUneditableInfo || []
             this.currentPrice = currentPrice || []
             this.prices = prices || []
+            this.id = id || 0
             console.log(
                 'getBondDetail:data:>>> ',
                 bondEditableInfo,
                 bondUneditableInfo,
                 currentPrice,
-                prices
+                prices,
+                id
             )
         } catch (e) {
             console.log('getBondDetail:error:>>>', e)
@@ -70,17 +73,18 @@ export default {
             bondEditableInfo: null,
             bondUneditableInfo: null,
             currentPrice: null,
-            prices: null
+            prices: null,
+            id: 0
         }
     },
     methods: {
         handleBuyOrSell(type) {
             if (type === 'buy') {
                 console.log('buy')
-                this.$router.push('/transanction-buy')
+                this.$router.push('/transanction-buy?id=' + this.id)
             } else {
                 console.log('sell')
-                this.$router.push('/transanction-sell')
+                this.$router.push('/transanction-sell?id=' + this.id)
             }
         }
     }
