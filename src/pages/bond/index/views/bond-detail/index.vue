@@ -1,6 +1,9 @@
 <template lang="pug">
     .bond-detail-wrapper
         detail-header(
+            :bondEditableInfo="bondEditableInfo"
+            :bondUneditableInfo="bondUneditableInfo",
+            :prices="prices"
         )
         van-panel(title="购买流程")
             purchasing-process
@@ -46,6 +49,7 @@ export default {
                 currentPrice,
                 prices
             } = await getBondDetail(this.$route.query.id)
+
             this.bondEditableInfo = bondEditableInfo || []
             this.bondUneditableInfo = bondUneditableInfo || []
             this.currentPrice = currentPrice || []
@@ -66,10 +70,7 @@ export default {
             bondEditableInfo: null,
             bondUneditableInfo: null,
             currentPrice: null,
-            prices: null,
-
-            detailHeaderData: null,
-            bondInfoData: null
+            prices: null
         }
     },
     methods: {

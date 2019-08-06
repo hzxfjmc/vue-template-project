@@ -1,9 +1,8 @@
 <template lang="pug">
     .detail-header
         media-box(
-            :thumb="bondThumb"
-            title="苹果"
-            desc="苹果 3.651% 2022.03.22"
+            :title="bondEditableInfo && bondEditableInfo.issuerInfo || '--'"
+            :desc="bondEditableInfo && bondUneditableInfo && bondEditableInfo.name + ' ' + bondUneditableInfo.couponRate + '% ' + bondUneditableInfo.paymentDate"
         )
         col-msg.header-column(
             :col-data="colData"
@@ -35,25 +34,24 @@ export default {
         MediaBox,
         ColMsg
     },
+    props: {
+        bondEditableInfo: {
+            type: Object,
+            default: () => {}
+        },
+        bondUneditableInfo: {
+            type: Object,
+            default: () => {}
+        },
+        prices: {
+            type: Object,
+            default: () => {}
+        }
+    },
     data() {
         return {
-            bondThumb: require('@/assets/img/bond/bond-avatar-demo.png'),
             featureThumbMedal: require('@/assets/img/bond/icon-medal.png'),
             featureThumbMoney: require('@/assets/img/bond/icon-money.png'),
-            colData: [
-                {
-                    title: '3.651%',
-                    desc: '到期年化收益率'
-                },
-                {
-                    title: '3年192天',
-                    desc: '剩余期限'
-                },
-                {
-                    title: '2000',
-                    desc: '起购金额(美元/份)'
-                }
-            ],
             titleStyle: {
                 color: '#fff',
                 'font-size': '0.4rem',
@@ -65,6 +63,27 @@ export default {
                 'font-size': '0.24rem',
                 'line-height': '0.34rem'
             }
+        }
+    },
+    computed: {
+        colData() {
+            let obj = [
+                {
+                    title: (this.prices && this.prices.buyYtm) || '--',
+                    desc: '到期年化收益率'
+                },
+                {
+                    title: '3年192天',
+                    desc: '剩余期限'
+                },
+                {
+                    title:
+                        this.bondUneditableInfo &&
+                        this.bondUneditableInfo.minFaceValue,
+                    desc: '起购金额(美元/份)'
+                }
+            ]
+            return obj
         }
     }
 }

@@ -39,7 +39,7 @@ export default {
                 {
                     title:
                         this.bondUneditableInfo &&
-                        this.bondUneditableInfo.couponRate,
+                        this.bondUneditableInfo.couponRate + '%',
                     desc: '票面利率'
                 },
                 {
