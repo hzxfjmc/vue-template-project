@@ -6,7 +6,7 @@
             :prices="prices"
         )
         van-panel(title="购买流程")
-            purchasing-process
+            purchasing-process(:bondUneditableInfo="bondUneditableInfo")
         van-panel(title="债券价格")
             BondPrice
         van-panel(title="债券资料")

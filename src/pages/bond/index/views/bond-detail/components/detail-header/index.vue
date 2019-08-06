@@ -44,7 +44,7 @@ export default {
             default: () => {}
         },
         prices: {
-            type: Object,
+            type: Array,
             default: () => {}
         }
     },
@@ -69,7 +69,11 @@ export default {
         colData() {
             let obj = [
                 {
-                    title: (this.prices && this.prices.buyYtm) || '--',
+                    title:
+                        (this.prices &&
+                            this.prices[0] &&
+                            this.prices[0].buyYtm) ||
+                        '--',
                     desc: '到期年化收益率'
                 },
                 {
