@@ -257,8 +257,9 @@ module.exports = {
                 changOrigin: true
             },
             // 债券信息
-            '/finance-server': {
-                target: 'http://admin-dev.yxzq.com',
+            '/finance-info-server': {
+                // target: 'http://admin-dev.yxzq.com',
+                target: 'http://10.210.110.112:1360',
                 changeOrigin: true
             }
         },

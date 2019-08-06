@@ -11,7 +11,7 @@
             router-link(
                 v-for="(item, index) in bondList"
                 :key="index"
-                to="bond-detail"
+                :to="{path: 'bond-detail?id=' + item.id}"
                 title=""
             )
                 bond-card(:bondInfo="item")
@@ -29,7 +29,10 @@ export default {
     },
     async created() {
         try {
-            let { bondInfoAndCurrentPriceApiResponses } = await getBondList()
+            let { bondInfoAndCurrentPriceApiResponses } = await getBondList({
+                pageNum: 1,
+                pageSize: 10
+            })
             this.bondList = bondInfoAndCurrentPriceApiResponses || []
             console.log(
                 'getBondList:data:>>> ',

@@ -4,9 +4,12 @@ const axios = new httpRequest()
 // 债券信息查询接口
 /**
  * 获取债券列表
+ * @param {Number} data 请求参数
+ *  {Number} pageNum 当前页
+ *  {Number} pageSize 每页条数
  */
-export const getBondList = () => {
-    return axios.post('/finance-server/api/get-bond-list/v1')
+export const getBondList = data => {
+    return axios.post('/finance-info-server/api/get-bond-list/v1', data)
 }
 
 /**
@@ -14,7 +17,7 @@ export const getBondList = () => {
  * @param {Number} id 债券id
  */
 export const getBondDetail = id => {
-    return axios.post('/finance-server/api/get-bond-detail/v1', {
+    return axios.post('/finance-info-server/api/get-bond-detail/v1', {
         id
     })
 }
@@ -24,7 +27,7 @@ export const getBondDetail = id => {
  * @param {Number} id 债券id
  */
 export const getBondPrices = id => {
-    return axios.post('/finance-server/api/get-bond-prices/v1', {
+    return axios.post('/finance-info-server/api/get-bond-prices/v1', {
         id
     })
 }
@@ -34,7 +37,7 @@ export const getBondPrices = id => {
  * @param {Number} id 债券id
  */
 export const getCurrentBondPrices = id => {
-    return axios.post('/finance-server/api/get-current-bond-prices/v1', {
+    return axios.post('/finance-info-server/api/get-current-bond-prices/v1', {
         id
     })
 }
@@ -51,5 +54,5 @@ export const getCurrentBondPrices = id => {
  *  {String} tradeToken 交易令牌
  */
 export const bondOrder = data => {
-    return axios.post('/finance-server/api/bond-order/v1', data)
+    return axios.post('/finance-info-server/api/bond-order/v1', data)
 }

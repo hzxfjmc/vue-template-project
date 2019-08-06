@@ -1,7 +1,7 @@
 <template lang="pug">
     .bond-card
         .bond-card__header
-            h2 {{ bondInfo && bondInfo.issuerName }}
+            h2 {{ bondInfo && bondInfo.bondName }}
             template(v-if="bondInfo && bondInfo.tags")
                 van-tag(
                     v-for="(item, index) in bondInfo.tags"
@@ -11,7 +11,7 @@
                 ) {{ item.name && item.name.zhCn }}
         .bond-card__content
             .flex-fixed-container
-                .rate-num {{ bondInfo && bondInfo.price && bondInfo.price.buyYtm}}
+                .rate-num {{ bondInfo && bondInfo.price && bondInfo.price.buyYtm || '-'}}
                 .card-tips 到期年化收益率
             .flex-fixed-container
                 .interest-num {{ bondInfo && bondInfo.paymentFrequency && bondInfo.paymentFrequency.name}}
