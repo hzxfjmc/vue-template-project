@@ -1,8 +1,8 @@
 import { host } from '../utils/host'
-import { formatMockData } from '../utils//util'
+import { formatMockData } from '../utils/util'
 // 债券信息详情
 export default [
-    host + '/finance-server/api/get-bond-detail/v1',
+    host + '/finance-info-server/api/get-bond-detail/v1',
     'post',
     formatMockData(0, '', {
         bondEditableInfo: {
