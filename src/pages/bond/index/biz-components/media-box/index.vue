@@ -1,6 +1,6 @@
 <template lang="pug">
     .media-box
-        .media-box__header
+        .media-box__header(v-if="thumb")
             img.media-box__thumb(:src="thumb" alt="")
         .media-box__content
             h4.media-box__title {{ title }}
