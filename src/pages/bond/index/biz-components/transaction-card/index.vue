@@ -1,7 +1,6 @@
 <template lang="pug">
     .transaction-card
         media-box.transanction-header(
-            :thumb="bondThumb"
             title="苹果"
             desc="苹果 3.651% 2022.03.22"
         )
@@ -53,8 +52,7 @@ export default {
     },
     data() {
         return {
-            value: 1,
-            bondThumb: require('@/assets/img/bond/bond-avatar-demo.png')
+            value: 1
         }
     }
 }
