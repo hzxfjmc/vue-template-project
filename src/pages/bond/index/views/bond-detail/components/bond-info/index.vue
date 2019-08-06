@@ -33,17 +33,17 @@ export default {
         colData() {
             let obj = [
                 {
-                    value: this.bondEditableInfo && this.bondEditableInfo.name,
+                    title: this.bondEditableInfo && this.bondEditableInfo.name,
                     desc: '债券发行人'
                 },
                 {
-                    value:
+                    title:
                         this.bondUneditableInfo &&
                         this.bondUneditableInfo.couponRate,
                     desc: '票面利率'
                 },
                 {
-                    value:
+                    title:
                         this.bondUneditableInfo &&
                         this.bondUneditableInfo.paymentDate,
                     desc: '付息日'
