@@ -17,7 +17,9 @@
 <script>
 import { Panel } from 'vant'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
-import { bondRiskAutograph, getBongAgreement } from '@/service/user-server.js'
+import { bondRiskAutograph } from '@/service/user-server.js'
+import { cfgProSelect } from '@/service/config-manager.js'
+
 export default {
     name: 'RickWarning',
     components: {
@@ -27,11 +29,11 @@ export default {
     async created() {
         // 拉取债券协议
         try {
-            let data = await getBongAgreement()
+            let data = await cfgProSelect('BOND001')
             this.agreementData = data
-            console.log('getBongAgreement:data:>>> ', data)
+            console.log('cfgProSelect:data:>>> ', data)
         } catch (e) {
-            console.log('getBongAgreement:error:>>>', e)
+            console.log('cfgProSelect:error:>>>', e)
         }
     },
     data() {

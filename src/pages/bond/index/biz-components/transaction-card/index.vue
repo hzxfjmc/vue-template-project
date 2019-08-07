@@ -43,7 +43,7 @@
 
 <script>
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
-import { getBondDetail } from '@/service/finance-info-server.js'
+import { getBondDetail, bondOrder } from '@/service/finance-info-server.js'
 import { Stepper } from 'vant'
 export default {
     name: 'TransacntionCard',
@@ -52,6 +52,7 @@ export default {
         MediaBox
     },
     async created() {
+        // 获取债券信息
         try {
             let { bondEditableInfo, bondUneditableInfo } = await getBondDetail(
                 this.$route.query.id
@@ -72,6 +73,24 @@ export default {
             value: 1,
             bondEditableInfo: null,
             bondUneditableInfo: null
+        }
+    },
+    methods: {
+        // 下单/买卖
+        async handleBondOrder() {
+            try {
+                let data = await bondOrder({
+                    bondId: 1,
+                    direction: 1,
+                    entrustPrice: 1,
+                    entrustQuantity: 1,
+                    requestId: 'e0669ac526954092b6107473a03ff7a2',
+                    tradeToken: '977bb092c9ab4111a69442c7113698f7'
+                })
+                console.log('getBondDetail:data:>>> ', data)
+            } catch (e) {
+                console.log('getBondDetail:error:>>> ', e)
+            }
         }
     }
 }

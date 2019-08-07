@@ -26,10 +26,20 @@
 
 <script>
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
+import { riskAssessResult } from '@/service/user-server.js'
 export default {
     name: 'RickWarning',
     components: {
         FixedOperateBtn
+    },
+    async created() {
+        // 拉取测评题目
+        try {
+            let { assessResult } = await riskAssessResult()
+            console.log('riskAssessResult:data:>>> ', assessResult)
+        } catch (e) {
+            console.log('riskAssessResult:error:>>>', e)
+        }
     },
     data() {
         return {

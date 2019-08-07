@@ -1,8 +1,8 @@
 <template lang="pug">
     .detail-header
         media-box(
-            :title="bondEditableInfo && bondEditableInfo.issuerInfo || '--'"
-            :desc="bondEditableInfo && bondUneditableInfo && bondEditableInfo.name + ' ' + bondUneditableInfo.couponRate + '% ' + bondUneditableInfo.paymentDate"
+            :title="bondEditableInfo && bondEditableInfo.issuerInfo && bondEditableInfo.issuerInfo.name || '--'"
+            :desc="bondEditableInfo && bondEditableInfo.nameCn"
         )
         col-msg.header-column(
             :col-data="colData"

@@ -1,7 +1,7 @@
 <template lang="pug">
     .bond-card
         .bond-card__header
-            h2 {{ bondInfo && bondInfo.bondName }}
+            h2 {{ bondInfo && bondInfo.bondName && bondInfo.bondName.zhCn }}
             template(v-if="bondInfo && bondInfo.tags")
                 van-tag(
                     v-for="(item, index) in bondInfo.tags"

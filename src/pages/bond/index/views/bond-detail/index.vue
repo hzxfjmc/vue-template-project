@@ -49,7 +49,9 @@ export default {
                 currentPrice,
                 prices,
                 id
-            } = await getBondDetail(this.$route.query.id)
+            } = await getBondDetail(
+                this.$route.query.id && parseInt(this.$route.query.id)
+            )
 
             this.bondEditableInfo = bondEditableInfo || []
             this.bondUneditableInfo = bondUneditableInfo || []
