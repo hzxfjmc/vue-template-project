@@ -33,7 +33,11 @@ export default {
         colData() {
             let obj = [
                 {
-                    title: this.bondEditableInfo && this.bondEditableInfo.name,
+                    title:
+                        (this.bondEditableInfo &&
+                            this.bondEditableInfo.issuerInfo &&
+                            this.bondEditableInfo.issuerInfo.name) ||
+                        '--',
                     desc: '债券发行人'
                 },
                 {
