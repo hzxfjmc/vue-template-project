@@ -8,23 +8,58 @@
                 p 在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。
         van-panel(title="确认签名" style="margin-top: -0.28rem")
             .signature-input
-                input.signature-input__inner(placeholder="请输入签名：张一")
+                input.signature-input__inner(v-model="signName" placeholder="请输入签名：张一")
         .statement
             span 本人声明：细收听风险披露录音，清楚明白并完全接受音频中本人已详细收听风险披露录音，清楚明白中本人已详细收听风险披露录音，清楚明白本人已阅读
-            a 《债券协议》
+            a(:href="agreementData && agreementData.agreementUrl") {{ agreementData && agreementData.agreementName }}
         fixed-operate-btn(text="确认" :disabled="'disabled'")
 </template>
 <script>
 import { Panel } from 'vant'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
+import { bondRiskAutograph, getBongAgreement } from '@/service/user-server.js'
 export default {
     name: 'RickWarning',
     components: {
         [Panel.name]: Panel,
         FixedOperateBtn
     },
+    async created() {
+        // 拉取债券协议
+        try {
+            let data = await getBongAgreement()
+            this.agreementData = data
+            console.log('getBongAgreement:data:>>> ', data)
+        } catch (e) {
+            console.log('getBongAgreement:error:>>>', e)
+        }
+    },
     data() {
-        return {}
+        return {
+            signName: '', // 签名
+            agreementData: null // 债券协议
+        }
+    },
+    methods: {
+        // 提交债券风险签名
+        async handleSubmitAutograph() {
+            try {
+                let data = await bondRiskAutograph({
+                    agreementName: this.agreementData.agreementName,
+                    agreementUrl: this.agreementData.agreementUrl,
+                    autograph: this.signName,
+                    bondName: '',
+                    riskTips: `为了降低您的投资风险，请您完整阅读风险披露内容
+                                正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
+                                在做出交易决定之前，您应仔细阅读这些条款和产品说明。
+                                在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。
+                            `
+                })
+                console.log('bondRiskAutograph:data:>>> ', data)
+            } catch (e) {
+                console.log('bondRiskAutograph:error:>>> ', e)
+            }
+        }
     }
 }
 </script>
