@@ -1,8 +1,8 @@
 <template lang="pug">
     .transaction-card
         media-box.transanction-header(
-            :title="bondEditableInfo && bondEditableInfo.issuerInfo || '--'"
-            :desc="bondEditableInfo && bondUneditableInfo && bondEditableInfo.name + ' ' + bondUneditableInfo.couponRate + '% ' + bondUneditableInfo.paymentDate"
+            :title="bondEditableInfo && bondEditableInfo.issuerInfo && bondEditableInfo.issuerInfo.name || '--'"
+            :desc="bondEditableInfo && bondEditableInfo.nameCn"
         )
         .yx-cell
             .yx-cell__header 买入价格
