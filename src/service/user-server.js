@@ -41,13 +41,6 @@ export const riskAssessSubject = () => {
     return axios.getForm('/user-server/api/risk-assess-subject/v1')
 }
 
-/**
- * 获取债券协议
- */
-export const getBongAgreement = () => {
-    return axios.getForm('/user-server/api/get-bond-agreement/v1')
-}
-
 export function jsAuth() {
     return axios.getForm(`/user-server/web/js-auth/v1`)
 }
