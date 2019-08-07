@@ -3,31 +3,36 @@
         .risk-assessment-tips 友信智投致力于为全球用户提供更好的金融服务，为了给您提供更匹配的金融产品xxxxxxxxxxx
         .risk-assessment-form
             van-panel(
-                v-for="(assessmentItem, assessmentIndex) in assessmentFormData"
-                :key="assessmentIndex"
-                :title="assessmentItem.title"
+                v-for="(subjectItem, subjectIndex) in subject"
+                :key="subjectIndex"
+                :title="subjectItem.num + '、' + subjectItem.title"
             )
-                van-radio-group(v-model="formData[assessmentItem.key]")
+                van-radio-group(v-model="subjectItem.choiceNum")
                     van-cell-group
                         van-cell(
-                            v-for="(choiceItem, choiceindex) in assessmentItem.choiceList"
-                            :key="choiceindex"
-                            :title="choiceItem.text"
+                            v-for="(optionItem, optionindex) in subjectItem.option"
+                            :key="optionindex"
+                            :title="optionItem.text"
                             clickable
-                            @click="formData[assessmentItem.key]=choiceItem.value"
+                            @click="subjectItem.choiceNum = optionItem.num"
                         )
-                            van-radio(slot="right-icon" :name="choiceItem.value")
+                            van-radio(slot="right-icon" :name="optionItem.num")
                                 i.iconfont(
                                     slot="icon"
                                     slot-scope="props"
                                     :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                 )
-
-        fixed-operate-btn(text="提交测评" disabled="disabled")
+        fixed-operate-btn(
+            :text="'提交测评' + riskTypeTips"
+            :disabled="submitBtnDisabled"
+            @click="handleSubmit('submit')"
+            :class="{ active: !submitBtnDisabled }"
+        )
 </template>
 
 <script>
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
+import { riskAssessSubject, riskAssessAnswer } from '@/service/user-server.js'
 import { RadioGroup, Radio, Panel } from 'vant'
 export default {
     name: 'RiskAssessment',
@@ -37,95 +42,79 @@ export default {
         [Radio.name]: Radio,
         FixedOperateBtn
     },
+    async created() {
+        // 拉取测评题目
+        try {
+            let { subject, version } = await riskAssessSubject()
+            let jsonSubject = (subject && JSON.parse(subject)) || []
+            this.subject =
+                jsonSubject.map(subItem => {
+                    // 绑定每个题目的选择项
+                    subItem.choiceNum = -1
+                    return subItem
+                }) || []
+            this.version = version || 0
+            console.log('riskAssessSubject:data:>>> ', subject, version)
+        } catch (e) {
+            console.log('riskAssessSubject:error:>>>', e)
+        }
+    },
     data() {
         return {
-            radio: '',
-            radio2: '',
-            assessmentFormData: [
-                {
-                    key: 'radio1',
-                    title: '1、您目前的人生阶段',
-                    choiceList: [
-                        {
-                            text: '退休期',
-                            value: 1
-                        },
-                        {
-                            text: '退休前期',
-                            value: 2
-                        },
-                        {
-                            text: '家庭成长期',
-                            value: 3
-                        },
-                        {
-                            text: '家庭形成期',
-                            value: 4
-                        },
-                        {
-                            text: '单身期',
-                            value: 5
-                        }
-                    ]
-                },
-                {
-                    key: 'radio2',
-                    title: '2、您目前的人生阶段',
-                    choiceList: [
-                        {
-                            text: '退休期',
-                            value: 1
-                        },
-                        {
-                            text: '退休前期',
-                            value: 2
-                        },
-                        {
-                            text: '家庭成长期',
-                            value: 3
-                        },
-                        {
-                            text: '家庭形成期',
-                            value: 4
-                        },
-                        {
-                            text: '单身期',
-                            value: 5
-                        }
-                    ]
-                },
-                {
-                    key: 'radio3',
-                    title: '3、您目前的人生阶段',
-                    choiceList: [
-                        {
-                            text: '退休期',
-                            value: 1
-                        },
-                        {
-                            text: '退休前期',
-                            value: 2
-                        },
-                        {
-                            text: '家庭成长期',
-                            value: 3
-                        },
-                        {
-                            text: '家庭形成期',
-                            value: 4
-                        },
-                        {
-                            text: '单身期',
-                            value: 5
-                        }
-                    ]
+            subject: [],
+            version: 0,
+            riskTypeTips: '',
+            riskTypeTipsMap: {
+                '0': '（保守型）',
+                '1': '（稳健型）'
+            },
+            submitBtnDisabled: true
+        }
+    },
+    methods: {
+        // 提交测试题目
+        async handleSubmit(action) {
+            if (this.submitBtnDisabled) return
+            try {
+                // 构造提交数据
+                let serializeData = this.subject.map(subjectItem => {
+                    return {
+                        subjectNum: subjectItem.num,
+                        optionNum: subjectItem.choiceNum
+                    }
+                })
+                let { assessResult } = await riskAssessAnswer({
+                    assessOptionParams: serializeData,
+                    subjectVersion: this.version
+                })
+                this.riskTypeTips = this.riskTypeTipsMap[assessResult]
+                // 点击提交按钮时候，才进行跳转
+                if (action === 'submit') {
+                    this.$router.push(
+                        '/risk-assessment-result?riskType=' + assessResult
+                    )
                 }
-            ],
-            formData: {
-                radio1: '',
-                radio2: '',
-                radio3: ''
+                console.log('riskAssessAnswer:data:>>> ', assessResult)
+            } catch (e) {
+                console.log('riskAssessAnswer:error:>>>', e)
             }
+        }
+    },
+    watch: {
+        subject: {
+            handler() {
+                // 只要有一个等于-1，那么说明还有没有选择的题目
+                let isAllSelected = !this.subject.some(
+                    item => item.choiceNum === -1
+                )
+                if (isAllSelected) {
+                    this.submitBtnDisabled = false
+                    this.handleSubmit()
+                } else {
+                    this.submitBtnDisabled = true
+                }
+            },
+            deep: true
         }
     }
 }
@@ -180,6 +169,9 @@ export default {
         .icon-selected {
             font-size: 0.32rem;
         }
+    }
+    .fix-operate-btn.active {
+        background-color: #ffbf32;
     }
 }
 </style>
