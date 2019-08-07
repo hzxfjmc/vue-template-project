@@ -5,7 +5,11 @@ import Mock from 'mockjs'
 const formatData = formatMockData({
     'bondInfoAndCurrentPriceApiResponses|1-6': [
         {
-            bondName: '@cword(2, 6)',
+            bondName: {
+                en: '@word(2,3)',
+                zhCn: '@cword(2,3)',
+                zhHk: '@cword(2,3)'
+            },
             'dueTime|1564577990837-2564577990837': 0,
             'id|1-123456789': 0,
             'paymentDates|1564577990837-2564577990837': 0,

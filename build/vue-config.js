@@ -159,7 +159,8 @@ module.exports = {
                 changOrigin: true
             },
             '/config-manager': {
-                target: 'http://jy1-sit.yxzq.com',
+                // target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/stock-capital-server': {
@@ -259,7 +260,7 @@ module.exports = {
             // 债券信息
             '/finance-info-server': {
                 // target: 'http://admin-dev.yxzq.com',
-                target: 'http://10.210.110.112:1395',
+                target: 'http://10.210.110.113:3926',
                 changeOrigin: true
             }
         },
