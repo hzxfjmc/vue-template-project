@@ -11,14 +11,18 @@
                 input.signature-input__inner(v-model="signName" placeholder="请输入签名：张一")
         .statement
             span 本人声明：细收听风险披露录音，清楚明白并完全接受音频中本人已详细收听风险披露录音，清楚明白中本人已详细收听风险披露录音，清楚明白本人已阅读
-            a(:href="agreementData && agreementData.agreementUrl") {{ agreementData && agreementData.agreementName }}
-        fixed-operate-btn(text="确认" :disabled="'disabled'")
+            a(:href="agreementData && agreementData.protocolUrl") 《{{ agreementData && agreementData.protocolName }}》
+        fixed-operate-btn(
+            text="确认"
+            :disabled="submitBtnDisabled"
+            @click="handleSubmitAutograph"
+        )
 </template>
 <script>
 import { Panel } from 'vant'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { bondRiskAutograph } from '@/service/user-server.js'
-import { cfgProSelect } from '@/service/config-manager.js'
+import { selectProtocolInfo } from '@/service/config-manager.js'
 
 export default {
     name: 'RickWarning',
@@ -29,28 +33,33 @@ export default {
     async created() {
         // 拉取债券协议
         try {
-            let data = await cfgProSelect('BOND001')
-            this.agreementData = data
-            console.log('cfgProSelect:data:>>> ', data)
+            let data = await selectProtocolInfo('BOND001')
+            this.agreementData = data || {}
+            console.log('selectProtocolInfo:data:>>> ', data)
         } catch (e) {
-            console.log('cfgProSelect:error:>>>', e)
+            console.log('selectProtocolInfo:error:>>>', e)
         }
     },
     data() {
         return {
             signName: '', // 签名
-            agreementData: null // 债券协议
+            agreementData: {}, // 债券协议
+            submitBtnDisabled: true
         }
     },
     methods: {
         // 提交债券风险签名
         async handleSubmitAutograph() {
+            if (this.submitBtnDisabled) return
+
             try {
                 let data = await bondRiskAutograph({
-                    agreementName: this.agreementData.agreementName,
-                    agreementUrl: this.agreementData.agreementUrl,
+                    agreementName: this.agreementData.protocolName,
+                    agreementUrl: this.agreementData.protocolUrl,
                     autograph: this.signName,
-                    bondName: '',
+                    bondId:
+                        this.$route.query.id && parseInt(this.$route.query.id),
+                    bondName: this.$route.query.bondName,
                     riskTips: `为了降低您的投资风险，请您完整阅读风险披露内容
                                 正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
                                 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
@@ -60,6 +69,15 @@ export default {
                 console.log('bondRiskAutograph:data:>>> ', data)
             } catch (e) {
                 console.log('bondRiskAutograph:error:>>> ', e)
+            }
+        }
+    },
+    watch: {
+        signName() {
+            if (this.signName) {
+                this.submitBtnDisabled = false
+            } else {
+                this.submitBtnDisabled = true
             }
         }
     }
