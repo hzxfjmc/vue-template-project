@@ -1,5 +1,5 @@
 <template lang="pug">
-    .fix-operate-btn(:disabled="disabled") {{ text }}
+    .fix-operate-btn(:disabled="disabled" @click="handleClick") {{ text }}
 </template>
 
 <script>
@@ -13,6 +13,11 @@ export default {
         text: {
             type: String,
             default: ''
+        }
+    },
+    methods: {
+        handleClick(e) {
+            this.$emit('click', e)
         }
     }
 }
