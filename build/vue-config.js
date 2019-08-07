@@ -259,7 +259,7 @@ module.exports = {
             // 债券信息
             '/finance-info-server': {
                 // target: 'http://admin-dev.yxzq.com',
-                target: 'http://10.210.110.112:1360',
+                target: 'http://10.210.110.112:1395',
                 changeOrigin: true
             }
         },

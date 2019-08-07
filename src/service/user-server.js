@@ -51,3 +51,40 @@ export const getBongAgreement = () => {
 export function jsAuth() {
     return axios.getForm(`/user-server/web/js-auth/v1`)
 }
+// 获取当前用户信息
+export function getCurrentUser() {
+    return axios.getForm(`/user-server/api/get-current-user/v1`)
+}
+export default {
+    //  活体认证调试用的接口 TODO: 生产环境需要删除
+    register(phoneNumber, password, captcha, areaCode = '86') {
+        return axios.getForm(`/user-server/api/bind-phone/v1`, {
+            areaCode,
+            captcha,
+            password: axios.rsa(password),
+            phoneNumber: axios.rsa(phoneNumber)
+        })
+    },
+    /**
+     * 发送短信验证码
+     *
+     * @param {*} phoneNumber
+     * @param {string} [areaCode='86']
+     * @param {number} [type=5]
+     * @returns
+     */
+    sendPhoneCapcha(phoneNumber, areaCode = '86', type = 104) {
+        return axios.post(`/user-server/api/send-phone-captcha/v1`, {
+            areaCode,
+            phoneNumber: axios.rsa(phoneNumber),
+            type
+        })
+    },
+    /**
+     *获取当前用户信息
+     * @returns
+     */
+    getCurrentUser(device = 'web') {
+        return axios.getForm(`/user-server/${device}/get-current-user/v1`)
+    }
+}
