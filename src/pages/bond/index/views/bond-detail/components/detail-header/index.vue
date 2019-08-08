@@ -2,7 +2,7 @@
     .detail-header
         media-box(
             :title="bondEditableInfo && bondEditableInfo.issuerInfo && bondEditableInfo.issuerInfo.name || '--'"
-            :desc="bondEditableInfo && bondEditableInfo.nameCn"
+            :desc="bondEditableInfo && bondEditableInfo.nameCn || '--'"
         )
         col-msg.header-column(
             :col-data="colData"
@@ -82,8 +82,9 @@ export default {
                 },
                 {
                     title:
-                        this.bondUneditableInfo &&
-                        this.bondUneditableInfo.minFaceValue,
+                        (this.bondUneditableInfo &&
+                            this.bondUneditableInfo.minFaceValue) ||
+                        '--',
                     desc: '起购金额(美元/份)'
                 }
             ]
