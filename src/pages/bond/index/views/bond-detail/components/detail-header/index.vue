@@ -1,7 +1,7 @@
 <template lang="pug">
     .detail-header
         media-box(
-            :title="bondEditableInfo && bondEditableInfo.issuerInfo && bondEditableInfo.issuerInfo.name || '--'"
+            :title="bondEditableInfo && bondEditableInfo.issuer && bondEditableInfo.issuer.name || '--'"
             :desc="bondEditableInfo && bondEditableInfo.nameCn || '--'"
         )
         col-msg.header-column(
@@ -26,6 +26,7 @@
 import { Row, Col } from 'vant'
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
 import ColMsg from '@/pages/bond/index/biz-components/col-msg/index.vue'
+import { calcCountDownDay } from '@/utils/tools.js'
 export default {
     name: 'DetailHeader',
     components: {
@@ -67,6 +68,7 @@ export default {
     },
     computed: {
         colData() {
+            let _this = this
             let obj = [
                 {
                     title:
@@ -86,7 +88,10 @@ export default {
                     }
                 },
                 {
-                    title: '3年192天',
+                    title: calcCountDownDay(
+                        _this.bondUneditableInfo &&
+                            _this.bondUneditableInfo.dueTime
+                    ),
                     desc: '剩余期限'
                 },
                 {
