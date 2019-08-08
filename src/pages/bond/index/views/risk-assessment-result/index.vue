@@ -20,7 +20,7 @@
             i.iconfont.icon-selected
             p
                 span 我已阅读并知晓债券相关风险，我已阅读
-                a 《产品资料》
+                a(:href="productUrl") 《产品资料》
         fixed-operate-btn(text="开始测评")
 </template>
 
@@ -37,19 +37,20 @@ export default {
         try {
             // 拉取风险测评结果
             let { assessResult } = await riskAssessResult()
-            let userRiskLevel = assessResult || 0
+            let userRiskLevel = assessResult || 0 // 用户风险测评等级
             console.log('riskAssessResult:data:>>> ', assessResult)
 
             // 获取债券信息
             let { bondEditableInfo } = await getBondDetail(
                 this.$route.query.id - 0
             )
-            this.bondEditableInfo = bondEditableInfo || []
+            this.productUrl =
+                bondEditableInfo && bondEditableInfo.productOverview // 产品资料url
             let bondRiskLevel =
                 (bondEditableInfo &&
                     bondEditableInfo.riskLevel &&
                     bondEditableInfo.riskLevel.type) ||
-                0
+                0 // 债券风险等级
             console.log('getBondDetail:data:>>> ', bondEditableInfo)
 
             if (userRiskLevel === 0) {
@@ -68,7 +69,8 @@ export default {
     },
     data() {
         return {
-            riskType: 1
+            riskType: 1,
+            productUrl: ''
         }
     }
 }
