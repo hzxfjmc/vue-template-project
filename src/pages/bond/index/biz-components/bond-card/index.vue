@@ -1,19 +1,19 @@
 <template lang="pug">
     .bond-card
         .bond-card__header
-            h2 {{ bondInfo && bondInfo.bondName && bondInfo.bondName.zhCn }}
+            h2(:style="h2Style") {{ issuerName }}
             van-tag(
-                v-for="(item, index) in limitTags"
+                v-for="(tagItem, index) in limitTags"
                 :key="index"
                 color="#2587EB"
                 plain
-            ) {{ item.name && item.name.zhCn }}
+            ) {{ tagItem.name && tagItem.name.zhCn }}
         .bond-card__content
             .flex-fixed-container
-                .rate-num {{ bondInfo && bondInfo.price && bondInfo.price.buyYtm || '-'}}
+                .rate-num {{ bondInfo && bondInfo.price && bondInfo.price.buyYtm || '--'}}
                 .card-tips 到期年化收益率
             .flex-fixed-container
-                .interest-num {{ bondInfo && bondInfo.paymentFrequency && bondInfo.paymentFrequency.name}}
+                .interest-num {{ bondInfo && bondInfo.paymentFrequency && bondInfo.paymentFrequency.name || '--'}}
                 .card-tips 每半年付息
 </template>
 
@@ -31,9 +31,6 @@ export default {
             default: () => {}
         }
     },
-    mounted() {
-        // console.log(this.$store)
-    },
     data() {
         return {}
     },
@@ -47,6 +44,23 @@ export default {
                     this.bondInfo.tags.slice(0, 3)) ||
                 []
             )
+        },
+        issuerName() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.bondName &&
+                    this.bondInfo.bondName.zhCn) ||
+                '--'
+            )
+        },
+        h2Style() {
+            // 发行人名称长度大于10个字，则字体大小变化
+            if (this.issuerName.length > 3) {
+                return {
+                    fontSize: '0.2rem'
+                }
+            }
+            return {}
         }
     }
 }
@@ -62,10 +76,13 @@ export default {
         display: flex;
         align-items: center;
         h2 {
+            overflow: hidden;
             margin-right: 8px;
             font-size: 0.36rem;
             color: #272727;
             line-height: 25px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .van-tag--plain {
             min-width: 36px;
@@ -74,6 +91,7 @@ export default {
             font-size: 0.2rem;
             text-align: center;
             line-height: 14px;
+            white-space: nowrap;
         }
     }
     .bond-card__content {
