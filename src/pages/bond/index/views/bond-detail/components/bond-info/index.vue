@@ -43,14 +43,17 @@ export default {
                 {
                     title:
                         (this.bondUneditableInfo &&
-                            this.bondUneditableInfo.couponRate * 100 + '%') ||
+                            this.bondUneditableInfo.couponRate + '%') ||
                         '--',
                     desc: '票面利率'
                 },
                 {
                     title:
                         (this.bondUneditableInfo &&
-                            this.bondUneditableInfo.paymentDate) ||
+                            this.bondUneditableInfo.paymentDate &&
+                            this.bondUneditableInfo.paymentDate
+                                .replace(/月/, '.')
+                                .replace(/日/, '')) ||
                         '--',
                     desc: '付息日'
                 }

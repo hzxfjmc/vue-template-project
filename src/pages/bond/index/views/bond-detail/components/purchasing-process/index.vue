@@ -13,7 +13,7 @@
                         i.process-step__circle
                     .process-step__line
                 .process-step
-                    .process-step__title {{ bondUneditableInfo && bondUneditableInfo.paymentDate }}为付息日
+                    .process-step__title {{ bondUneditableInfo && bondUneditableInfo.paymentDate && bondUneditableInfo.paymentDate.replace(/月/, '.').replace(/日/, '') }}为付息日
                     .process-step__circle-container
                         span.process-step__text 付息日支付利息，持有中途可卖出
                     .process-step__line
