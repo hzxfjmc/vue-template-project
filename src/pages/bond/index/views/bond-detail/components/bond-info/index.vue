@@ -1,5 +1,5 @@
 <template lang="pug">
-    .detail-bond-info-wrapper
+    .detail-bond-info-wrapper(@click="toggleShowMoreMsg")
         .bond-info-header
             a.pdf(:href="bondEditableInfo && bondEditableInfo.productOverview")
                 i.icon
@@ -8,9 +8,13 @@
                 i.icon
                 span 募集说明
         col-msg(:colData="colData")
+        .more-msg(v-show="showMore")
+            col-msg(v-for="(msgItem, index) in moreBondMsg" :key="index" :colData="msgItem")
+
 </template>
 <script>
 import { Row, Col } from 'vant'
+import { calcCountDownDay, dateFormat } from '@/utils/tools.js'
 import ColMsg from '@/pages/bond/index/biz-components/col-msg/index.vue'
 export default {
     name: 'BondInfo',
@@ -29,14 +33,19 @@ export default {
             default: () => {}
         }
     },
+    data() {
+        return {
+            showMore: false // 是否展示更多债券信息
+        }
+    },
     computed: {
         colData() {
             let obj = [
                 {
                     title:
                         (this.bondEditableInfo &&
-                            this.bondEditableInfo.issuerInfo &&
-                            this.bondEditableInfo.issuerInfo.name) ||
+                            this.bondEditableInfo.issuer &&
+                            this.bondEditableInfo.issuer.name) ||
                         '--',
                     desc: '债券发行人'
                 },
@@ -59,6 +68,79 @@ export default {
                 }
             ]
             return obj
+        },
+        moreBondMsg() {
+            let _this = this
+            let obj = [
+                [
+                    {
+                        title:
+                            dateFormat(
+                                this.bondUneditableInfo &&
+                                    this.bondUneditableInfo.issueTime &&
+                                    this.bondUneditableInfo.issueTime,
+                                'YYYY年MM月DD日'
+                            ) || '--',
+                        desc: '债券发行时间'
+                    },
+                    {
+                        title:
+                            dateFormat(
+                                this.bondUneditableInfo &&
+                                    this.bondUneditableInfo.dueTime &&
+                                    this.bondUneditableInfo.dueTime,
+                                'YYYY年MM月DD日'
+                            ) || '--',
+                        desc: '到期时间'
+                    },
+                    {
+                        title: calcCountDownDay(
+                            _this.bondUneditableInfo &&
+                                _this.bondUneditableInfo.dueTime
+                        ),
+                        desc: '剩余年限'
+                    }
+                ],
+                [
+                    {
+                        title:
+                            (this.bondUneditableInfo &&
+                                this.bondUneditableInfo.enumPaymentType &&
+                                this.bondUneditableInfo.enumPaymentType.name) ||
+                            '--',
+                        desc: '付息类型'
+                    },
+                    {
+                        title:
+                            (this.bondUneditableInfo &&
+                                this.bondUneditableInfo.enumPaymentFrequency &&
+                                this.bondUneditableInfo.enumPaymentFrequency
+                                    .name) ||
+                            '--',
+                        desc: '付息频率'
+                    },
+                    {
+                        title:
+                            (this.bondEditableInfo &&
+                                this.bondEditableInfo.creditRating &&
+                                this.bondEditableInfo.creditRating.rank) ||
+                            '--',
+                        desc:
+                            '发行人评级（' +
+                            (this.bondEditableInfo &&
+                                this.bondEditableInfo.creditRating &&
+                                this.bondEditableInfo.creditRating.agency) +
+                            '）'
+                    }
+                ]
+            ]
+            return obj
+        }
+    },
+    methods: {
+        toggleShowMoreMsg() {
+            console.log('111 :', 111)
+            this.showMore = !this.showMore
         }
     }
 }
@@ -96,7 +178,7 @@ export default {
             }
         }
     }
-    .col-column:nth-child(2) {
+    .col-column:nth-child(1) {
         padding-top: 0;
     }
 }

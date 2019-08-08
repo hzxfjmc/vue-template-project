@@ -2,6 +2,7 @@
 import { Toast } from 'vant'
 import jsBridge from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage.js'
+import dayjs from 'dayjs'
 
 const camelizeRE = /-(\w)/g
 export function camelize(str) {
@@ -90,4 +91,13 @@ export const calcCountDownDay = function(timestamp) {
     } else {
         return year + '年' + (restDay - yearCircle * year) + '天'
     }
+}
+
+/**
+ * 格式化日期
+ * @param {Number} date 时间戳
+ * @param {String} format 格式
+ */
+export const dateFormat = function(date, format = 'YYYY-MM-DD HH:mm') {
+    return dayjs(date).format(format)
 }

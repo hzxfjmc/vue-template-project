@@ -46,6 +46,9 @@ export default {
 <style lang="scss" scoped>
 .col-column {
     padding: 14px 16px;
+    .van-col {
+        flex: 1;
+    }
     .van-col__title {
         color: #393939;
         font-size: 0.28rem;
