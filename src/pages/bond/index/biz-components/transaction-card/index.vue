@@ -2,7 +2,7 @@
     .transaction-card
         media-box.transanction-header(
             :title="bondEditableInfo && bondEditableInfo.issuerInfo && bondEditableInfo.issuerInfo.name || '--'"
-            :desc="bondEditableInfo && bondEditableInfo.nameCn"
+            :desc="bondEditableInfo && bondEditableInfo.nameCn || '--'"
         )
         .yx-cell
             .yx-cell__header 买入价格
@@ -12,14 +12,14 @@
         .yx-cell
             .yx-cell__header 份数
             .yx-cell__primary
-                van-stepper(v-model="value" integer)
+                van-stepper(v-model="transactionNum" integer)
                 .yx-cell__primary-tip (2000美元/份)
         .yx-cell
             .yx-cell__header 金额
             .yx-cell__primary 2,056.40
 
         .yx-cell
-            .yx-cell__header 应付利息
+            .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
                 .yx-cell__header-tip
                     i.iconfont.icon-wenhao
             .yx-cell__primary +19.18
@@ -66,10 +66,13 @@ export default {
         }
     },
     async created() {
+        this.direction = this.$route.query.direction - 0 || 1
+        this.id = this.$route.query.id - 0 || 0
+
         // 获取债券信息
         try {
             let { bondEditableInfo, bondUneditableInfo } = await getBondDetail(
-                this.$route.query.id - 0
+                this.id
             )
             this.bondEditableInfo = bondEditableInfo || []
             this.bondUneditableInfo = bondUneditableInfo || []
@@ -93,18 +96,20 @@ export default {
     },
     data() {
         return {
-            value: 1,
+            transactionNum: 1, // 交易份数
             bondEditableInfo: null,
             bondUneditableInfo: null,
-            userRiskLevel: 0,
-            bondRiskLevel: 0
+            userRiskLevel: 0, // 用户风险等级
+            bondRiskLevel: 0, // 债券风险等级
+            direction: 1, // 1 买 2卖
+            id: 0 // 债券id
         }
     },
     methods: {
         // 下单/买卖
         async handleBondOrder() {
             if (this.userRiskLevel === 0) {
-                this.$router.push('/risk-warning?id=' + this.$route.query.id)
+                this.$router.push('/risk-warning?id=' + this.id)
                 return
             } else if (this.userRiskLevel < this.bondRiskLevel) {
                 this.$router.push('/risk-assessment-result')
@@ -112,8 +117,8 @@ export default {
             }
             try {
                 let data = await bondOrder({
-                    bondId: this.$route.query.id - 0,
-                    direction: this.$route.query.direction - 0,
+                    bondId: this.id,
+                    direction: this.direction,
                     entrustPrice: 1,
                     entrustQuantity: 1,
                     requestId: 'e0669ac526954092b6107473a03ff7a2',
