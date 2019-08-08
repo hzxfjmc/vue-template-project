@@ -21,7 +21,7 @@
         .yx-cell
             .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
                 .yx-cell__header-tip
-                    i.iconfont.icon-wenhao
+                    i.iconfont.icon-wenhao(@click="showTips('interest')")
             .yx-cell__primary +19.18
 
         .yx-cell
@@ -36,7 +36,7 @@
             .yx-cell__primary 2,078.64
 
         .tips
-            i.iconfont.icon-wenhao
+            i.iconfont.icon-wenhao(@click="showTips('total')")
             span 债券可用资金
             strong 3,078.64美元
         fixed-operate-btn(
@@ -128,6 +128,24 @@ export default {
             } catch (e) {
                 console.log('getBondDetail:error:>>> ', e)
             }
+        },
+        // 提示弹窗
+        showTips(tipsType) {
+            let tipText = ''
+            if (tipsType === 'interest') {
+                // 应付利息/应得利息提示弹窗
+                tipText = `应计利息是债券自上一次付息后至债券交收时之间的累计未付利息，由买方向卖方支付，即对于买方是“应付”，对于卖方是“应得”。\n
+对于卖方，多持有的这段时间的利息，会在交易时得到补偿，即应计利息。\n
+对于买方，应计利息并不会额外增加成本，会在付息日或卖出时得到补偿。`
+            } else {
+                // 可用资金提示弹窗
+                tipText = '可以用于购买债券的资金，等于您资产中的“可取现金”'
+            }
+            this.$dialog.alert({
+                message: tipText,
+                messageAlign: 'left',
+                confirmButtonText: '我知道了'
+            })
         }
     }
 }

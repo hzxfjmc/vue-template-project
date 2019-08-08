@@ -23,7 +23,7 @@
 
 </template>
 <script>
-import { Row, Col, Dialog } from 'vant'
+import { Row, Col } from 'vant'
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
 import ColMsg from '@/pages/bond/index/biz-components/col-msg/index.vue'
 export default {
@@ -31,7 +31,6 @@ export default {
     components: {
         [Row.name]: Row,
         [Col.name]: Col,
-        [Dialog.name]: Dialog,
         MediaBox,
         ColMsg
     },
