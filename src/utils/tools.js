@@ -74,17 +74,16 @@ export const debounce = (fn, delay) => {
 
 /**
  * 计算剩余时间
- * @param {Number} t 时间戳
+ * @param {Number} timestamp 时间戳
  * return xx年xx天
  */
-export const calcCountDownDay = function(t) {
-    if (!t) return '--'
+export const calcCountDownDay = function(timestamp) {
+    if (!timestamp) return '--'
 
     let yearCircle = 365
     let currentTime = new Date().getTime()
-    let restDay = (t - currentTime) / 1000 / 60 / 60 / 24 // 秒 分钟 小时 天  --- 得到剩余天数
+    let restDay = (timestamp - currentTime) / 1000 / 60 / 60 / 24 // 秒 分钟 小时 天  --- 得到剩余天数
     restDay = Math.floor(restDay)
-    console.log('restDay :', restDay)
     let year = Math.floor(restDay / yearCircle) // 得到剩余年数
     if (year < 1) {
         return restDay + '天'

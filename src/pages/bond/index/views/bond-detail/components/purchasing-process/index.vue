@@ -19,13 +19,14 @@
                     .process-step__line
                 .process-step
                     .process-step__title 到期退出
-                        .process-step__title-tips {{ bondUneditableInfo && bondUneditableInfo.dueTime }}
+                        .process-step__title-tips {{ bondUneditableInfo && bondUneditableInfo.dueTime | date-format('YYYY.MM.DD') }}
                     .process-step__circle-container
                         i.process-step__circle
                     .process-step__line
 </template>
 <script>
 import { Step, Steps } from 'vant'
+// import { dateFormat } from '@/utils/tool.js'
 export default {
     name: 'PurchasingProcess',
     components: {
