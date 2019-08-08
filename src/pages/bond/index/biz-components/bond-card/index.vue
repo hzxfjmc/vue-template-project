@@ -2,13 +2,12 @@
     .bond-card
         .bond-card__header
             h2 {{ bondInfo && bondInfo.bondName && bondInfo.bondName.zhCn }}
-            template(v-if="bondInfo && bondInfo.tags")
-                van-tag(
-                    v-for="(item, index) in bondInfo.tags"
-                    :key="index"
-                    color="#2587EB"
-                    plain
-                ) {{ item.name && item.name.zhCn }}
+            van-tag(
+                v-for="(item, index) in limitTags"
+                :key="index"
+                color="#2587EB"
+                plain
+            ) {{ item.name && item.name.zhCn }}
         .bond-card__content
             .flex-fixed-container
                 .rate-num {{ bondInfo && bondInfo.price && bondInfo.price.buyYtm || '-'}}
@@ -35,8 +34,20 @@ export default {
     mounted() {
         // console.log(this.$store)
     },
+    data() {
+        return {}
+    },
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['lang']),
+        limitTags() {
+            // 最多只取三个标签
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.tags &&
+                    this.bondInfo.tags.slice(0, 3)) ||
+                []
+            )
+        }
     }
 }
 </script>
