@@ -2,8 +2,8 @@
     .risk-assessment-result-wrapper
         .risk-result__header
             i(:type="riskType")
-            h2 不匹配
-            p 您的风评取向不适合购买该产品
+            h2 {{ riskType > 2 ? '匹配' : '不匹配' }}
+            p 您的风评取向{{ riskType > 2 ? '适合' : '不适合' }}购买该产品
         .risk-result__content
             .risk-cell
                 span 您的风险取向
@@ -27,16 +27,41 @@
 <script>
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult } from '@/service/user-server.js'
+import { getBondDetail } from '@/service/finance-info-server.js'
 export default {
     name: 'RickWarning',
     components: {
         FixedOperateBtn
     },
     async created() {
-        // 拉取测评题目
         try {
+            // 拉取风险测评结果
             let { assessResult } = await riskAssessResult()
+            let userRiskLevel = assessResult || 0
             console.log('riskAssessResult:data:>>> ', assessResult)
+
+            // 获取债券信息
+            let { bondEditableInfo } = await getBondDetail(
+                this.$route.query.id - 0
+            )
+            this.bondEditableInfo = bondEditableInfo || []
+            let bondRiskLevel =
+                (bondEditableInfo &&
+                    bondEditableInfo.riskLevel &&
+                    bondEditableInfo.riskLevel.type) ||
+                0
+            console.log('getBondDetail:data:>>> ', bondEditableInfo)
+
+            if (userRiskLevel === 0) {
+                // 尚未风评
+                this.riskType = 1
+            } else if (userRiskLevel <= bondRiskLevel) {
+                // 风评级别不够
+                this.riskType = 2
+            } else {
+                // 风评级别够了，可以购买
+                this.riskType = 3
+            }
         } catch (e) {
             console.log('riskAssessResult:error:>>>', e)
         }

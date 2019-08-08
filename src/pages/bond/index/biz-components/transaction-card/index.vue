@@ -39,49 +39,81 @@
             i.iconfont.icon-wenhao
             span 债券可用资金
             strong 3,078.64美元
+        fixed-operate-btn(
+            :text="btnText"
+            :style="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
+            @click="handleBondOrder"
+        )
 </template>
 
 <script>
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
+import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { getBondDetail, bondOrder } from '@/service/finance-info-server.js'
+import { riskAssessResult } from '@/service/user-server.js'
 import { Stepper } from 'vant'
 export default {
     name: 'TransacntionCard',
     components: {
         [Stepper.name]: Stepper,
-        MediaBox
+        MediaBox,
+        FixedOperateBtn
+    },
+    props: {
+        btnText: {
+            type: String,
+            default: ''
+        }
     },
     async created() {
         // 获取债券信息
         try {
             let { bondEditableInfo, bondUneditableInfo } = await getBondDetail(
-                this.$route.query.id
+                this.$route.query.id - 0
             )
             this.bondEditableInfo = bondEditableInfo || []
             this.bondUneditableInfo = bondUneditableInfo || []
+            this.bondRiskLevel =
+                (bondEditableInfo &&
+                    bondEditableInfo.riskLevel &&
+                    bondEditableInfo.riskLevel.type) ||
+                0
             console.log(
                 'getBondDetail:data:>>> ',
                 bondEditableInfo,
                 bondUneditableInfo
             )
+            let { assessResult } = await riskAssessResult()
+            this.userRiskLevel = assessResult || 0
+            console.log('riskAssessResult:data:>>> ', assessResult)
         } catch (e) {
             console.log('getBondDetail:error:>>>', e)
+            console.log('riskAssessResult:error:>>>', e)
         }
     },
     data() {
         return {
             value: 1,
             bondEditableInfo: null,
-            bondUneditableInfo: null
+            bondUneditableInfo: null,
+            userRiskLevel: 0,
+            bondRiskLevel: 0
         }
     },
     methods: {
         // 下单/买卖
         async handleBondOrder() {
+            if (this.userRiskLevel === 0) {
+                this.$router.push('/risk-warning?id=' + this.$route.query.id)
+                return
+            } else if (this.userRiskLevel < this.bondRiskLevel) {
+                this.$router.push('/risk-assessment-result')
+                return
+            }
             try {
                 let data = await bondOrder({
-                    bondId: 1,
-                    direction: 1,
+                    bondId: this.$route.query.id - 0,
+                    direction: this.$route.query.direction - 0,
                     entrustPrice: 1,
                     entrustQuantity: 1,
                     requestId: 'e0669ac526954092b6107473a03ff7a2',
