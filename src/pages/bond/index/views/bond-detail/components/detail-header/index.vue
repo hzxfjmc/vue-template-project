@@ -23,7 +23,7 @@
 
 </template>
 <script>
-import { Row, Col } from 'vant'
+import { Row, Col, Dialog } from 'vant'
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
 import ColMsg from '@/pages/bond/index/biz-components/col-msg/index.vue'
 export default {
@@ -31,6 +31,7 @@ export default {
     components: {
         [Row.name]: Row,
         [Col.name]: Col,
+        [Dialog.name]: Dialog,
         MediaBox,
         ColMsg
     },
@@ -74,7 +75,16 @@ export default {
                             this.prices[0] &&
                             this.prices[0].buyYtm) ||
                         '--',
-                    desc: '到期年化收益率'
+                    desc: '到期年化收益率',
+                    click: () => {
+                        this.$dialog.alert({
+                            message: `到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n
+到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。\n
+注：展示数值为已加入预估佣金、平台使用费之后的到期收益率。`,
+                            messageAlign: 'left',
+                            confirmButtonText: '我知道了'
+                        })
+                    }
                 },
                 {
                     title: '3年192天',

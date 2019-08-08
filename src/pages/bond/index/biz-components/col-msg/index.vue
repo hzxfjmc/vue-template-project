@@ -1,6 +1,10 @@
 <template lang="pug">
     van-row.col-column(type="flex" :justify="justify")
-        van-col(v-for="(colItem, index) in colData" :key="index")
+        van-col(
+            v-for="(colItem, index) in colData"
+            :key="index"
+            @click.native="emitHandle(index)"
+        )
             .van-col__title(:style="titleStyle") {{ colItem.title }}
             .van-col__desc(:style="descStyle") {{ colItem.desc }}
 </template>
@@ -28,6 +32,13 @@ export default {
         descStyle: {
             type: Object,
             default: () => {}
+        }
+    },
+    methods: {
+        emitHandle(index) {
+            if (typeof this.colData[index].click === 'function') {
+                this.colData[index].click()
+            }
         }
     }
 }
