@@ -257,10 +257,14 @@ module.exports = {
                 target: 'http://10.210.20.39:8809',
                 changOrigin: true
             },
+            // 债券交易
+            '/finance-server': {
+                target: 'http://admin-dev.yxzq.com',
+                changeOrigin: true
+            },
             // 债券信息
             '/finance-info-server': {
-                // target: 'http://admin-dev.yxzq.com',
-                target: 'http://10.210.110.113:3926',
+                target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
             }
         },
