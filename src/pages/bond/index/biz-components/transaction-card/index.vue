@@ -1,7 +1,7 @@
 <template lang="pug">
     .transaction-card
         media-box.transanction-header(
-            :title="bondEditableInfo && bondEditableInfo.issuerInfo && bondEditableInfo.issuerInfo.name || '--'"
+            :title="bondEditableInfo && bondEditableInfo.issuer && bondEditableInfo.issuer.name || '--'"
             :desc="bondEditableInfo && bondEditableInfo.nameCn || '--'"
         )
         .yx-cell
@@ -49,8 +49,11 @@
 <script>
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
-import { getBondDetail, bondOrder } from '@/service/finance-info-server.js'
+import { getBondDetail } from '@/service/finance-info-server.js'
+import { bondOrder } from '@/service/finance-server.js'
 import { riskAssessResult } from '@/service/user-server.js'
+import { generateUUID } from '@/utils/tools.js'
+import jsBridge from '@/utils/js-bridge.js'
 import { Stepper } from 'vant'
 export default {
     name: 'TransacntionCard',
@@ -106,8 +109,8 @@ export default {
         }
     },
     methods: {
-        // 下单/买卖
-        async handleBondOrder() {
+        // 判断用户风险等级是否可交易
+        isUserTrade() {
             if (this.userRiskLevel === 0) {
                 this.$router.push('/risk-warning?id=' + this.id)
                 return
@@ -115,18 +118,38 @@ export default {
                 this.$router.push('/risk-assessment-result')
                 return
             }
+            return true
+        },
+        // 获取交易token
+        async getTradeToken() {
+            if (!this.isUserTrade()) return
+
+            try {
+                let {
+                    data: { requestToken: requestToken }
+                } = await jsBridge.callApp('command_trade_login')
+                console.log('tradeMsg :', requestToken)
+                if (requestToken) {
+                    this.handleBondOrder(requestToken)
+                }
+            } catch (error) {
+                console.log('tradeMsg:error :', error)
+            }
+        },
+        // 下单/买卖
+        async handleBondOrder(requestToken = '') {
             try {
                 let data = await bondOrder({
                     bondId: this.id,
                     direction: this.direction,
                     entrustPrice: 1,
                     entrustQuantity: 1,
-                    requestId: 'e0669ac526954092b6107473a03ff7a2',
-                    tradeToken: '977bb092c9ab4111a69442c7113698f7'
+                    requestId: generateUUID(),
+                    tradeToken: requestToken
                 })
-                console.log('getBondDetail:data:>>> ', data)
+                console.log('bondOrder:data:>>> ', data)
             } catch (e) {
-                console.log('getBondDetail:error:>>> ', e)
+                console.log('bondOrder:error:>>> ', e)
             }
         },
         // 提示弹窗
