@@ -3,7 +3,7 @@ import bondDetail from './finance-info-server/get-bond-detail'
 import bondList from './finance-info-server/get-bond-list'
 import bondPrices from './finance-info-server/get-bond-prices'
 import bondCurrentPrices from './finance-info-server/get-current-bond-prices'
-import bondOrder from './finance-info-server/bond-order'
+import bondOrder from './finance-server/bond-order'
 
 // user-server
 import bondRiskAutograph from './user-server/bond-risk-autograph'
