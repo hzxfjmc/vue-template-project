@@ -15,3 +15,23 @@ const axios = new httpRequest()
 export const bondOrder = data => {
     return axios.post('/finance-server/api/bond-order/v1', data)
 }
+
+/**
+ * 获取应计利息计算天数
+ * @param {Number} bondId 债券id
+ */
+export const getBondInterestCalculate = bondId => {
+    return axios.post('/finance-server/api/get-bond-interest-calculate/v1', {
+        bondId
+    })
+}
+
+/**
+ * 获取当前客户债券持仓
+ * @param {Number} market 1 hk 港债  2 us 美债
+ */
+export const getBondPosition = market => {
+    return axios.post('/finance-server/api/get-bond-position/v1', {
+        market
+    })
+}
