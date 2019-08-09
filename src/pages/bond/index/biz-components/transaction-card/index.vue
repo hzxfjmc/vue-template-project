@@ -7,38 +7,38 @@
         .yx-cell
             .yx-cell__header 买入价格
                 .yx-cell__header-tip (美元)
-            .yx-cell__primary 1.0282
+            .yx-cell__primary {{ currentPrice.buyPrice || '--' }}
 
         .yx-cell
             .yx-cell__header 份数
             .yx-cell__primary
                 van-stepper(v-model="transactionNum" integer)
-                .yx-cell__primary-tip (2000美元/份)
+                .yx-cell__primary-tip ({{ bondUneditableInfo.minFaceValue || '--' }}美元/份)
         .yx-cell
             .yx-cell__header 金额
-            .yx-cell__primary 2,056.40
+            .yx-cell__primary {{ transactionNum * currentPrice.buyPrice }}
 
         .yx-cell
             .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
                 .yx-cell__header-tip
                     i.iconfont.icon-wenhao(@click="showTips('interest')")
-            .yx-cell__primary +19.18
+            .yx-cell__primary {{direction === 1 ? '-' : '+'}}{{ calcInterest }}
 
         .yx-cell
             .yx-cell__header 手续费(预估)
-            .yx-cell__primary +3.24
+            .yx-cell__primary +{{ calcServiceCharge }}
 
         .divider-line
 
         .yx-cell
             .yx-cell__header 总额
                 .yx-cell__header-tip (美元)
-            .yx-cell__primary 2,078.64
+            .yx-cell__primary {{ direction === 1 ? (transactionNum * currentPrice.buyPrice - calcServiceCharge - calcInterest) : (transactionNum * currentPrice.buyPrice - calcServiceCharge + calcInterest) }}
 
         .tips
             i.iconfont.icon-wenhao(@click="showTips('total')")
             span 债券可用资金
-            strong 3,078.64美元
+            strong {{ positionData.marketValue }}美元
         fixed-operate-btn(
             :text="btnText"
             :style="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
@@ -49,8 +49,13 @@
 <script>
 import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
+import { feePackageCurr } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
-import { bondOrder } from '@/service/finance-server.js'
+import {
+    bondOrder,
+    getBondInterestCalculate,
+    getBondPosition
+} from '@/service/finance-server.js'
 import { riskAssessResult } from '@/service/user-server.js'
 import { generateUUID } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
@@ -72,13 +77,16 @@ export default {
         this.direction = this.$route.query.direction - 0 || 1
         this.id = this.$route.query.id - 0 || 0
 
-        // 获取债券信息
         try {
-            let { bondEditableInfo, bondUneditableInfo } = await getBondDetail(
-                this.id
-            )
-            this.bondEditableInfo = bondEditableInfo || []
-            this.bondUneditableInfo = bondUneditableInfo || []
+            // 获取债券信息
+            let {
+                bondEditableInfo,
+                bondUneditableInfo,
+                currentPrice
+            } = await getBondDetail(this.id)
+            this.bondEditableInfo = bondEditableInfo || {}
+            this.bondUneditableInfo = bondUneditableInfo || {}
+            this.currentPrice = currentPrice || {}
             this.bondRiskLevel =
                 (bondEditableInfo &&
                     bondEditableInfo.riskLevel &&
@@ -89,23 +97,77 @@ export default {
                 bondEditableInfo,
                 bondUneditableInfo
             )
+
+            // **************************************
+            // 获取当前用户债券持仓
+            let { bondPositionList } = await getBondPosition(2)
+            this.positionData =
+                (bondPositionList &&
+                    bondPositionList.filter(
+                        positionItem => positionItem.bondId === this.id
+                    )) ||
+                []
+            this.positionData =
+                (this.positionData[0] && this.positionData[0]) || {}
+            console.log('getBondPosition:data:>>> ', bondPositionList)
+
+            // ************************************
+            // 获取用户风险测评结果
             let { assessResult } = await riskAssessResult()
             this.userRiskLevel = assessResult || 0
             console.log('riskAssessResult:data:>>> ', assessResult)
+
+            // *************************************
+            // 获取债券应计利息计算天数
+            let { interestDays } = await getBondInterestCalculate(this.id)
+            this.interestDays = interestDays || 0
+            console.log('getBondInterestCalculate:data:>>> ', interestDays)
+
+            // ***************************************
+            // 获取套餐费用
+            let feeData = await feePackageCurr({
+                stockBusinessType: 1,
+                userId: this.$store.state.userId - 0
+            })
+            console.log('feePackageCurr:data:>>> ', feeData)
         } catch (e) {
-            console.log('getBondDetail:error:>>>', e)
-            console.log('riskAssessResult:error:>>>', e)
+            console.log('created:error:>>>', e)
+            // console.log('riskAssessResult:error:>>>', e)
+            // console.log('getBondInterestCalculate:error:>>>', e)
         }
     },
     data() {
         return {
             transactionNum: 1, // 交易份数
-            bondEditableInfo: null,
-            bondUneditableInfo: null,
+            bondEditableInfo: {},
+            bondUneditableInfo: {},
             userRiskLevel: 0, // 用户风险等级
             bondRiskLevel: 0, // 债券风险等级
             direction: 1, // 1 买 2卖
-            id: 0 // 债券id
+            id: 0, // 债券id
+            interestDays: 0, // 应计利息天数
+            minFaceValue: 0, // 最低起购金额
+            currentPrice: {}, // 当前价格
+            positionData: {} // 用户当前债券持仓
+        }
+    },
+    computed: {
+        // 计算应计利息
+        // 应计利息=票面利率/360*已计息天数*数量；
+        calcInterest() {
+            return (
+                (this.bondUneditableInfo.couponRate / 100 / 360) *
+                this.interestDays *
+                this.transactionNum
+            ).toFixed(2)
+        },
+        // 计算手续费
+        // 佣金计算 佣金=市值*百分比，佣金有最低金额，无最高金额
+        calcServiceCharge() {
+            return this.currentPrice.minFeeAmount >
+                this.currentPrice.buyPrice * (3 / 100)
+                ? this.currentPrice.minFeeAmount
+                : this.currentPrice.buyPrice * (3 / 100)
         }
     },
     methods: {
