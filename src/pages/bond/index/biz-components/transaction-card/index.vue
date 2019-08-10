@@ -130,6 +130,11 @@ export default {
                 userId: this.$store.state.userId - 0
             })
             console.log('feePackageCurr:data:>>> ', feeData)
+            // 当前为手机委托，过滤除手机委托外的其他套餐数据
+            this.feeData =
+                (feeData &&
+                    feeData.filter(feeItem => feeItem.entrustType === 2)) ||
+                {}
         } catch (e) {
             console.log('created:error:>>>', e)
             // console.log('riskAssessResult:error:>>>', e)
@@ -148,29 +153,81 @@ export default {
             interestDays: 0, // 应计利息天数
             minFaceValue: 0, // 最低起购金额
             currentPrice: {}, // 当前价格
-            positionData: {} // 用户当前债券持仓
+            positionData: {}, // 用户当前债券持仓
+            feeData: [] // 当前用户套餐费用
         }
     },
     computed: {
         // 计算应计利息
+        // 票面利率应该是除过100的小数
         // 应计利息=票面利率/360*已计息天数*数量；
         calcInterest() {
             return (
-                (this.bondUneditableInfo.couponRate / 100 / 360) *
+                (this.bondUneditableInfo.couponRate / 360) *
                 this.interestDays *
                 this.transactionNum
             ).toFixed(2)
         },
-        // 计算手续费
-        // 佣金计算 佣金=市值*百分比，佣金有最低金额，无最高金额
         calcServiceCharge() {
-            return this.currentPrice.minFeeAmount >
-                this.currentPrice.buyPrice * (3 / 100)
-                ? this.currentPrice.minFeeAmount
-                : this.currentPrice.buyPrice * (3 / 100)
+            return this.calcFee()
         }
     },
     methods: {
+        calcFee() {
+            // 计算手续费
+            // 买入： 手续费 = 佣金 + 平台服务费
+            // 卖出： 手续费 = 佣金 + 平台服务费 + 活动费
+
+            // 佣金 = 交易额（当前价格 * 交易数量） * 百分比， 佣金有最低金额(minFeeAmount)，无最高金额(maxFeeAmount)
+            // 平台服务费 = feeAmount
+            // 活动费 = feeAmount * 卖出数量，有最高金额（maxFeeAmount），卖出时收取
+
+            // feeMethod表示收费计算方式，佣金是1，平台服务费是2，活动费是7
+            // 1 交易额 * feePercent
+            // 2 直接取 feeAmount
+            // 7 feeAmount * 卖出数量
+            let tradeMethodMap = {
+                1: feeLadder => {
+                    let fee =
+                        feeLadder.feePercent *
+                        this.transactionNum *
+                        this.currentPrice.buyPrice
+                    return fee > feeLadder.minFeeAmount
+                        ? fee
+                        : feeLadder.minFeeAmount
+                },
+                2: feeLadder => {
+                    return feeLadder.feeAmount
+                },
+                7: feeLadder => {
+                    return feeLadder.feeAmount * this.transactionNum
+                }
+            }
+            let yongjin = this.feeData.filter(
+                feeItem => feeItem.feeCategory === 1 // 表示佣金
+            )
+            let youjinfei = tradeMethodMap[
+                (yongjin[0] && yongjin[0].feeLadders.feeMethod) || 1
+            ]((yongjin[0] && yongjin[0].feeLadders[0]) || {})
+            let pingtai = this.feeData.filter(
+                feeItem => feeItem.feeCategory === 2 // 表示平台服务费
+            )
+            let pingtaifei = tradeMethodMap[
+                (pingtai[0] && pingtai[0].feeLadders.feeMethod) || 1
+            ]((pingtai[0] && pingtai[0].feeLadders[0]) || {})
+            let huodong = this.feeData.filter(
+                feeItem => feeItem.feeCategory === 4 // 表示活动费
+            )
+            let huodongfei = tradeMethodMap[
+                (huodong[0] && huodong[0].feeLadders.feeMethod) || 1
+            ]((huodong[0] && huodong[0].feeLadders[0]) || {})
+
+            if (this.direction === 1) {
+                // 买入
+                return youjinfei + pingtaifei
+            }
+            return youjinfei + pingtaifei + huodongfei
+        },
         // 判断用户风险等级是否可交易
         isUserTrade() {
             if (this.userRiskLevel === 0) {

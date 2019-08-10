@@ -9,13 +9,14 @@ const store = storeMethod()
 // console.log(store)
 // import i18n from '@/utils/common/plugins/yx-i18n/index.js'
 // Vue.use(i18n, {})
-// import vConsole from '@/utils/common/plugins/v-console.js'
-// Vue.use(vConsole)
+import vConsole from '@/utils/common/plugins/v-console.js'
+Vue.use(vConsole)
 
 import '@/utils/common'
 
 // mock
-// import '@/mock/index.js'
+import '@/mock/index.js'
+
 // console.log(window.XMLHttpRequest)
 let init = async () => {
     try {

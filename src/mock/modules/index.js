@@ -13,6 +13,8 @@ import riskAssessSubject from './user-server/risk-assess-subject'
 
 // config-manager
 import selectProtocolInfo from './config-manager/select-protocol-info'
+
+import feePackageCurr from './product-server/fee-package-curr'
 export default {
     bondDetail,
     bondList,
@@ -25,5 +27,7 @@ export default {
     riskAssessResult,
     riskAssessSubject,
 
-    selectProtocolInfo
+    selectProtocolInfo,
+
+    feePackageCurr
 }

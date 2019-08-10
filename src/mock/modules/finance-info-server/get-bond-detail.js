@@ -1,5 +1,5 @@
 import { host } from '../../utils/host'
-import { formatMockData } from '../../utils/util'
+import { formatMockData, comp } from '../../utils/util'
 import Mock from 'mockjs'
 // 债券信息详情
 const formatData = formatMockData({
@@ -11,14 +11,22 @@ const formatData = formatMockData({
         'displayOrder|1-100': 0,
         'isDisplay|1': true,
         'isTop|1': true,
-        nameCn: '@cword(1, 10)',
-        nameEn: '@word(1, 10)',
-        nameHk: '@cword(1, 10)',
+        logo: '',
+        nameCn: '@cword(1, 30)',
+        nameEn: '@word(1, 30)',
+        nameHk: '@cword(1, 30)',
         productOverview: '@url(http)',
         raiseManual: '@url(http)',
         riskLevel: {
             name: '@cword(2, 6)',
             'type|1-10': 0
+        },
+        bindStock: {
+            stockCode: /\d{6}/,
+            stockMarket: {
+                name: '@cword(2, 6)',
+                'type|1-10': 0
+            }
         },
         stockInfo: {
             stockCode: /00\d{3}/,
@@ -27,18 +35,18 @@ const formatData = formatMockData({
                 name: '@word(2,5)'
             }
         },
-        'tags|0-3': [
+        'tags|1': comp([
             {
                 'displayOrder|1-100': 0,
                 'id|1-123456789': 0,
                 name: {
-                    en: '@word(2,5)',
-                    zhCn: '@cword(2,5)',
-                    zhHk: '@cword(2,5)'
+                    en: '@word(2,8)',
+                    zhCn: '@cword(2,8)',
+                    zhHk: '@cword(2,8)'
                 }
             }
-        ],
-        issuerInfo: {
+        ]),
+        issuer: {
             'id|1-123456789': 1,
             rankInfo: {
                 rank: /A{1,5}/,
@@ -55,15 +63,21 @@ const formatData = formatMockData({
         couponRate: /0\.0\d{3}/,
         'dueTime|1564577990837-2564577990837': 0,
         enumCodeType: {
-            name: '@cword(2, 6)',
+            name: '@word(2, 6)',
             'type|1-10': 0
         },
         enumCurrency: {
             name: '@cword(2, 6)',
             'type|1-10': 0
         },
-        enumDelivery: /\w{1,10}/,
-        enumInterestBenchmark: /\w{1,10}/,
+        enumDelivery: {
+            'type|1-10': 0,
+            name: '@word(2, 6)'
+        },
+        enumInterestBenchmark: {
+            'type|1-10': 0,
+            name: '@word(2, 6)'
+        },
         enumPaymentFrequency: {
             name: '@cword(2, 6)',
             'type|1-10': 0
@@ -94,12 +108,19 @@ const formatData = formatMockData({
         }
     ]
 })
+let url = '/finance-info-server/api/get-bond-detail/v1'
+let method = 'post'
 export default [
-    host + '/finance-info-server/api/get-bond-detail/v1',
-    'post',
+    host + url,
+    method,
     // formatData
     function(options) {
         console.log('options:>>>', options)
         return Mock.mock(formatData)
+    },
+    {
+        url: host + url,
+        method,
+        formatData
     }
 ]
