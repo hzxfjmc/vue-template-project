@@ -3,7 +3,7 @@ import { formatMockData } from '../../utils/util'
 import Mock from 'mockjs'
 // 债券列表
 const formatData = formatMockData({
-    'bondInfoAndCurrentPriceApiResponses|1-6': [
+    'bondInfoAndCurrentPriceApiResponses|1-10': [
         {
             bondName: {
                 en: '@word(2,3)',
@@ -36,14 +36,24 @@ const formatData = formatMockData({
                 }
             ]
         }
-    ]
+    ],
+    'pageNum|1-20': 1,
+    'pageSize|1-100': 10,
+    'total|1-100': 7
 })
+let url = '/finance-info-server/api/get-bond-list/v1'
+let method = 'post'
 export default [
-    host + '/finance-info-server/api/get-bond-list/v1',
-    'post',
+    host + url,
+    method,
     // formatData
     function(options) {
         console.log('options:>>>', options)
         return Mock.mock(formatData)
+    },
+    {
+        url: host + url,
+        method,
+        formatData
     }
 ]

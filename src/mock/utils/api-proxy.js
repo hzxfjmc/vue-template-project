@@ -1,9 +1,19 @@
 import Mock from 'mockjs'
-import { fromatData as getBondListData } from '../modules/get-bond-list.js'
-const mapUrlList = {
-    '/finance-info-server/api/get-bond-list/v1': getBondListData
-}
-export const proxy = function(url, data) {
-    console.log('Mock.valid message:>>>', Mock.valid(mapUrlList[url], data))
-    return data
+import modules from '../modules'
+
+export default function(url, method, data) {
+    // console.log('url :', url)
+    // console.log('method :', method)
+    Object.keys(modules).forEach(key => {
+        let ele = modules[key][3]
+        if (ele && ele.url === url && ele.method === method) {
+            console.group(url.replace(/http:\/\//, ''))
+            console.log('valid response data :>>> url: ', url)
+            console.log(
+                'valid response data :>>> validMsg: ',
+                Mock.valid(ele.formatData, data)
+            )
+            console.groupEnd()
+        }
+    })
 }
