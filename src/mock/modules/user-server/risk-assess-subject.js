@@ -18,12 +18,19 @@ const formatData = formatMockData({
     ],
     'version|1-5': 1
 })
+let url = host + '/user-server/api/risk-assess-subject/v1'
+let method = 'post'
 export default [
-    host + '/user-server/api/risk-assess-subject/v1',
-    'get',
+    url,
+    method,
     // formatData
     function(options) {
         console.log('options:>>>', options)
         return Mock.mock(formatData)
+    },
+    {
+        url,
+        method,
+        formatData
     }
 ]

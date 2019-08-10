@@ -46,7 +46,7 @@ const formatData = formatMockData({
     'pageSize|1-100': 10,
     'total|1-100': 7
 })
-let url = '/finance-info-server/api/get-bond-list/v1'
+let url = host + '/finance-info-server/api/get-bond-list/v1'
 let method = 'post'
 export default [
     host + url,
@@ -57,7 +57,7 @@ export default [
         return Mock.mock(formatData)
     },
     {
-        url: host + url,
+        url,
         method,
         formatData
     }

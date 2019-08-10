@@ -284,9 +284,11 @@ const formatData = formatMockData({
         }
     ]
 })
+let url = host + '/product-server/api/fee_package_curr'
+let method = 'post'
 export default [
-    host + '/product-server/api/fee_package_curr',
-    'post',
+    url,
+    method,
     // formatData
     function(options) {
         console.log('options:>>>', options)
@@ -306,5 +308,10 @@ export default [
         } else {
             return Promise.reject(data)
         }
+    },
+    {
+        url,
+        method,
+        formatData
     }
 ]

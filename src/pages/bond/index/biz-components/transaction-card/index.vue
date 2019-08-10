@@ -33,7 +33,7 @@
         .yx-cell
             .yx-cell__header 总额
                 .yx-cell__header-tip (美元)
-            .yx-cell__primary {{ direction === 1 ? (transactionNum * currentPrice.buyPrice - calcServiceCharge - calcInterest) : (transactionNum * currentPrice.buyPrice - calcServiceCharge + calcInterest) }}
+            .yx-cell__primary {{ tradeMoney }}
 
         .tips
             i.iconfont.icon-wenhao(@click="showTips('total')")
@@ -158,6 +158,18 @@ export default {
         }
     },
     computed: {
+        // 当前交易总额
+        tradeMoney() {
+            let totalMoney =
+                this.direction === 1
+                    ? this.transactionNum * this.currentPrice.buyPrice -
+                      this.calcServiceCharge -
+                      this.calcInterest
+                    : this.transactionNum * this.currentPrice.buyPrice -
+                      this.calcServiceCharge +
+                      this.calcInterest
+            return totalMoney
+        },
         // 计算应计利息
         // 票面利率应该是除过100的小数
         // 应计利息=票面利率/360*已计息天数*数量；
@@ -168,12 +180,13 @@ export default {
                 this.transactionNum
             ).toFixed(2)
         },
-        calcServiceCharge() {
-            return this.calcFee()
+        // 计算手续费
+        serviceCharge() {
+            return this.calcServiceCharge()
         }
     },
     methods: {
-        calcFee() {
+        calcServiceCharge() {
             // 计算手续费
             // 买入： 手续费 = 佣金 + 平台服务费
             // 卖出： 手续费 = 佣金 + 平台服务费 + 活动费

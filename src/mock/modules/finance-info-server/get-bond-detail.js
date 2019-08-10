@@ -3,23 +3,24 @@ import { formatMockData, comp } from '../../utils/util'
 import Mock from 'mockjs'
 // 债券信息详情
 const formatData = formatMockData({
+    'id|1-123456789': 0,
     bondEditableInfo: {
-        creditRating: {
-            rank: /A{1,5}/,
-            agency: '@cword(2, 6)'
-        },
-        'displayOrder|1-100': 0,
-        'isDisplay|1': true,
-        'isTop|1': true,
-        logo: '',
         nameCn: '@cword(1, 30)',
         nameEn: '@word(1, 30)',
         nameHk: '@cword(1, 30)',
+        creditRating: {
+            agency: '@cword(2, 6)',
+            rank: /A{1,5}/
+        },
+        logo: '',
         productOverview: '@url(http)',
         raiseManual: '@url(http)',
+        'isDisplay|1': true,
+        'displayOrder|1-100': 0,
+        'isTop|1': true,
         riskLevel: {
-            name: '@cword(2, 6)',
-            'type|1-10': 0
+            'type|1-10': 0,
+            name: '@cword(2, 6)'
         },
         bindStock: {
             stockCode: /\d{6}/,
@@ -28,29 +29,22 @@ const formatData = formatMockData({
                 'type|1-10': 0
             }
         },
-        stockInfo: {
-            stockCode: /00\d{3}/,
-            stockMarket: {
-                'type|1-10': 1,
-                name: '@word(2,5)'
-            }
-        },
         'tags|1': comp([
             {
                 'displayOrder|1-100': 0,
-                'id|1-123456789': 0,
                 name: {
                     en: '@word(2,8)',
                     zhCn: '@cword(2,8)',
                     zhHk: '@cword(2,8)'
-                }
+                },
+                'id|1-123456789': 0
             }
         ]),
         issuer: {
             'id|1-123456789': 1,
             rankInfo: {
-                rank: /A{1,5}/,
                 agency: '@cword(2, 6)',
+                rank: /A{1,5}/,
                 'creditRatingId|1-123456789': 1
             },
             name: '@cword(2,4)',
@@ -59,16 +53,22 @@ const formatData = formatMockData({
         }
     },
     bondUneditableInfo: {
-        code: /\w\d{1,6}/,
+        'minFaceValue|100-5000': 0,
         couponRate: /0\.0\d{3}/,
+        code: /\w\d{1,6}/,
+        'issueTime|1564577990837-2564577990837': 0,
         'dueTime|1564577990837-2564577990837': 0,
         enumCodeType: {
-            name: '@word(2, 6)',
-            'type|1-10': 0
+            'type|1-10': 0,
+            name: '@word(2, 6)'
         },
-        enumCurrency: {
-            name: '@cword(2, 6)',
-            'type|1-10': 0
+        enumPaymentType: {
+            'type|1-10': 0,
+            name: '@cword(2, 6)'
+        },
+        enumPaymentFrequency: {
+            'type|1-10': 0,
+            name: '@cword(2, 6)'
         },
         enumDelivery: {
             'type|1-10': 0,
@@ -78,17 +78,11 @@ const formatData = formatMockData({
             'type|1-10': 0,
             name: '@word(2, 6)'
         },
-        enumPaymentFrequency: {
-            name: '@cword(2, 6)',
-            'type|1-10': 0
+        enumCurrency: {
+            'type|1-10': 0,
+            name: '@cword(2, 6)'
         },
-        enumPaymentType: {
-            name: '@cword(2, 6)',
-            'type|1-10': 0
-        },
-        'issueTime|1564577990837-2564577990837': 0,
-        'minFaceValue|100-5000': 0,
-        'paymentDate|1564577990837-2564577990837': 0
+        paymentDate: '@word(2,8)'
     },
     currentPrice: {
         'buyPrice|1-100.3': 1,
@@ -97,7 +91,6 @@ const formatData = formatMockData({
         sellYtm: /\d{1}\.\d{2}%/,
         'updateTime|1564577990837-2564577990837': 0
     },
-    'id|1-123456789': 0,
     'prices|1-3': [
         {
             'buyPrice|1-100.3': 1,
@@ -108,10 +101,10 @@ const formatData = formatMockData({
         }
     ]
 })
-let url = '/finance-info-server/api/get-bond-detail/v1'
+let url = host + '/finance-info-server/api/get-bond-detail/v1'
 let method = 'post'
 export default [
-    host + url,
+    url,
     method,
     // formatData
     function(options) {
@@ -119,7 +112,7 @@ export default [
         return Mock.mock(formatData)
     },
     {
-        url: host + url,
+        url,
         method,
         formatData
     }

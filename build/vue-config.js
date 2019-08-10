@@ -3,7 +3,8 @@ const commonConfig = require('./vue-common-config')
 const { getPages, getCommandParam } = require('./utils')
 const fs = require('fs')
 const path = require('path')
-
+// const mockModule = require(path.resolve(__dirname, '../src/mock/modules/index.js'))
+// console.log('mockModule :', mockModule);
 const project = getCommandParam('project')
 /**
  * 把相对于src目录的路径转换成绝对路径
@@ -237,7 +238,7 @@ module.exports = {
             //奖励中心
             '/product-server': {
                 // target: 'http://jy1-sit.yxzq.com',
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://admin-dev.yxzq.com',
                 changOrigin: true
             },
             '/customer-relationship-server': {
@@ -257,6 +258,10 @@ module.exports = {
                 target: 'http://10.210.20.39:8809',
                 changOrigin: true
             },
+            'node-generator': {
+                target: 'http://admin-dev.yxzq.com',
+                changeOrigin: true
+            },
             // 债券交易
             '/finance-server': {
                 target: 'http://admin-dev.yxzq.com',
@@ -265,7 +270,28 @@ module.exports = {
             // 债券信息
             '/finance-info-server': {
                 target: 'http://jy-dev.yxzq.com',
-                changeOrigin: true
+                changeOrigin: true,
+                // onProxyRes: function(proxyRes, req, res) {
+                //     let resHttp = proxyRes.client._httpMessage
+                //     console.log('onProxyRes :', resHttp)
+                //     console.log('onProxyMethod :', resHttp.method)
+                //     console.log('onProxyPath :', resHttp.path)
+                //     // console.log('res.headers :', res.headers)
+                //     for (const keys in proxyRes) {
+                //         if (proxyRes.hasOwnProperty(keys)) {
+                //             const reselement = proxyRes[keys];
+                //             console.log('reselement :', keys);
+                //         }
+                //     }
+                //     console.log('proxyRes.headers :', proxyRes.headers);
+                //     let str = ''
+                //     proxyRes.on('data', (data) => {
+                //         str += data
+                //     })
+                //     proxyRes.on('end', () => {
+                //         console.log('end :', JSON.parse(str.toString()));
+                //     })
+                // }
             }
         },
         historyApiFallback: {}

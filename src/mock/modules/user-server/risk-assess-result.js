@@ -7,12 +7,19 @@ const formatData = formatMockData({
     'createTime|1564577990837-2564577990837': 0,
     'validTime|1564577990837-2564577990837': 0
 })
+let url = host + '/user-server/api/risk-assess-result/v1'
+let method = 'post'
 export default [
-    host + '/user-server/api/risk-assess-result/v1',
-    'get',
+    url,
+    method,
     // formatData
     function(options) {
         console.log('options:>>>', options)
         return Mock.mock(formatData)
+    },
+    {
+        url,
+        method,
+        formatData
     }
 ]
