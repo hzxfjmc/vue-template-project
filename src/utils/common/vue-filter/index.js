@@ -33,3 +33,16 @@ Vue.filter('formatCurrency', function(num) {
 Vue.filter('PrefixInteger', function(num) {
     return (Array(5).join('0') + num).slice(-5)
 })
+
+// i18n
+Vue.filter('i18n', function(i18nData = {}, langType = 'zhCHS') {
+    let langTypeMap = {
+        zhCHS: 'zhCn',
+        zhCHT: 'zhHk',
+        en: 'en'
+    }
+    let resolveData =
+        (i18nData[langTypeMap[langType]] && i18nData[langTypeMap[langType]]) ||
+        '--'
+    return resolveData
+})

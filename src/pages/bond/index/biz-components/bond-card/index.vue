@@ -7,13 +7,13 @@
                 :key="index"
                 color="#2587EB"
                 plain
-            ) {{ tagItem.name && tagItem.name.zhCn }}
+            ) {{ tagItem.name | i18n(lang) }}
         .bond-card__content
             .flex-fixed-container
-                .rate-num {{ bondInfo && bondInfo.price && bondInfo.price.buyYtm || '--'}}
+                .rate-num {{ buyYtm }}
                 .card-tips 到期年化收益率
             .flex-fixed-container
-                .interest-num {{ bondInfo && bondInfo.paymentFrequency && bondInfo.paymentFrequency.name || '--'}}
+                .interest-num {{ interest }}
                 .card-tips 每半年付息
 </template>
 
@@ -31,11 +31,27 @@ export default {
             default: () => {}
         }
     },
-    data() {
-        return {}
-    },
     computed: {
-        ...mapGetters(['lang']),
+        // 发行人
+        issuerName() {
+            // 发行人名称长度最长展示18个字符
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.issuerName &&
+                    this.bondInfo.issuerName.slice(0, 18)) ||
+                '--'
+            )
+        },
+        h2Style() {
+            // 发行人名称长度大于13个字，则字体大小变化
+            if (this.issuerName.length > 13) {
+                return {
+                    fontSize: '0.32rem'
+                }
+            }
+            return {}
+        },
+        // 标签
         limitTags() {
             // 最多只取三个标签
             let filterTag =
@@ -52,18 +68,25 @@ export default {
             })
             return filterTag
         },
-        issuerName() {
-            return (this.bondInfo && this.bondInfo.issuerName) || '--'
+        // 到期年化收益率
+        buyYtm() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.price &&
+                    this.bondInfo.price.buyYtm) ||
+                '--'
+            )
         },
-        h2Style() {
-            // 发行人名称长度大于10个字，则字体大小变化
-            if (this.issuerName.length > 3) {
-                return {
-                    fontSize: '0.2rem'
-                }
-            }
-            return {}
-        }
+        // 每半年付息
+        interest() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.paymentFrequency &&
+                    this.bondInfo.paymentFrequency.name) ||
+                '--'
+            )
+        },
+        ...mapGetters(['lang'])
     }
 }
 </script>
@@ -77,9 +100,10 @@ export default {
     .bond-card__header {
         display: flex;
         align-items: center;
+        flex-wrap: wrap;
         h2 {
             overflow: hidden;
-            margin-right: 8px;
+            margin-right: 3px;
             font-size: 0.36rem;
             color: #272727;
             line-height: 25px;
@@ -88,12 +112,16 @@ export default {
         }
         .van-tag--plain {
             min-width: 36px;
-            height: 16px;
-            margin-right: 9px;
+            padding: 1px 4px 1px 5px;
+            margin-right: 6px;
+            margin-top: 6px;
             font-size: 0.2rem;
             text-align: center;
             line-height: 14px;
             white-space: nowrap;
+            &:last-child {
+                margin-right: 0;
+            }
         }
     }
     .bond-card__content {

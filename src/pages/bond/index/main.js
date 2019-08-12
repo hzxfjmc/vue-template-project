@@ -6,19 +6,17 @@ Vue.use(Dialog)
 
 import storeMethod from '@/store/index.js'
 const store = storeMethod()
-console.log(store)
 // import i18n from '@/utils/common/plugins/yx-i18n/index.js'
 // Vue.use(i18n, {})
 import vConsole from '@/utils/common/plugins/v-console.js'
 Vue.use(vConsole)
-console.log('store.getter.lang :', store.getters.lang)
 import i18n from '@/utils/common/plugins/yx-i18n/index.js'
 Vue.use(i18n, {
     lang: store.getters.lang,
     messages: {
-        zhCHS: '',
-        zhCHT: '',
-        en: ''
+        zhCHS: {},
+        zhCHT: {},
+        en: {}
     }
 })
 
