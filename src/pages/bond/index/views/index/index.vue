@@ -28,23 +28,62 @@ export default {
         BondCard
     },
     async created() {
-        try {
-            let { bondInfoAndCurrentPriceApiResponses } = await getBondList({
-                pageNum: 1,
-                pageSize: 10
-            })
-            this.bondList = bondInfoAndCurrentPriceApiResponses || []
-            console.log(
-                'getBondList:data:>>> ',
-                bondInfoAndCurrentPriceApiResponses
-            )
-        } catch (e) {
-            console.log('getBondList:error:>>>', e)
+        // 初始化拉取债券列表
+        this.handleGetBondList()
+
+        // 滑动到底触发更新数据
+        window.onscroll = () => {
+            console.log('111 :', 111)
+            this.pullRequest()
         }
     },
     data() {
         return {
-            bondList: []
+            bondList: [],
+            timer: null,
+            pageSize: 10, // 每页条数
+            pageNum: 1 // 当前页数
+        }
+    },
+    methods: {
+        // 获取债券列表
+        async handleGetBondList() {
+            try {
+                let { bondInfoAndCurrentPriceApiResponses } = await getBondList(
+                    {
+                        pageNum: this.pageNum,
+                        pageSize: this.pageSize
+                    }
+                )
+                let listArray = bondInfoAndCurrentPriceApiResponses || []
+                if (!listArray || listArray.length === 0) {
+                    this.$dialog.alert({
+                        message: '没有更多数据了'
+                    })
+                    return
+                }
+                this.bondList = this.bondList.concat(listArray)
+                console.log(
+                    'getBondList:data:>>> ',
+                    bondInfoAndCurrentPriceApiResponses
+                )
+            } catch (e) {
+                console.log('getBondList:error:>>>', e)
+            }
+        },
+        // 防抖，获取债券列表数据
+        pullRequest() {
+            clearTimeout(this.timer)
+            this.timer = setTimeout(() => {
+                let htmlEle = document.querySelector('html')
+                let winHeight = window.innerHeight
+                let winScrollTop = window.scrollY
+                if (winScrollTop + winHeight >= htmlEle.scrollHeight - 100) {
+                    console.log('到底了 :')
+                    this.pageNum++
+                    this.handleGetBondList()
+                }
+            }, 300)
         }
     }
 }
