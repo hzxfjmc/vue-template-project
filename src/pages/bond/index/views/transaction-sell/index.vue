@@ -1,17 +1,17 @@
 <template lang="pug">
     .transaction-wrapper
-        transacntion-card(
+        transaction-card(
             btnText="确认卖出"
             :direction="2"
         )
 </template>
 
 <script>
-import TransacntionCard from '@/pages/bond/index/biz-components/transaction-card/index.vue'
+import TransactionCard from '@/pages/bond/index/biz-components/transaction-card/index.vue'
 export default {
-    name: 'TransanctionBuy',
+    name: 'TransactionBuy',
     components: {
-        TransacntionCard
+        TransactionCard
     },
     data() {
         return {}

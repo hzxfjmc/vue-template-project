@@ -1,5 +1,5 @@
 <template lang="pug">
-    .detail-transanction-rules-wrapper
+    .detail-transaction-rules-wrapper
         .yx-cell(style="padding-top:0")
             .yx-cell__header 交易时间：
             .yx-cell__content XXXXXXX
@@ -14,7 +14,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.detail-transanction-rules-wrapper {
+.detail-transaction-rules-wrapper {
     padding-bottom: 7px;
     .yx-cell {
         display: flex;

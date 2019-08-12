@@ -18,18 +18,18 @@ export default new Router({
                 import(`@/pages/bond/index/views/bond-detail/index.vue`)
         },
         {
-            name: 'transanction-sell',
-            path: '/transanction-sell',
+            name: 'transaction-sell',
+            path: '/transaction-sell',
             meta: { title: '卖出' },
             component: () =>
-                import(`@/pages/bond/index/views/transanction-sell/index.vue`)
+                import(`@/pages/bond/index/views/transaction-sell/index.vue`)
         },
         {
-            name: 'transanction-buy',
-            path: '/transanction-buy',
+            name: 'transaction-buy',
+            path: '/transaction-buy',
             meta: { title: '买入' },
             component: () =>
-                import(`@/pages/bond/index/views/transanction-buy/index.vue`)
+                import(`@/pages/bond/index/views/transaction-buy/index.vue`)
         },
         {
             name: 'risk-warning',

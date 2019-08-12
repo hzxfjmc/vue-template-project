@@ -1,8 +1,8 @@
 <template lang="pug">
     .transaction-card
-        media-box.transanction-header(
-            :title="bondEditableInfo && bondEditableInfo.issuer && bondEditableInfo.issuer.name || '--'"
-            :desc="bondEditableInfo && bondEditableInfo.nameCn || '--'"
+        media-box.transaction-header(
+            :title="issuerName"
+            :desc="bondName"
         )
         .yx-cell
             .yx-cell__header 买入价格
@@ -160,6 +160,19 @@ export default {
         }
     },
     computed: {
+        issuerName() {
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.issuer &&
+                    this.bondEditableInfo.issuer.name) ||
+                '--'
+            )
+        },
+        bondName() {
+            return (
+                (this.bondEditableInfo && this.bondEditableInfo.nameCn) || '--'
+            )
+        },
         // 当前交易总额
         tradeMoney() {
             let totalMoney =
@@ -315,7 +328,7 @@ export default {
     background-color: #fff;
     border-radius: 4px;
 }
-.transanction-header {
+.transaction-header {
     background-color: #2f79ff;
 }
 .icon-wenhao {

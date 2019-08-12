@@ -118,7 +118,7 @@ export default {
             }
             // 已开户
             this.$router.push({
-                path: '/transanction-buy',
+                path: '/transaction-buy',
                 query: {
                     id: this.id,
                     direction
