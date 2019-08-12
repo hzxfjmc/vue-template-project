@@ -43,10 +43,29 @@ export default {
             )
         },
         h2Style() {
-            // 发行人名称长度大于13个字，则字体大小变化
-            if (this.issuerName.length > 13) {
+            // 发行人名称长度大于13个字，且标签长度大于9个长度，则字体大小变化
+            let issuerName = this.issuerName || ''
+            let tags = (this.bondInfo && this.bondInfo.tags) || []
+            let tagLen = 0
+            let langTypeMap = {
+                zhCHS: 'zhCn',
+                zhCHT: 'zhHk',
+                en: 'en'
+            }
+            tags.forEach(tag => {
+                let tagName =
+                    (tag.name && tag.name[langTypeMap[this.lang]]) || ''
+                let nameLen = tagName.length
+                tagLen += nameLen
+            })
+            // 极限条件 issuerName 发行人名称超过 13 个字符
+            // 标签有三个，每个三个字符，共 9 个字符
+            // 此时按设计稿看，刚好充满一个整行
+            // 这里统一设置一个模糊边界策略，只要大于 13 + 9 = 22 就缩小字体
+            if (issuerName.length + tagLen > 22) {
                 return {
-                    fontSize: '0.32rem'
+                    fontSize: '0.32rem',
+                    lineHeight: '0.44rem'
                 }
             }
             return {}
@@ -100,8 +119,8 @@ export default {
     .bond-card__header {
         display: flex;
         align-items: center;
-        flex-wrap: wrap;
         h2 {
+            flex: 1;
             overflow: hidden;
             margin-right: 3px;
             font-size: 0.36rem;
@@ -114,7 +133,6 @@ export default {
             min-width: 36px;
             padding: 1px 4px 1px 5px;
             margin-right: 6px;
-            margin-top: 6px;
             font-size: 0.2rem;
             text-align: center;
             line-height: 14px;
