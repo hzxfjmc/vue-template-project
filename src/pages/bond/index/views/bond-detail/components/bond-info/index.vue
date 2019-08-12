@@ -9,7 +9,11 @@
                 span 募集说明
         col-msg(:colData="colData")
         .more-msg(v-show="showMore")
-            col-msg(v-for="(msgItem, index) in moreBondMsg" :key="index" :colData="msgItem")
+            col-msg(
+                v-for="(msgItem, index) in moreBondMsg"
+                :key="index"
+                :colData="msgItem"
+            )
 
 </template>
 <script>
@@ -61,8 +65,9 @@ export default {
                         (this.bondUneditableInfo &&
                             this.bondUneditableInfo.paymentDate &&
                             this.bondUneditableInfo.paymentDate
-                                .replace(/月/, '.')
-                                .replace(/日/, '')) ||
+                                .replace(/\|/g, '、')
+                                .replace(/月/g, '.')
+                                .replace(/日/g, '')) ||
                         '--',
                     desc: '付息日'
                 }
@@ -139,7 +144,6 @@ export default {
     },
     methods: {
         toggleShowMoreMsg() {
-            console.log('111 :', 111)
             this.showMore = !this.showMore
         }
     }

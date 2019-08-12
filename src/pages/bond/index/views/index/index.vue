@@ -32,10 +32,7 @@ export default {
         this.handleGetBondList()
 
         // 滑动到底触发更新数据
-        window.onscroll = () => {
-            console.log('111 :', 111)
-            this.pullRequest()
-        }
+        window.addEventListener('scroll', this.pullRequest)
     },
     data() {
         return {
@@ -85,6 +82,10 @@ export default {
                 }
             }, 300)
         }
+    },
+    beforeDestroy() {
+        // 滑动到底触发更新数据
+        window.removeEventListener('scroll', this.pullRequest)
     }
 }
 </script>

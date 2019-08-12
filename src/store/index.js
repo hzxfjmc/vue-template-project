@@ -77,7 +77,8 @@ export default modules =>
                             phoneNumber: user.phoneNum,
                             userId: user.userId,
                             userToken: user.userToken,
-                            userName: user.userName
+                            userName: user.userName,
+                            openedAccount: user.openedAccount
                         })
                     } else {
                         store.commit('getUserInfoMutation', {

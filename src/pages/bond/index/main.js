@@ -3,27 +3,29 @@ import router from './router'
 import App from './App.vue'
 import { Dialog } from 'vant'
 Vue.use(Dialog)
+import vConsole from '@/utils/common/plugins/v-console.js'
+Vue.use(vConsole)
 
 import storeMethod from '@/store/index.js'
 const store = storeMethod()
+setTimeout(() => {
+    console.log('store:>>>', store.state)
+}, 1000)
+
 // import i18n from '@/utils/common/plugins/yx-i18n/index.js'
-// Vue.use(i18n, {})
-import vConsole from '@/utils/common/plugins/v-console.js'
-Vue.use(vConsole)
-import i18n from '@/utils/common/plugins/yx-i18n/index.js'
-Vue.use(i18n, {
-    lang: store.getters.lang,
-    messages: {
-        zhCHS: {},
-        zhCHT: {},
-        en: {}
-    }
-})
+// Vue.use(i18n, {
+//     lang: store.getters.lang,
+//     messages: {
+//         zhCHS: {},
+//         zhCHT: {},
+//         en: {}
+//     }
+// })
 
 import '@/utils/common'
 
 // mock
-import '@/mock/index.js'
+// import '@/mock/index.js'
 
 // console.log(window.XMLHttpRequest)
 let init = async () => {

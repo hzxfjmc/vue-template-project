@@ -1,8 +1,8 @@
 <template lang="pug">
     .detail-header
         media-box(
-            :title="headerTitle | i18n(lang)"
-            :desc="headerDesc | i18n(lang)"
+            :title="headerTitle"
+            :desc="headerDesc"
         )
         col-msg.header-column(
             :col-data="colData"
@@ -47,10 +47,6 @@ export default {
         currentPrice: {
             type: Object,
             default: () => {}
-        },
-        lang: {
-            type: String,
-            default: 'zhCHS'
         }
     },
     data() {
@@ -73,24 +69,16 @@ export default {
     computed: {
         // 发行人
         headerTitle() {
-            let issuer =
-                (this.bondEditableInfo && this.bondEditableInfo.issuer) || {}
-            let nameObj = {
-                zhCHS: issuer.name,
-                zhCHT: issuer.nameHk,
-                en: issuer.nameEn
-            }
-            return nameObj
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.issuer &&
+                    this.bondEditableInfo.issuer.name) ||
+                '--'
+            )
         },
         // 债券名称
         headerDesc() {
-            let info = this.bondEditableInfo || {}
-            let infoObj = {
-                zhCHS: info.nameCn,
-                zhCHT: info.nameHk,
-                en: info.nameEn
-            }
-            return infoObj
+            return this.bondEditableInfo && this.bondEditableInfo.nameCn
         },
         colData() {
             let _this = this

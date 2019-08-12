@@ -11,17 +11,20 @@
             .risk-cell
                 span 产品风险
                 strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
-        .risk-result__tips
+        .risk-result__tips(v-if="riskMatchResult !== 3")
             h2
-                i.iconfont.icon-about_icon
                 span 什么是风险测评？
+                i.iconfont.icon-about_icon
             p 您的风评取向不适合购买该产品您的风评取向不适合购买该产品您的风评取向不适合购买该产品
         .risk-agreement(v-if="riskMatchResult === 3")
             i.iconfont.icon-selected
             p
                 span 我已阅读并知晓债券相关风险，我已阅读
                 a(:href="productUrl") 《产品资料》
-        fixed-operate-btn(:text="btnText")
+        fixed-operate-btn(
+            :text="btnText"
+            @click="handleAction"
+        )
 </template>
 
 <script>
@@ -37,7 +40,7 @@ export default {
         try {
             // 拉取风险测评结果
             let { assessResult } = await riskAssessResult()
-            this.userRiskLevel = assessResult || 0 // 用户风险测评等级
+            this.userRiskLevel = 2 || 0 // 用户风险测评等级
             console.log('riskAssessResult:data:>>> ', assessResult)
 
             // 获取债券信息
@@ -87,7 +90,36 @@ export default {
             },
             userRiskLevel: 0, // 用户风险测评等级
             bondRiskLevel: 100, // 债券风险等级
-            btnText: ''
+            btnText: '',
+            id: 0
+        }
+    },
+    methods: {
+        handleAction() {
+            if (
+                this.userRiskLevel === 0 ||
+                this.userRiskLevel < this.bondRiskLevel
+            ) {
+                // 尚未风评
+                this.$router.push({
+                    path: '/risk-assessment'
+                })
+            } else {
+                // 风评级别够了，可以购买
+                let direction =
+                    (this.$route.query.direction &&
+                        this.$route.query.direction) ||
+                    1
+                let path =
+                    direction == 2 ? 'transaction-sell' : 'transaction-buy'
+                this.$router.push({
+                    path: `/${path}`,
+                    query: {
+                        id: this.id,
+                        direction
+                    }
+                })
+            }
         }
     }
 }
@@ -159,7 +191,6 @@ export default {
         h2 {
             line-height: 1;
             i {
-                margin-right: 6px;
                 color: #393939;
                 font-size: 0.3rem;
                 vertical-align: middle;

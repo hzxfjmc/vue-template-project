@@ -31,6 +31,8 @@ export default {
         FixedOperateBtn
     },
     async created() {
+        this.id = this.$route.query.id - 0
+        this.bondName = this.$route.query.bondName
         // 拉取债券协议
         try {
             let data = await selectProtocolInfo('BOND001')
@@ -44,7 +46,9 @@ export default {
         return {
             signName: '', // 签名
             agreementData: {}, // 债券协议
-            submitBtnDisabled: true
+            submitBtnDisabled: true,
+            id: 0,
+            bondName: ''
         }
     },
     methods: {
@@ -57,9 +61,8 @@ export default {
                     agreementName: this.agreementData.protocolName,
                     agreementUrl: this.agreementData.protocolUrl,
                     autograph: this.signName,
-                    bondId:
-                        this.$route.query.id && parseInt(this.$route.query.id),
-                    bondName: this.$route.query.bondName,
+                    bondId: this.id,
+                    bondName: this.bondName,
                     riskTips: `为了降低您的投资风险，请您完整阅读风险披露内容
                                 正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
                                 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
@@ -68,7 +71,18 @@ export default {
                 })
                 console.log('bondRiskAutograph:data:>>> ', data)
             } catch (e) {
+                this.$router.push({
+                    path: '/risk-assessment-result',
+                    query: {
+                        id: this.id,
+                        bondName: this.bondName,
+                        direction: this.$route.query.direction
+                    }
+                })
                 console.log('bondRiskAutograph:error:>>> ', e)
+                this.$dialog.alert({
+                    message: e.msg
+                })
             }
         }
     },
