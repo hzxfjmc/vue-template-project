@@ -6,14 +6,14 @@
         )
         .yx-cell
             .yx-cell__header 买入价格
-                .yx-cell__header-tip (美元)
+                .yx-cell__header-tip ({{ currency }})
             .yx-cell__primary {{ currentPrice.buyPrice || '--' }}
 
         .yx-cell
             .yx-cell__header 份数
             .yx-cell__primary
                 van-stepper(v-model="transactionNum" integer)
-                .yx-cell__primary-tip ({{ bondUneditableInfo.minFaceValue || '--' }}美元/份)
+                .yx-cell__primary-tip ({{ bondUneditableInfo.minFaceValue || '--' }}{{ currency }}/份)
         .yx-cell
             .yx-cell__header 金额
             .yx-cell__primary {{ transactionNum * currentPrice.buyPrice }}
@@ -26,7 +26,7 @@
 
         .yx-cell
             .yx-cell__header 手续费(预估)
-            .yx-cell__primary +{{ calcServiceCharge }}
+            .yx-cell__primary +{{ serviceCharge }}
 
         .divider-line
 
@@ -56,7 +56,6 @@ import {
     getBondInterestCalculate,
     getBondPosition
 } from '@/service/finance-server.js'
-import { riskAssessResult } from '@/service/user-server.js'
 import { generateUUID } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { Stepper } from 'vant'
@@ -90,11 +89,6 @@ export default {
             this.bondEditableInfo = bondEditableInfo || {}
             this.bondUneditableInfo = bondUneditableInfo || {}
             this.currentPrice = currentPrice || {}
-            this.bondRiskLevel =
-                (bondEditableInfo &&
-                    bondEditableInfo.riskLevel &&
-                    bondEditableInfo.riskLevel.type) ||
-                0
             console.log(
                 'getBondDetail:data:>>> ',
                 bondEditableInfo,
@@ -113,12 +107,6 @@ export default {
             this.positionData =
                 (this.positionData[0] && this.positionData[0]) || {}
             console.log('getBondPosition:data:>>> ', bondPositionList)
-
-            // ************************************
-            // 获取用户风险测评结果
-            let { assessResult } = await riskAssessResult()
-            this.userRiskLevel = assessResult || 0
-            console.log('riskAssessResult:data:>>> ', assessResult)
 
             // *************************************
             // 获取债券应计利息计算天数
@@ -140,8 +128,6 @@ export default {
                 {}
         } catch (e) {
             console.log('created:error:>>>', e)
-            // console.log('riskAssessResult:error:>>>', e)
-            // console.log('getBondInterestCalculate:error:>>>', e)
         }
     },
     data() {
@@ -149,8 +135,6 @@ export default {
             transactionNum: 1, // 交易份数
             bondEditableInfo: {},
             bondUneditableInfo: {},
-            userRiskLevel: 0, // 用户风险等级
-            bondRiskLevel: 0, // 债券风险等级
             id: 0, // 债券id
             interestDays: 0, // 应计利息天数
             minFaceValue: 0, // 最低起购金额
@@ -160,6 +144,7 @@ export default {
         }
     },
     computed: {
+        // 发行人
         issuerName() {
             return (
                 (this.bondEditableInfo &&
@@ -168,21 +153,32 @@ export default {
                 '--'
             )
         },
+        // 债券名称
         bondName() {
             return (
                 (this.bondEditableInfo && this.bondEditableInfo.nameCn) || '--'
             )
         },
+        // 货币单位
+        currency() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.name) ||
+                '--'
+            )
+        },
         // 当前交易总额
         tradeMoney() {
+            // 买入= 交易数量 * 债券单价 - 手续费 - 应付利息
+            // 卖出= 交易数量 * 债券单价 - 手续费 + 应付利息
+            let prevPrice =
+                this.transactionNum * this.currentPrice.buyPrice -
+                this.calcServiceCharge
             let totalMoney =
                 this.direction === 1
-                    ? this.transactionNum * this.currentPrice.buyPrice -
-                      this.calcServiceCharge -
-                      this.calcInterest
-                    : this.transactionNum * this.currentPrice.buyPrice -
-                      this.calcServiceCharge +
-                      this.calcInterest
+                    ? prevPrice - this.calcInterest
+                    : prevPrice + this.calcInterest
             return totalMoney
         },
         // 计算应计利息
@@ -197,11 +193,6 @@ export default {
         },
         // 计算手续费
         serviceCharge() {
-            return this.calcServiceCharge()
-        }
-    },
-    methods: {
-        calcServiceCharge() {
             // 计算手续费
             // 买入： 手续费 = 佣金 + 平台服务费
             // 卖出： 手续费 = 佣金 + 平台服务费 + 活动费
@@ -234,15 +225,17 @@ export default {
             let yongjin = this.feeData.filter(
                 feeItem => feeItem.feeCategory === 1 // 表示佣金
             )
-            let youjinfei = tradeMethodMap[
+            let yongjinfei = tradeMethodMap[
                 (yongjin[0] && yongjin[0].feeLadders.feeMethod) || 1
             ]((yongjin[0] && yongjin[0].feeLadders[0]) || {})
+
             let pingtai = this.feeData.filter(
                 feeItem => feeItem.feeCategory === 2 // 表示平台服务费
             )
             let pingtaifei = tradeMethodMap[
                 (pingtai[0] && pingtai[0].feeLadders.feeMethod) || 1
             ]((pingtai[0] && pingtai[0].feeLadders[0]) || {})
+
             let huodong = this.feeData.filter(
                 feeItem => feeItem.feeCategory === 4 // 表示活动费
             )
@@ -252,21 +245,12 @@ export default {
 
             if (this.direction === 1) {
                 // 买入
-                return youjinfei + pingtaifei
+                return yongjinfei + pingtaifei
             }
-            return youjinfei + pingtaifei + huodongfei
-        },
-        // 判断用户风险等级是否可交易
-        isUserTrade() {
-            if (this.userRiskLevel === 0) {
-                this.$router.push('/risk-warning?id=' + this.id)
-                return
-            } else if (this.userRiskLevel < this.bondRiskLevel) {
-                this.$router.push('/risk-assessment-result')
-                return
-            }
-            return true
-        },
+            return yongjinfei + pingtaifei + huodongfei
+        }
+    },
+    methods: {
         // 获取交易token
         async getTradeToken() {
             if (!this.isUserTrade()) return
@@ -289,8 +273,8 @@ export default {
                 let data = await bondOrder({
                     bondId: this.id,
                     direction: this.direction,
-                    entrustPrice: 1,
-                    entrustQuantity: 1,
+                    entrustPrice: this.currentPrice.buyPrice,
+                    entrustQuantity: this.transactionNum,
                     requestId: generateUUID(),
                     tradeToken: requestToken
                 })
