@@ -3,7 +3,7 @@
         detail-header(
             :bondEditableInfo="bondEditableInfo"
             :bondUneditableInfo="bondUneditableInfo",
-            :prices="prices"
+            :currentPrice="currentPrice"
         )
         van-panel(title="购买流程")
             purchasing-process(:bondUneditableInfo="bondUneditableInfo")

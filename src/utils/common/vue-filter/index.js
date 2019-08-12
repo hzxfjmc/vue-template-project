@@ -35,12 +35,20 @@ Vue.filter('PrefixInteger', function(num) {
 })
 
 // i18n
-Vue.filter('i18n', function(i18nData = {}, langType = 'zhCHS') {
-    let langTypeMap = {
-        zhCHS: 'zhCn',
-        zhCHT: 'zhHk',
-        en: 'en'
+Vue.filter('i18n', function(i18nData = {}, langType = 'zhCHS', langMap = []) {
+    let langTypeMap
+    if (langMap) {
+        langTypeMap = { zhCHS: langMap[0], zhCHT: langMap[1], en: langMap[2] }
+    } else {
+        langTypeMap = { zhCHS: 'zhCn', zhCHT: 'zhHk', en: 'en' }
     }
+    // 例如数据是
+    // name: {
+    //     nameCn: 'xxx',
+    //     nameHK: 'xxx',
+    //     nameEn: 'xxx',
+    // }
+    // 但是 name对象的key无法控制，是后端决定的，所以这里需要提供自定义的key方式
     let resolveData =
         (i18nData[langTypeMap[langType]] && i18nData[langTypeMap[langType]]) ||
         '--'

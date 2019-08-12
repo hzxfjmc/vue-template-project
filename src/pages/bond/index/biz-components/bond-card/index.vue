@@ -43,7 +43,7 @@ export default {
             )
         },
         h2Style() {
-            // 发行人名称长度大于13个字，且标签长度大于9个长度，则字体大小变化
+            // 发行人名称字体变化策略
             let issuerName = this.issuerName || ''
             let tags = (this.bondInfo && this.bondInfo.tags) || []
             let tagLen = 0
@@ -64,6 +64,7 @@ export default {
             // 这里统一设置一个模糊边界策略，只要大于 13 + 9 = 22 就缩小字体
             if (issuerName.length + tagLen > 22) {
                 return {
+                    flex: 1,
                     fontSize: '0.32rem',
                     lineHeight: '0.44rem'
                 }
@@ -120,7 +121,6 @@ export default {
         display: flex;
         align-items: center;
         h2 {
-            flex: 1;
             overflow: hidden;
             margin-right: 3px;
             font-size: 0.36rem;

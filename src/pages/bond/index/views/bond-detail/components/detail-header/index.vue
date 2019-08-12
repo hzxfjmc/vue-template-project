@@ -44,7 +44,7 @@ export default {
             type: Object,
             default: () => {}
         },
-        prices: {
+        currentPrice: {
             type: Array,
             default: () => {}
         }
@@ -72,9 +72,10 @@ export default {
             let obj = [
                 {
                     title:
-                        (this.prices &&
-                            this.prices[0] &&
-                            this.prices[0].buyYtm) ||
+                        (this.currentPrice &&
+                            this.currentPrice &&
+                            this.currentPrice.buyYtm &&
+                            this.currentPrice.buyYtm + '%') ||
                         '--',
                     desc: '到期年化收益率',
                     click: () => {
@@ -99,7 +100,13 @@ export default {
                         (this.bondUneditableInfo &&
                             this.bondUneditableInfo.minFaceValue) ||
                         '--',
-                    desc: '起购金额(美元/份)'
+                    desc:
+                        '起购金额(' +
+                        ((this.bondUneditableInfo &&
+                            this.bondUneditableInfo.enumCurrency &&
+                            this.bondUneditableInfo.enumCurrency.name) ||
+                            '美元') +
+                        '/份)'
                 }
             ]
             return obj
