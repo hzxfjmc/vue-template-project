@@ -4,6 +4,7 @@
             :bondEditableInfo="bondEditableInfo"
             :bondUneditableInfo="bondUneditableInfo",
             :currentPrice="currentPrice"
+            :lang="lang"
         )
         van-panel(title="购买流程")
             purchasing-process(:bondUneditableInfo="bondUneditableInfo")
@@ -31,6 +32,7 @@ import PurchasingProcess from './components/purchasing-process/index.vue'
 import BondPrice from './components/bond-price/index.vue'
 import BondInfo from './components/bond-info/index.vue'
 import TransactionRules from './components/transaction-rules/index.vue'
+import { mapGetters } from 'vuex'
 export default {
     name: 'BondList',
     components: {
@@ -78,6 +80,9 @@ export default {
             prices: null,
             id: 0
         }
+    },
+    computed: {
+        ...mapGetters(['lang'])
     },
     methods: {
         handleBuyOrSell(type) {

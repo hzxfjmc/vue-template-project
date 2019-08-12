@@ -37,7 +37,7 @@ Vue.filter('PrefixInteger', function(num) {
 // i18n
 Vue.filter('i18n', function(i18nData = {}, langType = 'zhCHS', langMap = []) {
     let langTypeMap
-    if (langMap) {
+    if (langMap && langMap.length !== 0) {
         langTypeMap = { zhCHS: langMap[0], zhCHT: langMap[1], en: langMap[2] }
     } else {
         langTypeMap = { zhCHS: 'zhCn', zhCHT: 'zhHk', en: 'en' }
