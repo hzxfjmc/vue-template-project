@@ -1,6 +1,9 @@
 <template lang="pug">
     .transaction-wrapper
-        transacntion-card(btnText="确认买入")
+        transacntion-card(
+            btnText="确认买入"
+            :direction="1"
+        )
 </template>
 
 <script>

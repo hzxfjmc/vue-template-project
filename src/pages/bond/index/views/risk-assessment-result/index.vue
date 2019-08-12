@@ -115,8 +115,7 @@ export default {
                 this.$router.push({
                     path: `/${path}`,
                     query: {
-                        id: this.id,
-                        direction
+                        id: this.id
                     }
                 })
             }

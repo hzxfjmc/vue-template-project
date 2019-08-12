@@ -71,10 +71,13 @@ export default {
         btnText: {
             type: String,
             default: ''
+        },
+        direction: {
+            type: Number,
+            default: 1
         }
     },
     async created() {
-        this.direction = this.$route.query.direction - 0 || 1
         this.id = this.$route.query.id - 0 || 0
 
         try {
@@ -148,7 +151,6 @@ export default {
             bondUneditableInfo: {},
             userRiskLevel: 0, // 用户风险等级
             bondRiskLevel: 0, // 债券风险等级
-            direction: 1, // 1 买 2卖
             id: 0, // 债券id
             interestDays: 0, // 应计利息天数
             minFaceValue: 0, // 最低起购金额
