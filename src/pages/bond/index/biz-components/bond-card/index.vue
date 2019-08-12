@@ -38,20 +38,22 @@ export default {
         ...mapGetters(['lang']),
         limitTags() {
             // 最多只取三个标签
-            return (
+            let filterTag =
                 (this.bondInfo &&
                     this.bondInfo.tags &&
                     this.bondInfo.tags.slice(0, 3)) ||
                 []
-            )
+            filterTag.forEach(tag => {
+                // 每个标签最多展示8个字符
+                tag.name &&
+                    Object.keys(tag.name).forEach(key => {
+                        tag.name[key] = tag.name[key].slice(0, 8)
+                    })
+            })
+            return filterTag
         },
         issuerName() {
-            return (
-                (this.bondInfo &&
-                    this.bondInfo.bondName &&
-                    this.bondInfo.bondName.zhCn) ||
-                '--'
-            )
+            return (this.bondInfo && this.bondInfo.issuerName) || '--'
         },
         h2Style() {
             // 发行人名称长度大于10个字，则字体大小变化
