@@ -105,6 +105,6 @@ export default modules =>
             isYouxinAndroid: () => isYouxinAndroid,
             isYouxinApp: () => isYouxinApp,
             appType: () => appType,
-            lang: () => lang
+            lang: () => lang // ['1', 'zhCHS'](简体), ['2', 'zhCHT']（繁体）, ['3', 'en']
         }
     })
