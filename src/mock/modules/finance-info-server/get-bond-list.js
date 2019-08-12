@@ -3,7 +3,7 @@ import { formatMockData, comp } from '../../utils/util'
 import Mock from 'mockjs'
 // 债券列表
 const formatData = formatMockData({
-    'bondInfoAndCurrentPriceApiResponses|10': [
+    'bondInfoAndCurrentPriceApiResponses|1-10': [
         {
             bondName: {
                 en: '@word(2,30)',
@@ -25,18 +25,18 @@ const formatData = formatMockData({
                 'sellYtm|1': comp(/\d{1}\.\d{2}%/),
                 'updateTime|1': comp('@integer(1564577990837,2564577990837)')
             },
-            'tags|3': [
+            'tags|1': comp([
                 {
                     'displayOrder|1-100': 0,
                     'id|1-123456789': 0,
                     name: {
-                        en: '@word(8,8)',
-                        zhCn: '@cword(8,8)',
-                        zhHk: '@cword(8,8)'
+                        en: '@word(2,8)',
+                        zhCn: '@cword(2,8)',
+                        zhHk: '@cword(2,8)'
                     }
                 }
-            ],
-            issuerName: '@cword(18,18)',
+            ]),
+            'issuerName|1': comp('@cword(1,18)'),
             'minFaceValue|1': comp('@integer(1,5000)'),
             'enumCurrency|1': comp('@word(1,10)'),
             'paymentAfterTaxPerYear|1': comp('@word(1,10)')

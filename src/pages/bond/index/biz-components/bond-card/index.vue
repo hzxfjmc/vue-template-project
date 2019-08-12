@@ -7,7 +7,7 @@
                 :key="index"
                 color="#2587EB"
                 plain
-            ) {{ tagItem.name | i18n(lang) }}
+            ) {{ tagItem.name && tagItem.name.zhCn }}
         .bond-card__content
             .flex-fixed-container
                 .rate-num {{ buyYtm }}
@@ -19,7 +19,6 @@
 
 <script>
 import { Tag } from 'vant'
-import { mapGetters } from 'vuex'
 export default {
     name: 'BondCard',
     components: {
@@ -38,7 +37,8 @@ export default {
             return (
                 (this.bondInfo &&
                     this.bondInfo.issuerName &&
-                    this.bondInfo.issuerName.slice(0, 18)) ||
+                    this.bondInfo.issuerName.zhCn &&
+                    this.bondInfo.issuerName.zhCn.slice(0, 18)) ||
                 '--'
             )
         },
@@ -47,16 +47,8 @@ export default {
             let issuerName = this.issuerName || ''
             let tags = (this.bondInfo && this.bondInfo.tags) || []
             let tagLen = 0
-            let langTypeMap = {
-                zhCHS: 'zhCn',
-                zhCHT: 'zhHk',
-                en: 'en'
-            }
             tags.forEach(tag => {
-                let tagName =
-                    (tag.name && tag.name[langTypeMap[this.lang]]) || ''
-                let nameLen = tagName.length
-                tagLen += nameLen
+                tagLen += ((tag.name && tag.name.zhCn) || '').length
             })
             // 极限条件 issuerName 发行人名称超过 13 个字符
             // 标签有三个，每个三个字符，共 9 个字符
@@ -105,8 +97,7 @@ export default {
                     this.bondInfo.paymentFrequency.name) ||
                 '--'
             )
-        },
-        ...mapGetters(['lang'])
+        }
     }
 }
 </script>
