@@ -118,10 +118,10 @@ export default {
             }
             // 已开户
             this.$router.push({
-                path: '/transaction-buy',
+                path:
+                    direction === 1 ? '/transaction-buy' : '/transaction-sell',
                 query: {
-                    id: this.id,
-                    direction
+                    id: this.id
                 }
             })
         }
