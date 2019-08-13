@@ -3,6 +3,7 @@
         van-col(
             v-for="(colItem, index) in colData"
             :key="index"
+            :style="wrapperStyle"
             @click.native="emitHandle(index)"
         )
             .van-col__title(:style="titleStyle") {{ colItem.title }}
@@ -24,6 +25,10 @@ export default {
         justify: {
             type: String,
             default: 'space-between'
+        },
+        wrapperStyle: {
+            type: Object,
+            default: () => {}
         },
         titleStyle: {
             type: Object,
