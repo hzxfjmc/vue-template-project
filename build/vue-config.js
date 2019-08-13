@@ -284,7 +284,6 @@ module.exports = {
                 //             console.log('reselement :', keys);
                 //         }
                 //     }
-                //     console.log('proxyRes.headers :', proxyRes.headers);
                 //     let str = ''
                 //     proxyRes.on('data', (data) => {
                 //         str += data
