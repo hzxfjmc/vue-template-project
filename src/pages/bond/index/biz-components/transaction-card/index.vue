@@ -332,8 +332,16 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: requestToken
                 })
+                await this.$dialog.alert({
+                    message: '提交成功'
+                })
+                // 跳转到今日订单页
+                jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
+                this.$dialog.alert({
+                    message: '提交失败'
+                })
                 console.log('bondOrder:error:>>> ', e)
             }
         },

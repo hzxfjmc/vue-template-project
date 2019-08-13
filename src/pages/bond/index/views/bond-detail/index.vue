@@ -25,7 +25,7 @@
 </template>
 <script>
 import { getBondDetail } from '@/service/finance-info-server.js'
-import JSBridge from '@/utils/js-bridge'
+import jsBridge from '@/utils/js-bridge'
 import { Panel } from 'vant'
 import DetailHeader from './components/detail-header/index.vue'
 import PurchasingProcess from './components/purchasing-process/index.vue'
@@ -99,12 +99,12 @@ export default {
                 await this.$dialog.alert({
                     message: '未开户，请先去开户'
                 })
-                JSBridge.gotoNativeModule('yxzq_goto://main_trade')
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
             if (!this.user.tradePassword) {
                 // 跳转到设置密码页面
-                await JSBridge.callApp('command_trade_login')
+                await jsBridge.callApp('command_trade_login')
                 return
             }
             // // 买入还是卖出
