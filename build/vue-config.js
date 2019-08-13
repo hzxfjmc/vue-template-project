@@ -174,8 +174,8 @@ module.exports = {
                 changOrigin: true
             },
             '/user-server': {
-                // target: 'http://jy1-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
+                target: 'http://jy1-sit.yxzq.com',
+                // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/user-account-server': {
@@ -237,8 +237,8 @@ module.exports = {
             // },
             //奖励中心
             '/product-server': {
-                // target: 'http://jy1-sit.yxzq.com',
-                target: 'http://admin-dev.yxzq.com',
+                target: 'http://jy1-sit.yxzq.com',
+                // target: 'http://admin-dev.yxzq.com',
                 changOrigin: true
             },
             '/customer-relationship-server': {
@@ -264,12 +264,13 @@ module.exports = {
             },
             // 债券交易
             '/finance-server': {
-                target: 'http://admin-dev.yxzq.com',
+                target: 'http://jy1-sit.yxzq.com',
                 changeOrigin: true
             },
             // 债券信息
             '/finance-info-server': {
-                target: 'http://jy-dev.yxzq.com',
+                // target: 'http://jy-dev.yxzq.com',
+                target: 'http://jy1-sit.yxzq.com',
                 changeOrigin: true,
                 // onProxyRes: function(proxyRes, req, res) {
                 //     let resHttp = proxyRes.client._httpMessage
