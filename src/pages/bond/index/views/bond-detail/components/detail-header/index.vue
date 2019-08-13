@@ -6,6 +6,7 @@
         )
         col-msg.header-column(
             :col-data="colData"
+            :wrapperStyle="wrapperStyle"
             :titleStyle="titleStyle"
             :descStyle="descStyle"
         )
@@ -53,6 +54,9 @@ export default {
         return {
             featureThumbMedal: require('@/assets/img/bond/icon-medal.png'),
             featureThumbMoney: require('@/assets/img/bond/icon-money.png'),
+            wrapperStyle: {
+                flex: '0 0 auto'
+            },
             titleStyle: {
                 color: '#fff',
                 'font-size': '0.4rem',
@@ -60,7 +64,7 @@ export default {
             },
             descStyle: {
                 'margin-top': '0.04rem',
-                color: 'rgba(255, 255, 255, 0.4)',
+                color: 'rgba(255, 255, 255, 0.6)',
                 'font-size': '0.24rem',
                 'line-height': '0.34rem'
             }
@@ -132,7 +136,10 @@ export default {
     background-color: #2f79ff;
     border-radius: 4px;
     .header-column {
-        padding: 0 14px 19px;
+        padding: 0 10px 19px 14px;
+        >>> .van-col {
+            flex-grow: 0;
+        }
     }
 }
 </style>
@@ -140,42 +147,24 @@ export default {
 // 微调 media-box 样式
 .header-features {
     background: rgba(0, 0, 0, 0.06);
-    padding: 12px 0;
+    padding: 13px 0;
     .media-box {
         padding: 0;
-        &.medal {
-            margin-left: 13px;
-            .media-box__header {
-                .media-box__thumb {
-                    width: 32px;
-                    height: 32px;
-                }
-            }
-        }
-        &.money {
-            margin-left: 7px;
-            .media-box__header {
-                .media-box__thumb {
-                    width: 38px;
-                    height: 38px;
-                }
-            }
-        }
         .media-box__header {
             .media-box__thumb {
-                margin-right: 17px;
+                width: 40px;
+                height: 40px;
+                margin-right: 20px;
+                margin-left: 12px;
             }
         }
         .media-box__title {
             font-size: 0.28rem;
             line-height: 20px;
         }
-        .media-box__desc {
-            color: rgba(255, 255, 255, 0.4);
-        }
     }
     .media-box + .media-box {
-        margin-top: 15px;
+        margin-top: 12px;
     }
 }
 </style>
