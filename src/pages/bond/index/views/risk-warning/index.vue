@@ -69,8 +69,6 @@ export default {
                                 在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。
                             `
                 })
-                console.log('bondRiskAutograph:data:>>> ', data)
-            } catch (e) {
                 this.$router.push({
                     path: '/risk-assessment-result',
                     query: {
@@ -79,9 +77,11 @@ export default {
                         direction: this.$route.query.direction
                     }
                 })
+                console.log('bondRiskAutograph:data:>>> ', data)
+            } catch (e) {
                 console.log('bondRiskAutograph:error:>>> ', e)
                 this.$dialog.alert({
-                    message: e.msg
+                    message: e.msg || '请求失败'
                 })
             }
         }
