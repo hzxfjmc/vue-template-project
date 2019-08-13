@@ -25,6 +25,7 @@
 </template>
 <script>
 import { getBondDetail } from '@/service/finance-info-server.js'
+import JSBridge from '@/utils/js-bridge'
 import { Panel } from 'vant'
 import DetailHeader from './components/detail-header/index.vue'
 import PurchasingProcess from './components/purchasing-process/index.vue'
@@ -85,25 +86,31 @@ export default {
         ...mapState(['user'])
     },
     methods: {
-        handleBuyOrSell(type) {
+        async handleBuyOrSell(type) {
             // 未开户或则未设置交易密码
-            if (
-                !this.user ||
-                (this.user &&
-                    (!this.user.openedAccount || !this.user.tradePassword))
-            ) {
+            if (!this.user) {
                 this.$dialog.alert({
-                    message: '未开户'
+                    message: '用户信息丢失，请确认已经登陆'
                 })
-                // this.$router.push({
-                //     path: '',
-                //     query: {}
-                // })
-                // 跳转到开户页面
-                // 跳转到设置密码页面
                 return
             }
-            // 买入还是卖出
+            if (!this.user.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: '未开户，请先去开户'
+                })
+                JSBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
+            if (!this.user.tradePassword) {
+                // 跳转到设置密码页面
+                this.$dialog.alert({
+                    message: '未设置密码，请先去设置密码'
+                })
+                await JSBridge.callApp('command_trade_login')
+                return
+            }
+            // // 买入还是卖出
             let direction = type === 'buy' ? 1 : 2
 
             // 第一次进来跳转到风险测评流程
@@ -119,7 +126,7 @@ export default {
                 })
                 return
             }
-            // 已开户
+            // 已开户且设置了密码
             this.$router.push({
                 path:
                     direction === 1 ? '/transaction-buy' : '/transaction-sell',
