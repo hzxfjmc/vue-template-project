@@ -7,42 +7,42 @@
         .yx-cell
             .yx-cell__header 买入价格
                 .yx-cell__header-tip ({{ currency }})
-            .yx-cell__primary {{ currentPrice.buyPrice || '--' }}
+            .yx-cell__primary {{ buyPrice }}
 
         .yx-cell
             .yx-cell__header 份数
             .yx-cell__primary
                 van-stepper(v-model="transactionNum" integer)
-                .yx-cell__primary-tip ({{ bondUneditableInfo.minFaceValue || '--' }}{{ currency }}/份)
+                .yx-cell__primary-tip ({{ minFaceValue }}{{ currency }}/份)
         .yx-cell
             .yx-cell__header 金额
-            .yx-cell__primary {{ transactionNum * currentPrice.buyPrice }}
+            .yx-cell__primary {{ tradeMoney }}
 
         .yx-cell
             .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
                 .yx-cell__header-tip
                     i.iconfont.icon-wenhao(@click="showTips('interest')")
-            .yx-cell__primary {{direction === 1 ? '-' : '+'}}{{ calcInterest }}
+            .yx-cell__primary +{{ calcInterest }}
 
         .yx-cell
             .yx-cell__header 手续费(预估)
-            .yx-cell__primary +{{ serviceCharge }}
+            .yx-cell__primary {{direction === 1 ? '+' : '-'}}{{ serviceCharge }}
 
         .divider-line
 
         .yx-cell
             .yx-cell__header 总额
-                .yx-cell__header-tip (美元)
-            .yx-cell__primary {{ tradeMoney }}
+                .yx-cell__header-tip ({{ currency }})
+            .yx-cell__primary {{ totalTradeMoney }}
 
         .tips
             i.iconfont.icon-wenhao(@click="showTips('total')")
             span 债券可用资金
-            strong {{ positionData.marketValue }}美元
+            strong {{ marketValue }}{{ currency }}
         fixed-operate-btn(
             :text="btnText"
             :style="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
-            @click="handleBondOrder"
+            @click="getTradeToken"
         )
 </template>
 
@@ -118,7 +118,7 @@ export default {
             // 获取套餐费用
             let feeData = await feePackageCurr({
                 stockBusinessType: 1,
-                userId: this.$store.state.userId - 0
+                userId: this.$store.state.user.userId - 0
             })
             console.log('feePackageCurr:data:>>> ', feeData)
             // 当前为手机委托，过滤除手机委托外的其他套餐数据
@@ -137,7 +137,6 @@ export default {
             bondUneditableInfo: {},
             id: 0, // 债券id
             interestDays: 0, // 应计利息天数
-            minFaceValue: 0, // 最低起购金额
             currentPrice: {}, // 当前价格
             positionData: {}, // 用户当前债券持仓
             feeData: [] // 当前用户套餐费用
@@ -168,28 +167,28 @@ export default {
                 '--'
             )
         },
-        // 当前交易总额
+        // 当前债券售卖单价
+        buyPrice() {
+            return this.currentPrice.buyPrice || 0
+        },
+        // 最小交易额
+        minFaceValue() {
+            return this.bondUneditableInfo.minFaceValue || 0
+        },
+        // 交易金额
         tradeMoney() {
-            // 买入= 交易数量 * 债券单价 - 手续费 - 应付利息
-            // 卖出= 交易数量 * 债券单价 - 手续费 + 应付利息
-            let prevPrice =
-                this.transactionNum * this.currentPrice.buyPrice -
-                this.calcServiceCharge
-            let totalMoney =
-                this.direction === 1
-                    ? prevPrice - this.calcInterest
-                    : prevPrice + this.calcInterest
-            return totalMoney
+            return this.minFaceValue * this.transactionNum || 0
         },
         // 计算应计利息
         // 票面利率应该是除过100的小数
-        // 应计利息=票面利率/360*已计息天数*数量；
+        // 应计利息 = 票面利率 / 360 * 已计息天数 * 交易数量 * 最小交易额
         calcInterest() {
-            return (
+            let res =
                 (this.bondUneditableInfo.couponRate / 360) *
                 this.interestDays *
-                this.transactionNum
-            ).toFixed(2)
+                this.tradeMoney
+            res = res ? res.toFixed(2) - 0 : 0
+            return res
         },
         // 计算手续费
         serviceCharge() {
@@ -197,64 +196,118 @@ export default {
             // 买入： 手续费 = 佣金 + 平台服务费
             // 卖出： 手续费 = 佣金 + 平台服务费 + 活动费
 
-            // 佣金 = 交易额（当前价格 * 交易数量） * 百分比， 佣金有最低金额(minFeeAmount)，无最高金额(maxFeeAmount)
+            // 佣金 = 交易额（最小交易额 * 交易数量） * 百分比， 佣金有最低金额(minFeeAmount)，无最高金额(maxFeeAmount)
             // 平台服务费 = feeAmount
-            // 活动费 = feeAmount * 卖出数量，有最高金额（maxFeeAmount），卖出时收取
+            // 活动费 = feeAmount * 交易额（最小交易额 * 交易数量），有最高金额（maxFeeAmount），卖出时收取
 
             // feeMethod表示收费计算方式，佣金是1，平台服务费是2，活动费是7
             // 1 交易额 * feePercent
             // 2 直接取 feeAmount
-            // 7 feeAmount * 卖出数量
+            // 7 feeAmount * 交易额（最小交易额 * 交易数量）
             let tradeMethodMap = {
                 1: feeLadder => {
+                    let feePercent = feeLadder.feePercent
+                        ? feeLadder.feePercent / 100
+                        : 0
                     let fee =
-                        feeLadder.feePercent *
-                        this.transactionNum *
-                        this.currentPrice.buyPrice
+                        this.minFaceValue * this.transactionNum * feePercent
+                    console.log('yongjinfee :', fee)
                     return fee > feeLadder.minFeeAmount
                         ? fee
                         : feeLadder.minFeeAmount
                 },
                 2: feeLadder => {
+                    console.log('pingtaifee :', feeLadder.feeAmount)
                     return feeLadder.feeAmount
                 },
                 7: feeLadder => {
-                    return feeLadder.feeAmount * this.transactionNum
+                    let fee =
+                        feeLadder.feeAmount *
+                        this.minFaceValue *
+                        this.transactionNum
+                    console.log('huodongfee :', fee)
+                    return fee > feeLadder.maxFeeAmount
+                        ? feeLadder.maxFeeAmount
+                        : fee
                 }
             }
-            let yongjin = this.feeData.filter(
-                feeItem => feeItem.feeCategory === 1 // 表示佣金
-            )
-            let yongjinfei = tradeMethodMap[
-                (yongjin[0] && yongjin[0].feeLadders.feeMethod) || 1
-            ]((yongjin[0] && yongjin[0].feeLadders[0]) || {})
+            let yongjin =
+                this.feeData.filter(
+                    feeItem => feeItem.feeCategory === 1 // 表示佣金
+                ) || []
+            let yongjinFeeLadders =
+                (yongjin[0] &&
+                    yongjin[0].feeLadders &&
+                    yongjin[0].feeLadders[0]) ||
+                {}
+            let yongjinfei =
+                tradeMethodMap[yongjinFeeLadders.feeMethod] &&
+                tradeMethodMap[yongjinFeeLadders.feeMethod](
+                    yongjinFeeLadders || {}
+                )
 
-            let pingtai = this.feeData.filter(
-                feeItem => feeItem.feeCategory === 2 // 表示平台服务费
-            )
-            let pingtaifei = tradeMethodMap[
-                (pingtai[0] && pingtai[0].feeLadders.feeMethod) || 1
-            ]((pingtai[0] && pingtai[0].feeLadders[0]) || {})
+            let pingtai =
+                this.feeData.filter(
+                    feeItem => feeItem.feeCategory === 2 // 表示平台服务费
+                ) || []
+            let pingtaiFeeLadders =
+                (pingtai[0] &&
+                    pingtai[0].feeLadders &&
+                    pingtai[0].feeLadders[0]) ||
+                {}
+            let pingtaifei =
+                tradeMethodMap[pingtaiFeeLadders.feeMethod] &&
+                tradeMethodMap[pingtaiFeeLadders.feeMethod](
+                    pingtaiFeeLadders || {}
+                )
 
-            let huodong = this.feeData.filter(
-                feeItem => feeItem.feeCategory === 4 // 表示活动费
-            )
-            let huodongfei = tradeMethodMap[
-                (huodong[0] && huodong[0].feeLadders.feeMethod) || 1
-            ]((huodong[0] && huodong[0].feeLadders[0]) || {})
+            let huodong =
+                this.feeData.filter(
+                    feeItem => feeItem.feeCategory === 4 // 表示活动费
+                ) || []
+            let huodongFeeLadders =
+                (huodong[0] &&
+                    huodong[0].feeLadders &&
+                    huodong[0].feeLadders[0]) ||
+                {}
+            let huodongfei =
+                tradeMethodMap[huodongFeeLadders.feeMethod] &&
+                tradeMethodMap[huodongFeeLadders.feeMethod](
+                    huodongFeeLadders || {}
+                )
 
+            console.log('object :>>>>>>>', yongjinfei, pingtaifei, huodongfei)
+            let res
             if (this.direction === 1) {
                 // 买入
-                return yongjinfei + pingtaifei
+                res = yongjinfei + pingtaifei
+            } else {
+                res = yongjinfei + pingtaifei + huodongfei
             }
-            return yongjinfei + pingtaifei + huodongfei
+            return res ? res.toFixed(2) - 0 : 0
+        },
+        // 交易总额(包含利息和手续费计算)
+        totalTradeMoney() {
+            // 买入= 交易数量 * 最小交易额 + 应付利息 + 手续费
+            // 卖出= 交易数量 * 最小交易额 + 应得利息 - 手续费
+            let prevPrice =
+                this.transactionNum * this.minFaceValue + this.calcInterest
+            let totalMoney =
+                this.direction === 1
+                    ? prevPrice + this.serviceCharge
+                    : prevPrice - this.serviceCharge
+            return totalMoney ? totalMoney.toFixed(2) - 0 : 0
+        },
+        // 持仓可用资金
+        marketValue() {
+            return this.positionData.marketValue
+                ? this.positionData.marketValue
+                : 0
         }
     },
     methods: {
         // 获取交易token
         async getTradeToken() {
-            if (!this.isUserTrade()) return
-
             try {
                 let {
                     data: { requestToken: requestToken }
@@ -269,11 +322,12 @@ export default {
         },
         // 下单/买卖
         async handleBondOrder(requestToken = '') {
+            console.log('requestToken :', requestToken)
             try {
                 let data = await bondOrder({
                     bondId: this.id,
                     direction: this.direction,
-                    entrustPrice: this.currentPrice.buyPrice,
+                    entrustPrice: this.currentPrice.buyPrice - 0,
                     entrustQuantity: this.transactionNum,
                     requestId: generateUUID(),
                     tradeToken: requestToken
