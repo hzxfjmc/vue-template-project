@@ -104,9 +104,6 @@ export default {
             }
             if (!this.user.tradePassword) {
                 // 跳转到设置密码页面
-                this.$dialog.alert({
-                    message: '未设置密码，请先去设置密码'
-                })
                 await JSBridge.callApp('command_trade_login')
                 return
             }
