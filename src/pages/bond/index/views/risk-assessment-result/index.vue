@@ -90,8 +90,7 @@ export default {
             },
             userRiskLevel: 0, // 用户风险测评等级
             bondRiskLevel: 100, // 债券风险等级
-            btnText: '',
-            id: 0
+            btnText: ''
         }
     },
     methods: {
@@ -115,7 +114,7 @@ export default {
                 this.$router.push({
                     path: `/${path}`,
                     query: {
-                        id: this.id
+                        id: this.$route.query.id
                     }
                 })
             }
