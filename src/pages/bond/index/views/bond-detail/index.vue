@@ -87,19 +87,22 @@ export default {
     methods: {
         handleBuyOrSell(type) {
             // 未开户或则未设置交易密码
-            // if (
-            //     !this.user ||
-            //     (this.user &&
-            //         (!this.user.openedAccount || !this.user.tradePassword))
-            // ) {
-            //     // this.$router.push({
-            //     //     path: '',
-            //     //     query: {}
-            //     // })
-            //     // 跳转到开户页面
-            //     // 跳转到设置密码页面
-            //     return
-            // }
+            if (
+                !this.user ||
+                (this.user &&
+                    (!this.user.openedAccount || !this.user.tradePassword))
+            ) {
+                this.$dialog.alert({
+                    message: '未开户'
+                })
+                // this.$router.push({
+                //     path: '',
+                //     query: {}
+                // })
+                // 跳转到开户页面
+                // 跳转到设置密码页面
+                return
+            }
             // 买入还是卖出
             let direction = type === 'buy' ? 1 : 2
 
