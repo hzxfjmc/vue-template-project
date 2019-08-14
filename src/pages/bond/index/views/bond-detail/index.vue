@@ -177,7 +177,7 @@ export default {
     margin-top: 10px;
     border-radius: 4px;
     .van-panel__header {
-        padding: 14px;
+        padding: 14px 12px;
         &:after {
             display: none;
         }
