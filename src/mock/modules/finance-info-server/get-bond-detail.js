@@ -91,7 +91,7 @@ const formatData = formatMockData({
         sellYtm: /\d{1}\.\d{2}%/,
         'updateTime|1564577990837-2564577990837': 0
     },
-    'prices|1-3': [
+    'prices|200-300': [
         {
             'buyPrice|1-100.3': 1,
             buyYtm: /\d{1}\.\d{2}%/,
