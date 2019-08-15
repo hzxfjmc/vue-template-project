@@ -38,7 +38,7 @@ export default {
         return {
             bondList: [],
             timer: null,
-            pageSize: 10, // 每页条数
+            pageSize: 30, // 每页条数
             pageNum: 1 // 当前页数
         }
     },
