@@ -51,6 +51,7 @@ import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { feePackageCurr } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
+import { getTradePasswordToken } from '@/service/user-server.js'
 import {
     bondOrder,
     getBondInterestCalculate,
@@ -177,7 +178,8 @@ export default {
         },
         // 交易金额
         tradeMoney() {
-            return this.minFaceValue * this.transactionNum || 0
+            let t = this.minFaceValue * this.transactionNum * this.buyPrice
+            return t ? t.toFixed(2) - 0 : 0
         },
         // 计算应计利息
         // 票面利率应该是除过100的小数
@@ -288,10 +290,9 @@ export default {
         },
         // 交易总额(包含利息和手续费计算)
         totalTradeMoney() {
-            // 买入= 交易数量 * 最小交易额 + 应付利息 + 手续费
-            // 卖出= 交易数量 * 最小交易额 + 应得利息 - 手续费
-            let prevPrice =
-                this.transactionNum * this.minFaceValue + this.calcInterest
+            // 买入= 交易额 + 应付利息 + 手续费
+            // 卖出= 交易额 + 应得利息 - 手续费
+            let prevPrice = this.tradeMoney + this.calcInterest
             let totalMoney =
                 this.direction === 1
                     ? prevPrice + this.serviceCharge
@@ -309,10 +310,10 @@ export default {
         // 获取交易token
         async getTradeToken() {
             try {
-                let {
-                    data: { requestToken: requestToken }
-                } = await jsBridge.callApp('command_trade_login')
-                console.log('tradeMsg :', requestToken)
+                let data = await jsBridge.callApp('command_trade_login')
+                let requestToken = await getTradePasswordToken()
+                console.log('tradeMsg :', data)
+                console.log('requestToken :', requestToken)
                 if (requestToken) {
                     this.handleBondOrder(requestToken)
                 }
@@ -339,11 +340,12 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
+                console.log('bondOrder:error:>>> ', e)
                 if (e.code === 800018) {
                     if (e.data) {
                         // 价格发生变化
                         this.$dialog
-                            .comfirm({
+                            .confirm({
                                 title: '提交失败',
                                 message: e.msg
                             })
@@ -365,7 +367,6 @@ export default {
                         message: '提交失败'
                     })
                 }
-                console.log('bondOrder:error:>>> ', e)
             }
         },
         // 提示弹窗
