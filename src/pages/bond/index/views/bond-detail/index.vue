@@ -87,11 +87,12 @@ export default {
     },
     methods: {
         async handleBuyOrSell(type) {
-            // 未开户或则未设置交易密码
+            // 未登录或未开户
             if (!this.user) {
-                this.$dialog.alert({
-                    message: '用户信息丢失，请确认已经登陆'
+                await this.$dialog.alert({
+                    message: '用户信息丢失，请登陆'
                 })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
             if (!this.user.openedAccount) {
@@ -100,11 +101,6 @@ export default {
                     message: '未开户，请先去开户'
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
-                return
-            }
-            if (!this.user.tradePassword) {
-                // 跳转到设置密码页面
-                await jsBridge.callApp('command_trade_login')
                 return
             }
             // // 买入还是卖出
@@ -123,7 +119,6 @@ export default {
                 })
                 return
             }
-            // 已开户且设置了密码
             this.$router.push({
                 path:
                     direction === 1 ? '/transaction-buy' : '/transaction-sell',
