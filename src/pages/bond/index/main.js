@@ -9,7 +9,7 @@ Vue.use(vConsole)
 import storeMethod from '@/store/index.js'
 const store = storeMethod()
 setTimeout(() => {
-    console.log('store:>>>', store.state)
+    console.log('main.js:>>>store:>>>', store.state)
 }, 1000)
 
 // import i18n from '@/utils/common/plugins/yx-i18n/index.js'
@@ -25,7 +25,7 @@ setTimeout(() => {
 import '@/utils/common'
 
 // mock
-// import '@/mock/index.js'
+import '@/mock/index.js'
 
 // console.log(window.XMLHttpRequest)
 let init = async () => {

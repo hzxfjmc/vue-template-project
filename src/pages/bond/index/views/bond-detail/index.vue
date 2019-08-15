@@ -7,8 +7,8 @@
         )
         van-panel(title="购买流程")
             purchasing-process(:bondUneditableInfo="bondUneditableInfo")
-        van-panel(title="债券价格")
-            BondPrice(:prices="prices")
+        van-panel(title="债券价格" style="position:relative")
+            BondPrice(:chartData="prices" :currentPrice="currentPrice")
         van-panel(title="债券资料")
             BondInfo(
                 :bondEditableInfo="bondEditableInfo"
@@ -17,7 +17,7 @@
         van-panel(title="交易规则")
             TransactionRules
         .faq
-            router-link(to="####") 债券常见问题
+            a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
         .operate-btn-box
             div(@click="handleBuyOrSell('buy')") 买入
             div(@click="handleBuyOrSell('sell')") 卖出
@@ -77,7 +77,7 @@ export default {
             bondEditableInfo: {},
             bondUneditableInfo: {},
             currentPrice: {},
-            prices: {},
+            prices: [],
             id: 0,
             bondName: ''
         }
@@ -178,6 +178,8 @@ export default {
     border-radius: 4px;
     .van-panel__header {
         padding: 14px 12px;
+        font-size: 0.28rem;
+        line-height: 20px;
         &:after {
             display: none;
         }
