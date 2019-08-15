@@ -339,9 +339,32 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
-                this.$dialog.alert({
-                    message: '提交失败'
-                })
+                if (e.code === 800018) {
+                    if (e.data) {
+                        // 价格发生变化
+                        this.$dialog
+                            .comfirm({
+                                title: '提交失败',
+                                message: e.msg
+                            })
+                            .then(async () => {
+                                this.currentPrice.buyPrice = e.data
+                                this.getTradeToken()
+                            })
+                            .catch(() => {
+                                this.currentPrice.buyPrice = e.data
+                            })
+                    } else {
+                        this.$dialog.alert({
+                            title: '提交失败',
+                            message: e.msg
+                        })
+                    }
+                } else {
+                    this.$dialog.alert({
+                        message: '提交失败'
+                    })
+                }
                 console.log('bondOrder:error:>>> ', e)
             }
         },
