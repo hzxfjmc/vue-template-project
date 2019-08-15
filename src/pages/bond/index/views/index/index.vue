@@ -1,10 +1,7 @@
 <template lang="pug">
     .bond-index-wrapper
-        van-swipe.banner(:autoplay="3000" :show-indicators="false")
-            van-swipe-item
-                a(href="####" title="")
-                    img(src="@/assets/img/bond/banner-demo.png" alt="")
-            van-swipe-item
+        van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
+            van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
                 a(href="####" title="")
                     img(src="@/assets/img/bond/banner-demo.png" alt="")
         .bond-list
@@ -18,7 +15,7 @@
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { getBondList } from '@/service/finance-info-server.js'
+import { getBondList, getBondBanner } from '@/service/finance-info-server.js'
 import BondCard from '../../biz-components/bond-card/index.vue'
 export default {
     name: 'index',
@@ -27,7 +24,10 @@ export default {
         [SwipeItem.name]: SwipeItem,
         BondCard
     },
-    async created() {
+    created() {
+        // 初始化拉取债券banner
+        this.handleGetBondBanner()
+
         // 初始化拉取债券列表
         this.handleGetBondList()
 
@@ -36,6 +36,7 @@ export default {
     },
     data() {
         return {
+            bannerUrl: [],
             bondList: [],
             timer: null,
             pageSize: 30, // 每页条数
@@ -43,6 +44,16 @@ export default {
         }
     },
     methods: {
+        // 拉取债券banner
+        async handleGetBondBanner() {
+            try {
+                let data = await getBondBanner()
+                this.bannerUrl = data && data.url
+                console.log('getBondBanner:error:>>>', data)
+            } catch (error) {
+                console.log('getBondBanner:error:>>>', error)
+            }
+        },
         // 获取债券列表
         async handleGetBondList() {
             try {
@@ -101,6 +112,7 @@ export default {
             display: block;
             height: 100%;
             img {
+                // height: 150px;
                 height: 100%;
                 width: 100%;
             }
