@@ -1,6 +1,5 @@
 <template lang="pug">
-    .detail-bond-info-wrapper(@click="toggleShowMoreMsg")
-        col-msg(:colData="colData")
+    .detail-bond-info-wrapper
         .bond-info-header
             a.pdf(
                 v-if="bondEditableInfo && bondEditableInfo.productOverview"
@@ -14,12 +13,14 @@
             )
                 i.icon
                 span 募集说明
-        .more-msg(v-show="showMore")
-            col-msg(
-                v-for="(msgItem, index) in moreBondMsg"
-                :key="index"
-                :colData="msgItem"
-            )
+        .con(@click="toggleShowMoreMsg")
+            col-msg(:colData="colData")
+            .more-msg(v-show="showMore")
+                col-msg(
+                    v-for="(msgItem, index) in moreBondMsg"
+                    :key="index"
+                    :colData="msgItem"
+                )
 
 </template>
 <script>
@@ -63,7 +64,9 @@ export default {
                     title:
                         (this.bondUneditableInfo &&
                             this.bondUneditableInfo.couponRate &&
-                            this.bondUneditableInfo.couponRate + '%') ||
+                            (this.bondUneditableInfo.couponRate - 0).toFixed(
+                                3
+                            ) + '%') ||
                         '--',
                     desc: '票面利率'
                 },
@@ -72,9 +75,9 @@ export default {
                         (this.bondUneditableInfo &&
                             this.bondUneditableInfo.paymentDate &&
                             this.bondUneditableInfo.paymentDate
-                                .replace(/\|/g, '、')
-                                .replace(/月/g, '.')
-                                .replace(/日/g, '')) ||
+                                .split('|')
+                                .slice(0, 2)
+                                .join('、') + '等') ||
                         '--',
                     desc: '付息日'
                 }

@@ -74,15 +74,24 @@ export default {
         colData() {
             let data = [
                 {
-                    title: this.currentPrice.buyPrice,
+                    title:
+                        (this.currentPrice.buyPrice &&
+                            (this.currentPrice.buyPrice - 0).toFixed(4)) ||
+                        '--',
                     desc: '买入价'
                 },
                 {
-                    title: this.currentPrice.buyYtm,
+                    title:
+                        (this.currentPrice.buyYtm &&
+                            (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
+                        '--',
                     desc: '到期年化收益率'
                 },
                 {
-                    title: this.currentPrice.sellPrice,
+                    title:
+                        (this.currentPrice.sellPrice &&
+                            (this.currentPrice.sellPrice - 0).toFixed(4)) ||
+                        '--',
                     desc: '卖出价'
                 }
             ]
@@ -115,15 +124,25 @@ export default {
                         title: obj.items[0].origin.time,
                         colData: [
                             {
-                                title: obj.items[0].value,
+                                title:
+                                    obj.items[0].value &&
+                                    (obj.items[0].value - 0).toFixed(4),
                                 desc: '买入价'
                             },
                             {
-                                title: obj.items[0].origin.buyYtm + '%',
+                                title:
+                                    (obj.items[0].origin.buyYtm &&
+                                        (
+                                            obj.items[0].origin.buyYtm - 0
+                                        ).toFixed(3) + '%') ||
+                                    '--',
                                 desc: '到期年化收益率'
                             },
                             {
-                                title: obj.items[1].value,
+                                title:
+                                    (obj.items[1].value &&
+                                        (obj.items[1].value - 0).toFixed(4)) ||
+                                    '--',
                                 desc: '卖出价'
                             }
                         ]

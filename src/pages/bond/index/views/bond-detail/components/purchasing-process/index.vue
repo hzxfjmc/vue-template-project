@@ -8,7 +8,7 @@
                         i.process-step__circle
                     .process-step__line
                 .process-step
-                    .process-step__title T+1日计息
+                    .process-step__title {{ enumDelivery }}日计息
                     .process-step__circle-container
                         i.process-step__circle
                     .process-step__line
@@ -42,13 +42,18 @@ export default {
     computed: {
         // 付息日
         paymentDate() {
-            //
-            let innerPaymentDate =
+            let d =
+                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate
+            d = d ? d.split('|') : []
+            return d ? d.slice(0, 2).join('、') + '等' : '--'
+        },
+        enumDelivery() {
+            return (
                 (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.paymentDate) ||
-                ''
-            innerPaymentDate = innerPaymentDate.replace(/\|/g, '、')
-            return innerPaymentDate
+                    this.bondUneditableInfo.enumDelivery &&
+                    this.bondUneditableInfo.enumDelivery.name) ||
+                '--'
+            )
         }
     }
 }

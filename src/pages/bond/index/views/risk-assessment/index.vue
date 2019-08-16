@@ -93,9 +93,13 @@ export default {
                 this.riskTypeTips = this.riskTypeTipsMap[assessResult]
                 // 点击提交按钮时候，才进行跳转
                 if (action === 'submit') {
-                    this.$router.push(
-                        '/risk-assessment-result?riskType=' + assessResult
-                    )
+                    this.$router.push({
+                        path: '/risk-assessment-result',
+                        query: {
+                            riskType: assessResult,
+                            id: this.$route.query.id
+                        }
+                    })
                 }
                 console.log('riskAssessAnswer:data:>>> ', assessResult)
             } catch (e) {

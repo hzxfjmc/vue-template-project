@@ -37,7 +37,7 @@
 
         .tips
             i.iconfont.icon-wenhao(@click="showTips('total')")
-            span 债券可用资金
+            span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
             strong {{ marketValue }}{{ currency }}
         fixed-operate-btn(
             :text="btnText"
@@ -131,7 +131,11 @@ export default {
         },
         // 当前债券售卖单价
         buyPrice() {
-            return this.currentPrice.buyPrice || 0
+            return (
+                (this.currentPrice.buyPrice &&
+                    (this.currentPrice.buyPrice - 0).toFixed(4)) ||
+                '0.0000'
+            )
         },
         // 最小交易额
         minFaceValue() {
@@ -140,7 +144,7 @@ export default {
         // 交易金额
         tradeMoney() {
             let t = this.minFaceValue * this.transactionNum * this.buyPrice
-            return t ? t.toFixed(2) - 0 : 0
+            return t ? t.toFixed(3) : 0
         },
         // 计算应计利息
         // 票面利率应该是除过100的小数
@@ -150,7 +154,7 @@ export default {
                 (this.bondUneditableInfo.couponRate / 360) *
                 this.interestDays *
                 this.tradeMoney
-            res = res ? res.toFixed(2) - 0 : 0
+            res = res ? res.toFixed(3) : 0
             return res
         },
         // 计算手续费
@@ -247,24 +251,25 @@ export default {
             } else {
                 res = yongjinfei + pingtaifei + huodongfei
             }
-            return res ? res.toFixed(2) - 0 : 0
+            console.log('res', res)
+            return res ? res.toFixed(3) : 0
         },
         // 交易总额(包含利息和手续费计算)
         totalTradeMoney() {
             // 买入= 交易额 + 应付利息 + 手续费
             // 卖出= 交易额 + 应得利息 - 手续费
-            let prevPrice = this.tradeMoney + this.calcInterest
+            let prevPrice = this.tradeMoney - 0 + (this.calcInterest - 0)
             let totalMoney =
                 this.direction === 1
-                    ? prevPrice + this.serviceCharge
-                    : prevPrice - this.serviceCharge
-            return totalMoney ? totalMoney.toFixed(2) - 0 : 0
+                    ? prevPrice + (this.serviceCharge - 0)
+                    : prevPrice - (this.serviceCharge - 0)
+            return totalMoney ? totalMoney.toFixed(3) : 0
         },
         // 持仓可用资金
         marketValue() {
             return this.positionData.marketValue
                 ? this.positionData.marketValue
-                : 0
+                : '0.000'
         }
     },
     methods: {
@@ -500,7 +505,7 @@ export default {
     }
     strong {
         color: rgba(25, 25, 25, 0.5);
-        font-size: 0.28rem;
+        font-size: 0.24rem;
         line-height: 18px;
     }
 }
