@@ -79,7 +79,7 @@ export default {
                 (this.bondInfo &&
                     this.bondInfo.price &&
                     this.bondInfo.price.buyYtm &&
-                    this.bondInfo.price.buyYtm + '%') ||
+                    (this.bondInfo.price.buyYtm - 0).toFixed(3) + '%') ||
                 '--'
             )
         },
