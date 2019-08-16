@@ -80,56 +80,17 @@ export default {
     async created() {
         this.id = this.$route.query.id - 0 || 0
 
-        try {
-            // 获取债券信息
-            let {
-                bondEditableInfo,
-                bondUneditableInfo,
-                currentPrice
-            } = await getBondDetail(this.id)
-            this.bondEditableInfo = bondEditableInfo || {}
-            this.bondUneditableInfo = bondUneditableInfo || {}
-            this.currentPrice = currentPrice || {}
-            console.log(
-                'getBondDetail:data:>>> ',
-                bondEditableInfo,
-                bondUneditableInfo
-            )
+        // 获取债券信息
+        this.handleGetBondDetail()
 
-            // **************************************
-            // 获取当前用户债券持仓
-            let { bondPositionList } = await getBondPosition(2)
-            this.positionData =
-                (bondPositionList &&
-                    bondPositionList.filter(
-                        positionItem => positionItem.bondId === this.id
-                    )) ||
-                []
-            this.positionData =
-                (this.positionData[0] && this.positionData[0]) || {}
-            console.log('getBondPosition:data:>>> ', bondPositionList)
+        // 获取当前用户债券持仓
+        this.handleGetBondPosition()
 
-            // *************************************
-            // 获取债券应计利息计算天数
-            let { interestDays } = await getBondInterestCalculate(this.id)
-            this.interestDays = interestDays || 0
-            console.log('getBondInterestCalculate:data:>>> ', interestDays)
+        // 获取债券应计利息计算天数
+        this.handleGetBondInterestCalculate()
 
-            // ***************************************
-            // 获取套餐费用
-            let feeData = await feePackageCurr({
-                stockBusinessType: 1,
-                userId: this.$store.state.user.userId - 0
-            })
-            console.log('feePackageCurr:data:>>> ', feeData)
-            // 当前为手机委托，过滤除手机委托外的其他套餐数据
-            this.feeData =
-                (feeData &&
-                    feeData.filter(feeItem => feeItem.entrustType === 2)) ||
-                {}
-        } catch (e) {
-            console.log('created:error:>>>', e)
-        }
+        // 获取套餐费用
+        this.handleFeePackageCurr()
     },
     data() {
         return {
@@ -307,6 +268,70 @@ export default {
         }
     },
     methods: {
+        // 获取债券信息
+        async handleGetBondDetail() {
+            try {
+                let {
+                    bondEditableInfo,
+                    bondUneditableInfo,
+                    currentPrice
+                } = await getBondDetail(this.id)
+                this.bondEditableInfo = bondEditableInfo || {}
+                this.bondUneditableInfo = bondUneditableInfo || {}
+                this.currentPrice = currentPrice || {}
+                console.log(
+                    'getBondDetail:data:>>> ',
+                    bondEditableInfo,
+                    bondUneditableInfo
+                )
+            } catch (error) {
+                console.log('getBondDetail:error:>>> ', error)
+            }
+        },
+        // 获取当前用户债券持仓
+        async handleGetBondPosition() {
+            try {
+                let { bondPositionList } = await getBondPosition(2)
+                this.positionData =
+                    (bondPositionList &&
+                        bondPositionList.filter(
+                            positionItem => positionItem.bondId === this.id
+                        )) ||
+                    []
+                this.positionData =
+                    (this.positionData[0] && this.positionData[0]) || {}
+                console.log('getBondPosition:data:>>> ', bondPositionList)
+            } catch (error) {
+                console.log('getBondPosition:error:>>> ', error)
+            }
+        },
+        // 获取债券应计利息计算天数
+        async handleGetBondInterestCalculate() {
+            try {
+                let { interestDays } = await getBondInterestCalculate(this.id)
+                this.interestDays = interestDays || 0
+                console.log('getBondInterestCalculate:data:>>> ', interestDays)
+            } catch (error) {
+                console.log('getBondInterestCalculate:error:>>> ', error)
+            }
+        },
+        // 获取套餐费用
+        async handleFeePackageCurr() {
+            try {
+                let feeData = await feePackageCurr({
+                    stockBusinessType: 1,
+                    userId: this.$store.state.user.userId - 0
+                })
+                console.log('feePackageCurr:data:>>> ', feeData)
+                // 当前为手机委托，过滤除手机委托外的其他套餐数据
+                this.feeData =
+                    (feeData &&
+                        feeData.filter(feeItem => feeItem.entrustType === 2)) ||
+                    {}
+            } catch (error) {
+                console.log('feePackageCurr:error:>>> ', error)
+            }
+        },
         // 获取交易token
         async getTradeToken() {
             try {
