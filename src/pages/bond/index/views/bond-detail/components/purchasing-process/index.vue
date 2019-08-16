@@ -47,10 +47,7 @@ export default {
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.paymentDate) ||
                 ''
-            innerPaymentDate = innerPaymentDate
-                .replace(/\|/g, '、')
-                .replace(/月/g, '.')
-                .replace(/日/g, '')
+            innerPaymentDate = innerPaymentDate.replace(/\|/g, '、')
             return innerPaymentDate
         }
     }
@@ -130,7 +127,7 @@ export default {
             position: relative;
             top: 3px;
             display: block;
-            padding: 2px 4px 3px;
+            padding: 3px 4px;
             background: rgba(235, 235, 235, 1);
             color: #393939;
             font-size: 0.2rem;

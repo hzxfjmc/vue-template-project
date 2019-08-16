@@ -98,11 +98,11 @@ export default {
             })
             chart.source(this.resolveData)
             chart.scale('date', {
-                tickCount: 6,
+                tickCount: 5,
                 type: 'cat'
             })
             chart.scale('value', {
-                tickCount: 5
+                tickCount: 3
             })
             chart.tooltip({
                 custom: true, // 自定义 tooltip 内容框
@@ -119,7 +119,7 @@ export default {
                                 desc: '买入价'
                             },
                             {
-                                title: obj.items[0].origin.buyYtm,
+                                title: obj.items[0].origin.buyYtm + '%',
                                 desc: '到期年化收益率'
                             },
                             {
