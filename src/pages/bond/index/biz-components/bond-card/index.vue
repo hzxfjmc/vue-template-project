@@ -13,8 +13,8 @@
                 .rate-num {{ buyYtm }}
                 .card-tips 到期年化收益率
             .flex-fixed-container
-                .interest-num {{ interest }}
-                .card-tips 每半年付息
+                .interest-num {{ paymentDates }}
+                .card-tips {{ paymentFrequency }}
 </template>
 
 <script>
@@ -83,14 +83,20 @@ export default {
                 '--'
             )
         },
-        // 每半年付息
-        interest() {
+        // 付息频率
+        paymentFrequency() {
             return (
                 (this.bondInfo &&
                     this.bondInfo.paymentFrequency &&
                     this.bondInfo.paymentFrequency.name) ||
                 '--'
             )
+        },
+        // 付息日
+        paymentDates() {
+            let d = this.bondInfo && this.bondInfo.paymentDates
+            d = d ? d.split('|') : '--'
+            return d ? d.slice(0, 2).join('、') + '等' : '--'
         }
     }
 }
