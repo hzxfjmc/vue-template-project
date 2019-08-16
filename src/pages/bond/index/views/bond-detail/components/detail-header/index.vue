@@ -92,7 +92,7 @@ export default {
                         (this.currentPrice &&
                             this.currentPrice &&
                             this.currentPrice.buyYtm &&
-                            this.currentPrice.buyYtm + '%') ||
+                            (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
                         '--',
                     desc: '到期年化收益率',
                     click: () => {
@@ -115,7 +115,10 @@ export default {
                 {
                     title:
                         (this.bondUneditableInfo &&
-                            this.bondUneditableInfo.minFaceValue) ||
+                            this.bondUneditableInfo.minFaceValue &&
+                            (this.bondUneditableInfo.minFaceValue - 0).toFixed(
+                                3
+                            )) ||
                         '--',
                     desc:
                         '起购金额(' +
