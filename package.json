@@ -11,6 +11,7 @@
     "doc": "./node_modules/.bin/vuese gen && ./node_modules/.bin/vuese serve --open"
   },
   "dependencies": {
+    "@antv/f2": "^3.4.0",
     "@vue/cli": "^3.2.1",
     "@vuese/cli": "^2.1.0",
     "axios": "^0.18.0",

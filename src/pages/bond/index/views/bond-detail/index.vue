@@ -7,8 +7,8 @@
         )
         van-panel(title="购买流程")
             purchasing-process(:bondUneditableInfo="bondUneditableInfo")
-        van-panel(title="债券价格")
-            BondPrice(:prices="prices")
+        van-panel(title="债券价格" style="position:relative")
+            BondPrice(:chartData="prices" :currentPrice="currentPrice")
         van-panel(title="债券资料")
             BondInfo(
                 :bondEditableInfo="bondEditableInfo"
@@ -17,7 +17,7 @@
         van-panel(title="交易规则")
             TransactionRules
         .faq
-            router-link(to="####") 债券常见问题
+            a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
         .operate-btn-box
             div(@click="handleBuyOrSell('buy')") 买入
             div(@click="handleBuyOrSell('sell')") 卖出
@@ -77,7 +77,7 @@ export default {
             bondEditableInfo: {},
             bondUneditableInfo: {},
             currentPrice: {},
-            prices: {},
+            prices: [],
             id: 0,
             bondName: ''
         }
@@ -87,11 +87,12 @@ export default {
     },
     methods: {
         async handleBuyOrSell(type) {
-            // 未开户或则未设置交易密码
+            // 未登录或未开户
             if (!this.user) {
-                this.$dialog.alert({
-                    message: '用户信息丢失，请确认已经登陆'
+                await this.$dialog.alert({
+                    message: '用户信息丢失，请登陆'
                 })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
             if (!this.user.openedAccount) {
@@ -100,11 +101,6 @@ export default {
                     message: '未开户，请先去开户'
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
-                return
-            }
-            if (!this.user.tradePassword) {
-                // 跳转到设置密码页面
-                await jsBridge.callApp('command_trade_login')
                 return
             }
             // // 买入还是卖出
@@ -123,7 +119,6 @@ export default {
                 })
                 return
             }
-            // 已开户且设置了密码
             this.$router.push({
                 path:
                     direction === 1 ? '/transaction-buy' : '/transaction-sell',
@@ -177,7 +172,9 @@ export default {
     margin-top: 10px;
     border-radius: 4px;
     .van-panel__header {
-        padding: 14px;
+        padding: 14px 12px;
+        font-size: 0.28rem;
+        line-height: 20px;
         &:after {
             display: none;
         }

@@ -1,13 +1,19 @@
 <template lang="pug">
     .detail-bond-info-wrapper(@click="toggleShowMoreMsg")
+        col-msg(:colData="colData")
         .bond-info-header
-            a.pdf(:href="bondEditableInfo && bondEditableInfo.productOverview")
+            a.pdf(
+                v-if="bondEditableInfo && bondEditableInfo.productOverview"
+                :href="bondEditableInfo && bondEditableInfo.productOverview"
+            )
                 i.icon
                 span 产品概览
-            a.pdf(:href="bondEditableInfo && bondEditableInfo.raiseManual")
+            a.pdf(
+                v-if="bondEditableInfo && bondEditableInfo.raiseManual"
+                :href="bondEditableInfo && bondEditableInfo.raiseManual"
+            )
                 i.icon
                 span 募集说明
-        col-msg(:colData="colData")
         .more-msg(v-show="showMore")
             col-msg(
                 v-for="(msgItem, index) in moreBondMsg"
@@ -152,6 +158,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .detail-bond-info-wrapper {
+    padding-top: 2px;
     padding-bottom: 15px;
     .bond-info-header {
         position: absolute;

@@ -1,5 +1,14 @@
 import httpRequest from '@/utils/http-request'
 const axios = new httpRequest()
+/**
+ * 获取交易token
+ */
+export const getTradePasswordToken = () => {
+    return axios.getForm('/user-server/api/get-trade-password-token/v1', {
+        password:
+            'fVUdB_gg8zq2kGqH8sZONJ0ui77vKh940T3akMF-j4ayb9qDq1uap6SK3n76efS8InIt_uypCavJp2eSLrLK3F1pMKJR2_haxoGcLk9QQVJ-71JPgIN0w-VAx_t6PbZYLrZR3WaOooqBEVMM0enIO--KBQKO8B7CBZOHcV4uLtw='
+    })
+}
 
 /**
  * 债券风险提示签名

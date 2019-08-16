@@ -71,13 +71,6 @@ export default {
                     this.bondInfo.tags &&
                     this.bondInfo.tags.slice(0, 3)) ||
                 []
-            filterTag.forEach(tag => {
-                // 每个标签最多展示8个字符
-                tag.name &&
-                    Object.keys(tag.name).forEach(key => {
-                        tag.name[key] = tag.name[key].slice(0, 8)
-                    })
-            })
             return filterTag
         },
         // 到期年化收益率
@@ -121,12 +114,15 @@ export default {
             white-space: nowrap;
         }
         .van-tag--plain {
+            overflow: hidden;
             min-width: 36px;
+            max-width: 89px;
             padding: 1px 4px 1px 5px;
             margin-right: 6px;
             font-size: 0.2rem;
             text-align: center;
             line-height: 14px;
+            text-overflow: ellipsis;
             white-space: nowrap;
             &:last-child {
                 margin-right: 0;

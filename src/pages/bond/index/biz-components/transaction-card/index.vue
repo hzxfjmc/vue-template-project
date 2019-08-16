@@ -4,7 +4,7 @@
             :title="issuerName"
             :desc="bondName"
         )
-        .yx-cell
+        .yx-cell(style="padding:0.4rem 0.28rem")
             .yx-cell__header 买入价格
                 .yx-cell__header-tip ({{ currency }})
             .yx-cell__primary {{ buyPrice }}
@@ -12,9 +12,9 @@
         .yx-cell
             .yx-cell__header 份数
             .yx-cell__primary
-                van-stepper(v-model="transactionNum" integer)
+                van-stepper(v-model="transactionNum" integer min="1" max="9999")
                 .yx-cell__primary-tip ({{ minFaceValue }}{{ currency }}/份)
-        .yx-cell
+        .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
             .yx-cell__header 金额
             .yx-cell__primary {{ tradeMoney }}
 
@@ -24,13 +24,13 @@
                     i.iconfont.icon-wenhao(@click="showTips('interest')")
             .yx-cell__primary +{{ calcInterest }}
 
-        .yx-cell
+        .yx-cell(style="padding-top:0.2rem")
             .yx-cell__header 手续费(预估)
             .yx-cell__primary {{direction === 1 ? '+' : '-'}}{{ serviceCharge }}
 
         .divider-line
 
-        .yx-cell
+        .yx-cell.total-trade-money
             .yx-cell__header 总额
                 .yx-cell__header-tip ({{ currency }})
             .yx-cell__primary {{ totalTradeMoney }}
@@ -51,6 +51,7 @@ import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { feePackageCurr } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
+import { getTradePasswordToken } from '@/service/user-server.js'
 import {
     bondOrder,
     getBondInterestCalculate,
@@ -76,59 +77,20 @@ export default {
             default: 1
         }
     },
-    async created() {
+    created() {
         this.id = this.$route.query.id - 0 || 0
 
-        try {
-            // 获取债券信息
-            let {
-                bondEditableInfo,
-                bondUneditableInfo,
-                currentPrice
-            } = await getBondDetail(this.id)
-            this.bondEditableInfo = bondEditableInfo || {}
-            this.bondUneditableInfo = bondUneditableInfo || {}
-            this.currentPrice = currentPrice || {}
-            console.log(
-                'getBondDetail:data:>>> ',
-                bondEditableInfo,
-                bondUneditableInfo
-            )
+        // 获取债券信息
+        this.handleGetBondDetail()
 
-            // **************************************
-            // 获取当前用户债券持仓
-            let { bondPositionList } = await getBondPosition(2)
-            this.positionData =
-                (bondPositionList &&
-                    bondPositionList.filter(
-                        positionItem => positionItem.bondId === this.id
-                    )) ||
-                []
-            this.positionData =
-                (this.positionData[0] && this.positionData[0]) || {}
-            console.log('getBondPosition:data:>>> ', bondPositionList)
+        // 获取当前用户债券持仓
+        this.handleGetBondPosition()
 
-            // *************************************
-            // 获取债券应计利息计算天数
-            let { interestDays } = await getBondInterestCalculate(this.id)
-            this.interestDays = interestDays || 0
-            console.log('getBondInterestCalculate:data:>>> ', interestDays)
+        // 获取债券应计利息计算天数
+        this.handleGetBondInterestCalculate()
 
-            // ***************************************
-            // 获取套餐费用
-            let feeData = await feePackageCurr({
-                stockBusinessType: 1,
-                userId: this.$store.state.user.userId - 0
-            })
-            console.log('feePackageCurr:data:>>> ', feeData)
-            // 当前为手机委托，过滤除手机委托外的其他套餐数据
-            this.feeData =
-                (feeData &&
-                    feeData.filter(feeItem => feeItem.entrustType === 2)) ||
-                {}
-        } catch (e) {
-            console.log('created:error:>>>', e)
-        }
+        // 获取套餐费用
+        this.handleFeePackageCurr()
     },
     data() {
         return {
@@ -177,7 +139,8 @@ export default {
         },
         // 交易金额
         tradeMoney() {
-            return this.minFaceValue * this.transactionNum || 0
+            let t = this.minFaceValue * this.transactionNum * this.buyPrice
+            return t ? t.toFixed(2) - 0 : 0
         },
         // 计算应计利息
         // 票面利率应该是除过100的小数
@@ -288,10 +251,9 @@ export default {
         },
         // 交易总额(包含利息和手续费计算)
         totalTradeMoney() {
-            // 买入= 交易数量 * 最小交易额 + 应付利息 + 手续费
-            // 卖出= 交易数量 * 最小交易额 + 应得利息 - 手续费
-            let prevPrice =
-                this.transactionNum * this.minFaceValue + this.calcInterest
+            // 买入= 交易额 + 应付利息 + 手续费
+            // 卖出= 交易额 + 应得利息 - 手续费
+            let prevPrice = this.tradeMoney + this.calcInterest
             let totalMoney =
                 this.direction === 1
                     ? prevPrice + this.serviceCharge
@@ -306,13 +268,77 @@ export default {
         }
     },
     methods: {
+        // 获取债券信息
+        async handleGetBondDetail() {
+            try {
+                let {
+                    bondEditableInfo,
+                    bondUneditableInfo,
+                    currentPrice
+                } = await getBondDetail(this.id)
+                this.bondEditableInfo = bondEditableInfo || {}
+                this.bondUneditableInfo = bondUneditableInfo || {}
+                this.currentPrice = currentPrice || {}
+                console.log(
+                    'getBondDetail:data:>>> ',
+                    bondEditableInfo,
+                    bondUneditableInfo
+                )
+            } catch (error) {
+                console.log('getBondDetail:error:>>> ', error)
+            }
+        },
+        // 获取当前用户债券持仓
+        async handleGetBondPosition() {
+            try {
+                let { bondPositionList } = await getBondPosition(2)
+                this.positionData =
+                    (bondPositionList &&
+                        bondPositionList.filter(
+                            positionItem => positionItem.bondId === this.id
+                        )) ||
+                    []
+                this.positionData =
+                    (this.positionData[0] && this.positionData[0]) || {}
+                console.log('getBondPosition:data:>>> ', bondPositionList)
+            } catch (error) {
+                console.log('getBondPosition:error:>>> ', error)
+            }
+        },
+        // 获取债券应计利息计算天数
+        async handleGetBondInterestCalculate() {
+            try {
+                let { interestDays } = await getBondInterestCalculate(this.id)
+                this.interestDays = interestDays || 0
+                console.log('getBondInterestCalculate:data:>>> ', interestDays)
+            } catch (error) {
+                console.log('getBondInterestCalculate:error:>>> ', error)
+            }
+        },
+        // 获取套餐费用
+        async handleFeePackageCurr() {
+            try {
+                let feeData = await feePackageCurr({
+                    stockBusinessType: 1,
+                    userId: this.$store.state.user.userId - 0
+                })
+                console.log('feePackageCurr:data:>>> ', feeData)
+                // 当前为手机委托，过滤除手机委托外的其他套餐数据
+                this.feeData =
+                    (feeData &&
+                        feeData.filter(feeItem => feeItem.entrustType === 2)) ||
+                    {}
+            } catch (error) {
+                console.log('feePackageCurr:error:>>> ', error)
+            }
+        },
         // 获取交易token
         async getTradeToken() {
             try {
-                let {
-                    data: { requestToken: requestToken }
-                } = await jsBridge.callApp('command_trade_login')
-                console.log('tradeMsg :', requestToken)
+                let data = await jsBridge.callApp('command_trade_login')
+                let requestToken = await getTradePasswordToken()
+                console.log('tradeMsg :', data)
+                console.log('requestToken :', requestToken)
                 if (requestToken) {
                     this.handleBondOrder(requestToken)
                 }
@@ -339,10 +365,33 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
-                this.$dialog.alert({
-                    message: '提交失败'
-                })
                 console.log('bondOrder:error:>>> ', e)
+                if (e.code === 800018) {
+                    if (e.data) {
+                        // 价格发生变化
+                        this.$dialog
+                            .confirm({
+                                title: '提交失败',
+                                message: e.msg
+                            })
+                            .then(async () => {
+                                this.currentPrice.buyPrice = e.data
+                                this.getTradeToken()
+                            })
+                            .catch(() => {
+                                this.currentPrice.buyPrice = e.data
+                            })
+                    } else {
+                        this.$dialog.alert({
+                            title: '提交失败',
+                            message: e.msg
+                        })
+                    }
+                } else {
+                    this.$dialog.alert({
+                        message: '提交失败'
+                    })
+                }
             }
         },
         // 提示弹窗
@@ -363,6 +412,13 @@ export default {
                 confirmButtonText: '我知道了'
             })
         }
+    },
+    watch: {
+        transactionNum() {
+            if (this.transactionNum > 9999) {
+                this.transactionNum = 999
+            }
+        }
     }
 }
 </script>
@@ -375,14 +431,25 @@ export default {
     border-radius: 4px;
 }
 .transaction-header {
+    padding: 12px 14px;
     background-color: #2f79ff;
+    .media-box .media-box__content .media-box__desc {
+        margin-top: 2px;
+    }
 }
 .icon-wenhao {
     color: #9fb0ca;
 }
 .yx-cell {
     display: flex;
-    padding: 14px;
+    padding: 0 14px;
+    &.total-trade-money {
+        .yx-cell__primary {
+            font-size: 0.44rem;
+            font-weight: bold;
+            line-height: 28px;
+        }
+    }
     .yx-cell__header {
         font-size: 0.28rem;
         line-height: 20px;
@@ -403,6 +470,7 @@ export default {
     }
     .yx-cell__primary-tip {
         margin-top: 6px;
+        color: rgba(25, 25, 25, 0.3);
         font-size: 0.2rem;
         line-height: 14px;
     }
@@ -415,6 +483,7 @@ export default {
     opacity: 0.0565;
 }
 .tips {
+    margin-top: 6px;
     padding-right: 15px;
     text-align: right;
     i {
@@ -423,12 +492,42 @@ export default {
     }
     span {
         margin-right: 4px;
+        color: rgba(25, 25, 25, 0.5);
         font-size: 0.24rem;
         line-height: 18px;
     }
     strong {
+        color: rgba(25, 25, 25, 0.5);
         font-size: 0.28rem;
         line-height: 18px;
+    }
+}
+</style>
+<style lang="scss">
+.transaction-header {
+    .media-box__desc {
+        margin-top: 2px;
+    }
+}
+.transaction-card {
+    .van-stepper {
+        .van-stepper__minus,
+        .van-stepper__plus {
+            width: 28px;
+            height: 28px;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 2px;
+            .van-stepper__minus::before,
+            .van-stepper__plus::before {
+                background-color: #191919;
+            }
+        }
+        .van-stepper__input {
+            width: 77px;
+            padding: 0 4px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
     }
 }
 </style>

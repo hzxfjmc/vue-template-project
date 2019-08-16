@@ -65,8 +65,11 @@ export default {
             version: 0,
             riskTypeTips: '',
             riskTypeTipsMap: {
-                '0': '（保守型）',
-                '1': '（稳健型）'
+                1: '(低风险)',
+                2: '(中风险)',
+                3: '(高风险)',
+                4: '(超高风险)',
+                5: '(最高风险)'
             },
             submitBtnDisabled: true
         }

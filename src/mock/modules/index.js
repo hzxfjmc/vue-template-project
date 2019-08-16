@@ -1,4 +1,5 @@
 // finance-info-server
+import bondBanner from './finance-info-server/get-bond-banner'
 import bondDetail from './finance-info-server/get-bond-detail'
 import bondList from './finance-info-server/get-bond-list'
 import bondPrices from './finance-info-server/get-bond-prices'
@@ -16,6 +17,7 @@ import selectProtocolInfo from './config-manager/select-protocol-info'
 
 import feePackageCurr from './product-server/fee-package-curr'
 export default {
+    bondBanner,
     bondDetail,
     bondList,
     bondPrices,
