@@ -295,5 +295,6 @@ module.exports = {
             }
         },
         historyApiFallback: {}
-    }
+    },
+    productionSourceMap: false
 }
