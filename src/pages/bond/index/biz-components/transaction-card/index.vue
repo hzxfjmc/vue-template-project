@@ -51,7 +51,7 @@ import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { feePackageCurr } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
-import { getTradePasswordToken } from '@/service/user-server.js'
+// import { getTradePasswordToken } from '@/service/user-server.js'
 import {
     bondOrder,
     getBondInterestCalculate,
@@ -340,22 +340,22 @@ export default {
         // 获取交易token
         async getTradeToken() {
             try {
-                let data = await jsBridge.callApp(
+                let { tradeToken } = await jsBridge.callApp(
                     'command_trade_login?needToken=true'
                 )
-                let requestToken = await getTradePasswordToken()
-                console.log('tradeMsg :', data)
-                console.log('requestToken :', requestToken)
-                if (requestToken) {
-                    this.handleBondOrder(requestToken)
+                console.log('tradeMsg :', tradeToken)
+                // let requestToken = await getTradePasswordToken()
+                // console.log('requestToken :', requestToken)
+                if (tradeToken) {
+                    this.handleBondOrder(tradeToken)
                 }
             } catch (error) {
                 console.log('tradeMsg:error :', error)
             }
         },
         // 下单/买卖
-        async handleBondOrder(requestToken = '') {
-            console.log('requestToken :', requestToken)
+        async handleBondOrder(tradeToken = '') {
+            console.log('requestToken :', tradeToken)
             try {
                 let data = await bondOrder({
                     bondId: this.id,
@@ -363,7 +363,7 @@ export default {
                     entrustPrice: this.currentPrice.buyPrice - 0,
                     entrustQuantity: this.transactionNum,
                     requestId: generateUUID(),
-                    tradeToken: requestToken
+                    tradeToken: tradeToken
                 })
                 await this.$dialog.alert({
                     message: '提交成功'
