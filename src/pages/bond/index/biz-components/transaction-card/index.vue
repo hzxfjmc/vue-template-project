@@ -77,7 +77,7 @@ export default {
             default: 1
         }
     },
-    async created() {
+    created() {
         this.id = this.$route.query.id - 0 || 0
 
         // 获取债券信息
@@ -411,6 +411,13 @@ export default {
                 messageAlign: 'left',
                 confirmButtonText: '我知道了'
             })
+        }
+    },
+    watch: {
+        transactionNum() {
+            if (this.transactionNum > 9999) {
+                this.transactionNum = 999
+            }
         }
     }
 }

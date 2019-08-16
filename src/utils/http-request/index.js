@@ -74,7 +74,7 @@ export default class baseRequest {
                     // jsBridge.callApp('command_user_login').then(() => {
                     //     window.location.reload()
                     // })
-                    return Promise.reject({ code: data.code })
+                    return Promise.reject({ code: data.code, msg: data.msg })
                 } else {
                     return Promise.reject(data)
                 }
