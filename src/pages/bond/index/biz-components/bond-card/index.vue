@@ -95,8 +95,9 @@ export default {
         // 付息日
         paymentDates() {
             let d = this.bondInfo && this.bondInfo.paymentDates
-            d = d ? d.split('|') : '--'
-            return d ? d.slice(0, 2).join('、') + '等' : '--'
+            d = d ? d.split('|') : []
+            let suffix = d.length >= 2 ? '等' : ''
+            return d ? d.slice(0, 2).join('、') + suffix : '--'
         }
     }
 }

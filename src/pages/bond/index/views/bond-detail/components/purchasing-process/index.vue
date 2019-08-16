@@ -45,7 +45,8 @@ export default {
             let d =
                 this.bondUneditableInfo && this.bondUneditableInfo.paymentDate
             d = d ? d.split('|') : []
-            return d ? d.slice(0, 2).join('、') + '等' : '--'
+            let suffix = d.length >= 2 ? '等' : ''
+            return d ? d.slice(0, 2).join('、') + suffix : '--'
         },
         enumDelivery() {
             return (
