@@ -116,8 +116,6 @@ export default {
             chart.tooltip({
                 custom: true, // 自定义 tooltip 内容框
                 onChange: obj => {
-                    this.isShowMask = true
-
                     // var legend = chart.get('legendController').legends.top[0]
                     // console.log('obj', obj)
                     this.maskData = {
@@ -147,6 +145,14 @@ export default {
                             }
                         ]
                     }
+                },
+                triggerOn: ['touchstart'],
+                triggerOff: 'touchend',
+                onShow: () => {
+                    this.isShowMask = true
+                },
+                onHide: () => {
+                    this.isShowMask = false
                 }
             })
             chart.legend('type', {
