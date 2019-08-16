@@ -273,6 +273,7 @@ module.exports = {
                 target: 'http://jy1-sit.yxzq.com',
                 changeOrigin: true,
 
+
                 // onProxyRes: function(proxyRes, req, res) {
                 //     let resHttp = proxyRes.client._httpMessage
                 //     console.log('onProxyRes :', resHttp)
