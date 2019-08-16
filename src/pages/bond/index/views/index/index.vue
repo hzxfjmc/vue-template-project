@@ -12,7 +12,7 @@
                 title=""
             )
                 bond-card(:bondInfo="item")
-            .no-data(v-show="!hasData") 没有更多数据了!
+            .no-data(v-show="!hasData") 没有更多债券
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -127,8 +127,11 @@ export default {
         padding: 0 10px;
     }
     .no-data {
+        padding: 10px 0 7px;
+        color: rgba(25, 25, 25, 0.3);
+        font-size: 0.24rem;
+        line-height: 17px;
         text-align: center;
-        padding-top: 10px;
     }
 }
 </style>

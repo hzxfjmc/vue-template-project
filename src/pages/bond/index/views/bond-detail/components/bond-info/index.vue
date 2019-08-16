@@ -14,7 +14,7 @@
                 i.icon
                 span 募集说明
         .con(@click="toggleShowMoreMsg")
-            col-msg(:colData="colData")
+            col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")
                 col-msg(
                     v-for="(msgItem, index) in moreBondMsg"
@@ -195,6 +195,19 @@ export default {
     }
     .col-column:nth-child(1) {
         padding-top: 0;
+    }
+}
+</style>
+<style lang="scss">
+.detail-bond-info-wrapper {
+    .hd-col {
+        &.col-column {
+            .van-col:nth-child(3) {
+                .van-col__title {
+                    font-size: 0.22rem;
+                }
+            }
+        }
     }
 }
 </style>
