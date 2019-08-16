@@ -120,12 +120,20 @@ export default {
                 return
             }
             this.$router.push({
-                path:
-                    direction === 1 ? '/transaction-buy' : '/transaction-sell',
+                path: '/risk-assessment-result',
                 query: {
-                    id: this.id
+                    id: this.id,
+                    bondName: this.bondName,
+                    direction
                 }
             })
+            // this.$router.push({
+            //     path:
+            //         direction === 1 ? '/transaction-buy' : '/transaction-sell',
+            //     query: {
+            //         id: this.id
+            //     }
+            // })
         }
     }
 }

@@ -335,7 +335,9 @@ export default {
         // 获取交易token
         async getTradeToken() {
             try {
-                let data = await jsBridge.callApp('command_trade_login')
+                let data = await jsBridge.callApp(
+                    'command_trade_login?needToken=true'
+                )
                 let requestToken = await getTradePasswordToken()
                 console.log('tradeMsg :', data)
                 console.log('requestToken :', requestToken)
