@@ -25,7 +25,7 @@ setTimeout(() => {
 import '@/utils/common'
 
 // mock
-import '@/mock/index.js'
+// import '@/mock/index.js'
 
 // console.log(window.XMLHttpRequest)
 let init = async () => {
