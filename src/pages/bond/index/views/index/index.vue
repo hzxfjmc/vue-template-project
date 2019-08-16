@@ -12,6 +12,7 @@
                 title=""
             )
                 bond-card(:bondInfo="item")
+            .no-data(v-show="!hasData") 没有更多数据了!
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -36,6 +37,7 @@ export default {
     },
     data() {
         return {
+            hasData: true,
             bannerUrl: [],
             bondList: [],
             timer: null,
@@ -65,10 +67,13 @@ export default {
                 )
                 let listArray = bondInfoAndCurrentPriceApiResponses || []
                 if (!listArray || listArray.length === 0) {
-                    this.$dialog.alert({
-                        message: '没有更多数据了'
-                    })
+                    // this.$dialog.alert({
+                    //     message: '没有更多数据了'
+                    // })
+                    this.hasData = false
                     return
+                } else {
+                    this.hasData = true
                 }
                 this.bondList = this.bondList.concat(listArray)
                 console.log(
@@ -120,6 +125,10 @@ export default {
     }
     .bond-list {
         padding: 0 10px;
+    }
+    .no-data {
+        text-align: center;
+        padding-top: 10px;
     }
 }
 </style>
