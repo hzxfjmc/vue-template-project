@@ -2,10 +2,16 @@
     .detail-bond-info-wrapper(@click="toggleShowMoreMsg")
         col-msg(:colData="colData")
         .bond-info-header
-            a.pdf(:href="bondEditableInfo && bondEditableInfo.productOverview")
+            a.pdf(
+                v-if="bondEditableInfo && bondEditableInfo.productOverview"
+                :href="bondEditableInfo && bondEditableInfo.productOverview"
+            )
                 i.icon
                 span 产品概览
-            a.pdf(:href="bondEditableInfo && bondEditableInfo.raiseManual")
+            a.pdf(
+                v-if="bondEditableInfo && bondEditableInfo.raiseManual"
+                :href="bondEditableInfo && bondEditableInfo.raiseManual"
+            )
                 i.icon
                 span 募集说明
         .more-msg(v-show="showMore")
