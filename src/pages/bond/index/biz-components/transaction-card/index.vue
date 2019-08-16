@@ -4,7 +4,7 @@
             :title="issuerName"
             :desc="bondName"
         )
-        .yx-cell
+        .yx-cell(style="padding:0.4rem 0.28rem")
             .yx-cell__header 买入价格
                 .yx-cell__header-tip ({{ currency }})
             .yx-cell__primary {{ buyPrice }}
@@ -12,9 +12,9 @@
         .yx-cell
             .yx-cell__header 份数
             .yx-cell__primary
-                van-stepper(v-model="transactionNum" integer)
+                van-stepper(v-model="transactionNum" integer min="1" max="9999")
                 .yx-cell__primary-tip ({{ minFaceValue }}{{ currency }}/份)
-        .yx-cell
+        .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
             .yx-cell__header 金额
             .yx-cell__primary {{ tradeMoney }}
 
@@ -24,13 +24,13 @@
                     i.iconfont.icon-wenhao(@click="showTips('interest')")
             .yx-cell__primary +{{ calcInterest }}
 
-        .yx-cell
+        .yx-cell(style="padding-top:0.2rem")
             .yx-cell__header 手续费(预估)
             .yx-cell__primary {{direction === 1 ? '+' : '-'}}{{ serviceCharge }}
 
         .divider-line
 
-        .yx-cell
+        .yx-cell.total-trade-money
             .yx-cell__header 总额
                 .yx-cell__header-tip ({{ currency }})
             .yx-cell__primary {{ totalTradeMoney }}
@@ -399,14 +399,25 @@ export default {
     border-radius: 4px;
 }
 .transaction-header {
+    padding: 12px 14px;
     background-color: #2f79ff;
+    .media-box .media-box__content .media-box__desc {
+        margin-top: 2px;
+    }
 }
 .icon-wenhao {
     color: #9fb0ca;
 }
 .yx-cell {
     display: flex;
-    padding: 14px;
+    padding: 0 14px;
+    &.total-trade-money {
+        .yx-cell__primary {
+            font-size: 0.44rem;
+            font-weight: bold;
+            line-height: 28px;
+        }
+    }
     .yx-cell__header {
         font-size: 0.28rem;
         line-height: 20px;
@@ -427,6 +438,7 @@ export default {
     }
     .yx-cell__primary-tip {
         margin-top: 6px;
+        color: rgba(25, 25, 25, 0.3);
         font-size: 0.2rem;
         line-height: 14px;
     }
@@ -439,6 +451,7 @@ export default {
     opacity: 0.0565;
 }
 .tips {
+    margin-top: 6px;
     padding-right: 15px;
     text-align: right;
     i {
@@ -447,12 +460,42 @@ export default {
     }
     span {
         margin-right: 4px;
+        color: rgba(25, 25, 25, 0.5);
         font-size: 0.24rem;
         line-height: 18px;
     }
     strong {
+        color: rgba(25, 25, 25, 0.5);
         font-size: 0.28rem;
         line-height: 18px;
+    }
+}
+</style>
+<style lang="scss">
+.transaction-header {
+    .media-box__desc {
+        margin-top: 2px;
+    }
+}
+.transaction-card {
+    .van-stepper {
+        .van-stepper__minus,
+        .van-stepper__plus {
+            width: 28px;
+            height: 28px;
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 2px;
+            .van-stepper__minus::before,
+            .van-stepper__plus::before {
+                background-color: #191919;
+            }
+        }
+        .van-stepper__input {
+            width: 77px;
+            padding: 0 4px;
+            background-color: #fff;
+            box-sizing: border-box;
+        }
     }
 }
 </style>
