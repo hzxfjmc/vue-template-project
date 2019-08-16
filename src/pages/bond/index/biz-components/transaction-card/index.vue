@@ -37,7 +37,7 @@
 
         .tips
             i.iconfont.icon-wenhao(@click="showTips('total')")
-            span 债券可用资金
+            span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
             strong {{ marketValue }}{{ currency }}
         fixed-operate-btn(
             :text="btnText"

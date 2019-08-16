@@ -112,7 +112,10 @@ export default {
             ) {
                 // 尚未风评
                 this.$router.push({
-                    path: '/risk-assessment'
+                    path: '/risk-assessment',
+                    query: {
+                        id: this.$route.query.id
+                    }
                 })
             } else {
                 // 风评级别够了，可以购买

@@ -11,4 +11,7 @@
 #app {
     background-color: #f1f3f8;
 }
+* {
+    user-select: none;
+}
 </style>
