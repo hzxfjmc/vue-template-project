@@ -103,12 +103,8 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
-            // // 买入还是卖出
-            let direction = type === 'buy' ? 1 : 2
-
-            // 第一次进来跳转到风险测评流程
-            if (!localStorage.isFirstEnter) {
-                localStorage.isFirstEnter = 1
+            // 未签名，跳转到签名页面
+            if (!this.user.bondSigned) {
                 this.$router.push({
                     path: '/risk-warning',
                     query: {
@@ -119,6 +115,9 @@ export default {
                 })
                 return
             }
+
+            // // 买入还是卖出
+            let direction = type === 'buy' ? 1 : 2
             this.$router.push({
                 path: '/risk-assessment-result',
                 query: {
@@ -127,13 +126,6 @@ export default {
                     direction
                 }
             })
-            // this.$router.push({
-            //     path:
-            //         direction === 1 ? '/transaction-buy' : '/transaction-sell',
-            //     query: {
-            //         id: this.id
-            //     }
-            // })
         }
     }
 }

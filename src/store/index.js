@@ -78,7 +78,9 @@ export default modules =>
                             userId: user.userId,
                             userToken: user.userToken,
                             userName: user.userName,
-                            openedAccount: user.openedAccount
+                            openedAccount: user.openedAccount,
+                            bondSigned: user.bondSigned,
+                            userAutograph: user.userAutograph
                         })
                     } else {
                         store.commit('getUserInfoMutation', {

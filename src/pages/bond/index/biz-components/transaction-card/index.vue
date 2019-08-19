@@ -54,8 +54,7 @@ import { getBondDetail } from '@/service/finance-info-server.js'
 // import { getTradePasswordToken } from '@/service/user-server.js'
 import {
     bondOrder,
-    getBondInterestCalculate,
-    getBondPosition
+    getBondInterestCalculate
 } from '@/service/finance-server.js'
 import { generateUUID } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
@@ -72,9 +71,20 @@ export default {
             type: String,
             default: ''
         },
+        // 交易方向
         direction: {
             type: Number,
             default: 1
+        },
+        // 用户当前债券持仓
+        positionData: {
+            type: Object,
+            default: () => {}
+        },
+        // 用户恒生资金账户信息
+        accountInfo: {
+            type: Object,
+            default: () => {}
         }
     },
     created() {
@@ -82,9 +92,6 @@ export default {
 
         // 获取债券信息
         this.handleGetBondDetail()
-
-        // 获取当前用户债券持仓
-        this.handleGetBondPosition()
 
         // 获取债券应计利息计算天数
         this.handleGetBondInterestCalculate()
@@ -100,7 +107,6 @@ export default {
             id: 0, // 债券id
             interestDays: 0, // 应计利息天数
             currentPrice: {}, // 当前价格
-            positionData: {}, // 用户当前债券持仓
             feeData: [] // 当前用户套餐费用
         }
     },
@@ -251,7 +257,6 @@ export default {
             } else {
                 res = yongjinfei + pingtaifei + huodongfei
             }
-            console.log('res', res)
             return res ? res.toFixed(3) : 0
         },
         // 交易总额(包含利息和手续费计算)
@@ -267,6 +272,9 @@ export default {
         },
         // 持仓可用资金
         marketValue() {
+            if (this.direction === 1) {
+                return this.accountInfo.withdrawBalance || '0.000'
+            }
             return this.positionData.marketValue
                 ? this.positionData.marketValue
                 : '0.000'
@@ -291,23 +299,6 @@ export default {
                 )
             } catch (error) {
                 console.log('getBondDetail:error:>>> ', error)
-            }
-        },
-        // 获取当前用户债券持仓
-        async handleGetBondPosition() {
-            try {
-                let { bondPositionList } = await getBondPosition(2)
-                this.positionData =
-                    (bondPositionList &&
-                        bondPositionList.filter(
-                            positionItem => positionItem.bondId === this.id
-                        )) ||
-                    []
-                this.positionData =
-                    (this.positionData[0] && this.positionData[0]) || {}
-                console.log('getBondPosition:data:>>> ', bondPositionList)
-            } catch (error) {
-                console.log('getBondPosition:error:>>> ', error)
             }
         },
         // 获取债券应计利息计算天数
@@ -370,7 +361,9 @@ export default {
                     message: '提交成功'
                 })
                 // 跳转到今日订单页
-                jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
+                jsBridge.callApp('yxzq_goto://today_order', {
+                    market: 'us'
+                })
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
                 console.log('bondOrder:error:>>> ', e)
@@ -424,7 +417,7 @@ export default {
     watch: {
         transactionNum() {
             if (this.transactionNum > 9999) {
-                this.transactionNum = 999
+                this.transactionNum = 9999
             }
         }
     }
