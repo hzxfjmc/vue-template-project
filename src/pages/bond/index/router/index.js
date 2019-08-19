@@ -34,24 +34,33 @@ export default new Router({
         {
             name: 'risk-warning',
             path: '/risk-warning',
-            meta: { title: '港美股开户' },
+            meta: { title: '风险提示' },
             component: () =>
                 import(`@/pages/bond/index/views/risk-warning/index.vue`)
         },
         {
             name: 'risk-assessment',
             path: '/risk-assessment',
-            meta: { title: '港美股开户' },
+            meta: { title: '风险测评' },
             component: () =>
                 import(`@/pages/bond/index/views/risk-assessment/index.vue`)
         },
         {
             name: 'risk-appropriate-result',
             path: '/risk-appropriate-result',
-            meta: { title: '港美股开户' },
+            meta: { title: '产品匹配' },
             component: () =>
                 import(
                     `@/pages/bond/index/views/risk-appropriate-result/index.vue`
+                )
+        },
+        {
+            name: 'risk-assessment-result',
+            path: '/risk-assessment-result',
+            meta: { title: '测评结果' },
+            component: () =>
+                import(
+                    `@/pages/bond/index/views/risk-assessment-result/index.vue`
                 )
         }
     ]
