@@ -82,7 +82,7 @@ export default {
                             `
                 })
                 this.$router.push({
-                    path: '/risk-assessment-result',
+                    path: '/risk-appropriate-result',
                     query: {
                         id: this.id,
                         bondName: this.bondName,

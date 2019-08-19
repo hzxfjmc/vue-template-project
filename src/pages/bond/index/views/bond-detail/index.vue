@@ -119,7 +119,7 @@ export default {
             // // 买入还是卖出
             let direction = type === 'buy' ? 1 : 2
             this.$router.push({
-                path: '/risk-assessment-result',
+                path: '/risk-appropriate-result',
                 query: {
                     id: this.id,
                     bondName: this.bondName,

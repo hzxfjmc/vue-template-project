@@ -1,5 +1,5 @@
 <template lang="pug">
-    .risk-assessment-result-wrapper(v-show="isShowPage")
+    .risk-appropriate-result-wrapper(v-show="isShowPage")
         .risk-result__header
             i(:type="riskMatchResult")
             h2 {{ riskMatchResult > 2 ? '匹配' : '不匹配' }}
@@ -164,7 +164,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.risk-assessment-result-wrapper {
+.risk-appropriate-result-wrapper {
     padding-bottom: 48px;
     .risk-result__header {
         padding-top: 20px;

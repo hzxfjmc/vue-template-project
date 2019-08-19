@@ -46,12 +46,12 @@ export default new Router({
                 import(`@/pages/bond/index/views/risk-assessment/index.vue`)
         },
         {
-            name: 'risk-assessment-result',
-            path: '/risk-assessment-result',
+            name: 'risk-appropriate-result',
+            path: '/risk-appropriate-result',
             meta: { title: '港美股开户' },
             component: () =>
                 import(
-                    `@/pages/bond/index/views/risk-assessment-result/index.vue`
+                    `@/pages/bond/index/views/risk-appropriate-result/index.vue`
                 )
         }
     ]
