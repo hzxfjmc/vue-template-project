@@ -341,7 +341,8 @@ export default {
         async getTradeToken() {
             try {
                 let { tradeToken } = await jsBridge.callApp(
-                    'command_trade_login?needToken=true'
+                    'command_trade_login',
+                    { needToken: true }
                 )
                 console.log('tradeMsg :', tradeToken)
                 // let requestToken = await getTradePasswordToken()
