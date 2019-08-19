@@ -331,15 +331,14 @@ export default {
         // 获取交易token
         async getTradeToken() {
             try {
-                let { tradeToken } = await jsBridge.callApp(
-                    'command_trade_login',
-                    { needToken: true }
-                )
-                console.log('tradeMsg :', tradeToken)
+                let { data } = await jsBridge.callApp('command_trade_login', {
+                    needToken: true
+                })
+                console.log('tradeMsg :', data)
                 // let requestToken = await getTradePasswordToken()
                 // console.log('requestToken :', requestToken)
-                if (tradeToken) {
-                    this.handleBondOrder(tradeToken)
+                if (data && data.token) {
+                    this.handleBondOrder(data.token)
                 }
             } catch (error) {
                 console.log('tradeMsg:error :', error)

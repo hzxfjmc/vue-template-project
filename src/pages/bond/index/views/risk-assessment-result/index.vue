@@ -71,6 +71,7 @@ export default {
         }
     },
     methods: {
+        // 将多个异步聚合为同步
         async handleSetupResult() {
             await Promise.all([
                 this.handleRiskAssessResult(),
