@@ -8,7 +8,7 @@
                 p 在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。
         van-panel(title="确认签名" style="margin-top: -0.28rem")
             .signature-input
-                input.signature-input__inner(v-model="signName" placeholder="请输入签名：张一")
+                input.signature-input__inner(v-model="signName" :placeholder="signNamePlaceholder")
         .statement
             span 本人声明：细收听风险披露录音，清楚明白并完全接受音频中本人已详细收听风险披露录音，清楚明白中本人已详细收听风险披露录音，清楚明白本人已阅读
             a(:href="agreementData && agreementData.protocolUrl") 《{{ agreementData && agreementData.protocolName }}》
@@ -23,7 +23,7 @@ import { Panel } from 'vant'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { bondRiskAutograph } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
-
+import { mapState } from 'vuex'
 export default {
     name: 'RickWarning',
     components: {
@@ -49,6 +49,18 @@ export default {
             submitBtnDisabled: true,
             id: 0,
             bondName: ''
+        }
+    },
+    computed: {
+        ...mapState(['user']),
+        // 签名占位符
+        signNamePlaceholder() {
+            return (
+                (this.user &&
+                    this.user.userAutograph &&
+                    '请输入签名:' + this.user.userAutograph) ||
+                '请输入签名'
+            )
         }
     },
     methods: {

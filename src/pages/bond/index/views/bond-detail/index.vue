@@ -104,7 +104,7 @@ export default {
                 return
             }
             // 未签名，跳转到签名页面
-            if (!this.user.fengxian) {
+            if (!this.user.bondSigned) {
                 this.$router.push({
                     path: '/risk-warning',
                     query: {
