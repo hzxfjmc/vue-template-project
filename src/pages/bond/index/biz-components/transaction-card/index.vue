@@ -334,6 +334,7 @@ export default {
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
+
                 console.log('tradeMsg :', data)
                 // let requestToken = await getTradePasswordToken()
                 // console.log('requestToken :', requestToken)
