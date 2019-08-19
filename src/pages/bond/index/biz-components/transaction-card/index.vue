@@ -257,7 +257,6 @@ export default {
             } else {
                 res = yongjinfei + pingtaifei + huodongfei
             }
-            console.log('res', res)
             return res ? res.toFixed(3) : 0
         },
         // 交易总额(包含利息和手续费计算)
@@ -362,7 +361,9 @@ export default {
                     message: '提交成功'
                 })
                 // 跳转到今日订单页
-                jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
+                jsBridge.callApp('yxzq_goto://today_order', {
+                    market: 'us'
+                })
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
                 console.log('bondOrder:error:>>> ', e)
