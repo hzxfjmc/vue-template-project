@@ -361,9 +361,7 @@ export default {
                     message: '提交成功'
                 })
                 // 跳转到今日订单页
-                jsBridge.callApp('yxzq_goto://today_order', {
-                    market: 'us'
-                })
+                jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
                 console.log('bondOrder:error:>>> ', e)
