@@ -127,13 +127,6 @@ export default {
                     direction
                 }
             })
-            // this.$router.push({
-            //     path:
-            //         direction === 1 ? '/transaction-buy' : '/transaction-sell',
-            //     query: {
-            //         id: this.id
-            //     }
-            // })
         }
     }
 }

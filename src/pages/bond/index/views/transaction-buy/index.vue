@@ -26,7 +26,7 @@ export default {
     methods: {
         async handleHsAccountInfo() {
             try {
-                let data = await hsAccountInfo(0)
+                let data = await hsAccountInfo(1)
                 this.accountInfo = data || {}
                 console.log('hsAccountInfo:data:>>>', data)
             } catch (error) {
