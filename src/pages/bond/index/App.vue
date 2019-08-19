@@ -14,4 +14,8 @@
 * {
     user-select: none;
 }
+input,
+textarea {
+    user-select: auto;
+}
 </style>
