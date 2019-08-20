@@ -41,6 +41,7 @@ export default {
     }
     .media-box__content {
         flex: 1;
+        width: 100%;
         .media-box__title {
             overflow: hidden;
             color: #fff;
