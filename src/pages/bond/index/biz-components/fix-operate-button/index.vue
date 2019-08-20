@@ -30,13 +30,13 @@ export default {
     left: 0;
     right: 0;
     height: 48px;
-    color: #fff;
+    color: rgb(255, 255, 255);
     font-size: 0.32rem;
     text-align: center;
     line-height: 48px;
     background-color: #0d50d8;
     &[disabled='disabled'] {
-        background-color: #dadada;
+        background-color: $disabled-color;
     }
 }
 </style>
