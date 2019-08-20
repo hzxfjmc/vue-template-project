@@ -61,7 +61,7 @@ import jsBridge from '@/utils/js-bridge.js'
 import { Stepper } from 'vant'
 import { mapGetters } from 'vuex'
 export default {
-    name: 'TransacntionCard',
+    name: 'TransactionCard',
     components: {
         [Stepper.name]: Stepper,
         MediaBox,

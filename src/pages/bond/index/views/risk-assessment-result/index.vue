@@ -14,7 +14,7 @@
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult } from '@/service/user-server.js'
 export default {
-    name: 'RickWarning',
+    name: 'RiskAssessmentResult',
     components: {
         FixedOperateBtn
     },

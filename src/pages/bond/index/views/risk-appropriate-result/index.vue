@@ -39,7 +39,7 @@ import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-butto
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 export default {
-    name: 'RickWarning',
+    name: 'RiskAppropriateResult',
     components: {
         FixedOperateBtn,
         [Checkbox.name]: Checkbox
