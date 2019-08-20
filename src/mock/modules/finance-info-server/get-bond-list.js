@@ -3,7 +3,7 @@ import { formatMockData, comp } from '../../utils/util'
 import Mock from 'mockjs'
 // 债券列表
 const formatData = formatMockData({
-    'bondInfoAndCurrentPriceApiResponses|1-10': [
+    'bondInfoAndCurrentPriceApiResponses|1-30': [
         {
             bondName: {
                 en: '@word(2,30)',
