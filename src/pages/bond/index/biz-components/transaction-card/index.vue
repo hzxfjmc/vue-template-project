@@ -270,7 +270,7 @@ export default {
                     : prevPrice - (this.serviceCharge - 0)
             return totalMoney ? totalMoney.toFixed(3) : 0
         },
-        // 持仓可用资金
+        // 卖：债券持仓/买：可用资金
         marketValue() {
             if (this.direction === 1) {
                 return this.accountInfo.withdrawBalance || '0.000'
