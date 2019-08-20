@@ -117,7 +117,6 @@ export default {
             display: block;
             height: 100%;
             img {
-                // height: 150px;
                 height: 100%;
                 width: 100%;
             }
@@ -128,7 +127,7 @@ export default {
     }
     .no-data {
         padding: 10px 0 7px;
-        color: rgba(25, 25, 25, 0.3);
+        color: $text-color3;
         font-size: 0.24rem;
         line-height: 17px;
         text-align: center;

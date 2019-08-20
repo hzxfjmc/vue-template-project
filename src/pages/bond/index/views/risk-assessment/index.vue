@@ -86,7 +86,12 @@ export default {
                         optionNum: subjectItem.choiceNum
                     }
                 })
+                let submitFlag = false
+                if (action === 'submit') {
+                    submitFlag = true
+                }
                 let { assessResult } = await riskAssessAnswer({
+                    submitFlag,
                     assessOptionParams: serializeData,
                     subjectVersion: this.version
                 })

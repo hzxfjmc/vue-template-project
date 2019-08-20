@@ -5,7 +5,7 @@
             van-tag(
                 v-for="(tagItem, index) in limitTags"
                 :key="index"
-                color="#2587EB"
+                color="#2177FF"
                 plain
             ) {{ tagItem.name && tagItem.name.zhCn }}
         .bond-card__content
@@ -107,7 +107,7 @@ export default {
 .bond-card {
     margin-top: 10px;
     padding: 15px 12px 22px;
-    background-color: white;
+    background-color: $background-color;
     border-radius: 4px;
     .bond-card__header {
         display: flex;
@@ -116,7 +116,7 @@ export default {
             overflow: hidden;
             margin-right: 3px;
             font-size: 0.36rem;
-            color: #272727;
+            color: $title-color;
             line-height: 25px;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -143,19 +143,19 @@ export default {
         padding: 0 2px;
         .rate-num {
             margin-bottom: 4px;
-            color: #f82648;
+            color: #ea3d3d;
             font-size: 0.48rem;
             line-height: 31px;
         }
         .interest-num {
             margin-top: 3px;
             margin-bottom: 7px;
-            color: #393939;
+            color: $text-color;
             font-size: 0.36rem;
             line-height: 25px;
         }
         .card-tips {
-            color: rgba(57, 57, 57, 0.4);
+            color: $text-color5;
             font-size: 0.24rem;
             line-height: 17px;
         }
