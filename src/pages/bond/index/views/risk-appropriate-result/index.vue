@@ -96,7 +96,7 @@ export default {
         async handleRiskAssessResult() {
             try {
                 let { assessResult } = await riskAssessResult()
-                this.userRiskLevel = 2 || 0 // 用户风险测评等级
+                this.userRiskLevel = assessResult || 0 // 用户风险测评等级
                 console.log('riskAssessResult:data:>>> ', assessResult)
             } catch (error) {
                 console.log('riskAssessResult:error:>>>', error)

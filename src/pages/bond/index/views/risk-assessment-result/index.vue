@@ -1,10 +1,9 @@
 <template lang="pug">
     .risk-assessment-result-wrapper(v-show="isShowPage")
-        .risk-result__header
+        .risk-result__hd
             p 您的风评结果为：
-        .risk-result__content
-            .risk-cell
-                span {{ riskTypeList[userRiskLevel] && riskTypeList[userRiskLevel] || '--'  }}
+        .risk-result__md {{ assessmentType  }}
+        .risk-result__bd 上次风评日期：{{ assessmentTime | date-format('YYYY年MM月DD日') }}
         fixed-operate-btn(
             :text="btnText"
             @click="handleAction"
@@ -25,10 +24,9 @@ export default {
     },
     data() {
         return {
-            riskMatchResult: 1, // 风险匹配结果
             riskTypeList: {
                 // 风险等级列表
-                100: '--',
+                100: '已过期',
                 0: '尚未风评',
                 1: '低风险',
                 2: '中风险',
@@ -36,9 +34,16 @@ export default {
                 4: '超高风险',
                 5: '最高风险'
             },
-            userRiskLevel: 0, // 用户风险测评等级
+            userRiskLevel: 0, // 用户风险测评等级序号
+            assessmentTime: 0, // 上次风评时间
             btnText: '',
             isShowPage: false
+        }
+    },
+    computed: {
+        // 风评等级
+        assessmentType() {
+            return this.riskTypeList[this.userRiskLevel]
         }
     },
     methods: {
@@ -47,24 +52,28 @@ export default {
             await Promise.all([this.handleRiskAssessResult()])
             if (this.userRiskLevel === 0) {
                 // 尚未风评
-                this.riskMatchResult = 1
                 this.btnText = '开始测评'
-            } else if (this.userRiskLevel < this.bondRiskLevel) {
-                // 风评级别不够
-                this.riskMatchResult = 2
-                this.btnText = '重新测评'
             } else {
-                // 风评级别够了，可以购买
-                this.riskMatchResult = 3
-                this.btnText = '确认'
+                // 已经风评
+                this.btnText = '重新测评'
             }
             this.isShowPage = true
         },
         // 拉取风险测评结果
         async handleRiskAssessResult() {
             try {
-                let { assessResult } = await riskAssessResult()
-                this.userRiskLevel = 2 || 0 // 用户风险测评等级
+                let {
+                    assessResult,
+                    createTime,
+                    validTime
+                } = await riskAssessResult()
+                if (validTime && new Date().getTime > new Date(validTime)) {
+                    // 当前时间大于测评有效时间，测评过期
+                    this.userRiskLevel = 100
+                } else {
+                    this.userRiskLevel = assessResult || 0 // 用户风险测评等级
+                }
+                this.assessmentTime = createTime || 0
                 console.log('riskAssessResult:data:>>> ', assessResult)
             } catch (error) {
                 console.log('riskAssessResult:error:>>>', error)
@@ -83,33 +92,26 @@ export default {
 
 <style lang="scss" scoped>
 .risk-assessment-result-wrapper {
-    padding-bottom: 48px;
-    .risk-result__header {
-        padding-top: 20px;
-        p {
-            color: #393939;
-            font-size: 0.24rem;
-            opacity: 0.4;
-            line-height: 24px;
-            text-align: center;
-        }
+    min-height: 100%;
+    background-color: #fff;
+    text-align: center;
+    .risk-result__hd {
+        padding: 60px 0 8px;
+        color: rgba(25, 25, 25, 0.5);
+        font-size: 0.24rem;
+        line-height: 24px;
+        text-align: center;
     }
-    .risk-result__content {
-        margin: 14px 14px 10px;
-        padding: 20px 0;
-        background: rgba(255, 255, 255, 1);
-        box-shadow: 0px 2px 6px 0px rgba(57, 57, 57, 0.05);
-        border-radius: 6px;
-        .risk-cell {
-            display: flex;
-            margin-bottom: 20px;
-            padding: 0 14px;
-            font-size: 0.28rem;
-            line-height: 24px;
-            span {
-                opacity: 0.6;
-            }
-        }
+    .risk-result__md {
+        color: #2f79ff;
+        font-size: 0.48rem;
+        line-height: 1;
+    }
+    .risk-result__bd {
+        margin-top: 17px;
+        color: rgba(25, 25, 25, 0.3);
+        font-size: 0.24rem;
+        line-height: 24px;
     }
 }
 </style>

@@ -362,6 +362,10 @@ export default {
                 })
                 // 跳转到今日订单页
                 jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
+                // 港版跳转到全部订单页
+                // jsBridge.gotoNativeModule(
+                //     'yxzq_goto://order_record?market=hk&type=2'
+                // )
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
                 console.log('bondOrder:error:>>> ', e)
