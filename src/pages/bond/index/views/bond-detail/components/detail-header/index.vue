@@ -139,7 +139,7 @@ export default {
     background-color: #2f79ff;
     border-radius: 4px;
     .header-column {
-        padding: 0 10px 19px 14px;
+        padding: 0 10px 14px 14px;
         >>> .van-col {
             flex-grow: 0;
         }
@@ -161,9 +161,11 @@ export default {
                 margin-left: 12px;
             }
         }
-        .media-box__title {
-            font-size: 0.28rem;
-            line-height: 20px;
+        .media-box__content {
+            .media-box__title {
+                font-size: 0.28rem;
+                line-height: 20px;
+            }
         }
     }
     .media-box + .media-box {

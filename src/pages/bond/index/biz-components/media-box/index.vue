@@ -30,7 +30,7 @@ export default {
 .media-box {
     display: flex;
     align-items: center;
-    padding: 16px 14px;
+    padding: 14px;
     .media-box__header {
         .media-box__thumb {
             margin-right: 10px;
@@ -56,7 +56,7 @@ export default {
         .media-box__desc {
             overflow: hidden;
             display: -webkit-box;
-            color: rgba(255, 255, 255, 0.5972);
+            color: rgba(255, 255, 255, 0.6);
             font-size: 0.24rem;
             line-height: 17px;
             text-overflow: ellipsis;

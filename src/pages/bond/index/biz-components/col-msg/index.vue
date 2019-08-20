@@ -55,13 +55,13 @@ export default {
         flex: 1;
     }
     .van-col__title {
-        color: #393939;
+        color: $text-color;
         font-size: 0.28rem;
         line-height: 20px;
     }
     .van-col__desc {
         margin-top: 2px;
-        color: rgba(57, 57, 57, 0.4);
+        color: $text-color5;
         font-size: 0.24rem;
         line-height: 17px;
     }

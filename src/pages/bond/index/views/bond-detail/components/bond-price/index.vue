@@ -3,7 +3,6 @@
         mask-header(v-show="isShowMask" :maskData="maskData")
         col-msg(
             :colData="colData"
-            :descStyle="descStyle"
         )
         .chart-wrapper
             canvas#mountNode
@@ -35,9 +34,6 @@ export default {
     data() {
         return {
             isShowMask: false,
-            descStyle: {
-                color: 'rgba(25, 25, 25, 0.5)'
-            },
             maskData: {}, // 蒙版数据
             count: 0, // 计数使用
             xlabelLimitNum: 0 // x轴标签数量 0表示自动展示
@@ -183,7 +179,7 @@ export default {
 .detail-bond-price-wrapper {
     user-select: none;
     .col-column {
-        padding: 0 12px 0 12px;
+        padding: 0 12px;
         margin-top: -2px;
     }
     .chart-wrapper {

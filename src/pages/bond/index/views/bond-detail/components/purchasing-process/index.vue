@@ -106,12 +106,14 @@ export default {
         position: relative;
         display: inline-block;
         margin-left: 3px;
+        color: $text-color;
         font-size: 0.24rem;
         line-height: 20px;
         transform: translate3d(-50%, 0, 0);
         .process-step__title-tips {
             position: absolute;
             right: 0;
+            color: $text-color5;
             font-size: 0.2rem;
             line-height: 1;
         }
@@ -120,13 +122,12 @@ export default {
         position: absolute;
         top: 6px;
         left: 0;
-        // background-color: #fff;
         z-index: 1;
         .process-step__circle {
             display: block;
             width: 6px;
             height: 6px;
-            background: #393939;
+            background: #d1d1d1;
             border-radius: 50%;
         }
         .process-step__text {
@@ -135,7 +136,7 @@ export default {
             display: block;
             padding: 3px 4px;
             background: rgba(235, 235, 235, 1);
-            color: #393939;
+            color: $text-color5;
             font-size: 0.2rem;
             line-height: 14px;
             white-space: nowrap;

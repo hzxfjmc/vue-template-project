@@ -61,7 +61,7 @@ export default {
     }
 }
 .col-column {
-    padding: 0 0.24rem 0 0.24rem;
-    margin-top: -0.04rem;
+    padding: 0 12px;
+    margin-top: -2px;
 }
 </style>
