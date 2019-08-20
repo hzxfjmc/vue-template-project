@@ -21,7 +21,7 @@
                     :key="index"
                     :colData="msgItem"
                 )
-        i.iconfont(:class="[showMore ? 'icon-iconshouqi' : 'icon-iconxiala' ]")
+            i.iconfont(:class="[showMore ? 'icon-iconshouqi' : 'icon-iconxiala' ]")
 
 </template>
 <script>
@@ -162,7 +162,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .detail-bond-info-wrapper {
-    position: relative;
     padding-top: 2px;
     padding-bottom: 15px;
     .bond-info-header {
@@ -198,11 +197,14 @@ export default {
     .col-column:nth-child(1) {
         padding-top: 0;
     }
-    .iconfont {
-        position: absolute;
-        left: 50%;
-        bottom: 0;
-        transform: translate(-50%);
+    .con {
+        position: relative;
+        .iconfont {
+            position: absolute;
+            left: 50%;
+            bottom: -15px;
+            transform: translate(-50%);
+        }
     }
 }
 </style>
