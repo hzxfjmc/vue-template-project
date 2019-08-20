@@ -93,13 +93,19 @@ export default {
                 this.riskTypeTips = this.riskTypeTipsMap[assessResult]
                 // 点击提交按钮时候，才进行跳转
                 if (action === 'submit') {
-                    this.$router.push({
-                        path: '/risk-appropriate-result',
-                        query: {
-                            riskType: assessResult,
-                            id: this.$route.query.id
-                        }
-                    })
+                    if (this.$route.query.id) {
+                        this.$router.push({
+                            path: '/risk-appropriate-result',
+                            query: {
+                                id: this.$route.query.id
+                            }
+                        })
+                    } else {
+                        // 如果不存在 id 等参数，说明是直接从测评结果页跳转的，测试完成，需要跳转回去
+                        this.$router.push({
+                            path: '/risk-assessment-result'
+                        })
+                    }
                 }
                 console.log('riskAssessAnswer:data:>>> ', assessResult)
             } catch (e) {
