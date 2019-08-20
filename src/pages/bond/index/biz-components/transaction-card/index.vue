@@ -152,7 +152,7 @@ export default {
         // 交易金额
         tradeMoney() {
             let t = this.minFaceValue * this.transactionNum * this.buyPrice
-            return t ? t.toFixed(3) : 0
+            return t ? t.toFixed(2) : 0
         },
         // 计算应计利息
         // 票面利率应该是除过100的小数
@@ -162,7 +162,7 @@ export default {
                 (this.bondUneditableInfo.couponRate / 360) *
                 this.interestDays *
                 this.tradeMoney
-            res = res ? res.toFixed(3) : 0
+            res = res ? res.toFixed(2) : 0
             return res
         },
         // 计算手续费
@@ -259,7 +259,7 @@ export default {
             } else {
                 res = yongjinfei + pingtaifei + huodongfei
             }
-            return res ? res.toFixed(3) : 0
+            return res ? res.toFixed(2) : 0
         },
         // 交易总额(包含利息和手续费计算)
         totalTradeMoney() {
@@ -270,16 +270,16 @@ export default {
                 this.direction === 1
                     ? prevPrice + (this.serviceCharge - 0)
                     : prevPrice - (this.serviceCharge - 0)
-            return totalMoney ? totalMoney.toFixed(3) : 0
+            return totalMoney ? totalMoney.toFixed(2) : 0
         },
         // 卖：债券持仓/买：可用资金
         marketValue() {
             if (this.direction === 1) {
-                return this.accountInfo.withdrawBalance || '0.000'
+                return this.accountInfo.withdrawBalance || '0.00'
             }
             return this.positionData.marketValue
                 ? this.positionData.marketValue
-                : '0.000'
+                : '0.00'
         }
     },
     methods: {

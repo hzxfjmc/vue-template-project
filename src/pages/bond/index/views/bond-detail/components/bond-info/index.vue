@@ -77,7 +77,7 @@ export default {
                             this.bondUneditableInfo &&
                             this.bondUneditableInfo.paymentDate
                         d = d ? d.split('|') : []
-                        let suffix = d.length >= 2 ? '等' : ''
+                        let suffix = d.length > 2 ? '等' : ''
                         return d ? d.slice(0, 2).join('、') + suffix : '--'
                     })(),
                     desc: '付息日'

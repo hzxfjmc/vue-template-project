@@ -88,7 +88,8 @@ export default {
             return (
                 (this.bondInfo &&
                     this.bondInfo.paymentFrequency &&
-                    this.bondInfo.paymentFrequency.name) ||
+                    this.bondInfo.paymentFrequency.name &&
+                    this.bondInfo.paymentFrequency.name + '付息') ||
                 '--'
             )
         },
@@ -96,7 +97,7 @@ export default {
         paymentDates() {
             let d = this.bondInfo && this.bondInfo.paymentDates
             d = d ? d.split('|') : []
-            let suffix = d.length >= 2 ? '等' : ''
+            let suffix = d.length > 2 ? '等' : ''
             return d ? d.slice(0, 2).join('、') + suffix : '--'
         }
     }
@@ -151,7 +152,7 @@ export default {
             margin-top: 3px;
             margin-bottom: 7px;
             color: $text-color;
-            font-size: 0.36rem;
+            font-size: 0.34rem;
             line-height: 25px;
         }
         .card-tips {
