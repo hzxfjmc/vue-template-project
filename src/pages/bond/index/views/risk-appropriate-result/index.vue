@@ -23,9 +23,9 @@
                     slot-scope="props"
                     :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                 )
-                p
-                    span 我已阅读并知晓债券相关风险，我已阅读
-                    a(:href="productUrl") 《产品资料》
+            p
+                span 我已阅读并知晓债券相关风险，我已阅读
+                a(:href="productUrl") 《产品概览书》
         fixed-operate-btn(
             :text="btnText"
             :disabled="isDisabled"
@@ -250,9 +250,13 @@ export default {
         position: absolute;
         bottom: 62px;
         padding-left: 14px;
+        .van-checkbox {
+            display: inline-block;
+            margin-right: 6px;
+            vertical-align: text-bottom;
+        }
         .icon-selected,
         .icon-unchecked {
-            margin-right: 7px;
             font-size: 0.32rem;
             vertical-align: middle;
         }
@@ -261,7 +265,6 @@ export default {
         }
         p {
             display: inline-block;
-            margin-left: -0.2rem;
             font-size: 0.24rem;
             line-height: 20px;
             // vertical-align: middle;

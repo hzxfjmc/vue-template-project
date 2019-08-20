@@ -2,16 +2,23 @@
     .risk-warning-wrapper
         van-panel(title="债券购买风险提示")
             .risk-text-box
-                h3 为了降低您的投资风险，请您完整阅读风险披露内容
-                p 正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
-                p 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
-                p 在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。
+                p 1、由于企业违约等XXXXXXX可能，债券可能违约，损失部分或全部本金和利息。XXXXXX
+                p 2、债券市场流动性差，友信提供流动性XXXXXXXXXX，价格点差XXXX。友信尽力撮合订单，但不保证订单一定能够成交。
+                p 3、成交价格公司可能有损益。
         van-panel(title="确认签名" style="margin-top: -0.28rem")
             .signature-input
                 input.signature-input__inner(v-model="signName" :placeholder="signNamePlaceholder")
         .statement
-            span 本人声明：细收听风险披露录音，清楚明白并完全接受音频中本人已详细收听风险披露录音，清楚明白中本人已详细收听风险披露录音，清楚明白本人已阅读
-            a(:href="agreementData && agreementData.protocolUrl") 《{{ agreementData && agreementData.protocolName }}》
+            van-checkbox(v-model="isReadBondInfo")
+                i.iconfont(
+                    slot="icon"
+                    slot-scope="props"
+                    :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
+                )
+            .text
+                span 我已阅读并知晓债券相关风险。本人已阅读
+                a(:href="agreementData && agreementData.protocolUrl") 《{{ agreementData && agreementData.protocolName }}》
+                span ；本人电子签名代表对上述说明的同意，与本人手写签名具有相同的法律效力
         fixed-operate-btn(
             text="确认"
             :disabled="submitBtnDisabled"
@@ -19,7 +26,7 @@
         )
 </template>
 <script>
-import { Panel } from 'vant'
+import { Panel, Checkbox } from 'vant'
 import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
 import { bondRiskAutograph } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
@@ -27,6 +34,7 @@ import { mapState } from 'vuex'
 export default {
     name: 'RickWarning',
     components: {
+        [Checkbox.name]: Checkbox,
         [Panel.name]: Panel,
         FixedOperateBtn
     },
@@ -46,9 +54,9 @@ export default {
         return {
             signName: '', // 签名
             agreementData: {}, // 债券协议
-            submitBtnDisabled: true,
             id: 0,
-            bondName: ''
+            bondName: '',
+            isReadBondInfo: false
         }
     },
     computed: {
@@ -61,6 +69,13 @@ export default {
                     '请输入签名:' + this.user.userAutograph) ||
                 '请输入签名'
             )
+        },
+        submitBtnDisabled() {
+            if (this.signName && this.isReadBondInfo) {
+                return false
+            } else {
+                return true
+            }
         }
     },
     methods: {
@@ -101,15 +116,6 @@ export default {
                 })
             }
         }
-    },
-    watch: {
-        signName() {
-            if (this.signName) {
-                this.submitBtnDisabled = false
-            } else {
-                this.submitBtnDisabled = true
-            }
-        }
     }
 }
 </script>
@@ -135,10 +141,11 @@ export default {
     }
     // 风险提示文本
     .risk-text-box {
-        height: 273px;
+        max-height: 273px;
         margin: 0 14px 14px 14px;
         padding: 14px 10px 14px 14px;
         background: rgba(47, 121, 255, 0.0261);
+        box-sizing: border-box;
         h3 {
             margin-bottom: 15px;
             font-size: 0.28rem;
@@ -172,16 +179,31 @@ export default {
     }
     // 声明
     .statement {
+        display: flex;
         margin: 15px;
-        span {
-            font-size: 0.24rem;
-            line-height: 18px;
-            opacity: 0.4;
+        .van-checkbox {
+            margin-right: 6px;
+            .icon-selected,
+            .icon-unchecked {
+                font-size: 0.32rem;
+                vertical-align: middle;
+            }
+            .icon-selected {
+                color: #2f79ff;
+            }
         }
-        a {
-            color: #2f79ff;
-            font-size: 0.24rem;
-            line-height: 20px;
+        .text {
+            flex: 1;
+            span {
+                font-size: 0.24rem;
+                line-height: 18px;
+                opacity: 0.4;
+            }
+            a {
+                color: #2f79ff;
+                font-size: 0.24rem;
+                line-height: 20px;
+            }
         }
     }
 }
