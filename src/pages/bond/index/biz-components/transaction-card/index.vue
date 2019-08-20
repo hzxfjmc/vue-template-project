@@ -59,6 +59,7 @@ import {
 import { generateUUID } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { Stepper } from 'vant'
+import { mapGetters } from 'vuex'
 export default {
     name: 'TransacntionCard',
     components: {
@@ -111,6 +112,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['lang']),
         // 发行人
         issuerName() {
             return (
@@ -360,12 +362,17 @@ export default {
                 await this.$dialog.alert({
                     message: '提交成功'
                 })
-                // 跳转到今日订单页
-                jsBridge.gotoNativeModule('yxzq_goto://today_order?market=us')
-                // 港版跳转到全部订单页
-                // jsBridge.gotoNativeModule(
-                //     'yxzq_goto://order_record?market=hk&type=2'
-                // )
+                if (this.lang === 'zhCHT') {
+                    // 港版跳转到全部订单页
+                    jsBridge.gotoNativeModule(
+                        'yxzq_goto://order_record?market=hk&type=2'
+                    )
+                } else {
+                    // 跳转到今日订单页
+                    jsBridge.gotoNativeModule(
+                        'yxzq_goto://today_order?market=us'
+                    )
+                }
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
                 console.log('bondOrder:error:>>> ', e)
