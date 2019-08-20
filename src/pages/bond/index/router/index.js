@@ -3,11 +3,15 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 export default new Router({
+    // 不保留浏览器滚动位置
+    scrollBehavior() {
+        return { x: 0, y: 0 }
+    },
     routes: [
         {
             name: 'index',
             path: '/',
-            meta: { title: '债券首页' },
+            meta: { title: '债券' },
             component: () => import(`@/pages/bond/index/views/index/index.vue`)
         },
         {
