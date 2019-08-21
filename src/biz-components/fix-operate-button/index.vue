@@ -1,6 +1,6 @@
 <template lang="pug">
     .back-mask
-        .fix-operate-btn(:disabled="disabled" @click="handleClick") {{ text }}
+        .fix-operate-btn(:style="customStyle" :disabled="disabled" @click="handleClick") {{ text }}
 </template>
 
 <script>
@@ -14,6 +14,10 @@ export default {
         text: {
             type: String,
             default: ''
+        },
+        customStyle: {
+            type: Object,
+            default: () => {}
         }
     },
     methods: {

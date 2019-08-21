@@ -41,7 +41,7 @@
             strong {{ marketValue }}{{ currency }}
         fixed-operate-btn(
             :text="btnText"
-            :style="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
+            :customStyle="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
             @click="getTradeToken"
         )
 </template>
