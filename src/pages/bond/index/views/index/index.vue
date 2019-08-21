@@ -16,7 +16,8 @@
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { getBondList, getBondBanner } from '@/service/finance-info-server.js'
+import { getBondList } from '@/service/finance-info-server.js'
+import { bannerAdvertisement } from '@/service/news-configserver.js'
 import BondCard from '@/biz-components/bond-card/index.vue'
 export default {
     name: 'index',
@@ -49,8 +50,8 @@ export default {
         // 拉取债券banner
         async handleGetBondBanner() {
             try {
-                let data = await getBondBanner()
-                this.bannerUrl = data && data.url
+                let data = await bannerAdvertisement(20)
+                this.bannerUrl = (data && data.banner_list) || []
                 console.log('getBondBanner:error:>>>', data)
             } catch (error) {
                 console.log('getBondBanner:error:>>>', error)

@@ -41,10 +41,3 @@ export const getCurrentBondPrices = id => {
         id
     })
 }
-
-/**
- * 获取banner图
- */
-export const getBondBanner = () => {
-    return axios.get('/finance-info-server/api/get-bond-banner/v1')
-}
