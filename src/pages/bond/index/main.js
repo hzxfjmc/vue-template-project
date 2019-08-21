@@ -6,6 +6,8 @@ Vue.use(Dialog)
 import vConsole from '@/utils/common/plugins/v-console.js'
 Vue.use(vConsole)
 
+import LS from '@/utils/local-storage.js'
+
 import storeMethod from '@/store/index.js'
 const store = storeMethod()
 setTimeout(() => {
@@ -33,7 +35,9 @@ let init = async () => {
         // 这是一个hack，已签名用户签名之后，会保留 isSigned 标记，
         // 这时如果切换新用户进来，该标记还存在，那么新用户进入不了签名页面
         // 这里需要做清除操作
-        localStorage.removeItem('isSigned')
+        LS.remove('isSigned')
+        // 本地签名同理
+        LS.remove('signName')
         // 刷新 初始化数据 数据持久化1
         // 路由拦截器
         // await store.commit('bondIndex/setLang')

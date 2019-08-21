@@ -1,5 +1,6 @@
 import { getBondDetail } from '@/service/finance-info-server.js'
 import jsBridge from '@/utils/js-bridge'
+import LS from '@/utils/local-storage.js'
 import { Panel } from 'vant'
 import { mapState } from 'vuex'
 export default {
@@ -68,7 +69,7 @@ export default {
                 return
             }
             // 未签名，跳转到签名页面
-            if (!this.user.bondSigned && !localStorage.isSigned) {
+            if (!this.user.bondSigned && !LS.get('isSigned')) {
                 this.$router.push({
                     path: '/risk-warning',
                     query: {

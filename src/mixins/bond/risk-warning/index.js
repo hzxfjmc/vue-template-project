@@ -2,6 +2,7 @@ import { Panel, Checkbox } from 'vant'
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { bondRiskAutograph } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
+import LS from '@/utils/local-storage.js'
 import { mapState } from 'vuex'
 export default {
     name: 'RiskWarning',
@@ -24,7 +25,7 @@ export default {
     },
     data() {
         return {
-            signName: '', // 签名
+            signName: LS.get('signName') || '', // 签名
             agreementData: {}, // 债券协议
             id: 0,
             bondName: '',
@@ -70,7 +71,8 @@ export default {
                 })
                 // 签名成功，本地设置标记，因为app那边不能实时更新用户信息
                 // 需要 h5 这边自己做标记
-                localStorage.isSigned = true
+                LS.put('isSigned', true)
+                LS.put('signName', this.signName)
 
                 this.$router.push({
                     path: '/risk-appropriate-result',
