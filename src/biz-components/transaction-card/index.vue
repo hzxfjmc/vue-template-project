@@ -13,7 +13,7 @@
             .yx-cell__header 份数
             .yx-cell__primary
                 van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-                .yx-cell__primary-tip ({{ minFaceValue }}{{ currency }}/份)
+                .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currency }}/份)
         .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
             .yx-cell__header 金额
             .yx-cell__primary {{ tradeMoney }}
@@ -38,11 +38,11 @@
         .tips
             i.iconfont.icon-wenhao(@click="showTips('total')")
             span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
-            strong {{ marketValue }}{{ currency }}
+            strong {{ marketValue | thousand-spilt }}{{ currency }}
         fixed-operate-btn(
             :text="btnText"
             :customStyle="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
-            @click="getTradeToken"
+            @click="handleTradeToken"
         )
 </template>
 
@@ -51,12 +51,11 @@ import MediaBox from '@/biz-components/media-box/index.vue'
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { feePackageCurr } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
-// import { getTradePasswordToken } from '@/service/user-server.js'
 import {
     bondOrder,
     getBondInterestCalculate
 } from '@/service/finance-server.js'
-import { generateUUID } from '@/utils/tools.js'
+import { generateUUID, debounce } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { Stepper } from 'vant'
 import { mapGetters } from 'vuex'
@@ -99,6 +98,8 @@ export default {
 
         // 获取套餐费用
         this.handleFeePackageCurr()
+
+        this.debounceTradeToken = debounce(this.getTradeToken, 350)
     },
     data() {
         return {
@@ -106,6 +107,7 @@ export default {
             bondEditableInfo: {},
             bondUneditableInfo: {},
             id: 0, // 债券id
+            debounceTradeToken: () => {}, // 交易防抖函数
             interestDays: 0, // 应计利息天数
             currentPrice: {}, // 当前价格
             feeData: [] // 当前用户套餐费用
@@ -329,6 +331,10 @@ export default {
             } catch (error) {
                 console.log('feePackageCurr:error:>>> ', error)
             }
+        },
+        // 执行交易防抖函数
+        handleTradeToken() {
+            this.debounceTradeToken()
         },
         // 获取交易token
         async getTradeToken() {

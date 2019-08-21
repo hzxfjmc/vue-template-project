@@ -54,6 +54,7 @@ export function goPdfPreview(url) {
         Toast('URL is null')
     }
 }
+// 防抖
 export const debounce = (fn, delay) => {
     // 定时器，用来 setTimeout
     var timer = null
@@ -72,7 +73,32 @@ export const debounce = (fn, delay) => {
         }, delay)
     }
 }
-
+/**
+ * 节流 规定时间内不管触发多少次只执行一次,与防抖不同，节流可以在第一次时候马上执行
+ * @param {Function} fn 实际要执行的业务逻辑函数
+ * @param {Number} duration 在规定时间段内，业务逻辑函数只能执行一次，单位毫秒
+ */
+export const throttle = (fn, duration) => {
+    let prev = Date.now(),
+        timerid = null
+    return function() {
+        let now = Date.now()
+        let args = arguments
+        clearTimeout(timerid) // 一定要提前清除定时器，因为可以 else 分支执行后，设置了一个定时器，如果第二次触发满足 if 条件，则总共会执行两次
+        if (now - prev >= duration) {
+            // 到了预定时间，执行设定函数
+            fn.apply(this, args)
+            prev = now
+        } else {
+            // 没到预定时机，但是事件被触发了，重新起一个定时器
+            timerid = setTimeout(() => {
+                // 这里保证了最少执行一次，否则达不到 if 条件，函数一次都不会执行
+                prev = now
+                fn.apply(this, args)
+            }, duration)
+        }
+    }
+}
 /**
  * 计算剩余时间
  * @param {Number} timestamp 时间戳
