@@ -3,19 +3,19 @@
         .risk-result__header
             i(:type="riskMatchResult")
             h2 {{ riskMatchResult > 2 ? '匹配' : '不匹配' }}
-            p 您的风评取向{{ riskMatchResult > 2 ? '适合' : '不适合' }}购买该产品
+            p 您的风评取向{{ riskMatchResult > 2 ? '可以' : '不适合' }}购买该产品
         .risk-result__content
             .risk-cell
                 span 您的风险取向
                 strong {{ riskTypeList[userRiskLevel] && riskTypeList[userRiskLevel] || '--'  }}
             .risk-cell
-                span 产品风险
+                span 产品的风险
                 strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
         .risk-result__tips(v-if="riskMatchResult !== 3")
             h2
                 span 什么是风险测评？
                 i.iconfont.icon-about_icon
-            p 您的风评取向不适合购买该产品您的风评取向不适合购买该产品您的风评取向不适合购买该产品
+            p 为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的，通过风险测评可以了解您的风险承受能力和风险偏好。
         .risk-agreement(v-if="riskMatchResult === 3")
             van-checkbox(v-model="isReadProductInfo")
                 i.iconfont(
@@ -24,7 +24,7 @@
                     :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                 )
             p
-                span 我已阅读并知晓债券相关风险，我已阅读
+                span 我已阅读并知晓债券相关风险，我已阅读产品资料
                 a(:href="productUrl") 《产品概览书》
         fixed-operate-btn(
             :text="btnText"
@@ -247,6 +247,8 @@ export default {
         }
     }
     .risk-agreement {
+        display: flex;
+        align-items: baseline;
         position: absolute;
         bottom: 62px;
         padding-left: 14px;
@@ -264,7 +266,7 @@ export default {
             color: $primary-color-line;
         }
         p {
-            display: inline-block;
+            flex: 1;
             color: $text-color5;
             font-size: 0.24rem;
             line-height: 20px;

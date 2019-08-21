@@ -1,6 +1,6 @@
 <template lang="pug">
     .risk-assessment-wrapper
-        .risk-assessment-tips 友信智投致力于为全球用户提供更好的金融服务，为了给您提供更匹配的金融产品xxxxxxxxxxx
+        .risk-assessment-tips 友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的
         .risk-assessment-form
             van-panel(
                 v-for="(subjectItem, subjectIndex) in subject"

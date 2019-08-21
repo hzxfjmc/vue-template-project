@@ -56,7 +56,7 @@ export default {
             agreementData: {}, // 债券协议
             id: 0,
             bondName: '',
-            isReadBondInfo: false
+            isReadBondInfo: true
         }
     },
     computed: {
