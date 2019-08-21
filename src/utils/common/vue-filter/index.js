@@ -2,14 +2,14 @@ import Vue from 'vue'
 import dayjs from 'dayjs'
 
 /**
- * 数字转化为千位分隔
+ * 数字转化为千位分隔，支持小数
  * value | thousand-spilt
  */
 Vue.filter('thousand-spilt', function(value) {
     if (!value) {
         return ''
     }
-    return value.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+    return value.toString().replace(/(\d{1,3})(?=(\d{3})+(?:[$|.]))/g, '$1,')
 })
 
 Vue.filter('idcard', function(num) {
