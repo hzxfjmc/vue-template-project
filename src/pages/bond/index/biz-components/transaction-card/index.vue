@@ -12,7 +12,7 @@
         .yx-cell
             .yx-cell__header 份数
             .yx-cell__primary
-                van-stepper(v-model="transactionNum" integer min="1" max="9999")
+                van-stepper(v-model="transactionNum" integer min="1" max="9999999")
                 .yx-cell__primary-tip ({{ minFaceValue }}{{ currency }}/份)
         .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
             .yx-cell__header 金额
@@ -399,7 +399,7 @@ export default {
                     }
                 } else {
                     this.$dialog.alert({
-                        message: '提交失败'
+                        message: e.msg || '提交失败'
                     })
                 }
             }
@@ -425,8 +425,8 @@ export default {
     },
     watch: {
         transactionNum() {
-            if (this.transactionNum > 9999) {
-                this.transactionNum = 9999
+            if (this.transactionNum > 9999999) {
+                this.transactionNum = 9999999
             }
         }
     }

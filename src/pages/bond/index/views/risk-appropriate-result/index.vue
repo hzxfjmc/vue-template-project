@@ -187,13 +187,13 @@ export default {
         }
         h2 {
             margin: 14px 0 2px;
-            color: #2f79ff;
+            color: $primary-color-line;
             font-size: 0.48rem;
             line-height: 24px;
             text-align: center;
         }
         p {
-            color: #393939;
+            color: $text-color5;
             font-size: 0.24rem;
             opacity: 0.4;
             line-height: 24px;
@@ -201,7 +201,7 @@ export default {
         }
     }
     .risk-result__content {
-        margin: 14px 14px 10px;
+        margin: 14px;
         padding: 20px 0;
         background: rgba(255, 255, 255, 1);
         box-shadow: 0px 2px 6px 0px rgba(57, 57, 57, 0.05);
@@ -216,9 +216,10 @@ export default {
                 margin-bottom: 0;
             }
             span {
-                opacity: 0.6;
+                color: rgba(#393939, 0.6);
             }
             strong {
+                color: $text-color;
                 flex: 1;
                 text-align: right;
             }
@@ -226,10 +227,10 @@ export default {
     }
     .risk-result__tips {
         margin: 0 14px;
+        color: $text-color3;
         h2 {
             line-height: 1;
             i {
-                color: #393939;
                 font-size: 0.3rem;
                 vertical-align: middle;
             }
@@ -243,7 +244,6 @@ export default {
             margin-top: 2px;
             font-size: 0.24rem;
             line-height: 18px;
-            opacity: 0.4;
         }
     }
     .risk-agreement {
@@ -261,18 +261,18 @@ export default {
             vertical-align: middle;
         }
         .icon-selected {
-            color: #2f79ff;
+            color: $primary-color-line;
         }
         p {
             display: inline-block;
+            color: $text-color5;
             font-size: 0.24rem;
             line-height: 20px;
-            // vertical-align: middle;
             span {
                 opacity: 0.4;
             }
             a {
-                color: #2f79ff;
+                color: $primary-color-line;
                 font-size: 0.24rem;
             }
         }

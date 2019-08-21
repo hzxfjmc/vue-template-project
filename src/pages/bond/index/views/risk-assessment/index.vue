@@ -142,11 +142,11 @@ export default {
 .risk-assessment-wrapper {
     padding-bottom: 48px;
     .risk-assessment-tips {
-        padding: 12px 20px 11px 14px;
-        background-color: rgba(47, 121, 255, 0.0993);
-        color: rgba(57, 57, 57, 0.6);
-        font-size: 0.24rem;
-        line-height: 16px;
+        padding: 5px 8px 5px 12px;
+        background: rgba(255, 172, 79, 0.2);
+        color: #dda16b;
+        font-size: 0.28rem;
+        line-height: 20px;
     }
     .risk-assessment-form {
         .van-panel {
