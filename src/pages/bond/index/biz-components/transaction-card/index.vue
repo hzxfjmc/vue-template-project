@@ -112,7 +112,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['lang']),
+        ...mapGetters(['appType']),
         // 发行人
         issuerName() {
             return (
@@ -362,7 +362,7 @@ export default {
                 await this.$dialog.alert({
                     message: '提交成功'
                 })
-                if (this.lang === 'zhCHT') {
+                if (this.appType && this.appType.Hk) {
                     // 港版跳转到全部订单页
                     jsBridge.gotoNativeModule(
                         'yxzq_goto://order_record?market=hk&type=2'

@@ -163,7 +163,6 @@ export default {
 <style lang="scss" scoped>
 .detail-bond-info-wrapper {
     padding-top: 2px;
-    padding-bottom: 15px;
     .bond-info-header {
         position: absolute;
         top: 14px;
@@ -194,15 +193,18 @@ export default {
             }
         }
     }
-    .col-column:nth-child(1) {
-        padding-top: 0;
+    .col-column {
+        padding-bottom: 20px;
+        &:nth-child(1) {
+            padding-top: 0;
+        }
     }
     .con {
         position: relative;
         .iconfont {
             position: absolute;
             left: 50%;
-            bottom: -15px;
+            bottom: 0;
             transform: translate(-50%);
         }
     }

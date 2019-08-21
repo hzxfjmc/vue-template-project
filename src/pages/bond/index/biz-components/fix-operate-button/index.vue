@@ -34,7 +34,7 @@ export default {
     font-size: 0.32rem;
     text-align: center;
     line-height: 48px;
-    background-color: #0d50d8;
+    background-color: $primary-color;
     &[disabled='disabled'] {
         background-color: $disabled-color;
     }

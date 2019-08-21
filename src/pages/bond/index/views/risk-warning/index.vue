@@ -135,23 +135,19 @@ export default {
         }
     }
     .van-cell__title {
-        font-weight: bold;
+        color: #2e2e3c !important;
         font-size: 0.36rem;
         line-height: 22px;
     }
     // 风险提示文本
     .risk-text-box {
         max-height: 273px;
-        margin: 0 14px 14px 14px;
-        padding: 14px 10px 14px 14px;
+        margin: 0 12px 14px 12px;
+        padding: 14px 12px 21px 12px;
         background: rgba(47, 121, 255, 0.0261);
         box-sizing: border-box;
-        h3 {
-            margin-bottom: 15px;
-            font-size: 0.28rem;
-            line-height: 20px;
-        }
         p {
+            color: $text-color5;
             font-size: 0.28rem;
             line-height: 24px;
         }
@@ -161,19 +157,18 @@ export default {
         position: relative;
         z-index: 1;
         height: 51px;
-        margin: -5px 14px 0;
+        margin: -2px 12px 0;
         .signature-input__inner {
             width: 100%;
             height: 100%;
             padding-left: 14px;
-            border: 1px solid #e1e1e1;
-            background-color: #fdfdfd;
+            border: 1px solid rgba($color: $text-color, $alpha: 0.05);
+            color: #2e2e3c;
             font-size: 0.28rem;
             line-height: 48px;
             border-radius: 4px;
             &::placeholder {
-                color: #2e2e3c;
-                opacity: 0.4;
+                color: $text-color2;
             }
         }
     }
@@ -194,13 +189,14 @@ export default {
         }
         .text {
             flex: 1;
+            color: $text-color3;
             span {
                 font-size: 0.24rem;
                 line-height: 18px;
                 opacity: 0.4;
             }
             a {
-                color: #2f79ff;
+                color: $primary-color-line;
                 font-size: 0.24rem;
                 line-height: 20px;
             }
