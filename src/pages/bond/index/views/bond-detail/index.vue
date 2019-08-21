@@ -139,7 +139,7 @@ export default {
         text-align: center;
         margin: 10px auto 12px;
         a {
-            color: #2f79ff;
+            color: $primary-color-line;
             font-size: 0.24rem;
             line-height: 17px;
         }
@@ -158,11 +158,11 @@ export default {
             justify-content: center;
             flex: 1;
             height: 100%;
-            background-color: #497aff;
+            background-color: $primary-color-line;
             color: #fff;
             font-size: 0.32rem;
             &:last-child {
-                background-color: #ffbf32;
+                background-color: $sell-color;
             }
         }
     }
@@ -180,7 +180,6 @@ export default {
         }
     }
     .van-cell__title {
-        color: #393939;
         font-size: 0.28rem;
         line-height: 20px;
     }

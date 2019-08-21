@@ -135,23 +135,19 @@ export default {
         }
     }
     .van-cell__title {
-        font-weight: bold;
+        color: #2e2e3c !important;
         font-size: 0.36rem;
         line-height: 22px;
     }
     // 风险提示文本
     .risk-text-box {
         max-height: 273px;
-        margin: 0 14px 14px 14px;
-        padding: 14px 10px 14px 14px;
+        margin: 0 12px 14px 12px;
+        padding: 14px 12px 21px 12px;
         background: rgba(47, 121, 255, 0.0261);
         box-sizing: border-box;
-        h3 {
-            margin-bottom: 15px;
-            font-size: 0.28rem;
-            line-height: 20px;
-        }
         p {
+            color: $text-color5;
             font-size: 0.28rem;
             line-height: 24px;
         }

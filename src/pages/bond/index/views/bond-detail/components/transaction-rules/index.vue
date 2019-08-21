@@ -19,9 +19,9 @@ export default {
     .yx-cell {
         display: flex;
         padding: 10px 14px;
-        color: #393939;
-        opacity: 0.4;
+        color: $text-color5;
         font-size: 0.24rem;
+        line-height: 17px;
     }
     .yx-cell + .yx-cell {
         padding-top: 0;
