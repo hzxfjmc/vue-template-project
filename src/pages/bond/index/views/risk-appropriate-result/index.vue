@@ -11,7 +11,7 @@
             .risk-cell
                 span 产品的风险
                 strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
-        .risk-result__tips(v-if="riskMatchResult !== 3")
+        .risk-result__tips(v-if="riskMatchResult === 1")
             h2
                 span 什么是风险测评？
                 i.iconfont.icon-about_icon
