@@ -7,33 +7,9 @@
 </template>
 
 <script>
-import { Panel } from 'vant'
-import ColMsg from '@/biz-components/col-msg'
+import bondPriceMaskHeaderMixin from '@/mixins/bond/bond-detail/bond-price__mask-header.js'
 export default {
-    name: 'MaskHeader',
-    components: {
-        [Panel.name]: Panel,
-        ColMsg
-    },
-    props: {
-        maskData: {
-            type: Object,
-            defatult: () => {}
-        }
-    },
-    data() {
-        return {
-            descStyle: {}
-        }
-    },
-    computed: {
-        title() {
-            return this.maskData && this.maskData.title
-        },
-        colData() {
-            return this.maskData && this.maskData.colData
-        }
-    }
+    mixins: [bondPriceMaskHeaderMixin]
 }
 </script>
 
