@@ -365,9 +365,11 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: tradeToken
                 })
-                await this.$dialog.alert({
-                    message: '提交成功'
-                })
+                await this.$toast('提交成功', 'center')
+
+                // await this.$dialog.alert({
+                //     message: '提交成功'
+                // })
                 if (this.appType && this.appType.Hk) {
                     // 港版跳转到全部订单页
                     jsBridge.gotoNativeModule(
