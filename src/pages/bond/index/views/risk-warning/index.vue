@@ -157,19 +157,18 @@ export default {
         position: relative;
         z-index: 1;
         height: 51px;
-        margin: -5px 14px 0;
+        margin: -2px 12px 0;
         .signature-input__inner {
             width: 100%;
             height: 100%;
             padding-left: 14px;
-            border: 1px solid #e1e1e1;
-            background-color: #fdfdfd;
+            border: 1px solid rgba($color: $text-color, $alpha: 0.05);
+            color: #2e2e3c;
             font-size: 0.28rem;
             line-height: 48px;
             border-radius: 4px;
             &::placeholder {
-                color: #2e2e3c;
-                opacity: 0.4;
+                color: $text-color2;
             }
         }
     }
@@ -190,13 +189,14 @@ export default {
         }
         .text {
             flex: 1;
+            color: $text-color3;
             span {
                 font-size: 0.24rem;
                 line-height: 18px;
                 opacity: 0.4;
             }
             a {
-                color: #2f79ff;
+                color: $primary-color-line;
                 font-size: 0.24rem;
                 line-height: 20px;
             }
