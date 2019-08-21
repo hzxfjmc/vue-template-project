@@ -31,7 +31,7 @@
 </template>
 
 <script>
-import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
+import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessSubject, riskAssessAnswer } from '@/service/user-server.js'
 import { RadioGroup, Radio, Panel } from 'vant'
 export default {

@@ -25,8 +25,8 @@
 </template>
 <script>
 import { Row, Col } from 'vant'
-import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
-import ColMsg from '@/pages/bond/index/biz-components/col-msg/index.vue'
+import MediaBox from '@/biz-components/media-box/index.vue'
+import ColMsg from '@/biz-components/col-msg/index.vue'
 import { calcCountDownDay } from '@/utils/tools.js'
 export default {
     name: 'DetailHeader',

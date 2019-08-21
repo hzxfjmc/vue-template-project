@@ -47,8 +47,8 @@
 </template>
 
 <script>
-import MediaBox from '@/pages/bond/index/biz-components/media-box/index.vue'
-import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
+import MediaBox from '@/biz-components/media-box/index.vue'
+import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { feePackageCurr } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 // import { getTradePasswordToken } from '@/service/user-server.js'

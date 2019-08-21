@@ -27,7 +27,7 @@
 </template>
 <script>
 import { Panel, Checkbox } from 'vant'
-import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
+import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { bondRiskAutograph } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
 import { mapState } from 'vuex'

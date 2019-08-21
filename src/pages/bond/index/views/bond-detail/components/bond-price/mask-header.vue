@@ -8,7 +8,7 @@
 
 <script>
 import { Panel } from 'vant'
-import ColMsg from '@/pages/bond/index/biz-components/col-msg'
+import ColMsg from '@/biz-components/col-msg'
 export default {
     name: 'MaskHeader',
     components: {

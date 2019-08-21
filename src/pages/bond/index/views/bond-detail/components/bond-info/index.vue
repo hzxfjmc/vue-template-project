@@ -27,7 +27,7 @@
 <script>
 import { Row, Col } from 'vant'
 import { calcCountDownDay, dateFormat } from '@/utils/tools.js'
-import ColMsg from '@/pages/bond/index/biz-components/col-msg/index.vue'
+import ColMsg from '@/biz-components/col-msg/index.vue'
 export default {
     name: 'BondInfo',
     components: {

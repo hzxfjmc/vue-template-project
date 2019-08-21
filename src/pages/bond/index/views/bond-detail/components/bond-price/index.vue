@@ -8,7 +8,7 @@
             canvas#mountNode
 </template>
 <script>
-import ColMsg from '@/pages/bond/index/biz-components/col-msg'
+import ColMsg from '@/biz-components/col-msg'
 import MaskHeader from './mask-header'
 import F2 from '@antv/f2'
 import dayjs from 'dayjs'

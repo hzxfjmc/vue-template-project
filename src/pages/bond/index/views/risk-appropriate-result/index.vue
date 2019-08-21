@@ -35,7 +35,7 @@
 
 <script>
 import { Checkbox } from 'vant'
-import FixedOperateBtn from '@/pages/bond/index/biz-components/fix-operate-button/index.vue'
+import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 export default {

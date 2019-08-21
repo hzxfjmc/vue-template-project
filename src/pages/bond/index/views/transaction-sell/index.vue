@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import TransactionCard from '@/pages/bond/index/biz-components/transaction-card/index.vue'
+import TransactionCard from '@/biz-components/transaction-card/index.vue'
 import { getBondPosition } from '@/service/finance-server.js'
 export default {
     name: 'TransactionSell',
