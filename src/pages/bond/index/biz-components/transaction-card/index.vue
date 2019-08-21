@@ -442,10 +442,7 @@ export default {
 }
 .transaction-header {
     padding: 12px 14px;
-    background-color: #2f79ff;
-    .media-box .media-box__content .media-box__desc {
-        margin-top: 2px;
-    }
+    background-color: $primary-color-line;
 }
 .icon-wenhao {
     color: #9fb0ca;
@@ -463,53 +460,46 @@ export default {
     .yx-cell__header {
         font-size: 0.28rem;
         line-height: 20px;
-        opacity: 0.6;
+        color: $text-color5;
     }
     .yx-cell__header-tip {
         display: inline-block;
         margin-left: 4px;
         font-size: 0.24rem;
         line-height: 17px;
-        opacity: 0.6;
+        color: $text-color6;
     }
     .yx-cell__primary {
         flex: 1;
         text-align: right;
+        color: $text-color;
         font-size: 0.36rem;
         line-height: 23px;
     }
     .yx-cell__primary-tip {
         margin-top: 6px;
-        color: rgba(25, 25, 25, 0.3);
+        color: $text-color3;
         font-size: 0.2rem;
         line-height: 14px;
     }
 }
-
 .divider-line {
     margin: 25px 14px 16px;
     height: 1px;
-    background-color: #393939;
-    opacity: 0.0565;
+    background-color: rgba($text-color, 0.06);
 }
 .tips {
     margin-top: 6px;
     padding-right: 15px;
+    color: $text-color5;
+    font-size: 0.24rem;
+    line-height: 18px;
     text-align: right;
     i {
         margin-right: 4px;
-        font-size: 0.24rem;
     }
     span {
         margin-right: 4px;
-        color: rgba(25, 25, 25, 0.5);
-        font-size: 0.24rem;
-        line-height: 18px;
-    }
-    strong {
-        color: rgba(25, 25, 25, 0.5);
-        font-size: 0.24rem;
-        line-height: 18px;
     }
 }
 </style>
@@ -529,13 +519,15 @@ export default {
             border-radius: 2px;
             .van-stepper__minus::before,
             .van-stepper__plus::before {
-                background-color: #191919;
+                background-color: $text-color;
             }
         }
         .van-stepper__input {
             width: 77px;
             padding: 0 4px;
             background-color: #fff;
+            color: $text-color;
+            font-size: 0.36rem;
             box-sizing: border-box;
         }
     }

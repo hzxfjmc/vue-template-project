@@ -151,13 +151,13 @@ export default {
     .risk-assessment-form {
         .van-panel {
             margin-bottom: 10px;
-            padding-bottom: 12px;
+            padding-bottom: 10px;
         }
         .van-cell {
             &:after {
                 display: none;
             }
-            padding: 14px 14px 9px 14px;
+            padding: 14px 14px 10px 12px;
             font-size: 0.28rem;
             line-height: 24px;
         }
@@ -165,20 +165,20 @@ export default {
             &:after {
                 display: none;
             }
-            .van-cell__title {
-                color: rgba(57, 57, 57, 1) !important;
-            }
         }
         .van-panel__content {
             .van-cell {
-                padding: 9px 14px;
+                padding: 10px 12px;
+            }
+            .van-cell__title {
+                color: rgba(#393939, 0.6) !important;
             }
         }
         .van-hairline--top-bottom::after {
             display: none;
         }
         .icon-selected {
-            color: #2f79ff;
+            color: $primary-color-line;
         }
         .icon-unchecked {
             opacity: 0.4;
@@ -189,7 +189,7 @@ export default {
         }
     }
     .fix-operate-btn.active {
-        background-color: #ffbf32;
+        background-color: $sell-color;
     }
 }
 </style>

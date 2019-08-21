@@ -141,6 +141,7 @@ export default {
     }
     // 风险提示文本
     .risk-text-box {
+        overflow-y: auto;
         max-height: 273px;
         margin: 0 12px 14px 12px;
         padding: 14px 12px 21px 12px;
