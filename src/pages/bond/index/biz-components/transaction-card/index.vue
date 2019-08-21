@@ -365,7 +365,7 @@ export default {
                 if (this.appType && this.appType.Hk) {
                     // 港版跳转到全部订单页
                     jsBridge.gotoNativeModule(
-                        'yxzq_goto://order_record?market=hk&type=2'
+                        'yxzq_goto://order_record?market=us&type=2'
                     )
                 } else {
                     // 跳转到今日订单页
