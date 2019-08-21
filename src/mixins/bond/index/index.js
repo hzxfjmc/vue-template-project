@@ -10,11 +10,7 @@ export default {
         BondCard
     },
     created() {
-        // 初始化拉取债券banner
-        this.handleGetBondBanner()
-
-        // 初始化拉取债券列表
-        this.handleGetBondList()
+        this.handleSetupResult()
 
         // 滑动到底触发更新数据
         window.addEventListener('scroll', this.pullRequest)
@@ -25,11 +21,20 @@ export default {
             bannerUrl: [],
             bondList: [],
             timer: null,
+            isShowPage: false,
             pageSize: 30, // 每页条数
             pageNum: 1 // 当前页数
         }
     },
     methods: {
+        // 将多个异步聚合为同步
+        async handleSetupResult() {
+            await Promise.all([
+                this.handleGetBondBanner(),
+                this.handleGetBondList()
+            ])
+            this.isShowPage = true
+        },
         // 拉取债券banner
         async handleGetBondBanner() {
             try {

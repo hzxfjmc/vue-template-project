@@ -1,5 +1,5 @@
 <template lang="pug">
-    .bond-index-wrapper
+    .bond-index-wrapper(v-show="isShowPage")
         van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
             van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
                 a(:href="bannerItem.jump_url" title="")
@@ -13,6 +13,8 @@
             )
                 bond-card(:bondInfo="item")
             .no-data(v-show="!hasData") 没有更多债券
+        .no-bond-box(v-if="bondList.length === 0")
+            .no-bond 暂无债券
 </template>
 <script>
 import indexMixin from '@/mixins/bond/index/index.js'
@@ -46,6 +48,23 @@ export default {
         font-size: 0.24rem;
         line-height: 17px;
         text-align: center;
+    }
+    .no-bond-box {
+        padding-top: 150px;
+        .no-bond {
+            width: 130px;
+            height: 120px;
+            margin: 0 auto;
+            padding-top: 100px;
+            background: url('~@/assets/img/bond/icon-nobond.png') center 15px
+                no-repeat;
+            background-size: 110px;
+            color: $text-color3;
+            font-size: 0.28rem;
+            line-height: 20px;
+            text-align: center;
+            box-sizing: border-box;
+        }
     }
 }
 </style>
