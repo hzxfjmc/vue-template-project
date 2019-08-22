@@ -65,6 +65,9 @@
             font-size: 14px;
         }
     }
+    .van-tag::after {
+        transform: scale(0.45);
+    }
 }
 body {
     .van-toast.toast-like-ios {
