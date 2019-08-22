@@ -277,10 +277,15 @@ export default {
         // 卖：债券持仓/买：可用资金
         marketValue() {
             if (this.direction === 1) {
-                return this.accountInfo.withdrawBalance || '0.00'
+                return (
+                    (this.accountInfo.withdrawBalance &&
+                        (this.accountInfo.withdrawBalance - 0).toFixed(2)) ||
+                    '0.00'
+                )
             }
             return this.positionData.marketValue
-                ? this.positionData.marketValue
+                ? this.positionData.marketValue &&
+                      (this.positionData.marketValue - 0).toFixed(2)
                 : '0.00'
         }
     },
@@ -365,9 +370,8 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: tradeToken
                 })
-                await this.$dialog.alert({
-                    message: '提交成功'
-                })
+                await this.$toast('提交成功')
+
                 if (this.appType && this.appType.Hk) {
                     // 港版跳转到全部订单页
                     jsBridge.gotoNativeModule(
@@ -382,6 +386,24 @@ export default {
                 console.log('bondOrder:data:>>> ', data)
             } catch (e) {
                 console.log('bondOrder:error:>>> ', e)
+                // 800001, "系统异常，请稍后重试" 1
+                // 800008, "账户被冻结，无法完成操作，如有疑问，请联系客服" 1
+                // 800010, "抱歉，该产品暂不销售" 1
+                // 800011, "当前时间段不可操作" 1
+                // 800013, "债券可用资金不足" 1
+                // 800014, "债券已到期，无法交易，如有持仓本息将尽快返回到您账户" 1
+                // 800018, "抱歉，价格发生变化，是否按最新价格（%s）提交订单？或者取消后重新下单" 1
+                // 800027, "下单数量不正确" 1
+                // 特殊重要错误，需要弹窗提示，其他使用toast
+                let specialCode = [
+                    800001,
+                    800008,
+                    800010,
+                    800011,
+                    800013,
+                    800014,
+                    800027
+                ]
                 if (e.code === 800018) {
                     if (e.data) {
                         // 价格发生变化
@@ -403,10 +425,13 @@ export default {
                             message: e.msg
                         })
                     }
-                } else {
+                } else if (specialCode.includes(e.code)) {
                     this.$dialog.alert({
-                        message: e.msg || '提交失败'
+                        title: '提交失败',
+                        message: e.msg
                     })
+                } else {
+                    this.$toast('提交失败')
                 }
             }
         },

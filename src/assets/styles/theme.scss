@@ -26,7 +26,7 @@ $title-color: #272727;
 $title-color5:  rgba($title-color, 0.5);
 
 
-$global-padding: 14px;
+$global-padding: 12px;
 
 $disabled-color: $text-color2;
 $warn-color: #ff744a;
@@ -50,3 +50,5 @@ $hk-text-color4: rgba($hk-text-color, 0.4); // 提示文字颜色
 $hk-text-color1: rgba($hk-text-color, 0.1); // 提示文字颜色
 
 $hk-background-color: #f8f8f8;
+
+$hk-global-padding: 18px;

@@ -115,7 +115,7 @@ export default {
         align-items: center;
         h2 {
             overflow: hidden;
-            margin-right: 3px;
+            margin-right: 6px;
             font-size: 0.36rem;
             color: $title-color;
             line-height: 25px;

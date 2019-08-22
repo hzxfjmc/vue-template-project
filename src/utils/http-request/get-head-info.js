@@ -11,13 +11,13 @@ if (version === '') {
 }
 
 // 大陆版开户不要多语言
-if (window.location.href.indexOf('/open-account/apply.html') > -1) {
-    langType = '1'
-}
+// if (window.location.href.indexOf('/open-account/apply.html') > -1) {
+//     langType = '1'
+// }
 // 账户激活页只为繁体
-if (window.location.href.indexOf('/marketing/activate-account.html') > -1) {
-    langType = '2'
-}
+// if (window.location.href.indexOf('/marketing/activate-account.html') > -1) {
+//     langType = '2'
+// }
 
 let XUid = '' // X-Uid，存在内存中，有值则不调用get_user_info
 const XNetType = getUaValue('nt')

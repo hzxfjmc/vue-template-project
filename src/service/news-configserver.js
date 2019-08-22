@@ -2,7 +2,7 @@ import httpRequest from '@/utils/http-request'
 const axios = new httpRequest()
 
 /**
- * 获取当前客户债券持仓
+ * 获取债券首页banner
  * @param {Number} show_page 20 为债券首页banner
  */
 export const bannerAdvertisement = show_page => {
