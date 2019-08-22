@@ -15,10 +15,6 @@ Vue.component('yx-container', () =>
 Vue.component('yx-container-better', () =>
     import('@/components/yx-container-better/index.vue')
 )
-
-Vue.component('open-process', () =>
-    import('@/pages/open-account/apply/biz-components/open-process/Index.vue')
-)
 Vue.component('yx-hk-popup', () => import('@/components/yx-hk-popup/index.vue'))
 
 Vue.component('yx-hk-field', () => import('@/components/yx-hk-field/index.vue'))

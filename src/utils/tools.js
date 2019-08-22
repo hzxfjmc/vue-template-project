@@ -1,7 +1,7 @@
 // aaaa-bbbb-cccc => aBbbbCccc
-import { Toast } from 'vant'
-import jsBridge from '@/utils/js-bridge.js'
-import LS from '@/utils/local-storage.js'
+// import { Toast } from 'vant'
+// import jsBridge from '@/utils/js-bridge.js'
+// import LS from '@/utils/local-storage.js'
 import dayjs from 'dayjs'
 
 const camelizeRE = /-(\w)/g
@@ -45,15 +45,15 @@ export function getParameter(name) {
         return decodeURIComponent(name[1])
 }
 
-export function goPdfPreview(url) {
-    LS.put('pdfUrl', url)
-    if (url) {
-        const path = `${location.origin}/webapp/open-account-hk/apply.html#/pdf-preview`
-        jsBridge.gotoNewWebview(path)
-    } else {
-        Toast('URL is null')
-    }
-}
+// export function goPdfPreview(url) {
+//     LS.put('pdfUrl', url)
+//     if (url) {
+//         const path = `${location.origin}/webapp/open-account-hk/apply.html#/pdf-preview`
+//         jsBridge.gotoNewWebview(path)
+//     } else {
+//         Toast('URL is null')
+//     }
+// }
 // 防抖
 export const debounce = (fn, delay) => {
     // 定时器，用来 setTimeout
