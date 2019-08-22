@@ -5,9 +5,9 @@
             :desc="bondName"
         )
         .yx-cell(style="padding:0.4rem 0.28rem")
-            .yx-cell__header 买入价格
+            .yx-cell__header {{ direction === 1 ? '买入价格' : '卖出价格' }}
                 .yx-cell__header-tip ({{ currency }})
-            .yx-cell__primary {{ buyPrice }}
+            .yx-cell__primary {{ buyOrSellPrice }}
 
         .yx-cell
             .yx-cell__header 份数
@@ -38,7 +38,8 @@
         .tips
             i.iconfont.icon-wenhao(@click="showTips('total')")
             span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
-            strong {{ marketValue | thousand-spilt }}{{ currency }}
+            strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currency }}
+            strong(v-if="direction === 2") {{ marketValue }}
         fixed-operate-btn(
             :text="btnText"
             :customStyle="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
@@ -139,11 +140,18 @@ export default {
                 '--'
             )
         },
-        // 当前债券售卖单价
-        buyPrice() {
+        // 当前债券售卖单价/交易单价
+        buyOrSellPrice() {
+            if (this.direction === 1) {
+                return (
+                    (this.currentPrice.buyPrice &&
+                        (this.currentPrice.buyPrice - 0).toFixed(4)) ||
+                    '0.0000'
+                )
+            }
             return (
-                (this.currentPrice.buyPrice &&
-                    (this.currentPrice.buyPrice - 0).toFixed(4)) ||
+                (this.currentPrice.sellPrice &&
+                    (this.currentPrice.sellPrice - 0).toFixed(4)) ||
                 '0.0000'
             )
         },
@@ -153,7 +161,8 @@ export default {
         },
         // 交易金额
         tradeMoney() {
-            let t = this.minFaceValue * this.transactionNum * this.buyPrice
+            let t =
+                this.minFaceValue * this.transactionNum * this.buyOrSellPrice
             return t ? t.toFixed(2) : 0
         },
         // 计算应计利息
@@ -283,10 +292,12 @@ export default {
                     '0.00'
                 )
             }
-            return this.positionData.marketValue
-                ? this.positionData.marketValue &&
-                      (this.positionData.marketValue - 0).toFixed(2)
+            let mv = this.positionData.marketValue
+                ? this.positionData.marketValue && this.positionData.marketValue
                 : '0.00'
+            let count = Math.floor(mv / this.minFaceValue)
+
+            return mv === '0.00' ? '0.00' : mv + '(' + count + '份)'
         }
     },
     methods: {
@@ -365,7 +376,7 @@ export default {
                 let data = await bondOrder({
                     bondId: this.id,
                     direction: this.direction,
-                    entrustPrice: this.currentPrice.buyPrice - 0,
+                    entrustPrice: this.buyOrSellPrice - 0,
                     entrustQuantity: this.transactionNum,
                     requestId: generateUUID(),
                     tradeToken: tradeToken
@@ -413,11 +424,11 @@ export default {
                                 message: e.msg
                             })
                             .then(async () => {
-                                this.currentPrice.buyPrice = e.data
+                                this.buyOrSellPrice = e.data
                                 this.getTradeToken()
                             })
                             .catch(() => {
-                                this.currentPrice.buyPrice = e.data
+                                this.buyOrSellPrice = e.data
                             })
                     } else {
                         this.$dialog.alert({
