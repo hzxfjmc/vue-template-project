@@ -16,13 +16,13 @@
                 .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currency }}/份)
         .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
             .yx-cell__header 金额
-            .yx-cell__primary {{ tradeMoney }}
+            .yx-cell__primary {{ tradeMoney | thousand-spilt }}
 
         .yx-cell
             .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
                 .yx-cell__header-tip
                     i.iconfont.icon-wenhao(@click="showTips('interest')")
-            .yx-cell__primary +{{ calcInterest }}
+            .yx-cell__primary +{{ calcInterest | thousand-spilt }}
 
         .yx-cell(style="padding-top:0.2rem")
             .yx-cell__header 手续费(预估)
@@ -33,7 +33,7 @@
         .yx-cell.total-trade-money
             .yx-cell__header 总额
                 .yx-cell__header-tip ({{ currency }})
-            .yx-cell__primary {{ totalTradeMoney }}
+            .yx-cell__primary {{ totalTradeMoney | thousand-spilt }}
 
         .tips
             i.iconfont.icon-wenhao(@click="showTips('total')")
