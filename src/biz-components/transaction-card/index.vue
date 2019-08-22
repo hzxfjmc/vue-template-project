@@ -358,10 +358,7 @@ export default {
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
-
                 console.log('tradeMsg :', data)
-                // let requestToken = await getTradePasswordToken()
-                // console.log('requestToken :', requestToken)
                 if (data && data.token) {
                     this.handleBondOrder(data.token)
                 }
@@ -404,6 +401,7 @@ export default {
                 // 800013, "债券可用资金不足" 1
                 // 800014, "债券已到期，无法交易，如有持仓本息将尽快返回到您账户" 1
                 // 800018, "抱歉，价格发生变化，是否按最新价格（%s）提交订单？或者取消后重新下单" 1
+                // 800020, "债券数量不足" 1
                 // 800027, "下单数量不正确" 1
                 // 特殊重要错误，需要弹窗提示，其他使用toast
                 let specialCode = [
@@ -413,6 +411,7 @@ export default {
                     800011,
                     800013,
                     800014,
+                    800020,
                     800027
                 ]
                 if (e.code === 800018) {
@@ -424,8 +423,10 @@ export default {
                                 message: e.msg
                             })
                             .then(async () => {
-                                this.buyOrSellPrice = e.data
-                                this.getTradeToken()
+                                this.direction === 1
+                                    ? (this.currentPrice.buyPrice = e.data)
+                                    : (this.currentPrice.sellPrice = e.data)
+                                this.handleBondOrder(tradeToken)
                             })
                             .catch(() => {
                                 this.buyOrSellPrice = e.data
