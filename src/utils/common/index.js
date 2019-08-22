@@ -3,7 +3,7 @@
 // import 'es5-shim'
 // import 'es6-shim'
 // 神策埋点
-import '@/pages/market/0-third/sensors'
+import '@/utils/sensors'
 // 加载 vue 的一些指令
 import './vue-directive'
 
