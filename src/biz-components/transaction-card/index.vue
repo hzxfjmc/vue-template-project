@@ -277,10 +277,15 @@ export default {
         // 卖：债券持仓/买：可用资金
         marketValue() {
             if (this.direction === 1) {
-                return this.accountInfo.withdrawBalance || '0.00'
+                return (
+                    (this.accountInfo.withdrawBalance &&
+                        (this.accountInfo.withdrawBalance - 0).toFixed(2)) ||
+                    '0.00'
+                )
             }
             return this.positionData.marketValue
-                ? this.positionData.marketValue
+                ? this.positionData.marketValue &&
+                      (this.positionData.marketValue - 0).toFixed(2)
                 : '0.00'
         }
     },
