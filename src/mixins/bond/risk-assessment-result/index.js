@@ -54,7 +54,7 @@ export default {
                     createTime,
                     validTime
                 } = await riskAssessResult()
-                if (validTime && new Date().getTime > new Date(validTime)) {
+                if (validTime && new Date() > new Date(validTime)) {
                     // 当前时间大于测评有效时间，测评过期
                     this.userRiskLevel = 100
                 } else {
