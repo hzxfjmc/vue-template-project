@@ -32,15 +32,10 @@ import '@/utils/common'
 // console.log(window.XMLHttpRequest)
 let init = async () => {
     try {
-        // 这是一个hack，已签名用户签名之后，会保留 isSigned 标记，
-        // 这时如果切换新用户进来，该标记还存在，那么新用户进入不了签名页面
-        // 这里需要做清除操作
-        LS.remove('isSigned')
-        // 本地签名同理
+        // 切换新用户进来，签名页面,这里需要做清除操作
         LS.remove('signName')
         // 刷新 初始化数据 数据持久化1
         // 路由拦截器
-        // await store.commit('bondIndex/setLang')
         await store.dispatch('initAction')
         // await store.dispatch('bondIndex/init')
     } catch (e) {

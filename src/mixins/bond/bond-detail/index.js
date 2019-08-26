@@ -1,6 +1,6 @@
 import { getBondDetail } from '@/service/finance-info-server.js'
+import { getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
-import LS from '@/utils/local-storage.js'
 import { Panel } from 'vant'
 import { mapState } from 'vuex'
 export default {
@@ -8,34 +8,14 @@ export default {
     components: {
         [Panel.name]: Panel
     },
-    async created() {
+    created() {
         this.id = this.$route.query.id - 0
-        try {
-            let {
-                bondEditableInfo,
-                bondUneditableInfo,
-                currentPrice,
-                prices
-            } = await getBondDetail(this.id)
 
-            this.bondEditableInfo = bondEditableInfo || {}
-            this.bondUneditableInfo = bondUneditableInfo || {}
-            this.currentPrice = currentPrice || {}
-            this.prices = prices || []
-            this.bondName =
-                (this.bondEditableInfo.issuer &&
-                    this.bondEditableInfo.issuer.name) ||
-                '--'
-            console.log(
-                'getBondDetail:data:>>> ',
-                bondEditableInfo,
-                bondUneditableInfo,
-                currentPrice,
-                prices
-            )
-        } catch (e) {
-            console.log('getBondDetail:error:>>>', e)
-        }
+        // 获取债券详情
+        this.handleGetBondDetail()
+
+        // 获取用户信息--主要拿签名状态
+        this.handleGetCurrentUser()
     },
     data() {
         return {
@@ -44,13 +24,59 @@ export default {
             currentPrice: {},
             prices: [],
             id: 0,
-            bondName: ''
+            bondName: '',
+            extendStatusBit: 0 // 用户扩展状态
         }
     },
     computed: {
-        ...mapState(['user'])
+        ...mapState(['user']),
+        isSigned() {
+            // 转成 2 进制
+            let bit = this.extendStatusBit.toString(2)
+            // 取值，从右往左数第四位，既是签名的状态
+            return bit.slice(-4, -3) - 0
+        }
     },
     methods: {
+        // 获取债券详情
+        async handleGetBondDetail() {
+            try {
+                let {
+                    bondEditableInfo,
+                    bondUneditableInfo,
+                    currentPrice,
+                    prices
+                } = await getBondDetail(this.id)
+
+                this.bondEditableInfo = bondEditableInfo || {}
+                this.bondUneditableInfo = bondUneditableInfo || {}
+                this.currentPrice = currentPrice || {}
+                this.prices = prices || []
+                this.bondName =
+                    (this.bondEditableInfo.issuer &&
+                        this.bondEditableInfo.issuer.name) ||
+                    '--'
+                console.log(
+                    'getBondDetail:data:>>> ',
+                    bondEditableInfo,
+                    bondUneditableInfo,
+                    currentPrice,
+                    prices
+                )
+            } catch (e) {
+                console.log('getBondDetail:error:>>>', e)
+            }
+        },
+        // 获取用户信息--主要拿签名状态
+        async handleGetCurrentUser() {
+            try {
+                let { extendStatusBit } = getCurrentUser()
+                this.extendStatusBit = (extendStatusBit && extendStatusBit) || 0
+                console.log('getCurrentUser:error:>>>', extendStatusBit)
+            } catch (error) {
+                console.log('getCurrentUser:error:>>>', error)
+            }
+        },
         async handleBuyOrSell(type) {
             // 未登录或未开户
             if (!this.user) {
@@ -71,7 +97,7 @@ export default {
             // 买入还是卖出
             let direction = type === 'buy' ? 1 : 2
             // 未签名，跳转到签名页面
-            if (!this.user.bondSigned && !LS.get('isSigned')) {
+            if (!this.isSigned) {
                 this.$router.push({
                     path: '/risk-warning',
                     query: {

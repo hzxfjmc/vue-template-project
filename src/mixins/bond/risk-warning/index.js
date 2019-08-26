@@ -69,9 +69,7 @@ export default {
                                 在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。
                             `
                 })
-                // 签名成功，本地设置标记，因为app那边不能实时更新用户信息
-                // 需要 h5 这边自己做标记
-                LS.put('isSigned', true)
+                // 签名成功，本地设置标记，用与返回时候保留签名，刷新则清除
                 LS.put('signName', this.signName)
 
                 this.$router.push({
