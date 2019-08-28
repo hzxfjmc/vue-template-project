@@ -8,12 +8,12 @@ export default new Router({
     },
     routes: [
         {
-            name: 'risk-warning',
-            path: '/risk-warning',
+            name: 'risk-assessment',
+            path: '/risk-assessment',
             meta: { title: '基金详情' },
             component: () =>
                 import(
-                    `@/pages/risk-warning/index/views/risk-warning/index.vue`
+                    `@/pages/funds/risk-assessment/index/views/risk-assessment/index.vue`
                 )
         }
     ]
