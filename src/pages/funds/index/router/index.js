@@ -8,6 +8,12 @@ export default new Router({
     },
     routes: [
         {
+            name: 'index',
+            path: '/index',
+            meta: { title: '精品基金' },
+            component: () => import(`@/pages/funds/index/views/index/index.vue`)
+        },
+        {
             name: 'funds-details',
             path: '/funds-details',
             meta: { title: '基金详情' },
