@@ -1,9 +1,17 @@
 <template lang="pug">
 .funds-details
-    span hello world
+    FundsDetailsHeader
+    
+    FundsDetailsEchart
 </template>
 <script>
+import FundsDetailsHeader from './components/funds-details-header'
+import FundsDetailsEchart from './components/funds-details-echart'
 export default {
+    components: {
+        FundsDetailsHeader,
+        FundsDetailsEchart
+    },
     data() {
         return {}
     }
