@@ -41,3 +41,12 @@ export const getCurrentBondPrices = id => {
         id
     })
 }
+
+/**
+ * 获取基金列表
+ */
+export const getFundList = () => {
+    return axios.post('/finance-info-server/api/get-fund-list/v1', {
+        displayLocation: 1
+    })
+}
