@@ -1,66 +1,93 @@
 <template lang="pug">
-    span 订单记录
+    .order-record-container
+        .fund-introduce
+            .fund-name {{fundName}}
+            .fund-detail
+                .fund-detail-item(v-for="(item) in fundDetailList") {{item}}
+
+        .order-record-container
+            .order-record-list(v-for="(item,index) in orderRecordList")
+                van-cell(:title="item.type" :value="item.typeValue" class="van-cell-item")
+                van-cell(:title="item.money" :value="item.moneyValue" class="van-cell-item")
+                van-cell(:title="item.time" :value="item.timeValue" class="van-cell-item time-border")
+
+
 </template>
 
 <script>
 import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
 export default {
-    mixins: [riskAssessmentMixin]
+    mixins: [riskAssessmentMixin],
+    data() {
+        return {
+            fundName: 'Pimco 亚洲投资级债券基金-A2',
+            orderRecordList: [
+                {
+                    type: '申购',
+                    typeValue: '交易进行中',
+                    money: '金额',
+                    moneyValue: 'USD 100,000.00',
+                    time: '时间',
+                    timeValue: '2019-07-10 15:55:08'
+                },
+                {
+                    type: '申购',
+                    typeValue: '交易进行中',
+                    money: '金额',
+                    moneyValue: 'USD 100,000.00',
+                    time: '时间',
+                    timeValue: '2019-07-10 15:55:08'
+                },
+                {
+                    type: '申购',
+                    typeValue: '交易进行中',
+                    money: '金额',
+                    moneyValue: 'USD 100,000.00',
+                    time: '时间',
+                    timeValue: '2019-07-10 15:55:08'
+                }
+            ],
+            fundDetailList: ['债券型', '风险等级 R5']
+        }
+    }
 }
 </script>
 
 <style lang="scss" scoped>
-.risk-assessment-wrapper {
-    padding-bottom: 48px;
-    .risk-assessment-tips {
-        padding: 5px 8px 5px 12px;
-        background: rgba(255, 172, 79, 0.2);
-        color: #dda16b;
-        font-size: 0.28rem;
-        line-height: 20px;
-    }
-    .risk-assessment-form {
-        .van-panel {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
+.order-record-container {
+    .fund-introduce {
+        padding: 0 12px;
+        height: 72px;
+        background-color: $background-color;
+        .fund-name {
+            font-size: 16px;
+            line-height: 22px;
+            padding-top: 15px;
+            margin-bottom: 6px;
         }
-        .van-cell {
-            &:after {
-                display: none;
+        .fund-detail {
+            display: flex;
+            flex-direction: row;
+            .fund-detail-item {
+                padding: 0 4px;
+                font-size: 10px;
+                color: $level-text-color;
+                height: 16px;
+                line-height: 14px;
+                border-radius: 1px;
+                opacity: 0.79;
+                border: 1px solid $primary-color;
+                margin-right: 10px;
             }
-            padding: 14px 14px 10px 12px;
-            font-size: 0.28rem;
-            line-height: 24px;
-        }
-        .van-panel__header {
-            &:after {
-                display: none;
-            }
-        }
-        .van-panel__content {
-            .van-cell {
-                padding: 10px 12px;
-            }
-            .van-cell__title {
-                color: rgba(#393939, 0.6) !important;
-            }
-        }
-        .van-hairline--top-bottom::after {
-            display: none;
-        }
-        .icon-selected {
-            color: $primary-color-line;
-        }
-        .icon-unchecked {
-            opacity: 0.4;
-        }
-        .icon-unchecked,
-        .icon-selected {
-            font-size: 0.32rem;
         }
     }
-    .fix-operate-btn.active {
-        background-color: $sell-color;
+    .order-record-container {
+        .order-record-list {
+            border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
+            .van-cell-item {
+                border-bottom: none;
+            }
+        }
     }
 }
 </style>
