@@ -14,6 +14,13 @@ export default new Router({
             component: () => import(`@/pages/funds/index/views/index/index.vue`)
         },
         {
+            name: 'funds-introduce',
+            path: '/funds-introduce',
+            meta: { title: '基金介绍' },
+            component: () =>
+                import(`@/pages/funds/index/views/funds-Introduce/index.vue`)
+        },
+        {
             name: 'funds-details',
             path: '/funds-details',
             meta: { title: '基金详情' },

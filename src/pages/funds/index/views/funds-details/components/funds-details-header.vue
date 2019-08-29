@@ -27,13 +27,13 @@ export default {
     height: 200px;
     padding: 10px;
     h3 {
-        font-size: 16px;
+        font-size: 0.32rem;
         color: $text-color;
         margin: 10px 0 3px 0;
     }
     .funds-details-subtitle {
         color: $text-color3;
-        font-size: 12px;
+        font-size: 0.24rem;
     }
     .funds-details-number {
         width: 100%;
@@ -55,7 +55,7 @@ export default {
             }
             span {
                 color: $text-color5;
-                font-size: 12px;
+                font-size: 0.24rem;
             }
         }
         .header-left {
@@ -69,12 +69,12 @@ export default {
         p {
             color: $text-color5;
             float: left;
-            font-size: 12px;
+            font-size: 0.24rem;
             margin: 0 20px 0 0;
         }
         span {
             float: left;
-            font-size: 10px;
+            font-size: 0.2rem;
             border: 1px solid rgba(33, 119, 255, 1);
             margin: 0 3px;
             padding: 0 5px;

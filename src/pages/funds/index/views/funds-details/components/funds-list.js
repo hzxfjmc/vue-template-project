@@ -5,28 +5,28 @@ export const itemlist = [
     //     rightIcon: ''
     // },
     {
-        leftIcon: '',
-        label: '',
-        rightIcon: ''
+        leftIcon: 'icon-iconEBshoucang',
+        label: '交易记录',
+        routerPath: ''
     },
     {
-        leftIcon: '',
-        label: '',
-        rightIcon: ''
+        leftIcon: 'icon-icon-gaishu',
+        label: '基金概况',
+        routerPath: '/funds-introduce'
     },
     {
-        leftIcon: '',
-        label: '',
-        rightIcon: ''
+        leftIcon: 'icon-iconEBshoucang1',
+        label: '交易规则',
+        routerPath: ''
     },
     {
-        leftIcon: '',
-        label: '',
-        rightIcon: ''
+        leftIcon: 'icon-iconEBshoucang3',
+        label: '相关文件',
+        routerPath: ''
     },
     {
-        leftIcon: '',
-        label: '',
-        rightIcon: ''
+        leftIcon: 'icon-iconEBshoucang2',
+        label: '风险提示',
+        routerPath: ''
     }
 ]

@@ -123,7 +123,6 @@ export default {
                     tickCount: 6,
                     formatter: function(val) {
                         let date = new Date(val)
-                        console.log(date.getMonth())
                         return `${date.getMonth() + 1}-${date.getDate()}`
                     }
                 },
@@ -210,7 +209,7 @@ export default {
             line-height: 30px;
             height: 30px;
             border-radius: 2px;
-            font-size: 12px;
+            font-size: 0.24rem;
             color: $text-color;
         }
         .active {

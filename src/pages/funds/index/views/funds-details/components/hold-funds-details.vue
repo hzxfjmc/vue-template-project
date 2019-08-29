@@ -2,9 +2,14 @@
 .hold-funds-details
     span 持仓详情
     van-row()
-        van-col( span="8" v-for="item of list" class="funds-row" :class="item.layout") 
+        van-col( 
+            span="8"
+            v-for="item of list" 
+            :key="item.label"
+            class="funds-row" 
+            :class="item.layout") 
             span.holdSubtitle {{item.label}}
-            p.holdNumber {{item.value}}
+            p.holdNumber(:class="item.layout") {{item.value}}
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -30,7 +35,10 @@ export default {
     .funds-row {
         margin: 10px 0 0 0;
         .holdNumber {
-            font-size: 18px;
+            font-size: 0.36rem;
+        }
+        .active-color {
+            color: rgba(234, 61, 61, 1);
         }
     }
 }
