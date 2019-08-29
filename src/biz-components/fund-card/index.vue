@@ -83,6 +83,7 @@ export default {
         }
         .feature {
             color: $text-color5;
+            font-size: 0.24rem;
         }
         .labels {
             display: flex;
@@ -92,9 +93,10 @@ export default {
                 overflow: hidden;
                 color: $hk-text-line-color;
                 font-size: 0.2rem;
+                line-height: 0.2rem;
                 border: 1px solid $hk-text-line-color;
                 margin-right: 5px;
-                padding: 0 2px;
+                padding: 2px 2px;
                 border-radius: 1px;
             }
         }
