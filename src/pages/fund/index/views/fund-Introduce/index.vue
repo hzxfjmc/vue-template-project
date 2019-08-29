@@ -1,18 +1,18 @@
 <template lang="pug">
-.funds-introduce
-    .funds-introduce-header
+.fund-introduce
+    .fund-introduce-header
         span 基金介绍
     
-    .funds-introduce-content
-        .funds-introduce-list(
+    .fund-introduce-content
+        .fund-introduce-list(
             v-for="(item,index) of list"
             :key="item.label")
             span.left {{item.label}}
-            span.right(:ref="item.refs" :class="[item.flag  == 1 ? 'hiddenClass' :'showClass',item.refs]") {{item.value}}
+            span.right(:ref="item.refs" :class="[item.flag  == 1 ? 'hiddenClass' :'showClass',item.flag == 0 ? '' : item.refs]") {{item.value}}
                 span.active(v-show="item.flag == 1 || item.flag == 2" @click="foldItem(index)") {{item.flag == 1 ? '展开' : '收起'}}
 </template>
 <script>
-import { Introducelit } from './funds-introduce'
+import { Introducelit } from './fund-introduce'
 export default {
     data() {
         return {
@@ -21,7 +21,6 @@ export default {
     },
     methods: {
         foldItem(index) {
-            console.log()
             if (this.list[index].flag == 1) {
                 this.list[index].flag = 2
             } else {
@@ -30,29 +29,36 @@ export default {
         }
     },
     mounted() {
-        if (this.$refs.intd[0].offsetHeight > 96) this.list[8].flag = 1
-        if (this.$refs.target[0].offsetHeight > 96) this.list[9].flag = 1
-        console.log(this.list)
+        for (let key in this.list) {
+            this.list[key].value = this.$route.query[key]
+        }
+        if (this.$refs.intd[0].offsetHeight > 96) {
+            this.list.companyProfile.flag = 1
+        }
+
+        if (this.$refs.target[0].offsetHeight > 96) {
+            this.list.investObjective.flag = 1
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
-.funds-introduce {
+.fund-introduce {
     background: #fff;
     width: 100%;
     height: 100%;
     position: fixed;
     overflow-y: auto;
 }
-.funds-introduce-header {
+.fund-introduce-header {
     padding: 10px;
     //   margin: 0 0 20px 0;
     border-bottom: 1px solid #e1e1e1;
 }
-.funds-introduce-content {
+.fund-introduce-content {
     margin: 20px 0;
 }
-.funds-introduce-list {
+.fund-introduce-list {
     padding: 5px 10px;
     float: left;
     span {

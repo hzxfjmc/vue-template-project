@@ -12,7 +12,7 @@ export const itemlist = [
     {
         leftIcon: 'icon-icon-gaishu',
         label: '基金概况',
-        routerPath: '/funds-introduce'
+        routerPath: '/fund-introduce'
     },
     {
         leftIcon: 'icon-iconEBshoucang1',
@@ -22,7 +22,7 @@ export const itemlist = [
     {
         leftIcon: 'icon-iconEBshoucang3',
         label: '相关文件',
-        routerPath: ''
+        routerPath: '/fund-files'
     },
     {
         leftIcon: 'icon-iconEBshoucang2',

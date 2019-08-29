@@ -11,28 +11,35 @@ export default new Router({
             name: 'index',
             path: '/index',
             meta: { title: '精品基金' },
-            component: () => import(`@/pages/funds/index/views/index/index.vue`)
+            component: () => import(`@/pages/fund/index/views/index/index.vue`)
         },
         {
-            name: 'funds-introduce',
-            path: '/funds-introduce',
+            name: 'fund-introduce',
+            path: '/fund-introduce',
             meta: { title: '基金介绍' },
             component: () =>
-                import(`@/pages/funds/index/views/funds-Introduce/index.vue`)
+                import(`@/pages/fund/index/views/fund-Introduce/index.vue`)
         },
         {
-            name: 'funds-details',
-            path: '/funds-details',
+            name: 'fund-files',
+            path: '/fund-files',
+            meta: { title: '相关文件' },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-files/index.vue`)
+        },
+        {
+            name: 'fund-details',
+            path: '/fund-details',
             meta: { title: '基金详情' },
             component: () =>
-                import(`@/pages/funds/index/views/funds-details/index.vue`)
+                import(`@/pages/fund/index/views/fund-details/index.vue`)
         },
         {
             name: 'risk-assessment',
             path: '/risk-assessment',
             meta: { title: '基金详情' },
             component: () =>
-                import(`@/pages/funds/index/views/risk-assessment/index.vue`)
+                import(`@/pages/fund/index/views/risk-assessment/index.vue`)
         },
         {
             name: 'risk-assessment-result',
@@ -40,7 +47,7 @@ export default new Router({
             meta: { title: '测评结果' },
             component: () =>
                 import(
-                    `@/pages/funds/index/views/risk-assessment-result/index.vue`
+                    `@/pages/fund/index/views/risk-assessment-result/index.vue`
                 )
         }
     ]

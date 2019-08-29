@@ -1,13 +1,22 @@
 <template lang="pug">
-.funds-details-list
+.fund-details-list
     .vant-list(v-for="item of list" @click="chooseItem(item)")
         em.left(class="iconfont" :class="item.leftIcon")
         span.center {{item.label}}
         em.right(class="iconfont icon-iconEBgengduoCopy")
 </template>
 <script>
-import { itemlist } from './funds-list'
+import { itemlist } from './fund-list'
 export default {
+    props: {
+        fundOverviewInfoVO: {
+            type: Object,
+            default: () => {}
+        },
+        fundCorrelationFileList: {
+            type: Array
+        }
+    },
     data() {
         return {
             list: itemlist
@@ -15,14 +24,24 @@ export default {
     },
     methods: {
         chooseItem(item) {
-            this.$router.push({ path: item.routerPath })
+            let data = {
+                path: item.routerPath
+            }
+            if (item.routerPath == '/fund-introduce')
+                data.query = this.fundOverviewInfoVO
+            if (item.routerPath == '/fund-files')
+                data.query = {
+                    data: JSON.stringify(this.fundCorrelationFileList)
+                }
+            console.log(data)
+            this.$router.push(data)
         }
     },
     mounted() {}
 }
 </script>
 <style lang="scss" scoped>
-.funds-details-list {
+.fund-details-list {
     margin: 10px 0;
     background: $background-color;
     .vant-list {

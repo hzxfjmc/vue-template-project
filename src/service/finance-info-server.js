@@ -52,6 +52,6 @@ export const getFundList = () => {
 }
 
 //获取基金详情
-export const getFundsDetails = params => {
+export const getFundDetail = params => {
     return axios.post(`/finance-info-server/api/get-fund-detail/v1`, params)
 }

@@ -1,21 +1,27 @@
 <template lang="pug">
 .funds-details-header
-     h3 Pimco 亚洲投资级债券基金-A2
-        p.funds-details-subtitle 晨星 五星评级绩优基金 五星评级绩优基金
+     h3 {{fundHeaderInfoVO.fundName}}
+        p.funds-details-subtitle {{fundHeaderInfoVO.feature}}
         .funds-details-number
             .header-left
                 span 近一年表现
-                p.number-red +22.33%
+                p.number-red +{{fundHeaderInfoVO.apy}}%
             .header-right
-                span 基金价格20190704
-                p.number-black $152.33
+                span 基金价格{{fundHeaderInfoVO.belongDay}}
+                p.number-black {{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
-            p 起投金额 HKD 1,000
-            span 债券型
-            span 风险等级R5
+            p 起投金额 HKD {{fundHeaderInfoVO.initialInvestAmount}}
+            span {{fundHeaderInfoVO.assetType}}
+            span {{fundHeaderInfoVO.fundRisk}}
 </template>
 <script>
 export default {
+    props: {
+        fundHeaderInfoVO: {
+            type: Object,
+            default: () => {}
+        }
+    },
     data() {
         return {}
     }
