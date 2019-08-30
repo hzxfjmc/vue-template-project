@@ -1,21 +1,27 @@
 <template lang="pug">
 .funds-details-header
-     h3 Pimco 亚洲投资级债券基金-A2
-        p.funds-details-subtitle 晨星 五星评级绩优基金 五星评级绩优基金
+     h3 {{fundHeaderInfoVO.fundName}}
+        p.funds-details-subtitle {{fundHeaderInfoVO.feature}}
         .funds-details-number
             .header-left
                 span 近一年表现
-                p.number-red +22.33%
+                p.number-red +{{fundHeaderInfoVO.apy}}%
             .header-right
-                span 基金价格20190704
-                p.number-black $152.33
+                span 基金价格{{fundHeaderInfoVO.belongDay}}
+                p.number-black {{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
-            p 起投金额 HKD 1,000
-            span 债券型
-            span 风险等级R5
+            p 起投金额 HKD {{fundHeaderInfoVO.initialInvestAmount}}
+            span {{fundHeaderInfoVO.assetType}}
+            span {{fundHeaderInfoVO.fundRisk}}
 </template>
 <script>
 export default {
+    props: {
+        fundHeaderInfoVO: {
+            type: Object,
+            default: () => {}
+        }
+    },
     data() {
         return {}
     }
@@ -27,13 +33,13 @@ export default {
     height: 200px;
     padding: 10px;
     h3 {
-        font-size: 16px;
+        font-size: 0.32rem;
         color: $text-color;
         margin: 10px 0 3px 0;
     }
     .funds-details-subtitle {
         color: $text-color3;
-        font-size: 12px;
+        font-size: 0.24rem;
     }
     .funds-details-number {
         width: 100%;
@@ -55,7 +61,7 @@ export default {
             }
             span {
                 color: $text-color5;
-                font-size: 12px;
+                font-size: 0.24rem;
             }
         }
         .header-left {
@@ -69,12 +75,12 @@ export default {
         p {
             color: $text-color5;
             float: left;
-            font-size: 12px;
+            font-size: 0.24rem;
             margin: 0 20px 0 0;
         }
         span {
             float: left;
-            font-size: 10px;
+            font-size: 0.2rem;
             border: 1px solid rgba(33, 119, 255, 1);
             margin: 0 3px;
             padding: 0 5px;

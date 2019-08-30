@@ -1,9 +1,9 @@
 <template lang="pug">
-.funds-details-echart
+.fund-details-echart
     span 基金净值走势
-    .funds-echart-content
+    .fund-echart-content
         canvas(id="myChart")
-    .funds-date-list
+    .fund-date-list
         div.date-item(
             v-for="(item,index) of list" 
             @click="chooseMonth(item,index)"
@@ -123,7 +123,6 @@ export default {
                     tickCount: 6,
                     formatter: function(val) {
                         let date = new Date(val)
-                        console.log(date.getMonth())
                         return `${date.getMonth() + 1}-${date.getDate()}`
                     }
                 },
@@ -178,7 +177,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.funds-details-echart {
+.fund-details-echart {
     margin: 10px 0 0 0;
     height: 300px;
     padding: 10px;
@@ -188,7 +187,7 @@ export default {
         color: $text-color;
         line-height: 20px;
     }
-    .funds-echart-content {
+    .fund-echart-content {
         #myChart {
             width: 100% !important;
             height: 200px !important;
@@ -196,7 +195,7 @@ export default {
             transform: scale(1.09);
         }
     }
-    .funds-date-list {
+    .fund-date-list {
         width: 100%;
         margin: 10px 0;
         border: 1px solid rgba(235, 235, 235, 1);
@@ -210,7 +209,7 @@ export default {
             line-height: 30px;
             height: 30px;
             border-radius: 2px;
-            font-size: 12px;
+            font-size: 0.24rem;
             color: $text-color;
         }
         .active {

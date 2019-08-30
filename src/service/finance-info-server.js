@@ -50,3 +50,8 @@ export const getFundList = () => {
         displayLocation: 1
     })
 }
+
+//获取基金详情
+export const getFundDetail = params => {
+    return axios.post(`/finance-info-server/api/get-fund-detail/v1`, params)
+}
