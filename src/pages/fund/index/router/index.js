@@ -37,7 +37,7 @@ export default new Router({
         {
             name: 'risk-assessment',
             path: '/risk-assessment',
-            meta: { title: '基金详情' },
+            meta: { title: '风险测评' },
             component: () =>
                 import(`@/pages/fund/index/views/risk-assessment/index.vue`)
         },
@@ -49,6 +49,20 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/risk-assessment-result/index.vue`
                 )
+        },
+        {
+            name: 'open-permissions',
+            path: '/open-permissions',
+            meta: { title: '权限开通' },
+            component: () =>
+                import(`@/pages/fund/index/views/open-permissions/index.vue`)
+        },
+        {
+            name: 'order-record',
+            path: '/order-record',
+            meta: { title: '订单记录' },
+            component: () =>
+                import(`@/pages/fund/index/views/order-record/index.vue`)
         }
     ]
 })
