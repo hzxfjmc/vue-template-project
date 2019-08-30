@@ -1,8 +1,8 @@
 export const tradeList = {
-    managementFee: {
-        label: '基金管理费',
-        value: ''
-    },
+    // managementFee: {
+    //     label: '基金管理费',
+    //     value: ''
+    // },
     tradeFrequency: {
         label: '交易频率',
         value: ''
@@ -37,16 +37,12 @@ export const redeemList = {
 }
 
 export const managementList = {
-    1: {
+    managementFee: {
         label: '基金年度管理费',
         value: '1.5%'
     },
-    2: {
+    platformManagementFee: {
         label: '基金托管费',
         value: '1.5%'
-    },
-    3: {
-        label: '净费率',
-        value: '3%'
     }
 }

@@ -1,31 +1,35 @@
 <template lang="pug">
 .fund-step 
     .fund-step-left
-        span.top 买入提交
+        span.top {{oneStep.label}}
         div.content 
-            span.point
-        span.bottom 今日15点前
+            span.point 
+        span.bottom {{oneStep.value}}
     .fund-step-content
-        span.top 确认份额
+        span.top {{twoStep.label}}
         div.content 
             span.point
-        span.bottom 06.23(星期五)
+        span.bottom {{twoStep.value}}
     .fund-step-right
-        span.top 查看盈亏
+        span.top {{threeStep.label}}
         span.content 
             span.point
-        span.bottom 06.28(星期五)
+        span.bottom {{threeStep.value}}
         
 </template>
 <script>
 export default {
-    data() {
-        return {}
-    }
-}
-</script>
-<script>
-export default {
+    props: {
+        oneStep: {
+            type: Object
+        },
+        twoStep: {
+            type: Object
+        },
+        threeStep: {
+            type: Object
+        }
+    },
     data() {
         return {}
     }

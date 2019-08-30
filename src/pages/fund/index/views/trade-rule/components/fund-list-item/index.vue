@@ -2,15 +2,18 @@
 .fund-list-item
     h3.fund-title {{title}}
     span.fund-subtitle {{subtitle}}
-    FundStep
+    slot(name="fundStep")
+    //- FundStep(
+    //-     :oneStep="oneStepContent"
+    //-     :twoStep="twoStepContent"
+    //-     :threeStep="threeStepContent")
     FundCell(:cellList="cellList")
 </template>
 <script>
-import FundStep from '../common/fund-step'
 import FundCell from '../common/fund-cell'
 export default {
     components: {
-        FundStep,
+        // FundStep,
         FundCell
     },
     props: {
@@ -25,6 +28,15 @@ export default {
         cellList: {
             type: Object,
             default: () => {}
+        },
+        oneStepContent: {
+            type: Object
+        },
+        twoStepContent: {
+            type: Object
+        },
+        threeStepContent: {
+            type: Object
         }
     },
     data() {

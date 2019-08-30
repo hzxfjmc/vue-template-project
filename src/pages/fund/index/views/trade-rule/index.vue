@@ -4,11 +4,22 @@
         :title="tradeTitle"
         :cellList="tradeList"
         :subTitle="tradeSubTitle")
+        FundStep(
+            slot="fundStep"
+            :oneStep="buySubmit"
+            :twoStep="buyConfirm"
+            :threeStep="buyProfitLoss")
     .fund-redeem
         FundListItem(
             :title="redeemTitle"
             :cellList="redeemList"
             :subTitle="redeemSubtitle")
+            FundStep(
+              slot="fundStep"
+              :oneStep="sellSubmit"
+              :twoStep="sellConfirm"
+              :threeStep="sellProfitLoss")
+
     
     .fund-management-list
         h3.fund-management-title 管理费
@@ -17,11 +28,13 @@
 <script>
 import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
+import FundStep from './components/common/fund-step'
 import { tradeList, redeemList, managementList } from './trade-rule'
 export default {
     components: {
         FundListItem,
-        FunCell
+        FunCell,
+        FundStep
     },
     data() {
         return {
@@ -31,7 +44,31 @@ export default {
             redeemTitle: '赎回',
             redeemSubtitle: '赎回流程',
             redeemList: redeemList,
-            managementList: managementList
+            managementList: managementList,
+            buySubmit: {
+                label: '买入提交',
+                value: ''
+            },
+            buyConfirm: {
+                label: '确认份额',
+                value: ''
+            },
+            buyProfitLoss: {
+                label: '查看盈亏',
+                value: ''
+            },
+            sellSubmit: {
+                label: '提交赎回申请',
+                value: ''
+            },
+            sellConfirm: {
+                label: '确认份额',
+                value: ''
+            },
+            sellProfitLoss: {
+                label: '查看盈亏',
+                value: ''
+            }
         }
     },
     methods: {
@@ -49,6 +86,14 @@ export default {
             this.redeemList.subscriptionFee.value = Number(
                 params.subscriptionFee
             ).toFixed(2)
+            this.buySubmit.value = params.buySubmit
+            this.buyConfirm.value = params.buyConfirm
+            this.buyProfitLoss.value = params.buyProfitLoss
+            this.sellSubmit.value = params.sellSubmit
+            this.sellConfirm.value = params.sellConfirm
+            this.sellProfitLoss.value = params.sellProfitLoss
+
+            console.log(params)
         }
     },
     mounted() {

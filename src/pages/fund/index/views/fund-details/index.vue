@@ -12,7 +12,7 @@
             :fundTradeInfoVO = "fundTradeInfoVO"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     
-    .fund-footer(slot="bottom")
+    .fund-footer(slot="bottom" @click="tofundSubscribe")
         a() 申购
 </template>
 <script>
@@ -39,6 +39,12 @@ export default {
         }
     },
     methods: {
+        tofundSubscribe() {
+            this.$router.push({
+                path: '/fund-subscribe',
+                query: this.fundHeaderInfoVO
+            })
+        },
         async getFundDetail() {
             const res = await getFundDetail({
                 displayLocation: 1,
@@ -63,7 +69,6 @@ export default {
         }
     },
     mounted() {
-        localStorage.put('myCat', 'Tom')
         localStorage.put(
             'userToken',
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
@@ -81,16 +86,16 @@ export default {
         margin: 0 0 50px 0;
         overflow: hidden;
     }
-    // .fund-footer {
-    //     width: 100%;
-    //     height: 50px;
-    //     background: $primary-color;
-    //     position: fixed;
-    //     bottom: 0;
-    //     line-height: 50px;
-    //     text-align: center;
-    //     color: #fff;
-    //     font-size: 0.32rem;
-    // }
+    .fund-footer {
+        width: 100%;
+        height: 50px;
+        background: $primary-color;
+        position: fixed;
+        bottom: 0;
+        line-height: 50px;
+        text-align: center;
+        color: #fff;
+        font-size: 0.32rem;
+    }
 }
 </style>
