@@ -7,11 +7,17 @@
 
         .order-record-container
             .order-record-list(v-for="(item,index) in orderRecordList")
-                van-cell(:title="item.type" :value="item.typeValue" class="van-cell-item")
-                van-cell(:title="item.money" :value="item.moneyValue" class="van-cell-item")
-                van-cell(:title="item.time" :value="item.timeValue" class="van-cell-item time-border")
-
-
+                van-cell(class="van-cell-item" to="order-record-detail")
+                    template(slot-scope='scope')
+                        .order-item.flex
+                            span(class="order-type") {{item.type}}
+                            span(class="type-value") {{item.typeValue}}
+                        .order-item.flex
+                            span(class="left-title") {{item.money}}
+                            span(class="money-value") {{item.moneyValue}}
+                        .order-item.flex
+                            span(class="left-title") {{item.time}}
+                            span(class="right-title") {{item.timeValue}}
 </template>
 
 <script>
@@ -22,6 +28,30 @@ export default {
         return {
             fundName: 'Pimco 亚洲投资级债券基金-A2',
             orderRecordList: [
+                {
+                    type: '申购',
+                    typeValue: '交易进行中',
+                    money: '金额',
+                    moneyValue: 'USD 100,000.00',
+                    time: '时间',
+                    timeValue: '2019-07-10 15:55:08'
+                },
+                {
+                    type: '申购',
+                    typeValue: '交易进行中',
+                    money: '金额',
+                    moneyValue: 'USD 100,000.00',
+                    time: '时间',
+                    timeValue: '2019-07-10 15:55:08'
+                },
+                {
+                    type: '申购',
+                    typeValue: '交易进行中',
+                    money: '金额',
+                    moneyValue: 'USD 100,000.00',
+                    time: '时间',
+                    timeValue: '2019-07-10 15:55:08'
+                },
                 {
                     type: '申购',
                     typeValue: '交易进行中',
@@ -59,6 +89,7 @@ export default {
         padding: 0 12px;
         height: 72px;
         background-color: $background-color;
+        margin-bottom: 10px;
         .fund-name {
             font-size: 16px;
             line-height: 22px;
@@ -85,7 +116,23 @@ export default {
         .order-record-list {
             border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
             .van-cell-item {
-                border-bottom: none;
+                .order-item {
+                    span {
+                        margin-bottom: 10px;
+                        font-size: 14px;
+                        color: rgba($color: $text-color, $alpha: 0.5);
+                        &.order-type {
+                            font-size: 16px;
+                            color: $text-color;
+                        }
+                        &.money-value {
+                            color: $text-color;
+                        }
+                        &.type-value {
+                            color: $cell-right-color;
+                        }
+                    }
+                }
             }
         }
     }
