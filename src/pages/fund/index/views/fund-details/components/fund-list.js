@@ -7,7 +7,7 @@ export const itemlist = [
     {
         leftIcon: 'icon-iconEBshoucang',
         label: '交易记录',
-        routerPath: ''
+        routerPath: '/order-record'
     },
     {
         leftIcon: 'icon-icon-gaishu',
