@@ -15,9 +15,20 @@
 import { Row, Col } from 'vant'
 import { holdDetailsData } from './hold-fund-data'
 export default {
+    props: {
+        initState: {
+            type: Object,
+            default: () => {}
+        }
+    },
     components: {
         Row,
         Col
+    },
+    watch: {
+        initState() {
+            console.log(this.initState)
+        }
     },
     data() {
         return {

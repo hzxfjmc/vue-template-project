@@ -29,9 +29,6 @@ export default {
         threeStep: {
             type: Object
         }
-    },
-    data() {
-        return {}
     }
 }
 </script>
@@ -39,7 +36,6 @@ export default {
 .fund-step {
     padding: 0 10px;
     display: flex;
-
     .point {
         display: block;
         width: 6px;
@@ -50,7 +46,6 @@ export default {
     .fund-step-left,
     .fund-step-content,
     .fund-step-right {
-        // float:left;
         width: 33.33%;
         height: 80px;
         .top,
@@ -63,6 +58,7 @@ export default {
         .content {
             margin: 5px 0;
             position: relative;
+            z-index: 999999;
         }
         .top {
             font-size: 0.28rem;
@@ -72,7 +68,6 @@ export default {
             color: $text-color5;
             font-size: 0.24rem;
         }
-        // text-align: center;
     }
     .fund-step-content {
         text-align: center;
@@ -85,7 +80,9 @@ export default {
             top: 2px;
             content: '';
             width: 146%;
+            z-index: 999;
             border: 1px solid #2f79ff;
+            opacity: 0.5;
             display: inline-block;
         }
         .content::before {

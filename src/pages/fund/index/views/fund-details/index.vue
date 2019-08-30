@@ -7,7 +7,7 @@
           @chooseTime = "getFundNetPrice"
           :initEchartList="initEchartList")
 
-        HoldfundDetails
+        HoldfundDetails(:initState="holdInitState")
 
         fundDetailsList(
             :fundCorrelationFileList="fundCorrelationFileList"
@@ -43,7 +43,8 @@ export default {
             fundOverviewInfoVO: {},
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},
-            initEchartList: []
+            initEchartList: [],
+            holdInitState: {}
         }
     },
     methods: {
@@ -76,9 +77,10 @@ export default {
             this.fundTradeInfoVO = res.fundTradeInfoVO
         },
         async getFundPosition() {
-            await getFundPosition({
+            const res = await getFundPosition({
                 fundId: 1
             })
+            this.holdInitState = res
         },
         async getFundNetPrice(time) {
             const res = await getFundNetPrice({
@@ -94,7 +96,7 @@ export default {
     mounted() {
         localStorage.put(
             'userToken',
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiNjMxZjFmNDkyNTI4NDIwYzgwZjM1NjE4OTVmYjBmYWMiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNTQ3MDQ1NjQxMTE2NTA4MTZ9.aYx0L0pjvLECDmglg2RZ_6ZmK9i5CUgfCMMCp_vKNXs'
         )
         this.getFundNetPrice()
         this.getFundDetail()
