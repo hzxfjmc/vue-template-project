@@ -6,6 +6,7 @@ import { guid } from './../tools'
 import qs from 'qs'
 import Vue from 'vue'
 import { Toast } from 'vant'
+import { isYouxinApp } from '@/utils/html-utils.js'
 
 // 开发环境使用，打包前注意要注释
 import proxyValid from '@/mock/utils/api-proxy.js'
@@ -75,6 +76,14 @@ export default class baseRequest {
                     // jsBridge.callApp('command_user_login').then(() => {
                     //     window.location.reload()
                     // })
+                    if (!isYouxinApp) {
+                        window.location.replace(
+                            window.location.origin +
+                                `/webapp/middle/register.html?callBackUrl=${encodeURIComponent(
+                                    window.location.href
+                                )}`
+                        )
+                    }
                     return Promise.reject({ code: data.code, msg: data.msg })
                 } else {
                     return Promise.reject(data)

@@ -5,7 +5,7 @@
         .risk-result__md {{ assessmentType  }}
         .risk-result__bd 上次风评日期：{{ assessmentTime | date-format('YYYY年MM月DD日') }}
         fixed-operate-btn(
-            :text="btnText"
+            text="重新测评"
             @click="handleAction"
         )
 </template>

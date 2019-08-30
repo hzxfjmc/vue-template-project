@@ -23,7 +23,6 @@ export default {
             },
             userRiskLevel: 0, // 用户风险测评等级序号
             assessmentTime: 0, // 上次风评时间
-            btnText: '',
             isShowPage: false
         }
     },
@@ -39,10 +38,7 @@ export default {
             await Promise.all([this.handleRiskAssessResult()])
             if (this.userRiskLevel === 0) {
                 // 尚未风评
-                this.btnText = '开始测评'
-            } else {
-                // 已经风评
-                this.btnText = '重新测评'
+                this.handleAction()
             }
             this.isShowPage = true
         },
