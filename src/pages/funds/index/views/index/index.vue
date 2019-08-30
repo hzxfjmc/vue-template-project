@@ -20,7 +20,7 @@
 import { Swipe, SwipeItem } from 'vant'
 import { getFundList } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
-import Card from '@/biz-components/fund-card/index.vue'
+import Card from './components/fund-card/index.vue'
 export default {
     name: 'index',
     components: {
