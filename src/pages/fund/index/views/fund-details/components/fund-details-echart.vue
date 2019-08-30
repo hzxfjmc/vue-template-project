@@ -12,113 +12,37 @@
 <script>
 import F2 from '@antv/f2'
 export default {
+    props: {
+        initEchartList: {
+            type: Array,
+            default: () => {}
+        }
+    },
     data() {
         return {
             active: 0,
             list: [
-                { date: '1个月' },
-                { date: '3个月' },
-                { date: '6个月' },
-                { date: '1年' },
-                { date: '2年' },
-                { date: '全部' }
-            ],
-            lists: [
-                {
-                    reportDateTimestamp: '2016-11-05',
-                    value: 19
-                },
-                {
-                    reportDateTimestamp: '2017-2-06',
-                    value: 18
-                },
-                {
-                    reportDateTimestamp: '2017-02-07',
-                    value: 17
-                },
-                {
-                    reportDateTimestamp: '2017-02-08',
-                    value: 16
-                },
-                {
-                    reportDateTimestamp: '2017-03-09',
-                    value: 15
-                },
-                {
-                    reportDateTimestamp: '2017-03-10',
-                    value: 14
-                },
-                {
-                    reportDateTimestamp: '2017-04-11',
-                    value: 13
-                },
-                {
-                    reportDateTimestamp: '2017-04-12',
-                    value: 12
-                },
-                {
-                    reportDateTimestamp: '2017-05-13',
-                    value: 11
-                },
-                {
-                    reportDateTimestamp: '2017-05-14',
-                    value: 9
-                },
-                {
-                    reportDateTimestamp: '2017-06-15',
-                    value: 8
-                },
-                {
-                    reportDateTimestamp: '2017-06-16',
-                    value: 7
-                },
-                {
-                    reportDateTimestamp: '2017-07-17',
-                    value: 6
-                },
-                {
-                    reportDateTimestamp: '2017-07-18',
-                    value: 5
-                },
-                {
-                    reportDateTimestamp: '2017-08-19',
-                    value: 4
-                },
-                {
-                    reportDateTimestamp: '2017-08-20',
-                    value: 3
-                },
-                {
-                    reportDateTimestamp: '2017-09-21',
-                    value: 2
-                },
-                {
-                    reportDateTimestamp: '2017-09-22',
-                    value: 1
-                },
-                {
-                    reportDateTimestamp: '2018-10-22',
-                    value: 5
-                }
+                { date: '1个月', key: 1 },
+                { date: '3个月', key: 2 },
+                { date: '6个月', key: 3 },
+                { date: '1年', key: 4 },
+                { date: '2年', key: 5 },
+                { date: '全部', key: 6 }
             ]
         }
     },
     methods: {
         chooseMonth(item, index) {
             this.active = index
-            this.lists.push({
-                reportDateTimestamp: '2018-10-29',
-                value: 5 + index
-            })
-            this.draw()
+            this.$emit('chooseTime', item.key)
         },
         draw() {
             const chart = new F2.Chart({
                 id: 'myChart',
                 pixelRatio: window.devicePixelRatio
             })
-            chart.source(this.lists, {
-                reportDateTimestamp: {
+            chart.source(this.initEchartList, {
+                belongDay: {
                     type: 'timeCat',
                     tickCount: 6,
                     formatter: function(val) {
@@ -126,11 +50,11 @@ export default {
                         return `${date.getMonth() + 1}-${date.getDate()}`
                     }
                 },
-                value: {
+                netPrice: {
                     alias: '涨幅',
                     tickCount: 5,
                     formatter: function(val) {
-                        return val.toFixed(1)
+                        return `${Number(val).toFixed(2)}%`
                     }
                 }
             })
@@ -141,14 +65,14 @@ export default {
                 .line({
                     sortable: false
                 })
-                .position('reportDateTimestamp*value')
+                .position('belongDay*netPrice')
                 .shape('smooth')
                 .animate({
                     update: {
                         animation: 'lineUpdate'
                     }
                 })
-            chart.axis('reportDateTimestamp', {
+            chart.axis('belongDay', {
                 line: {
                     lineWidth: 1,
                     stroke: 'rgba(0,0,0,0)',
@@ -169,6 +93,11 @@ export default {
                 }
             })
             chart.render()
+        }
+    },
+    watch: {
+        initEchartList() {
+            this.draw()
         }
     },
     mounted() {

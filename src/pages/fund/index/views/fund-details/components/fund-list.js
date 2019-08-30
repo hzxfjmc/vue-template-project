@@ -7,7 +7,7 @@ export const itemlist = [
     {
         leftIcon: 'icon-iconEBshoucang',
         label: '交易记录',
-        routerPath: ''
+        routerPath: '/order-record'
     },
     {
         leftIcon: 'icon-icon-gaishu',
@@ -17,7 +17,7 @@ export const itemlist = [
     {
         leftIcon: 'icon-iconEBshoucang1',
         label: '交易规则',
-        routerPath: ''
+        routerPath: '/trade-rule'
     },
     {
         leftIcon: 'icon-iconEBshoucang3',

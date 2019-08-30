@@ -21,6 +21,13 @@ export default new Router({
                 import(`@/pages/fund/index/views/fund-Introduce/index.vue`)
         },
         {
+            name: 'trade-rule',
+            path: '/trade-rule',
+            meta: { title: '基金介绍' },
+            component: () =>
+                import(`@/pages/fund/index/views/trade-rule/index.vue`)
+        },
+        {
             name: 'fund-files',
             path: '/fund-files',
             meta: { title: '相关文件' },
@@ -70,6 +77,13 @@ export default new Router({
             meta: { title: '基金申购' },
             component: () =>
                 import(`@/pages/fund/index/views/subscribe/index.vue`)
+        },
+        {
+            name: 'order-record-detail',
+            path: '/order-record-detail',
+            meta: { title: '订单记录详情' },
+            component: () =>
+                import(`@/pages/fund/index/views/order-record-detail/index.vue`)
         }
     ]
 })

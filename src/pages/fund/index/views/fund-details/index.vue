@@ -1,17 +1,20 @@
 <template lang="pug">
 .fund-details
-    .fund-content
+    .fund-content(slot="main")
         fundDetailsHeader(:fundHeaderInfoVO="fundHeaderInfoVO")
         
-        fundDetailsEchart
+        fundDetailsEchart(
+          @chooseTime = "getFundNetPrice"
+          :initEchartList="initEchartList")
 
         HoldfundDetails
 
         fundDetailsList(
             :fundCorrelationFileList="fundCorrelationFileList"
+            :fundTradeInfoVO = "fundTradeInfoVO"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     
-    .fund-footer
+    .fund-footer(slot="bottom" @click="tofundSubscribe")
         a() 申购
 </template>
 <script>
@@ -20,8 +23,13 @@ import fundDetailsEchart from './components/fund-details-echart'
 import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
 import dayjs from 'dayjs'
-import { getFundDetail } from '@/service/finance-info-server.js'
+import {
+    getFundDetail,
+    getFundNetPrice
+} from '@/service/finance-info-server.js'
+import { getFundPosition } from '@/service/finance-server.js'
 import localStorage from '../../../../../utils/local-storage'
+
 export default {
     components: {
         fundDetailsHeader,
@@ -33,10 +41,18 @@ export default {
         return {
             fundHeaderInfoVO: {},
             fundOverviewInfoVO: {},
-            fundCorrelationFileList: []
+            fundCorrelationFileList: [],
+            fundTradeInfoVO: {},
+            initEchartList: []
         }
     },
     methods: {
+        tofundSubscribe() {
+            this.$router.push({
+                path: '/fund-subscribe',
+                query: this.fundHeaderInfoVO
+            })
+        },
         async getFundDetail() {
             const res = await getFundDetail({
                 displayLocation: 1,
@@ -57,15 +73,32 @@ export default {
             ).format('YYYY-MM-DD')
             this.fundOverviewInfoVO = res.fundOverviewInfoVO
             this.fundCorrelationFileList = res.fundCorrelationFileList
+            this.fundTradeInfoVO = res.fundTradeInfoVO
+        },
+        async getFundPosition() {
+            await getFundPosition({
+                fundId: 1
+            })
+        },
+        async getFundNetPrice(time) {
+            const res = await getFundNetPrice({
+                fundId: 1,
+                fundNetPriceDateType: time || 1
+            })
+            this.initEchartList = res
+            this.initEchartList.map(item => {
+                item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
+            })
         }
     },
     mounted() {
-        localStorage.put('myCat', 'Tom')
         localStorage.put(
             'userToken',
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
         )
+        this.getFundNetPrice()
         this.getFundDetail()
+        this.getFundPosition()
     }
 }
 </script>
