@@ -63,6 +63,13 @@ export default new Router({
             meta: { title: '订单记录' },
             component: () =>
                 import(`@/pages/fund/index/views/order-record/index.vue`)
+        },
+        {
+            name: 'fund-subscribe',
+            path: '/fund-subscribe',
+            meta: { title: '基金申购' },
+            component: () =>
+                import(`@/pages/fund/index/views/subscribe/index.vue`)
         }
     ]
 })

@@ -8,7 +8,7 @@
             router-link(
                 v-for="(item, index) in list"
                 :key="index"
-                :to="{path: `funds-details?id=${item.fondId}`}"
+                :to="{path: `fund-details?id=${item.fondId}`}"
                 title=""
             )
                 Card(:info="item")
@@ -19,7 +19,7 @@
 <script>
 import { Swipe, SwipeItem } from 'vant'
 import { getFundList } from '@/service/finance-info-server.js'
-import { bannerAdvertisement } from '@/service/news-configserver.js'
+// import { bannerAdvertisement } from '@/service/news-configserver.js'
 import Card from './components/fund-card/index.vue'
 export default {
     name: 'index',
@@ -39,16 +39,16 @@ export default {
         }
     },
     methods: {
-        // 拉取债券banner
-        async handleGetFundBanner() {
-            try {
-                // 基金暂时没有 需要加
-                let data = await bannerAdvertisement(21)
-                this.bannerUrl = (data && data.banner_list) || []
-            } catch (error) {
-                console.log('getBondBanner:error:>>>', error)
-            }
-        },
+        // // 拉取债券banner
+        // async handleGetFundBanner() {
+        //     try {
+        //         // 基金暂时没有
+        //         let data = await bannerAdvertisement(21)
+        //         this.bannerUrl = (data && data.banner_list) || []
+        //     } catch (error) {
+        //         console.log('getBondBanner:error:>>>', error)
+        //     }
+        // },
         // 获取基金列表
         async getListFundInfo() {
             try {
