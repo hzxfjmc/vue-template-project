@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-details
-    .fund-content
+    .fund-content(slot="main")
         fundDetailsHeader(:fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart
@@ -9,9 +9,10 @@
 
         fundDetailsList(
             :fundCorrelationFileList="fundCorrelationFileList"
+            :fundTradeInfoVO = "fundTradeInfoVO"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     
-    .fund-footer
+    .fund-footer(slot="bottom")
         a() 申购
 </template>
 <script>
@@ -33,7 +34,8 @@ export default {
         return {
             fundHeaderInfoVO: {},
             fundOverviewInfoVO: {},
-            fundCorrelationFileList: []
+            fundCorrelationFileList: [],
+            fundTradeInfoVO: {}
         }
     },
     methods: {
@@ -57,6 +59,7 @@ export default {
             ).format('YYYY-MM-DD')
             this.fundOverviewInfoVO = res.fundOverviewInfoVO
             this.fundCorrelationFileList = res.fundCorrelationFileList
+            this.fundTradeInfoVO = res.fundTradeInfoVO
         }
     },
     mounted() {
@@ -78,16 +81,16 @@ export default {
         margin: 0 0 50px 0;
         overflow: hidden;
     }
-    .fund-footer {
-        width: 100%;
-        height: 50px;
-        background: $primary-color;
-        position: fixed;
-        bottom: 0;
-        line-height: 50px;
-        text-align: center;
-        color: #fff;
-        font-size: 0.32rem;
-    }
+    // .fund-footer {
+    //     width: 100%;
+    //     height: 50px;
+    //     background: $primary-color;
+    //     position: fixed;
+    //     bottom: 0;
+    //     line-height: 50px;
+    //     text-align: center;
+    //     color: #fff;
+    //     font-size: 0.32rem;
+    // }
 }
 </style>

@@ -15,6 +15,10 @@ export default {
         },
         fundCorrelationFileList: {
             type: Array
+        },
+        fundTradeInfoVO: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
@@ -33,6 +37,10 @@ export default {
                 data.query = {
                     data: JSON.stringify(this.fundCorrelationFileList)
                 }
+            if (item.routerPath == '/trade-rule') {
+                this.fundTradeInfoVO.tradeFrequency = this.fundTradeInfoVO.tradeFrequency.name
+                data.query = this.fundTradeInfoVO
+            }
             console.log(data)
             this.$router.push(data)
         }
