@@ -70,6 +70,13 @@ export default new Router({
             meta: { title: '订单记录' },
             component: () =>
                 import(`@/pages/fund/index/views/order-record/index.vue`)
+        },
+        {
+            name: 'order-record-detail',
+            path: '/order-record-detail',
+            meta: { title: '订单记录详情' },
+            component: () =>
+                import(`@/pages/fund/index/views/order-record-detail/index.vue`)
         }
     ]
 })
