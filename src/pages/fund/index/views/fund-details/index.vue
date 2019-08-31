@@ -14,8 +14,8 @@
             :fundTradeInfoVO = "fundTradeInfoVO"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     
-    .fund-footer(slot="bottom" @click="tofundSubscribe")
-        a() 申购
+    .fund-footer(@click="tofundSubscribe")
+        a 申购
 </template>
 <script>
 import fundDetailsHeader from './components/fund-details-header'
@@ -96,7 +96,7 @@ export default {
     mounted() {
         localStorage.put(
             'userToken',
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiNjMxZjFmNDkyNTI4NDIwYzgwZjM1NjE4OTVmYjBmYWMiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNTQ3MDQ1NjQxMTE2NTA4MTZ9.aYx0L0pjvLECDmglg2RZ_6ZmK9i5CUgfCMMCp_vKNXs'
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
         )
         this.getFundNetPrice()
         this.getFundDetail()
@@ -106,23 +106,24 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-details {
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow: auto;
     .fund-content {
-        overflow-y: auto;
-        width: 100%;
-        margin: 0 0 50px 0;
-        overflow: hidden;
+        overflow: auto;
+        -webkit-overflow-scrolling: touch;
+        flex: 1;
+        height: 90%;
     }
     .fund-footer {
         width: 100%;
         height: 50px;
         background: $primary-color;
-        position: fixed;
-        bottom: 0;
-        line-height: 50px;
-        text-align: center;
         color: #fff;
-        font-size: 0.32rem;
+        text-align: center;
+        line-height: 50px;
     }
 }
 </style>
