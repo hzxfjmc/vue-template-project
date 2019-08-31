@@ -9,30 +9,36 @@ export const tradeList = {
     },
     dividend: {
         label: '最新派息',
-        value: ''
+        value: '',
+        cname: 'HKD'
     },
     initialInvestAmount: {
         label: '起投额',
-        value: ''
+        value: '',
+        cname: 'HKD'
     },
     continueInvestAmount: {
         label: '续投金额',
-        value: ''
+        value: '',
+        cname: 'HKD'
     },
     redemptionFee: {
         label: '申购费',
-        value: ''
+        value: '',
+        cname: 'HKD'
     }
 }
 
 export const redeemList = {
     lowestInvestAmount: {
         label: '最低持有金额',
-        value: ''
+        value: '',
+        cname: 'HKD'
     },
     subscriptionFee: {
         label: '赎回费',
-        value: ''
+        value: '',
+        cname: 'HKD'
     }
 }
 

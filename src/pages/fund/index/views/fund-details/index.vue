@@ -96,7 +96,7 @@ export default {
     mounted() {
         localStorage.put(
             'userToken',
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMTk5ZGIwMzI2Mjc0NDE4ZDk4YmJjYTNmNjBkZWYxMTEiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNTQ3MDQ1NjQxMTE2NTA4MTZ9.9wfTLuPWptnvId694okt7kIP54ZW33eGJtFGhequsO0'
         )
         this.getFundNetPrice()
         this.getFundDetail()
@@ -110,10 +110,11 @@ export default {
     flex-direction: column;
     height: 100%;
     -webkit-overflow-scrolling: touch;
-    overflow: auto;
+    overflow: hidden;
     .fund-content {
-        overflow: auto;
-        -webkit-overflow-scrolling: touch;
+        overflow: hidden;
+        overflow-y: auto;
+        // -webkit-overflow-scrolling: touch;
         flex: 1;
         height: 90%;
     }

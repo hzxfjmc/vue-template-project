@@ -3,7 +3,7 @@
     .fund-cell-list(v-for="item of cellList")
         .left {{item.label}}
         .right
-           span {{item.value}}
+           span {{item.cname}} {{item.value}}
            span(v-if="item.twoValue") {{item.twoValue}}
 </template>
 <script>

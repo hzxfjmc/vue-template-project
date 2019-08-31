@@ -30,7 +30,11 @@ export default {
     },
     mounted() {
         for (let key in this.list) {
-            this.list[key].value = this.$route.query[key]
+            // this.list[key].value = this.$route.query[key]
+            this.list[key].value =
+                key == 'fundSize'
+                    ? `HKD ${Number(this.$route.query[key]).toFixed(2)}`
+                    : this.$route.query[key]
         }
         if (this.$refs.intd[0].offsetHeight > 96) {
             this.list.companyProfile.flag = 1
