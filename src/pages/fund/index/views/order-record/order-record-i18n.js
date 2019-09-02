@@ -1,7 +1,5 @@
 export const i18nOrderStatusData = {
     zhCHS: {
-        fundName: 'Pimco 亚洲投资级债券基金-A1',
-        fundDetailList: ['债券型', '风险等级 R5'],
         orderRecordList: [
             {
                 type: '申购',
@@ -14,8 +12,6 @@ export const i18nOrderStatusData = {
         ]
     },
     zhCHT: {
-        fundName: 'Pimco 亚洲投资级债券基金-A2',
-        fundDetailList: ['债券型', '风险等级 R5'],
         orderRecordList: [
             {
                 type: '申购',
@@ -28,8 +24,6 @@ export const i18nOrderStatusData = {
         ]
     },
     en: {
-        fundName: 'Pimco 亚洲投资级债券基金-A3',
-        fundDetailList: ['债券型', '风险等级 R5'],
         orderRecordList: [
             {
                 type: 'sssgg',

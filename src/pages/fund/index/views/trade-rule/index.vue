@@ -2,7 +2,7 @@
 .tarde-rule
     FundListItem(
         :title="$t('tradeTitle')"
-        :cellList="tradeLists"
+        :cellList="tradeList"
         :subtitle="$t('tradeSubTitle')")
         FundStep(
             slot="fundStep"

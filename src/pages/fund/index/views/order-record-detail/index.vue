@@ -20,10 +20,10 @@
                     .order-money.flex
                         .left-title.flex
                             span.type {{orderType}}
-                            span.type-text 金额
+                            span.type-text {{$t('amount')}}
                         .right-value {{moneyNum}}
             .btn-buy-more
-                van-button(type="info" round  size="large" @click="buyMoreHandle") 再买一笔
+                van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
     
 </template>
 
@@ -32,6 +32,20 @@ import orderStatusAbout from './components/order-status-about'
 import { yxNavBar } from '@/components/yx-nav-bar'
 
 export default {
+    i18n: {
+        zhCHS: {
+            amount: '金额',
+            againBuy: '再买一笔'
+        },
+        zhCHT: {
+            amount: '金额',
+            againBuy: '再买一笔'
+        },
+        en: {
+            amount: '金额',
+            againBuy: '再买一笔'
+        }
+    },
     components: {
         orderStatusAbout,
         yxNavBar

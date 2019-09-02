@@ -9,72 +9,80 @@
                 van-cell(class="van-cell-item" to="order-record-detail")
                     template(slot-scope='scope')
                         .order-item.flex
-                            span(class="order-type") {{item.type}}
+                            span(class="order-type") {{$t('apply')}}
                             span(class="type-value") {{item.typeValue}}
                         .order-item.flex
-                            span(class="left-title") {{item.money}}
+                            span(class="left-title") {{$t('amount')}}
                             span(class="money-value") {{item.moneyValue}}
                         .order-item.flex
-                            span(class="left-title") {{item.time}}
+                            span(class="left-title") {{$t('time')}}
                             span(class="right-title") {{item.timeValue}}
 </template>
 
 <script>
 import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
-import { i18nOrderStatusData } from './order-record-i18n'
+// import { i18nOrderStatusData } from './order-record-i18n'
 
 export default {
-    i18n: i18nOrderStatusData,
+    i18n: {
+        zhCHS: {
+            apply: '申购',
+            amount: '金额',
+            time: '时间'
+        },
+        zhCHT: {
+            apply: '申购',
+            amount: '金额',
+            time: '时间'
+        },
+        en: {
+            apply: '申购',
+            amount: '金额',
+            time: '时间'
+        }
+    },
     mixins: [riskAssessmentMixin],
     data() {
         return {
             orderRecordList: [
                 {
-                    type: '申购',
                     typeValue: '交易进行中',
-                    money: '金额',
                     moneyValue: 'USD 100,000.00',
-                    time: '时间',
                     timeValue: '2019-07-10 15:55:08'
                 },
                 {
-                    type: '申购',
                     typeValue: '交易进行中',
-                    money: '金额',
                     moneyValue: 'USD 100,000.00',
-                    time: '时间',
                     timeValue: '2019-07-10 15:55:08'
                 },
                 {
-                    type: '申购',
                     typeValue: '交易进行中',
-                    money: '金额',
                     moneyValue: 'USD 100,000.00',
-                    time: '时间',
                     timeValue: '2019-07-10 15:55:08'
                 },
                 {
-                    type: '申购',
                     typeValue: '交易进行中',
-                    money: '金额',
                     moneyValue: 'USD 100,000.00',
-                    time: '时间',
                     timeValue: '2019-07-10 15:55:08'
                 },
                 {
-                    type: '申购',
                     typeValue: '交易进行中',
-                    money: '金额',
                     moneyValue: 'USD 100,000.00',
-                    time: '时间',
                     timeValue: '2019-07-10 15:55:08'
                 },
                 {
-                    type: '申购',
                     typeValue: '交易进行中',
-                    money: '金额',
                     moneyValue: 'USD 100,000.00',
-                    time: '时间',
+                    timeValue: '2019-07-10 15:55:08'
+                },
+                {
+                    typeValue: '交易进行中',
+                    moneyValue: 'USD 100,000.00',
+                    timeValue: '2019-07-10 15:55:08'
+                },
+                {
+                    typeValue: '交易进行中',
+                    moneyValue: 'USD 100,000.00',
                     timeValue: '2019-07-10 15:55:08'
                 }
             ],
