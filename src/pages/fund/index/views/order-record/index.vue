@@ -1,9 +1,9 @@
 <template lang="pug">
     .order-record-container
         .fund-introduce
-            .fund-name {{this.$t('fundName')}}
+            .fund-name {{$t('fundName')}}
             .fund-detail
-                .fund-detail-item(v-for="(item) in this.$t('fundDetailList')") {{item}}
+                .fund-detail-item(v-for="(item) in $t('fundDetailList')") {{item}}
         .order-record-container
             .order-record-list(v-for="(item,index) in orderRecordList")
                 van-cell(class="van-cell-item" to="order-record-detail")
