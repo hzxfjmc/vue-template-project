@@ -19,12 +19,8 @@
             .signature-box
                 .title 输入拼音姓名
                 van-field(v-model="uaerName" placeholder="请输入拼音：zhangyi" class="signature-input" )      
-        fixed-operate-btn(
-            :text="'已阅读并同意该协议' + riskTypeTips"
-            :disabled="submitBtnDisabled"
-            @click="handleSubmit('submit')"
-            :class="{ active: !submitBtnDisabled }"
-        )
+        .footer-btn
+            van-button(type="info" round  size="large" @click="openPermissionHandle" :disabled="disabled") 已阅读并同意该协议
 </template>
 
 <script>
@@ -40,8 +36,12 @@ export default {
             titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
             permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
-在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`
+在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
+            disabled: false
         }
+    },
+    methods: {
+        openPermissionHandle() {}
     }
 }
 </script>
