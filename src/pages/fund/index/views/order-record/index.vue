@@ -1,10 +1,9 @@
 <template lang="pug">
     .order-record-container
         .fund-introduce
-            .fund-name {{fundName}}
+            .fund-name {{this.$t('fundName')}}
             .fund-detail
-                .fund-detail-item(v-for="(item) in fundDetailList") {{item}}
-
+                .fund-detail-item(v-for="(item) in this.$t('fundDetailList')") {{item}}
         .order-record-container
             .order-record-list(v-for="(item,index) in orderRecordList")
                 van-cell(class="van-cell-item" to="order-record-detail")
@@ -22,11 +21,13 @@
 
 <script>
 import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
+import { i18nOrderStatusData } from './order-record-i18n'
+
 export default {
+    i18n: i18nOrderStatusData,
     mixins: [riskAssessmentMixin],
     data() {
         return {
-            fundName: 'Pimco 亚洲投资级债券基金-A2',
             orderRecordList: [
                 {
                     type: '申购',

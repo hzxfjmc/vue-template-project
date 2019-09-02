@@ -50,7 +50,9 @@ export default {
             title: '订单'
         }
     },
-    created() {},
+    created() {
+        console.log(this, this.$jsBridge, '0000')
+    },
     methods: {
         buyMoreHandle() {
             this.$router.push({
