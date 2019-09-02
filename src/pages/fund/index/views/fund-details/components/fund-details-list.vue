@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-details-list
-    .vant-list(v-for="item of list" @click="chooseItem(item)")
+    .vant-list(v-for="item of list" @click="chooseItem(item)" class="border-bottom")
         em.left(class="iconfont" :class="item.leftIcon")
         span.center {{item.label}}
         em.right(class="iconfont icon-iconEBgengduoCopy")

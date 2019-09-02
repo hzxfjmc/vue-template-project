@@ -22,7 +22,7 @@
 
     
     .fund-management-list
-        h3.fund-management-title 管理费
+        h3.fund-management-title(class="border-bottom") 管理费
         FunCell(:cellList="managementList")
 </template>
 <script>
@@ -110,7 +110,6 @@ export default {
     background: #fff;
     .fund-management-title {
         line-height: 50px;
-        border-bottom: 1px solid #e1e1e1;
     }
 }
 </style>

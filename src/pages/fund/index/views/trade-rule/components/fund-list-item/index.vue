@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-list-item
-    h3.fund-title {{title}}
+    h3.fund-title(class="border-bottom") {{title}}
     span.fund-subtitle {{subtitle}}
     slot(name="fundStep")
     //- FundStep(
@@ -50,7 +50,6 @@ export default {
     padding: 10px;
     .fund-title {
         line-height: 50px;
-        border-bottom: 1px solid #e1e1e1;
     }
     .fund-subtitle {
         display: inline-block;

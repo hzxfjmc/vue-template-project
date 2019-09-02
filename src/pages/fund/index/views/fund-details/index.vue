@@ -32,6 +32,7 @@ import localStorage from '../../../../../utils/local-storage'
 import { Button } from 'vant'
 
 export default {
+    keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,

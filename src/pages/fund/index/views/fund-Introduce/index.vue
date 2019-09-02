@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-introduce
-    .fund-introduce-header
+    .fund-introduce-header(class="border-bottom")
         span 基金介绍
     
     .fund-introduce-content
@@ -56,8 +56,6 @@ export default {
 }
 .fund-introduce-header {
     padding: 10px;
-    //   margin: 0 0 20px 0;
-    border-bottom: 1px solid #e1e1e1;
 }
 .fund-introduce-content {
     margin: 20px 0;
