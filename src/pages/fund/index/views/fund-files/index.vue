@@ -27,11 +27,10 @@ export default {
         this.list = JSON.parse(this.$route.query.data)
         this.list.map((item, index) => {
             item.createTime = dayjs(item.createTime).format('YYYY-MM-DD')
-            if (index % 2 == 0) {
-                this.list[index].ImgSrc = require('@/assets/img/fund/pdf.png')
-            } else {
-                this.list[index].ImgSrc = require('@/assets/img/fund/html.png')
-            }
+            this.list[index].ImgSrc =
+                index % 2 == 0
+                    ? require('@/assets/img/fund/pdf.png')
+                    : require('@/assets/img/fund/html.png')
         })
     }
 }

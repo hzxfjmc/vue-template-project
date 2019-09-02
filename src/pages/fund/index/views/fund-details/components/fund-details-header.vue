@@ -8,7 +8,7 @@
                 p.number-red +{{fundHeaderInfoVO.apy}}%
             .header-right
                 span 基金价格{{fundHeaderInfoVO.belongDay}}
-                p.number-black {{fundHeaderInfoVO.netPrice}}
+                p.number-black ${{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
             p 起投金额 HKD {{fundHeaderInfoVO.initialInvestAmount}}
             span {{fundHeaderInfoVO.assetType}}
@@ -21,9 +21,6 @@ export default {
             type: Object,
             default: () => {}
         }
-    },
-    data() {
-        return {}
     }
 }
 </script>

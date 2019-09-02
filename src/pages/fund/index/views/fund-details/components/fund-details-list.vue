@@ -53,7 +53,6 @@ export default {
     margin: 10px 0;
     background: $background-color;
     .vant-list {
-        // width:92;
         margin: 0 10px;
         border-bottom: 1px solid #e1e1e1;
         height: 50px;

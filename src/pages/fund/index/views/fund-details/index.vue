@@ -15,7 +15,7 @@
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     
     .fund-footer(@click="tofundSubscribe")
-        a 申购
+        van-button(class="fund-footer") 申购
 </template>
 <script>
 import fundDetailsHeader from './components/fund-details-header'
@@ -29,13 +29,15 @@ import {
 } from '@/service/finance-info-server.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import localStorage from '../../../../../utils/local-storage'
+import { Button } from 'vant'
 
 export default {
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
         HoldfundDetails,
-        fundDetailsList
+        fundDetailsList,
+        Button
     },
     data() {
         return {
@@ -55,42 +57,54 @@ export default {
             })
         },
         async getFundDetail() {
-            const res = await getFundDetail({
-                displayLocation: 1,
-                fundId: 1
-            })
-            this.fundHeaderInfoVO = res.fundHeaderInfoVO
-            this.fundHeaderInfoVO.apy = Number(
-                this.fundHeaderInfoVO.apy
-            ).toFixed(2)
-            this.fundHeaderInfoVO.netPrice = Number(
-                this.fundHeaderInfoVO.netPrice
-            ).toFixed(2)
-            this.fundHeaderInfoVO.initialInvestAmount = Number(
-                this.fundHeaderInfoVO.initialInvestAmount
-            ).toFixed(2)
-            this.fundHeaderInfoVO.belongDay = dayjs(
-                this.fundHeaderInfoVO.belongDay
-            ).format('YYYY-MM-DD')
-            this.fundOverviewInfoVO = res.fundOverviewInfoVO
-            this.fundCorrelationFileList = res.fundCorrelationFileList
-            this.fundTradeInfoVO = res.fundTradeInfoVO
+            try {
+                const res = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: 1
+                })
+                this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.fundHeaderInfoVO.apy = Number(
+                    this.fundHeaderInfoVO.apy
+                ).toFixed(2)
+                this.fundHeaderInfoVO.netPrice = Number(
+                    this.fundHeaderInfoVO.netPrice
+                ).toFixed(2)
+                this.fundHeaderInfoVO.initialInvestAmount = Number(
+                    this.fundHeaderInfoVO.initialInvestAmount
+                ).toFixed(2)
+                this.fundHeaderInfoVO.belongDay = dayjs(
+                    this.fundHeaderInfoVO.belongDay
+                ).format('YYYY-MM-DD')
+                this.fundOverviewInfoVO = res.fundOverviewInfoVO
+                this.fundCorrelationFileList = res.fundCorrelationFileList
+                this.fundTradeInfoVO = res.fundTradeInfoVO
+            } catch (e) {
+                console.log('getFundDetail:error:>>>', e)
+            }
         },
         async getFundPosition() {
-            const res = await getFundPosition({
-                fundId: 1
-            })
-            this.holdInitState = res
+            try {
+                const res = await getFundPosition({
+                    fundId: 1
+                })
+                this.holdInitState = res
+            } catch (e) {
+                console.log('getFundPosition:error:>>>', e)
+            }
         },
         async getFundNetPrice(time) {
-            const res = await getFundNetPrice({
-                fundId: 1,
-                fundNetPriceDateType: time || 1
-            })
-            this.initEchartList = res
-            this.initEchartList.map(item => {
-                item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
-            })
+            try {
+                const res = await getFundNetPrice({
+                    fundId: 1,
+                    fundNetPriceDateType: time || 1
+                })
+                this.initEchartList = res
+                this.initEchartList.map(item => {
+                    item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
+                })
+            } catch (e) {
+                console.log('getFundNetPrice:error:>>>', e)
+            }
         }
     },
     mounted() {
@@ -114,7 +128,6 @@ export default {
     .fund-content {
         overflow: hidden;
         overflow-y: auto;
-        // -webkit-overflow-scrolling: touch;
         flex: 1;
         height: 90%;
     }
@@ -125,6 +138,8 @@ export default {
         color: #fff;
         text-align: center;
         line-height: 50px;
+        border-radius: 0;
+        border: none;
     }
 }
 </style>

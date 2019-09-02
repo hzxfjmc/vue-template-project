@@ -2,15 +2,15 @@ export const holdDetailsData = {
     yesterdayEarnings: {
         label: '昨日收益',
         key: '',
-        value: '+00.00%',
+        value: '00.00',
         cname: '+',
         layout: 'left active-color'
     },
     positionEarnings: {
         label: '持有收益',
         key: '',
-        cname: '',
-        value: '+00.00%',
+        cname: '+',
+        value: '00.00',
         layout: 'center active-color'
     },
     costPrice: {
@@ -30,7 +30,7 @@ export const holdDetailsData = {
         layout: 'center',
         cname: '$',
         key: '',
-        value: '$00.00'
+        value: '00.00'
     },
     inTransitAmount: {
         label: '待确认金额',

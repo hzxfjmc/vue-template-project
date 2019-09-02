@@ -129,7 +129,6 @@ export default {
         margin: 10px 0;
         border: 1px solid rgba(235, 235, 235, 1);
         border-right: none;
-        //   display: flex;
         .date-item {
             border-right: 1px solid rgba(235, 235, 235, 1);
             display: inline-block;

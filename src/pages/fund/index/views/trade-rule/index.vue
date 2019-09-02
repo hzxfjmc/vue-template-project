@@ -92,8 +92,6 @@ export default {
             this.sellSubmit.value = params.sellSubmit
             this.sellConfirm.value = params.sellConfirm
             this.sellProfitLoss.value = params.sellProfitLoss
-
-            console.log(params)
         }
     },
     mounted() {
