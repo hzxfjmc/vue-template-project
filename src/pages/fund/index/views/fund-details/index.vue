@@ -15,7 +15,7 @@
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     
     .fund-footer(@click="tofundSubscribe")
-        van-button(class="fund-footer") 申购
+        van-button(class="fund-footer") {{$t('buy')}}
 </template>
 <script>
 import fundDetailsHeader from './components/fund-details-header'
@@ -32,6 +32,17 @@ import localStorage from '../../../../../utils/local-storage'
 import { Button } from 'vant'
 
 export default {
+    i18n: {
+        zhCHS: {
+            buy: '申购'
+        },
+        zhCHT: {
+            buy: '申購'
+        },
+        en: {
+            buy: 'buy'
+        }
+    },
     keepalive: true,
     components: {
         fundDetailsHeader,

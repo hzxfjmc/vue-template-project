@@ -14,15 +14,15 @@ const store = storeMethod()
 // console.log('main.js:>>>store:>>>', store.state)
 // }, 1000)
 
-// import i18n from '@/utils/common/plugins/yx-i18n/index.js'
-// Vue.use(i18n, {
-//     lang: store.getters.lang,
-//     messages: {
-//         zhCHS: {},
-//         zhCHT: {},
-//         en: {}
-//     }
-// })
+import i18n from '@/utils/common/plugins/yx-i18n/index.js'
+Vue.use(i18n, {
+    lang: store.getters.lang,
+    messages: {
+        zhCHS: {},
+        zhCHT: {},
+        en: {}
+    }
+})
 
 import '@/utils/common'
 

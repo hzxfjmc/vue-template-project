@@ -8,6 +8,23 @@
 <script>
 import { itemlist } from './fund-list'
 export default {
+    i18n: {
+        zhCHS: {
+            itemlist: {
+                label: '交易记录4234'
+            }
+        },
+        zhCHT: {
+            itemlist: {
+                label: '423423'
+            }
+        },
+        en: {
+            itemlist: {
+                label: '54534'
+            }
+        }
+    },
     props: {
         fundOverviewInfoVO: {
             type: Object,
@@ -41,11 +58,12 @@ export default {
                 this.fundTradeInfoVO.tradeFrequency = this.fundTradeInfoVO.tradeFrequency.name
                 data.query = this.fundTradeInfoVO
             }
-            console.log(data)
             this.$router.push(data)
         }
     },
-    mounted() {}
+    mounted() {
+        console.log(this.$t('itemlist.label'))
+    }
 }
 </script>
 <style lang="scss" scoped>

@@ -13,8 +13,9 @@
 </template>
 <script>
 import { Row, Col } from 'vant'
-import { holdDetailsData } from './hold-fund-data'
+import { holdDetailsData, i18nHoldDetailsData } from './hold-fund-data'
 export default {
+    i18n: i18nHoldDetailsData,
     props: {
         initState: {
             type: Object,
