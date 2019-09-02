@@ -1,35 +1,35 @@
 export const Introducelit = {
     fundCompanyName: {
         label: '基金公司',
-        value: 'PImco'
+        value: ''
     },
     fundNameCn: {
         label: '基金名称',
-        value: 'Pimco 亚洲投资级债券基金-A2称'
+        value: ''
     },
     fundNameEn: {
         label: '英文',
-        value: 'Pimco Global investing grade Fix-income fund A2'
+        value: ''
     },
     isin: {
         label: 'ISIN',
-        value: 'IE00B0MD9M11'
+        value: ''
     },
     fundRisk: {
         label: '风险等级',
-        value: 'R5 高风险'
+        value: ''
     },
     assetSubType: {
         label: '资产类别',
-        value: '债券-高收益债'
+        value: ''
     },
     investArea: {
         label: '投资地区',
-        value: '亚洲'
+        value: ''
     },
     fundSize: {
         label: '基金规模',
-        value: 'HKD 4,000.00'
+        value: ''
     },
     companyProfile: {
         label: '基金公司简介',
@@ -42,5 +42,113 @@ export const Introducelit = {
         value: '',
         refs: 'target',
         flag: 0
+    }
+}
+
+export const i18nIntroducelist = {
+    zhCHS: {
+        fundIntroduceTitle: '基金介绍',
+        list: {
+            fundCompanyName: {
+                label: '基金公司'
+            },
+            fundNameCn: {
+                label: '基金名称'
+            },
+            fundNameEn: {
+                label: '英文'
+            },
+            isin: {
+                label: 'ISIN'
+            },
+            fundRisk: {
+                label: '风险等级'
+            },
+            assetSubType: {
+                label: '资产类别'
+            },
+            investArea: {
+                label: '投资地区'
+            },
+            fundSize: {
+                label: '基金规模'
+            },
+            companyProfile: {
+                label: '基金公司简介'
+            },
+            investObjective: {
+                label: '投资目标'
+            }
+        }
+    },
+    zhCHT: {
+        fundIntroduceTitle: '基金介绍',
+        list: {
+            fundCompanyName: {
+                label: '基金公司'
+            },
+            fundNameCn: {
+                label: '基金名称'
+            },
+            fundNameEn: {
+                label: '英文'
+            },
+            isin: {
+                label: 'ISIN'
+            },
+            fundRisk: {
+                label: '风险等级'
+            },
+            assetSubType: {
+                label: '资产类别'
+            },
+            investArea: {
+                label: '投资地区'
+            },
+            fundSize: {
+                label: '基金规模'
+            },
+            companyProfile: {
+                label: '基金公司简介'
+            },
+            investObjective: {
+                label: '投资目标'
+            }
+        }
+    },
+    en: {
+        fundIntroduceTitle: '基金介绍',
+        list: {
+            fundCompanyName: {
+                label: '基金公司'
+            },
+            fundNameCn: {
+                label: '基金名称'
+            },
+            fundNameEn: {
+                label: '英文'
+            },
+            isin: {
+                label: 'ISIN'
+            },
+            fundRisk: {
+                label: '风险等级'
+            },
+            assetSubType: {
+                label: '资产类别'
+            },
+            investArea: {
+                label: '投资地区'
+            },
+            fundSize: {
+                label: '基金规模'
+            },
+            companyProfile: {
+                label: '基金公司简介'
+            },
+            investObjective: {
+                label: '投资目标'
+            }
+        }
     }
 }

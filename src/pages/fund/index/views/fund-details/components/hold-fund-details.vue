@@ -1,6 +1,6 @@
 <template lang="pug">
 .hold-fund-details
-    span 持仓详情
+    span {{$t('holdFundTitle')}}
     van-row()
         van-col( 
             span="8"

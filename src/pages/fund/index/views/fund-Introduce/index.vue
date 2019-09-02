@@ -1,19 +1,20 @@
 <template lang="pug">
 .fund-introduce
     .fund-introduce-header(class="border-bottom")
-        span 基金介绍
+        span {{ $t('fundIntroduceTitle')}}
     
     .fund-introduce-content
         .fund-introduce-list(
-            v-for="(item,index) of list"
+            v-for="(item,index) of lists"
             :key="item.label")
             span.left {{item.label}}
             span.right(:ref="item.refs" :class="[item.flag  == 1 ? 'hiddenClass' :'showClass',item.flag == 0 ? '' : item.refs]") {{item.value}}
                 span.active(v-show="item.flag == 1 || item.flag == 2" @click="foldItem(index)") {{item.flag == 1 ? '展开' : '收起'}}
 </template>
 <script>
-import { Introducelit } from './fund-introduce'
+import { Introducelit, i18nIntroducelist } from './fund-introduce'
 export default {
+    i18n: i18nIntroducelist,
     data() {
         return {
             list: Introducelit
@@ -26,6 +27,14 @@ export default {
             } else {
                 this.list[index].flag = 1
             }
+        }
+    },
+    watch: {
+        lists() {
+            for (let key in this.list) {
+                this.list[key].label = this.$t('list')[key].label
+            }
+            return this.list
         }
     },
     mounted() {
