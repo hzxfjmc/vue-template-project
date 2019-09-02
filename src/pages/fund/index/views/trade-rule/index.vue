@@ -1,36 +1,42 @@
 <template lang="pug">
 .tarde-rule
     FundListItem(
-        :title="tradeTitle"
-        :cellList="tradeList"
-        :subTitle="tradeSubTitle")
+        :title="$t('tradeTitle')"
+        :cellList="tradeLists"
+        :subtitle="$t('tradeSubTitle')")
         FundStep(
             slot="fundStep"
-            :oneStep="buySubmit"
-            :twoStep="buyConfirm"
-            :threeStep="buyProfitLoss")
+            :oneStep="buySubmitStep"
+            :twoStep="buyConfirmStep"
+            :threeStep="buyProfitLossStep")
     .fund-redeem
         FundListItem(
-            :title="redeemTitle"
-            :cellList="redeemList"
-            :subTitle="redeemSubtitle")
+            :title="$t('redeemTitle')"
+            :cellList="redeemLists"
+            :subtitle="$t('redeemSubtitle')")
             FundStep(
               slot="fundStep"
-              :oneStep="sellSubmit"
-              :twoStep="sellConfirm"
-              :threeStep="sellProfitLoss")
+              :oneStep="sellSubmitStep"
+              :twoStep="sellConfirmStep"
+              :threeStep="sellProfitLossStep")
 
     
     .fund-management-list
-        h3.fund-management-title 管理费
-        FunCell(:cellList="managementList")
+        h3.fund-management-title(class="border-bottom") 管理费
+        FunCell(:cellList="managementLists")
 </template>
 <script>
 import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
 import FundStep from './components/common/fund-step'
-import { tradeList, redeemList, managementList } from './trade-rule'
+import {
+    tradeList,
+    redeemList,
+    managementList,
+    i18nTrudeRuleData
+} from './trade-rule'
 export default {
+    i18n: i18nTrudeRuleData,
     components: {
         FundListItem,
         FunCell,
@@ -38,23 +44,20 @@ export default {
     },
     data() {
         return {
-            tradeTitle: '申购',
-            tradeSubTitle: '申购流程',
             tradeList: tradeList,
-            redeemTitle: '赎回',
-            redeemSubtitle: '赎回流程',
             redeemList: redeemList,
+            tradeSubTitle: '423432423',
             managementList: managementList,
             buySubmit: {
                 label: '买入提交',
                 value: ''
             },
             buyConfirm: {
-                label: '确认份额',
+                label: '确认份额423',
                 value: ''
             },
             buyProfitLoss: {
-                label: '查看盈亏',
+                label: '查看盈亏4234',
                 value: ''
             },
             sellSubmit: {
@@ -69,6 +72,53 @@ export default {
                 label: '查看盈亏',
                 value: ''
             }
+        }
+    },
+    watch: {
+        buySubmitStep() {
+            this.buySubmit.label = this.$t('buySubmit.label')
+            return this.buySubmit
+        },
+        buyConfirmStep() {
+            this.buyConfirm.label = this.$t('buyConfirm.label')
+            return this.buyConfirm
+        },
+        buyProfitLossStep() {
+            this.buyProfitLoss.label = this.$t('buyProfitLoss.label')
+            return this.buyProfitLoss
+        },
+        sellSubmitStep() {
+            this.sellSubmit.label = this.$t('sellSubmit.label')
+            return this.sellSubmit
+        },
+        sellConfirmStep() {
+            this.sellConfirm.label = this.$t('sellConfirm.label')
+            return this.sellConfirm
+        },
+        sellProfitLossStep() {
+            this.sellProfitLoss.label = this.$t('sellProfitLoss.label')
+            return this.sellProfitLoss
+        },
+        tradeLists() {
+            for (let key in this.tradeList) {
+                this.tradeList[key].label = this.$t('tradeList')[key].label
+            }
+            return this.tradeList
+        },
+        redeemLists() {
+            for (let key in this.redeemList) {
+                this.redeemList[key].label = this.$t('redeemList')[key].label
+            }
+            return this.redeemList
+        },
+        managementLists() {
+            for (let key in this.managementList) {
+                this.managementList[key].label = this.$t('managementList')[
+                    key
+                ].label
+            }
+            console.log(this.$t('tradeSubTitle'))
+            return this.managementList
         }
     },
     methods: {
@@ -92,8 +142,12 @@ export default {
             this.sellSubmit.value = params.sellSubmit
             this.sellConfirm.value = params.sellConfirm
             this.sellProfitLoss.value = params.sellProfitLoss
-
-            console.log(params)
+            this.managementList.managementFee.value = Number(
+                params.managementFee
+            ).toFixed(2)
+            this.managementList.platformManagementFee.value = Number(
+                params.platformManagementFee
+            ).toFixed(2)
         }
     },
     mounted() {
@@ -103,7 +157,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-redeem {
-    // display: flex;
     margin: 10px 0 0 0;
 }
 .fund-management-list {
@@ -112,7 +165,6 @@ export default {
     background: #fff;
     .fund-management-title {
         line-height: 50px;
-        border-bottom: 1px solid #e1e1e1;
     }
 }
 </style>

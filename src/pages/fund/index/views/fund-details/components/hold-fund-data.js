@@ -1,38 +1,117 @@
-export const holdDetailsData = [
-    {
-        label: '昨日涨幅',
+export const holdDetailsData = {
+    yesterdayEarnings: {
+        label: '昨日收益',
         key: '',
-        value: '+23.44%',
+        value: '00.00',
+        cname: '+',
         layout: 'left active-color'
     },
-    {
-        label: '持有收益率',
+    positionEarnings: {
+        label: '持有收益',
         key: '',
-        value: '+33.33%',
+        cname: '+',
+        value: '00.00',
         layout: 'center active-color'
     },
-    {
+    costPrice: {
         label: '持仓成本',
         key: '',
         layout: 'right',
-        value: '123000.00'
+        value: '00.00'
     },
-    {
+    positionShare: {
         label: '持有份额',
         key: '',
         layout: 'left',
-        value: '22222.32'
+        value: '00.00'
     },
-    {
-        label: '持有金额',
+    positionMarketValue: {
+        label: '持有市值',
         layout: 'center',
+        cname: '$',
         key: '',
-        value: '$32134233.44'
+        value: '00.00'
     },
-    {
+    inTransitAmount: {
         label: '待确认金额',
         key: '',
         layout: 'right',
         value: '0.00'
     }
-]
+}
+
+export const i18nHoldDetailsData = {
+    zhCHS: {
+        holdFundTitle: '持仓详情',
+        holdDetailsData: {
+            yesterdayEarnings: {
+                label: '昨日收益'
+            },
+            positionEarnings: {
+                label: '持有收益'
+            },
+            costPrice: {
+                label: '持仓成本'
+            },
+            positionShare: {
+                label: '持有份额'
+            },
+            positionMarketValue: {
+                label: '持有市值'
+            },
+            inTransitAmount: {
+                label: '待确认金额'
+            }
+        }
+    },
+    zhCHT: {
+        holdFundTitle: '持仓详情',
+        holdDetailsData: {
+            holdDetailsData: {
+                yesterdayEarnings: {
+                    label: '昨日收益'
+                },
+                positionEarnings: {
+                    label: '持有收益'
+                },
+                costPrice: {
+                    label: '持仓成本'
+                },
+                positionShare: {
+                    label: '持有份额'
+                },
+                positionMarketValue: {
+                    label: '持有市值'
+                },
+                inTransitAmount: {
+                    label: '待确认金额'
+                }
+            }
+        }
+    },
+    en: {
+        holdFundTitle: '持仓详情',
+        holdDetailsData: {
+            holdDetailsData: {
+                yesterdayEarnings: {
+                    label: '昨日收益'
+                },
+                positionEarnings: {
+                    label: '持有收益'
+                },
+                costPrice: {
+                    label: '持仓成本'
+                },
+                positionShare: {
+                    label: '持有份额'
+                },
+                positionMarketValue: {
+                    label: '持有市值'
+                },
+                inTransitAmount: {
+                    label: '待确认金额'
+                }
+            }
+        }
+    }
+}

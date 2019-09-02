@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-details-list
-    .vant-list(v-for="item of list" @click="chooseItem(item)")
+    .vant-list(v-for="item of list" @click="chooseItem(item)" class="border-bottom")
         em.left(class="iconfont" :class="item.leftIcon")
         span.center {{item.label}}
         em.right(class="iconfont icon-iconEBgengduoCopy")
@@ -8,6 +8,23 @@
 <script>
 import { itemlist } from './fund-list'
 export default {
+    i18n: {
+        zhCHS: {
+            itemlist: {
+                label: '交易记录4234'
+            }
+        },
+        zhCHT: {
+            itemlist: {
+                label: '423423'
+            }
+        },
+        en: {
+            itemlist: {
+                label: '54534'
+            }
+        }
+    },
     props: {
         fundOverviewInfoVO: {
             type: Object,
@@ -41,11 +58,12 @@ export default {
                 this.fundTradeInfoVO.tradeFrequency = this.fundTradeInfoVO.tradeFrequency.name
                 data.query = this.fundTradeInfoVO
             }
-            console.log(data)
             this.$router.push(data)
         }
     },
-    mounted() {}
+    mounted() {
+        console.log(this.$t('itemlist.label'))
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -53,7 +71,6 @@ export default {
     margin: 10px 0;
     background: $background-color;
     .vant-list {
-        // width:92;
         margin: 0 10px;
         border-bottom: 1px solid #e1e1e1;
         height: 50px;

@@ -1,19 +1,20 @@
 <template lang="pug">
 .fund-introduce
-    .fund-introduce-header
-        span 基金介绍
+    .fund-introduce-header(class="border-bottom")
+        span {{ $t('fundIntroduceTitle')}}
     
     .fund-introduce-content
         .fund-introduce-list(
-            v-for="(item,index) of list"
+            v-for="(item,index) of lists"
             :key="item.label")
             span.left {{item.label}}
             span.right(:ref="item.refs" :class="[item.flag  == 1 ? 'hiddenClass' :'showClass',item.flag == 0 ? '' : item.refs]") {{item.value}}
                 span.active(v-show="item.flag == 1 || item.flag == 2" @click="foldItem(index)") {{item.flag == 1 ? '展开' : '收起'}}
 </template>
 <script>
-import { Introducelit } from './fund-introduce'
+import { Introducelit, i18nIntroducelist } from './fund-introduce'
 export default {
+    i18n: i18nIntroducelist,
     data() {
         return {
             list: Introducelit
@@ -28,9 +29,21 @@ export default {
             }
         }
     },
+    watch: {
+        lists() {
+            for (let key in this.list) {
+                this.list[key].label = this.$t('list')[key].label
+            }
+            return this.list
+        }
+    },
     mounted() {
         for (let key in this.list) {
-            this.list[key].value = this.$route.query[key]
+            // this.list[key].value = this.$route.query[key]
+            this.list[key].value =
+                key == 'fundSize'
+                    ? `HKD ${Number(this.$route.query[key]).toFixed(2)}`
+                    : this.$route.query[key]
         }
         if (this.$refs.intd[0].offsetHeight > 96) {
             this.list.companyProfile.flag = 1
@@ -52,8 +65,6 @@ export default {
 }
 .fund-introduce-header {
     padding: 10px;
-    //   margin: 0 0 20px 0;
-    border-bottom: 1px solid #e1e1e1;
 }
 .fund-introduce-content {
     margin: 20px 0;

@@ -1,6 +1,6 @@
 <template lang="pug">
 .hold-fund-details
-    span 持仓详情
+    span {{$t('holdFundTitle')}}
     van-row()
         van-col( 
             span="8"
@@ -9,15 +9,29 @@
             class="fund-row" 
             :class="item.layout") 
             span.holdSubtitle {{item.label}}
-            p.holdNumber(:class="item.layout") {{item.value}}
+            p.holdNumber(:class="item.layout") {{item.cname}}{{item.value}}
 </template>
 <script>
 import { Row, Col } from 'vant'
-import { holdDetailsData } from './hold-fund-data'
+import { holdDetailsData, i18nHoldDetailsData } from './hold-fund-data'
 export default {
+    i18n: i18nHoldDetailsData,
+    props: {
+        initState: {
+            type: Object,
+            default: () => {}
+        }
+    },
     components: {
         Row,
         Col
+    },
+    watch: {
+        initState() {
+            for (let key in this.initState) {
+                this.list[key].value = Number(this.initState[key]).toFixed(2)
+            }
+        }
     },
     data() {
         return {
@@ -34,8 +48,10 @@ export default {
     height: 160px;
     .fund-row {
         margin: 10px 0 0 0;
+        // text-align: center;
         .holdNumber {
             font-size: 0.36rem;
+            font-weight: bolder;
         }
         .active-color {
             color: rgba(234, 61, 61, 1);

@@ -1,19 +1,14 @@
 <template lang="pug">
 .fund-list-item
-    h3.fund-title {{title}}
+    h3.fund-title(class="border-bottom") {{title}}
     span.fund-subtitle {{subtitle}}
     slot(name="fundStep")
-    //- FundStep(
-    //-     :oneStep="oneStepContent"
-    //-     :twoStep="twoStepContent"
-    //-     :threeStep="threeStepContent")
     FundCell(:cellList="cellList")
 </template>
 <script>
 import FundCell from '../common/fund-cell'
 export default {
     components: {
-        // FundStep,
         FundCell
     },
     props: {
@@ -47,10 +42,9 @@ export default {
 <style lang="scss" scoped>
 .fund-list-item {
     background: #fff;
-    padding: 10px;
+    padding: 0 10px 10px 10px;
     .fund-title {
         line-height: 50px;
-        border-bottom: 1px solid #e1e1e1;
     }
     .fund-subtitle {
         display: inline-block;

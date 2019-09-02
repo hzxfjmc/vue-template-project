@@ -1,17 +1,53 @@
 <template lang="pug">
 .fund-details-echart
-    span 基金净值走势
+    span {{$t('fundTrade')}}
     .fund-echart-content
         canvas(id="myChart")
     .fund-date-list
         div.date-item(
-            v-for="(item,index) of list" 
+            v-for="(item,index) of lists" 
+            :key="index"
             @click="chooseMonth(item,index)"
             :class="[index == active ? 'active' :'']") {{item.date}}
 </template>
 <script>
 import F2 from '@antv/f2'
 export default {
+    i18n: {
+        zhCHS: {
+            fundTrade: '基金净值走势',
+            list: {
+                one: { date: '1个月' },
+                two: { date: '3个月' },
+                three: { date: '6个月' },
+                four: { date: '1年' },
+                five: { date: '2年' },
+                all: { date: '全部' }
+            }
+        },
+        zhCHT: {
+            fundTrade: '基金净值走势',
+            list: {
+                one: { date: '1个月' },
+                two: { date: '3个月' },
+                three: { date: '6个月' },
+                four: { date: '1年' },
+                five: { date: '2年' },
+                all: { date: '全部' }
+            }
+        },
+        en: {
+            fundTrade: '基金净值走势',
+            list: {
+                one: { date: '1个月' },
+                two: { date: '3个月' },
+                three: { date: '6个月' },
+                four: { date: '1年' },
+                five: { date: '2年' },
+                all: { date: '全部' }
+            }
+        }
+    },
     props: {
         initEchartList: {
             type: Array,
@@ -21,14 +57,14 @@ export default {
     data() {
         return {
             active: 0,
-            list: [
-                { date: '1个月', key: 1 },
-                { date: '3个月', key: 2 },
-                { date: '6个月', key: 3 },
-                { date: '1年', key: 4 },
-                { date: '2年', key: 5 },
-                { date: '全部', key: 6 }
-            ]
+            list: {
+                one: { date: '1个月', key: 1 },
+                two: { date: '3个月', key: 2 },
+                three: { date: '6个月', key: 3 },
+                four: { date: '1年', key: 4 },
+                five: { date: '2年', key: 5 },
+                all: { date: '全部', key: 6 }
+            }
         }
     },
     methods: {
@@ -98,6 +134,10 @@ export default {
     watch: {
         initEchartList() {
             this.draw()
+        },
+        lists() {
+            this.list = this.$t('list')
+            return this.list
         }
     },
     mounted() {
@@ -129,7 +169,6 @@ export default {
         margin: 10px 0;
         border: 1px solid rgba(235, 235, 235, 1);
         border-right: none;
-        //   display: flex;
         .date-item {
             border-right: 1px solid rgba(235, 235, 235, 1);
             display: inline-block;

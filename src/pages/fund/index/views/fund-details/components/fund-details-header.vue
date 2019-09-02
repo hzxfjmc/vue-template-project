@@ -4,26 +4,40 @@
         p.funds-details-subtitle {{fundHeaderInfoVO.feature}}
         .funds-details-number
             .header-left
-                span 近一年表现
+                span {{$t('oneYearShow')}}
                 p.number-red +{{fundHeaderInfoVO.apy}}%
             .header-right
-                span 基金价格{{fundHeaderInfoVO.belongDay}}
-                p.number-black {{fundHeaderInfoVO.netPrice}}
+                span {{$t('fundPrice')}}{{fundHeaderInfoVO.belongDay}}
+                p.number-black ${{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
-            p 起投金额 HKD {{fundHeaderInfoVO.initialInvestAmount}}
+            p {{$t('minInvestment')}} {{fundHeaderInfoVO.initialInvestAmount}}
             span {{fundHeaderInfoVO.assetType}}
             span {{fundHeaderInfoVO.fundRisk}}
 </template>
 <script>
 export default {
+    i18n: {
+        zhCHS: {
+            fundPrice: '基金价格',
+            minInvestment: '起投金额 HKD',
+            oneYearShow: '近一年表现'
+        },
+        zhCHT: {
+            fundPrice: '基金价格',
+            minInvestment: '起投金额 HKD',
+            oneYearShow: '近一年表现'
+        },
+        en: {
+            fundPrice: '基金价格',
+            minInvestment: '起投金额 HKD',
+            oneYearShow: '近一年表现'
+        }
+    },
     props: {
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
         }
-    },
-    data() {
-        return {}
     }
 }
 </script>

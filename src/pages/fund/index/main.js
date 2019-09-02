@@ -10,19 +10,19 @@ import LS from '@/utils/local-storage.js'
 
 import storeMethod from '@/store/index.js'
 const store = storeMethod()
-setTimeout(() => {
-    console.log('main.js:>>>store:>>>', store.state)
-}, 1000)
+// setTimeout(() => {
+// console.log('main.js:>>>store:>>>', store.state)
+// }, 1000)
 
-// import i18n from '@/utils/common/plugins/yx-i18n/index.js'
-// Vue.use(i18n, {
-//     lang: store.getters.lang,
-//     messages: {
-//         zhCHS: {},
-//         zhCHT: {},
-//         en: {}
-//     }
-// })
+import i18n from '@/utils/common/plugins/yx-i18n/index.js'
+Vue.use(i18n, {
+    lang: store.getters.lang,
+    messages: {
+        zhCHS: {},
+        zhCHT: {},
+        en: {}
+    }
+})
 
 import '@/utils/common'
 

@@ -7,15 +7,15 @@
           @chooseTime = "getFundNetPrice"
           :initEchartList="initEchartList")
 
-        HoldfundDetails
+        HoldfundDetails(:initState="holdInitState")
 
         fundDetailsList(
             :fundCorrelationFileList="fundCorrelationFileList"
             :fundTradeInfoVO = "fundTradeInfoVO"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     
-    .fund-footer(slot="bottom" @click="tofundSubscribe")
-        a() 申购
+    .fund-footer(@click="tofundSubscribe")
+        van-button(class="fund-footer") {{$t('buy')}}
 </template>
 <script>
 import fundDetailsHeader from './components/fund-details-header'
@@ -29,13 +29,27 @@ import {
 } from '@/service/finance-info-server.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import localStorage from '../../../../../utils/local-storage'
+import { Button } from 'vant'
 
 export default {
+    i18n: {
+        zhCHS: {
+            buy: '申购'
+        },
+        zhCHT: {
+            buy: '申購'
+        },
+        en: {
+            buy: 'buy'
+        }
+    },
+    keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
         HoldfundDetails,
-        fundDetailsList
+        fundDetailsList,
+        Button
     },
     data() {
         return {
@@ -43,7 +57,8 @@ export default {
             fundOverviewInfoVO: {},
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},
-            initEchartList: []
+            initEchartList: [],
+            holdInitState: {}
         }
     },
     methods: {
@@ -54,47 +69,60 @@ export default {
             })
         },
         async getFundDetail() {
-            const res = await getFundDetail({
-                displayLocation: 1,
-                fundId: 1
-            })
-            this.fundHeaderInfoVO = res.fundHeaderInfoVO
-            this.fundHeaderInfoVO.apy = Number(
-                this.fundHeaderInfoVO.apy
-            ).toFixed(2)
-            this.fundHeaderInfoVO.netPrice = Number(
-                this.fundHeaderInfoVO.netPrice
-            ).toFixed(2)
-            this.fundHeaderInfoVO.initialInvestAmount = Number(
-                this.fundHeaderInfoVO.initialInvestAmount
-            ).toFixed(2)
-            this.fundHeaderInfoVO.belongDay = dayjs(
-                this.fundHeaderInfoVO.belongDay
-            ).format('YYYY-MM-DD')
-            this.fundOverviewInfoVO = res.fundOverviewInfoVO
-            this.fundCorrelationFileList = res.fundCorrelationFileList
-            this.fundTradeInfoVO = res.fundTradeInfoVO
+            try {
+                const res = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: 1
+                })
+                this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.fundHeaderInfoVO.apy = Number(
+                    this.fundHeaderInfoVO.apy
+                ).toFixed(2)
+                this.fundHeaderInfoVO.netPrice = Number(
+                    this.fundHeaderInfoVO.netPrice
+                ).toFixed(2)
+                this.fundHeaderInfoVO.initialInvestAmount = Number(
+                    this.fundHeaderInfoVO.initialInvestAmount
+                ).toFixed(2)
+                this.fundHeaderInfoVO.belongDay = dayjs(
+                    this.fundHeaderInfoVO.belongDay
+                ).format('YYYY-MM-DD')
+                this.fundOverviewInfoVO = res.fundOverviewInfoVO
+                this.fundCorrelationFileList = res.fundCorrelationFileList
+                this.fundTradeInfoVO = res.fundTradeInfoVO
+            } catch (e) {
+                console.log('getFundDetail:error:>>>', e)
+            }
         },
         async getFundPosition() {
-            await getFundPosition({
-                fundId: 1
-            })
+            try {
+                const res = await getFundPosition({
+                    fundId: 1
+                })
+                this.holdInitState = res
+            } catch (e) {
+                console.log('getFundPosition:error:>>>', e)
+            }
         },
         async getFundNetPrice(time) {
-            const res = await getFundNetPrice({
-                fundId: 1,
-                fundNetPriceDateType: time || 1
-            })
-            this.initEchartList = res
-            this.initEchartList.map(item => {
-                item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
-            })
+            try {
+                const res = await getFundNetPrice({
+                    fundId: 1,
+                    fundNetPriceDateType: time || 1
+                })
+                this.initEchartList = res
+                this.initEchartList.map(item => {
+                    item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
+                })
+            } catch (e) {
+                console.log('getFundNetPrice:error:>>>', e)
+            }
         }
     },
     mounted() {
         localStorage.put(
             'userToken',
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMTk5ZGIwMzI2Mjc0NDE4ZDk4YmJjYTNmNjBkZWYxMTEiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNTQ3MDQ1NjQxMTE2NTA4MTZ9.9wfTLuPWptnvId694okt7kIP54ZW33eGJtFGhequsO0'
         )
         this.getFundNetPrice()
         this.getFundDetail()
@@ -104,23 +132,26 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-details {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
     overflow: hidden;
     .fund-content {
-        overflow-y: auto;
-        width: 100%;
-        margin: 0 0 50px 0;
         overflow: hidden;
+        overflow-y: auto;
+        flex: 1;
+        height: 90%;
     }
     .fund-footer {
         width: 100%;
         height: 50px;
         background: $primary-color;
-        position: fixed;
-        bottom: 0;
-        line-height: 50px;
-        text-align: center;
         color: #fff;
-        font-size: 0.32rem;
+        text-align: center;
+        line-height: 50px;
+        border-radius: 0;
+        border: none;
     }
 }
 </style>

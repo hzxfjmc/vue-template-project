@@ -1,9 +1,4 @@
 export const itemlist = [
-    // {
-    //     leftIcon: '',
-    //     label: '',
-    //     rightIcon: ''
-    // },
     {
         leftIcon: 'icon-iconEBshoucang',
         label: '交易记录',
