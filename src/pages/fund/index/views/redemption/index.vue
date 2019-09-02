@@ -1,5 +1,5 @@
 <template lang="pug">
-    .subscribe-wrapper
+    .redemption
         .fond-des
             .fond-name Pimco 亚洲投资级债券基金-A2
             .ISIN ISIN:IE00B0MD9M11
@@ -7,16 +7,15 @@
         template(v-if="step === 1")
             .fond-buy
                 .buy-row
-                    .left 币种
-                    .right HKD
+                    .left 持用份额
+                    .right 2,000.33
                 .buy-row
-                    .left 可用余额
-                    .right 2,000.000.00
+                    .left 基金市值
+                    .right 2,000.00
                 .buy-row
                     .left 购买金额
                     .right.placeHolder.text-color3(v-if="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span 最小申购金额5000.00 
-                        span 续投金额10
                     .right.buy-monny(v-if="buyMonnyBlur" )
                         van-field.input(ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr
@@ -30,9 +29,9 @@
 
             FundSteps(
                 style="margin-top: 22px;"
-                title="申购规则"
+                title="赎回规则"
                 :curStep="0"
-                :stepNames="['买入提交', '确认份额', '查看盈亏']"
+                :stepNames="['提交赎回申请', '确认份额', '资金到账']"
                 :stepTimes="['今日15点前', '06.28(星期五)', '06.28(星期五)']"
             )
         template(v-else-if="step === 2")
@@ -102,7 +101,7 @@ export default {
 }
 </script>
 <style lang="scss">
-.subscribe-wrapper {
+.redemption {
     .m-b28 {
         margin-bottom: 28px;
     }
@@ -191,8 +190,7 @@ export default {
             }
             .placeHolder {
                 width: 139px;
-                // height: 50px;
-                margin-top: -10px;
+                height: 40px;
             }
         }
         .line {

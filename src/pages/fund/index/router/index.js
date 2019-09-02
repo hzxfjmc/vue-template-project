@@ -79,6 +79,13 @@ export default new Router({
                 import(`@/pages/fund/index/views/subscribe/index.vue`)
         },
         {
+            name: 'fund-redemption',
+            path: '/fund-redemption',
+            meta: { title: '基金赎回' },
+            component: () =>
+                import(`@/pages/fund/index/views/redemption/index.vue`)
+        },
+        {
             name: 'order-record-detail',
             path: '/order-record-detail',
             meta: { title: '订单记录详情' },
