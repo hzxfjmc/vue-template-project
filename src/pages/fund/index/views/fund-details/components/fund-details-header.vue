@@ -46,6 +46,7 @@ export default {
     background: $background-color;
     float: left;
     width: 100%;
+    min-height: 200px;
     padding: 10px;
     h3 {
         font-size: 0.32rem;

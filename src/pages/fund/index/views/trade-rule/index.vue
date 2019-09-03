@@ -28,6 +28,7 @@
 <script>
 import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import FundStep from './components/common/fund-step'
 import {
     tradeList,
@@ -100,26 +101,26 @@ export default {
                 this.tradeList[key].value =
                     key == 'tradeFrequency'
                         ? params[key]
-                        : Number(params[key]).toFixed(2)
+                        : transNumToThousandMark(params[key])
             }
-            this.redeemList.lowestInvestAmount.value = Number(
+            this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
                 params.lowestInvestAmount
-            ).toFixed(2)
-            this.redeemList.subscriptionFee.value = Number(
+            )
+            this.redeemList.subscriptionFee.value = transNumToThousandMark(
                 params.subscriptionFee
-            ).toFixed(2)
+            )
             this.buySubmit.value = params.buySubmit
             this.buyConfirm.value = params.buyConfirm
             this.buyProfitLoss.value = params.buyProfitLoss
             this.sellSubmit.value = params.sellSubmit
             this.sellConfirm.value = params.sellConfirm
             this.sellProfitLoss.value = params.sellProfitLoss
-            this.managementList.managementFee.value = Number(
+            this.managementList.managementFee.value = transNumToThousandMark(
                 params.managementFee
-            ).toFixed(2)
-            this.managementList.platformManagementFee.value = Number(
+            )
+            this.managementList.platformManagementFee.value = transNumToThousandMark(
                 params.platformManagementFee
-            ).toFixed(2)
+            )
         }
     },
     mounted() {

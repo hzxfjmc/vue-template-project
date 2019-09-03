@@ -129,6 +129,11 @@ export default {
                 }
             })
             chart.render()
+        },
+        initI18nState() {
+            for (let key in this.list) {
+                this.list[key].date = this.$t('list')[key].date
+            }
         }
     },
     watch: {
@@ -137,7 +142,7 @@ export default {
         }
     },
     mounted() {
-        this.list = this.$t('list')
+        this.initI18nState()
         this.draw()
     }
 }
@@ -145,7 +150,7 @@ export default {
 <style lang="scss" scoped>
 .fund-details-echart {
     margin: 10px 0 0 0;
-    // height: 300px;
+    width: 100%;
     float: left;
     padding: 10px;
     background: $background-color;

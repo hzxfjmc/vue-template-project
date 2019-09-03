@@ -13,6 +13,7 @@
 </template>
 <script>
 import { Introducelit, i18nIntroducelist } from './fund-introduce'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     i18n: i18nIntroducelist,
     data() {
@@ -28,7 +29,9 @@ export default {
             for (let key in this.list) {
                 this.list[key].value =
                     key == 'fundSize'
-                        ? `HKD ${Number(this.$route.query[key]).toFixed(2)}`
+                        ? `HKD ${transNumToThousandMark(
+                              this.$route.query[key]
+                          )}`
                         : this.$route.query[key]
             }
             if (this.$refs.intd[0].offsetHeight > 96) {

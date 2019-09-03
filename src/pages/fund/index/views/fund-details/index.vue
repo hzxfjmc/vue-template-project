@@ -58,7 +58,7 @@ export default {
             append: '追加'
         }
     },
-    // keepalive: true,
+    keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
@@ -90,6 +90,7 @@ export default {
         },
         async getFundDetail() {
             try {
+                this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: 1,
                     fundId: 1
