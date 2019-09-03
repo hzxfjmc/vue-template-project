@@ -16,9 +16,14 @@
             :fundTradeInfoVO = "fundTradeInfoVO"
             :positionStatus = "positionStatus"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
+    .fund-footer-content(v-if="btnShow")
+        van-button(class="btn fund-check") 赎回
+        van-button(class="btn fund-buy") 追加
+
+    .fund-footer-content(@click="tofundSubscribe" v-if="btnShow1")
+        van-button(class="fund-footer btn") {{$t('buy')}}
     
-    .fund-footer(@click="tofundSubscribe")
-        van-button(class="fund-footer") {{$t('buy')}}
+    
 </template>
 <script>
 import fundDetailsHeader from './components/fund-details-header'
@@ -46,7 +51,7 @@ export default {
             buy: '申购'
         }
     },
-    keepalive: true,
+    // keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
@@ -64,7 +69,9 @@ export default {
             initEchartList: [],
             holdInitState: {},
             positionStatus: {},
-            holdDetailsShow: false
+            holdDetailsShow: false,
+            btnShow: false,
+            btnShow1: false
         }
     },
     methods: {
@@ -99,6 +106,9 @@ export default {
                 this.positionStatus = res.positionStatus
                 if (this.positionStatus.type != -1) {
                     this.holdDetailsShow = true
+                    this.btnShow = true
+                } else {
+                    this.btnShow1 = true
                 }
                 Dialog.alert({
                     title: '标题',
@@ -162,13 +172,28 @@ export default {
     }
     .fund-footer {
         width: 100%;
-        height: 50px;
         background: $primary-color;
+    }
+    .btn {
+        height: 50px;
         color: #fff;
         text-align: center;
         line-height: 50px;
         border-radius: 0;
         border: none;
+    }
+    .fund-check,
+    .fund-buy {
+        width: 50%;
+    }
+    .fund-check {
+        background: $primary-color;
+    }
+    .fund-buy {
+        background: rgb(255, 191, 50);
+    }
+    .van-button {
+        border-radius: 0 !important;
     }
 }
 </style>

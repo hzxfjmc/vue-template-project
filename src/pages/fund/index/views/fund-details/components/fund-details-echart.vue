@@ -145,7 +145,8 @@ export default {
 <style lang="scss" scoped>
 .fund-details-echart {
     margin: 10px 0 0 0;
-    height: 300px;
+    // height: 300px;
+    float: left;
     padding: 10px;
     background: $background-color;
     span {

@@ -82,6 +82,8 @@ export default {
 .fund-details-list {
     margin: 10px 0;
     background: $background-color;
+    width: 100%;
+    float: left;
     .vant-list {
         margin: 0 10px;
         border-bottom: 1px solid #e1e1e1;
