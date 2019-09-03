@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
 // import { i18nOrderStatusData } from './order-record-i18n'
 
 export default {
@@ -41,7 +40,6 @@ export default {
             time: '时间'
         }
     },
-    mixins: [riskAssessmentMixin],
     data() {
         return {
             orderRecordList: [

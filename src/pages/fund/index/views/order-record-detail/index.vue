@@ -18,7 +18,7 @@
                         .right-value {{moneyNum}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
-            van-dialog(v-model='isShowBackout' message="您是否要撤销当前订单" showConfirmButton	showCancelButton=true)
+            van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" 	showCancelButton=true)
     
 </template>
 
@@ -31,15 +31,18 @@ export default {
     i18n: {
         zhCHS: {
             amount: '金额',
-            againBuy: '再买一笔'
+            againBuy: '再买一笔',
+            dialogMsg: '您是否要取消当前订单? '
         },
         zhCHT: {
             amount: '金额',
-            againBuy: '再买一笔'
+            againBuy: '再买一笔',
+            dialogMsg: '您是否要取消當前訂單?'
         },
         en: {
             amount: '金额',
-            againBuy: '再买一笔'
+            againBuy: '再买一笔',
+            dialogMsg: 'Would you like to cancel the order?'
         }
     },
     components: {
