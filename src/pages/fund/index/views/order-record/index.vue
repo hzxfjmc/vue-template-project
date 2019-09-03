@@ -1,9 +1,9 @@
 <template lang="pug">
     .order-record-container
         .fund-introduce
-            .fund-name {{$t('fundName')}}
+            .fund-name {{fundName}}
             .fund-detail
-                .fund-detail-item(v-for="(item) in $t('fundDetailList')") {{item}}
+                .fund-detail-item(v-for="(item) in fundDetailList") {{item}}
         .order-record-container
             .order-record-list(v-for="(item,index) in orderRecordList")
                 van-cell(class="van-cell-item" to="order-record-detail")
@@ -86,7 +86,8 @@ export default {
                     timeValue: '2019-07-10 15:55:08'
                 }
             ],
-            fundDetailList: ['债券型', '风险等级 R5']
+            fundDetailList: ['债券型', '风险等级 R5'],
+            fundName: 'Pimco 亚洲投资级债券基金-A2'
         }
     }
 }
