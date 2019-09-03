@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-details-list
-    .vant-list(v-for="item of list" @click="chooseItem(item)" class="border-bottom")
+    .vant-list(v-for="item of list" @click="chooseItem(item)" class="border-bottom" v-if="item.itemShow")
         em.left(class="iconfont" :class="item.leftIcon")
         span.center {{item.label}}
         em.right(class="iconfont icon-iconEBgengduoCopy")
@@ -36,11 +36,23 @@ export default {
         fundTradeInfoVO: {
             type: Object,
             default: () => {}
+        },
+        positionStatus: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
         return {
             list: itemlist
+        }
+    },
+    watch: {
+        positionStatus() {
+            if (this.positionStatus.type != -1) {
+                this.list[0].itemShow = true
+            }
+            console.log(this.positionStatus)
         }
     },
     methods: {

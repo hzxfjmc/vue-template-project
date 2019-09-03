@@ -7,11 +7,14 @@
           @chooseTime = "getFundNetPrice"
           :initEchartList="initEchartList")
 
-        HoldfundDetails(:initState="holdInitState")
+        HoldfundDetails(
+            v-if="holdDetailsShow"
+            :initState="holdInitState")
 
         fundDetailsList(
             :fundCorrelationFileList="fundCorrelationFileList"
             :fundTradeInfoVO = "fundTradeInfoVO"
+            :positionStatus = "positionStatus"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     
     .fund-footer(@click="tofundSubscribe")
@@ -29,7 +32,7 @@ import {
 } from '@/service/finance-info-server.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import localStorage from '../../../../../utils/local-storage'
-import { Button } from 'vant'
+import { Button, Dialog } from 'vant'
 
 export default {
     i18n: {
@@ -40,7 +43,7 @@ export default {
             buy: '申購'
         },
         en: {
-            buy: '申请'
+            buy: '申购'
         }
     },
     keepalive: true,
@@ -49,7 +52,8 @@ export default {
         fundDetailsEchart,
         HoldfundDetails,
         fundDetailsList,
-        Button
+        Button,
+        Dialog
     },
     data() {
         return {
@@ -58,7 +62,9 @@ export default {
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},
             initEchartList: [],
-            holdInitState: {}
+            holdInitState: {},
+            positionStatus: {},
+            holdDetailsShow: false
         }
     },
     methods: {
@@ -90,6 +96,17 @@ export default {
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
+                this.positionStatus = res.positionStatus
+                if (this.positionStatus.type != -1) {
+                    this.holdDetailsShow = true
+                }
+                Dialog.alert({
+                    title: '标题',
+                    message: '弹窗内容'
+                }).then(() => {
+                    // on close
+                    console.log(`关闭了`)
+                })
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
