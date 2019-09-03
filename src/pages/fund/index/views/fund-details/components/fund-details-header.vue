@@ -44,10 +44,8 @@ export default {
 <style lang="scss" scoped>
 .funds-details-header {
     background: $background-color;
-    //   min-height: 200px;
     float: left;
-    //   display: flex;
-    //   float:left;
+    width: 100%;
     padding: 10px;
     h3 {
         font-size: 0.32rem;

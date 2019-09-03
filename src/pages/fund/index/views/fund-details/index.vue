@@ -17,8 +17,8 @@
             :positionStatus = "positionStatus"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
-        van-button(class="btn fund-check") 赎回
-        van-button(class="btn fund-buy") 追加
+        van-button(class="btn fund-check") {{$t('redeem')}}
+        van-button(class="btn fund-buy") {{$t('append')}}
 
     .fund-footer-content(@click="tofundSubscribe" v-if="btnShow1")
         van-button(class="fund-footer btn") {{$t('buy')}}
@@ -35,6 +35,7 @@ import {
     getFundDetail,
     getFundNetPrice
 } from '@/service/finance-info-server.js'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import localStorage from '../../../../../utils/local-storage'
 import { Button, Dialog } from 'vant'
@@ -42,13 +43,19 @@ import { Button, Dialog } from 'vant'
 export default {
     i18n: {
         zhCHS: {
-            buy: '申购'
+            buy: '申购',
+            redeem: '赎回',
+            append: '追加'
         },
         zhCHT: {
-            buy: '申購'
+            buy: '申購',
+            redeem: '贖回',
+            append: '追加'
         },
         en: {
-            buy: '申购'
+            buy: '申购',
+            redeem: '赎回',
+            append: '追加'
         }
     },
     // keepalive: true,
@@ -88,12 +95,12 @@ export default {
                     fundId: 1
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
-                this.fundHeaderInfoVO.apy = Number(
+                this.fundHeaderInfoVO.apy = transNumToThousandMark(
                     this.fundHeaderInfoVO.apy
-                ).toFixed(2)
-                this.fundHeaderInfoVO.netPrice = Number(
+                )
+                this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
-                ).toFixed(2)
+                )
                 this.fundHeaderInfoVO.initialInvestAmount = Number(
                     this.fundHeaderInfoVO.initialInvestAmount
                 ).toFixed(2)
@@ -110,13 +117,13 @@ export default {
                 } else {
                     this.btnShow1 = true
                 }
-                Dialog.alert({
-                    title: '标题',
-                    message: '弹窗内容'
-                }).then(() => {
-                    // on close
-                    console.log(`关闭了`)
-                })
+                // Dialog.alert({
+                //     title: '标题',
+                //     message: '弹窗内容'
+                // }).then(() => {
+                //     // on close
+                //     console.log(`关闭了`)
+                // })
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
