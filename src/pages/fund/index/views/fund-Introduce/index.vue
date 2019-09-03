@@ -22,11 +22,7 @@ export default {
     },
     methods: {
         foldItem(index) {
-            if (this.list[index].flag == 1) {
-                this.list[index].flag = 2
-            } else {
-                this.list[index].flag = 1
-            }
+            this.list[index].flag = this.list[index].flag == 1 ? 2 : 1
         },
         initState() {
             for (let key in this.list) {
@@ -47,16 +43,6 @@ export default {
             }
         }
     },
-    watch: {
-        list() {
-            for (let key in this.list) {
-                this.list[key].label = this.$t('list')[key].label
-            }
-            console.log(this.list)
-            // return this.list
-        }
-    },
-
     mounted() {
         this.initState()
     }

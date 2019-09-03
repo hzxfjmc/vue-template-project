@@ -40,7 +40,7 @@ export default {
             buy: '申購'
         },
         en: {
-            buy: 'buy'
+            buy: '申请'
         }
     },
     keepalive: true,
