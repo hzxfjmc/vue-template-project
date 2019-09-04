@@ -118,13 +118,14 @@ export default {
                 } else {
                     this.btnShow1 = true
                 }
-                Dialog.alert({
-                    title: '标题',
-                    message: '弹窗内容'
-                }).then(() => {
-                    // on close
-                    console.log(`关闭了`)
-                })
+                // Dialog.alert({
+                //     title: '标题',
+                //     message: '弹窗内容'
+                // }).then(() => {
+                //     // on close
+                //     console.log(`关闭了`)
+                //     window.location.href="http://10.210.25.93:82/wealth/risk-assessment/index.html#/risk-assessment"
+                // })
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }

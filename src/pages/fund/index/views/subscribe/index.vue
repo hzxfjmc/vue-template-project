@@ -7,26 +7,26 @@
         template(v-if="step === 1")
             .fond-buy
                 .buy-row
-                    .left 币种
+                    .left {{ $t('currency') }}
                     .right HKD
                 .buy-row
-                    .left 可用余额
-                    .right 2,000.000.00
+                    .left {{ $t('availableBalance') }}
+                    .right {{ 2000000 | formatCurrency }}
                 .buy-row
                     .left 购买金额
-                    .right.placeHolder.text-color3(v-if="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        span 最小申购金额5000.00 
-                        span 续投金额10
-                    .right.buy-monny(v-if="buyMonnyBlur" )
+                    .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder" style="height: 50px;")
+                        span {{ $t('minBugBalance') }}5000.00 
+                        span {{ $t('continueBalance') }}10
+                    .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3 {{'赎回率：0.3%'}}
-                    .right.text-color3(style="text-align: right;") 预计：600.00
-                a.submit(@click="getTradeToken") 同意协议并提交
+                    .left.text-color3 {{ `${$t('redemption')}：0.3%` }}
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ 600 | formatCurrency }}
+                a.submit(@click="getTradeToken") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
                     a.left {{'《基金购买协议》'}}
-                    .right(style="text-align: right;") 预计07.01日完成
+                    .right(style="text-align: right;") {{ `${$t('predict')}07.01${$t('dayDone')}` }}
 
             FundSteps(
                 style="margin-top: 22px;"
@@ -60,6 +60,44 @@
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 export default {
+    i18n: {
+        zhCHS: {
+            currency: '币种',
+            availableBalance: '可用余额',
+            bugBalance: '购买金额',
+            minBugBalance: '最小申购金额',
+            continueBalance: '续投金额',
+            redemption: '赎回率',
+            predict: '预计',
+            submiButtonText: '同意协议并提交',
+            dayDone: '日完成',
+            balanceRule: '申购规则'
+        },
+        zhCHT: {
+            currency: '币种',
+            availableBalance: '可用余额',
+            bugBalance: '购买金额',
+            minBugBalance: '最小申购金额',
+            continueBalance: '续投金额',
+            redemption: '赎回率',
+            predict: '预计',
+            submiButtonText: '同意协议并提交',
+            dayDone: '日完成',
+            balanceRule: '申购规则'
+        },
+        en: {
+            currency: '币种',
+            availableBalance: '可用余额',
+            bugBalance: '购买金额',
+            minBugBalance: '最小申购金额',
+            continueBalance: '续投金额',
+            redemption: '赎回率',
+            predict: '预计',
+            submiButtonText: '同意协议并提交',
+            dayDone: '日完成',
+            balanceRule: '申购规则'
+        }
+    },
     name: 'subscribe',
     components: {
         FundSteps
@@ -86,6 +124,10 @@ export default {
         },
         // 获取交易token
         async getTradeToken() {
+            this.$alert({
+                message: '2323',
+                confirmButtonText: '我知道了'
+            })
             try {
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
