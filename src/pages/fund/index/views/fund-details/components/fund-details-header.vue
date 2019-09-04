@@ -1,6 +1,6 @@
 <template lang="pug">
 .funds-details-header
-     h3 {{fundHeaderInfoVO.fundName}}
+        h3 {{fundHeaderInfoVO.fundName}}
         p.funds-details-subtitle {{fundHeaderInfoVO.feature}}
         .funds-details-number
             .header-left
@@ -44,15 +44,26 @@ export default {
 <style lang="scss" scoped>
 .funds-details-header {
     background: $background-color;
-    height: 200px;
+    float: left;
+    width: 100%;
+    min-height: 200px;
     padding: 10px;
     h3 {
         font-size: 0.32rem;
         color: $text-color;
         margin: 10px 0 3px 0;
+        // height:50px;
+        float: left;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
     }
     .funds-details-subtitle {
         color: $text-color3;
+        width: 100%;
+        float: left;
         font-size: 0.24rem;
     }
     .funds-details-number {

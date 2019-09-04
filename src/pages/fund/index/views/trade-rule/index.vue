@@ -2,32 +2,33 @@
 .tarde-rule
     FundListItem(
         :title="$t('tradeTitle')"
-        :cellList="tradeLists"
+        :cellList="tradeList"
         :subtitle="$t('tradeSubTitle')")
         FundStep(
             slot="fundStep"
-            :oneStep="buySubmitStep"
-            :twoStep="buyConfirmStep"
-            :threeStep="buyProfitLossStep")
+            :oneStep="buySubmit"
+            :twoStep="buyConfirm"
+            :threeStep="buyProfitLoss")
     .fund-redeem
         FundListItem(
             :title="$t('redeemTitle')"
-            :cellList="redeemLists"
+            :cellList="redeemList"
             :subtitle="$t('redeemSubtitle')")
             FundStep(
               slot="fundStep"
-              :oneStep="sellSubmitStep"
-              :twoStep="sellConfirmStep"
-              :threeStep="sellProfitLossStep")
+              :oneStep="sellSubmit"
+              :twoStep="sellConfirm"
+              :threeStep="sellProfitLoss")
 
     
     .fund-management-list
         h3.fund-management-title(class="border-bottom") 管理费
-        FunCell(:cellList="managementLists")
+        FunCell(:cellList="managementList")
 </template>
 <script>
 import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import FundStep from './components/common/fund-step'
 import {
     tradeList,
@@ -74,84 +75,57 @@ export default {
             }
         }
     },
-    watch: {
-        buySubmitStep() {
-            this.buySubmit.label = this.$t('buySubmit.label')
-            return this.buySubmit
-        },
-        buyConfirmStep() {
-            this.buyConfirm.label = this.$t('buyConfirm.label')
-            return this.buyConfirm
-        },
-        buyProfitLossStep() {
-            this.buyProfitLoss.label = this.$t('buyProfitLoss.label')
-            return this.buyProfitLoss
-        },
-        sellSubmitStep() {
-            this.sellSubmit.label = this.$t('sellSubmit.label')
-            return this.sellSubmit
-        },
-        sellConfirmStep() {
-            this.sellConfirm.label = this.$t('sellConfirm.label')
-            return this.sellConfirm
-        },
-        sellProfitLossStep() {
-            this.sellProfitLoss.label = this.$t('sellProfitLoss.label')
-            return this.sellProfitLoss
-        },
-        tradeLists() {
+    methods: {
+        InitI18nState() {
             for (let key in this.tradeList) {
                 this.tradeList[key].label = this.$t('tradeList')[key].label
             }
-            return this.tradeList
-        },
-        redeemLists() {
             for (let key in this.redeemList) {
                 this.redeemList[key].label = this.$t('redeemList')[key].label
             }
-            return this.redeemList
-        },
-        managementLists() {
             for (let key in this.managementList) {
                 this.managementList[key].label = this.$t('managementList')[
                     key
                 ].label
             }
-            console.log(this.$t('tradeSubTitle'))
-            return this.managementList
-        }
-    },
-    methods: {
+            this.sellProfitLoss.label = this.$t('sellProfitLoss.label')
+            this.sellConfirm.label = this.$t('sellConfirm.label')
+            this.buySubmit.label = this.$t('buySubmit.label')
+            this.buyConfirm.label = this.$t('buyConfirm.label')
+            this.sellSubmit.label = this.$t('sellSubmit.label')
+            this.buyProfitLoss.label = this.$t('buyProfitLoss.label')
+        },
         InitState() {
             let params = this.$route.query
             for (let key in this.tradeList) {
                 this.tradeList[key].value =
                     key == 'tradeFrequency'
                         ? params[key]
-                        : Number(params[key]).toFixed(2)
+                        : transNumToThousandMark(params[key])
             }
-            this.redeemList.lowestInvestAmount.value = Number(
+            this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
                 params.lowestInvestAmount
-            ).toFixed(2)
-            this.redeemList.subscriptionFee.value = Number(
+            )
+            this.redeemList.subscriptionFee.value = transNumToThousandMark(
                 params.subscriptionFee
-            ).toFixed(2)
+            )
             this.buySubmit.value = params.buySubmit
             this.buyConfirm.value = params.buyConfirm
             this.buyProfitLoss.value = params.buyProfitLoss
             this.sellSubmit.value = params.sellSubmit
             this.sellConfirm.value = params.sellConfirm
             this.sellProfitLoss.value = params.sellProfitLoss
-            this.managementList.managementFee.value = Number(
+            this.managementList.managementFee.value = transNumToThousandMark(
                 params.managementFee
-            ).toFixed(2)
-            this.managementList.platformManagementFee.value = Number(
+            )
+            this.managementList.platformManagementFee.value = transNumToThousandMark(
                 params.platformManagementFee
-            ).toFixed(2)
+            )
         }
     },
     mounted() {
         this.InitState()
+        this.InitI18nState()
     }
 }
 </script>

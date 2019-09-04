@@ -7,15 +7,23 @@
           @chooseTime = "getFundNetPrice"
           :initEchartList="initEchartList")
 
-        HoldfundDetails(:initState="holdInitState")
+        HoldfundDetails(
+            v-if="holdDetailsShow"
+            :initState="holdInitState")
 
         fundDetailsList(
             :fundCorrelationFileList="fundCorrelationFileList"
             :fundTradeInfoVO = "fundTradeInfoVO"
+            :positionStatus = "positionStatus"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
+    .fund-footer-content(v-if="btnShow")
+        van-button(class="btn fund-check") {{$t('redeem')}}
+        van-button(class="btn fund-buy") {{$t('append')}}
+
+    .fund-footer-content(@click="tofundSubscribe" v-if="btnShow1")
+        van-button(class="fund-footer btn") {{$t('buy')}}
     
-    .fund-footer(@click="tofundSubscribe")
-        van-button(class="fund-footer") {{$t('buy')}}
+    
 </template>
 <script>
 import fundDetailsHeader from './components/fund-details-header'
@@ -27,20 +35,27 @@ import {
     getFundDetail,
     getFundNetPrice
 } from '@/service/finance-info-server.js'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import localStorage from '../../../../../utils/local-storage'
-import { Button } from 'vant'
+import { Button, Dialog } from 'vant'
 
 export default {
     i18n: {
         zhCHS: {
-            buy: '申购'
+            buy: '申购',
+            redeem: '赎回',
+            append: '追加'
         },
         zhCHT: {
-            buy: '申購'
+            buy: '申購',
+            redeem: '贖回',
+            append: '追加'
         },
         en: {
-            buy: 'buy'
+            buy: '申购',
+            redeem: '赎回',
+            append: '追加'
         }
     },
     keepalive: true,
@@ -49,7 +64,8 @@ export default {
         fundDetailsEchart,
         HoldfundDetails,
         fundDetailsList,
-        Button
+        Button,
+        Dialog
     },
     data() {
         return {
@@ -58,7 +74,11 @@ export default {
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},
             initEchartList: [],
-            holdInitState: {}
+            holdInitState: {},
+            positionStatus: {},
+            holdDetailsShow: false,
+            btnShow: false,
+            btnShow1: false
         }
     },
     methods: {
@@ -70,17 +90,18 @@ export default {
         },
         async getFundDetail() {
             try {
+                this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: 1,
                     fundId: 1
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
-                this.fundHeaderInfoVO.apy = Number(
+                this.fundHeaderInfoVO.apy = transNumToThousandMark(
                     this.fundHeaderInfoVO.apy
-                ).toFixed(2)
-                this.fundHeaderInfoVO.netPrice = Number(
+                )
+                this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
-                ).toFixed(2)
+                )
                 this.fundHeaderInfoVO.initialInvestAmount = Number(
                     this.fundHeaderInfoVO.initialInvestAmount
                 ).toFixed(2)
@@ -90,6 +111,20 @@ export default {
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
+                this.positionStatus = res.positionStatus
+                if (this.positionStatus.type != -1) {
+                    this.holdDetailsShow = true
+                    this.btnShow = true
+                } else {
+                    this.btnShow1 = true
+                }
+                // Dialog.alert({
+                //     title: '标题',
+                //     message: '弹窗内容'
+                // }).then(() => {
+                //     // on close
+                //     console.log(`关闭了`)
+                // })
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -145,13 +180,28 @@ export default {
     }
     .fund-footer {
         width: 100%;
-        height: 50px;
         background: $primary-color;
+    }
+    .btn {
+        height: 50px;
         color: #fff;
         text-align: center;
         line-height: 50px;
         border-radius: 0;
         border: none;
+    }
+    .fund-check,
+    .fund-buy {
+        width: 50%;
+    }
+    .fund-check {
+        background: $primary-color;
+    }
+    .fund-buy {
+        background: rgb(255, 191, 50);
+    }
+    .van-button {
+        border-radius: 0 !important;
     }
 }
 </style>

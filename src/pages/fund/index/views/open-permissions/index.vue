@@ -2,46 +2,75 @@
     .open-permission-wrapper
         .risk-result-container
             .risk-item.flex
-                .left  您的风险承受能力
+                .left  {{$t('riskAblity')}}
                 .right {{registration}}
             .risk-item.flex
-                .left  风格类型
+                .left  {{$t('riskStyle')}}
                 .right {{riskStyle}}
             .risk-item.flex
-                .left  适合产品
+                .left  {{$t('suitPro')}}
                 .right {{suitPro}}
         .permission-container
             .permission-content
-                .title 基金权限开通协议
+                .title {{$t('agreementTitle')}}
                 .main-content
                     .title-info {{titleInfo}}
                     .content {{permissionContent}}
             .signature-box
-                .title 输入拼音姓名
-                van-field(v-model="uaerName" placeholder="请输入拼音：zhangyi" class="signature-input" )      
-        fixed-operate-btn(
-            :text="'已阅读并同意该协议' + riskTypeTips"
-            :disabled="submitBtnDisabled"
-            @click="handleSubmit('submit')"
-            :class="{ active: !submitBtnDisabled }"
-        )
+                .title {{$t('inputName')}}
+                van-field(v-model="userName" :placeholder="$t('placeText')" class="signature-input" )      
+        .footer-btn
+            van-button(type="info" round  size="large" @click="openPermissionHandle" :disabled="disabled") {{$t('btnText')}}
 </template>
 
 <script>
 import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
 export default {
+    i18n: {
+        zhCHS: {
+            riskAblity: '您的风险承受能力',
+            riskStyle: '风格类型',
+            suitPro: '适合产品',
+            agreementTitle: '基金权限开通协议',
+            inputName: '输入拼音姓名',
+            placeText: '请输入拼音：zhangyi',
+            btnText: '已阅读并同意该协议'
+        },
+        zhCHT: {
+            riskAblity: '您的風險承受能力',
+            riskStyle: '風格類型',
+            suitPro: '适合产品',
+            agreementTitle: '基金权限开通协议',
+            inputName: '输入拼音姓名',
+            placeText: '请输入拼音：zhangyi',
+            btnText: '已阅读并同意该协议'
+        },
+        en: {
+            riskAblity: '您的风险承受能力',
+            riskStyle: '风格类型',
+            suitPro: '适合产品',
+            agreementTitle: '基金权限开通协议',
+            inputName: '输入拼音姓名',
+            placeText: '请输入拼音：zhangyi',
+            btnText: '已阅读并同意该协议'
+        }
+    },
     mixins: [riskAssessmentMixin],
     data() {
         return {
             registration: 'A5',
             riskStyle: '激进型',
             suitPro: '高风险产品',
-            uaerName: '',
+            userName: '',
             titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
             permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
-在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`
+在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
+            disabled: false
         }
+    },
+    methods: {
+        openPermissionHandle() {}
     }
 }
 </script>

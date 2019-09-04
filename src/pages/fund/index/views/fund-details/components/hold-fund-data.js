@@ -13,12 +13,12 @@ export const holdDetailsData = {
         value: '00.00',
         layout: 'center active-color'
     },
-    costPrice: {
-        label: '持仓成本',
-        key: '',
-        layout: 'right',
-        value: '00.00'
-    },
+    // costPrice: {
+    //     label: '持仓成本',
+    //     key: '',
+    //     layout: 'right',
+    //     value: '00.00'
+    // },
     positionShare: {
         label: '持有份额',
         key: '',
@@ -26,7 +26,7 @@ export const holdDetailsData = {
         value: '00.00'
     },
     positionMarketValue: {
-        label: '持有市值',
+        label: '持有金额',
         layout: 'center',
         cname: '$',
         key: '',
@@ -50,9 +50,9 @@ export const i18nHoldDetailsData = {
             positionEarnings: {
                 label: '持有收益'
             },
-            costPrice: {
-                label: '持仓成本'
-            },
+            // costPrice: {
+            //     label: '持仓成本'
+            // },
             positionShare: {
                 label: '持有份额'
             },

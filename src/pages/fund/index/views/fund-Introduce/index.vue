@@ -5,7 +5,7 @@
     
     .fund-introduce-content
         .fund-introduce-list(
-            v-for="(item,index) of lists"
+            v-for="(item,index) of list"
             :key="item.label")
             span.left {{item.label}}
             span.right(:ref="item.refs" :class="[item.flag  == 1 ? 'hiddenClass' :'showClass',item.flag == 0 ? '' : item.refs]") {{item.value}}
@@ -13,6 +13,7 @@
 </template>
 <script>
 import { Introducelit, i18nIntroducelist } from './fund-introduce'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     i18n: i18nIntroducelist,
     data() {
@@ -22,36 +23,31 @@ export default {
     },
     methods: {
         foldItem(index) {
-            if (this.list[index].flag == 1) {
-                this.list[index].flag = 2
-            } else {
-                this.list[index].flag = 1
+            this.list[index].flag = this.list[index].flag == 1 ? 2 : 1
+        },
+        initState() {
+            for (let key in this.list) {
+                this.list[key].value =
+                    key == 'fundSize'
+                        ? `HKD ${transNumToThousandMark(
+                              this.$route.query[key]
+                          )}`
+                        : this.$route.query[key]
             }
-        }
-    },
-    watch: {
-        lists() {
+            if (this.$refs.intd[0].offsetHeight > 96) {
+                this.list.companyProfile.flag = 1
+            }
+
+            if (this.$refs.target[0].offsetHeight > 96) {
+                this.list.investObjective.flag = 1
+            }
             for (let key in this.list) {
                 this.list[key].label = this.$t('list')[key].label
             }
-            return this.list
         }
     },
     mounted() {
-        for (let key in this.list) {
-            // this.list[key].value = this.$route.query[key]
-            this.list[key].value =
-                key == 'fundSize'
-                    ? `HKD ${Number(this.$route.query[key]).toFixed(2)}`
-                    : this.$route.query[key]
-        }
-        if (this.$refs.intd[0].offsetHeight > 96) {
-            this.list.companyProfile.flag = 1
-        }
-
-        if (this.$refs.target[0].offsetHeight > 96) {
-            this.list.investObjective.flag = 1
-        }
+        this.initState()
     }
 }
 </script>

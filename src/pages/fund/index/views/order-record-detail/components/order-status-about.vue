@@ -4,24 +4,44 @@
                 van-cell(border)
                     template(slot-scope='scope')
                         .status-title.flex
-                            span 订单状态
+                            span {{$t('orderStatus')}}
                             span(class="status-color") {{statusValue}}  
                         .begin-time
                             img(src="@/assets/img/fund/clock.png")
-                            span 预计 
+                            span {{$t('estimate')}}
                             span(class='time') {{beginTime}} 
-                            span 确认份额
+                            span {{$t('surePosition')}}
                         .left-line
                         .end-time
                             i(class="dot")
-                            span 预计 
+                            span {{$t('estimate')}} 
                             span(class='time') {{endTime}} 
-                            span 查收收益 
+                            span {{$t('checkProfit')}} 
 </template>
 
 <script>
 export default {
     name: 'order-status-about',
+    i18n: {
+        zhCHS: {
+            orderStatus: '订单状态',
+            estimate: '预计',
+            surePosition: '确认份额',
+            checkProfit: '查收收益'
+        },
+        zhCHT: {
+            orderStatus: '订单状态',
+            estimate: '预计',
+            surePosition: '确认份额',
+            checkProfit: '查收收益'
+        },
+        en: {
+            orderStatus: '订单状态',
+            estimate: '预计',
+            surePosition: '确认份额',
+            checkProfit: '查收收益'
+        }
+    },
     data() {
         return {
             statusValue: '确认中',

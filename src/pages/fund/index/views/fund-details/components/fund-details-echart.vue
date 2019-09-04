@@ -5,7 +5,7 @@
         canvas(id="myChart")
     .fund-date-list
         div.date-item(
-            v-for="(item,index) of lists" 
+            v-for="(item,index) of list" 
             :key="index"
             @click="chooseMonth(item,index)"
             :class="[index == active ? 'active' :'']") {{item.date}}
@@ -39,9 +39,9 @@ export default {
         en: {
             fundTrade: '基金净值走势',
             list: {
-                one: { date: '1个月' },
-                two: { date: '3个月' },
-                three: { date: '6个月' },
+                one: { date: '1个月1' },
+                two: { date: '3个月2' },
+                three: { date: '6个月2' },
                 four: { date: '1年' },
                 five: { date: '2年' },
                 all: { date: '全部' }
@@ -129,18 +129,20 @@ export default {
                 }
             })
             chart.render()
+        },
+        initI18nState() {
+            for (let key in this.list) {
+                this.list[key].date = this.$t('list')[key].date
+            }
         }
     },
     watch: {
         initEchartList() {
             this.draw()
-        },
-        lists() {
-            this.list = this.$t('list')
-            return this.list
         }
     },
     mounted() {
+        this.initI18nState()
         this.draw()
     }
 }
@@ -148,7 +150,8 @@ export default {
 <style lang="scss" scoped>
 .fund-details-echart {
     margin: 10px 0 0 0;
-    height: 300px;
+    width: 100%;
+    float: left;
     padding: 10px;
     background: $background-color;
     span {

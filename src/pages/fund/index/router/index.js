@@ -60,7 +60,7 @@ export default new Router({
         {
             name: 'open-permissions',
             path: '/open-permissions',
-            meta: { title: '权限开通' },
+            meta: { title: '基金权限开通' },
             component: () =>
                 import(`@/pages/fund/index/views/open-permissions/index.vue`)
         },
