@@ -58,6 +58,15 @@ export default new Router({
                 )
         },
         {
+            name: 'risk-appropriate-result',
+            path: '/risk-appropriate-result',
+            meta: { title: '产品匹配' },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/risk-appropriate-result/index.vue`
+                )
+        },
+        {
             name: 'open-permissions',
             path: '/open-permissions',
             meta: { title: '基金权限开通' },
