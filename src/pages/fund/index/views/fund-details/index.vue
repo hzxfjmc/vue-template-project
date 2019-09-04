@@ -102,12 +102,12 @@ export default {
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
                 )
-                this.fundHeaderInfoVO.initialInvestAmount = Number(
+                this.fundHeaderInfoVO.initialInvestAmount = transNumToThousandMark(
                     this.fundHeaderInfoVO.initialInvestAmount
-                ).toFixed(2)
+                )
                 this.fundHeaderInfoVO.belongDay = dayjs(
                     this.fundHeaderInfoVO.belongDay
-                ).format('YYYY-MM-DD')
+                ).format('YYYYMMDD')
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
@@ -118,13 +118,13 @@ export default {
                 } else {
                     this.btnShow1 = true
                 }
-                // Dialog.alert({
-                //     title: '标题',
-                //     message: '弹窗内容'
-                // }).then(() => {
-                //     // on close
-                //     console.log(`关闭了`)
-                // })
+                Dialog.alert({
+                    title: '标题',
+                    message: '弹窗内容'
+                }).then(() => {
+                    // on close
+                    console.log(`关闭了`)
+                })
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -162,6 +162,19 @@ export default {
         this.getFundNetPrice()
         this.getFundDetail()
         this.getFundPosition()
+    },
+    //在页面离开时记录滚动位置
+    beforeRouteLeave(to, from, next) {
+        console.log(document.body.scrollTop)
+        this.scrollTop =
+            document.documentElement.scrollTop || document.body.scrollTop
+        next()
+    },
+    //进入该页面时，用之前保存的滚动位置赋值
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            document.body.scrollTop = vm.scrollTop
+        })
     }
 }
 </script>

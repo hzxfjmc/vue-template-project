@@ -39,9 +39,9 @@ export default {
         en: {
             fundTrade: '基金净值走势',
             list: {
-                one: { date: '1个月1' },
-                two: { date: '3个月2' },
-                three: { date: '6个月2' },
+                one: { date: '1个月' },
+                two: { date: '3个月' },
+                three: { date: '6个月' },
                 four: { date: '1年' },
                 five: { date: '2年' },
                 all: { date: '全部' }
@@ -56,7 +56,7 @@ export default {
     },
     data() {
         return {
-            active: 0,
+            active: 'one',
             list: {
                 one: { date: '1个月', key: 1 },
                 two: { date: '3个月', key: 2 },

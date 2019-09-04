@@ -41,6 +41,7 @@ export default {
             time: '时间'
         }
     },
+    keepalive: true,
     mixins: [riskAssessmentMixin],
     data() {
         return {
