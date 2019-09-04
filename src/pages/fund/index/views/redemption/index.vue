@@ -14,9 +14,9 @@
                     .right 2,000.00
                 .buy-row
                     .left 购买金额
-                    .right.placeHolder.text-color3(v-if="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
+                    .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span 最小申购金额5000.00 
-                    .right.buy-monny(v-if="buyMonnyBlur" )
+                    .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")

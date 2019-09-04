@@ -29,7 +29,7 @@ export default {
         Card
     },
     created() {
-        this.handleGetFundBanner()
+        // this.handleGetFundBanner()
         this.getListFundInfo()
     },
     data() {
