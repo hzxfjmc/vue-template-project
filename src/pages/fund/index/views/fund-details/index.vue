@@ -61,7 +61,7 @@ export default {
             append: '追加'
         }
     },
-    // keepalive: true,
+    keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
@@ -183,7 +183,8 @@ export default {
                 return this.$router.push({
                     path: '/risk-assessment',
                     query: {
-                        extendStatusBit: this.extendStatusBit == 5
+                        extendStatusBit: this.userInfo.extendStatusBit == 5,
+                        assessResult: this.userInfo.assessResult
                     }
                 })
             }

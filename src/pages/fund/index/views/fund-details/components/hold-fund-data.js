@@ -3,7 +3,7 @@ export const holdDetailsData = {
         label: '昨日收益',
         key: '',
         value: '00.00',
-        cname: '+',
+        cname: '',
         layout: 'left active-color'
     },
     positionEarnings: {
