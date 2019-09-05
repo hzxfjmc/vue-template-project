@@ -39,7 +39,7 @@ import {
 import { getCurrentUser } from '@/service/user-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPosition } from '@/service/finance-server.js'
-import localStorage from '../../../../../utils/local-storage'
+// import localStorage from '../../../../../utils/local-storage'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 
@@ -100,7 +100,7 @@ export default {
                 this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: 1,
-                    fundId: 1
+                    fundId: this.$route.query.id
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
                 this.fondCode = this.fundHeaderInfoVO.fondCode
@@ -134,7 +134,7 @@ export default {
         async getFundPosition() {
             try {
                 const res = await getFundPosition({
-                    fundId: 1
+                    fundId: this.$route.query.id
                 })
                 this.holdInitState = res
             } catch (e) {
@@ -145,7 +145,7 @@ export default {
         async getFundNetPrice(time) {
             try {
                 const res = await getFundNetPrice({
-                    fundId: 1,
+                    fundId: this.$route.query.id,
                     fundNetPriceDateType: time || 1
                 })
                 this.initEchartList = res
@@ -200,10 +200,6 @@ export default {
     },
     mounted() {
         this.getCurrentUser()
-        localStorage.put(
-            'userToken',
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
-        )
         this.getFundNetPrice()
         this.getFundDetail()
         this.getFundPosition()
