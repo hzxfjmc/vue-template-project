@@ -65,7 +65,7 @@ export default {
             titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
             permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
-在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
+在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
             disabled: false
         }
     },
@@ -100,7 +100,7 @@ export default {
         }
     }
     .permission-container {
-        padding: 0 12px 100px;
+        padding: 0 12px 0;
         background-color: $background-color;
         flex: 1;
         display: flex;
@@ -113,15 +113,19 @@ export default {
             padding: 12px 0;
         }
         .permission-content {
-            flex: 1;
+            // flex: 1;
             .main-content {
+                height: 45vh;
+                max-height: 410px;
                 min-height: 273px;
+                overflow: scroll;
                 background: rgba(47, 121, 255, 0.04);
                 font-size: 14px;
                 color: $text-color;
                 padding-left: 16px;
                 display: flex;
                 flex-direction: column;
+                padding-bottom: 14px;
                 .title-info {
                     padding: 14px 0;
                     line-height: 20px;
