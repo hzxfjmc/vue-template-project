@@ -4,7 +4,7 @@
             .fund-name {{fundName}}
             .fund-detail
                 .fund-detail-item(v-for="(item) in fundDetailList") {{item}}
-        .order-record-container
+        .order-record-box
             .order-record-list(v-for="(item,index) in orderRecordList")
                 van-cell(class="van-cell-item" to="order-record-detail")
                     template(slot-scope='scope')
@@ -94,6 +94,9 @@ export default {
 
 <style lang="scss" scoped>
 .order-record-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
     .fund-introduce {
         padding: 0 12px;
         height: 72px;
@@ -108,6 +111,7 @@ export default {
         .fund-detail {
             display: flex;
             flex-direction: row;
+            margin-bottom: 10px;
             .fund-detail-item {
                 padding: 0 4px;
                 font-size: 10px;
@@ -121,7 +125,8 @@ export default {
             }
         }
     }
-    .order-record-container {
+    .order-record-box {
+        flex: 1;
         .order-record-list {
             border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
             .van-cell-item {

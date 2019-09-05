@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import router from './router'
 import App from './App.vue'
-import { Dialog } from 'vant'
+import { Dialog, PullRefresh } from 'vant'
 Vue.use(Dialog)
+Vue.use(PullRefresh)
 import vConsole from '@/utils/common/plugins/v-console.js'
 Vue.use(vConsole)
 
