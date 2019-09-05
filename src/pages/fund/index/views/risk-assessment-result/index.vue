@@ -12,4 +12,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.risk-assessment-wrapper {
+    height: 100%;
+    background-color: #fff !important;
+}
+</style>
