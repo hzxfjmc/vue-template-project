@@ -39,7 +39,6 @@ import {
 import { getCurrentUser } from '@/service/user-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPosition } from '@/service/finance-server.js'
-// import localStorage from '../../../../../utils/local-storage'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 
@@ -123,8 +122,10 @@ export default {
                 if (this.positionStatus.type != -1) {
                     this.holdDetailsShow = true
                     this.btnShow = true
+                    this.btnShow1 = false
                 } else {
                     this.btnShow1 = true
+                    this.btnShow = false
                 }
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
@@ -183,10 +184,21 @@ export default {
                 return this.$router.push({
                     path: '/risk-assessment',
                     query: {
-                        extendStatusBit: this.userInfo.extendStatusBit == 5,
+                        id: this.$route.query.id,
+                        extendStatusBit: this.userInfo.extendStatusBit == 4,
                         assessResult: this.userInfo.assessResult
                     }
                 })
+            } else {
+                if (this.userInfo.extendStatusBit != 4) {
+                    return this.$router.push({
+                        path: '/open-permissions',
+                        query: {
+                            id: this.$route.query.id,
+                            assessResult: this.userInfo.assessResult
+                        }
+                    })
+                }
             }
             if (!this.userInfo.openedAccount) {
                 // 跳转到开户页面
