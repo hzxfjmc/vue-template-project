@@ -14,6 +14,14 @@ export const bondRiskAutograph = data => {
     return axios.post('/user-server/api/bond-risk-autograph/v1', data)
 }
 
+// 基金协议签名
+export const fundRiskAutograph = data => {
+    return axios.post(
+        '/user-server/doc/user-server/api/bund-risk-autograph/v1',
+        data
+    )
+}
+
 /**
  * 风险测评提交
  * @param {Object} data 请求对象

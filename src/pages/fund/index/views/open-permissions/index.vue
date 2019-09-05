@@ -14,17 +14,19 @@
             .permission-content
                 .title {{$t('agreementTitle')}}
                 .main-content
+                    //- iframe(src=`/webapp/market/generator.html?key=${fundCode}` v-if="fundCode")
                     .title-info {{titleInfo}}
                     .content {{permissionContent}}
+
             .signature-box
                 .title {{$t('inputName')}}
-                van-field(v-model="userName" :placeholder="$t('placeText')" class="signature-input" )      
+                van-field(v-model="autograph" :placeholder="$t('placeText')" class="signature-input" )      
         .footer-btn
             van-button(type="info" round  size="large" @click="openPermissionHandle" :disabled="disabled") {{$t('btnText')}}
 </template>
 
 <script>
-import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
+import { fundRiskAutograph } from '@/service/user-server.js'
 export default {
     i18n: {
         zhCHS: {
@@ -34,7 +36,8 @@ export default {
             agreementTitle: '基金权限开通协议',
             inputName: '输入拼音姓名',
             placeText: '请输入拼音：zhangyi',
-            btnText: '已阅读并同意该协议'
+            btnText: '已阅读并同意该协议',
+            openText: '开通成功'
         },
         zhCHT: {
             riskAblity: '您的風險承受能力',
@@ -43,7 +46,8 @@ export default {
             agreementTitle: '基金权限开通协议',
             inputName: '输入拼音姓名',
             placeText: '请输入拼音：zhangyi',
-            btnText: '已阅读并同意该协议'
+            btnText: '已阅读并同意该协议',
+            openText: '开通成功'
         },
         en: {
             riskAblity: '您的风险承受能力',
@@ -52,25 +56,56 @@ export default {
             agreementTitle: '基金权限开通协议',
             inputName: '输入拼音姓名',
             placeText: '请输入拼音：zhangyi',
-            btnText: '已阅读并同意该协议'
+            btnText: '已阅读并同意该协议',
+            openText: '开通成功'
         }
     },
-    mixins: [riskAssessmentMixin],
     data() {
         return {
+            fundCode: '',
             registration: 'A5',
             riskStyle: '激进型',
             suitPro: '高风险产品',
-            userName: '',
+            autograph: '',
             titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
             permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
-在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
+在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
             disabled: false
         }
     },
+    created() {
+        console.log(this.$route.query, '0000')
+        if (this.$route.query.fondCode) {
+            this.fundCode = this.$route.query.fondCode
+        }
+    },
     methods: {
-        openPermissionHandle() {}
+        async openPermissionHandle() {
+            try {
+                let params = {
+                    autograph: this.autograph
+                }
+                let res = await fundRiskAutograph(params)
+                console.log(res)
+                this.$dialog
+                    .alert({
+                        message: this.openText
+                    })
+                    .then(() => {
+                        // 跳申购页
+                        this.$router.push({
+                            path: '/fund-subscribe'
+                        })
+                    })
+            } catch (e) {
+                if (e.msg) {
+                    this.$dialog.alert({
+                        message: e.msg
+                    })
+                }
+            }
+        }
     }
 }
 </script>
@@ -100,7 +135,7 @@ export default {
         }
     }
     .permission-container {
-        padding: 0 12px 100px;
+        padding: 0 12px 0;
         background-color: $background-color;
         flex: 1;
         display: flex;
@@ -113,15 +148,19 @@ export default {
             padding: 12px 0;
         }
         .permission-content {
-            flex: 1;
+            // flex: 1;
             .main-content {
+                height: 45vh;
+                max-height: 410px;
                 min-height: 273px;
+                overflow: scroll;
                 background: rgba(47, 121, 255, 0.04);
                 font-size: 14px;
                 color: $text-color;
                 padding-left: 16px;
                 display: flex;
                 flex-direction: column;
+                padding-bottom: 14px;
                 .title-info {
                     padding: 14px 0;
                     line-height: 20px;
