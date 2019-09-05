@@ -36,6 +36,7 @@ import {
     getFundDetail,
     getFundNetPrice
 } from '@/service/finance-info-server.js'
+import { getCurrentUser } from '@/service/user-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import localStorage from '../../../../../utils/local-storage'
@@ -80,8 +81,9 @@ export default {
             positionStatus: {},
             holdDetailsShow: false,
             btnShow: false,
-            btnShow1: false,
-            fondCode: ''
+            btnShow1: true,
+            fondCode: '',
+            userInfo: null
         }
     },
     methods: {
@@ -154,17 +156,38 @@ export default {
                 console.log('getFundNetPrice:error:>>>', e)
             }
         },
+        //获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.userInfo = res
+            } catch (e) {
+                console.log('getCurrentUser:error:>>>', e)
+            }
+        },
         //用户是否能申购或者是否需要测评
-        async handleBuyOrSell(type) {
+        async handleBuyOrSell() {
             // 未登录或未开户
-            if (!this.user) {
+            if (!this.userInfo) {
                 await this.$dialog.alert({
                     message: '用户信息丢失，请登陆'
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
-            if (!this.user.openedAccount) {
+            if (
+                !this.userInfo.assessResult ||
+                new Date().getTime() >
+                    new Date(this.userInfo.validTime).getTime()
+            ) {
+                return this.$router.push({
+                    path: '/risk-assessment',
+                    query: {
+                        extendStatusBit: this.extendStatusBit == 5
+                    }
+                })
+            }
+            if (!this.userInfo.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
                     message: '未开户，请先去开户'
@@ -172,33 +195,10 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
-            // 买入还是卖出
-            let direction = type === 'buy' ? 1 : 2
-            // 未签名，跳转到签名页面
-            if (!this.isSigned) {
-                this.$router.push({
-                    path: '/open-permissions',
-                    query: {
-                        id: this.$route.qeury.id,
-                        fondCode: this.fondCode,
-                        // bondName: this.bondName,
-                        direction
-                    }
-                })
-                return
-            }
-
-            this.$router.push({
-                path: '/risk-appropriate-result',
-                query: {
-                    id: this.$route.qeury.id,
-                    //   bondName: this.bondName,
-                    direction
-                }
-            })
         }
     },
     mounted() {
+        this.getCurrentUser()
         localStorage.put(
             'userToken',
             'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
