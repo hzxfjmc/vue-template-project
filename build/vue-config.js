@@ -271,7 +271,7 @@ module.exports = {
             '/finance-info-server': {
                 // target: 'http://jy-dev.yxzq.com',
                 target: 'http://jy-dev.yxzq.com',
-                changeOrigin: true,
+                changeOrigin: true
 
                 // onProxyRes: function(proxyRes, req, res) {
                 //     let resHttp = proxyRes.client._httpMessage
