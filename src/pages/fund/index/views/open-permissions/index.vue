@@ -3,13 +3,13 @@
         .risk-result-container
             .risk-item.flex
                 .left  {{$t('riskAblity')}}
-                .right {{registration}}
+                .right {{ resultIndex && $t('resultList')[resultIndex].registration}}
             .risk-item.flex
                 .left  {{$t('riskStyle')}}
-                .right {{riskStyle}}
+                .right {{ resultIndex && $t('resultList')[resultIndex].riskStyle}}
             .risk-item.flex
                 .left  {{$t('suitPro')}}
-                .right {{suitPro}}
+                .right {{ resultIndex && $t('resultList')[resultIndex].suitPro}}
         .permission-container
             .permission-content
                 .title {{$t('agreementTitle')}}
@@ -27,55 +27,26 @@
 
 <script>
 import { fundRiskAutograph } from '@/service/user-server.js'
+import { i18nOpenPermissions } from './open-permissions-i18n.js'
 export default {
-    i18n: {
-        zhCHS: {
-            riskAblity: '您的风险承受能力',
-            riskStyle: '风格类型',
-            suitPro: '适合产品',
-            agreementTitle: '基金权限开通协议',
-            inputName: '输入拼音姓名',
-            placeText: '请输入拼音：zhangyi',
-            btnText: '已阅读并同意该协议',
-            openText: '开通成功'
-        },
-        zhCHT: {
-            riskAblity: '您的風險承受能力',
-            riskStyle: '風格類型',
-            suitPro: '适合产品',
-            agreementTitle: '基金权限开通协议',
-            inputName: '输入拼音姓名',
-            placeText: '请输入拼音：zhangyi',
-            btnText: '已阅读并同意该协议',
-            openText: '开通成功'
-        },
-        en: {
-            riskAblity: '您的风险承受能力',
-            riskStyle: '风格类型',
-            suitPro: '适合产品',
-            agreementTitle: '基金权限开通协议',
-            inputName: '输入拼音姓名',
-            placeText: '请输入拼音：zhangyi',
-            btnText: '已阅读并同意该协议',
-            openText: '开通成功'
-        }
-    },
+    i18n: i18nOpenPermissions,
     data() {
         return {
             fundCode: '',
-            registration: 'A5',
-            riskStyle: '激进型',
-            suitPro: '高风险产品',
             autograph: '',
             titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
             permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
 在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
-            disabled: false
+            disabled: false,
+            resultIndex: ''
         }
     },
     created() {
         console.log(this.$route.query, '0000')
+        if (this.$route.query) {
+            this.resultIndex = this.$route.query.assessResult
+        }
         if (this.$route.query.fondCode) {
             this.fundCode = this.$route.query.fondCode
         }
