@@ -9,7 +9,9 @@
             class="fund-row" 
             :class="item.layout") 
             span.holdSubtitle {{item.label}}
-            p.holdNumber(:class="item.layout") {{item.cname}}{{item.value}}
+            p.holdNumber(:class="item.layout") 
+                em(v-if="item.value>0") {{item.cname}} 
+                em {{item.value}}
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -46,12 +48,18 @@ export default {
     background: $background-color;
     padding: 10px;
     height: 160px;
+    float: left;
+    width: 100%;
     .fund-row {
         margin: 10px 0 0 0;
         // text-align: center;
         .holdNumber {
             font-size: 0.36rem;
             font-weight: bolder;
+            em {
+                font-style: normal;
+                font-size: 0.36rem;
+            }
         }
         .active-color {
             color: rgba(234, 61, 61, 1);
