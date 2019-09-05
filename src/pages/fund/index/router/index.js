@@ -42,6 +42,31 @@ export default new Router({
                 import(`@/pages/fund/index/views/fund-details/index.vue`)
         },
         {
+            name: 'risk-assessment',
+            path: '/risk-assessment',
+            meta: { title: '风险测评' },
+            component: () =>
+                import(`@/pages/fund/index/views/risk-assessment/index.vue`)
+        },
+        {
+            name: 'risk-assessment-result',
+            path: '/risk-assessment-result',
+            meta: { title: '测评结果' },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/risk-assessment-result/index.vue`
+                )
+        },
+        {
+            name: 'risk-appropriate-result',
+            path: '/risk-appropriate-result',
+            meta: { title: '产品匹配' },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/risk-appropriate-result/index.vue`
+                )
+        },
+        {
             name: 'open-permissions',
             path: '/open-permissions',
             meta: { title: '基金权限开通' },

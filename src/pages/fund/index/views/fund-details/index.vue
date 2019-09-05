@@ -15,12 +15,13 @@
             :fundCorrelationFileList="fundCorrelationFileList"
             :fundTradeInfoVO = "fundTradeInfoVO"
             :positionStatus = "positionStatus"
+            :fondCode = "fondCode"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
         van-button(class="btn fund-check") {{$t('redeem')}}
         van-button(class="btn fund-buy") {{$t('append')}}
 
-    .fund-footer-content(@click="tofundSubscribe" v-if="btnShow1")
+    .fund-footer-content(@click="handleBuyOrSell" v-if="btnShow1")
         van-button(class="fund-footer btn") {{$t('buy')}}
     
     
@@ -39,6 +40,7 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import localStorage from '../../../../../utils/local-storage'
 import { Button, Dialog } from 'vant'
+import jsBridge from '@/utils/js-bridge'
 
 export default {
     i18n: {
@@ -58,7 +60,7 @@ export default {
             append: '追加'
         }
     },
-    keepalive: true,
+    // keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
@@ -78,16 +80,19 @@ export default {
             positionStatus: {},
             holdDetailsShow: false,
             btnShow: false,
-            btnShow1: false
+            btnShow1: false,
+            fondCode: ''
         }
     },
     methods: {
+        //跳申购页
         tofundSubscribe() {
             this.$router.push({
                 path: '/fund-subscribe',
                 query: this.fundHeaderInfoVO
             })
         },
+        //获取基金详情
         async getFundDetail() {
             try {
                 this.fundCorrelationFileList = []
@@ -96,6 +101,7 @@ export default {
                     fundId: 1
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.fondCode = this.fundHeaderInfoVO.fondCode
                 this.fundHeaderInfoVO.apy = transNumToThousandMark(
                     this.fundHeaderInfoVO.apy
                 )
@@ -118,18 +124,11 @@ export default {
                 } else {
                     this.btnShow1 = true
                 }
-                // Dialog.alert({
-                //     title: '标题',
-                //     message: '弹窗内容'
-                // }).then(() => {
-                //     // on close
-                //     console.log(`关闭了`)
-                //     window.location.href="http://10.210.25.93:82/wealth/risk-assessment/index.html#/risk-assessment"
-                // })
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
         },
+        //获取持仓数据
         async getFundPosition() {
             try {
                 const res = await getFundPosition({
@@ -140,6 +139,7 @@ export default {
                 console.log('getFundPosition:error:>>>', e)
             }
         },
+        //echart图的数据获取
         async getFundNetPrice(time) {
             try {
                 const res = await getFundNetPrice({
@@ -153,29 +153,59 @@ export default {
             } catch (e) {
                 console.log('getFundNetPrice:error:>>>', e)
             }
+        },
+        //用户是否能申购或者是否需要测评
+        async handleBuyOrSell(type) {
+            // 未登录或未开户
+            if (!this.user) {
+                await this.$dialog.alert({
+                    message: '用户信息丢失，请登陆'
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+                return
+            }
+            if (!this.user.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: '未开户，请先去开户'
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
+            // 买入还是卖出
+            let direction = type === 'buy' ? 1 : 2
+            // 未签名，跳转到签名页面
+            if (!this.isSigned) {
+                this.$router.push({
+                    path: '/open-permissions',
+                    query: {
+                        id: this.$route.qeury.id,
+                        fondCode: this.fondCode,
+                        // bondName: this.bondName,
+                        direction
+                    }
+                })
+                return
+            }
+
+            this.$router.push({
+                path: '/risk-appropriate-result',
+                query: {
+                    id: this.$route.qeury.id,
+                    //   bondName: this.bondName,
+                    direction
+                }
+            })
         }
     },
     mounted() {
         localStorage.put(
             'userToken',
-            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMTk5ZGIwMzI2Mjc0NDE4ZDk4YmJjYTNmNjBkZWYxMTEiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNTQ3MDQ1NjQxMTE2NTA4MTZ9.9wfTLuPWptnvId694okt7kIP54ZW33eGJtFGhequsO0'
+            'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzZXNzaW9uIjoiMWI0NWE1ZmQxNTIwNDhlYzgyN2Q3ZjJhZDBkOGQyNjUiLCJzb3VyY2UiOiJhcHAiLCJ1dWlkIjozNjQ0MDE0NDA3MDc2NjU5MjB9.JCRqIUb5DdsO0cTnohI-B9Cu20bqi7irY39lLHyvziA'
         )
         this.getFundNetPrice()
         this.getFundDetail()
         this.getFundPosition()
-    },
-    //在页面离开时记录滚动位置
-    beforeRouteLeave(to, from, next) {
-        console.log(document.body.scrollTop)
-        this.scrollTop =
-            document.documentElement.scrollTop || document.body.scrollTop
-        next()
-    },
-    //进入该页面时，用之前保存的滚动位置赋值
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            document.body.scrollTop = vm.scrollTop
-        })
     }
 }
 </script>

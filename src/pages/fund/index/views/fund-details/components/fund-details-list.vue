@@ -6,22 +6,34 @@
         em.right(class="iconfont icon-iconEBgengduoCopy")
 </template>
 <script>
-import { itemlist } from './fund-list'
+import { itemList } from './fund-list'
 export default {
     i18n: {
         zhCHS: {
-            itemlist: {
-                label: '交易记录4234'
+            itemList: {
+                trade: { label: '交易记录' },
+                survey: { label: '基金概况' },
+                rule: { label: '交易规则' },
+                files: { label: '相关文件' },
+                tips: { label: '风险提示' }
             }
         },
         zhCHT: {
-            itemlist: {
-                label: '423423'
+            itemList: {
+                trade: { label: '交易记录' },
+                survey: { label: '基金概况' },
+                rule: { label: '交易规则' },
+                files: { label: '相关文件' },
+                tips: { label: '风险提示' }
             }
         },
         en: {
-            itemlist: {
-                label: '54534'
+            itemList: {
+                trade: { label: '交易记录' },
+                survey: { label: '基金概况' },
+                rule: { label: '交易规则' },
+                files: { label: '相关文件' },
+                tips: { label: '风险提示' }
             }
         }
     },
@@ -40,11 +52,15 @@ export default {
         positionStatus: {
             type: Object,
             default: () => {}
+        },
+        fondCode: {
+            type: String,
+            default: ''
         }
     },
     data() {
         return {
-            list: itemlist
+            list: itemList
         }
     },
     watch: {
@@ -52,7 +68,6 @@ export default {
             if (this.positionStatus.type != -1) {
                 this.list[0].itemShow = true
             }
-            console.log(this.positionStatus)
         }
     },
     methods: {
@@ -70,11 +85,20 @@ export default {
                 this.fundTradeInfoVO.tradeFrequency = this.fundTradeInfoVO.tradeFrequency.name
                 data.query = this.fundTradeInfoVO
             }
-            this.$router.push(data)
+            if (item.routerPath == '/generator') {
+                window.location.href = `/webapp/market/generator.html?key=${this.fondCode}`
+            } else {
+                this.$router.push(data)
+            }
+        },
+        InitI18nState() {
+            for (let key in this.list) {
+                this.list[key].label = this.$t('itemList')[key].label
+            }
         }
     },
     mounted() {
-        console.log(this.$t('itemlist.label'))
+        this.InitI18nState()
     }
 }
 </script>
