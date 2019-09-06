@@ -245,12 +245,11 @@ export default {
         color: #fff;
         text-align: center;
         line-height: 50px;
-        position: fixed;
-        bottom: 0;
-        z-index: 999999999;
+
         border-radius: 0;
         border: none;
     }
+
     .fund-check,
     .fund-buy {
         width: 50%;
@@ -264,5 +263,11 @@ export default {
     .van-button {
         border-radius: 0 !important;
     }
+}
+.fund-footer-content {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+    z-index: 999999999;
 }
 </style>
