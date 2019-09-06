@@ -9,6 +9,12 @@ export default new Router({
     routes: [
         {
             name: 'index',
+            path: '/',
+            meta: { title: '精品基金' },
+            component: () => import(`@/pages/fund/index/views/index/index.vue`)
+        },
+        {
+            name: 'index',
             path: '/index',
             meta: { title: '精品基金' },
             component: () => import(`@/pages/fund/index/views/index/index.vue`)
