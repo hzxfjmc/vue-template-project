@@ -160,8 +160,8 @@ module.exports = {
                 changOrigin: true
             },
             '/config-manager': {
-                // target: 'http://jy1-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
+                target: 'http://jy1-sit.yxzq.com',
+                // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/stock-capital-server': {

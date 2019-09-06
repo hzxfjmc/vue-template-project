@@ -29,7 +29,7 @@ export default new Router({
         {
             name: 'trade-rule',
             path: '/trade-rule',
-            meta: { title: '基金介绍' },
+            meta: { title: '交易规则' },
             component: () =>
                 import(`@/pages/fund/index/views/trade-rule/index.vue`)
         },

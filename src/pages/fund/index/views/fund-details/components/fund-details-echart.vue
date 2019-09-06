@@ -87,10 +87,10 @@ export default {
                     }
                 },
                 netPrice: {
-                    alias: '涨幅',
+                    alias: '今日净值',
                     tickCount: 5,
                     formatter: function(val) {
-                        return `${Number(val).toFixed(2)}%`
+                        return `${Number(val).toFixed(2)}`
                     }
                 }
             })

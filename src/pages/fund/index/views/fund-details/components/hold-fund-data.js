@@ -22,12 +22,12 @@ export const holdDetailsData = {
     positionShare: {
         label: '持有份额',
         key: '',
-        layout: 'left',
+        layout: 'right',
         value: '00.00'
     },
     positionMarketValue: {
         label: '持有金额',
-        layout: 'center',
+        layout: 'left',
         cname: '$',
         key: '',
         value: '00.00'
@@ -35,7 +35,7 @@ export const holdDetailsData = {
     inTransitAmount: {
         label: '待确认金额',
         key: '',
-        layout: 'right',
+        layout: 'center',
         value: '0.00'
     }
 }

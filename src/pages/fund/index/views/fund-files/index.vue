@@ -1,14 +1,18 @@
 <template lang="pug">
 .fund-files
-    van-row(gutter="20")
-        van-col(
-            span="11" 
-            class="span" 
-            :key="item.key"
-            v-for="item of list") 
-            p {{item.fileName}}
-            span {{item.createTime}}
-            img(:src="item.ImgSrc")
+    .file-list(v-if="list.length != 0")
+        van-row(gutter="20")
+            van-col(
+                span="11" 
+                class="span" 
+                :key="item.key"
+                v-for="item of list") 
+                p {{item.fileName}}
+                span {{item.createTime}}
+                img(:src="item.ImgSrc")
+
+    .no-bond-box(v-else)
+        .no-bond 暂无文件
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -73,6 +77,23 @@ export default {
     .iconfont {
         color: red;
         font-size: 60px;
+    }
+}
+.no-bond-box {
+    padding-top: 150px;
+    .no-bond {
+        width: 130px;
+        height: 120px;
+        margin: 0 auto;
+        padding-top: 100px;
+        background: url('~@/assets/img/bond/icon-nobond.png') center 15px
+            no-repeat;
+        background-size: 110px;
+        color: $text-color3;
+        font-size: 0.28rem;
+        line-height: 20px;
+        text-align: center;
+        box-sizing: border-box;
     }
 }
 </style>

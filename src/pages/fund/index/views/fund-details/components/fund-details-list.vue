@@ -60,12 +60,13 @@ export default {
     },
     data() {
         return {
-            list: itemList
+            list: JSON.parse(JSON.stringify(itemList))
         }
     },
 
     methods: {
         positionStatusShow() {
+            console.log(this.positionStatus)
             if (this.positionStatus.type != -1) {
                 this.list['trade'].itemShow = true
             } else {
@@ -106,7 +107,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-details-list {
-    margin: 10px 0;
+    margin: 10px 0 60px 0;
     background: $background-color;
     width: 100%;
     float: left;

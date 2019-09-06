@@ -80,10 +80,12 @@ export default {
             fundTradeInfoVO: {},
             initEchartList: [],
             holdInitState: {},
-            positionStatus: {},
+            positionStatus: {
+                type: -1
+            },
             holdDetailsShow: false,
             btnShow: false,
-            btnShow1: true,
+            btnShow1: false,
             fondCode: '',
             userInfo: null
         }
@@ -225,7 +227,7 @@ export default {
 .fund-details {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    // height: 100%;
     -webkit-overflow-scrolling: touch;
     overflow: hidden;
     .fund-content {
@@ -243,6 +245,9 @@ export default {
         color: #fff;
         text-align: center;
         line-height: 50px;
+        position: fixed;
+        bottom: 0;
+        z-index: 999999999;
         border-radius: 0;
         border: none;
     }

@@ -54,9 +54,16 @@ export default {
     height: 160px;
     float: left;
     width: 100%;
+    .center {
+        text-align: center;
+    }
+    .right {
+        text-align: right;
+    }
     .fund-row {
         margin: 10px 0 0 0;
         // text-align: center;
+
         .holdNumber {
             font-size: 0.36rem;
             font-weight: bolder;
