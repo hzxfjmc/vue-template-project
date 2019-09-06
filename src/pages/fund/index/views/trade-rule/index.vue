@@ -103,12 +103,10 @@ export default {
             for (let key in this.tradeList) {
                 if (key == 'tradeFrequency') {
                     this.tradeList[key] = params[key]
+                } else if (key == 'dividend') {
+                    Number(params[key]).toFixed(2)
                 } else {
-                    if (!params[key]) {
-                        transNumToThousandMark(params[key])
-                    } else {
-                        Number(params[key]).toFixed(2)
-                    }
+                    transNumToThousandMark(params[key])
                 }
             }
             console.log(this.tradeList)
