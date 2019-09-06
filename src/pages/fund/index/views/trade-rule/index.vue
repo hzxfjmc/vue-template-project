@@ -97,13 +97,14 @@ export default {
         },
         InitState() {
             let params = this.$route.query
-            console.log(params)
             for (let key in this.tradeList) {
+                console.log(key)
                 this.tradeList[key].value =
                     key == 'tradeFrequency'
                         ? params[key]
                         : transNumToThousandMark(params[key])
             }
+            console.log(this.tradeList)
             this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
                 params.lowestInvestAmount
             )
