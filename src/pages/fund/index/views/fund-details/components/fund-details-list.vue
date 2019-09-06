@@ -82,8 +82,8 @@ export default {
                     data: JSON.stringify(this.fundCorrelationFileList)
                 }
             if (item.routerPath == '/trade-rule') {
-                console.log('3232321' + this.fundOverviewInfoVO.tradeFrequency)
-                if (!this.fundOverviewInfoVO.tradeFrequency)
+                console.log('3232321' + this.fundTradeInfoVO.tradeFrequency)
+                if (!this.fundTradeInfoVO.tradeFrequency)
                     this.fundTradeInfoVO.tradeFrequency = this.fundTradeInfoVO.tradeFrequency.name
                 data.query = this.fundTradeInfoVO
             }
