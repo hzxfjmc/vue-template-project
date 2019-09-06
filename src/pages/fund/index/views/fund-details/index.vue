@@ -71,7 +71,10 @@ export default {
     },
     data() {
         return {
-            fundHeaderInfoVO: {},
+            fundHeaderInfoVO: {
+                apy: 0.0,
+                netPrice: 0.0
+            },
             fundOverviewInfoVO: {},
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},

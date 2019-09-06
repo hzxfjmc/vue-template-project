@@ -5,7 +5,8 @@
         .funds-details-number
             .header-left
                 span {{$t('oneYearShow')}}
-                p(:class="fundHeaderInfoVO.apy>0 ? 'number-red':fundHeaderInfoVO.apy!=0?'number-green':''") {{fundHeaderInfoVO.apy > 0 ? `+${fundHeaderInfoVO.apy}` : fundHeaderInfoVO.apy}}%
+                p(
+                    :class="fundHeaderInfoVO.apy<0 ? 'number-green':fundHeaderInfoVO.apy!=0?'number-red':''") {{fundHeaderInfoVO.apy  > 0 ? `+${fundHeaderInfoVO.apy}` : `${fundHeaderInfoVO.apy}`}}%
             .header-right
                 span {{$t('fundPrice')}}{{fundHeaderInfoVO.belongDay}}
                 p.number-black ${{fundHeaderInfoVO.netPrice}}
@@ -46,7 +47,7 @@ export default {
     background: $background-color;
     float: left;
     width: 100%;
-    min-height: 200px;
+    min-height: 180px;
     padding: 10px;
     h3 {
         font-size: 0.32rem;
