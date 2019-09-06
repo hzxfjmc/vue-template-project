@@ -99,16 +99,7 @@ export default {
             let params = this.$route.query
             console.log(params)
             this.tradeList['tradeFrequency'].value = params.tradeFrequency
-            if (!params['dividend']) {
-                this.tradeList['dividend'].value = transNumToThousandMark(
-                    params['dividend']
-                )
-            } else {
-                this.tradeList['dividend'].value = Number(
-                    params['dividend']
-                ).toFixed(2)
-            }
-
+            console.log(!params['dividend'])
             this.tradeList[
                 'initialInvestAmount'
             ].value = transNumToThousandMark(params['initialInvestAmount'])

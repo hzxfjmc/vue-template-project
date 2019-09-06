@@ -63,14 +63,15 @@ export default {
             list: itemList
         }
     },
-    watch: {
-        positionStatus() {
+
+    methods: {
+        positionStatusShow() {
             if (this.positionStatus.type != -1) {
                 this.list[0].itemShow = true
+            } else {
+                this.list[0].itemShow = false
             }
-        }
-    },
-    methods: {
+        },
         chooseItem(item) {
             let data = {
                 path: item.routerPath
@@ -98,6 +99,7 @@ export default {
         }
     },
     mounted() {
+        this.positionStatusShow()
         this.InitI18nState()
     }
 }
