@@ -1,7 +1,9 @@
 <template lang="pug">
     .fund-card
         .left
-            .rate-num {{ apy }}
+            .rate-num.color-red(v-if="info.apy > 0") {{ apy }}
+            .rate-num.color-green(v-else-if="info.apy < 0") {{ apy }}
+            .rate-num(v-else="info.apy < 0") {{ apy }}
             .annualized-returns 近一年收益率
         .right
             h2(:style="h2Style") {{ fundName }}
@@ -26,7 +28,7 @@ export default {
     },
     computed: {
         apy() {
-            return (this.info && (this.info.apy - 0).toFixed(3) + '%') || '--'
+            return (this.info && (this.info.apy - 0).toFixed(2) + '%') || '--'
         },
         fundName() {
             return this.info.fundName.length > 12
@@ -64,9 +66,15 @@ export default {
         flex-direction: column;
         .rate-num {
             margin-bottom: 4px;
-            color: #ea3d3d;
+            color: $text-color;
             font-size: 0.48rem;
             line-height: 31px;
+        }
+        .color-green {
+            color: #04be02;
+        }
+        .color-red {
+            color: #ea3d3d;
         }
         .annualized-returns {
             font-size: 0.24rem;

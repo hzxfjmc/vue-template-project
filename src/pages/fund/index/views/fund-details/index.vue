@@ -71,7 +71,10 @@ export default {
     },
     data() {
         return {
-            fundHeaderInfoVO: {},
+            fundHeaderInfoVO: {
+                apy: 0.0,
+                netPrice: 0.0
+            },
             fundOverviewInfoVO: {},
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},
@@ -103,9 +106,9 @@ export default {
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
                 this.fondCode = this.fundHeaderInfoVO.fondCode
-                this.fundHeaderInfoVO.apy = transNumToThousandMark(
+                this.fundHeaderInfoVO.apy = Number(
                     this.fundHeaderInfoVO.apy
-                )
+                ).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
                 )

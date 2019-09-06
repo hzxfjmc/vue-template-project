@@ -12,7 +12,7 @@
                 title=""
             )
                 Card(:info="item")
-            //- .no-data 没有更多基金
+            //- .no-data(v-if="list.length !== 0") 没有更多基金
         .no-bond-box(v-if="list.length === 0")
             .no-bond 暂无基金
 </template>

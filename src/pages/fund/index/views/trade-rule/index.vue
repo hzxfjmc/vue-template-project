@@ -97,6 +97,7 @@ export default {
         },
         InitState() {
             let params = this.$route.query
+            console.log(params)
             for (let key in this.tradeList) {
                 this.tradeList[key].value =
                     key == 'tradeFrequency'
