@@ -4,14 +4,14 @@ export const holdDetailsData = {
         key: '',
         value: '00.00',
         cname: '',
-        layout: 'left active-color'
+        layout: 'left'
     },
     positionEarnings: {
         label: '持有收益',
         key: '',
         cname: '+',
         value: '00.00',
-        layout: 'center active-color'
+        layout: 'center'
     },
     // costPrice: {
     //     label: '持仓成本',

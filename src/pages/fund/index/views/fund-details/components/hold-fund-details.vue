@@ -4,12 +4,13 @@
     van-row()
         van-col( 
             span="8"
-            v-for="item of list" 
+            v-for="(item,index) of list" 
             :key="item.label"
             class="fund-row" 
             :class="item.layout") 
             span.holdSubtitle {{item.label}}
-            p.holdNumber(:class="item.layout") 
+            p.holdNumber(
+                :class="item.value >= 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings') ? 'active_red' : item.value<0 ? 'active-green' : ''") 
                 em(v-if="item.value>0") {{item.cname}} 
                 em {{item.value}}
 </template>
@@ -64,8 +65,11 @@ export default {
                 font-size: 0.36rem;
             }
         }
-        .active-color {
+        .active_red {
             color: rgba(234, 61, 61, 1);
+        }
+        .active-green {
+            color: #04be02;
         }
     }
 }
