@@ -98,12 +98,12 @@ export default {
         InitState() {
             let params = this.$route.query
             console.log(params)
-            for (let key in this.tradeList) {
-                this.tradeList[key].value =
-                    key == 'tradeFrequency'
-                        ? params[key]
-                        : transNumToThousandMark(params[key])
-            }
+            // for (let key in this.tradeList) {
+            //     this.tradeList[key].value =
+            //         key == 'tradeFrequency'
+            //             ? params[key]
+            //             : transNumToThousandMark(params[key])
+            // }
             this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
                 params.lowestInvestAmount
             )
@@ -122,6 +122,7 @@ export default {
             this.managementList.platformManagementFee.value = transNumToThousandMark(
                 params.platformManagementFee
             )
+            console.log(this.tradeList)
         }
     },
     mounted() {
