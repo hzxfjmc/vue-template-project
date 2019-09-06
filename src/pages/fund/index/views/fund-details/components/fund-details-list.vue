@@ -66,9 +66,12 @@ export default {
 
     methods: {
         positionStatusShow() {
-            if (this.positionStatus.type != -1) {
+            console.log(this.positionStatus.type)
+            if (this.positionStatus.type == 1) {
                 this.list[0].itemShow = true
+                console.log(123)
             } else {
+                console.log(456)
                 this.list[0].itemShow = false
             }
         },
