@@ -12,12 +12,23 @@
                 img(:src="item.ImgSrc")
 
     .no-bond-box(v-else)
-        .no-bond 暂无文件
+        .no-bond {{$t('nomore')}}
 </template>
 <script>
 import { Row, Col } from 'vant'
 import dayjs from 'dayjs'
 export default {
+    i18n: {
+        zhCHS: {
+            nomore: '暂无文件'
+        },
+        zhCHT: {
+            nomore: '暂无文件'
+        },
+        en: {
+            nomore: '暂无文件'
+        }
+    },
     components: {
         Row,
         Col
