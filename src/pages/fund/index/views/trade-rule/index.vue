@@ -97,6 +97,9 @@ export default {
         },
         InitState() {
             let params = this.$route.query
+            console.log(Number(params['dividend']).toFixed(2))
+            console.log('--------------------------')
+            console.log(transNumToThousandMark(params['dividend']))
             for (let key in this.tradeList) {
                 if (key == 'tradeFrequency') {
                     this.tradeList[key] = params[key]
