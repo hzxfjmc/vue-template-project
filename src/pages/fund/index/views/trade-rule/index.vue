@@ -98,27 +98,27 @@ export default {
         InitState() {
             let params = this.$route.query
             console.log(params)
-            this.tradeList['tradeFrequency'] = params.tradeFrequency
-            this.tradeList['dividend'] = transNumToThousandMark(
-                params['dividend']
-            )
-            this.tradeList['initialInvestAmount'] = transNumToThousandMark(
-                params['initialInvestAmount']
-            )
-            this.tradeList['continueInvestAmount'] = transNumToThousandMark(
-                params['continueInvestAmount']
-            )
-            this.tradeList['redemptionFee'] = transNumToThousandMark(
-                params['redemptionFee']
-            )
-            // for (let key in this.tradeList) {
-            //     console.log(key)
-            //     this.tradeList[key].value =
-            //         key == 'tradeFrequency'
-            //             ? params[key]
-            //             : transNumToThousandMark(params[key])
-            // }
-            console.log(this.tradeList)
+            // this.tradeList['tradeFrequency'] = params.tradeFrequency
+            // this.tradeList['dividend'] = transNumToThousandMark(
+            //     params['dividend']
+            // )
+            // this.tradeList['initialInvestAmount'] = transNumToThousandMark(
+            //     params['initialInvestAmount']
+            // )
+            // this.tradeList['continueInvestAmount'] = transNumToThousandMark(
+            //     params['continueInvestAmount']
+            // )
+            // this.tradeList['redemptionFee'] = transNumToThousandMark(
+            //     params['redemptionFee']
+            // )
+            for (let key in this.tradeList) {
+                this.tradeList[key].value =
+                    key == 'tradeFrequency'
+                        ? params[key]
+                        : !params[key]
+                        ? transNumToThousandMark(params[key])
+                        : params[key].toFixed(2)
+            }
             this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
                 params.lowestInvestAmount
             )
