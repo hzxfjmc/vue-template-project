@@ -61,7 +61,7 @@ export default {
                 console.log(res)
                 this.$dialog
                     .alert({
-                        message: this.openText
+                        message: this.$t('openText')
                     })
                     .then(() => {
                         // 跳申购页
