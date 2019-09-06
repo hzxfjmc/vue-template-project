@@ -28,12 +28,15 @@ export default {
         Row,
         Col
     },
-    watch: {
-        initState() {
-            for (let key in this.initState) {
+    methods: {
+        initPropState() {
+            for (let key in this.list) {
                 this.list[key].value = Number(this.initState[key]).toFixed(2)
             }
         }
+    },
+    mounted() {
+        this.initPropState()
     },
     data() {
         return {

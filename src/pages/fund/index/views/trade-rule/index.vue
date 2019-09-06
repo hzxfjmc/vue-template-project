@@ -97,18 +97,27 @@ export default {
         },
         InitState() {
             let params = this.$route.query
-            console.log(Number(params['dividend']).toFixed(2))
-            console.log('--------------------------')
-            console.log(transNumToThousandMark(params['dividend']))
-            for (let key in this.tradeList) {
-                if (key == 'tradeFrequency') {
-                    this.tradeList[key] = params[key]
-                } else if (key == 'dividend') {
-                    Number(params[key]).toFixed(2)
-                } else {
-                    transNumToThousandMark(params[key])
-                }
+            console.log(params)
+            this.tradeList['tradeFrequency'].value = params.tradeFrequency
+            if (!params['dividend']) {
+                this.tradeList['dividend'].value = transNumToThousandMark(
+                    params['dividend']
+                )
+            } else {
+                this.tradeList['dividend'].value = Number(
+                    params['dividend']
+                ).toFixed(2)
             }
+
+            this.tradeList[
+                'initialInvestAmount'
+            ].value = transNumToThousandMark(params['initialInvestAmount'])
+            this.tradeList[
+                'continueInvestAmount'
+            ].value = transNumToThousandMark(params['continueInvestAmount'])
+            this.tradeList['redemptionFee'].value = transNumToThousandMark(
+                params['redemptionFee']
+            )
             console.log(this.tradeList)
             this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
                 params.lowestInvestAmount
