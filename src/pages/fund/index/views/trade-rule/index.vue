@@ -97,6 +97,10 @@ export default {
         },
         InitState() {
             let params = this.$route.query
+            console.log(params)
+            console.log(transNumToThousandMark(params['initialInvestAmount']))
+            console.log(transNumToThousandMark(params['continueInvestAmount']))
+            console.log(transNumToThousandMark(params['redemptionFee']))
             for (let key in this.tradeList) {
                 console.log(key)
                 this.tradeList[key].value =
