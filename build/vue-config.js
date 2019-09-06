@@ -179,7 +179,8 @@ module.exports = {
                 changOrigin: true
             },
             '/user-account-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                // target: 'http://jy1-sit.yxzq.com',
+                 target: 'http://jy-dev.yxzq.com',
                 // target: 'http://10.210.20.87:8812',
                 changOrigin: true
             },
@@ -269,8 +270,8 @@ module.exports = {
             },
             // 债券信息
             '/finance-info-server': {
-                // target: 'http://jy-dev.yxzq.com',
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
+                // target: 'http://jy1-sit.yxzq.com',
                 changeOrigin: true,
                 // onProxyRes: function(proxyRes, req, res) {
                 //     let resHttp = proxyRes.client._httpMessage
