@@ -4,7 +4,7 @@
     van-row()
         van-col( 
             span="8"
-            v-for="(item,index) of list" 
+            v-for="(item,index) of initPropState" 
             :key="item.label"
             class="fund-row" 
             :class="item.layout") 
@@ -29,19 +29,18 @@ export default {
         Row,
         Col
     },
-    methods: {
+    computed: {
         initPropState() {
             for (let key in this.list) {
+                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
                 this.list[key].value = Number(this.initState[key]).toFixed(2)
             }
+            return this.list
         }
-    },
-    mounted() {
-        this.initPropState()
     },
     data() {
         return {
-            list: holdDetailsData
+            list: JSON.parse(JSON.stringify(holdDetailsData))
         }
     }
 }
