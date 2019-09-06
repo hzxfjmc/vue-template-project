@@ -79,7 +79,13 @@ export default {
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},
             initEchartList: [],
-            holdInitState: {},
+            holdInitState: {
+                yesterdayEarnings: null,
+                positionShare: null,
+                positionMarketValue: null,
+                positionEarnings: null,
+                inTransitAmount: null
+            },
             positionStatus: {
                 type: -1
             },
@@ -123,7 +129,7 @@ export default {
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
-                this.positionStatus = res.positionStatus
+                this.positionStatus = res.positionStatus //
                 if (this.positionStatus.type != -1) {
                     this.holdDetailsShow = true
                     this.btnShow = true
