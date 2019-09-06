@@ -66,13 +66,10 @@ export default {
 
     methods: {
         positionStatusShow() {
-            console.log(this.positionStatus.type)
-            if (this.positionStatus.type == 1) {
-                this.list[0].itemShow = true
-                console.log(123)
+            if (this.positionStatus.type != -1) {
+                this.list['trade'].itemShow = true
             } else {
-                console.log(456)
-                this.list[0].itemShow = false
+                this.list['trade'].itemShow = false
             }
         },
         chooseItem(item) {
