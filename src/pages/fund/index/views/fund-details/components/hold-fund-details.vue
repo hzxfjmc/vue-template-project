@@ -50,7 +50,7 @@ export default {
 .hold-fund-details {
     margin: 10px 0 0 0;
     background: $background-color;
-    padding: 10px;
+    padding: 10px 0;
     height: 160px;
     float: left;
     width: 100%;
