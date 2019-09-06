@@ -35,3 +35,11 @@ export const getBondPosition = market => {
         market
     })
 }
+
+/**
+ * @describe 获取当前客户基金持仓
+ * @param {Object}
+ */
+export const getFundPosition = params => {
+    return axios.post(`/finance-server/api/get-fund-position/v1`, params)
+}

@@ -174,8 +174,8 @@ module.exports = {
                 changOrigin: true
             },
             '/user-server': {
-                target: 'http://jy1-sit.yxzq.com',
-                // target: 'http://jy-dev.yxzq.com',
+                // target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/user-account-server': {
@@ -264,7 +264,7 @@ module.exports = {
             },
             // 债券交易
             '/finance-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
             },
             // 债券信息

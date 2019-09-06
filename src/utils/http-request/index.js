@@ -71,7 +71,7 @@ export default class baseRequest {
                 if (data.code === 0 || data.code === 301400) {
                     return data.data
                 } else if (data.code === 300101) {
-                    LS.remove('userToken')
+                    // LS.remove('userToken')
                     // 登录成功后刷新下页面 小概率事件 避免各种复杂情况
                     // jsBridge.callApp('command_user_login').then(() => {
                     //     window.location.reload()
