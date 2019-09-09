@@ -14,6 +14,7 @@
             .permission-content
                 .title {{$t('agreementTitle')}}
                 .main-content
+                    //- iframe(src=`/webapp/market/generator.html?key=bond01` )
                     //- iframe(src=`/webapp/market/generator.html?key=${fundCode}` v-if="fundCode")
                     .title-info {{titleInfo}}
                     .content {{permissionContent}}
@@ -66,7 +67,8 @@ export default {
                     .then(() => {
                         // 跳申购页
                         this.$router.push({
-                            path: '/fund-subscribe'
+                            path: '/fund-subscribe',
+                            query: this.$route.query.id
                         })
                     })
             } catch (e) {

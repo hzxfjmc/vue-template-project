@@ -10,17 +10,19 @@
                     template(slot-scope='scope')
                         .order-item.flex
                             span(class="order-type") {{$t('apply')}}
-                            span(class="type-value") {{item.typeValue}}
+                            span(class="type-value" :class='diffColor') {{item.typeValue}}
                         .order-item.flex
                             span(class="left-title") {{$t('amount')}}
-                            span(class="money-value") {{item.moneyValue}}
+                            span(class="money-value" ) {{item.moneyValue}}
                         .order-item.flex
                             span(class="left-title") {{$t('time')}}
-                            span(class="right-title") {{item.timeValue}}
+                            span(class="right-title" ) {{item.timeValue}}
 </template>
 
 <script>
 // import { i18nOrderStatusData } from './order-record-i18n'
+// import dayjs from 'dayjs'
+// import { transNumToThousandMark } from '@/utils/tools.js'
 
 export default {
     i18n: {
@@ -50,17 +52,17 @@ export default {
                     timeValue: '2019-07-10 15:55:08'
                 },
                 {
-                    typeValue: '交易进行中',
+                    typeValue: '确认中',
                     moneyValue: 'USD 100,000.00',
                     timeValue: '2019-07-10 15:55:08'
                 },
                 {
-                    typeValue: '交易进行中',
+                    typeValue: '已撤销',
                     moneyValue: 'USD 100,000.00',
                     timeValue: '2019-07-10 15:55:08'
                 },
                 {
-                    typeValue: '交易进行中',
+                    typeValue: '已完成',
                     moneyValue: 'USD 100,000.00',
                     timeValue: '2019-07-10 15:55:08'
                 },
@@ -87,6 +89,11 @@ export default {
             ],
             fundDetailList: ['债券型', '风险等级 R5'],
             fundName: 'Pimco 亚洲投资级债券基金-A2'
+        }
+    },
+    computed: {
+        diffColor() {
+            return 'blue-style'
         }
     }
 }
@@ -142,13 +149,25 @@ export default {
                         &.money-value {
                             color: $text-color;
                         }
-                        &.type-value {
-                            color: $cell-right-color;
-                        }
+                        // &.type-value {
+                        //     color: $cell-right-color;
+                        // }
                     }
                 }
             }
         }
     }
+}
+.yellow-style {
+    color: $cell-right-color !important;
+}
+.blue-style {
+    color: $hk-text-line-color !important;
+}
+.grey-style {
+    color: $text-color3;
+}
+.green-style {
+    color: $green-text-color;
 }
 </style>
