@@ -212,25 +212,17 @@ export default {
                     }
                 })
             } else {
-                if (this.userInfo.extendStatusBit != 4) {
-                    return this.$router.push({
-                        path: '/open-permissions',
-                        query: {
-                            id: this.$route.query.id,
-                            assessResult: this.userInfo.assessResult
-                        }
-                    })
-                } else {
-                    this.$router.push({
-                        path: '/fund-subscribe',
-                        query: {
-                            id: this.$route.query.id,
-                            currency: JSON.stringify(
-                                this.fundHeaderInfoVO.currency
-                            )
-                        }
-                    })
+                let data = {
+                    query: {
+                        id: this.$route.query.id,
+                        assessResult: this.userInfo.assessResult
+                    }
                 }
+                data.path =
+                    this.userInfo.extendStatusBit != 4
+                        ? '/open-permissions'
+                        : '/fund-subscribe'
+                this.$router.push(data)
             }
         }
     },
