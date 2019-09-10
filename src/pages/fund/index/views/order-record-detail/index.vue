@@ -2,20 +2,25 @@
     yx-container.order-record-detail-container
         .order-record-detail(slot='main')
             .fund-introduce
-                .fund-name {{fundName}}
-                .fund-detail {{fundDetail}}
-            order-status-about
+                .fund-name {{`${fundIntro}-${fundType}`}}
+                .fund-detail ISIN: {{fundDetail}}
+            order-status-about(:orderNo='orderNo')
             van-cell-group(class="order-group")
                 van-cell(class="order-time" )
-                    .order-item.flex(v-for="item in orderAboutList")
-                        span.itemName {{item.name}}
-                        span {{item.value}}
+                    .order-item.flex
+                        span.itemName {{$t('orderTime')}}
+                        span {{orderTimeValue}}
+                    .order-item.flex
+                        span.itemName {{$t('orderNum')}}
+                        span {{orderNumValue}}
                 van-cell(class="order-money-cell" )
                     .order-money.flex
                         .left-title.flex
-                            span.type {{orderType}}
+                            span.type {{$t('orderName')}}
                             span.type-text {{$t('amount')}}
-                        .right-value {{moneyNum}}
+                        .right-value.flex 
+                            span.type {{orderType}}
+                            span.type-text {{moneyNum}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" 	showCancelButton=true)
@@ -23,26 +28,38 @@
 </template>
 
 <script>
+import { fundOrderDetail } from '@/service/finance-server.js'
 import orderStatusAbout from './components/order-status-about'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import { isYouxinApp } from '@/utils/html-utils.js'
 import jsBridge from '@/utils/js-bridge'
+import dayjs from 'dayjs'
 
 export default {
     i18n: {
         zhCHS: {
             amount: '金额',
             againBuy: '再买一笔',
-            dialogMsg: '您是否要取消当前订单? '
+            dialogMsg: '您是否要取消当前订单? ',
+            orderTime: '订单生成时间',
+            orderNum: '订单号',
+            orderName: '订单'
         },
         zhCHT: {
             amount: '金额',
             againBuy: '再买一笔',
-            dialogMsg: '您是否要取消當前訂單?'
+            dialogMsg: '您是否要取消當前訂單?',
+            orderTime: '订单生成时间',
+            orderNum: '订单号',
+            orderName: '订单'
         },
         en: {
             amount: '金额',
             againBuy: '再买一笔',
-            dialogMsg: 'Would you like to cancel the order?'
+            dialogMsg: 'Would you like to cancel the order?',
+            orderTime: '订单生成时间',
+            orderNum: '订单号',
+            orderName: '订单'
         }
     },
     components: {
@@ -50,17 +67,29 @@ export default {
     },
     data() {
         return {
-            fundName: 'Pimco 亚洲投资级债券基金-A2',
-            fundDetail: 'ISIN:IE00B0MD9M11',
+            fundType: '',
+            fundIntro: '',
+            fundName: '',
+            fundDetail: '',
             orderAboutList: [
                 { name: '订单生成时间', value: '2019-07-12 15:06:44' },
                 { name: '订单号', value: '01907120540425132220050' }
             ],
+            orderTimeValue: '',
+            orderNumValue: '',
             orderType: '赎回',
+            orderNo: this.$route.query,
             moneyNum: '2,000.000.00',
             detailMsg: {},
             title: '订单',
-            isShowBackout: false
+            isShowBackout: false,
+            fundRiskList: [
+                { type: 'A1', risk: 'R1', name: '低风险' },
+                { type: 'A2', risk: 'R2', name: '中低风险' },
+                { type: 'A3', risk: 'R3', name: '中风险' },
+                { type: 'A4', risk: 'R4', name: '中高风险' },
+                { type: 'A5', risk: 'R5', name: '高风险' }
+            ]
         }
     },
     created() {
@@ -89,8 +118,31 @@ export default {
             }
         }
         console.log(clearTitleBarBOButton)
+        this.fundOrderDetailFun()
     },
     methods: {
+        // 获取详情
+        async fundOrderDetailFun() {
+            let params = {
+                orderNo: this.$route.query
+            }
+            let res = await fundOrderDetail(params)
+            this.fundIntro = `${res.fundBaseInfoVO.fondCode} ${res.fundBaseInfoVO.fundName}`
+            this.fundRiskList.map(item => {
+                if (res.fundBaseInfoVO.fundRisk === item.name) {
+                    this.fundType = item.type
+                }
+            })
+            this.fundDetail = res.fundBaseInfoVO.isin
+            this.orderTimeValue = dayjs(res.orderTime).format(
+                'YYYY-MM-DD HH:mm:ss'
+            )
+            this.orderNumValue = res.orderNo
+            this.orderType = res.tradeType.name
+            this.moneyNum = transNumToThousandMark(
+                (res.orderAmount * 1).toFixed(2)
+            )
+        },
         // 再买一笔
         buyMoreHandle() {
             this.$router.push({
@@ -146,6 +198,7 @@ export default {
                 .left-title {
                     flex-direction: column;
                     .type {
+                        color: $text-color5;
                         font-size: 16px;
                         line-height: 22px;
                     }
@@ -155,8 +208,17 @@ export default {
                     }
                 }
                 .right-value {
-                    font-size: 24px;
-                    line-height: 44px;
+                    // @extend .left-title;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    .type {
+                        font-size: 16px;
+                        line-height: 22px;
+                    }
+                    .type-text {
+                        font-size: 24px;
+                        line-height: 34px;
+                    }
                 }
             }
         }

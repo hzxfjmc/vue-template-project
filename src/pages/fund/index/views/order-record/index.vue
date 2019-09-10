@@ -160,6 +160,7 @@ export default {
             return color
         },
         toDetailHandle(orderNo) {
+            console.log(orderNo, '677')
             this.$router.push({
                 name: 'order-record-detail',
                 query: orderNo
