@@ -74,7 +74,6 @@ export default {
     },
     methods: {
         chooseItem(item) {
-            console.log(this.fundTradeInfoVO)
             let data = {
                 path: item.routerPath
             }
