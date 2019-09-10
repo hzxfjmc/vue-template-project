@@ -18,8 +18,8 @@
             :fondCode = "fondCode"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
-        van-button(class="btn fund-check") {{$t('redeem')}}
-        van-button(class="btn fund-buy") {{$t('append')}}
+        van-button(class="btn fund-check" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+        van-button(class="btn fund-buy" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
     .fund-footer-content(@click="handleBuyOrSell" v-if="btnShow1")
         van-button(class="fund-footer btn") {{$t('buy')}}
@@ -97,6 +97,13 @@ export default {
         }
     },
     methods: {
+        //跳转
+        toRouter(routerPath) {
+            this.$router.push({
+                path: routerPath,
+                query: this.$route.query.id
+            })
+        },
         //跳申购页
         tofundSubscribe() {
             this.$router.push({
