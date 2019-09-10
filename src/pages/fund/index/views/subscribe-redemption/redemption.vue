@@ -20,7 +20,7 @@
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span 最小持有金额{{ lowestInvestAmount | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
+                        van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3 {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
@@ -61,6 +61,7 @@
 
 </template>
 <script>
+import { getCosUrl } from '@/utils/cos-utils'
 import { fundRedemption, getFundPosition } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 // import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -68,7 +69,7 @@ import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
 
-import '../subscribe/subs-redm.scss'
+import './index.scss'
 export default {
     i18n: {
         zhCHS: {
@@ -130,31 +131,49 @@ export default {
         }
     },
     async created() {
-        try {
-            const fundPos = await getFundPosition({
-                fundId: this.$route.query.id
-            })
-            this.positionShare = fundPos.positionShare
-            this.positionMarketValue = fundPos.positionMarketValue
-
-            const fundDetail = await getFundDetail({
-                displayLocation: 1,
-                fundId: this.$route.query.id
-            })
-            this.fundName = fundDetail.fundHeaderInfoVO.fundName
-            this.isin = fundDetail.fundOverviewInfoVO.isin
-            this.lowestInvestAmount =
-                fundDetail.fundTradeInfoVO.lowestInvestAmount
-            this.currency = fundDetail.fundHeaderInfoVO.currency.name
-            this.subscriptionFee = fundDetail.fundTradeInfoVO.subscriptionFee
-            this.sellProtocol = fundDetail.fundTradeInfoVO.sellProtocol
-            this.sellConfirm = fundDetail.fundTradeInfoVO.sellConfirm
-            this.sellProfitLoss = fundDetail.fundTradeInfoVO.sellProfitLoss
-        } catch (e) {
-            console.log(e)
-        }
+        this.getFundPositionInfo()
+        this.getFundDetailInfo()
     },
     methods: {
+        // 获取基金信息
+        async getFundDetailInfo() {
+            try {
+                const fundDetail = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: this.$route.query.id
+                })
+                this.fundName = fundDetail.fundHeaderInfoVO.fundName
+                this.isin = fundDetail.fundOverviewInfoVO.isin
+                this.lowestInvestAmount =
+                    fundDetail.fundTradeInfoVO.lowestInvestAmount
+                this.currency = fundDetail.fundHeaderInfoVO.currency.name
+                this.subscriptionFee =
+                    fundDetail.fundTradeInfoVO.subscriptionFee
+                this.sellProtocol = fundDetail.fundTradeInfoVO.sellProtocol
+                this.sellConfirm = fundDetail.fundTradeInfoVO.sellConfirm
+                this.sellProfitLoss = fundDetail.fundTradeInfoVO.sellProfitLoss
+            } catch (e) {
+                console.log('赎回页面-getFundDetailInfo:error:>>>', e)
+            }
+        },
+        async getFundPositionInfo() {
+            try {
+                const fundPos = await getFundPosition({
+                    fundId: this.$route.query.id
+                })
+                this.positionShare = fundPos.positionShare
+                this.positionMarketValue = fundPos.positionMarketValue
+            } catch (e) {
+                console.log('赎回页面-getFundPositionInfo:error:>>>', e)
+            }
+        },
+        async setCosUrl(dataKey, url) {
+            try {
+                this[dataKey] = await getCosUrl(url)
+            } catch (e) {
+                console.log('赎回页面-getCosUrl:error:>>>', e)
+            }
+        },
         handleClickBuyPlaceHolder() {
             this.buyMonnyBlur = true
             this.$nextTick(() => {
@@ -187,7 +206,7 @@ export default {
                         fundId: this.$route.query.id,
                         redemptionShare: this.redemptionShare,
                         requestId: generateUUID(),
-                        tradeToken: token || 'd4aec9be813e49ba8db54606a6872f11'
+                        tradeToken: token || '7f28e96851bc4655a58f03009f0e79b0'
                     })
                     submitStep = 2
                     console.log('fundRedemptionData:', re)

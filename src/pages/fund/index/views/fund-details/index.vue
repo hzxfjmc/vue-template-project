@@ -103,7 +103,7 @@ export default {
                 path: routerPath,
                 query: {
                     id: this.$route.query.id,
-                    currency: JSON.stringify(this.fundHeaderInfoVO.currency)
+                    currencyType: this.fundHeaderInfoVO.currency.type
                 }
             })
         },

@@ -69,5 +69,5 @@ export const fundPurchase = params => {
  * }
  */
 export const fundRedemption = params => {
-    return axios.post(`/finance-server/api/fund-redemption`, params)
+    return axios.post(`/finance-server/api/fund-redemption/v1`, params)
 }
