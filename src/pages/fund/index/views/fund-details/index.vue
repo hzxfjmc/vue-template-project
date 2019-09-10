@@ -102,7 +102,8 @@ export default {
             this.$router.push({
                 path: routerPath,
                 query: {
-                    id: this.$route.query.id
+                    id: this.$route.query.id,
+                    currency: JSON.stringify(this.fundHeaderInfoVO.currency)
                 }
             })
         },
@@ -223,7 +224,10 @@ export default {
                     this.$router.push({
                         path: '/fund-subscribe',
                         query: {
-                            id: this.$route.query.id
+                            id: this.$route.query.id,
+                            currency: JSON.stringify(
+                                this.fundHeaderInfoVO.currency
+                            )
                         }
                     })
                 }
