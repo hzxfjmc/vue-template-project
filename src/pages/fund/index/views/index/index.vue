@@ -8,7 +8,7 @@
             router-link(
                 v-for="(item, index) in list"
                 :key="index"
-                :to="{path: `fund-details?id=${item.fondId}`}"
+                :to="{ name: 'fund-details', query: { id: `${item.fondId}` }}"
                 title=""
             )
                 Card(:info="item")

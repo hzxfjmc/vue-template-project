@@ -18,10 +18,10 @@
                 .buy-row
                     .left 购买金额
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        span {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
-                        span {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
+                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
+                        p {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
+                        van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3 {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
@@ -184,14 +184,14 @@ export default {
             }
 
             // test:
-            submitStep = 1
+            // submitStep = 1
             try {
                 if (submitStep === 1) {
                     let re = await fundPurchase({
                         fundId: this.$route.query.id,
                         purchaseAmount: this.buyMonny,
                         requestId: generateUUID(),
-                        tradeToken: token || 'f23d5d1fbc2a4deda3f718e7b353b2fa'
+                        tradeToken: token || 'a3df74a04572403fb1960ee5592d6147'
                     })
                     submitStep = 2
                     console.log('fundPurchaseData:', re)

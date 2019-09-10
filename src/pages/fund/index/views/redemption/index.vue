@@ -20,7 +20,7 @@
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span 最小持有金额{{ lowestInvestAmount | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
+                        van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3 {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
