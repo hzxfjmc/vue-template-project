@@ -209,6 +209,13 @@ export default {
                             assessResult: this.userInfo.assessResult
                         }
                     })
+                } else {
+                    this.$router.push({
+                        path: '/fund-subscribe',
+                        query: {
+                            id: this.$route.query.id
+                        }
+                    })
                 }
             }
             if (!this.userInfo.openedAccount) {
