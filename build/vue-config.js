@@ -139,7 +139,7 @@ module.exports = {
     devServer: {
         disableHostCheck: true,
         open: true, // 是否打开页面
-        host: '0.0.0.0', // m-sit.yxzq.com
+        host: '0.0.0.0', // m-dev.yxzq.com
         port: 80,
         https: false,
         hotOnly: true,
@@ -147,12 +147,12 @@ module.exports = {
         proxy: {
             '/message-center': {
                 // target: 'http://10.55.4.13:23002',
-                // target: 'http://hz-sit.yxzq.com',
-                target: 'http://hz1-sit.yxzq.com',
+                // target: 'http://hz-dev.yxzq.com',
+                target: 'http://hz1-dev.yxzq.com',
                 changOrigin: true
             },
             '/quotes-dataservice': {
-                target: 'http://hz1-sit.yxzq.com',
+                target: 'http://hz1-dev.yxzq.com',
                 changOrigin: true
             },
             '/quotes-search': {
@@ -160,28 +160,28 @@ module.exports = {
                 changOrigin: true
             },
             '/config-manager': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy1-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/stock-capital-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/stock-order-server': {
                 // target: 'http://10.210.20.108:9903',
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/user-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/user-account-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 //  target: 'http://jy-dev.yxzq.com',
                 // target: 'http://10.210.20.87:8812',
                 changOrigin: true
@@ -200,18 +200,18 @@ module.exports = {
             '/news-strategyserver': {
                 // target: 'http://10.55.4.9:15005',
                 // target: 'http://10.55.4.7:15003',
-                // target: 'http://hz-sit.yxzq.com',
-                target: 'http://hz1-sit.yxzq.com',
+                // target: 'http://hz-dev.yxzq.com',
+                target: 'http://hz1-dev.yxzq.com',
                 changOrigin: true
             },
             // 帮助中心接口
             '/news-helpcenter': {
-                target: 'http://hz1-sit.yxzq.com',
+                target: 'http://hz1-dev.yxzq.com',
                 changOrigin: true
             },
             // 行情资讯接口服务器
             '^/news-': {
-                target: 'http://hz1-sit.yxzq.com',
+                target: 'http://hz1-dev.yxzq.com',
                 changOrigin: true
             },
             // 行情资讯接口服务器
@@ -224,7 +224,7 @@ module.exports = {
             },
             // 代理其他项目的图片
             '^/webapp': {
-                target: 'http://m1-sit.yxzq.com',
+                target: 'http://m-dev.yxzq.com',
                 changOrigin: true
             },
             '^/banner': {
@@ -240,22 +240,22 @@ module.exports = {
             // },
             //奖励中心
             '/product-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://admin-dev.yxzq.com',
                 changOrigin: true
             },
             '/customer-relationship-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/user-oversea-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             '/verification-code-server': {
-                target: 'http://jy1-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
@@ -269,14 +269,14 @@ module.exports = {
             },
             // 债券交易
             '/finance-server': {
-                target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
             },
             // 债券信息
             '/finance-info-server': {
                 // target: 'http://jy-dev.yxzq.com',
-                target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
 
                 // onProxyRes: function(proxyRes, req, res) {

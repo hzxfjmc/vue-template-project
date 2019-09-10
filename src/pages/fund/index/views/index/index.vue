@@ -22,6 +22,7 @@ import { getFundList } from '@/service/finance-info-server.js'
 // import { bannerAdvertisement } from '@/service/news-configserver.js'
 import Card from './components/fund-card/index.vue'
 export default {
+    keepalive: true,
     name: 'index',
     components: {
         [Swipe.name]: Swipe,
