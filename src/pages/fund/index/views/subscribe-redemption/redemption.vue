@@ -61,6 +61,7 @@
 
 </template>
 <script>
+import { getCosUrl } from '@/utils/cos-utils'
 import { fundRedemption, getFundPosition } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 // import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -130,31 +131,49 @@ export default {
         }
     },
     async created() {
-        try {
-            const fundPos = await getFundPosition({
-                fundId: this.$route.query.id
-            })
-            this.positionShare = fundPos.positionShare
-            this.positionMarketValue = fundPos.positionMarketValue
-
-            const fundDetail = await getFundDetail({
-                displayLocation: 1,
-                fundId: this.$route.query.id
-            })
-            this.fundName = fundDetail.fundHeaderInfoVO.fundName
-            this.isin = fundDetail.fundOverviewInfoVO.isin
-            this.lowestInvestAmount =
-                fundDetail.fundTradeInfoVO.lowestInvestAmount
-            this.currency = fundDetail.fundHeaderInfoVO.currency.name
-            this.subscriptionFee = fundDetail.fundTradeInfoVO.subscriptionFee
-            this.sellProtocol = fundDetail.fundTradeInfoVO.sellProtocol
-            this.sellConfirm = fundDetail.fundTradeInfoVO.sellConfirm
-            this.sellProfitLoss = fundDetail.fundTradeInfoVO.sellProfitLoss
-        } catch (e) {
-            console.log(e)
-        }
+        this.getFundPositionInfo()
+        this.getFundDetailInfo()
     },
     methods: {
+        // 获取基金信息
+        async getFundDetailInfo() {
+            try {
+                const fundDetail = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: this.$route.query.id
+                })
+                this.fundName = fundDetail.fundHeaderInfoVO.fundName
+                this.isin = fundDetail.fundOverviewInfoVO.isin
+                this.lowestInvestAmount =
+                    fundDetail.fundTradeInfoVO.lowestInvestAmount
+                this.currency = fundDetail.fundHeaderInfoVO.currency.name
+                this.subscriptionFee =
+                    fundDetail.fundTradeInfoVO.subscriptionFee
+                this.sellProtocol = fundDetail.fundTradeInfoVO.sellProtocol
+                this.sellConfirm = fundDetail.fundTradeInfoVO.sellConfirm
+                this.sellProfitLoss = fundDetail.fundTradeInfoVO.sellProfitLoss
+            } catch (e) {
+                console.log('赎回页面-getFundDetailInfo:error:>>>', e)
+            }
+        },
+        async getFundPositionInfo() {
+            try {
+                const fundPos = await getFundPosition({
+                    fundId: this.$route.query.id
+                })
+                this.positionShare = fundPos.positionShare
+                this.positionMarketValue = fundPos.positionMarketValue
+            } catch (e) {
+                console.log('赎回页面-getFundPositionInfo:error:>>>', e)
+            }
+        },
+        async setCosUrl(dataKey, url) {
+            try {
+                this[dataKey] = await getCosUrl(url)
+            } catch (e) {
+                console.log('赎回页面-getCosUrl:error:>>>', e)
+            }
+        },
         handleClickBuyPlaceHolder() {
             this.buyMonnyBlur = true
             this.$nextTick(() => {

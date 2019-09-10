@@ -134,12 +134,12 @@ export default {
         }
     },
     async created() {
-        this.setInit()
+        this.getFundDetailInfo()
         this.getWithdrawBalance()
     },
     methods: {
         // 获取基金信息
-        async setInit() {
+        async getFundDetailInfo() {
             try {
                 const fundDetail = await getFundDetail({
                     displayLocation: 1,
@@ -154,7 +154,8 @@ export default {
                     fundDetail.fundTradeInfoVO.initialInvestAmount
                 this.continueInvestAmount =
                     fundDetail.fundTradeInfoVO.continueInvestAmount
-                this.buyProtocol = this.getCosUrl(
+                this.buyProtocol = this.setCosUrl(
+                    'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
                 )
                 this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
@@ -163,9 +164,9 @@ export default {
                 console.log('申购页面-getFundDetail:error:>>>', e)
             }
         },
-        async getCosUrl(url) {
+        async setCosUrl(dataKey, url) {
             try {
-                return await getCosUrl(url)
+                this[dataKey] = await getCosUrl(url)
             } catch (e) {
                 console.log('申购页面-getCosUrl:error:>>>', e)
             }
