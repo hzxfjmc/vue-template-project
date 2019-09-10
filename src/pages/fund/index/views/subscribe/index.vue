@@ -1,64 +1,76 @@
 <template lang="pug">
     .subscribe-wrapper
+        .succed.border-bottom(v-if="step === 2")
+            img(src="@/assets/img/fund/succed.svg")
+            div.text 申购成功
         .fond-des
-            .fond-name Pimco 亚洲投资级债券基金-A2
-            .ISIN ISIN:IE00B0MD9M11
+            .fond-name {{ fundName }}
+            .ISIN ISIN:{{ isin }}
         
         template(v-if="step === 1")
             .fond-buy
                 .buy-row
                     .left {{ $t('currency') }}
-                    .right HKD
+                    .right {{ currency }}
                 .buy-row
                     .left {{ $t('availableBalance') }}
-                    .right {{ 2000000 | formatCurrency }}
+                    .right {{ withdrawBalance | formatCurrency }}
                 .buy-row
                     .left 购买金额
-                    .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder" style="height: 50px;")
-                        span {{ $t('minBugBalance') }}5000.00 
-                        span {{ $t('continueBalance') }}10
+                    .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
+                        span {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
+                        span {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3 {{ `${$t('redemption')}：0.3%` }}
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ 600 | formatCurrency }}
-                a.submit(@click="getTradeToken") {{ $t('submiButtonText') }}
+                    .left.text-color3 {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
+                a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left {{'《基金购买协议》'}}
-                    .right(style="text-align: right;") {{ `${$t('predict')}07.01${$t('dayDone')}` }}
+                    a.left(:href="buyProtocol") {{'《基金购买协议》'}}
+                    .right(style="text-align: right;") {{ `${$t('predict')}${buyProfitLoss.slice(0, 5)}${$t('dayDone')}` }}
 
             FundSteps(
                 style="margin-top: 22px;"
                 title="申购规则"
                 :curStep="0"
                 :stepNames="['买入提交', '确认份额', '查看盈亏']"
-                :stepTimes="['今日15点前', '06.28(星期五)', '06.28(星期五)']"
+                :stepTimes="['今日15点前', buyConfirm, buyProfitLoss]"
             )
         template(v-else-if="step === 2")
-            .fond-buy(style="padding-top: 5px;")
+            .fond-buy
                 .buy-row
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
                     span.text-color5 预计 
-                    span(style="margin: 0 3px;") 07.01日  
+                    span(style="margin: 0 3px;") {{ buyConfirm.slice(0, 5) }}日
                     span.text-color5 确认份额
                 .line
                 .buy-row
                     .icon
                         .point
                     span.text-color5 预计 
-                    span(style="margin: 0 3px;") 07.01日  
-                    span.text-color5 确认份额
+                    span(style="margin: 0 3px;") {{ buyProfitLoss.slice(0, 5) }}日
+                    span.text-color5 查看收益
+            .fond-buy.fond-bug-monny(style="margin-top: 0")
                 .buy-row
-                    .left 购买金额
-                    .right.buy-monny 2,000,000.00
-                a.submit(@click="getTradeToken") 完成
+                    .left.line-height-8 金额
+                    .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
+            .fond-buy(style="margin-top: 0")
+                a.submit(style="margin: 41px 0 28px 0") 完成
+       
 
 </template>
 <script>
+import { fundPurchase } from '@/service/finance-server.js'
+import { getFundDetail } from '@/service/finance-info-server.js'
+import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
+import { generateUUID } from '@/utils/tools.js'
+
+import './subs-redm.scss'
 export default {
     i18n: {
         zhCHS: {
@@ -67,7 +79,7 @@ export default {
             bugBalance: '购买金额',
             minBugBalance: '最小申购金额',
             continueBalance: '续投金额',
-            redemption: '赎回率',
+            redemption: '赎回费',
             predict: '预计',
             submiButtonText: '同意协议并提交',
             dayDone: '日完成',
@@ -79,7 +91,7 @@ export default {
             bugBalance: '购买金额',
             minBugBalance: '最小申购金额',
             continueBalance: '续投金额',
-            redemption: '赎回率',
+            redemption: '赎回费',
             predict: '预计',
             submiButtonText: '同意协议并提交',
             dayDone: '日完成',
@@ -91,7 +103,7 @@ export default {
             bugBalance: '购买金额',
             minBugBalance: '最小申购金额',
             continueBalance: '续投金额',
-            redemption: '赎回率',
+            redemption: '赎回费',
             predict: '预计',
             submiButtonText: '同意协议并提交',
             dayDone: '日完成',
@@ -107,7 +119,43 @@ export default {
             // 1: 购买 2:成功
             step: 1,
             buyMonnyBlur: false,
-            buyMonny: null
+            buyMonny: null,
+            fundName: '',
+            isin: '',
+            currencyType: '',
+            currency: '',
+            withdrawBalance: 0,
+            subscriptionFee: null,
+            initialInvestAmount: 0, // 起投金额
+            continueInvestAmount: 0, // 续投金额
+            buyProtocol: '', // 基金购买协议
+            buyConfirm: '', // 买入确认份额时间
+            buyProfitLoss: '' // 买入查看盈亏时间
+        }
+    },
+    async created() {
+        try {
+            const fundDetail = await getFundDetail({
+                displayLocation: 1,
+                fundId: this.$route.query.id
+            })
+            this.fundName = fundDetail.fundHeaderInfoVO.fundName
+            this.isin = fundDetail.fundOverviewInfoVO.isin
+            this.currency = fundDetail.fundHeaderInfoVO.currency.name
+            this.currencyType = fundDetail.fundHeaderInfoVO.currency.type
+            this.subscriptionFee = fundDetail.fundTradeInfoVO.subscriptionFee
+            this.initialInvestAmount =
+                fundDetail.fundTradeInfoVO.initialInvestAmount
+            this.continueInvestAmount =
+                fundDetail.fundTradeInfoVO.continueInvestAmount
+            this.buyProtocol = fundDetail.fundTradeInfoVO.buyProtocol
+            this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
+            this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss
+            const hsInfo = await hsAccountInfo(this.currencyType)
+            this.withdrawBalance = hsInfo.withdrawBalance
+            console.log(hsInfo)
+        } catch (e) {
+            console.log(e)
         }
     },
     methods: {
@@ -122,145 +170,43 @@ export default {
                 this.buyMonnyBlur = false
             }
         },
-        // 获取交易token
-        async getTradeToken() {
-            this.$alert({
-                message: '2323',
-                confirmButtonText: '我知道了'
-            })
+        async handleSubmit() {
+            let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功
+            let token = null
             try {
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
-                console.log('tradeMsg :', data)
-                // if (data && data.token) {
-                //     this.handleBondOrder(data.token)
-                // }
+                token = data && data.token
+                submitStep = 1
             } catch (error) {
-                console.log('tradeMsg:error :', error)
+                console.log('tradeErrorMsg :', error)
+            }
+
+            // test:
+            submitStep = 1
+            try {
+                if (submitStep === 1) {
+                    let re = await fundPurchase({
+                        fundId: this.$route.query.id,
+                        purchaseAmount: this.buyMonny,
+                        requestId: generateUUID(),
+                        tradeToken: token || 'f23d5d1fbc2a4deda3f718e7b353b2fa'
+                    })
+                    submitStep = 2
+                    console.log('fundPurchaseData:', re)
+                }
+            } catch (error) {
+                this.$alert({
+                    message: error.msg,
+                    confirmButtonText: '我知道了'
+                })
+            }
+
+            if (submitStep === 2) {
+                this.step = 2
             }
         }
     }
 }
 </script>
-<style lang="scss">
-.subscribe-wrapper {
-    .m-b28 {
-        margin-bottom: 28px;
-    }
-    .fond-des {
-        background: $background-color;
-        display: flex;
-        flex-direction: column;
-        font-size: 0.32rem;
-        padding: 14px 12px;
-        .ISIN {
-            font-size: 0.28rem;
-            color: $text-color5;
-        }
-    }
-
-    .fond-buy {
-        background: $background-color;
-        margin-top: 10px;
-        // padding-top: 24px;
-        display: flex;
-        flex-direction: column;
-        padding: 0 12px;
-        padding-bottom: 10px;
-
-        .text-color3 {
-            color: $text-color3 !important;
-        }
-        .text-color5 {
-            color: $text-color5 !important;
-        }
-        .buy-row {
-            display: flex;
-            justify-content: flex-start;
-            margin: 0.24rem 0;
-
-            .left {
-                width: 35%;
-                font-size: 0.28rem;
-                color: $text-color5;
-                line-height: 0.48rem;
-            }
-            .right {
-                width: 65%;
-                font-size: 0.28rem;
-                line-height: 0.48rem;
-                .van-field {
-                    padding: 0;
-                    // height: 0.48rem;
-                    width: 100%;
-                    .van-field__control {
-                        font-weight: bold !important;
-                        font-size: 0.48rem !important;
-                    }
-                }
-            }
-
-            .buy-monny {
-                height: 40px;
-                font-size: 0.48rem;
-            }
-
-            a.left {
-                color: $primary-color;
-            }
-            span {
-                font-size: 0.28rem;
-            }
-
-            .icon {
-                width: 0.48rem;
-                height: 0.48rem;
-                margin-right: 5px;
-                img {
-                    width: 0.32rem;
-                    height: 0.32rem;
-                    margin-top: 0.07rem;
-                }
-                .point {
-                    width: 6px;
-                    height: 6px;
-                    background: $text-color3;
-                    border-radius: 50%;
-                    margin-top: 0.16rem;
-                    margin-left: 0.1rem;
-                }
-            }
-            .placeHolder {
-                width: 139px;
-                // height: 50px;
-                margin-top: -10px;
-            }
-        }
-        .line {
-            height: 56px;
-            border-left: 1px solid $text-color2;
-            margin-left: 0.14rem;
-            margin-top: -13px;
-            margin-bottom: -15px;
-        }
-        hr {
-            height: 1px;
-            border: none;
-            border-top: 1px solid $primary-color;
-            width: 100%;
-            opacity: 0.05;
-        }
-        .submit {
-            margin-top: 20px;
-            background: $primary-color;
-            color: #fff;
-            text-align: center;
-            height: 0.96rem;
-            line-height: 0.96rem;
-            border-radius: 6px;
-            font-size: 0.32rem;
-        }
-    }
-}
-</style>
