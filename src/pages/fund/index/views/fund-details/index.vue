@@ -187,6 +187,14 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
+            if (!this.userInfo.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: '未开户，请先去开户'
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
             if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >
@@ -217,14 +225,6 @@ export default {
                         }
                     })
                 }
-            }
-            if (!this.userInfo.openedAccount) {
-                // 跳转到开户页面
-                await this.$dialog.alert({
-                    message: '未开户，请先去开户'
-                })
-                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
-                return
             }
         }
     },
