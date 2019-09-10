@@ -226,6 +226,16 @@ export default {
         this.getFundNetPrice()
         this.getFundDetail()
         this.getFundPosition()
+    },
+    watch: {
+        $route(to, from) {
+            if (from.path == '/') {
+                this.getCurrentUser()
+                this.getFundNetPrice()
+                this.getFundDetail()
+                this.getFundPosition()
+            }
+        }
     }
 }
 </script>
