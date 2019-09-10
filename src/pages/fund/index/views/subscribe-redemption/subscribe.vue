@@ -63,6 +63,7 @@
 
 </template>
 <script>
+import { getCosUrl } from '@/utils/cos-utils'
 import { fundPurchase } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -70,7 +71,7 @@ import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
 
-import './subs-redm.scss'
+import './index.scss'
 export default {
     i18n: {
         zhCHS: {
@@ -122,7 +123,6 @@ export default {
             buyMonny: null,
             fundName: '',
             isin: '',
-            currencyType: '',
             currency: '',
             withdrawBalance: 0,
             subscriptionFee: null,
@@ -134,31 +134,53 @@ export default {
         }
     },
     async created() {
-        try {
-            const fundDetail = await getFundDetail({
-                displayLocation: 1,
-                fundId: this.$route.query.id
-            })
-            this.fundName = fundDetail.fundHeaderInfoVO.fundName
-            this.isin = fundDetail.fundOverviewInfoVO.isin
-            this.currency = fundDetail.fundHeaderInfoVO.currency.name
-            this.currencyType = fundDetail.fundHeaderInfoVO.currency.type
-            this.subscriptionFee = fundDetail.fundTradeInfoVO.subscriptionFee
-            this.initialInvestAmount =
-                fundDetail.fundTradeInfoVO.initialInvestAmount
-            this.continueInvestAmount =
-                fundDetail.fundTradeInfoVO.continueInvestAmount
-            this.buyProtocol = fundDetail.fundTradeInfoVO.buyProtocol
-            this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
-            this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss
-            const hsInfo = await hsAccountInfo(this.currencyType)
-            this.withdrawBalance = hsInfo.withdrawBalance
-            console.log(hsInfo)
-        } catch (e) {
-            console.log(e)
-        }
+        this.setInit()
+        this.getWithdrawBalance()
     },
     methods: {
+        // 获取基金信息
+        async setInit() {
+            try {
+                const fundDetail = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: this.$route.query.id
+                })
+                this.fundName = fundDetail.fundHeaderInfoVO.fundName
+                this.isin = fundDetail.fundOverviewInfoVO.isin
+                this.currency = fundDetail.fundHeaderInfoVO.currency.name
+                this.subscriptionFee =
+                    fundDetail.fundTradeInfoVO.subscriptionFee
+                this.initialInvestAmount =
+                    fundDetail.fundTradeInfoVO.initialInvestAmount
+                this.continueInvestAmount =
+                    fundDetail.fundTradeInfoVO.continueInvestAmount
+                this.buyProtocol = this.getCosUrl(
+                    fundDetail.fundTradeInfoVO.buyProtocol
+                )
+                this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
+                this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss
+            } catch (e) {
+                console.log('申购页面-getFundDetail:error:>>>', e)
+            }
+        },
+        async getCosUrl(url) {
+            try {
+                return await getCosUrl(url)
+            } catch (e) {
+                console.log('申购页面-getCosUrl:error:>>>', e)
+            }
+        },
+        // 获取可用余额
+        async getWithdrawBalance() {
+            try {
+                const hsInfo = await hsAccountInfo(
+                    this.$route.query.currencyType
+                )
+                this.withdrawBalance = hsInfo.withdrawBalance
+            } catch (e) {
+                console.log('申购页面-getWithdrawBalance:error:>>>', e)
+            }
+        },
         handleClickBuyPlaceHolder() {
             this.buyMonnyBlur = true
             this.$nextTick(() => {
@@ -180,27 +202,27 @@ export default {
                 token = data && data.token
                 submitStep = 1
             } catch (error) {
-                console.log('tradeErrorMsg :', error)
+                console.log('申购页面-tradeErrorMsg :', error)
             }
 
             // test:
             // submitStep = 1
-            try {
-                if (submitStep === 1) {
+            if (submitStep === 1) {
+                try {
                     let re = await fundPurchase({
                         fundId: this.$route.query.id,
                         purchaseAmount: this.buyMonny,
                         requestId: generateUUID(),
-                        tradeToken: token || 'a3df74a04572403fb1960ee5592d6147'
+                        tradeToken: token || '7f28e96851bc4655a58f03009f0e79b0'
                     })
                     submitStep = 2
-                    console.log('fundPurchaseData:', re)
+                    console.log('申购页面-fundPurchaseData:', re)
+                } catch (error) {
+                    this.$alert({
+                        message: error.msg,
+                        confirmButtonText: '我知道了'
+                    })
                 }
-            } catch (error) {
-                this.$alert({
-                    message: error.msg,
-                    confirmButtonText: '我知道了'
-                })
             }
 
             if (submitStep === 2) {

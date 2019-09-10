@@ -160,7 +160,7 @@ module.exports = {
                 changOrigin: true
             },
             '/config-manager': {
-                target: 'http://jy1-dev.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
@@ -299,7 +299,13 @@ module.exports = {
                 //         console.log('end :', JSON.parse(str.toString()));
                 //     })
                 // }
-            }
+            },
+            // 债券交易
+            '/': {
+                target: 'http://jy-dev.yxzq.com',
+                // target: 'http://jy-dev.yxzq.com',
+                changeOrigin: true
+            },
         },
         historyApiFallback: {}
     },

@@ -4,7 +4,6 @@ package-lock.json
 /dist
 /components-document
 npm-packages-offline-cache
-/build
 # local env files
 .env.local
 .env.*.local

@@ -68,7 +68,7 @@ import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
 
-import '../subscribe/subs-redm.scss'
+import './index.scss'
 export default {
     i18n: {
         zhCHS: {
@@ -187,7 +187,7 @@ export default {
                         fundId: this.$route.query.id,
                         redemptionShare: this.redemptionShare,
                         requestId: generateUUID(),
-                        tradeToken: token || 'd4aec9be813e49ba8db54606a6872f11'
+                        tradeToken: token || '7f28e96851bc4655a58f03009f0e79b0'
                     })
                     submitStep = 2
                     console.log('fundRedemptionData:', re)
