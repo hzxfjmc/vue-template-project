@@ -101,14 +101,9 @@ export default {
         toRouter(routerPath) {
             this.$router.push({
                 path: routerPath,
-                query: this.$route.query.id
-            })
-        },
-        //跳申购页
-        tofundSubscribe() {
-            this.$router.push({
-                path: '/fund-subscribe',
-                query: this.fundHeaderInfoVO
+                query: {
+                    id: this.$route.query.id
+                }
             })
         },
         //获取基金详情
@@ -275,7 +270,7 @@ export default {
         color: #fff;
         text-align: center;
         line-height: 50px;
-
+        font-size: 0.32rem;
         border-radius: 0;
         border: none;
     }

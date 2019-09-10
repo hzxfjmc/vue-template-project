@@ -62,10 +62,12 @@ export default {
     .fund-row {
         margin: 10px 0 0 0;
         // text-align: center;
-
+        .holdSubtitle {
+            font-size: 0.24rem;
+        }
         .holdNumber {
             font-size: 0.36rem;
-            font-weight: bolder;
+            // font-weight: bolder;
             em {
                 font-style: normal;
                 font-size: 0.36rem;
