@@ -2,7 +2,7 @@
     .subscribe-wrapper
         .succed.border-bottom(v-if="step === 2")
             img(src="@/assets/img/fund/succed.svg")
-            div.text 申购成功
+            div.text {{ $t('buySuccess') }}
         .fond-des
             .fond-name {{ fundName }}
             .ISIN ISIN:{{ isin }}
@@ -16,7 +16,7 @@
                     .left {{ $t('availableBalance') }}
                     .right {{ withdrawBalance | formatCurrency }}
                 .buy-row
-                    .left 购买金额
+                    .left {{ $t('buyMonny') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
                         p {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
@@ -28,12 +28,12 @@
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
                 a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="buyProtocol") {{'《基金购买协议》'}}
+                    a.left(:href="buyProtocol") {{`《${$t('buyFile')}》`}}
                     .right(style="text-align: right;") {{ `${$t('predict')}${buyProfitLoss.slice(0, 5)}${$t('dayDone')}` }}
 
             FundSteps(
                 style="margin-top: 22px;"
-                title="申购规则"
+                :title="$t('buyRule')"
                 :curStep="0"
                 :stepNames="['买入提交', '确认份额', '查看盈亏']"
                 :stepTimes="['今日15点前', buyConfirm, buyProfitLoss]"
@@ -43,7 +43,7 @@
                 .buy-row
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
-                    span.text-color5 预计 
+                    span.text-color5 {{ $t('predict') }} 
                     span(style="margin: 0 3px;") {{ buyConfirm.slice(0, 5) }}日
                     span.text-color5 确认份额
                 .line
@@ -76,6 +76,10 @@ import './index.scss'
 export default {
     i18n: {
         zhCHS: {
+            buySuccess: '申购成功',
+            buyMonny: '购买金额',
+            buyFile: '基金购买协议',
+            buyRule: '申购规则',
             currency: '币种',
             availableBalance: '可用余额',
             bugBalance: '购买金额',
@@ -86,30 +90,7 @@ export default {
             submiButtonText: '同意协议并提交',
             dayDone: '日完成',
             balanceRule: '申购规则'
-        },
-        zhCHT: {
-            currency: '币种',
-            availableBalance: '可用余额',
-            bugBalance: '购买金额',
-            minBugBalance: '最小申购金额',
-            continueBalance: '续投金额',
-            redemption: '赎回费',
-            predict: '预计',
-            submiButtonText: '同意协议并提交',
-            dayDone: '日完成',
-            balanceRule: '申购规则'
-        },
-        en: {
-            currency: '币种',
-            availableBalance: '可用余额',
-            bugBalance: '购买金额',
-            minBugBalance: '最小申购金额',
-            continueBalance: '续投金额',
-            redemption: '赎回费',
-            predict: '预计',
-            submiButtonText: '同意协议并提交',
-            dayDone: '日完成',
-            balanceRule: '申购规则'
+            // Confirm the share: '确认份额'
         }
     },
     name: 'subscribe',
@@ -216,6 +197,7 @@ export default {
                             'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
                     })
                     let re = await fundPurchase({
+                        displayLocation: 1,
                         fundId: this.$route.query.id,
                         purchaseAmount: this.buyMonny,
                         requestId: generateUUID(),
