@@ -129,7 +129,7 @@ export default {
         // 获取详情
         async fundOrderDetailFun() {
             let params = {
-                orderNo: this.$route.query
+                orderNo: this.$route.query.orderNo
             }
             let res = await fundOrderDetail(params)
             this.fondId = res.fundBaseInfoVO.fondId

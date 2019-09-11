@@ -46,7 +46,6 @@ export default {
         }
     },
     created() {
-        console.log(this.$route.query, '0000')
         if (this.$route.query) {
             this.resultIndex = this.$route.query.assessResult
         }
@@ -72,7 +71,10 @@ export default {
                         // 跳申购页
                         this.$router.push({
                             path: '/fund-subscribe',
-                            query: this.$route.query.id
+                            query: {
+                                id: this.$route.query.id,
+                                currencyType: this.$route.query.currencyType
+                            }
                         })
                     })
             } catch (e) {

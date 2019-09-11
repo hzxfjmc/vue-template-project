@@ -1,6 +1,6 @@
 <template lang="pug">
     .risk-assessment-wrapper
-        .risk-assessment-tips 友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的
+        .risk-assessment-tips {{$t('riskAssessmentTips')}}
         .risk-assessment-form
             van-panel(
                 v-for="(subjectItem, subjectIndex) in subject"
@@ -23,7 +23,7 @@
                                     :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                 )
         fixed-operate-btn(
-            :text="'提交测评' + riskTypeTips"
+            :text="$t('btnText')"
             :disabled="submitBtnDisabled"
             @click="handleSubmit('submit')"
             :class="{ active: !submitBtnDisabled }"
@@ -33,7 +33,24 @@
 <script>
 import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
 export default {
-    mixins: [riskAssessmentMixin]
+    mixins: [riskAssessmentMixin],
+    i18n: {
+        zhCHS: {
+            riskAssessmentTips:
+                '友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的',
+            btnText: '提交测评'
+        },
+        zhCHT: {
+            riskAssessmentTips:
+                '友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的',
+            btnText: '提交测评'
+        },
+        en: {
+            riskAssessmentTips:
+                '友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的',
+            btnText: '提交测评'
+        }
+    }
 }
 </script>
 
