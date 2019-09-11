@@ -8,7 +8,7 @@
             router-link(
                 v-for="(item, index) in list"
                 :key="index"
-                :to="{path: `fund-details?id=${item.fondId}`}"
+                :to="{ name: 'fund-details', query: { id: `${item.fondId}` }}"
                 title=""
             )
                 Card(:info="item")
@@ -22,6 +22,7 @@ import { getFundList } from '@/service/finance-info-server.js'
 // import { bannerAdvertisement } from '@/service/news-configserver.js'
 import Card from './components/fund-card/index.vue'
 export default {
+    keepalive: true,
     name: 'index',
     components: {
         [Swipe.name]: Swipe,

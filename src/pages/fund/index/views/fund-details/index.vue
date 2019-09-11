@@ -18,8 +18,8 @@
             :fondCode = "fondCode"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
-        van-button(class="btn fund-check") {{$t('redeem')}}
-        van-button(class="btn fund-buy") {{$t('append')}}
+        van-button(class="btn fund-check" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+        van-button(class="btn fund-buy" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
     .fund-footer-content(@click="handleBuyOrSell" v-if="btnShow1")
         van-button(class="fund-footer btn") {{$t('buy')}}
@@ -97,11 +97,14 @@ export default {
         }
     },
     methods: {
-        //跳申购页
-        tofundSubscribe() {
+        //跳转
+        toRouter(routerPath) {
             this.$router.push({
-                path: '/fund-subscribe',
-                query: this.fundHeaderInfoVO
+                path: routerPath,
+                query: {
+                    id: this.$route.query.id,
+                    currencyType: this.fundHeaderInfoVO.currency.type
+                }
             })
         },
         //获取基金详情
@@ -187,6 +190,14 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
+            if (!this.userInfo.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: '未开户，请先去开户'
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
             if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >
@@ -201,23 +212,17 @@ export default {
                     }
                 })
             } else {
-                if (this.userInfo.extendStatusBit != 4) {
-                    return this.$router.push({
-                        path: '/open-permissions',
-                        query: {
-                            id: this.$route.query.id,
-                            assessResult: this.userInfo.assessResult
-                        }
-                    })
+                let data = {
+                    query: {
+                        id: this.$route.query.id,
+                        assessResult: this.userInfo.assessResult
+                    }
                 }
-            }
-            if (!this.userInfo.openedAccount) {
-                // 跳转到开户页面
-                await this.$dialog.alert({
-                    message: '未开户，请先去开户'
-                })
-                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
-                return
+                data.path =
+                    this.userInfo.extendStatusBit != 4
+                        ? '/open-permissions'
+                        : '/fund-subscribe'
+                this.$router.push(data)
             }
         }
     },
@@ -226,6 +231,16 @@ export default {
         this.getFundNetPrice()
         this.getFundDetail()
         this.getFundPosition()
+    },
+    watch: {
+        $route(to, from) {
+            if (from.path == '/') {
+                this.getCurrentUser()
+                this.getFundNetPrice()
+                this.getFundDetail()
+                this.getFundPosition()
+            }
+        }
     }
 }
 </script>
@@ -251,7 +266,7 @@ export default {
         color: #fff;
         text-align: center;
         line-height: 50px;
-
+        font-size: 0.32rem;
         border-radius: 0;
         border: none;
     }

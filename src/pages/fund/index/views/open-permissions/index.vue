@@ -14,6 +14,7 @@
             .permission-content
                 .title {{$t('agreementTitle')}}
                 .main-content
+                    //- iframe(src=`/webapp/market/generator.html?key=bond01` )
                     //- iframe(src=`/webapp/market/generator.html?key=${fundCode}` v-if="fundCode")
                     .title-info {{titleInfo}}
                     .content {{permissionContent}}
@@ -28,12 +29,14 @@
 <script>
 import { fundRiskAutograph } from '@/service/user-server.js'
 import { i18nOpenPermissions } from './open-permissions-i18n.js'
+import LS from '@/utils/local-storage.js'
+
 export default {
     i18n: i18nOpenPermissions,
     data() {
         return {
             fundCode: '',
-            autograph: '',
+            autograph: LS.get('signName') || '',
             titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
             permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
@@ -58,6 +61,8 @@ export default {
                     autograph: this.autograph
                 }
                 let res = await fundRiskAutograph(params)
+                // 签名成功，本地设置标记，用与返回时候保留签名，刷新则清除
+                LS.put('signName', this.autograph)
                 console.log(res)
                 this.$dialog
                     .alert({
@@ -66,7 +71,8 @@ export default {
                     .then(() => {
                         // 跳申购页
                         this.$router.push({
-                            path: '/fund-subscribe'
+                            path: '/fund-subscribe',
+                            query: this.$route.query.id
                         })
                     })
             } catch (e) {

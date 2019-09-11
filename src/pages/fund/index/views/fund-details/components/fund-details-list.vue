@@ -63,16 +63,16 @@ export default {
             list: JSON.parse(JSON.stringify(itemList))
         }
     },
-
-    methods: {
-        positionStatusShow() {
-            console.log(this.positionStatus)
+    watch: {
+        positionStatus() {
             if (this.positionStatus.type != -1) {
                 this.list['trade'].itemShow = true
             } else {
                 this.list['trade'].itemShow = false
             }
-        },
+        }
+    },
+    methods: {
         chooseItem(item) {
             let data = {
                 path: item.routerPath
@@ -87,6 +87,9 @@ export default {
                 this.fundTradeInfoVO.tradeFrequency = this.fundTradeInfoVO.tradeFrequency.name
                 data.query = this.fundTradeInfoVO
             }
+            if (item.routerPath == '/order-record') {
+                data.query = { id: this.$route.query.id }
+            }
             if (item.routerPath == '/generator') {
                 window.location.href = `/webapp/market/generator.html?key=${this.fondCode}`
             } else {
@@ -100,7 +103,6 @@ export default {
         }
     },
     mounted() {
-        this.positionStatusShow()
         this.InitI18nState()
     }
 }
