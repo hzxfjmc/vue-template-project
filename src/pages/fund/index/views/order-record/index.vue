@@ -144,10 +144,11 @@ export default {
         },
         // 跳转到详情
         toDetailHandle(orderNo) {
-            console.log(orderNo, '677')
             this.$router.push({
                 name: 'order-record-detail',
-                query: orderNo
+                query: {
+                    orderNo: orderNo
+                }
             })
         }
     }

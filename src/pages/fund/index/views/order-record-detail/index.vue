@@ -7,9 +7,9 @@
             order-status-about(:orderNo='orderNo' v-if="orderStatus===1")
             van-cell-group(class="order-group")
                 van-cell(class="order-time" )
-                    .order-item.flex(v-if="[2,4].includes(orderStatus)")
+                    .order-item.flex(v-if="orderStatus!==1")
                         span.itemName {{$t('orderStatus')}}
-                        span {{orderStatusValue}}
+                        span(:class='differenceColor') {{orderStatusValue}}
                     .order-item.flex
                         span.itemName {{$t('orderTime')}}
                         span {{orderTimeValue}}
@@ -48,17 +48,27 @@ import { isYouxinApp } from '@/utils/html-utils.js'
 import jsBridge from '@/utils/js-bridge'
 import dayjs from 'dayjs'
 import { i18nOrderStatusData } from './order-status-detail-i18n'
+import { differColor } from '../order-record/differColor.js'
 
 export default {
     i18n: i18nOrderStatusData,
+    keepalive: true,
     components: {
         orderStatusAbout
+    },
+    watch: {
+        $route(to, from) {
+            if (from.path == '/order-record') {
+                this.fundOrderDetailFun()
+            }
+        }
     },
     data() {
         return {
             fundType: '',
             fundIntro: '',
             fundName: '',
+            fondId: '',
             fundDetail: '',
             orderAboutList: [
                 { name: '订单生成时间', value: '2019-07-12 15:06:44' },
@@ -74,6 +84,7 @@ export default {
             netPrice: '',
             orderShare: '',
             moneyNum: '2,000.000.00',
+            differenceColor: '',
             detailMsg: {},
             title: '订单',
             isShowBackout: false,
@@ -118,10 +129,12 @@ export default {
         // 获取详情
         async fundOrderDetailFun() {
             let params = {
-                orderNo: this.$route.query
+                orderNo: this.$route.query.orderNo
             }
             let res = await fundOrderDetail(params)
+            this.fondId = res.fundBaseInfoVO.fondId
             this.orderResult = res
+            this.differenceColor = differColor(res.externalStatus)
             this.orderStatusValue = res.externalName
             this.orderStatus = res.externalStatus
             this.orderShare = transNumToThousandMark(
@@ -155,7 +168,7 @@ export default {
         buyMoreHandle() {
             this.$router.push({
                 path: '/fund-subscribe',
-                query: this.detailMsg
+                query: this.fondId
             })
         },
         // 撤销
@@ -234,5 +247,17 @@ export default {
     .btn-buy-more {
         padding: 0 16px;
     }
+}
+.yellow-style {
+    color: $cell-right-color !important;
+}
+.blue-style {
+    color: $hk-text-line-color !important;
+}
+.grey-style {
+    color: $text-color3 !important;
+}
+.green-style {
+    color: $green-text-color !important;
 }
 </style>
