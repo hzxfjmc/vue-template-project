@@ -9,7 +9,9 @@ export const i18nOrderStatusData = {
         orderStatus: '订单状态',
         orderFinish: '订单完成时间',
         orderNetWorth: '净值',
-        orderShares: '份额'
+        orderShares: '份额',
+        cancelButtonText: '取消',
+        confirmButtonText: '确认'
     },
     zhCHT: {
         amount: '金额',
@@ -21,7 +23,9 @@ export const i18nOrderStatusData = {
         orderStatus: '订单状态',
         orderFinish: '订单完成时间',
         orderNetWorth: '净值',
-        orderShares: '份额'
+        orderShares: '份额',
+        cancelButtonText: '取消',
+        confirmButtonText: '确认'
     },
     en: {
         amount: '金额',
@@ -33,6 +37,8 @@ export const i18nOrderStatusData = {
         orderStatus: '订单状态',
         orderFinish: '订单完成时间',
         orderNetWorth: '净值',
-        orderShares: '份额'
+        orderShares: '份额',
+        cancelButtonText: '取消',
+        confirmButtonText: '确认'
     }
 }

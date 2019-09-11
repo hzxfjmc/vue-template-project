@@ -81,3 +81,8 @@ export const fundOrderList = params => {
 export const fundOrderDetail = params => {
     return axios.post(`/finance-server/api/fund-order-detail/v1`, params)
 }
+
+// 撤单
+export const cancelFundOrder = params => {
+    return axios.post(`/finance-server/api/cancel-fund-order/v1`, params)
+}
