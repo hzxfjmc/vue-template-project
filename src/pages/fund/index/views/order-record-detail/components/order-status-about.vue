@@ -5,7 +5,7 @@
                     template(slot-scope='scope')
                         .status-title.flex
                             span {{$t('orderStatus')}}
-                            span(class="status-color") {{statusValue}}  
+                            span(:class="differenceColor") {{statusValue}}  
                         .begin-time
                             img(src="@/assets/img/fund/clock.png")
                             span {{$t('estimate')}}
@@ -22,7 +22,7 @@
 <script>
 import { fundOrderDetail } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
-
+import { differColor } from '../../order-record/differColor.js'
 export default {
     name: 'order-status-about',
     props: {
@@ -55,11 +55,11 @@ export default {
         return {
             statusValue: '',
             beginTime: '07.01日',
-            endTime: '07.19日'
+            endTime: '07.19日',
+            differenceColor: ''
         }
     },
     created() {
-        console.log(this.orderNo)
         this.fundOrderDetailFun()
     },
     methods: {
@@ -68,9 +68,14 @@ export default {
                 orderNo: this.orderNo
             }
             let res = await fundOrderDetail(params)
+            this.differenceColor = differColor(res.externalStatus)
             this.statusValue = res.externalName
-            this.beginTime = dayjs(res.confirmDate).format('MM.DD')
-            this.endTime = dayjs(res.deliveryDate).format('MM.DD')
+            this.beginTime =
+                (res.confirmDate && dayjs(res.confirmDate).format('MM.DD')) ||
+                '--'
+            this.endTime =
+                (res.deliveryDate && dayjs(res.deliveryDate).format('MM.DD')) ||
+                '--'
         }
     }
 }
@@ -120,6 +125,18 @@ export default {
                 margin: 0 10px 0 6px;
             }
         }
+    }
+    .yellow-style {
+        color: $cell-right-color !important;
+    }
+    .blue-style {
+        color: $hk-text-line-color !important;
+    }
+    .grey-style {
+        color: $text-color3 !important;
+    }
+    .green-style {
+        color: $green-text-color !important;
     }
 }
 </style>

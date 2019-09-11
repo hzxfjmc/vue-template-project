@@ -4,15 +4,28 @@
             .fund-introduce
                 .fund-name {{`${fundIntro}-${fundType}`}}
                 .fund-detail ISIN: {{fundDetail}}
-            order-status-about(:orderNo='orderNo')
+            order-status-about(:orderNo='orderNo' v-if="orderStatus===1")
             van-cell-group(class="order-group")
                 van-cell(class="order-time" )
+                    .order-item.flex(v-if="[2,4].includes(orderStatus)")
+                        span.itemName {{$t('orderStatus')}}
+                        span {{orderStatusValue}}
                     .order-item.flex
                         span.itemName {{$t('orderTime')}}
                         span {{orderTimeValue}}
+                    .order-item.flex(v-if="orderStatus!==1")
+                        span.itemName {{$t('orderFinish')}}
+                        span {{orderFinishValue}}
                     .order-item.flex
                         span.itemName {{$t('orderNum')}}
                         span {{orderNumValue}}
+                van-cell(class="order-time" v-if="orderStatus!==1")
+                    .order-item.flex
+                        span.itemName {{$t('orderNetWorth')}}
+                        span {{netPrice}}
+                    .order-item.flex
+                        span.itemName {{$t('orderShares')}}
+                        span {{orderShare}}
                 van-cell(class="order-money-cell" )
                     .order-money.flex
                         .left-title.flex
@@ -34,34 +47,10 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import { isYouxinApp } from '@/utils/html-utils.js'
 import jsBridge from '@/utils/js-bridge'
 import dayjs from 'dayjs'
+import { i18nOrderStatusData } from './order-status-detail-i18n'
 
 export default {
-    i18n: {
-        zhCHS: {
-            amount: '金额',
-            againBuy: '再买一笔',
-            dialogMsg: '您是否要取消当前订单? ',
-            orderTime: '订单生成时间',
-            orderNum: '订单号',
-            orderName: '订单'
-        },
-        zhCHT: {
-            amount: '金额',
-            againBuy: '再买一笔',
-            dialogMsg: '您是否要取消當前訂單?',
-            orderTime: '订单生成时间',
-            orderNum: '订单号',
-            orderName: '订单'
-        },
-        en: {
-            amount: '金额',
-            againBuy: '再买一笔',
-            dialogMsg: 'Would you like to cancel the order?',
-            orderTime: '订单生成时间',
-            orderNum: '订单号',
-            orderName: '订单'
-        }
-    },
+    i18n: i18nOrderStatusData,
     components: {
         orderStatusAbout
     },
@@ -77,8 +66,13 @@ export default {
             ],
             orderTimeValue: '',
             orderNumValue: '',
-            orderType: '赎回',
+            orderType: '',
             orderNo: this.$route.query,
+            orderStatus: 1,
+            orderStatusValue: '',
+            orderFinishValue: '',
+            netPrice: '',
+            orderShare: '',
             moneyNum: '2,000.000.00',
             detailMsg: {},
             title: '订单',
@@ -127,6 +121,19 @@ export default {
                 orderNo: this.$route.query
             }
             let res = await fundOrderDetail(params)
+            this.orderResult = res
+            this.orderStatusValue = res.externalName
+            this.orderStatus = res.externalStatus
+            this.orderShare = transNumToThousandMark(
+                (res.orderShare * 1).toFixed(3)
+            )
+            this.netPrice = transNumToThousandMark(
+                (res.netPrice * 1).toFixed(2)
+            )
+            this.orderFinishValue =
+                (res.finishTime &&
+                    dayjs(res.finishTime).format('YYYY-MM-DD HH:mm:ss')) ||
+                '--'
             this.fundIntro = `${res.fundBaseInfoVO.fondCode} ${res.fundBaseInfoVO.fundName}`
             this.fundRiskList.map(item => {
                 if (res.fundBaseInfoVO.fundRisk === item.name) {
@@ -134,9 +141,10 @@ export default {
                 }
             })
             this.fundDetail = res.fundBaseInfoVO.isin
-            this.orderTimeValue = dayjs(res.orderTime).format(
-                'YYYY-MM-DD HH:mm:ss'
-            )
+            this.orderTimeValue =
+                (res.orderTime &&
+                    dayjs(res.orderTime).format('YYYY-MM-DD HH:mm:ss')) ||
+                '--'
             this.orderNumValue = res.orderNo
             this.orderType = res.tradeType.name
             this.moneyNum = transNumToThousandMark(
