@@ -72,7 +72,10 @@ export default {
                         // 跳申购页
                         this.$router.push({
                             path: '/fund-subscribe',
-                            query: this.$route.query.id
+                            query: {
+                                id: this.$route.query.id,
+                                currencyType: this.$route.query.currencyType
+                            }
                         })
                     })
             } catch (e) {

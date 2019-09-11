@@ -1,7 +1,7 @@
 <template lang="pug">
     .risk-assessment-result-wrapper(v-show="isShowPage")
         .risk-result__hd
-            p 您的风评结果为：
+            p {{$t('resultHd')}}
         .risk-result__md {{ assessmentType  }}
         .risk-result__bd 上次风评日期：{{ assessmentTime | date-format('YYYY年MM月DD日') }}
         fixed-operate-btn(
@@ -13,7 +13,23 @@
 <script>
 import riskAssessmentResultMixin from '@/mixins/bond/risk-assessment-result/index.js'
 export default {
-    mixins: [riskAssessmentResultMixin]
+    mixins: [riskAssessmentResultMixin],
+    i18n: {
+        zhCHS: {
+            resultHd: '您的风评结果为：',
+            btnText: '提交测评'
+        },
+        zhCHT: {
+            resultHd: '您的风评结果为：',
+
+            btnText: '提交测评'
+        },
+        en: {
+            resultHd: '您的风评结果为：',
+
+            btnText: '提交测评'
+        }
+    }
 }
 </script>
 
