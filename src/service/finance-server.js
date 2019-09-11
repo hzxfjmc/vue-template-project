@@ -71,3 +71,13 @@ export const fundPurchase = params => {
 export const fundRedemption = params => {
     return axios.post(`/finance-server/api/fund-redemption/v1`, params)
 }
+
+// 基金交易记录列表
+export const fundOrderList = params => {
+    return axios.post(`/finance-server/api/fund-order-list/v1`, params)
+}
+
+// 基金交易记录详情
+export const fundOrderDetail = params => {
+    return axios.post(`/finance-server/api/fund-order-detail/v1`, params)
+}

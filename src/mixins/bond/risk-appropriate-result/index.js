@@ -2,7 +2,10 @@ import { Checkbox } from 'vant'
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
+import { i18nData } from './i18n.js'
+
 export default {
+    i18n: i18nData,
     name: 'RiskAppropriateResult',
     components: {
         FixedOperateBtn,
