@@ -306,7 +306,7 @@ module.exports = {
                 target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
-            },
+            }
         },
         historyApiFallback: {}
     },

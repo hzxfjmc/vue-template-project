@@ -5,7 +5,7 @@
                     template(slot-scope='scope')
                         .status-title.flex
                             span {{$t('orderStatus')}}
-                            span(class="status-color") {{statusValue}}  
+                            span(:class="differenceColor") {{statusValue}}  
                         .begin-time
                             img(src="@/assets/img/fund/clock.png")
                             span {{$t('estimate')}}
@@ -20,33 +20,62 @@
 </template>
 
 <script>
+import { fundOrderDetail } from '@/service/finance-server.js'
+import dayjs from 'dayjs'
+import { differColor } from '../../order-record/differColor.js'
 export default {
     name: 'order-status-about',
+    props: {
+        orderNo: {
+            type: String,
+            default: ''
+        }
+    },
     i18n: {
         zhCHS: {
             orderStatus: '订单状态',
             estimate: '预计',
-            surePosition: '确认份额',
-            checkProfit: '查收收益'
+            surePosition: '日确认份额',
+            checkProfit: '日查收收益'
         },
         zhCHT: {
             orderStatus: '订单状态',
             estimate: '预计',
-            surePosition: '确认份额',
-            checkProfit: '查收收益'
+            surePosition: '日确认份额',
+            checkProfit: '日查收收益'
         },
         en: {
             orderStatus: '订单状态',
             estimate: '预计',
-            surePosition: '确认份额',
-            checkProfit: '查收收益'
+            surePosition: '日确认份额',
+            checkProfit: '日查收收益'
         }
     },
     data() {
         return {
-            statusValue: '确认中',
+            statusValue: '',
             beginTime: '07.01日',
-            endTime: '07.19日'
+            endTime: '07.19日',
+            differenceColor: ''
+        }
+    },
+    created() {
+        this.fundOrderDetailFun()
+    },
+    methods: {
+        async fundOrderDetailFun() {
+            let params = {
+                orderNo: this.orderNo
+            }
+            let res = await fundOrderDetail(params)
+            this.differenceColor = differColor(res.externalStatus)
+            this.statusValue = res.externalName
+            this.beginTime =
+                (res.confirmDate && dayjs(res.confirmDate).format('MM.DD')) ||
+                '--'
+            this.endTime =
+                (res.deliveryDate && dayjs(res.deliveryDate).format('MM.DD')) ||
+                '--'
         }
     }
 }
@@ -96,6 +125,18 @@ export default {
                 margin: 0 10px 0 6px;
             }
         }
+    }
+    .yellow-style {
+        color: $cell-right-color !important;
+    }
+    .blue-style {
+        color: $hk-text-line-color !important;
+    }
+    .grey-style {
+        color: $text-color3 !important;
+    }
+    .green-style {
+        color: $green-text-color !important;
     }
 }
 </style>

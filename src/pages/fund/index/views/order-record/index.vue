@@ -1,99 +1,154 @@
 <template lang="pug">
-    .order-record-container
+    .order-record-container(v-if='orderRecordList.length>0')
         .fund-introduce
-            .fund-name {{fundName}}
+            .fund-name {{`${fundIntro}-${fundType}`}}
             .fund-detail
-                .fund-detail-item(v-for="(item) in fundDetailList") {{item}}
+                .fund-detail-item {{assetType}}
+                .fund-detail-item {{$t('fundRiskText')}} {{fundRisk}}
         .order-record-box
-            .order-record-list(v-for="(item,index) in orderRecordList")
-                van-cell(class="van-cell-item" to="order-record-detail")
+            van-list.order-record-list(v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad")
+                van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo)")
                     template(slot-scope='scope')
                         .order-item.flex
-                            span(class="order-type") {{$t('apply')}}
-                            span(class="type-value" :class='diffColor') {{item.typeValue}}
+                            span(class="order-type") {{item.tradeType}}
+                            span(class="type-value" :class='item.color') {{item.typeValue}}
                         .order-item.flex
                             span(class="left-title") {{$t('amount')}}
                             span(class="money-value" ) {{item.moneyValue}}
                         .order-item.flex
                             span(class="left-title") {{$t('time')}}
                             span(class="right-title" ) {{item.timeValue}}
+    .order-record-container-else(v-else style="text-align:center") {{$t('noOrder')}}
 </template>
 
 <script>
-// import { i18nOrderStatusData } from './order-record-i18n'
-// import dayjs from 'dayjs'
-// import { transNumToThousandMark } from '@/utils/tools.js'
+import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
+import Vue from 'vue'
+import { List } from 'vant'
+Vue.use(List)
+import { fundOrderList } from '@/service/finance-server.js'
+import { setTimeout } from 'timers'
+import { differColor } from './differColor.js'
 
 export default {
     i18n: {
         zhCHS: {
-            apply: '申购',
             amount: '金额',
-            time: '时间'
+            time: '时间',
+            fundRiskText: '风险等级',
+            noOrder: '暂无记录'
         },
         zhCHT: {
-            apply: '申购',
             amount: '金额',
-            time: '时间'
+            time: '时间',
+            fundRiskText: '风险等级',
+            noOrder: '暂无记录'
         },
         en: {
-            apply: '申购',
             amount: '金额',
-            time: '时间'
+            time: '时间',
+            fundRiskText: '风险等级',
+            noOrder: '暂无记录'
         }
     },
     keepalive: true,
     data() {
         return {
-            orderRecordList: [
-                {
-                    typeValue: '交易进行中',
-                    moneyValue: 'USD 100,000.00',
-                    timeValue: '2019-07-10 15:55:08'
-                },
-                {
-                    typeValue: '确认中',
-                    moneyValue: 'USD 100,000.00',
-                    timeValue: '2019-07-10 15:55:08'
-                },
-                {
-                    typeValue: '已撤销',
-                    moneyValue: 'USD 100,000.00',
-                    timeValue: '2019-07-10 15:55:08'
-                },
-                {
-                    typeValue: '已完成',
-                    moneyValue: 'USD 100,000.00',
-                    timeValue: '2019-07-10 15:55:08'
-                },
-                {
-                    typeValue: '交易进行中',
-                    moneyValue: 'USD 100,000.00',
-                    timeValue: '2019-07-10 15:55:08'
-                },
-                {
-                    typeValue: '交易进行中',
-                    moneyValue: 'USD 100,000.00',
-                    timeValue: '2019-07-10 15:55:08'
-                },
-                {
-                    typeValue: '交易进行中',
-                    moneyValue: 'USD 100,000.00',
-                    timeValue: '2019-07-10 15:55:08'
-                },
-                {
-                    typeValue: '交易进行中',
-                    moneyValue: 'USD 100,000.00',
-                    timeValue: '2019-07-10 15:55:08'
-                }
-            ],
-            fundDetailList: ['债券型', '风险等级 R5'],
-            fundName: 'Pimco 亚洲投资级债券基金-A2'
+            loading: false,
+            finished: false,
+            orderRecordList: [],
+            assetType: '',
+            fundRisk: '',
+            fundType: '',
+            fundIntro: '',
+            pageNum: 1,
+            pageSize: 6,
+            total: 0,
+            fundRiskList: [
+                { type: 'A1', risk: 'R1', name: '低风险' },
+                { type: 'A2', risk: 'R2', name: '中低风险' },
+                { type: 'A3', risk: 'R3', name: '中风险' },
+                { type: 'A4', risk: 'R4', name: '中高风险' },
+                { type: 'A5', risk: 'R5', name: '高风险' }
+            ]
         }
     },
-    computed: {
-        diffColor() {
-            return 'blue-style'
+    computed: {},
+    created() {
+        this.fundOrderListFun()
+    },
+    methods: {
+        // 查询列表
+        async fundOrderListFun() {
+            try {
+                let params = {
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    fundId: 18
+                }
+                let res = await fundOrderList(params)
+                const _this = this
+                this.total = res.total
+                res.list.map(item => {
+                    this.orderRecordList.push({
+                        tradeType: item.tradeType.name,
+                        typeValue: item.externalName,
+                        moneyValue:
+                            item.currency.name +
+                            transNumToThousandMark(
+                                (item.orderAmount * 1).toFixed(2)
+                            ),
+                        timeValue:
+                            (item.orderTime &&
+                                dayjs(item.orderTime).format(
+                                    'YYYY-MM-DD HH:mm:ss'
+                                )) ||
+                            '--',
+                        color: differColor(item.externalStatus),
+                        orderNo: item.orderNo
+                    })
+
+                    this.assetType =
+                        item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
+                    _this.fundRiskList.map(value => {
+                        if (item.fundBaseInfoVO.fundRisk === value.name) {
+                            _this.fundRisk = value.risk
+                            _this.fundType = value.type
+                        }
+                    })
+                    _this.fundIntro =
+                        item.fundBaseInfoVO &&
+                        item.fundBaseInfoVO.fondCode +
+                            ' ' +
+                            item.fundBaseInfoVO.fundName
+                })
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert({
+                        message: e.msg,
+                        confirmButtonText: '我知道了'
+                    })
+                }
+            }
+        },
+        onLoad() {
+            setTimeout(() => {
+                if (this.orderRecordList.length < this.total) {
+                    this.loading = false
+                    this.pageNum = this.pageNum + 1
+                    this.fundOrderListFun()
+                }
+                this.finished = true
+            }, 300)
+        },
+        // 跳转到详情
+        toDetailHandle(orderNo) {
+            console.log(orderNo, '677')
+            this.$router.push({
+                name: 'order-record-detail',
+                query: orderNo
+            })
         }
     }
 }
@@ -158,6 +213,12 @@ export default {
         }
     }
 }
+.order-record-container-else {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
 .yellow-style {
     color: $cell-right-color !important;
 }
@@ -165,9 +226,9 @@ export default {
     color: $hk-text-line-color !important;
 }
 .grey-style {
-    color: $text-color3;
+    color: $text-color3 !important;
 }
 .green-style {
-    color: $green-text-color;
+    color: $green-text-color !important;
 }
 </style>

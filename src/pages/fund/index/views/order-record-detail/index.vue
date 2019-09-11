@@ -2,20 +2,38 @@
     yx-container.order-record-detail-container
         .order-record-detail(slot='main')
             .fund-introduce
-                .fund-name {{fundName}}
-                .fund-detail {{fundDetail}}
-            order-status-about
+                .fund-name {{`${fundIntro}-${fundType}`}}
+                .fund-detail ISIN: {{fundDetail}}
+            order-status-about(:orderNo='orderNo' v-if="orderStatus===1")
             van-cell-group(class="order-group")
                 van-cell(class="order-time" )
-                    .order-item.flex(v-for="item in orderAboutList")
-                        span.itemName {{item.name}}
-                        span {{item.value}}
+                    .order-item.flex(v-if="[2,4].includes(orderStatus)")
+                        span.itemName {{$t('orderStatus')}}
+                        span {{orderStatusValue}}
+                    .order-item.flex
+                        span.itemName {{$t('orderTime')}}
+                        span {{orderTimeValue}}
+                    .order-item.flex(v-if="orderStatus!==1")
+                        span.itemName {{$t('orderFinish')}}
+                        span {{orderFinishValue}}
+                    .order-item.flex
+                        span.itemName {{$t('orderNum')}}
+                        span {{orderNumValue}}
+                van-cell(class="order-time" v-if="orderStatus!==1")
+                    .order-item.flex
+                        span.itemName {{$t('orderNetWorth')}}
+                        span {{netPrice}}
+                    .order-item.flex
+                        span.itemName {{$t('orderShares')}}
+                        span {{orderShare}}
                 van-cell(class="order-money-cell" )
                     .order-money.flex
                         .left-title.flex
-                            span.type {{orderType}}
+                            span.type {{$t('orderName')}}
                             span.type-text {{$t('amount')}}
-                        .right-value {{moneyNum}}
+                        .right-value.flex 
+                            span.type {{orderType}}
+                            span.type-text {{moneyNum}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" 	showCancelButton=true)
@@ -23,44 +41,49 @@
 </template>
 
 <script>
+import { fundOrderDetail } from '@/service/finance-server.js'
 import orderStatusAbout from './components/order-status-about'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import { isYouxinApp } from '@/utils/html-utils.js'
 import jsBridge from '@/utils/js-bridge'
+import dayjs from 'dayjs'
+import { i18nOrderStatusData } from './order-status-detail-i18n'
 
 export default {
-    i18n: {
-        zhCHS: {
-            amount: '金额',
-            againBuy: '再买一笔',
-            dialogMsg: '您是否要取消当前订单? '
-        },
-        zhCHT: {
-            amount: '金额',
-            againBuy: '再买一笔',
-            dialogMsg: '您是否要取消當前訂單?'
-        },
-        en: {
-            amount: '金额',
-            againBuy: '再买一笔',
-            dialogMsg: 'Would you like to cancel the order?'
-        }
-    },
+    i18n: i18nOrderStatusData,
     components: {
         orderStatusAbout
     },
     data() {
         return {
-            fundName: 'Pimco 亚洲投资级债券基金-A2',
-            fundDetail: 'ISIN:IE00B0MD9M11',
+            fundType: '',
+            fundIntro: '',
+            fundName: '',
+            fundDetail: '',
             orderAboutList: [
                 { name: '订单生成时间', value: '2019-07-12 15:06:44' },
                 { name: '订单号', value: '01907120540425132220050' }
             ],
-            orderType: '赎回',
+            orderTimeValue: '',
+            orderNumValue: '',
+            orderType: '',
+            orderNo: this.$route.query,
+            orderStatus: 1,
+            orderStatusValue: '',
+            orderFinishValue: '',
+            netPrice: '',
+            orderShare: '',
             moneyNum: '2,000.000.00',
             detailMsg: {},
             title: '订单',
-            isShowBackout: false
+            isShowBackout: false,
+            fundRiskList: [
+                { type: 'A1', risk: 'R1', name: '低风险' },
+                { type: 'A2', risk: 'R2', name: '中低风险' },
+                { type: 'A3', risk: 'R3', name: '中风险' },
+                { type: 'A4', risk: 'R4', name: '中高风险' },
+                { type: 'A5', risk: 'R5', name: '高风险' }
+            ]
         }
     },
     created() {
@@ -89,8 +112,45 @@ export default {
             }
         }
         console.log(clearTitleBarBOButton)
+        this.fundOrderDetailFun()
     },
     methods: {
+        // 获取详情
+        async fundOrderDetailFun() {
+            let params = {
+                orderNo: this.$route.query
+            }
+            let res = await fundOrderDetail(params)
+            this.orderResult = res
+            this.orderStatusValue = res.externalName
+            this.orderStatus = res.externalStatus
+            this.orderShare = transNumToThousandMark(
+                (res.orderShare * 1).toFixed(3)
+            )
+            this.netPrice = transNumToThousandMark(
+                (res.netPrice * 1).toFixed(2)
+            )
+            this.orderFinishValue =
+                (res.finishTime &&
+                    dayjs(res.finishTime).format('YYYY-MM-DD HH:mm:ss')) ||
+                '--'
+            this.fundIntro = `${res.fundBaseInfoVO.fondCode} ${res.fundBaseInfoVO.fundName}`
+            this.fundRiskList.map(item => {
+                if (res.fundBaseInfoVO.fundRisk === item.name) {
+                    this.fundType = item.type
+                }
+            })
+            this.fundDetail = res.fundBaseInfoVO.isin
+            this.orderTimeValue =
+                (res.orderTime &&
+                    dayjs(res.orderTime).format('YYYY-MM-DD HH:mm:ss')) ||
+                '--'
+            this.orderNumValue = res.orderNo
+            this.orderType = res.tradeType.name
+            this.moneyNum = transNumToThousandMark(
+                (res.orderAmount * 1).toFixed(2)
+            )
+        },
         // 再买一笔
         buyMoreHandle() {
             this.$router.push({
@@ -146,6 +206,7 @@ export default {
                 .left-title {
                     flex-direction: column;
                     .type {
+                        color: $text-color5;
                         font-size: 16px;
                         line-height: 22px;
                     }
@@ -155,8 +216,17 @@ export default {
                     }
                 }
                 .right-value {
-                    font-size: 24px;
-                    line-height: 44px;
+                    // @extend .left-title;
+                    flex-direction: column;
+                    align-items: flex-end;
+                    .type {
+                        font-size: 16px;
+                        line-height: 22px;
+                    }
+                    .type-text {
+                        font-size: 24px;
+                        line-height: 34px;
+                    }
                 }
             }
         }

@@ -16,10 +16,7 @@ export const bondRiskAutograph = data => {
 
 // 基金协议签名
 export const fundRiskAutograph = data => {
-    return axios.post(
-        '/user-server/doc/user-server/api/bund-risk-autograph/v1',
-        data
-    )
+    return axios.post('/user-server/api/bund-risk-autograph/v1', data)
 }
 
 /**
@@ -56,6 +53,11 @@ export function jsAuth() {
 export function getCurrentUser() {
     return axios.getForm(`/user-server/api/get-current-user/v1`)
 }
+// 获取用户交易密码临时认证token
+export function getTradePasswordToken(param) {
+    return axios.getForm(`/user-server/api/get-trade-password-token/v1`, param)
+}
+
 export default {
     //  活体认证调试用的接口 TODO: 生产环境需要删除
     register(phoneNumber, password, captcha, areaCode = '86') {
