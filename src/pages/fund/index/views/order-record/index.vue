@@ -98,9 +98,12 @@ export default {
                             transNumToThousandMark(
                                 (item.orderAmount * 1).toFixed(2)
                             ),
-                        timeValue: dayjs(item.orderTime).format(
-                            'YYYY-MM-DD HH:mm:ss'
-                        ),
+                        timeValue:
+                            (item.orderTime &&
+                                dayjs(item.orderTime).format(
+                                    'YYYY-MM-DD HH:mm:ss'
+                                )) ||
+                            '--',
                         color: _this.differColor(item.externalStatus),
                         orderNo: item.orderNo
                     })

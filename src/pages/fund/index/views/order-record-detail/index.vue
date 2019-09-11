@@ -78,6 +78,7 @@ export default {
             orderTimeValue: '',
             orderNumValue: '',
             orderType: '赎回',
+            orderResult: '',
             orderNo: this.$route.query,
             moneyNum: '2,000.000.00',
             detailMsg: {},
@@ -127,6 +128,7 @@ export default {
                 orderNo: this.$route.query
             }
             let res = await fundOrderDetail(params)
+            this.orderResult = res
             this.fundIntro = `${res.fundBaseInfoVO.fondCode} ${res.fundBaseInfoVO.fundName}`
             this.fundRiskList.map(item => {
                 if (res.fundBaseInfoVO.fundRisk === item.name) {
