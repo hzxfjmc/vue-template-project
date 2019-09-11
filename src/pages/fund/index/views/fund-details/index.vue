@@ -218,7 +218,8 @@ export default {
                 let data = {
                     query: {
                         id: this.$route.query.id,
-                        assessResult: this.userInfo.assessResult
+                        assessResult: this.userInfo.assessResult,
+                        currencyType: this.fundHeaderInfoVO.currency.type
                     }
                 }
                 data.path =
