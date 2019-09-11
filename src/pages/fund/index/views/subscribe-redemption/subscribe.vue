@@ -64,6 +64,7 @@
 </template>
 <script>
 import { getCosUrl } from '@/utils/cos-utils'
+import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundPurchase } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -210,11 +211,15 @@ export default {
             // submitStep = 1
             if (submitStep === 1) {
                 try {
+                    let t = await getTradePasswordToken({
+                        password:
+                            'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
+                    })
                     let re = await fundPurchase({
                         fundId: this.$route.query.id,
                         purchaseAmount: this.buyMonny,
                         requestId: generateUUID(),
-                        tradeToken: token || '7f28e96851bc4655a58f03009f0e79b0'
+                        tradeToken: token || t.token
                     })
                     submitStep = 2
                     console.log('申购页面-fundPurchaseData:', re)
