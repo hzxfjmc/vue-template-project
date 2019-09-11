@@ -3,9 +3,9 @@
         .risk-result__hd
             p {{$t('resultHd')}}
         .risk-result__md {{ assessmentType  }}
-        .risk-result__bd 上次风评日期：{{ assessmentTime | date-format('YYYY年MM月DD日') }}
+        .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY年MM月DD日') }}
         fixed-operate-btn(
-            :text="btnText"
+            :text="$t('btnText')"
             @click="handleAction"
         )
 </template>
@@ -17,17 +17,18 @@ export default {
     i18n: {
         zhCHS: {
             resultHd: '您的风评结果为：',
-            btnText: '提交测评'
+            btnText: '提交测评',
+            lastTime: '上次风评日期：'
         },
         zhCHT: {
             resultHd: '您的风评结果为：',
-
-            btnText: '提交测评'
+            btnText: '提交测评',
+            lastTime: '上次风评日期：'
         },
         en: {
             resultHd: '您的风评结果为：',
-
-            btnText: '提交测评'
+            btnText: '提交测评',
+            lastTime: '上次风评日期：'
         }
     }
 }
