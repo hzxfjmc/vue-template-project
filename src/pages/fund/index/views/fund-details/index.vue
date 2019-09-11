@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-details
-    .fund-content(slot="main")
+    .fund-content(slot="main" ref="content")
         fundDetailsHeader(:fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
@@ -16,6 +16,7 @@
             :fundTradeInfoVO = "fundTradeInfoVO"
             :positionStatus = "positionStatus"
             :fondCode = "fondCode"
+            :scroll = "scroll"
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
         van-button(class="btn fund-check" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -41,6 +42,7 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
+import localStorage from '../../../../../utils/local-storage'
 
 export default {
     i18n: {
@@ -93,7 +95,8 @@ export default {
             btnShow: false,
             btnShow1: false,
             fondCode: '',
-            userInfo: null
+            userInfo: null,
+            scroll: 0
         }
     },
     methods: {
@@ -224,6 +227,12 @@ export default {
                         : '/fund-subscribe'
                 this.$router.push(data)
             }
+        },
+        menu() {
+            this.scroll = this.$refs.content.scrollTop
+        },
+        scrollTop() {
+            this.$refs.content.scrollTop = localStorage.get('scroll')
         }
     },
     mounted() {
@@ -231,6 +240,9 @@ export default {
         this.getFundNetPrice()
         this.getFundDetail()
         this.getFundPosition()
+        document
+            .querySelector('.fund-content')
+            .addEventListener('scroll', this.menu)
     },
     watch: {
         $route(to, from) {
@@ -239,6 +251,8 @@ export default {
                 this.getFundNetPrice()
                 this.getFundDetail()
                 this.getFundPosition()
+            } else {
+                this.scrollTop()
             }
         }
     }
@@ -248,14 +262,13 @@ export default {
 .fund-details {
     display: flex;
     flex-direction: column;
-    // height: 100%;
+    height: 100%;
     -webkit-overflow-scrolling: touch;
     overflow: hidden;
     .fund-content {
         overflow: hidden;
         overflow-y: auto;
-        flex: 1;
-        height: 90%;
+        flex-direction: column;
     }
     .fund-footer {
         width: 100%;
@@ -286,9 +299,9 @@ export default {
     }
 }
 .fund-footer-content {
-    position: fixed;
+    // position: fixed;
     width: 100%;
-    bottom: 0;
-    z-index: 999999999;
+    // bottom: 0;
+    // z-index: 999999999;
 }
 </style>

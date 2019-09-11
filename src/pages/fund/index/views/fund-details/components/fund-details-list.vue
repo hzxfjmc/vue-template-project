@@ -7,6 +7,7 @@
 </template>
 <script>
 import { itemList } from './fund-list'
+import localStorage from '../../../../../../utils/local-storage'
 export default {
     i18n: {
         zhCHS: {
@@ -56,6 +57,9 @@ export default {
         fondCode: {
             type: String,
             default: ''
+        },
+        scroll: {
+            type: Number
         }
     },
     data() {
@@ -77,6 +81,7 @@ export default {
             let data = {
                 path: item.routerPath
             }
+            localStorage.put('scroll', this.scroll)
             if (item.routerPath == '/fund-introduce')
                 data.query = this.fundOverviewInfoVO
             if (item.routerPath == '/fund-files')
@@ -109,7 +114,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-details-list {
-    margin: 10px 0 60px 0;
+    margin: 10px 0 10px 0;
     background: $background-color;
     width: 100%;
     float: left;

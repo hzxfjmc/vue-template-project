@@ -302,6 +302,7 @@ module.exports = {
             },
             // 债券交易
             '/': {
+                ws:false,
                 target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
