@@ -16,6 +16,9 @@ import './plugins/vant.js'
 // 全局组件
 import './global-components'
 
+// 上报日志
+import './log-report.js'
+
 import LS from '../local-storage'
 
 // 校验 vue validate

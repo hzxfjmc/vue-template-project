@@ -46,7 +46,6 @@ export default {
         }
     },
     created() {
-        console.log(this.$route.query, '0000')
         if (this.$route.query) {
             this.resultIndex = this.$route.query.assessResult
         }
