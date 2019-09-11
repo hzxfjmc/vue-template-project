@@ -1,30 +1,38 @@
 export const i18nOrderStatusData = {
     zhCHS: {
-        holdDetailsData: {
-            yesterdayEarnings: {
-                label: '昨日收益'
-            },
-            positionEarnings: {
-                label: '持有收益'
-            },
-            costPrice: {
-                label: '持仓成本'
-            },
-            positionShare: {
-                label: '持有份额'
-            },
-            positionMarketValue: {
-                label: '持有市值'
-            },
-            inTransitAmount: {
-                label: '待确认金额'
-            }
-        }
+        amount: '金额',
+        againBuy: '再买一笔',
+        dialogMsg: '您是否要取消当前订单? ',
+        orderTime: '订单生成时间',
+        orderNum: '订单号',
+        orderName: '订单',
+        orderStatus: '订单状态',
+        orderFinish: '订单完成时间',
+        orderNetWorth: '净值',
+        orderShares: '份额'
     },
     zhCHT: {
-        holdDetailsData: {}
+        amount: '金额',
+        againBuy: '再买一笔',
+        dialogMsg: '您是否要取消當前訂單?',
+        orderTime: '订单生成时间',
+        orderNum: '订单号',
+        orderName: '订单',
+        orderStatus: '订单状态',
+        orderFinish: '订单完成时间',
+        orderNetWorth: '净值',
+        orderShares: '份额'
     },
     en: {
-        holdDetailsData: {}
+        amount: '金额',
+        againBuy: '再买一笔',
+        dialogMsg: 'Would you like to cancel the order?',
+        orderTime: '订单生成时间',
+        orderNum: '订单号',
+        orderName: '订单',
+        orderStatus: '订单状态',
+        orderFinish: '订单完成时间',
+        orderNetWorth: '净值',
+        orderShares: '份额'
     }
 }

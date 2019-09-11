@@ -29,6 +29,7 @@ import { List } from 'vant'
 Vue.use(List)
 import { fundOrderList } from '@/service/finance-server.js'
 import { setTimeout } from 'timers'
+import { differColor } from './differColor.js'
 
 export default {
     i18n: {
@@ -104,7 +105,7 @@ export default {
                                     'YYYY-MM-DD HH:mm:ss'
                                 )) ||
                             '--',
-                        color: _this.differColor(item.externalStatus),
+                        color: differColor(item.externalStatus),
                         orderNo: item.orderNo
                     })
 
@@ -141,27 +142,7 @@ export default {
                 this.finished = true
             }, 300)
         },
-        // 设置不同的颜色
-        differColor(type) {
-            let color = ''
-            switch (type) {
-                case 1:
-                    color = 'blue-style'
-                    break
-                case 2:
-                    color = 'yellow-style'
-                    break
-                case 3:
-                    color = 'grey-style'
-                    break
-                case 4:
-                    color = 'green-style'
-                    break
-                default:
-                    break
-            }
-            return color
-        },
+        // 跳转到详情
         toDetailHandle(orderNo) {
             console.log(orderNo, '677')
             this.$router.push({
