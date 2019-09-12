@@ -11,6 +11,9 @@ export function differColor(type) {
             color = 'grey-style'
             break
         case 4:
+            color = 'grey-style'
+            break
+        case 5:
             color = 'green-style'
             break
         default:
