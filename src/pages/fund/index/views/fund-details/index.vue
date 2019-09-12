@@ -121,7 +121,7 @@ export default {
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
                 this.fondCode = this.fundHeaderInfoVO.fondCode
                 this.fundHeaderInfoVO.apy = Number(
-                    this.fundHeaderInfoVO.apy
+                    this.fundHeaderInfoVO.apy * 100
                 ).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
