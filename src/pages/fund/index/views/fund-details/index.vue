@@ -17,6 +17,7 @@
             :positionStatus = "positionStatus"
             :fondCode = "fondCode"
             :scroll = "scroll"
+            :fundHeaderInfoVO = "fundHeaderInfoVO" 
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
         van-button(class="btn fund-check" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
