@@ -168,7 +168,8 @@ export default {
                 })
                 this.initEchartList = res
                 this.initEchartList.map(item => {
-                    item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
+                    item.netPrice = Number(item.netPrice)
+                    // item.belongDay = dayjs(item.belongDay).format('MM-DD')
                 })
             } catch (e) {
                 console.log('getFundNetPrice:error:>>>', e)
