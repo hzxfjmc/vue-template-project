@@ -4,7 +4,7 @@
             .rate-num.color-red(v-if="apy > 0") +{{ apy }}%
             .rate-num.color-green(v-else-if="apy < 0") {{ apy }}%
             .rate-num(v-else) {{ apy }}%
-            .annualized-returns {{ $t('近一年收益率') }}
+            .annualized-returns {{ $t('annualRateOfReturn') }}
         .right
             h2(:style="h2Style") {{ fundName }}
             .labels 
@@ -19,7 +19,9 @@ export default {
     i18n: {
         zhCHS: {
             annualRateOfReturn: '近一年收益率'
-        }
+        },
+        zhCHT: { annualRateOfReturn: '近一年收益率' },
+        en: { annualRateOfReturn: '近一年收益率' }
     },
     name: 'BondCard',
     components: {
