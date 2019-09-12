@@ -135,15 +135,6 @@ export default {
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
-                this.positionStatus = res.positionStatus //
-                if (this.positionStatus.type != -1) {
-                    this.holdDetailsShow = true
-                    this.btnShow = true
-                    this.btnShow1 = false
-                } else {
-                    this.btnShow1 = true
-                    this.btnShow = false
-                }
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -155,6 +146,25 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.holdInitState = res
+                this.positionStatus = res.positionStatus //
+                this.btnShow1 = false
+                this.btnShow = false
+                if (
+                    this.positionStatus.type === 1 &&
+                    this.holdInitState.availableShare > 0
+                ) {
+                    this.btnShow = true
+                } else {
+                    this.btnShow1 = true
+                }
+                if (
+                    this.positionStatus.type != 0 &&
+                    this.positionStatus.type != -1
+                ) {
+                    this.holdDetailsShow = true
+                } else {
+                    this.holdDetailsShow = false
+                }
             } catch (e) {
                 console.log('getFundPosition:error:>>>', e)
             }
