@@ -192,6 +192,7 @@ export default {
             // submitStep = 1
             if (submitStep === 1) {
                 try {
+                    this.$loading()
                     let t = await getTradePasswordToken({
                         password:
                             'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
@@ -205,11 +206,13 @@ export default {
                     })
                     submitStep = 2
                     console.log('申购页面-fundPurchaseData:', re)
+                    this.$close()
                 } catch (error) {
                     this.$alert({
                         message: error.msg,
                         confirmButtonText: '我知道了'
                     })
+                    this.$close()
                 }
             }
 
