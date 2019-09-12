@@ -7,7 +7,7 @@
                 .fund-detail-item {{$t('fundRiskText')}} {{fundRisk}}
         .order-record-box
             van-list.order-record-list(v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad")
-                van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo)")
+                van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
                     template(slot-scope='scope')
                         .order-item.flex
                             span(class="order-type") {{item.tradeType}}
@@ -75,6 +75,16 @@ export default {
         }
     },
     computed: {},
+    watch: {
+        $route(to, from) {
+            if (
+                from.path === '/order-record-detai' &&
+                this.$route.query.isRefresh
+            ) {
+                this.fundOrderListFun()
+            }
+        }
+    },
     created() {
         this.fundOrderListFun()
     },
@@ -106,7 +116,8 @@ export default {
                                 )) ||
                             '--',
                         color: differColor(item.externalStatus),
-                        orderNo: item.orderNo
+                        orderNo: item.orderNo,
+                        orderStatus: item.externalStatus
                     })
 
                     this.assetType =
@@ -135,19 +146,22 @@ export default {
         onLoad() {
             setTimeout(() => {
                 if (this.orderRecordList.length < this.total) {
-                    this.loading = false
-                    this.pageNum = this.pageNum + 1
+                    this.pageNum++
                     this.fundOrderListFun()
                 }
-                this.finished = true
+                this.loading = false
+                if (this.orderRecordList.length >= this.total) {
+                    this.finished = true
+                }
             }, 300)
         },
         // 跳转到详情
-        toDetailHandle(orderNo) {
+        toDetailHandle(orderNo, orderStatus) {
             this.$router.push({
                 name: 'order-record-detail',
                 query: {
-                    orderNo: orderNo
+                    orderNo: orderNo,
+                    orderStatus: orderStatus
                 }
             })
         }
