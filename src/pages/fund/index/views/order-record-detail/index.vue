@@ -189,7 +189,10 @@ export default {
         buyMoreHandle() {
             this.$router.push({
                 path: '/fund-subscribe',
-                query: this.fondId
+                query: {
+                    id: this.fondId,
+                    currencyType: this.$route.query.currencyType
+                }
             })
         },
         // 撤销
