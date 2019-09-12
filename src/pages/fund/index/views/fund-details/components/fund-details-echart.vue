@@ -12,6 +12,7 @@
 </template>
 <script>
 import F2 from '@antv/f2'
+import dayjs from 'dayjs'
 export default {
     i18n: {
         zhCHS: {
@@ -75,59 +76,31 @@ export default {
         draw() {
             const chart = new F2.Chart({
                 id: 'myChart',
-                pixelRatio: window.devicePixelRatio
+                pixelRatio: window.devicePixelRatio,
+                padding: [45, 'auto', 'auto']
             })
             chart.source(this.initEchartList, {
-                belongDay: {
-                    type: 'timeCat',
-                    tickCount: 6,
-                    formatter: function(val) {
-                        let date = new Date(val)
-                        return `${date.getMonth() + 1}-${date.getDate()}`
-                    }
-                },
                 netPrice: {
                     alias: '今日净值',
                     tickCount: 5,
-                    formatter: function(val) {
-                        return `${Number(val).toFixed(2)}`
+                    min: 0,
+                    formatter: function formatter(val) {
+                        return val.toFixed(2)
+                    }
+                },
+                belongDay: {
+                    type: 'timeCat',
+                    range: [0, 1],
+                    tickCount: 7,
+                    formatter: function formatter(val) {
+                        return dayjs(val).format('MM-DD')
                     }
                 }
-            })
-            chart.tooltip({
-                showCrosshairs: true
             })
             chart
-                .line({
-                    sortable: false
-                })
+                .line()
                 .position('belongDay*netPrice')
-                .shape('smooth')
-                .animate({
-                    update: {
-                        animation: 'lineUpdate'
-                    }
-                })
-            chart.axis('belongDay', {
-                line: {
-                    lineWidth: 1,
-                    stroke: 'rgba(0,0,0,0)',
-                    top: true // 展示在最上层
-                },
-                label: function label(text, index, total) {
-                    var cfg = {
-                        textAlign: 'center'
-                    }
-                    // 第一个点左对齐，最后一个点右对齐，其余居中，只有一个点时左对齐
-                    if (index === 0) {
-                        cfg.textAlign = 'start'
-                    }
-                    if (index > 0 && index === total - 1) {
-                        cfg.textAlign = 'end'
-                    }
-                    return cfg
-                }
-            })
+                .color('#518DFE')
             chart.render()
         },
         initI18nState() {
@@ -164,7 +137,7 @@ export default {
             width: 100% !important;
             height: 200px !important;
             transform: translateX(-3%);
-            transform: scale(1.09);
+            // transform: scale(1.09);
         }
     }
     .fund-date-list {

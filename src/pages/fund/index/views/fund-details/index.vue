@@ -121,7 +121,7 @@ export default {
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
                 this.fondCode = this.fundHeaderInfoVO.fondCode
                 this.fundHeaderInfoVO.apy = Number(
-                    this.fundHeaderInfoVO.apy
+                    this.fundHeaderInfoVO.apy * 100
                 ).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
@@ -168,7 +168,8 @@ export default {
                 })
                 this.initEchartList = res
                 this.initEchartList.map(item => {
-                    item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
+                    item.netPrice = Number(item.netPrice)
+                    // item.belongDay = dayjs(item.belongDay).format('MM-DD')
                 })
             } catch (e) {
                 console.log('getFundNetPrice:error:>>>', e)
