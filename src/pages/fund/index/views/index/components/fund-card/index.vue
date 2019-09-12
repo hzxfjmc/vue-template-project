@@ -1,9 +1,9 @@
 <template lang="pug">
     .fund-card
         .left
-            .rate-num.color-red(v-if="apy > 0") {{ apy }}
-            .rate-num.color-green(v-else-if="apy < 0") {{ apy }}
-            .rate-num(v-else) {{ apy }}
+            .rate-num.color-red(v-if="apy > 0") {{ apy }}%
+            .rate-num.color-green(v-else-if="apy < 0") {{ apy }}%
+            .rate-num(v-else) {{ apy }}%
             .annualized-returns {{ $t('近一年收益率') }}
         .right
             h2(:style="h2Style") {{ fundName }}
