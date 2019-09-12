@@ -42,12 +42,13 @@
                             span.type-text {{moneyNum}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
-            van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('cancelButtonText')" @confirm='confirmBackoutHandle')
+            van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('confirmButtonText')" @confirm='confirmBackoutHandle')
     
 </template>
 
 <script>
 import { fundOrderDetail, cancelFundOrder } from '@/service/finance-server.js'
+import { getTradePasswordToken } from '@/service/user-server.js'
 import orderStatusAbout from './components/order-status-about'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { isYouxinApp } from '@/utils/html-utils.js'
@@ -64,8 +65,21 @@ export default {
     },
     watch: {
         $route(to, from) {
-            if (from.path == '/order-record') {
+            if (from.path === '/order-record') {
                 this.fundOrderDetailFun()
+            }
+            if (
+                from.path === '/fund-subscribe' &&
+                this.orderStatus === 1 &&
+                this.allowRevoke
+            ) {
+                this.setTitleBarBOButton()
+            }
+        },
+        orderStatus(val) {
+            if (val) {
+                this.orderStatus = val
+                console.log(this.orderStatus, '0000')
             }
         }
     },
@@ -84,11 +98,12 @@ export default {
             orderNumValue: '',
             orderType: '',
             orderNo: this.$route.query.orderNo,
-            orderStatus: 1,
+            orderStatus: '',
             orderStatusValue: '',
             orderFinishValue: '',
             netPrice: '',
             orderShare: '',
+            allowRevoke: false,
             beginTime: '07.01日',
             endTime: '07.19日',
             moneyNum: '2,000.000.00',
@@ -106,34 +121,10 @@ export default {
         }
     },
     created() {
-        const _this = this
-        // 设置撤销按钮
-        const setTitleBarBOButton = function() {
-            if (isYouxinApp) {
-                jsBridge.registerFn('showBackOut', function() {
-                    _this.showBackOutHandle()
-                })
-                jsBridge.callApp('command_set_titlebar_button', {
-                    position: 2,
-                    type: 'text',
-                    text: '撤销',
-                    clickCallback: 'showBackOut'
-                })
-            }
-        }
-        // 清除撤销按钮
-        const clearTitleBarBOButton = function() {
-            if (isYouxinApp) {
-                jsBridge.callApp('command_set_titlebar_button', {
-                    type: 'hide',
-                    position: 2,
-                    text: '',
-                    clickCallback: ''
-                })
-            }
-        }
         this.fundOrderDetailFun()
-        this.orderStatus === 1 ? setTitleBarBOButton : clearTitleBarBOButton
+        this.$route.query.orderStatus === 1
+            ? this.setTitleBarBOButton()
+            : this.clearTitleBarBOButton()
     },
     methods: {
         // 获取详情
@@ -148,6 +139,10 @@ export default {
                 this.differenceColor = differColor(res.externalStatus)
                 this.orderStatusValue = res.externalName
                 this.orderStatus = res.externalStatus
+                this.allowRevoke = res.allowRevoke
+                if (this.orderStatus === 1 && this.allowRevoke) {
+                    this.setTitleBarBOButton()
+                }
                 this.beginTime =
                     (res.confirmDate &&
                         dayjs(res.confirmDate).format('MM.DD')) ||
@@ -203,22 +198,81 @@ export default {
         },
         // 确认撤销
         async confirmBackoutHandle() {
-            console.log('confirm')
+            let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功
+            let token = null
             try {
-                let params = {
-                    orderNo: this.$route.query.orderNo,
-                    tradeToken: '977bb092c9ab4111a69442c7113698f7'
+                let data = await jsBridge.callApp('command_trade_login', {
+                    needToken: true
+                })
+                token = data && data.token
+                submitStep = 1
+            } catch (error) {
+                console.log('tradeErrorMsg :', error)
+            }
+
+            // test:
+            submitStep = 1
+
+            try {
+                if (submitStep === 1) {
+                    let t = await getTradePasswordToken({
+                        password:
+                            'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
+                    })
+                    let params = {
+                        orderNo: this.$route.query.orderNo,
+                        tradeToken: token || t.token
+                    }
+                    await cancelFundOrder(params)
+                    // 跳转到订单列表
+                    this.$router.replace({
+                        name: 'order-record',
+                        query: {
+                            isRefresh: true
+                        }
+                    })
+                    submitStep = 2
                 }
-                let res = await cancelFundOrder(params)
-                console.log(res)
             } catch (e) {
                 if (e.msg) {
-                    this.$dialog.alert({
+                    this.$alert({
                         message: e.msg
                     })
                 }
             }
+        },
+        // 设置撤销按钮
+        setTitleBarBOButton() {
+            const _this = this
+            if (isYouxinApp) {
+                jsBridge.registerFn('showBackOut', function() {
+                    _this.showBackOutHandle()
+                })
+                jsBridge.callApp('command_set_titlebar_button', {
+                    position: 2,
+                    type: 'text',
+                    text: '撤销',
+                    clickCallback: 'showBackOut'
+                })
+            }
+        },
+        // 清除撤销按钮
+        clearTitleBarBOButton() {
+            if (isYouxinApp) {
+                jsBridge.callApp('command_set_titlebar_button', {
+                    type: 'hide',
+                    position: 2,
+                    text: '',
+                    clickCallback: ''
+                })
+            }
         }
+    },
+    beforeRouteLeave(to, from, next) {
+        if (to.path !== '/order-record-detail') {
+            this.clearTitleBarBOButton()
+        }
+        next()
     }
 }
 </script>
