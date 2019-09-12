@@ -36,12 +36,12 @@
                             span.type-text {{moneyNum}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
-            van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" 	showCancelButton=true)
+            van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('cancelButtonText')" @confirm='confirmBackoutHandle')
     
 </template>
 
 <script>
-import { fundOrderDetail } from '@/service/finance-server.js'
+import { fundOrderDetail, cancelFundOrder } from '@/service/finance-server.js'
 import orderStatusAbout from './components/order-status-about'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { isYouxinApp } from '@/utils/html-utils.js'
@@ -100,16 +100,18 @@ export default {
     created() {
         const _this = this
         // 设置撤销按钮
-        if (isYouxinApp) {
-            jsBridge.registerFn('showBackOut', function() {
-                _this.showBackOutHandle()
-            })
-            jsBridge.callApp('command_set_titlebar_button', {
-                position: 2,
-                type: 'text',
-                text: '撤销',
-                clickCallback: 'showBackOut'
-            })
+        const setTitleBarBOButton = function() {
+            if (isYouxinApp) {
+                jsBridge.registerFn('showBackOut', function() {
+                    _this.showBackOutHandle()
+                })
+                jsBridge.callApp('command_set_titlebar_button', {
+                    position: 2,
+                    type: 'text',
+                    text: '撤销',
+                    clickCallback: 'showBackOut'
+                })
+            }
         }
         // 清除撤销按钮
         const clearTitleBarBOButton = function() {
@@ -122,47 +124,55 @@ export default {
                 })
             }
         }
-        console.log(clearTitleBarBOButton)
         this.fundOrderDetailFun()
+        this.orderStatus === 1 ? setTitleBarBOButton : clearTitleBarBOButton
     },
     methods: {
         // 获取详情
         async fundOrderDetailFun() {
-            let params = {
-                orderNo: this.$route.query.orderNo
-            }
-            let res = await fundOrderDetail(params)
-            this.fondId = res.fundBaseInfoVO.fondId
-            this.orderResult = res
-            this.differenceColor = differColor(res.externalStatus)
-            this.orderStatusValue = res.externalName
-            this.orderStatus = res.externalStatus
-            this.orderShare = transNumToThousandMark(
-                (res.orderShare * 1).toFixed(3)
-            )
-            this.netPrice = transNumToThousandMark(
-                (res.netPrice * 1).toFixed(2)
-            )
-            this.orderFinishValue =
-                (res.finishTime &&
-                    dayjs(res.finishTime).format('YYYY-MM-DD HH:mm:ss')) ||
-                '--'
-            this.fundIntro = `${res.fundBaseInfoVO.fondCode} ${res.fundBaseInfoVO.fundName}`
-            this.fundRiskList.map(item => {
-                if (res.fundBaseInfoVO.fundRisk === item.name) {
-                    this.fundType = item.type
+            try {
+                let params = {
+                    orderNo: this.$route.query.orderNo
                 }
-            })
-            this.fundDetail = res.fundBaseInfoVO.isin
-            this.orderTimeValue =
-                (res.orderTime &&
-                    dayjs(res.orderTime).format('YYYY-MM-DD HH:mm:ss')) ||
-                '--'
-            this.orderNumValue = res.orderNo
-            this.orderType = res.tradeType.name
-            this.moneyNum = transNumToThousandMark(
-                (res.orderAmount * 1).toFixed(2)
-            )
+                let res = await fundOrderDetail(params)
+                this.fondId = res.fundBaseInfoVO.fondId
+                this.orderResult = res
+                this.differenceColor = differColor(res.externalStatus)
+                this.orderStatusValue = res.externalName
+                this.orderStatus = res.externalStatus
+                this.orderShare = transNumToThousandMark(
+                    (res.orderShare * 1).toFixed(3)
+                )
+                this.netPrice = transNumToThousandMark(
+                    (res.netPrice * 1).toFixed(2)
+                )
+                this.orderFinishValue =
+                    (res.finishTime &&
+                        dayjs(res.finishTime).format('YYYY-MM-DD HH:mm:ss')) ||
+                    '--'
+                this.fundIntro = `${res.fundBaseInfoVO.fondCode} ${res.fundBaseInfoVO.fundName}`
+                this.fundRiskList.map(item => {
+                    if (res.fundBaseInfoVO.fundRisk === item.name) {
+                        this.fundType = item.type
+                    }
+                })
+                this.fundDetail = res.fundBaseInfoVO.isin
+                this.orderTimeValue =
+                    (res.orderTime &&
+                        dayjs(res.orderTime).format('YYYY-MM-DD HH:mm:ss')) ||
+                    '--'
+                this.orderNumValue = res.orderNo
+                this.orderType = res.tradeType.name
+                this.moneyNum = transNumToThousandMark(
+                    (res.orderAmount * 1).toFixed(2)
+                )
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert({
+                        message: e.msg
+                    })
+                }
+            }
         },
         // 再买一笔
         buyMoreHandle() {
@@ -174,6 +184,24 @@ export default {
         // 撤销
         showBackOutHandle() {
             this.isShowBackout = true
+        },
+        // 确认撤销
+        async confirmBackoutHandle() {
+            console.log('confirm')
+            try {
+                let params = {
+                    orderNo: this.$route.query.orderNo,
+                    tradeToken: '977bb092c9ab4111a69442c7113698f7'
+                }
+                let res = await cancelFundOrder(params)
+                console.log(res)
+            } catch (e) {
+                if (e.msg) {
+                    this.$dialog.alert({
+                        message: e.msg
+                    })
+                }
+            }
         }
     }
 }

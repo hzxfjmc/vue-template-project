@@ -1,10 +1,10 @@
 <template lang="pug">
     .fund-card
         .left
-            .rate-num.color-red(v-if="info.apy > 0") {{ apy }}
-            .rate-num.color-green(v-else-if="info.apy < 0") {{ apy }}
-            .rate-num(v-else="info.apy < 0") {{ apy }}
-            .annualized-returns 近一年收益率
+            .rate-num.color-red(v-if="apy > 0") {{ apy }}%
+            .rate-num.color-green(v-else-if="apy < 0") {{ apy }}%
+            .rate-num(v-else) {{ apy }}%
+            .annualized-returns {{ $t('近一年收益率') }}
         .right
             h2(:style="h2Style") {{ fundName }}
             .labels 
@@ -16,6 +16,11 @@
 <script>
 import { Tag } from 'vant'
 export default {
+    i18n: {
+        zhCHS: {
+            annualRateOfReturn: '近一年收益率'
+        }
+    },
     name: 'BondCard',
     components: {
         [Tag.name]: Tag
@@ -28,7 +33,7 @@ export default {
     },
     computed: {
         apy() {
-            return (this.info && (this.info.apy - 0).toFixed(2) + '%') || '--'
+            return this.info && ((this.info.apy - 0) * 100).toFixed(2)
         },
         fundName() {
             return this.info.fundName.length > 12

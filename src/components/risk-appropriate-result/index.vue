@@ -3,7 +3,7 @@
         .risk-result__header
             i(:type="riskMatchResult")
             h2 {{ riskMatchResult > 2 ? $t('matching') : $t('noMatching') }}
-            p {{$t('yoursAppropriate')}}{{ riskMatchResult > 2 ? $t('suitable') : $t('noSuitable') }}购买该产品
+            p {{$t('yoursAppropriate')}}{{ riskMatchResult > 2 ? $t('suitable') : $t('noSuitable') }} {{$t('buyIt')}}
         .risk-result__content
             .risk-cell
                 span {{$t('yoursAppropriate')}}

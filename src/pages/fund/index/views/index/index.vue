@@ -14,7 +14,7 @@
                 Card(:info="item")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
         .no-bond-box(v-if="list.length === 0")
-            .no-bond 暂无基金
+            .no-bond {{ $t('noBond') }}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -22,6 +22,11 @@ import { getFundList } from '@/service/finance-info-server.js'
 // import { bannerAdvertisement } from '@/service/news-configserver.js'
 import Card from './components/fund-card/index.vue'
 export default {
+    i18n: {
+        zhCHS: {
+            noBond: '暂无基金'
+        }
+    },
     keepalive: true,
     name: 'index',
     components: {
