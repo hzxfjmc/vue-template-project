@@ -135,11 +135,13 @@ export default {
         onLoad() {
             setTimeout(() => {
                 if (this.orderRecordList.length < this.total) {
-                    this.loading = false
-                    this.pageNum = this.pageNum + 1
+                    this.pageNum++
                     this.fundOrderListFun()
                 }
-                this.finished = true
+                this.loading = false
+                if (this.orderRecordList.length >= this.total) {
+                    this.finished = true
+                }
             }, 300)
         },
         // 跳转到详情

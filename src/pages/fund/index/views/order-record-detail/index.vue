@@ -4,22 +4,28 @@
             .fund-introduce
                 .fund-name {{`${fundIntro}-${fundType}`}}
                 .fund-detail ISIN: {{fundDetail}}
-            order-status-about(:orderNo='orderNo' v-if="orderStatus===1")
+            order-status-about(:orderStatus='orderStatus' :orderStatusValue='orderStatusValue' :beginTime='beginTime' :endTime='endTime' v-if="[1,2].includes(orderStatus)")
             van-cell-group(class="order-group")
                 van-cell(class="order-time" )
-                    .order-item.flex(v-if="orderStatus!==1")
+                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
                         span.itemName {{$t('orderStatus')}}
                         span(:class='differenceColor') {{orderStatusValue}}
                     .order-item.flex
                         span.itemName {{$t('orderTime')}}
                         span {{orderTimeValue}}
-                    .order-item.flex(v-if="orderStatus!==1")
+                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
                         span.itemName {{$t('orderFinish')}}
                         span {{orderFinishValue}}
                     .order-item.flex
                         span.itemName {{$t('orderNum')}}
                         span {{orderNumValue}}
-                van-cell(class="order-time" v-if="orderStatus!==1")
+                    .order-item.flex(v-if="orderStatus===2")
+                        span.itemName {{$t('orderNetWorth')}}
+                        span {{netPrice}}
+                    .order-item.flex(v-if="orderStatus===2")
+                        span.itemName {{$t('orderShares')}}
+                        span {{orderShare}}  
+                van-cell(class="order-time" v-if="![1,2].includes(orderStatus)")
                     .order-item.flex
                         span.itemName {{$t('orderNetWorth')}}
                         span {{netPrice}}
@@ -77,12 +83,14 @@ export default {
             orderTimeValue: '',
             orderNumValue: '',
             orderType: '',
-            orderNo: this.$route.query,
+            orderNo: this.$route.query.orderNo,
             orderStatus: 1,
             orderStatusValue: '',
             orderFinishValue: '',
             netPrice: '',
             orderShare: '',
+            beginTime: '07.01日',
+            endTime: '07.19日',
             moneyNum: '2,000.000.00',
             differenceColor: '',
             detailMsg: {},
@@ -140,6 +148,14 @@ export default {
                 this.differenceColor = differColor(res.externalStatus)
                 this.orderStatusValue = res.externalName
                 this.orderStatus = res.externalStatus
+                this.beginTime =
+                    (res.confirmDate &&
+                        dayjs(res.confirmDate).format('MM.DD')) ||
+                    '--'
+                this.endTime =
+                    (res.deliveryDate &&
+                        dayjs(res.deliveryDate).format('MM.DD')) ||
+                    '--'
                 this.orderShare = transNumToThousandMark(
                     (res.orderShare * 1).toFixed(3)
                 )
