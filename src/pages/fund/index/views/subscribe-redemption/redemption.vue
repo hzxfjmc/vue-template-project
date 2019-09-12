@@ -197,7 +197,7 @@ export default {
                 const fundPos = await getFundPosition({
                     fundId: this.$route.query.id
                 })
-                this.positionShare = fundPos.positionShare
+                this.positionShare = fundPos.availableShare
                 this.positionMarketValue = fundPos.positionMarketValue
             } catch (e) {
                 console.log('赎回页面-getFundPositionInfo:error:>>>', e)
