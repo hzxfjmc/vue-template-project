@@ -35,8 +35,8 @@
                 style="margin-top: 22px;"
                 :title="$t('buyRule')"
                 :curStep="0"
-                :stepNames="['买入提交', '确认份额', '查看盈亏']"
-                :stepTimes="['今日15点前', buyConfirm, buyProfitLoss]"
+                :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
+                :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
             )
         template(v-else-if="step === 2")
             .fond-buy
@@ -44,21 +44,21 @@
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
                     span.text-color5 {{ $t('predict') }} 
-                    span(style="margin: 0 3px;") {{ buyConfirm.slice(0, 5) }}日
-                    span.text-color5 确认份额
+                    span(style="margin: 0 3px;") {{ buyConfirm.slice(0, 5) }}{{ $t('day') }}
+                    span.text-color5 {{ $t('confirmTheShare') }}
                 .line
                 .buy-row
                     .icon
                         .point
-                    span.text-color5 预计 
-                    span(style="margin: 0 3px;") {{ buyProfitLoss.slice(0, 5) }}日
-                    span.text-color5 查看收益
+                    span.text-color5 {{ $t('predict') }}
+                    span(style="margin: 0 3px;") {{ buyProfitLoss.slice(0, 5) }}{{ $t('day') }}
+                    span.text-color5 {{ $t('earnings') }}
             .fond-buy.fond-bug-monny(style="margin-top: 0")
                 .buy-row
-                    .left.line-height-8 金额
+                    .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0") 完成
+                a.submit(style="margin: 41px 0 28px 0") {{ $t('done') }}
        
 
 </template>
@@ -89,8 +89,66 @@ export default {
             predict: '预计',
             submiButtonText: '同意协议并提交',
             dayDone: '日完成',
-            balanceRule: '申购规则'
-            // Confirm the share: '确认份额'
+            day: '日',
+            balanceRule: '申购规则',
+            stepOne: '买入提交',
+            stepTwo: '确认份额',
+            stepThree: '查看盈亏',
+            confirmTheShare: '确认份额',
+            earnings: '查看收益',
+            monny: '金额',
+            done: '完成',
+            iKnow: '我知道了'
+        },
+        zhCHT: {
+            buySuccess: '申购成功',
+            buyMonny: '购买金额',
+            buyFile: '基金购买协议',
+            buyRule: '申购规则',
+            currency: '币种',
+            availableBalance: '可用余额',
+            bugBalance: '购买金额',
+            minBugBalance: '最小申购金额',
+            continueBalance: '续投金额',
+            redemption: '赎回费',
+            predict: '预计',
+            submiButtonText: '同意协议并提交',
+            dayDone: '日完成',
+            day: '日',
+            balanceRule: '申购规则',
+            stepOne: '买入提交',
+            stepTwo: '确认份额',
+            stepThree: '查看盈亏',
+            confirmTheShare: '确认份额',
+            earnings: '查看收益',
+            monny: '金额',
+            done: '完成',
+            iKnow: '我知道了'
+        },
+        en: {
+            buySuccess: '申购成功',
+            buyMonny: '购买金额',
+            buyFile: '基金购买协议',
+            buyRule: '申购规则',
+            currency: '币种',
+            availableBalance: '可用余额',
+            bugBalance: '购买金额',
+            minBugBalance: '最小申购金额',
+            continueBalance: '续投金额',
+            redemption: '赎回费',
+            predict: '预计',
+            submiButtonText: '同意协议并提交',
+            dayDone: '日完成',
+            day: '日',
+            balanceRule: '申购规则',
+            stepOne: '买入提交',
+            stepTwo: '确认份额',
+            stepThree: '查看盈亏',
+            confirmTheShare: '确认份额',
+            earnings: '查看收益',
+            monny: '金额',
+            done: '完成',
+            iKnow: '我知道了'
         }
     },
     name: 'subscribe',
@@ -111,6 +169,7 @@ export default {
             initialInvestAmount: 0, // 起投金额
             continueInvestAmount: 0, // 续投金额
             buyProtocol: '', // 基金购买协议
+            buySubmit: '',
             buyConfirm: '', // 买入确认份额时间
             buyProfitLoss: '' // 买入查看盈亏时间
         }
@@ -140,6 +199,7 @@ export default {
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
                 )
+                this.buySubmit = fundDetail.fundTradeInfoVO.buySubmit
                 this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
                 this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss
             } catch (e) {
@@ -210,7 +270,7 @@ export default {
                 } catch (error) {
                     this.$alert({
                         message: error.msg,
-                        confirmButtonText: '我知道了'
+                        confirmButtonText: this.$t('iKnow')
                     })
                     this.$close()
                 }
