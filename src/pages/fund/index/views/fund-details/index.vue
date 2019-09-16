@@ -177,10 +177,20 @@ export default {
                     fundId: this.$route.query.id,
                     fundNetPriceDateType: time || 1
                 })
-                this.initEchartList = res
+                if (time == 5) {
+                    for (let i = 0; i < 147; i++) {
+                        this.initEchartList.push(res[i * 5])
+                    }
+                } else if (time == 6) {
+                    let count = parseInt(res.length / 22)
+                    for (let i = 0; i < count; i++) {
+                        this.initEchartList.push(res[i * 22])
+                    }
+                } else {
+                    this.initEchartList = res
+                }
                 this.initEchartList.map(item => {
                     item.netPrice = Number(item.netPrice)
-                    // item.belongDay = dayjs(item.belongDay).format('MM-DD')
                 })
             } catch (e) {
                 console.log('getFundNetPrice:error:>>>', e)
