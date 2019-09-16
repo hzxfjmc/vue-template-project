@@ -88,6 +88,7 @@ export default {
         line-height: 24px;
         display: block;
         position: relative;
+        word-break: break-all;
         .active {
             position: absolute;
             bottom: 0;
@@ -110,6 +111,7 @@ export default {
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 5;
+        word-break: break-all;
         overflow: hidden;
     }
     .intd,
