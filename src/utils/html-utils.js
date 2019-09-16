@@ -61,7 +61,7 @@ export const langType = {
 
 let langMap = new Map([['1', 'zhCHS'], ['2', 'zhCHT'], ['3', 'en']])
 
-export const lang = langMap.get(getUaValue('langType')) || 'en'
+export const lang = langMap.get(getUaValue('langType')) || 'zhCHS'
 // 设置标题
 export const setTitle = title => {
     document.title = title
