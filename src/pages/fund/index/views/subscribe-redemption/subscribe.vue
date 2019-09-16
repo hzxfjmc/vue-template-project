@@ -21,14 +21,14 @@
                         p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
                         p {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
-                hr
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
+                hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
                 a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="buyProtocol" style="width: 70%") 《{{ buyProtocol.split('/').pop() }}》
+                    a.left(:href="buyProtocol" style="width: 70%") 《{{ (buyProtocol || '').split('/').pop() }}》
                     .right(style="text-align: right;") {{ predictDay }}
 
             FundSteps(
@@ -39,7 +39,7 @@
                 :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
             )
         template(v-else-if="step === 2")
-            .fond-buy
+            .fond-buy.border-bottom
                 .buy-row
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
@@ -53,7 +53,7 @@
                     span.text-color5 {{ $t('predict') }}
                     span(style="margin: 0 3px;") {{ buyProfitLoss.slice(0, 5) }}{{ $t('day') }}
                     span.text-color5 {{ $t('earnings') }}
-            .fond-buy.fond-bug-monny(style="margin-top: 0")
+            .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
@@ -74,83 +74,6 @@ import { generateUUID } from '@/utils/tools.js'
 
 import './index.scss'
 export default {
-    i18n: {
-        zhCHS: {
-            buySuccess: '申购成功',
-            buyMonny: '购买金额',
-            buyFile: '基金购买协议',
-            buyRule: '申购规则',
-            currency: '币种',
-            availableBalance: '可用余额',
-            bugBalance: '购买金额',
-            minBugBalance: '最小申购金额',
-            continueBalance: '续投金额',
-            redemption: '赎回费',
-            predict: '预计',
-            submiButtonText: '同意协议并提交',
-            dayDone: '日完成',
-            day: '日',
-            balanceRule: '申购规则',
-            stepOne: '买入提交',
-            stepTwo: '确认份额',
-            stepThree: '查看盈亏',
-            confirmTheShare: '确认份额',
-            earnings: '查看收益',
-            monny: '金额',
-            done: '完成',
-            iKnow: '我知道了'
-        },
-        zhCHT: {
-            buySuccess: '申購成功',
-            buyMonny: '購買金額',
-            buyFile: '基金購買協議',
-            buyRule: '申購規則',
-            currency: '幣種',
-            availableBalance: '可用餘額',
-            bugBalance: '购买金额',
-            minBugBalance: '最小申購金額',
-            continueBalance: '續投金額',
-            redemption: '贖回費',
-            predict: '預計',
-            submiButtonText: '同意協議並提交',
-            dayDone: '日完成',
-            day: '日',
-            balanceRule: '申購規則',
-            stepOne: '買入提交',
-            stepTwo: '確認份額',
-            stepThree: '查看盈虧',
-            confirmTheShare: '確認份額',
-            earnings: '查看收益',
-            monny: '金額',
-            done: '完成',
-            iKnow: '我知道了'
-        },
-        en: {
-            buySuccess: 'Subscription Successful',
-            buyMonny: 'Investment Amount',
-            buyFile: 'Fund Investment Agreement',
-            buyRule: 'Subscription Rules',
-            currency: 'Currency',
-            availableBalance: 'Available Balance',
-            bugBalance: 'Investment Amount',
-            minBugBalance: 'Initial',
-            continueBalance: 'Subsequent',
-            redemption: 'Redemption Fee',
-            predict: 'Estimated',
-            submiButtonText: 'Agree to agreement and submit',
-            dayDone: 'Complete in X days',
-            day: 'Days',
-            balanceRule: 'Subscription Rules',
-            stepOne: 'Submit',
-            stepTwo: 'Fund Units Allocation',
-            stepThree: 'Check P/L',
-            confirmTheShare: 'Fund Units Allocation',
-            earnings: 'Check P/L',
-            monny: 'Amount',
-            done: 'Completed',
-            iKnow: 'Got it'
-        }
-    },
     name: 'subscribe',
     components: {
         FundSteps
@@ -290,6 +213,83 @@ export default {
             if (submitStep === 2) {
                 this.step = 2
             }
+        }
+    },
+    i18n: {
+        zhCHS: {
+            buySuccess: '申购成功',
+            buyMonny: '购买金额',
+            buyFile: '基金购买协议',
+            buyRule: '申购规则',
+            currency: '币种',
+            availableBalance: '可用余额',
+            bugBalance: '购买金额',
+            minBugBalance: '最小申购金额',
+            continueBalance: '续投金额',
+            redemption: '赎回费',
+            predict: '预计',
+            submiButtonText: '同意协议并提交',
+            dayDone: '日完成',
+            day: '日',
+            balanceRule: '申购规则',
+            stepOne: '买入提交',
+            stepTwo: '确认份额',
+            stepThree: '查看盈亏',
+            confirmTheShare: '确认份额',
+            earnings: '查看收益',
+            monny: '金额',
+            done: '完成',
+            iKnow: '我知道了'
+        },
+        zhCHT: {
+            buySuccess: '申購成功',
+            buyMonny: '購買金額',
+            buyFile: '基金購買協議',
+            buyRule: '申購規則',
+            currency: '幣種',
+            availableBalance: '可用餘額',
+            bugBalance: '购买金额',
+            minBugBalance: '最小申購金額',
+            continueBalance: '續投金額',
+            redemption: '贖回費',
+            predict: '預計',
+            submiButtonText: '同意協議並提交',
+            dayDone: '日完成',
+            day: '日',
+            balanceRule: '申購規則',
+            stepOne: '買入提交',
+            stepTwo: '確認份額',
+            stepThree: '查看盈虧',
+            confirmTheShare: '確認份額',
+            earnings: '查看收益',
+            monny: '金額',
+            done: '完成',
+            iKnow: '我知道了'
+        },
+        en: {
+            buySuccess: 'Subscription Successful',
+            buyMonny: 'Investment Amount',
+            buyFile: 'Fund Investment Agreement',
+            buyRule: 'Subscription Rules',
+            currency: 'Currency',
+            availableBalance: 'Available Balance',
+            bugBalance: 'Investment Amount',
+            minBugBalance: 'Initial',
+            continueBalance: 'Subsequent',
+            redemption: 'Redemption Fee',
+            predict: 'Estimated',
+            submiButtonText: 'Agree to agreement and submit',
+            dayDone: 'Complete in X days',
+            day: 'Days',
+            balanceRule: 'Subscription Rules',
+            stepOne: 'Submit',
+            stepTwo: 'Fund Units Allocation',
+            stepThree: 'Check P/L',
+            confirmTheShare: 'Fund Units Allocation',
+            earnings: 'Check P/L',
+            monny: 'Amount',
+            done: 'Completed',
+            iKnow: 'Got it'
         }
     }
 }

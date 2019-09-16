@@ -78,7 +78,7 @@ export default {
             line-height: 31px;
         }
         .color-green {
-            color: #04be02;
+            color: #04ba60;
         }
         .color-red {
             color: #ea3d3d;

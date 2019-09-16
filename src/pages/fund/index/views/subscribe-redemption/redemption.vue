@@ -20,14 +20,14 @@
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span {{ $t('minSellBalance') }}{{ lowestInvestAmount | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
-                hr
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
+                hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * subscriptionFee | formatCurrency }}
                 a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="sellProtocol" style="width: 180px") 《{{ sellProtocol.split('/').pop() }}》
+                    a.left(:href="sellProtocol" style="width: 180px") 《{{ (sellProtocol || '').split('/').pop() }}》
                     .right(style="text-align: right;") {{ predictDay }}
 
             FundSteps(
@@ -38,7 +38,7 @@
                 :stepTimes="[sellSubmit, sellConfirm, sellProfitLoss]"
             )
         template(v-else-if="step === 2")
-            .fond-buy
+            .fond-buy.border-bottom
                 .buy-row
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
@@ -52,7 +52,7 @@
                     span.text-color5 {{ $t('predict') }}
                     span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}日
                     span.text-color5 {{ $t('monnyToAcc') }}
-            .fond-buy.fond-bug-monny(style="margin-top: 0")
+            .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | formatCurrency }}
@@ -72,77 +72,6 @@ import { generateUUID } from '@/utils/tools.js'
 
 import './index.scss'
 export default {
-    i18n: {
-        zhCHS: {
-            sellSuccess: '赎回成功',
-            positionShare: '持有份额',
-            positionMarketValue: '基金市值',
-            redeemShares: '赎回份额',
-            minSellBalance: '最小持有金额',
-            continueBalance: '续投金额',
-            redemption: '赎回费',
-            predict: '预计',
-            submiButtonText: '同意协议并提交',
-            dayDone: '日完成',
-            balanceRule: '赎回规则',
-            day: '日',
-            stepOne: '提交赎回申请',
-            stepTwo: '确认份额',
-            stepThree: '资金到账',
-            confirmTheShare: '确认份额',
-            earnings: '查看收益',
-            monny: '金额',
-            done: '完成',
-            iKnow: '我知道了',
-            monnyToAcc: '资金到达证券账户'
-        },
-        zhCHT: {
-            sellSuccess: '贖回成功',
-            positionShare: '持有份額',
-            positionMarketValue: '基金市值',
-            redeemShares: '贖回份額',
-            minSellBalance: '最小持有金額',
-            continueBalance: '續投金額',
-            redemption: '贖回費',
-            predict: '預計',
-            submiButtonText: '同意協議並提交',
-            dayDone: '日完成',
-            balanceRule: '贖回規則',
-            day: '日',
-            stepOne: '提交贖回申請',
-            stepTwo: '確認份額',
-            stepThree: '資金到賬',
-            confirmTheShare: '确认份额',
-            earnings: '查看收益',
-            monny: '金額',
-            done: '完成',
-            iKnow: '我知道了',
-            monnyToAcc: '資金到達證券賬戶'
-        },
-        en: {
-            sellSuccess: 'Redemption Successful',
-            positionShare: 'Holding Units',
-            positionMarketValue: 'Fund Value',
-            redeemShares: 'Units of Redemption',
-            minSellBalance: 'Min. Holding Amount',
-            continueBalance: 'Redemption Rules',
-            redemption: 'Redemption Fee',
-            predict: 'Predict',
-            submiButtonText: 'Agree to agreement and submit',
-            dayDone: 'Complete in X days',
-            balanceRule: 'Redemption Rules',
-            day: 'days',
-            stepOne: 'Submit Redemption Application',
-            stepTwo: 'Fund Units Allocation',
-            stepThree: 'Funds Credited',
-            confirmTheShare: 'Fund Units Allocation',
-            earnings: 'Check Earnings',
-            monny: 'Amount',
-            done: 'Completed',
-            iKnow: 'Got it',
-            monnyToAcc: 'Funds Credited to Securities Account'
-        }
-    },
     name: 'subscribe',
     components: {
         FundSteps
@@ -278,6 +207,77 @@ export default {
             if (submitStep === 2) {
                 this.step = 2
             }
+        }
+    },
+    i18n: {
+        zhCHS: {
+            sellSuccess: '赎回成功',
+            positionShare: '持有份额',
+            positionMarketValue: '基金市值',
+            redeemShares: '赎回份额',
+            minSellBalance: '最小持有金额',
+            continueBalance: '续投金额',
+            redemption: '赎回费',
+            predict: '预计',
+            submiButtonText: '同意协议并提交',
+            dayDone: '日完成',
+            balanceRule: '赎回规则',
+            day: '日',
+            stepOne: '提交赎回申请',
+            stepTwo: '确认份额',
+            stepThree: '资金到账',
+            confirmTheShare: '确认份额',
+            earnings: '查看收益',
+            monny: '金额',
+            done: '完成',
+            iKnow: '我知道了',
+            monnyToAcc: '资金到达证券账户'
+        },
+        zhCHT: {
+            sellSuccess: '贖回成功',
+            positionShare: '持有份額',
+            positionMarketValue: '基金市值',
+            redeemShares: '贖回份額',
+            minSellBalance: '最小持有金額',
+            continueBalance: '續投金額',
+            redemption: '贖回費',
+            predict: '預計',
+            submiButtonText: '同意協議並提交',
+            dayDone: '日完成',
+            balanceRule: '贖回規則',
+            day: '日',
+            stepOne: '提交贖回申請',
+            stepTwo: '確認份額',
+            stepThree: '資金到賬',
+            confirmTheShare: '确认份额',
+            earnings: '查看收益',
+            monny: '金額',
+            done: '完成',
+            iKnow: '我知道了',
+            monnyToAcc: '資金到達證券賬戶'
+        },
+        en: {
+            sellSuccess: 'Redemption Successful',
+            positionShare: 'Holding Units',
+            positionMarketValue: 'Fund Value',
+            redeemShares: 'Units of Redemption',
+            minSellBalance: 'Min. Holding Amount',
+            continueBalance: 'Redemption Rules',
+            redemption: 'Redemption Fee',
+            predict: 'Predict',
+            submiButtonText: 'Agree to agreement and submit',
+            dayDone: 'Complete in X days',
+            balanceRule: 'Redemption Rules',
+            day: 'days',
+            stepOne: 'Submit Redemption Application',
+            stepTwo: 'Fund Units Allocation',
+            stepThree: 'Funds Credited',
+            confirmTheShare: 'Fund Units Allocation',
+            earnings: 'Check Earnings',
+            monny: 'Amount',
+            done: 'Completed',
+            iKnow: 'Got it',
+            monnyToAcc: 'Funds Credited to Securities Account'
         }
     }
 }
