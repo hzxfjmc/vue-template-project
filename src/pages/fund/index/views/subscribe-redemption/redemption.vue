@@ -23,12 +23,12 @@
                         van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3 {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * subscriptionFee | formatCurrency }}
                 a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="sellProtocol" style="width: 180px") {{'《基金销售服务协议》'}}
-                    .right(style="text-align: right;") {{ `${$t('predict')}${sellProfitLoss.slice(0, 5)}${$t('dayDone')}` }}
+                    a.left(:href="sellProtocol" style="width: 180px") 《{{ sellProtocol.split('/').pop() }}》
+                    .right(style="text-align: right;") {{ predictDay }}
 
             FundSteps(
                 style="margin-top: 22px;"
@@ -169,6 +169,16 @@ export default {
         this.getFundPositionInfo()
         this.getFundDetailInfo()
     },
+    computed: {
+        // 预计完成时间多语言配置
+        predictDay() {
+            return {
+                zhCHS: `预计${this.sellProfitLoss.slice(0, 5)}日完成`,
+                zhCHT: `預計${this.sellProfitLoss.slice(0, 5)}日完成`,
+                en: `EST. ${this.sellProfitLoss.slice(0, 5).replace('.', '/')}`
+            }[this.$i18n.lang]
+        }
+    },
     methods: {
         // 获取基金信息
         async getFundDetailInfo() {
@@ -184,7 +194,10 @@ export default {
                 this.currency = fundDetail.fundHeaderInfoVO.currency.name
                 this.subscriptionFee =
                     fundDetail.fundTradeInfoVO.subscriptionFee
-                this.sellProtocol = fundDetail.fundTradeInfoVO.sellProtocol
+                this.setCosUrl(
+                    'sellProtocol',
+                    fundDetail.fundTradeInfoVO.sellProtocol
+                )
                 this.sellSubmit = fundDetail.fundTradeInfoVO.sellSubmit
                 this.sellConfirm = fundDetail.fundTradeInfoVO.sellConfirm
                 this.sellProfitLoss = fundDetail.fundTradeInfoVO.sellProfitLoss
