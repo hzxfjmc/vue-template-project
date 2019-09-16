@@ -49,16 +49,16 @@ export default {
             checkProfit: '日查收收益'
         },
         zhCHT: {
-            orderStatus: '订单状态',
-            estimate: '预计',
-            surePosition: '日确认份额',
+            orderStatus: '訂單狀態',
+            estimate: '預計',
+            surePosition: '日確認份額',
             checkProfit: '日查收收益'
         },
         en: {
-            orderStatus: '订单状态',
-            estimate: '预计',
-            surePosition: '日确认份额',
-            checkProfit: '日查收收益'
+            orderStatus: 'Order Status',
+            estimate: 'Predict',
+            surePosition: 'Allocate Fund Units in X Days',
+            checkProfit: 'Check Earnings in X Days'
         }
     },
     data() {
