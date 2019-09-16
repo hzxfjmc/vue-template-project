@@ -24,14 +24,14 @@ export default {
             oneYearShow: '近一年表现'
         },
         zhCHT: {
-            fundPrice: '基金价格',
-            minInvestment: '起投金额 HKD',
-            oneYearShow: '近一年表现'
+            fundPrice: '基金價格',
+            minInvestment: '起投金額 HKD',
+            oneYearShow: '近一年表現'
         },
         en: {
-            fundPrice: '基金价格',
-            minInvestment: '起投金额 HKD',
-            oneYearShow: '近一年表现'
+            fundPrice: 'Price',
+            minInvestment: 'Min. Initial Investment HKD',
+            oneYearShow: 'Past Year'
         }
     },
     props: {

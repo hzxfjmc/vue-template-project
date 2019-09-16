@@ -82,13 +82,13 @@ export const i18nIntroducelist = {
         }
     },
     zhCHT: {
-        fundIntroduceTitle: '基金介绍',
+        fundIntroduceTitle: '基金介紹',
         list: {
             fundCompanyName: {
                 label: '基金公司'
             },
             fundNameCn: {
-                label: '基金名称'
+                label: '基金名稱'
             },
             fundNameEn: {
                 label: '英文'
@@ -97,57 +97,57 @@ export const i18nIntroducelist = {
                 label: 'ISIN'
             },
             fundRisk: {
-                label: '风险等级'
+                label: '風險等級'
             },
             assetSubType: {
-                label: '资产类别'
+                label: '資產類別'
             },
             investArea: {
-                label: '投资地区'
+                label: '投資地區'
             },
             fundSize: {
-                label: '基金规模'
+                label: '基金規模'
             },
             companyProfile: {
-                label: '基金公司简介'
+                label: '基金公司簡介'
             },
             investObjective: {
-                label: '投资目标'
+                label: '投資目標'
             }
         }
     },
     en: {
-        fundIntroduceTitle: '基金介绍',
+        fundIntroduceTitle: 'Fund Introduction',
         list: {
             fundCompanyName: {
-                label: '基金公司'
+                label: 'Fund Company'
             },
             fundNameCn: {
-                label: '基金名称'
+                label: 'Fund Name'
             },
             fundNameEn: {
-                label: '英文'
+                label: 'English'
             },
             isin: {
                 label: 'ISIN'
             },
             fundRisk: {
-                label: '风险等级'
+                label: 'Risk Level'
             },
             assetSubType: {
-                label: '资产类别'
+                label: 'Asset Class'
             },
             investArea: {
-                label: '投资地区'
+                label: 'Geographical Allocation'
             },
             fundSize: {
-                label: '基金规模'
+                label: 'Fund Size'
             },
             companyProfile: {
-                label: '基金公司简介'
+                label: 'Fund Company Introduction'
             },
             investObjective: {
-                label: '投资目标'
+                label: 'Investment Objective'
             }
         }
     }

@@ -55,12 +55,12 @@ export default {
         zhCHT: {
             buy: '申購',
             redeem: '贖回',
-            append: '追加'
+            append: '續投'
         },
         en: {
-            buy: '申购',
-            redeem: '赎回',
-            append: '追加'
+            buy: 'Subscription',
+            redeem: 'Redemption',
+            append: 'Incremental'
         }
     },
     keepalive: true,

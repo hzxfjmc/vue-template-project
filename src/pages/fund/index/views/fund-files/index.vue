@@ -23,10 +23,10 @@ export default {
             nomore: '暂无文件'
         },
         zhCHT: {
-            nomore: '暂无文件'
+            nomore: '暫無文件'
         },
         en: {
-            nomore: '暂无文件'
+            nomore: 'No Document'
         }
     },
     components: {
