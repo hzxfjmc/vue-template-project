@@ -7,6 +7,7 @@
         div.date-item(
             v-for="(item,index) of list" 
             :key="index"
+            v-if="item.show"
             @click="chooseMonth(item,index)"
             :class="[index == active ? 'active' :'']") {{item.date}}
 </template>
@@ -22,7 +23,7 @@ export default {
                 two: { date: '3个月' },
                 three: { date: '6个月' },
                 four: { date: '1年' },
-                five: { date: '2年' },
+                five: { date: '3年' },
                 all: { date: '全部' }
             }
         },
@@ -33,7 +34,7 @@ export default {
                 two: { date: '3個月' },
                 three: { date: '6個月' },
                 four: { date: '1年' },
-                five: { date: '2年' },
+                five: { date: '3年' },
                 all: { date: '全部' }
             }
         },
@@ -44,7 +45,7 @@ export default {
                 two: { date: '3 Months' },
                 three: { date: '6 Months' },
                 four: { date: '1 Year' },
-                five: { date: '2 Years' },
+                five: { date: '3 Years' },
                 all: { date: 'All' }
             }
         }
@@ -59,12 +60,12 @@ export default {
         return {
             active: 'one',
             list: {
-                one: { date: '1个月', key: 1 },
-                two: { date: '3个月', key: 2 },
-                three: { date: '6个月', key: 3 },
-                four: { date: '1年', key: 4 },
-                five: { date: '2年', key: 5 },
-                all: { date: '全部', key: 6 }
+                one: { date: '1个月', key: 1, show: false },
+                two: { date: '3个月', key: 2, show: false },
+                three: { date: '6个月', key: 3, show: false },
+                four: { date: '1年', key: 4, show: false },
+                five: { date: '3年', key: 5, show: false },
+                all: { date: '全部', key: 6, show: false }
             }
         }
     },
@@ -91,7 +92,7 @@ export default {
                 belongDay: {
                     type: 'timeCat',
                     range: [0, 1],
-                    tickCount: 7,
+                    tickCount: 2,
                     formatter: function formatter(val) {
                         return dayjs(val).format('MM-DD')
                     }
@@ -108,11 +109,37 @@ export default {
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
             }
+        },
+        tabShow() {
+            for (let key in this.list) {
+                this.list[key].show = false
+            }
+            let point = this.initEchartList.length
+            if (point >= 0 && point <= 22) {
+                this.list.one.show = true
+            } else if (point > 22 && point <= 66) {
+                this.list.one.show = true
+                this.list.two.show = true
+            } else if (point > 66 && point <= 132) {
+                this.list.one.show = true
+                this.list.two.show = true
+                this.list.three.show = true
+            } else if (point > 132 && point <= 245) {
+                this.list.one.show = true
+                this.list.two.show = true
+                this.list.three.show = true
+                this.list.four.show = true
+            } else {
+                for (let key in this.list) {
+                    this.list[key].show = true
+                }
+            }
         }
     },
     watch: {
         initEchartList() {
             this.draw()
+            this.tabShow()
         },
         $route(to, from) {
             if (from.path == '/') {
@@ -149,7 +176,7 @@ export default {
     .fund-date-list {
         width: 100%;
         margin: 10px 0;
-        border: 1px solid rgba(235, 235, 235, 1);
+        // border: 1px solid rgba(235, 235, 235, 1);
         border-right: none;
         .date-item {
             border-right: 1px solid rgba(235, 235, 235, 1);
