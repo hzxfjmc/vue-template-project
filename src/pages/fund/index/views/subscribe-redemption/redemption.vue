@@ -2,7 +2,7 @@
     .redemption
         .succed.border-bottom(v-if="step === 2")
             img(src="@/assets/img/fund/succed.svg")
-            div.text 赎回成功
+            div.text {{ $t('sellSuccess') }}
         .fond-des
             .fond-name {{ fundName }}
             .ISIN ISIN:{{ isin }}
@@ -18,46 +18,46 @@
                 .buy-row
                     .left {{ $t('redeemShares') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        span 最小持有金额{{ lowestInvestAmount | formatCurrency}}
+                        span {{ $t('minSellBalance') }}{{ lowestInvestAmount | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3 {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * subscriptionFee | formatCurrency }}
                 a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="sellProtocol" style="width: 180px") {{'《基金销售服务协议》'}}
-                    .right(style="text-align: right;") {{ `${$t('predict')}${sellProfitLoss.slice(0, 5)}${$t('dayDone')}` }}
+                    a.left(:href="sellProtocol" style="width: 180px") 《{{ sellProtocol.split('/').pop() }}》
+                    .right(style="text-align: right;") {{ predictDay }}
 
             FundSteps(
                 style="margin-top: 22px;"
-                title="赎回规则"
+                :title="$t('balanceRule')"
                 :curStep="0"
-                :stepNames="['提交赎回申请', '确认份额', '资金到账']"
-                :stepTimes="['今日15点前', sellConfirm, sellProfitLoss]"
+                :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
+                :stepTimes="[sellSubmit, sellConfirm, sellProfitLoss]"
             )
         template(v-else-if="step === 2")
             .fond-buy
                 .buy-row
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
-                    span.text-color5 预计 
-                    span(style="margin: 0 3px;") {{ sellConfirm.slice(0, 5) }}日
-                    span.text-color5 确认份额
+                    span.text-color5 {{ $t('predict') }}
+                    span(style="margin: 0 3px;") {{ sellConfirm.slice(0, 5) }}{{ $t('day') }}
+                    span.text-color5 {{ $t('confirmTheShare') }}
                 .line
                 .buy-row
                     .icon
                         .point
-                    span.text-color5 预计 
+                    span.text-color5 {{ $t('predict') }}
                     span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}日
-                    span.text-color5 资金到达证券账户
+                    span.text-color5 {{ $t('monnyToAcc') }}
             .fond-buy.fond-bug-monny(style="margin-top: 0")
                 .buy-row
-                    .left.line-height-8 金额
+                    .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0") 完成
+                a.submit(style="margin: 41px 0 28px 0") {{ $t('done') }}
 
 </template>
 <script>
@@ -74,40 +74,73 @@ import './index.scss'
 export default {
     i18n: {
         zhCHS: {
+            sellSuccess: '赎回成功',
             positionShare: '持有份额',
             positionMarketValue: '基金市值',
             redeemShares: '赎回份额',
-            minBugBalance: '最小申购金额',
+            minSellBalance: '最小持有金额',
             continueBalance: '续投金额',
             redemption: '赎回费',
             predict: '预计',
             submiButtonText: '同意协议并提交',
             dayDone: '日完成',
-            balanceRule: '申购规则'
+            balanceRule: '赎回规则',
+            day: '日',
+            stepOne: '提交赎回申请',
+            stepTwo: '确认份额',
+            stepThree: '资金到账',
+            confirmTheShare: '确认份额',
+            earnings: '查看收益',
+            monny: '金额',
+            done: '完成',
+            iKnow: '我知道了',
+            monnyToAcc: '资金到达证券账户'
         },
         zhCHT: {
-            positionShare: '持有份额',
+            sellSuccess: '贖回成功',
+            positionShare: '持有份額',
             positionMarketValue: '基金市值',
-            redeemShares: '赎回份额',
-            minBugBalance: '最小申购金额',
-            continueBalance: '续投金额',
-            redemption: '赎回费',
-            predict: '预计',
-            submiButtonText: '同意协议并提交',
+            redeemShares: '贖回份額',
+            minSellBalance: '最小持有金額',
+            continueBalance: '續投金額',
+            redemption: '贖回費',
+            predict: '預計',
+            submiButtonText: '同意協議並提交',
             dayDone: '日完成',
-            balanceRule: '申购规则'
+            balanceRule: '贖回規則',
+            day: '日',
+            stepOne: '提交贖回申請',
+            stepTwo: '確認份額',
+            stepThree: '資金到賬',
+            confirmTheShare: '确认份额',
+            earnings: '查看收益',
+            monny: '金額',
+            done: '完成',
+            iKnow: '我知道了',
+            monnyToAcc: '資金到達證券賬戶'
         },
         en: {
-            positionShare: '持有份额',
-            positionMarketValue: '基金市值',
-            redeemShares: '赎回份额',
-            minBugBalance: '最小申购金额',
-            continueBalance: '续投金额',
-            redemption: '赎回费',
-            predict: '预计',
-            submiButtonText: '同意协议并提交',
-            dayDone: '日完成',
-            balanceRule: '申购规则'
+            sellSuccess: 'Redemption Successful',
+            positionShare: 'Holding Units',
+            positionMarketValue: 'Fund Value',
+            redeemShares: 'Units of Redemption',
+            minSellBalance: 'Min. Holding Amount',
+            continueBalance: 'Redemption Rules',
+            redemption: 'Redemption Fee',
+            predict: 'Predict',
+            submiButtonText: 'Agree to agreement and submit',
+            dayDone: 'Complete in X days',
+            balanceRule: 'Redemption Rules',
+            day: 'days',
+            stepOne: 'Submit Redemption Application',
+            stepTwo: 'Fund Units Allocation',
+            stepThree: 'Funds Credited',
+            confirmTheShare: 'Fund Units Allocation',
+            earnings: 'Check Earnings',
+            monny: 'Amount',
+            done: 'Completed',
+            iKnow: 'Got it',
+            monnyToAcc: 'Funds Credited to Securities Account'
         }
     },
     name: 'subscribe',
@@ -127,6 +160,7 @@ export default {
             isin: '',
             subscriptionFee: null,
             sellProtocol: '', // 基金卖出协议
+            sellSubmit: '',
             sellConfirm: '',
             sellProfitLoss: ''
         }
@@ -134,6 +168,16 @@ export default {
     async created() {
         this.getFundPositionInfo()
         this.getFundDetailInfo()
+    },
+    computed: {
+        // 预计完成时间多语言配置
+        predictDay() {
+            return {
+                zhCHS: `预计${this.sellProfitLoss.slice(0, 5)}日完成`,
+                zhCHT: `預計${this.sellProfitLoss.slice(0, 5)}日完成`,
+                en: `EST. ${this.sellProfitLoss.slice(0, 5).replace('.', '/')}`
+            }[this.$i18n.lang]
+        }
     },
     methods: {
         // 获取基金信息
@@ -150,7 +194,11 @@ export default {
                 this.currency = fundDetail.fundHeaderInfoVO.currency.name
                 this.subscriptionFee =
                     fundDetail.fundTradeInfoVO.subscriptionFee
-                this.sellProtocol = fundDetail.fundTradeInfoVO.sellProtocol
+                this.setCosUrl(
+                    'sellProtocol',
+                    fundDetail.fundTradeInfoVO.sellProtocol
+                )
+                this.sellSubmit = fundDetail.fundTradeInfoVO.sellSubmit
                 this.sellConfirm = fundDetail.fundTradeInfoVO.sellConfirm
                 this.sellProfitLoss = fundDetail.fundTradeInfoVO.sellProfitLoss
             } catch (e) {
@@ -162,7 +210,7 @@ export default {
                 const fundPos = await getFundPosition({
                     fundId: this.$route.query.id
                 })
-                this.positionShare = fundPos.positionShare
+                this.positionShare = fundPos.availableShare
                 this.positionMarketValue = fundPos.positionMarketValue
             } catch (e) {
                 console.log('赎回页面-getFundPositionInfo:error:>>>', e)
@@ -222,7 +270,7 @@ export default {
             } catch (error) {
                 this.$alert({
                     message: error.msg,
-                    confirmButtonText: '我知道了'
+                    confirmButtonText: this.$t('iKnow')
                 })
                 this.$close()
             }

@@ -1,13 +1,13 @@
 <template lang="pug">
     .order-record-container(v-if='orderRecordList.length>0')
         .fund-introduce
-            .fund-name {{`${fundIntro}-${fundType}`}}
+            .fund-name {{fundIntro}}
             .fund-detail
                 .fund-detail-item {{assetType}}
-                .fund-detail-item {{$t('fundRiskText')}} {{fundRisk}}
+                .fund-detail-item {{fundRisk}}
         .order-record-box
             van-list.order-record-list(v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad")
-                van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo)")
+                van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
                     template(slot-scope='scope')
                         .order-item.flex
                             span(class="order-type") {{item.tradeType}}
@@ -36,19 +36,16 @@ export default {
         zhCHS: {
             amount: '金额',
             time: '时间',
-            fundRiskText: '风险等级',
             noOrder: '暂无记录'
         },
         zhCHT: {
             amount: '金额',
             time: '时间',
-            fundRiskText: '风险等级',
             noOrder: '暂无记录'
         },
         en: {
             amount: '金额',
             time: '时间',
-            fundRiskText: '风险等级',
             noOrder: '暂无记录'
         }
     },
@@ -64,17 +61,20 @@ export default {
             fundIntro: '',
             pageNum: 1,
             pageSize: 6,
-            total: 0,
-            fundRiskList: [
-                { type: 'A1', risk: 'R1', name: '低风险' },
-                { type: 'A2', risk: 'R2', name: '中低风险' },
-                { type: 'A3', risk: 'R3', name: '中风险' },
-                { type: 'A4', risk: 'R4', name: '中高风险' },
-                { type: 'A5', risk: 'R5', name: '高风险' }
-            ]
+            total: 0
         }
     },
     computed: {},
+    watch: {
+        $route(to, from) {
+            if (
+                from.path === '/order-record-detai' &&
+                this.$route.query.isRefresh
+            ) {
+                this.fundOrderListFun()
+            }
+        }
+    },
     created() {
         this.fundOrderListFun()
     },
@@ -85,7 +85,7 @@ export default {
                 let params = {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    fundId: 18
+                    fundId: this.$route.query.id
                 }
                 let res = await fundOrderList(params)
                 const _this = this
@@ -106,22 +106,14 @@ export default {
                                 )) ||
                             '--',
                         color: differColor(item.externalStatus),
-                        orderNo: item.orderNo
+                        orderNo: item.orderNo,
+                        orderStatus: item.externalStatus
                     })
 
                     this.assetType =
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
-                    _this.fundRiskList.map(value => {
-                        if (item.fundBaseInfoVO.fundRisk === value.name) {
-                            _this.fundRisk = value.risk
-                            _this.fundType = value.type
-                        }
-                    })
-                    _this.fundIntro =
-                        item.fundBaseInfoVO &&
-                        item.fundBaseInfoVO.fondCode +
-                            ' ' +
-                            item.fundBaseInfoVO.fundName
+                    this.fundRisk = item.fundBaseInfoVO.fundRisk
+                    _this.fundIntro = item.fundBaseInfoVO.fundName
                 })
             } catch (e) {
                 if (e.msg) {
@@ -135,19 +127,23 @@ export default {
         onLoad() {
             setTimeout(() => {
                 if (this.orderRecordList.length < this.total) {
-                    this.loading = false
-                    this.pageNum = this.pageNum + 1
+                    this.pageNum++
                     this.fundOrderListFun()
                 }
-                this.finished = true
+                this.loading = false
+                if (this.orderRecordList.length >= this.total) {
+                    this.finished = true
+                }
             }, 300)
         },
         // 跳转到详情
-        toDetailHandle(orderNo) {
+        toDetailHandle(orderNo, orderStatus) {
             this.$router.push({
                 name: 'order-record-detail',
                 query: {
-                    orderNo: orderNo
+                    orderNo: orderNo,
+                    orderStatus: orderStatus,
+                    currencyType: this.$route.query.currencyType
                 }
             })
         }

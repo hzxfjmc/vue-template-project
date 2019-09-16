@@ -17,6 +17,7 @@
             :positionStatus = "positionStatus"
             :fondCode = "fondCode"
             :scroll = "scroll"
+            :fundHeaderInfoVO = "fundHeaderInfoVO" 
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
         van-button(class="btn fund-check" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -54,12 +55,12 @@ export default {
         zhCHT: {
             buy: '申購',
             redeem: '贖回',
-            append: '追加'
+            append: '續投'
         },
         en: {
-            buy: '申购',
-            redeem: '赎回',
-            append: '追加'
+            buy: 'Subscription',
+            redeem: 'Redemption',
+            append: 'Incremental'
         }
     },
     keepalive: true,
@@ -135,15 +136,6 @@ export default {
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
-                this.positionStatus = res.positionStatus //
-                if (this.positionStatus.type != -1) {
-                    this.holdDetailsShow = true
-                    this.btnShow = true
-                    this.btnShow1 = false
-                } else {
-                    this.btnShow1 = true
-                    this.btnShow = false
-                }
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -155,6 +147,25 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.holdInitState = res
+                this.positionStatus = res.positionStatus //
+                this.btnShow1 = false
+                this.btnShow = false
+                if (
+                    this.positionStatus.type === 1 &&
+                    this.holdInitState.availableShare > 0
+                ) {
+                    this.btnShow = true
+                } else {
+                    this.btnShow1 = true
+                }
+                if (
+                    this.positionStatus.type != 0 &&
+                    this.positionStatus.type != -1
+                ) {
+                    this.holdDetailsShow = true
+                } else {
+                    this.holdDetailsShow = false
+                }
             } catch (e) {
                 console.log('getFundPosition:error:>>>', e)
             }
@@ -220,7 +231,8 @@ export default {
                     query: {
                         id: this.$route.query.id,
                         assessResult: this.userInfo.assessResult,
-                        currencyType: this.fundHeaderInfoVO.currency.type
+                        currencyType: this.fundHeaderInfoVO.currency.type,
+                        fundCode: this.fundCode
                     }
                 }
                 data.path =

@@ -21,20 +21,20 @@ export default {
         },
         zhCHT: {
             itemList: {
-                trade: { label: '交易记录' },
-                survey: { label: '基金概况' },
-                rule: { label: '交易规则' },
-                files: { label: '相关文件' },
-                tips: { label: '风险提示' }
+                trade: { label: '交易記錄' },
+                survey: { label: '基金概況' },
+                rule: { label: '交易規則' },
+                files: { label: '相關文件' },
+                tips: { label: '風險提示' }
             }
         },
         en: {
             itemList: {
-                trade: { label: '交易记录' },
-                survey: { label: '基金概况' },
-                rule: { label: '交易规则' },
-                files: { label: '相关文件' },
-                tips: { label: '风险提示' }
+                trade: { label: 'Transaction Records' },
+                survey: { label: 'Fund Overview' },
+                rule: { label: 'Trading Rules' },
+                files: { label: 'Related Documents' },
+                tips: { label: 'Risk Disclosure' }
             }
         }
     },
@@ -60,6 +60,10 @@ export default {
         },
         scroll: {
             type: Number
+        },
+        fundHeaderInfoVO: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
@@ -93,7 +97,10 @@ export default {
                 data.query = this.fundTradeInfoVO
             }
             if (item.routerPath == '/order-record') {
-                data.query = { id: this.$route.query.id }
+                data.query = {
+                    id: this.$route.query.id,
+                    currencyType: this.fundHeaderInfoVO.currency.type
+                }
             }
             if (item.routerPath == '/generator') {
                 window.location.href = `/webapp/market/generator.html?key=${this.fondCode}`
