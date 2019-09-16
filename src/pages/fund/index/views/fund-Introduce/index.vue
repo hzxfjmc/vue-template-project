@@ -18,7 +18,7 @@ export default {
     i18n: i18nIntroducelist,
     data() {
         return {
-            list: Introducelit
+            list: JSON.parse(JSON.stringify(Introducelit))
         }
     },
     methods: {
@@ -34,11 +34,14 @@ export default {
                           )}`
                         : this.$route.query[key]
             }
+        },
+        initOffsetHeight() {
             if (this.$refs.intd[0].offsetHeight > 96) {
                 this.list.companyProfile.flag = 1
             }
-
+            console.log(this.$refs.target[0].offsetHeight)
             if (this.$refs.target[0].offsetHeight > 96) {
+                console.log(456)
                 this.list.investObjective.flag = 1
             }
             for (let key in this.list) {
@@ -48,6 +51,9 @@ export default {
     },
     mounted() {
         this.initState()
+        setTimeout(() => {
+            this.initOffsetHeight()
+        }, 100)
     }
 }
 </script>
