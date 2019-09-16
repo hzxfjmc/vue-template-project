@@ -145,6 +145,39 @@ module.exports = {
         hotOnly: true,
         openPage, // 当前项目的第一个单页
         proxy: {
+            '/quotes-search': {
+                target: 'http://10.210.110.75:8081',
+                changOrigin: true
+            },
+            '/faceid': {
+                target: 'https://api.megvii.com',
+                changOrigin: true
+            },
+             // banner
+            '/news-configserver': {
+                //target: 'http://10.55.4.9:15002',
+                target: 'http://hz1-uat.yxzq.com',
+                changOrigin: true
+            },
+            // 行情资讯接口服务器
+            '^/helpCenter': {
+                target: 'http://10.55.4.7:15002',
+                changOrigin: true,
+                pathRewrite: {
+                    '^/helpCenter': ''
+                }
+            },
+            '^/banner': {
+                target: 'http://10.55.4.9:15002',
+                changOrigin: true,
+                pathRewrite: {
+                    '^/banner': ''
+                }
+            },
+            '/message-server': {
+                target: 'http://10.210.20.39:8809',
+                changOrigin: true
+            },
             '/message-center': {
                 // target: 'http://10.55.4.13:23002',
                 // target: 'http://hz-dev.yxzq.com',
@@ -155,47 +188,33 @@ module.exports = {
                 target: 'http://hz1-dev.yxzq.com',
                 changOrigin: true
             },
-            '/quotes-search': {
-                target: 'http://10.210.110.75:8081',
-                changOrigin: true
-            },
-            '/config-manager': {
-            //   target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
-                changOrigin: true
-            },
-            '/stock-capital-server': {
-                // target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
-                changOrigin: true
-            },
-            '/stock-order-server': {
-                // target: 'http://10.210.20.108:9903',
-            //    target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
-                changOrigin: true
-            },
-            '/user-server': {
-                //  target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
-                changOrigin: true
-            },
-            '/user-account-server': {
-                //  target: 'http://jy-sit.yxzq.com',
-                 target: 'http://jy-dev.yxzq.com',
-                // target: 'http://10.210.20.87:8812',
-                changOrigin: true
-            },
-            '/faceid': {
-                target: 'https://api.megvii.com',
-                changOrigin: true
-            },
-            // banner
-            '/news-configserver': {
-                //target: 'http://10.55.4.9:15002',
-                target: 'http://hz1-uat.yxzq.com',
-                changOrigin: true
-            },
+            // '/config-manager': {
+            // //   target: 'http://jy-sit.yxzq.com',
+            //     target: 'http://jy-dev.yxzq.com',
+            //     changOrigin: true
+            // },
+            // '/stock-capital-server': {
+            //     // target: 'http://jy-sit.yxzq.com',
+            //     target: 'http://jy-dev.yxzq.com',
+            //     changOrigin: true
+            // },
+            // '/stock-order-server': {
+            //     // target: 'http://10.210.20.108:9903',
+            // //    target: 'http://jy-sit.yxzq.com',
+            //     target: 'http://jy-dev.yxzq.com',
+            //     changOrigin: true
+            // },
+            // '/user-server': {
+            //     //  target: 'http://jy-sit.yxzq.com',
+            //     target: 'http://jy-dev.yxzq.com',
+            //     changOrigin: true
+            // },
+            // '/user-account-server': {
+            //     //  target: 'http://jy-sit.yxzq.com',
+            //      target: 'http://jy-dev.yxzq.com',
+            //     // target: 'http://10.210.20.87:8812',
+            //     changOrigin: true
+            // },
             // 策略详情接口
             '/news-strategyserver': {
                 // target: 'http://10.55.4.9:15005',
@@ -214,25 +233,10 @@ module.exports = {
                 target: 'http://hz1-dev.yxzq.com',
                 changOrigin: true
             },
-            // 行情资讯接口服务器
-            '^/helpCenter': {
-                target: 'http://10.55.4.7:15002',
-                changOrigin: true,
-                pathRewrite: {
-                    '^/helpCenter': ''
-                }
-            },
             // 代理其他项目的图片
             '^/webapp': {
                 target: 'http://m-dev.yxzq.com',
                 changOrigin: true
-            },
-            '^/banner': {
-                target: 'http://10.55.4.9:15002',
-                changOrigin: true,
-                pathRewrite: {
-                    '^/banner': ''
-                }
             },
             // '^/': {
             //     target: 'http://10.55.4.87:3000',
@@ -244,67 +248,63 @@ module.exports = {
                 target: 'http://admin-dev.yxzq.com',
                 changOrigin: true
             },
-            '/customer-relationship-server': {
-            //    target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
-                changOrigin: true
-            },
-            '/user-oversea-server': {
-            //    target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
-                changOrigin: true
-            },
-            '/verification-code-server': {
-                // target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
-                changOrigin: true
-            },
-            '/message-server': {
-                target: 'http://10.210.20.39:8809',
-                changOrigin: true
-            },
+            // '/customer-relationship-server': {
+            // //    target: 'http://jy-sit.yxzq.com',
+            //     target: 'http://jy-dev.yxzq.com',
+            //     changOrigin: true
+            // },
+            // '/user-oversea-server': {
+            // //    target: 'http://jy-sit.yxzq.com',
+            //     target: 'http://jy-dev.yxzq.com',
+            //     changOrigin: true
+            // },
+            // '/verification-code-server': {
+            //     // target: 'http://jy-sit.yxzq.com',
+            //     target: 'http://jy-dev.yxzq.com',
+            //     changOrigin: true
+            // },
             'node-generator': {
                 target: 'http://admin-dev.yxzq.com',
                 changeOrigin: true
             },
             // 债券交易
-            '/finance-server': {
-                // target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
-                changeOrigin: true
-            },
-            // 债券信息
-            '/finance-info-server': {
-                target: 'http://jy-dev.yxzq.com',
-                // target: 'http://jy-sit.yxzq.com',
-                changeOrigin: true
+            // '/finance-server': {
+            //     // target: 'http://jy-sit.yxzq.com',
+            //     target: 'http://jy-sit.yxzq.com',
+            //     changeOrigin: true
+            // },
+            // // 债券信息
+            // '/finance-info-server': {
+            //     target: 'http://jy-sit.yxzq.com',
+            //     // target: 'http://jy-sit.yxzq.com',
+            //     changeOrigin: true
 
-                // onProxyRes: function(proxyRes, req, res) {
-                //     let resHttp = proxyRes.client._httpMessage
-                //     console.log('onProxyRes :', resHttp)
-                //     console.log('onProxyMethod :', resHttp.method)
-                //     console.log('onProxyPath :', resHttp.path)
-                //     // console.log('res.headers :', res.headers)
-                //     for (const keys in proxyRes) {
-                //         if (proxyRes.hasOwnProperty(keys)) {
-                //             const reselement = proxyRes[keys];
-                //             console.log('reselement :', keys);
-                //         }
-                //     }
-                //     let str = ''
-                //     proxyRes.on('data', (data) => {
-                //         str += data
-                //     })
-                //     proxyRes.on('end', () => {
-                //         console.log('end :', JSON.parse(str.toString()));
-                //     })
-                // }
-            },
+            //     // onProxyRes: function(proxyRes, req, res) {
+            //     //     let resHttp = proxyRes.client._httpMessage
+            //     //     console.log('onProxyRes :', resHttp)
+            //     //     console.log('onProxyMethod :', resHttp.method)
+            //     //     console.log('onProxyPath :', resHttp.path)
+            //     //     // console.log('res.headers :', res.headers)
+            //     //     for (const keys in proxyRes) {
+            //     //         if (proxyRes.hasOwnProperty(keys)) {
+            //     //             const reselement = proxyRes[keys];
+            //     //             console.log('reselement :', keys);
+            //     //         }
+            //     //     }
+            //     //     let str = ''
+            //     //     proxyRes.on('data', (data) => {
+            //     //         str += data
+            //     //     })
+            //     //     proxyRes.on('end', () => {
+            //     //         console.log('end :', JSON.parse(str.toString()));
+            //     //     })
+            //     // }
+            // },
             // 债券交易
             '/': {
                 ws:false,
                 // target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-dev.yxzq.com',
+                target: 'http://jy-sit.yxzq.com',
                 changeOrigin: true
             }
         },

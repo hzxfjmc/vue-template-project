@@ -28,7 +28,7 @@
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
                 a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="buyProtocol" style="width: 70%") 《{{ buyProtocol.split('/').pop() }}》
+                    a.left(:href="buyProtocol" style="width: 70%") 《{{ (buyProtocol || '').split('/').pop() }}》
                     .right(style="text-align: right;") {{ predictDay }}
 
             FundSteps(

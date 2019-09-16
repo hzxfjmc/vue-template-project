@@ -83,7 +83,7 @@ export default {
                 color: rgba(234, 61, 61, 1);
             }
             .number-green {
-                color: #04be02;
+                color: #04ba60;
             }
             .number-black {
                 color: $text-color;
