@@ -18,10 +18,10 @@ import { Tag } from 'vant'
 export default {
     i18n: {
         zhCHS: {
-            annualRateOfReturn: '近一年收益率'
+            annualRateOfReturn: '近一年收益'
         },
-        zhCHT: { annualRateOfReturn: '近一年收益率' },
-        en: { annualRateOfReturn: '近一年收益率' }
+        zhCHT: { annualRateOfReturn: '近一年表現' },
+        en: { annualRateOfReturn: 'Past Year' }
     },
     name: 'BondCard',
     components: {
