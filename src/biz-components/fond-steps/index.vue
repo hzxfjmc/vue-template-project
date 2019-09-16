@@ -7,9 +7,9 @@
                 :class="curStep > i ? 'text-color' : ''") {{ name }}
         .step-row
             .point(:class="curStep > 0 ? 'primary-color' : ''")
-            hr(:class="curStep > 0 ? 'primary-color' : ''")
+            hr.border-top(:class="curStep > 0 ? 'primary-color' : ''")
             .point(:class="curStep > 1 ? 'primary-color' : ''")
-            hr(:class="curStep > 2 ? 'primary-color' : ''")
+            hr.border-top(:class="curStep > 2 ? 'primary-color' : ''")
             .point(:class="curStep > 2 ? 'primary-color' : ''")
         .step-row
             span(v-for="time, i in stepTimes" :key="i") {{ time }}
@@ -61,7 +61,9 @@ export default {
         }
         .primary-color {
             background: $primary-color;
-            border-top: 1px solid $primary-color;
+            &::after {
+                background: $primary-color;
+            }
         }
         span:first-child {
             text-align: left;
@@ -81,11 +83,17 @@ export default {
     hr {
         border: none;
         width: 100%;
+        height: 1px;
         margin-top: 3px;
         position: relative;
-        border-top: 1px solid $text-color3;
+        &::after {
+            background: $text-color5;
+        }
+        // border-top: 1px solid $text-color3;
         @media only screen and (min-resolution: 2dppx) {
-            border-top: 0.5px solid $text-color3;
+            // 非标准的
+            -webkit-transform: scaleY(0.5);
+            -webkit-transform-origin: 50% 0%;
         }
     }
 }
