@@ -83,7 +83,7 @@ export default {
     hr {
         border: none;
         width: 100%;
-        height: 1px;
+        height: 2px;
         margin-top: 3px;
         position: relative;
         &::after {
