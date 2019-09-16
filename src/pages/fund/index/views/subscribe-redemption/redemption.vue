@@ -20,8 +20,8 @@
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span {{ $t('minSellBalance') }}{{ lowestInvestAmount | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
-                hr
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
+                hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * subscriptionFee | formatCurrency }}
@@ -38,7 +38,7 @@
                 :stepTimes="[sellSubmit, sellConfirm, sellProfitLoss]"
             )
         template(v-else-if="step === 2")
-            .fond-buy
+            .fond-buy.border-bottom
                 .buy-row
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
@@ -52,7 +52,7 @@
                     span.text-color5 {{ $t('predict') }}
                     span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}日
                     span.text-color5 {{ $t('monnyToAcc') }}
-            .fond-buy.fond-bug-monny(style="margin-top: 0")
+            .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | formatCurrency }}
