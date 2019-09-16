@@ -65,7 +65,7 @@ export const i18nHoldDetailsData = {
         }
     },
     zhCHT: {
-        holdFundTitle: '持仓详情',
+        holdFundTitle: '持倉詳情',
         holdDetailsData: {
             holdDetailsData: {
                 yesterdayEarnings: {
@@ -75,13 +75,13 @@ export const i18nHoldDetailsData = {
                     label: '持有收益'
                 },
                 costPrice: {
-                    label: '持仓成本'
+                    label: '持倉成本'
                 },
                 positionShare: {
-                    label: '持有份额'
+                    label: '持有份額'
                 },
                 positionMarketValue: {
-                    label: '持有市值'
+                    label: '待確認金額'
                 },
                 inTransitAmount: {
                     label: '待确认金额'
@@ -90,26 +90,26 @@ export const i18nHoldDetailsData = {
         }
     },
     en: {
-        holdFundTitle: '持仓详情',
+        holdFundTitle: 'Positon',
         holdDetailsData: {
             holdDetailsData: {
                 yesterdayEarnings: {
-                    label: '昨日收益'
+                    label: 'Yesterday P/L'
                 },
                 positionEarnings: {
-                    label: '持有收益'
+                    label: 'Total P/L'
                 },
                 costPrice: {
-                    label: '持仓成本'
+                    label: 'Cost'
                 },
                 positionShare: {
-                    label: '持有份额'
+                    label: 'Holding Units'
                 },
                 positionMarketValue: {
-                    label: '持有市值'
+                    label: 'Holding Value'
                 },
                 inTransitAmount: {
-                    label: '待确认金额'
+                    label: 'Amount to be confirmed'
                 }
             }
         }

@@ -42,13 +42,13 @@ export default {
         },
         zhCHT: {
             riskAssessmentTips:
-                '友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的',
-            btnText: '提交测评'
+                '友信智投致力於為全球用戶提供更好的個人金融服務，為了給您提供更匹配的金融產品和服務，了解您的風險能力和偏好是非常必要的',
+            btnText: '提交測評'
         },
         en: {
             riskAssessmentTips:
-                '友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的',
-            btnText: '提交测评'
+                'Friendship Intelligence Investment is committed to providing better personal financial services for global users. In order to provide you with more matching financial products and services, it is necessary to understand your risk capabilities and preferences.',
+            btnText: 'Submit'
         }
     }
 }
