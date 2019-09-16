@@ -24,12 +24,12 @@
                         van-field.input(type="tel" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3 {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
                 a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="buyProtocol") {{`《${$t('buyFile')}》`}}
-                    .right(style="text-align: right;") {{ `${$t('predict')}${buyProfitLoss.slice(0, 5)}${$t('dayDone')}` }}
+                    a.left(:href="buyProtocol" style="width: 70%") 《{{ buyProtocol.split('/').pop() }}》
+                    .right(style="text-align: right;") {{ predictDay }}
 
             FundSteps(
                 style="margin-top: 22px;"
@@ -133,8 +133,8 @@ export default {
             currency: 'Currency',
             availableBalance: 'Available Balance',
             bugBalance: 'Investment Amount',
-            minBugBalance: 'Min. Investment Amount',
-            continueBalance: 'Incremental Amount',
+            minBugBalance: 'Initial',
+            continueBalance: 'Subsequent',
             redemption: 'Redemption Fee',
             predict: 'Estimated',
             submiButtonText: 'Agree to agreement and submit',
@@ -177,6 +177,17 @@ export default {
     async created() {
         this.getFundDetailInfo()
         this.getWithdrawBalance()
+        console.log('2323232', this.$i18n.lang)
+    },
+    computed: {
+        // 预计完成时间多语言配置
+        predictDay() {
+            return {
+                zhCHS: `预计${this.buyProfitLoss.slice(0, 5)}日完成`,
+                zhCHT: `預計${this.buyProfitLoss.slice(0, 5)}日完成`,
+                en: `EST. ${this.buyProfitLoss.slice(0, 5).replace('.', '/')}`
+            }[this.$i18n.lang]
+        }
     },
     methods: {
         // 获取基金信息
@@ -195,7 +206,7 @@ export default {
                     fundDetail.fundTradeInfoVO.initialInvestAmount
                 this.continueInvestAmount =
                     fundDetail.fundTradeInfoVO.continueInvestAmount
-                this.buyProtocol = this.setCosUrl(
+                this.setCosUrl(
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
                 )
