@@ -104,6 +104,7 @@ export default {
             chart.render()
         },
         initI18nState() {
+            this.active = 'one'
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
             }
@@ -112,6 +113,11 @@ export default {
     watch: {
         initEchartList() {
             this.draw()
+        },
+        $route(to, from) {
+            if (from.path == '/') {
+                this.active = 'one'
+            }
         }
     },
     mounted() {

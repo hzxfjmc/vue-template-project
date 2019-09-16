@@ -36,12 +36,10 @@ export default {
             }
         },
         initOffsetHeight() {
-            if (this.$refs.intd[0].offsetHeight > 96) {
+            if (this.$refs.intd[0].offsetHeight > 120) {
                 this.list.companyProfile.flag = 1
             }
-            console.log(this.$refs.target[0].offsetHeight)
-            if (this.$refs.target[0].offsetHeight > 96) {
-                console.log(456)
+            if (this.$refs.target[0].offsetHeight > 120) {
                 this.list.investObjective.flag = 1
             }
             for (let key in this.list) {
@@ -111,7 +109,7 @@ export default {
     .hiddenClass {
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 4;
+        -webkit-line-clamp: 5;
         overflow: hidden;
     }
     .intd,
