@@ -26,12 +26,13 @@ export default {
                 100: '--',
                 0: '尚未风评',
                 1: '低风险及以上可购买',
-                2: '中风险及以上可购买',
-                3: '高风险及以上可购买',
-                4: '超高风险及以上可购买',
-                5: '最高风险'
+                2: '中低风险及以上可购买',
+                3: '中风险及以上可购买',
+                4: '中高风险及以上可购买',
+                5: '高风险'
             },
             userRiskLevel: 0, // 用户风险测评等级
+            assessResultName: '', //测评结果文案
             bondRiskLevel: 100, // 债券风险等级
             btnText: '',
             isShowPage: false
@@ -62,11 +63,15 @@ export default {
         // 拉取风险测评结果
         async handleRiskAssessResult() {
             try {
-                let { assessResult } = await riskAssessResult()
-                this.userRiskLevel = assessResult || 0 // 用户风险测评等级
-                console.log('riskAssessResult:data:>>> ', assessResult)
-            } catch (error) {
-                console.log('riskAssessResult:error:>>>', error)
+                let res = await riskAssessResult()
+                this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
+                this.assessResultName = res.assessResultName
+                console.log('riskAssessResult:data:>>> ', res.assessResult)
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+                console.log('riskAssessResult:error:>>>', e)
             }
         },
         // 获取债券信息
