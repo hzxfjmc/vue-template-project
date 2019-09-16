@@ -1,6 +1,9 @@
 .subscribe-wrapper, .redemption {
     .border-bottom {
         border-bottom: 1px solid rgba($text-color, 0.05);
+        @media only screen and (min-resolution: 2dppx) {
+            border-bottom: 0.5px solid rgba($text-color, 0.05);
+        }
     }
     .succed {
         height: 183px;
@@ -40,6 +43,9 @@
     }
     .fond-bug-monny {
         border: 1px solid rgba($text-color, 0.05);
+        @media only screen and (min-resolution: 2dppx) {
+            border-bottom: 0.5px solid rgba($text-color, 0.05);
+        }
     }
    
     .submit {
@@ -97,6 +103,9 @@
             .buy-monny {
                 height: 1rem;
                 font-size: 0.48rem;
+                input {
+                    margin-top: -4px;
+                }
             }
 
             a.left {
@@ -139,6 +148,9 @@
             border-top: 1px solid $primary-color;
             width: 100%;
             opacity: 0.05;
+            @media only screen and (min-resolution: 2dppx) {
+                border-top: 0.5px solid $primary-color;
+            }
         }
     }
 }

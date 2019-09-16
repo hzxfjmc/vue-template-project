@@ -80,9 +80,13 @@ export default {
     }
     hr {
         border: none;
-        border-top: 1px solid $text-color3;
         width: 100%;
         margin-top: 3px;
+        position: relative;
+        border-top: 1px solid $text-color3;
+        @media only screen and (min-resolution: 2dppx) {
+            border-top: 0.5px solid $text-color3;
+        }
     }
 }
 </style>

@@ -77,7 +77,7 @@ export default {
             color: rgba(234, 61, 61, 1);
         }
         .active-green {
-            color: #04be02;
+            color: #04ba60;
         }
     }
 }
