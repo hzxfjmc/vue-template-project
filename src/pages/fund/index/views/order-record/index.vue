@@ -1,10 +1,10 @@
 <template lang="pug">
     .order-record-container(v-if='orderRecordList.length>0')
         .fund-introduce
-            .fund-name {{`${fundIntro}-${fundType}`}}
+            .fund-name {{fundIntro}}
             .fund-detail
                 .fund-detail-item {{assetType}}
-                .fund-detail-item {{$t('fundRiskText')}} {{fundRisk}}
+                .fund-detail-item {{fundRisk}}
         .order-record-box
             van-list.order-record-list(v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad")
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
@@ -36,19 +36,16 @@ export default {
         zhCHS: {
             amount: '金额',
             time: '时间',
-            fundRiskText: '风险等级',
             noOrder: '暂无记录'
         },
         zhCHT: {
             amount: '金额',
             time: '时间',
-            fundRiskText: '风险等级',
             noOrder: '暂无记录'
         },
         en: {
             amount: '金额',
             time: '时间',
-            fundRiskText: '风险等级',
             noOrder: '暂无记录'
         }
     },
@@ -64,14 +61,7 @@ export default {
             fundIntro: '',
             pageNum: 1,
             pageSize: 6,
-            total: 0,
-            fundRiskList: [
-                { type: 'A1', risk: 'R1', name: '低风险' },
-                { type: 'A2', risk: 'R2', name: '中低风险' },
-                { type: 'A3', risk: 'R3', name: '中风险' },
-                { type: 'A4', risk: 'R4', name: '中高风险' },
-                { type: 'A5', risk: 'R5', name: '高风险' }
-            ]
+            total: 0
         }
     },
     computed: {},
@@ -95,7 +85,7 @@ export default {
                 let params = {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    fundId: 18
+                    fundId: this.$route.query.id
                 }
                 let res = await fundOrderList(params)
                 const _this = this
@@ -122,17 +112,8 @@ export default {
 
                     this.assetType =
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
-                    _this.fundRiskList.map(value => {
-                        if (item.fundBaseInfoVO.fundRisk === value.name) {
-                            _this.fundRisk = value.risk
-                            _this.fundType = value.type
-                        }
-                    })
-                    _this.fundIntro =
-                        item.fundBaseInfoVO &&
-                        item.fundBaseInfoVO.fondCode +
-                            ' ' +
-                            item.fundBaseInfoVO.fundName
+                    this.fundRisk = item.fundBaseInfoVO.fundRisk
+                    _this.fundIntro = item.fundBaseInfoVO.fundName
                 })
             } catch (e) {
                 if (e.msg) {
@@ -161,7 +142,8 @@ export default {
                 name: 'order-record-detail',
                 query: {
                     orderNo: orderNo,
-                    orderStatus: orderStatus
+                    orderStatus: orderStatus,
+                    currencyType: this.$route.query.currencyType
                 }
             })
         }

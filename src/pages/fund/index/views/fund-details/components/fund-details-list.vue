@@ -60,6 +60,10 @@ export default {
         },
         scroll: {
             type: Number
+        },
+        fundHeaderInfoVO: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
@@ -93,7 +97,10 @@ export default {
                 data.query = this.fundTradeInfoVO
             }
             if (item.routerPath == '/order-record') {
-                data.query = { id: this.$route.query.id }
+                data.query = {
+                    id: this.$route.query.id,
+                    currencyType: this.fundHeaderInfoVO.currency.type
+                }
             }
             if (item.routerPath == '/generator') {
                 window.location.href = `/webapp/market/generator.html?key=${this.fondCode}`

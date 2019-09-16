@@ -2,7 +2,7 @@
     yx-container.order-record-detail-container
         .order-record-detail(slot='main')
             .fund-introduce
-                .fund-name {{`${fundIntro}-${fundType}`}}
+                .fund-name {{fundIntro}}
                 .fund-detail ISIN: {{fundDetail}}
             order-status-about(:orderStatus='orderStatus' :orderStatusValue='orderStatusValue' :beginTime='beginTime' :endTime='endTime' v-if="[1,2].includes(orderStatus)")
             van-cell-group(class="order-group")
@@ -79,13 +79,11 @@ export default {
         orderStatus(val) {
             if (val) {
                 this.orderStatus = val
-                console.log(this.orderStatus, '0000')
             }
         }
     },
     data() {
         return {
-            fundType: '',
             fundIntro: '',
             fundName: '',
             fondId: '',
@@ -110,14 +108,7 @@ export default {
             differenceColor: '',
             detailMsg: {},
             title: '订单',
-            isShowBackout: false,
-            fundRiskList: [
-                { type: 'A1', risk: 'R1', name: '低风险' },
-                { type: 'A2', risk: 'R2', name: '中低风险' },
-                { type: 'A3', risk: 'R3', name: '中风险' },
-                { type: 'A4', risk: 'R4', name: '中高风险' },
-                { type: 'A5', risk: 'R5', name: '高风险' }
-            ]
+            isShowBackout: false
         }
     },
     created() {
@@ -161,12 +152,7 @@ export default {
                     (res.finishTime &&
                         dayjs(res.finishTime).format('YYYY-MM-DD HH:mm:ss')) ||
                     '--'
-                this.fundIntro = `${res.fundBaseInfoVO.fondCode} ${res.fundBaseInfoVO.fundName}`
-                this.fundRiskList.map(item => {
-                    if (res.fundBaseInfoVO.fundRisk === item.name) {
-                        this.fundType = item.type
-                    }
-                })
+                this.fundIntro = `${res.fundBaseInfoVO.fundName}`
                 this.fundDetail = res.fundBaseInfoVO.isin
                 this.orderTimeValue =
                     (res.orderTime &&

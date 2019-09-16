@@ -17,6 +17,7 @@
             :positionStatus = "positionStatus"
             :fondCode = "fondCode"
             :scroll = "scroll"
+            :fundHeaderInfoVO = "fundHeaderInfoVO" 
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
         van-button(class="btn fund-check" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -230,7 +231,8 @@ export default {
                     query: {
                         id: this.$route.query.id,
                         assessResult: this.userInfo.assessResult,
-                        currencyType: this.fundHeaderInfoVO.currency.type
+                        currencyType: this.fundHeaderInfoVO.currency.type,
+                        fundCode: this.fundCode
                     }
                 }
                 data.path =
