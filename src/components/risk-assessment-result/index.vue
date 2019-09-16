@@ -21,14 +21,14 @@ export default {
             lastTime: '上次风评日期：'
         },
         zhCHT: {
-            resultHd: '您的风评结果为：',
-            btnText: '提交测评',
-            lastTime: '上次风评日期：'
+            resultHd: '您的風評結果為：',
+            btnText: '提交測評',
+            lastTime: '上次風評日期：'
         },
         en: {
-            resultHd: '您的风评结果为：',
-            btnText: '提交测评',
-            lastTime: '上次风评日期：'
+            resultHd: 'Result:',
+            btnText: 'Submit',
+            lastTime: 'Last Update:'
         }
     }
 }
