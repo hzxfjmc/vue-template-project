@@ -26,10 +26,11 @@
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
-                a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
+                a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
+                a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="buyProtocol" style="width: 70%") 《{{ (buyProtocol || '').split('/').pop() }}》
-                    .right(style="text-align: right;") {{ predictDay }}
+                    a.left(:href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
+                    .right(style="text-align: right; width: 35%") {{ predictDay }}
 
             FundSteps(
                 style="margin-top: 22px;"
@@ -91,6 +92,7 @@ export default {
             subscriptionFee: null,
             initialInvestAmount: 0, // 起投金额
             continueInvestAmount: 0, // 续投金额
+            buyProtocolFileName: '',
             buyProtocol: '', // 基金购买协议
             buySubmit: '',
             buyConfirm: '', // 买入确认份额时间
@@ -110,6 +112,13 @@ export default {
                 zhCHT: `預計${this.buyProfitLoss.slice(0, 5)}日完成`,
                 en: `EST. ${this.buyProfitLoss.slice(0, 5).replace('.', '/')}`
             }[this.$i18n.lang]
+        }
+    },
+    watch: {
+        buyMonny(val) {
+            if (val > +this.withdrawBalance) {
+                this.buyMonny = +this.withdrawBalance
+            }
         }
     },
     methods: {
@@ -136,6 +145,11 @@ export default {
                 this.buySubmit = fundDetail.fundTradeInfoVO.buySubmit
                 this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
                 this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss
+                this.buyProtocolFileName = (
+                    fundDetail.fundTradeInfoVO.buyProtocol || ''
+                )
+                    .split('/')
+                    .pop()
             } catch (e) {
                 console.log('申购页面-getFundDetail:error:>>>', e)
             }

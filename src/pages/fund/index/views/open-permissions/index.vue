@@ -1,6 +1,6 @@
 <template lang="pug">
-    .open-permission-wrapper
-        .risk-result-container
+    yx-container.open-permission-wrapper
+        .risk-result-container(slot="main")
             .risk-item.flex
                 .left  {{$t('riskAblity')}}
                 .right {{ resultIndex && $t('resultList')[resultIndex].registration}}
@@ -10,7 +10,7 @@
             .risk-item.flex
                 .left  {{$t('suitPro')}}
                 .right {{ resultIndex && $t('resultList')[resultIndex].suitPro}}
-        .permission-container
+        .permission-container(slot="main")
             .permission-content
                 .title {{$t('agreementTitle')}}
                 .main-content
@@ -18,11 +18,10 @@
                     //- iframe(src=`/webapp/market/generator.html?key=${fundCode}` v-if="fundCode")
                     .title-info {{titleInfo}}
                     .content {{permissionContent}}
-
             .signature-box
                 .title {{$t('inputName')}}
-                van-field(v-model="autograph" :placeholder="$t('placeText')" class="signature-input" )      
-        .footer-btn
+                van-field(v-model="autograph" :placeholder="signNamePlaceholder" class="signature-input" )      
+        .footer-btn(slot='bottom')
             van-button(type="info" round  size="large" @click="openPermissionHandle" :disabled="disabled") {{$t('btnText')}}
 </template>
 
@@ -30,6 +29,7 @@
 import { fundRiskAutograph } from '@/service/user-server.js'
 import { i18nOpenPermissions } from './open-permissions-i18n.js'
 import LS from '@/utils/local-storage.js'
+import { mapState } from 'vuex'
 
 export default {
     i18n: i18nOpenPermissions,
@@ -43,6 +43,18 @@ export default {
 在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
             disabled: true,
             resultIndex: ''
+        }
+    },
+    computed: {
+        ...mapState(['user']),
+        // 签名占位符
+        signNamePlaceholder() {
+            return (
+                (this.user &&
+                    this.user.userAutograph &&
+                    this.$t('placeText') + this.user.userAutograph) ||
+                this.$t('placeText')
+            )
         }
     },
     watch: {
@@ -78,7 +90,7 @@ export default {
                     })
                     .then(() => {
                         // 跳申购页
-                        this.$router.push({
+                        this.$router.replace({
                             path: '/fund-subscribe',
                             query: {
                                 id: this.$route.query.id,
