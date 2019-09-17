@@ -58,7 +58,7 @@
                     .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0") {{ $t('done') }}
+                a.submit(style="margin: 41px 0 28px 0" @click="gotoResultPage") {{ $t('done') }}
 
 </template>
 <script>
@@ -118,6 +118,14 @@ export default {
         }
     },
     methods: {
+        gotoResultPage() {
+            this.$router.push({
+                path: '/risk-appropriate-result',
+                query: {
+                    id: this.$route.query.id
+                }
+            })
+        },
         // 获取基金信息
         async getFundDetailInfo() {
             try {
