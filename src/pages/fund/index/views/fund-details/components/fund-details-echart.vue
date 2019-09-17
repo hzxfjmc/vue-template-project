@@ -102,21 +102,7 @@ export default {
                 labelOffset: 20 // 坐标轴文本距离轴线的距离
             })
             chart.axis('belongDay', {
-                labelOffset: 20, // 坐标轴文本距离轴线的距离
-                label: (text, index, total) => {
-                    const cfg = {
-                        textAlign: 'center'
-                    }
-                    // 第一个点左对齐，最后一个点右对齐，其余居中，只有一个点时左对齐
-                    if (index === 0) {
-                        cfg.textAlign = 'start'
-                    }
-                    if (index > 0 && index === total - 1) {
-                        cfg.textAlign = 'end'
-                    }
-                    cfg.text = text + '%' // cfg.text 支持文本格式化处理
-                    return cfg
-                }
+                labelOffset: 20 // 坐标轴文本距离轴线的距离
             })
             chart
                 .line()
