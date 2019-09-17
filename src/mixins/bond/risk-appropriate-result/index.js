@@ -1,7 +1,8 @@
 import { Checkbox } from 'vant'
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
-import { riskAssessResult } from '@/service/user-server.js'
+import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
+
 import { i18nData } from './i18n.js'
 
 export default {
@@ -13,6 +14,7 @@ export default {
     },
     created() {
         // 等待预定请求完成后，执行下一步操作
+        this.getCurrentUser()
         this.handleSetupResult()
     },
     data() {
@@ -35,7 +37,9 @@ export default {
             assessResultName: '', //测评结果文案
             bondRiskLevel: 100, // 债券风险等级
             btnText: '',
-            isShowPage: false
+            isShowPage: false,
+            userInfo: '',
+            fundCode: ''
         }
     },
     methods: {
@@ -108,6 +112,14 @@ export default {
                 })
             } else {
                 // 风评级别够了，可以购买，跳转到下单界面
+                let data = {
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.fundHeaderInfoVO.currency.type,
+                        assessResult: this.userInfo.assessResult,
+                        fundCode: this.fundCode
+                    }
+                }
                 let direction =
                     (this.$route.query.direction &&
                         this.$route.query.direction) ||
@@ -120,6 +132,25 @@ export default {
                         id: this.$route.query.id
                     }
                 })
+                let arr = this.userInfo.extendStatusBit.toString(2).split('')
+                var step = 0
+                for (let i in arr) {
+                    if (arr[i] === 0) {
+                        step = i
+                    }
+                }
+                data.path = step > 4 ? '/open-permissions' : '/fund-subscribe'
+                this.$router.push(data)
+            }
+        },
+        //获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.userInfo = res
+                console.log(this.userInfo)
+            } catch (e) {
+                console.log('getCurrentUser:error:>>>', e)
             }
         }
     },

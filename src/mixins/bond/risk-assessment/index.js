@@ -69,7 +69,8 @@ export default {
                         this.$router.push({
                             path: '/risk-appropriate-result',
                             query: {
-                                id: this.$route.query.id
+                                id: this.$route.query.id,
+                                currencyType: this.$route.query.currencyType
                             }
                         })
                     } else {
