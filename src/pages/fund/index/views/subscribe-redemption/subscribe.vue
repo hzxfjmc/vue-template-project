@@ -59,7 +59,7 @@
                     .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0") {{ $t('done') }}
+                a.submit(style="margin: 41px 0 28px 0" @click="gotoResultPage") {{ $t('done') }}
        
 
 </template>
@@ -69,6 +69,7 @@ import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundPurchase } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
+import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
@@ -122,6 +123,14 @@ export default {
         }
     },
     methods: {
+        gotoResultPage() {
+            this.$router.push({
+                path: '/risk-appropriate-result',
+                query: {
+                    id: this.$route.query.id
+                }
+            })
+        },
         // 获取基金信息
         async getFundDetailInfo() {
             try {
@@ -184,6 +193,21 @@ export default {
             }
         },
         async handleSubmit() {
+            try {
+                let { validTime } = await riskAssessResult()
+                if (validTime && new Date() > new Date(validTime)) {
+                    // 当前时间大于测评有效时间，测评过期
+                    this.$router.push({
+                        path: '/risk-appropriate-result',
+                        query: {
+                            id: this.$route.query.id
+                        }
+                    })
+                    return
+                }
+            } catch (error) {
+                console.log('申购页面-riskAssessResult:error:>>>', error)
+            }
             let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功
             let token = null
             try {
