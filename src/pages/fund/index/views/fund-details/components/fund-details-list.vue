@@ -135,7 +135,7 @@ export default {
             line-height: 50px;
         }
         .left {
-            margin: 0 20px 0 0;
+            margin: 0 20px 0 11px;
             float: left;
         }
         .right {

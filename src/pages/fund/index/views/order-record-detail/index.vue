@@ -3,7 +3,7 @@
         .order-record-detail(slot='main')
             .fund-introduce
                 .fund-name {{fundIntro}}
-                .fund-detail ISIN: {{fundDetail}}
+                .fund-detail(v-if="fundDetail") ISIN: {{fundDetail}}
             order-status-about(:orderStatus='orderStatus' :orderStatusValue='orderStatusValue' :beginTime='beginTime' :endTime='endTime' v-if="[1,2].includes(orderStatus)")
             van-cell-group(class="order-group")
                 van-cell(class="order-time" )
@@ -270,6 +270,7 @@ export default {
 .order-record-detail-container {
     height: 100%;
     background-color: $background-color;
+    font-family: '';
     .fund-introduce {
         background-color: $background-color;
         &::after {

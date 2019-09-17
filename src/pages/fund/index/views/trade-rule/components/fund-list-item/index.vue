@@ -48,7 +48,7 @@ export default {
     }
     .fund-subtitle {
         display: inline-block;
-        line-height: 50px;
+        line-height: 40px;
     }
 }
 </style>

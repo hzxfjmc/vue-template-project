@@ -34,6 +34,7 @@ export default {
             font-size: 0.28rem;
         }
         .right {
+            font-family: PingFangSC;
             text-align: right;
             span {
                 display: inline-block;

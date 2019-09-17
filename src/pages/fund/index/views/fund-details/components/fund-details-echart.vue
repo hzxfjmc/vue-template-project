@@ -98,6 +98,12 @@ export default {
                     }
                 }
             })
+            chart.axis('netPrice', {
+                labelOffset: 20 // 坐标轴文本距离轴线的距离
+            })
+            chart.axis('belongDay', {
+                labelOffset: 15 // 坐标轴文本距离轴线的距离
+            })
             chart
                 .line()
                 .position('belongDay*netPrice')
@@ -169,13 +175,14 @@ export default {
         #myChart {
             width: 100% !important;
             height: 200px !important;
+            margin: -20px 0 0 0;
             transform: translateX(-3%);
             // transform: scale(1.09);
         }
     }
     .fund-date-list {
         width: 100%;
-        margin: 10px 0;
+        margin: 0 0 10px 0;
         // border: 1px solid rgba(235, 235, 235, 1);
         border-right: none;
         .date-item {

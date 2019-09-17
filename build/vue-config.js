@@ -153,7 +153,7 @@ module.exports = {
                 target: 'https://api.megvii.com',
                 changOrigin: true
             },
-             // banner
+            // banner
             '/news-configserver': {
                 //target: 'http://10.55.4.9:15002',
                 target: 'http://hz1-uat.yxzq.com',
@@ -204,11 +204,11 @@ module.exports = {
             //     target: 'http://jy-dev.yxzq.com',
             //     changOrigin: true
             // },
-            // '/user-server': {
-            //     //  target: 'http://jy-sit.yxzq.com',
-            //     target: 'http://jy-dev.yxzq.com',
-            //     changOrigin: true
-            // },
+            '/user-server': {
+                target: 'http://jy-sit.yxzq.com',
+                // target: 'http://jy-dev.yxzq.com',
+                changOrigin: true
+            },
             // '/user-account-server': {
             //     //  target: 'http://jy-sit.yxzq.com',
             //      target: 'http://jy-dev.yxzq.com',
@@ -268,16 +268,17 @@ module.exports = {
                 changeOrigin: true
             },
             // 债券交易
-            // '/finance-server': {
-            //     // target: 'http://jy-sit.yxzq.com',
-            //     target: 'http://jy-sit.yxzq.com',
-            //     changeOrigin: true
-            // },
-            // // 债券信息
-            // '/finance-info-server': {
-            //     target: 'http://jy-sit.yxzq.com',
-            //     // target: 'http://jy-sit.yxzq.com',
-            //     changeOrigin: true
+            '/finance-server': {
+                // target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-sit.yxzq.com',
+                changeOrigin: true
+            },
+            // 债券信息
+            '/finance-info-server': {
+                target: 'http://jy-sit.yxzq.com',
+                // target: 'http://jy-sit.yxzq.com',
+                changeOrigin: true
+            },
 
             //     // onProxyRes: function(proxyRes, req, res) {
             //     //     let resHttp = proxyRes.client._httpMessage
@@ -302,7 +303,7 @@ module.exports = {
             // },
             // 债券交易
             '/': {
-                ws:false,
+                ws: false,
                 // target: 'http://jy-sit.yxzq.com',
                 target: 'http://jy-sit.yxzq.com',
                 changeOrigin: true
