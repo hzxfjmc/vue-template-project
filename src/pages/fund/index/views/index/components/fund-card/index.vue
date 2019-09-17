@@ -8,8 +8,14 @@
         .right
             h2(:style="h2Style") {{ fundName }}
             .labels 
-                .label {{ info.assetType }}
-                .label {{ info.fundRisk  }}
+                van-tag(
+                    color="#2177FF"
+                    plain
+                ) {{ info.assetType }}
+                van-tag(
+                    color="#2177FF"
+                    plain
+                ) {{ info.fundRisk }}
             .feature {{ info.feature }}
 </template>
 
@@ -105,19 +111,21 @@ export default {
             display: flex;
             justify-content: flex-start;
             margin-bottom: 6px;
-            .label {
-                overflow: hidden;
-                color: $hk-text-line-color;
-                font-size: 0.2rem;
-                line-height: 0.2rem;
-                border: 1px solid $hk-text-line-color;
-                margin-right: 5px;
-                padding: 2px 2px;
-                border-radius: 1px;
-                @media only screen and (min-resolution: 2dppx) {
-                    border: 0.5px solid $hk-text-line-color;
-                }
-            }
+        }
+    }
+    .van-tag--plain {
+        overflow: hidden;
+        min-width: 36px;
+        max-width: 89px;
+        padding: 1px 4px 1px 5px;
+        margin-right: 2px;
+        font-size: 0.2rem;
+        text-align: center;
+        line-height: 14px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        &:last-child {
+            margin-right: 0;
         }
     }
 }
