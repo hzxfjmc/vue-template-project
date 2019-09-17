@@ -233,7 +233,8 @@ export default {
                     query: {
                         id: this.$route.query.id,
                         extendStatusBit: this.userInfo.extendStatusBit == 4,
-                        assessResult: this.userInfo.assessResult
+                        assessResult: this.userInfo.assessResult,
+                        currencyType: this.fundHeaderInfoVO.currency.type
                     }
                 })
             } else {
