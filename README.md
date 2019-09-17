@@ -140,7 +140,7 @@ vw + rem
 
 ### global-components
 
-异步全局组件
+异步全局组件 
 
 ### vue plugins
 
