@@ -6,10 +6,14 @@
     .fund-introduce-content
         .fund-introduce-list(
             v-for="(item,index) of list"
+            :class="[item.flag == 2 ? 'activelist':'']"
             :key="item.label")
             span.left {{item.label}}
             span.right(:ref="item.refs" :class="[item.flag  == 1 ? 'hiddenClass' :'showClass',item.flag == 0 ? '' : item.refs]") {{item.value}}
-                span.active(v-show="item.flag == 1 || item.flag == 2" @click="foldItem(index)") {{item.flag == 1 ? '展开' : '收起'}}
+                span.active(
+                    v-show="item.flag == 1 || item.flag == 2" 
+                    @click="foldItem(index)" 
+                    :class="[item.flag == 2 ? 'activeShow':'']") {{item.flag == 1 ? '展开' : '收起'}}
 </template>
 <script>
 import { Introducelit, i18nIntroducelist } from './fund-introduce'
@@ -88,6 +92,7 @@ export default {
         line-height: 24px;
         display: block;
         position: relative;
+        // overflow: hidden;
         word-break: break-all;
         .active {
             position: absolute;
@@ -100,6 +105,9 @@ export default {
             text-align: right;
             line-height: 24px;
             height: 24px;
+        }
+        .activeShow {
+            bottom: -24px;
         }
     }
 
@@ -118,5 +126,8 @@ export default {
     .target {
         text-align: left;
     }
+}
+.activelist {
+    margin: 0 0 20px 0;
 }
 </style>
