@@ -25,10 +25,11 @@
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * subscriptionFee | formatCurrency }}
-                a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
+                a.submit.gray(v-if="redemptionShare === null || redemptionShare === ''") {{ $t('submiButtonText') }}
+                a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="sellProtocol" style="width: 180px") 《{{ (sellProtocol || '').split('/').pop() }}》
-                    .right(style="text-align: right;") {{ predictDay }}
+                    a.left(:href="sellProtocol" style="width: 65%") 《{{ sellProtocolFileName }}》
+                    .right(style="text-align: right;  width: 35%") {{ predictDay }}
 
             FundSteps(
                 style="margin-top: 22px;"
@@ -88,6 +89,7 @@ export default {
             fundName: '',
             isin: '',
             subscriptionFee: null,
+            sellProtocolFileName: '',
             sellProtocol: '', // 基金卖出协议
             sellSubmit: '',
             sellConfirm: '',
@@ -106,6 +108,13 @@ export default {
                 zhCHT: `預計${this.sellProfitLoss.slice(0, 5)}日完成`,
                 en: `EST. ${this.sellProfitLoss.slice(0, 5).replace('.', '/')}`
             }[this.$i18n.lang]
+        }
+    },
+    watch: {
+        redemptionShare(val) {
+            if (val > +this.positionShare) {
+                this.redemptionShare = +this.positionShare
+            }
         }
     },
     methods: {
@@ -130,6 +139,11 @@ export default {
                 this.sellSubmit = fundDetail.fundTradeInfoVO.sellSubmit
                 this.sellConfirm = fundDetail.fundTradeInfoVO.sellConfirm
                 this.sellProfitLoss = fundDetail.fundTradeInfoVO.sellProfitLoss
+                this.sellProtocolFileName = (
+                    fundDetail.fundTradeInfoVO.sellProtocol || ''
+                )
+                    .split('/')
+                    .pop()
             } catch (e) {
                 console.log('赎回页面-getFundDetailInfo:error:>>>', e)
             }
