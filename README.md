@@ -140,13 +140,13 @@ vw + rem
 
 ### global-components
 
-异步全局组件
+异步全局组件 
 
 ### vue plugins
 
-如 vant element
+如 vant element 
 
-### keepalive 方案
+### keepalive 方案 
 
 ```
 function parentIsAlive (component) {
