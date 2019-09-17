@@ -144,7 +144,7 @@ vw + rem
 
 ### vue plugins
 
-如 vant element
+如 vant element 
 
 ### keepalive 方案
 
