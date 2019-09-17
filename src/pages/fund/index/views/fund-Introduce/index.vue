@@ -1,7 +1,7 @@
 <template lang="pug">
 .fund-introduce
     .fund-introduce-header(class="border-bottom")
-        span {{ $t('fundIntroduceTitle')}}
+        span.title {{ $t('fundIntroduceTitle')}}
     
     .fund-introduce-content
         .fund-introduce-list(
@@ -69,16 +69,19 @@ export default {
 }
 .fund-introduce-header {
     padding: 10px;
+    .title {
+        font-size: 0.32rem;
+    }
 }
 .fund-introduce-content {
-    margin: 20px 0;
+    margin: 5px 0 0 0;
 }
 .fund-introduce-list {
     padding: 5px 10px;
     float: left;
     span {
         display: inline;
-        font-size: 0.24rem;
+        font-size: 0.28rem;
     }
     .left {
         width: 150px;

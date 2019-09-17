@@ -245,10 +245,14 @@ export default {
                         fundCode: this.fundCode
                     }
                 }
-                data.path =
-                    this.userInfo.extendStatusBit != 4
-                        ? '/open-permissions'
-                        : '/fund-subscribe'
+                let arr = this.userInfo.extendStatusBit.toString(2).split('')
+                var step = 0
+                for (let i in arr) {
+                    if (arr[i] == 0) {
+                        step = i
+                    }
+                }
+                data.path = step > 4 ? '/open-permissions' : '/fund-subscribe'
                 this.$router.push(data)
             }
         },
