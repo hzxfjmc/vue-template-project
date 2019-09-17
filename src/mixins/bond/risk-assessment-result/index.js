@@ -44,7 +44,7 @@ export default {
             await Promise.all([this.handleRiskAssessResult()])
             if (this.userRiskLevel === 0) {
                 // 尚未风评
-                this.handleAction()
+                this.startRiskHandle()
             }
             this.isShowPage = true
         },
