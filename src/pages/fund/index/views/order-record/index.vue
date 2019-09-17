@@ -85,7 +85,8 @@ export default {
                 let params = {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    fundId: this.$route.query.id
+                    // fundId: this.$route.query.id,
+                    fundId: 1
                 }
                 let res = await fundOrderList(params)
                 const _this = this
@@ -163,6 +164,7 @@ export default {
             line-height: 22px;
             padding-top: 15px;
             margin-bottom: 6px;
+            font-family: '';
         }
         .fund-detail {
             display: flex;
@@ -171,7 +173,7 @@ export default {
             .fund-detail-item {
                 padding: 0 4px;
                 font-size: 10px;
-                color: $level-text-color;
+                color: $primary-color;
                 height: 16px;
                 line-height: 14px;
                 border-radius: 1px;
@@ -191,6 +193,7 @@ export default {
                         margin-bottom: 10px;
                         font-size: 14px;
                         color: rgba($color: $text-color, $alpha: 0.5);
+                        font-family: '';
                         &.order-type {
                             font-size: 16px;
                             color: $text-color;
@@ -198,9 +201,6 @@ export default {
                         &.money-value {
                             color: $text-color;
                         }
-                        // &.type-value {
-                        //     color: $cell-right-color;
-                        // }
                     }
                 }
             }

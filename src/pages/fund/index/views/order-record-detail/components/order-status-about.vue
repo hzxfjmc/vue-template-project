@@ -76,6 +76,7 @@ export default {
 
 <style lang="scss" scoped>
 .order-status-about-container {
+    font-family: '';
     .order-status-about {
         .status-title {
             margin-bottom: 16px;

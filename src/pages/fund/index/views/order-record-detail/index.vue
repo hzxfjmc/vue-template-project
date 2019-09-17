@@ -270,6 +270,7 @@ export default {
 .order-record-detail-container {
     height: 100%;
     background-color: $background-color;
+    font-family: '';
     .fund-introduce {
         background-color: $background-color;
         &::after {

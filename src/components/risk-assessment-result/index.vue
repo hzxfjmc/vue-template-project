@@ -12,13 +12,14 @@
                 :text="$t('btnText')"
                 @click="handleAction"
             )
-        van-dialog.easy-customer-container(v-model="showEasyCustomer" :confirm-button-text="$t('iKnow')")
+        van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
             .title {{$t('resultTitle') }}
             .msg-info {{$t('riskInfo')}}
             .msg-result {{$t('resultCus')}}
             .msg-title {{$t('msgTitle')}}
             .msg-reason(v-for="(item,index) in $t('msgReason')")
                 .item-reason ({{index+1}}) {{item}}
+            .btn-know(@click="showEasyCustomer = false") {{$t('iKnow')}}
             
 
 </template>
@@ -30,7 +31,7 @@ export default {
     i18n: {
         zhCHS: {
             resultHd: '您的风评结果为：',
-            btnText: '提交测评',
+            btnText: '重新测评',
             lastTime: '上次风评日期：',
             riskInfo: '您对资本亏损的承受能力偏低及重视保存资本',
             easyDangerCustomer: '易受损客户',
@@ -46,7 +47,7 @@ export default {
         },
         zhCHT: {
             resultHd: '您的風評結果為：',
-            btnText: '提交測評',
+            btnText: '重新測評',
             lastTime: '上次風評日期：',
             riskInfo: '您對資本虧損的承受能力偏低及重視保存資本',
             easyDangerCustomer: '易受損客戶',
@@ -131,5 +132,42 @@ export default {
     }
 }
 .easy-customer-container {
+    padding: 20px 16px;
+    .title {
+        font-size: 20px;
+        color: rgba(47, 121, 255, 1);
+        line-height: 20px;
+        margin-bottom: 13px;
+    }
+    .msg-info {
+        font-size: 12px;
+        color: rgba(47, 121, 255, 1);
+        margin-bottom: 17px;
+        text-align: left;
+    }
+    .msg-result {
+        font-size: 18px;
+        color: rgba(47, 121, 255, 1);
+        text-align: left;
+        margin-bottom: 12px;
+    }
+    .msg-title {
+        font-size: 14px;
+        color: $text-color5;
+        text-align: left;
+    }
+    .msg-reason {
+        @extend .msg-title;
+        padding-left: 8px;
+        line-height: 22px;
+    }
+    .btn-know {
+        height: 48px;
+        background: $primary-color;
+        border-radius: 6px;
+        color: $background-color;
+        line-height: 48px;
+        margin-top: 19px;
+    }
 }
 </style>
