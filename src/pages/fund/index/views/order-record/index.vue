@@ -3,8 +3,8 @@
         .fund-introduce
             .fund-name {{fundIntro}}
             .fund-detail
-                .fund-detail-item {{assetType}}
-                .fund-detail-item {{fundRisk}}
+                fund-tag(:title="assetType")
+                fund-tag(:title="fundRisk")
         .order-record-box
             van-list.order-record-list(v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad")
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
@@ -30,6 +30,7 @@ Vue.use(List)
 import { fundOrderList } from '@/service/finance-server.js'
 import { setTimeout } from 'timers'
 import { differColor } from './differColor.js'
+import fundTag from '@/biz-components/fund-tag/index.vue'
 
 export default {
     i18n: {
@@ -50,6 +51,9 @@ export default {
         }
     },
     keepalive: true,
+    components: {
+        'fund-tag': fundTag
+    },
     data() {
         return {
             loading: false,
@@ -85,8 +89,8 @@ export default {
                 let params = {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    fundId: this.$route.query.id
-                    // fundId: 1
+                    // fundId: this.$route.query.id
+                    fundId: 1
                 }
                 let res = await fundOrderList(params)
                 const _this = this
@@ -168,19 +172,8 @@ export default {
         }
         .fund-detail {
             display: flex;
-            flex-direction: row;
+            justify-content: flex-start;
             margin-bottom: 10px;
-            .fund-detail-item {
-                padding: 0 4px;
-                font-size: 10px;
-                color: $primary-color;
-                height: 16px;
-                line-height: 14px;
-                border-radius: 1px;
-                opacity: 0.79;
-                border: 0.5px solid $primary-color;
-                margin-right: 10px;
-            }
         }
     }
     .order-record-box {
