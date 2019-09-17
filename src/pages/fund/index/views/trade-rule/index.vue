@@ -27,7 +27,7 @@
 
     
     .fund-management-list
-        h3.fund-management-title(class="border-bottom") 管理费
+        h3.fund-management-title(class="border-bottom") {{$t('managermentLabel')}}
         FunCell(:cellList="managementList")
 </template>
 <script>
@@ -129,12 +129,12 @@ export default {
             this.sellSubmit.value = params.sellSubmit
             this.sellConfirm.value = params.sellConfirm
             this.sellProfitLoss.value = params.sellProfitLoss
-            this.managementList.managementFee.value = transNumToThousandMark(
+            this.managementList.managementFee.value = `${transNumToThousandMark(
                 params.managementFee
-            )
-            this.managementList.platformManagementFee.value = transNumToThousandMark(
+            ) * 100}%`
+            this.managementList.platformManagementFee.value = `${transNumToThousandMark(
                 params.platformManagementFee
-            )
+            ) * 100}%`
         }
     },
     mounted() {
