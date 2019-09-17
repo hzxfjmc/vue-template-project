@@ -55,6 +55,7 @@ export const managementList = {
 
 export const i18nTrudeRuleData = {
     zhCHS: {
+        managermentLabel: '管理费',
         tradeTitle: '申购',
         tradeSubTitle: '申购流程',
         redeemTitle: '赎回',
@@ -107,6 +108,7 @@ export const i18nTrudeRuleData = {
     },
     zhCHT: {
         tradeTitle: '申購',
+        managermentLabel: '管理費',
         tradeSubTitle: '申購流程',
         redeemTitle: '贖回',
         redeemSubtitle: '贖回流程',
@@ -158,6 +160,7 @@ export const i18nTrudeRuleData = {
     },
     en: {
         tradeTitle: 'Subscription',
+        managermentLabel: 'Management Expense',
         tradeSubTitle: 'Subscription Process',
         redeemTitle: 'Redemption',
         redeemSubtitle: 'Redemption Process',
