@@ -4,8 +4,8 @@
             .risk-result__hd
                 p {{$t('resultHd')}}
             .risk-result__md {{ assessResultName  }}
-            .easy-danger-customer(v-if="userRiskLevel===3" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
-            .risk-result-info(v-if="userRiskLevel===3") {{$t('riskInfo')}}
+            .easy-danger-customer(v-if="userRiskLevel===1" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
+            .risk-result-info(v-if="userRiskLevel===1") {{$t('riskInfo')}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
             fixed-operate-btn(
@@ -24,7 +24,6 @@
             .title {{$t('leastNum')}} {{number}} {{$t('times')}}
             .years-info(v-if="number!==0") {{$t('yearsInfo')}}
             .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
-
 </template>
 
 <script>
