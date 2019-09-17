@@ -126,7 +126,7 @@ module.exports = {
 
 vw + rem
 
-设计稿对应 375 代码中直接用 px 写 postcss-px2rem 转成 rem
+设计稿对应 375 代码中直接用 px 写 postcss-px2rem 转成 rem 
 
 其中 font-size 和 line-height px 单位不会转
 
