@@ -5,7 +5,7 @@ export const i18nOpenPermissions = {
         suitPro: '适合产品',
         agreementTitle: '基金权限开通协议',
         inputName: '输入拼音姓名',
-        placeText: '请输入拼音：zhangyi',
+        placeText: '请输入拼音：',
         btnText: '已阅读并同意该协议',
         openText: '开通成功',
         resultList: {
@@ -42,7 +42,7 @@ export const i18nOpenPermissions = {
         suitPro: '適合產品',
         agreementTitle: '基金權限開通協議',
         inputName: '輸入英文姓名',
-        placeText: '請輸入英文姓名：zhangyi',
+        placeText: '請輸入英文姓名：',
         btnText: '已閱讀並同意該協議',
         openText: '開通成功',
         resultList: {
@@ -79,7 +79,7 @@ export const i18nOpenPermissions = {
         suitPro: 'Suitable Product',
         agreementTitle: 'Fund Account Opening Agreement',
         inputName: 'Enter English Name',
-        placeText: 'Enter English Name:zhangyi',
+        placeText: 'Enter English Name:',
         btnText: 'i have read and agree to the agreement',
         openText: 'Opened Successfully',
         resultList: {
