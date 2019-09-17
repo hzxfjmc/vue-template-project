@@ -20,7 +20,10 @@
             .msg-reason(v-for="(item,index) in $t('msgReason')")
                 .item-reason ({{index+1}}) {{item}}
             .btn-know(@click="showEasyCustomer = false") {{$t('iKnow')}}
-            
+        van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toClose'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toCall'):$t('toCancel')" @cancel="callOrCancel(number)")
+            .title {{$t('leastNum')}} {{number}} {{$t('times')}}
+            .years-info(v-if="number!==0") {{$t('yearsInfo')}}
+            .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
 
 </template>
 
@@ -43,7 +46,15 @@ export default {
                 '65岁或以上；或',
                 '教育程度在小学或以下；或',
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
-            ]
+            ],
+            leastNum: '剩余可测评次数：',
+            yearsInfo: '2020年1月1日重置',
+            yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
+            startRisk: '开始测评',
+            times: '次',
+            toCall: '拨打客服电话',
+            toCancel: '取消',
+            toClose: '关闭'
         },
         zhCHT: {
             resultHd: '您的風評結果為：',
@@ -59,7 +70,15 @@ export default {
                 '65岁或以上；或',
                 '教育程度在小学或以下；或',
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
-            ]
+            ],
+            leastNum: '剩余可测评次数：',
+            yearsInfo: '2020年1月1日重置',
+            yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
+            startRisk: '开始测评',
+            times: '次',
+            toCall: '拨打客服电话',
+            toCancel: '取消',
+            toClose: '关闭'
         },
         en: {
             resultHd: 'Result:',
@@ -75,7 +94,15 @@ export default {
                 '65岁或以上；或',
                 '教育程度在小学或以下；或',
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
-            ]
+            ],
+            leastNum: '剩余可测评次数：',
+            yearsInfo: '2020年1月1日重置',
+            yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
+            startRisk: '开始测评',
+            times: 'time',
+            toCall: '拨打客服电话',
+            toCancel: '取消',
+            toClose: '关闭'
         }
     }
 }
@@ -102,13 +129,14 @@ export default {
             text-align: center;
         }
         .risk-result__md {
-            color: #2f79ff;
+            color: $primary-color-line;
             font-size: 0.48rem;
             line-height: 1;
             margin-bottom: 10px;
         }
         .risk-result-info {
             margin-top: 10px;
+            color: $primary-color-line;
         }
         .easy-danger-customer {
             padding: 0 10px;
@@ -118,6 +146,7 @@ export default {
             width: fit-content;
             min-width: 80px;
             line-height: 25px;
+            color: $primary-color-line;
         }
     }
 
@@ -135,19 +164,19 @@ export default {
     padding: 20px 16px;
     .title {
         font-size: 20px;
-        color: rgba(47, 121, 255, 1);
+        color: $primary-color-line;
         line-height: 20px;
         margin-bottom: 13px;
     }
     .msg-info {
         font-size: 12px;
-        color: rgba(47, 121, 255, 1);
+        color: $primary-color-line;
         margin-bottom: 17px;
         text-align: left;
     }
     .msg-result {
         font-size: 18px;
-        color: rgba(47, 121, 255, 1);
+        color: $primary-color-line;
         text-align: left;
         margin-bottom: 12px;
     }
@@ -168,6 +197,17 @@ export default {
         color: $background-color;
         line-height: 48px;
         margin-top: 19px;
+    }
+}
+.remaining-container {
+    padding: 20px 16px 0;
+    .title {
+        margin-bottom: 10px;
+    }
+    .years-info {
+        font-size: 14px;
+        color: $text-color6;
+        margin-bottom: 10px;
     }
 }
 </style>
