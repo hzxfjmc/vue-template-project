@@ -75,6 +75,7 @@ export default {
             margin-bottom: 4px;
             color: $text-color;
             font-size: 0.48rem;
+            font-weight: bold;
             line-height: 31px;
         }
         .color-green {
@@ -108,7 +109,6 @@ export default {
                 overflow: hidden;
                 color: $hk-text-line-color;
                 font-size: 0.2rem;
-                font-weight: bold;
                 line-height: 0.2rem;
                 border: 1px solid $hk-text-line-color;
                 margin-right: 5px;
