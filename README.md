@@ -146,7 +146,7 @@ vw + rem
 
 如 vant element 
 
-### keepalive 方案
+### keepalive 方案 
 
 ```
 function parentIsAlive (component) {
