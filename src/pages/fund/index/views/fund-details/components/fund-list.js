@@ -18,7 +18,7 @@ export const itemList = {
         itemShow: true
     },
     files: {
-        leftIcon: 'icon-iconEBshoucang3',
+        leftIcon: 'icon-icon_file1',
         label: '相关文件',
         routerPath: '/fund-files',
         itemShow: true
