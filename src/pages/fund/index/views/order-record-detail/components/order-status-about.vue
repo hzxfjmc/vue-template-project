@@ -8,7 +8,7 @@
                             span(:class="differenceColor") {{orderStatusValue}}  
                         .begin-time
                             img(src="@/assets/img/fund/clock.png")
-                            span {{$t('estimate')}}
+                            span {{$t('estimate')}} 
                             span(class='time') {{beginTime}} 
                             span {{$t('surePosition')}}
                         .left-line
@@ -76,6 +76,7 @@ export default {
 
 <style lang="scss" scoped>
 .order-status-about-container {
+    font-family: '';
     .order-status-about {
         .status-title {
             margin-bottom: 16px;

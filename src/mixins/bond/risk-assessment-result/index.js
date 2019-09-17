@@ -1,5 +1,7 @@
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult } from '@/service/user-server.js'
+import jsBridge from '@/utils/js-bridge.js'
+
 export default {
     name: 'RiskAssessmentResult',
     components: {
@@ -24,8 +26,10 @@ export default {
             userRiskLevel: 0, // 用户风险测评等级序号
             assessmentTime: 0, // 上次风评时间
             isShowPage: false,
-            showEasyCustomer: true, // 易受损客户弹窗
-            assessResultName: ''
+            showEasyCustomer: false, // 易受损客户弹窗
+            assessResultName: '',
+            showRemainingNum: false, //剩余次数弹窗
+            number: 0 //剩余次数
         }
     },
     computed: {
@@ -68,14 +72,30 @@ export default {
         },
         // 操作按钮
         handleAction() {
-            // 跳转到风险测评
-            this.$router.push({
-                path: '/risk-assessment'
-            })
+            this.showRemainingNum = true
         },
         // 点击易受损客户
         showEasyCustomerInfo() {
             this.showEasyCustomer = true
+        },
+        // 开始测评
+        startRiskHandle(number) {
+            if (number === 0) {
+                this.showRemainingNum = false
+            } else {
+                // 跳转到风险测评
+                this.$router.push({
+                    path: '/risk-assessment'
+                })
+            }
+        },
+        // 关闭或者拨打客服电话
+        callOrCancel(number) {
+            if (number === 0) {
+                jsBridge.gotoCustomerService()
+            } else {
+                this.showRemainingNum = false
+            }
         }
     }
 }
