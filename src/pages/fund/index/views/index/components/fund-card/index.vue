@@ -108,11 +108,15 @@ export default {
                 overflow: hidden;
                 color: $hk-text-line-color;
                 font-size: 0.2rem;
+                font-weight: bold;
                 line-height: 0.2rem;
                 border: 1px solid $hk-text-line-color;
                 margin-right: 5px;
                 padding: 2px 2px;
                 border-radius: 1px;
+                @media only screen and (min-resolution: 2dppx) {
+                    border: 0.5px solid $hk-text-line-color;
+                }
             }
         }
     }
