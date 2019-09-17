@@ -7,9 +7,10 @@
                 class="span" 
                 :key="item.key"
                 v-for="item of list") 
-                p {{item.fileName}}
-                span {{item.createTime}}
-                img(:src="item.ImgSrc")
+                .list-item(@click="toJumpLink(item)")
+                    p {{item.fileName}}
+                    span {{item.createTime}}
+                    img(:src="item.ImgSrc")
 
     .no-bond-box(v-else)
         .no-bond {{$t('nomore')}}
@@ -38,15 +39,24 @@ export default {
             list: []
         }
     },
+    methods: {
+        initState() {
+            this.list = JSON.parse(this.$route.query.data)
+            this.list.map((item, index) => {
+                item.createTime = dayjs(item.createTime).format('YYYY-MM-DD')
+                this.list[index].ImgSrc =
+                    index % 2 == 0
+                        ? require('@/assets/img/fund/pdf.png')
+                        : require('@/assets/img/fund/html.png')
+            })
+            console.log(this.list)
+        },
+        toJumpLink(item) {
+            window.location.href = item.filePath
+        }
+    },
     mounted() {
-        this.list = JSON.parse(this.$route.query.data)
-        this.list.map((item, index) => {
-            item.createTime = dayjs(item.createTime).format('YYYY-MM-DD')
-            this.list[index].ImgSrc =
-                index % 2 == 0
-                    ? require('@/assets/img/fund/pdf.png')
-                    : require('@/assets/img/fund/html.png')
-        })
+        this.initState()
     }
 }
 </script>

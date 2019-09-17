@@ -4,21 +4,26 @@
         :title="$t('tradeTitle')"
         :cellList="tradeList"
         :subtitle="$t('tradeSubTitle')")
-        FundStep(
+        FundSteps(
             slot="fundStep"
-            :oneStep="buySubmit"
-            :twoStep="buyConfirm"
-            :threeStep="buyProfitLoss")
+            style="margin-top: -5px;"
+            :title="$t('balanceRule')"
+            :curStep="3"
+            :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
+            :stepTimes="[buySubmit.value,buyConfirm.value ,buyProfitLoss.value ]")
     .fund-redeem
         FundListItem(
+            slot="fundStep"
             :title="$t('redeemTitle')"
             :cellList="redeemList"
             :subtitle="$t('redeemSubtitle')")
-            FundStep(
-              slot="fundStep"
-              :oneStep="sellSubmit"
-              :twoStep="sellConfirm"
-              :threeStep="sellProfitLoss")
+            FundSteps(
+                slot="fundStep"
+                style="margin-top: -5px;"
+                :title="$t('balanceRule')"
+                :curStep="3"
+                :stepNames="[sellSubmit.label,sellConfirm.label ,sellProfitLoss.label ]"
+                :stepTimes="[sellSubmit.value,sellConfirm.value ,sellProfitLoss.value ]")
 
     
     .fund-management-list
@@ -28,8 +33,10 @@
 <script>
 import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
+
 import { transNumToThousandMark } from '@/utils/tools.js'
-import FundStep from './components/common/fund-step'
+// import FundStep from './components/common/fund-step'
+import FundSteps from '@/biz-components/fond-steps'
 import {
     tradeList,
     redeemList,
@@ -41,7 +48,7 @@ export default {
     components: {
         FundListItem,
         FunCell,
-        FundStep
+        FundSteps
     },
     data() {
         return {
@@ -54,11 +61,11 @@ export default {
                 value: ''
             },
             buyConfirm: {
-                label: '确认份额423',
+                label: '确认份额',
                 value: ''
             },
             buyProfitLoss: {
-                label: '查看盈亏4234',
+                label: '查看盈亏',
                 value: ''
             },
             sellSubmit: {
