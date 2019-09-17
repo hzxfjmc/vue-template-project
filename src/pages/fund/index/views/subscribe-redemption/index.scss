@@ -34,7 +34,10 @@
         font-size: 0.32rem;
         padding: 14px 12px;
         .fond-name {
-            min-height: 0.48rem;
+            height: 0.48rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .ISIN {
             font-size: 0.28rem;
