@@ -23,14 +23,16 @@ export default {
             },
             userRiskLevel: 0, // 用户风险测评等级序号
             assessmentTime: 0, // 上次风评时间
-            isShowPage: false
+            isShowPage: false,
+            showEasyCustomer: true, // 易受损客户弹窗
+            assessResultName: ''
         }
     },
     computed: {
         // 风评等级
-        assessmentType() {
-            return this.riskTypeList[this.userRiskLevel]
-        }
+        // assessmentType() {
+        //     return this.riskTypeList[this.userRiskLevel]
+        // }
     },
     methods: {
         // 将多个异步聚合为同步
@@ -48,7 +50,8 @@ export default {
                 let {
                     assessResult,
                     createTime,
-                    validTime
+                    validTime,
+                    assessResultName
                 } = await riskAssessResult()
                 if (validTime && new Date() > new Date(validTime)) {
                     // 当前时间大于测评有效时间，测评过期
@@ -57,6 +60,7 @@ export default {
                     this.userRiskLevel = assessResult || 0 // 用户风险测评等级
                 }
                 this.assessmentTime = createTime || 0
+                this.assessResultName = assessResultName
                 console.log('riskAssessResult:data:>>> ', assessResult)
             } catch (error) {
                 console.log('riskAssessResult:error:>>>', error)
@@ -68,6 +72,10 @@ export default {
             this.$router.push({
                 path: '/risk-assessment'
             })
+        },
+        // 点击易受损客户
+        showEasyCustomerInfo() {
+            this.showEasyCustomer = true
         }
     }
 }

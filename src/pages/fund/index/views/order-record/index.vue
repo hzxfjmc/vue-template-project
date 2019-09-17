@@ -60,7 +60,7 @@ export default {
             fundType: '',
             fundIntro: '',
             pageNum: 1,
-            pageSize: 6,
+            pageSize: 20,
             total: 0
         }
     },
@@ -117,10 +117,7 @@ export default {
                 })
             } catch (e) {
                 if (e.msg) {
-                    this.$alert({
-                        message: e.msg,
-                        confirmButtonText: '我知道了'
-                    })
+                    this.$alert(e.msg)
                 }
             }
         },
@@ -179,7 +176,7 @@ export default {
                 line-height: 14px;
                 border-radius: 1px;
                 opacity: 0.79;
-                border: 1px solid $primary-color;
+                border: 0.5px solid $primary-color;
                 margin-right: 10px;
             }
         }
