@@ -26,10 +26,11 @@
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
-                a.submit(@click="handleSubmit") {{ $t('submiButtonText') }}
+                a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
+                a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="buyProtocol" style="width: 70%") 《{{ (buyProtocol || '').split('/').pop() }}》
-                    .right(style="text-align: right;") {{ predictDay }}
+                    a.left(:href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
+                    .right(style="text-align: right; width: 35%") {{ predictDay }}
 
             FundSteps(
                 style="margin-top: 22px;"
@@ -58,7 +59,7 @@
                     .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0") {{ $t('done') }}
+                a.submit(style="margin: 41px 0 28px 0" @click="gotoResultPage") {{ $t('done') }}
        
 
 </template>
@@ -68,6 +69,7 @@ import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundPurchase } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
+import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
@@ -91,6 +93,7 @@ export default {
             subscriptionFee: null,
             initialInvestAmount: 0, // 起投金额
             continueInvestAmount: 0, // 续投金额
+            buyProtocolFileName: '',
             buyProtocol: '', // 基金购买协议
             buySubmit: '',
             buyConfirm: '', // 买入确认份额时间
@@ -112,7 +115,22 @@ export default {
             }[this.$i18n.lang]
         }
     },
+    watch: {
+        buyMonny(val) {
+            if (val > +this.withdrawBalance) {
+                this.buyMonny = +this.withdrawBalance
+            }
+        }
+    },
     methods: {
+        gotoResultPage() {
+            this.$router.push({
+                path: '/risk-appropriate-result',
+                query: {
+                    id: this.$route.query.id
+                }
+            })
+        },
         // 获取基金信息
         async getFundDetailInfo() {
             try {
@@ -136,6 +154,11 @@ export default {
                 this.buySubmit = fundDetail.fundTradeInfoVO.buySubmit
                 this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
                 this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss
+                this.buyProtocolFileName = (
+                    fundDetail.fundTradeInfoVO.buyProtocol || ''
+                )
+                    .split('/')
+                    .pop()
             } catch (e) {
                 console.log('申购页面-getFundDetail:error:>>>', e)
             }
@@ -170,6 +193,21 @@ export default {
             }
         },
         async handleSubmit() {
+            try {
+                let { validTime } = await riskAssessResult()
+                if (validTime && new Date() > new Date(validTime)) {
+                    // 当前时间大于测评有效时间，测评过期
+                    this.$router.push({
+                        path: '/risk-appropriate-result',
+                        query: {
+                            id: this.$route.query.id
+                        }
+                    })
+                    return
+                }
+            } catch (error) {
+                console.log('申购页面-riskAssessResult:error:>>>', error)
+            }
             let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功
             let token = null
             try {

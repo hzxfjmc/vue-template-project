@@ -35,7 +35,10 @@ export default {
     },
     computed: {
         apy() {
-            return this.info && ((this.info.apy - 0) * 100).toFixed(2)
+            return (
+                this.info &&
+                (Math.floor((this.info.apy - 0) * 10000) / 100).toFixed(2)
+            )
         },
         fundName() {
             return this.info.fundName.length > 12

@@ -55,14 +55,15 @@ export default {
             width: 33.33333333%;
             text-align: center;
             font-size: 0.24rem;
+            font-family: PingFangSC;
         }
         .text-color {
             color: $text-color;
         }
         .primary-color {
-            background: $primary-color;
+            background: #2f79ff;
             &::after {
-                background: $primary-color;
+                background: #2f79ff;
             }
         }
         span:first-child {
