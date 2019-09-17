@@ -8,19 +8,13 @@
         .right
             h2(:style="h2Style") {{ fundName }}
             .labels 
-                van-tag(
-                    color="#2177FF"
-                    plain
-                ) {{ info.assetType }}
-                van-tag(
-                    color="#2177FF"
-                    plain
-                ) {{ info.fundRisk }}
+                fund-tag(:title="info.assetType")
+                fund-tag(:title="info.fundRisk")
             .feature {{ info.feature }}
 </template>
 
 <script>
-import { Tag } from 'vant'
+import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
     i18n: {
         zhCHS: {
@@ -31,7 +25,7 @@ export default {
     },
     name: 'BondCard',
     components: {
-        [Tag.name]: Tag
+        'fund-tag': fundTag
     },
     props: {
         info: {
@@ -111,21 +105,6 @@ export default {
             display: flex;
             justify-content: flex-start;
             margin-bottom: 6px;
-        }
-    }
-    .van-tag--plain {
-        overflow: hidden;
-        min-width: 36px;
-        max-width: 89px;
-        padding: 1px 4px 1px 5px;
-        margin-right: 2px;
-        font-size: 0.2rem;
-        text-align: center;
-        line-height: 14px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        &:last-child {
-            margin-right: 0;
         }
     }
 }
