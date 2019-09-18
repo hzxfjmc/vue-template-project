@@ -54,7 +54,7 @@ export default {
                     this.user.firstName &&
                     this.user.lastName &&
                     this.$t('placeText') +
-                        `${this.user.firstName}${this.user.lastName}`) ||
+                        `${this.user.lastName}${this.user.firstName}`) ||
                 this.$t('placeText')
             )
         }

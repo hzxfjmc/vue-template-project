@@ -97,7 +97,8 @@ export default {
             btnShow1: false,
             fondCode: '',
             userInfo: null,
-            scroll: 0
+            scroll: 0,
+            fundRiskType: ''
         }
     },
     methods: {
@@ -138,6 +139,7 @@ export default {
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
+                this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -235,7 +237,7 @@ export default {
                     query: {
                         id: this.$route.query.id,
                         extendStatusBit: this.userInfo.extendStatusBit == 4,
-                        assessResult: this.userInfo.assessResult,
+                        fundRiskType: this.fundRiskType,
                         currencyType: this.fundTradeInfoVO.currency.type
                     }
                 })
