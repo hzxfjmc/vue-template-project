@@ -135,18 +135,10 @@ export default {
                             fundCode: this.fundCode
                         }
                     }
-                    let arr = this.userInfo.extendStatusBit
-                        .toString(2)
-                        .split('')
-                    var step = 0
-                    for (let i in arr) {
-                        if (arr[i] === 0) {
-                            step = i
-                        }
-                    }
-                    console.log(step, 'step')
                     data.path =
-                        step < 4 ? '/open-permissions' : '/fund-subscribe'
+                        (31 & this.userInfo.extendStatusBit) > 0
+                            ? '/fund-subscribe'
+                            : '/open-permissions'
                     this.$router.push(data)
                 }
             }
