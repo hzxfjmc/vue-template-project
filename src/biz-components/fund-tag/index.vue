@@ -24,12 +24,12 @@ export default {
 <style lang="scss">
 .fund-tag {
     .van-tag--plain {
-        font-size: 12px;
-        padding: 0 5px;
+        font-size: 0.2rem;
+        padding: 1px 5px;
         color: $hk-text-line-color;
-        @media only screen and (min-resolution: 2dppx) {
-            font-size: 0.2rem;
-        }
+        // @media only screen and (min-resolution: 2dppx) {
+        //     font-size: 0.2rem;
+        // }
     }
 }
 </style>
