@@ -140,7 +140,7 @@ export default {
                 })
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
-                this.currency = fundDetail.fundHeaderInfoVO.currency.name
+                this.currency = fundDetail.fundTradeInfoVO.currency.name
                 this.subscriptionFee =
                     fundDetail.fundTradeInfoVO.subscriptionFee
                 this.initialInvestAmount =
