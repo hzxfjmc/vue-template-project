@@ -107,7 +107,7 @@ export default {
                 path: routerPath,
                 query: {
                     id: this.$route.query.id,
-                    currencyType: this.fundHeaderInfoVO.currency.type
+                    currencyType: this.fundTradeInfoVO.currency.type
                 }
             })
         },
@@ -234,7 +234,7 @@ export default {
                         id: this.$route.query.id,
                         extendStatusBit: this.userInfo.extendStatusBit == 4,
                         assessResult: this.userInfo.assessResult,
-                        currencyType: this.fundHeaderInfoVO.currency.type
+                        currencyType: this.fundTradeInfoVO.currency.type
                     }
                 })
             } else {
@@ -242,7 +242,7 @@ export default {
                     query: {
                         id: this.$route.query.id,
                         assessResult: this.userInfo.assessResult,
-                        currencyType: this.fundHeaderInfoVO.currency.type,
+                        currencyType: this.fundTradeInfoVO.currency.type,
                         fundCode: this.fundCode
                     }
                 }
