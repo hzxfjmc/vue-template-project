@@ -132,7 +132,7 @@ export default {
                 )
                 this.fundHeaderInfoVO.belongDay = dayjs(
                     this.fundHeaderInfoVO.belongDay
-                ).format('YYYYMMDD')
+                ).format('MMDDYYYY')
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
