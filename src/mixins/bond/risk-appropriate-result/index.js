@@ -52,15 +52,15 @@ export default {
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.riskMatchResult = 1
-                this.btnText = '开始测评'
+                this.btnText = this.$t('startRisk')
             } else if (this.userRiskLevel < this.bondRiskLevel) {
                 // 风评级别不够
                 this.riskMatchResult = 2
-                this.btnText = '重新测评'
+                this.btnText = this.$t('againRisk')
             } else {
                 // 风评级别够了，可以购买
                 this.riskMatchResult = 3
-                this.btnText = '确认'
+                this.btnText = this.$t('sure')
             }
             this.isShowPage = true
         },
@@ -112,35 +112,44 @@ export default {
                 })
             } else {
                 // 风评级别够了，可以购买，跳转到下单界面
-                let data = {
-                    query: {
-                        id: this.$route.query.id,
-                        currencyType: this.fundHeaderInfoVO.currency.type,
-                        assessResult: this.userInfo.assessResult,
-                        fundCode: this.fundCode
+                if (this.$route.query.direction) {
+                    let direction =
+                        (this.$route.query.direction &&
+                            this.$route.query.direction) ||
+                        1
+                    let path =
+                        direction == 2 ? 'transaction-sell' : 'transaction-buy'
+                    this.$router.push({
+                        path: `/${path}`,
+                        query: {
+                            id: this.$route.query.id
+                        }
+                    })
+                } else {
+                    let data = {
+                        query: {
+                            id: this.$route.query.id && this.$route.query.id,
+                            currencyType:
+                                this.$route.query.currencyType &&
+                                this.$route.query.currencyType,
+                            assessResult:
+                                this.userInfo && this.userInfo.assessResult,
+                            fundCode: this.fundCode
+                        }
                     }
+                    let arr = this.userInfo.extendStatusBit
+                        .toString(2)
+                        .split('')
+                    var step = 0
+                    for (let i in arr) {
+                        if (arr[i] === 0) {
+                            step = i
+                        }
+                    }
+                    data.path =
+                        step < 4 ? '/open-permissions' : '/fund-subscribe'
+                    this.$router.push(data)
                 }
-                let direction =
-                    (this.$route.query.direction &&
-                        this.$route.query.direction) ||
-                    1
-                let path =
-                    direction == 2 ? 'transaction-sell' : 'transaction-buy'
-                this.$router.push({
-                    path: `/${path}`,
-                    query: {
-                        id: this.$route.query.id
-                    }
-                })
-                let arr = this.userInfo.extendStatusBit.toString(2).split('')
-                var step = 0
-                for (let i in arr) {
-                    if (arr[i] === 0) {
-                        step = i
-                    }
-                }
-                data.path = step > 4 ? '/open-permissions' : '/fund-subscribe'
-                this.$router.push(data)
             }
         },
         //获取用户信息
