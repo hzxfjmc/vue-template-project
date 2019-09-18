@@ -270,12 +270,12 @@ module.exports = {
             // 债券交易
             '/finance-server': {
                 // target: 'http://jy-sit.yxzq.com',
-                target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
             },
             // 债券信息
             '/finance-info-server': {
-                target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-sit.yxzq.com',
                 changeOrigin: true
             },

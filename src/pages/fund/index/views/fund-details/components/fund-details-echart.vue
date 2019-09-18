@@ -104,10 +104,11 @@ export default {
             chart.axis('belongDay', {
                 labelOffset: 15 // 坐标轴文本距离轴线的距离
             })
-            chart.tooltip({
-                triggerOn: ['touchstart', 'touchmove'], // tooltip 出现的触发行为，可自定义，用法同 legend 的 triggerOn
-                triggerOff: 'touchend' // 消失的触发行为，可自定义
-            })
+            // chart.tooltip({
+            //     triggerOn: ['touchstart', 'touchmove'], // tooltip 出现的触发行为，可自定义，用法同 legend 的 triggerOn
+            //     triggerOff: 'touchend' // 消失的触发行为，可自定义
+            // })
+            // chart.tooltip(false)
             chart
                 .line()
                 .position('belongDay*netPrice')

@@ -99,7 +99,7 @@ export default {
             if (item.routerPath == '/order-record') {
                 data.query = {
                     id: this.$route.query.id,
-                    currencyType: this.fundHeaderInfoVO.currency.type
+                    currencyType: this.fundTradeInfoVO.currency.type
                 }
             }
             if (item.routerPath == '/generator') {
