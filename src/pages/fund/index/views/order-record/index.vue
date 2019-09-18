@@ -89,8 +89,7 @@ export default {
                 let params = {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    // fundId: this.$route.query.id
-                    fundId: 1
+                    fundId: this.$route.query.id
                 }
                 let res = await fundOrderList(params)
                 const _this = this
