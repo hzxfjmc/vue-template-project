@@ -11,7 +11,7 @@
             span.holdSubtitle {{item.label}}
             p.holdNumber(
                 :class="item.value >= 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings') ? 'active_red' : item.value<0 ? 'active-green' : ''") 
-                em(v-if="item.value>0") {{item.cname}} 
+                em(v-if="item.value>0") {{item.cname}}
                 em {{item.value}}
 </template>
 <script>

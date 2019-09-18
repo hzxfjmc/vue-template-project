@@ -128,10 +128,8 @@ export default {
                 } else {
                     let data = {
                         query: {
-                            id: this.$route.query.id && this.$route.query.id,
-                            currencyType:
-                                this.$route.query.currencyType &&
-                                this.$route.query.currencyType,
+                            id: this.$route.query.id,
+                            currencyType: this.$route.query.currencyType,
                             assessResult:
                                 this.userInfo && this.userInfo.assessResult,
                             fundCode: this.fundCode
@@ -146,6 +144,7 @@ export default {
                             step = i
                         }
                     }
+                    console.log(step, 'step')
                     data.path =
                         step < 4 ? '/open-permissions' : '/fund-subscribe'
                     this.$router.push(data)

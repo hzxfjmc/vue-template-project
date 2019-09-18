@@ -8,7 +8,7 @@
                 p(
                     :class="fundHeaderInfoVO.apy<0 ? 'number-green':fundHeaderInfoVO.apy!=0?'number-red':''") {{fundHeaderInfoVO.apy  > 0 ? `+${fundHeaderInfoVO.apy}` : `${fundHeaderInfoVO.apy}`}}%
             .header-right
-                span {{$t('fundPrice')}} {{nowDate}}
+                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
                 p.number-black ${{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
             p {{$t('minInvestment')}} {{fundHeaderInfoVO.initialInvestAmount}}

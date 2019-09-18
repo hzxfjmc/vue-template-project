@@ -56,6 +56,7 @@ export default {
         setTimeout(() => {
             this.initOffsetHeight()
         }, 100)
+        console.log(this.$route.query)
     }
 }
 </script>
