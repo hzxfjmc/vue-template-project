@@ -59,7 +59,7 @@
                     .left.line-height-8 {{ $t('monny') }}
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0" @click="gotoResultPage") {{ $t('done') }}
+                a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
        
 
 </template>
@@ -84,6 +84,7 @@ export default {
         return {
             // 1: 购买 2:成功
             step: 1,
+            orderNo: null,
             buyMonnyBlur: false,
             buyMonny: null,
             fundName: '',
@@ -123,11 +124,12 @@ export default {
         }
     },
     methods: {
-        gotoResultPage() {
+        gotoOrderRecordDetail(orderNo, currencyType) {
             this.$router.push({
-                path: '/risk-appropriate-result',
+                path: '/order-record-detail',
                 query: {
-                    id: this.$route.query.id
+                    orderNo,
+                    currencyType
                 }
             })
         },
@@ -237,6 +239,7 @@ export default {
                         tradeToken: token || t.token
                     })
                     submitStep = 2
+                    this.orderNo = re.orderNo
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {

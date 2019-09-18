@@ -10,7 +10,7 @@
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
                     template(slot-scope='scope')
                         .order-item.flex
-                            span(class="order-type") {{item.tradeType}}
+                            span(class="order-type") {{item.tradeTypeName}}
                             span(class="type-value" :class='item.color') {{item.typeValue}}
                         .order-item.flex
                             span(class="left-title") {{$t('amount')}}
@@ -89,8 +89,7 @@ export default {
                 let params = {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    // fundId: this.$route.query.id
-                    fundId: 1
+                    fundId: this.$route.query.id
                 }
                 let res = await fundOrderList(params)
                 const _this = this
@@ -112,7 +111,8 @@ export default {
                             '--',
                         color: differColor(item.externalStatus),
                         orderNo: item.orderNo,
-                        orderStatus: item.externalStatus
+                        orderStatus: item.externalStatus,
+                        tradeTypeName: item.tradeTypeName
                     })
 
                     this.assetType =

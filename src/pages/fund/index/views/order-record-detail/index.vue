@@ -159,7 +159,7 @@ export default {
                         dayjs(res.orderTime).format('YYYY-MM-DD HH:mm:ss')) ||
                     '--'
                 this.orderNumValue = res.orderNo
-                this.orderType = res.tradeType.name
+                this.orderType = res.tradeTypeName
                 this.moneyNum = transNumToThousandMark(
                     (res.orderAmount * 1).toFixed(2)
                 )
