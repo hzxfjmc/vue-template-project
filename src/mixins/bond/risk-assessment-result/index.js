@@ -29,7 +29,10 @@ export default {
             showEasyCustomer: false, // 易受损客户弹窗
             assessResultName: '',
             showRemainingNum: false, //剩余次数弹窗
-            number: 0 //剩余次数
+            number: 0, //剩余次数
+            assessDefinition: '', // 描述
+            damagedStatus: 0, //是否容易受损客户 0-否，1-是
+            resetTime: '' //重置时间
         }
     },
     computed: {
@@ -55,7 +58,11 @@ export default {
                     assessResult,
                     createTime,
                     validTime,
-                    assessResultName
+                    assessResultName,
+                    assessDefinition,
+                    damagedStatus,
+                    validCount,
+                    resetTime
                 } = await riskAssessResult()
                 if (validTime && new Date() > new Date(validTime)) {
                     // 当前时间大于测评有效时间，测评过期
@@ -65,6 +72,10 @@ export default {
                 }
                 this.assessmentTime = createTime || 0
                 this.assessResultName = assessResultName
+                this.assessDefinition = assessDefinition
+                this.damagedStatus = damagedStatus
+                this.number = validCount
+                this.resetTime = resetTime
                 console.log('riskAssessResult:data:>>> ', assessResult)
             } catch (error) {
                 console.log('riskAssessResult:error:>>>', error)

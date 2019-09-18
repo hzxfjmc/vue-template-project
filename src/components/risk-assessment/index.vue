@@ -5,14 +5,14 @@
             van-panel(
                 v-for="(subjectItem, subjectIndex) in subject"
                 :key="subjectIndex"
-                :title="subjectItem.num + '、' + subjectItem.title"
+                :title="subjectItem.title_cn"
             )
                 van-radio-group(v-model="subjectItem.choiceNum")
                     van-cell-group
                         van-cell(
                             v-for="(optionItem, optionindex) in subjectItem.option"
                             :key="optionindex"
-                            :title="optionItem.text"
+                            :title="optionItem.text_cn"
                             clickable
                             @click="subjectItem.choiceNum = optionItem.num"
                         )
@@ -22,6 +22,28 @@
                                     slot-scope="props"
                                     :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                 )
+                .has-child-container(v-if="[6,7].includes(subjectIndex)")
+                    van-panel(
+                        v-for="(subjectItem1, subjectIndex) in subjectItem.subject"
+                        :key="subjectIndex"
+                        :title="subjectItem1.title_cn"
+                    )
+                        van-radio-group(v-model="subjectItem1.choiceNum")
+                            van-cell-group
+                                van-cell(
+                                    v-for="(optionItem, optionindex) in subjectItem1.option"
+                                    :key="optionindex"
+                                    :title="optionItem.text_cn"
+                                    clickable
+                                    @click="subjectItem1.choiceNum = optionItem.num"
+                                )
+                                    van-radio(slot="right-icon" :name="optionItem.num")
+                                        i.iconfont(
+                                            slot="icon"
+                                            slot-scope="props"
+                                            :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
+                                        )
+
         fixed-operate-btn(
             :text="$t('btnText')"
             :disabled="submitBtnDisabled"

@@ -17,11 +17,19 @@ export default {
             this.subject =
                 jsonSubject.map(subItem => {
                     // 绑定每个题目的选择项
-                    subItem.choiceNum = -1
+                    if (subItem.subject) {
+                        subItem.subject.map(i => {
+                            i.choiceNum = -1
+                        })
+                    } else {
+                        subItem.choiceNum = -1
+                    }
+                    // console.log('riskAssessSubject:data:>>> ', subItem)
+
                     return subItem
                 }) || []
             this.version = version || 0
-            console.log('riskAssessSubject:data:>>> ', subject, version)
+            // console.log('riskAssessSubject:data:>>> ', subject, version)
         } catch (e) {
             console.log('riskAssessSubject:error:>>>', e)
         }
@@ -48,9 +56,21 @@ export default {
             try {
                 // 构造提交数据
                 let serializeData = this.subject.map(subjectItem => {
-                    return {
-                        subjectNum: subjectItem.num,
-                        optionNum: subjectItem.choiceNum
+                    if (subjectItem.subject) {
+                        let arr = []
+                        // 有子题目
+                        subjectItem.subject.map(i => {
+                            arr.push({
+                                subjectNum: i.num,
+                                optionNum: i.choiceNum
+                            })
+                        })
+                        return arr
+                    } else {
+                        return {
+                            subjectNum: subjectItem.num,
+                            optionNum: subjectItem.choiceNum
+                        }
                     }
                 })
                 let submitFlag = false
@@ -91,9 +111,17 @@ export default {
         subject: {
             handler() {
                 // 只要有一个等于-1，那么说明还有没有选择的题目
-                let isAllSelected = !this.subject.some(
-                    item => item.choiceNum === -1
-                )
+                let isAllSelected = !this.subject.some(item => {
+                    if (item.subject) {
+                        let childFlag = item.subject.some(i => {
+                            return i.choiceNum === -1
+                        })
+                        return childFlag
+                    } else {
+                        return item.choiceNum === -1
+                    }
+                })
+                console.log('isAllSelected-------', isAllSelected)
                 if (isAllSelected) {
                     this.submitBtnDisabled = false
                     this.handleSubmit()

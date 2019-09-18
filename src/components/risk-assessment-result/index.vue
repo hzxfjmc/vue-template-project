@@ -4,8 +4,8 @@
             .risk-result__hd
                 p {{$t('resultHd')}}
             .risk-result__md {{ assessResultName  }}
-            .easy-danger-customer(v-if="userRiskLevel===1" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
-            .risk-result-info(v-if="userRiskLevel===1") {{$t('riskInfo')}}
+            .easy-danger-customer(v-if="damagedStatus===1" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
+            .risk-result-info() {{assessDefinition}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
             fixed-operate-btn(
@@ -14,7 +14,7 @@
             )
         van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
             .title {{$t('resultTitle') }}
-            .msg-info {{$t('riskInfo')}}
+            .msg-info {{assessDefinition}}
             .msg-result {{$t('resultCus')}}
             .msg-title {{$t('msgTitle')}}
             .msg-reason(v-for="(item,index) in $t('msgReason')")
@@ -22,7 +22,7 @@
             .btn-know(@click="showEasyCustomer = false") {{$t('iKnow')}}
         van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toClose'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toCall'):$t('toCancel')" @cancel="callOrCancel(number)")
             .title {{$t('leastNum')}} {{number}} {{$t('times')}}
-            .years-info(v-if="number!==0") {{$t('yearsInfo')}}
+            .years-info(v-if="number!==0") {{resetTime | date-format('YYYY年MM月DD日')}}{{$t('yearsInfo')}}
             .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
 </template>
 
@@ -47,7 +47,7 @@ export default {
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             leastNum: '剩余可测评次数：',
-            yearsInfo: '2020年1月1日重置',
+            yearsInfo: '重置',
             yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
             startRisk: '开始测评',
             times: '次',
@@ -71,7 +71,7 @@ export default {
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             leastNum: '剩余可测评次数：',
-            yearsInfo: '2020年1月1日重置',
+            yearsInfo: '重置',
             yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
             startRisk: '开始测评',
             times: '次',
@@ -95,7 +95,7 @@ export default {
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             leastNum: '剩余可测评次数：',
-            yearsInfo: '2020年1月1日重置',
+            yearsInfo: '重置',
             yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
             startRisk: '开始测评',
             times: 'time',
