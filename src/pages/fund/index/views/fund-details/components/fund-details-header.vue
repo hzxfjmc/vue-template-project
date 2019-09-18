@@ -8,7 +8,7 @@
                 p(
                     :class="fundHeaderInfoVO.apy<0 ? 'number-green':fundHeaderInfoVO.apy!=0?'number-red':''") {{fundHeaderInfoVO.apy  > 0 ? `+${fundHeaderInfoVO.apy}` : `${fundHeaderInfoVO.apy}`}}%
             .header-right
-                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
+                span {{$t('fundPrice')}} {{nowDate}}
                 p.number-black ${{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
             p {{$t('minInvestment')}} {{fundHeaderInfoVO.initialInvestAmount}}
@@ -16,6 +16,7 @@
             span {{fundHeaderInfoVO.fundRisk}}
 </template>
 <script>
+import dayjs from 'dayjs'
 export default {
     i18n: {
         zhCHS: {
@@ -38,6 +39,11 @@ export default {
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
+        }
+    },
+    data() {
+        return {
+            nowDate: dayjs(Date.parse(new Date())).format('MMDDYYYY')
         }
     }
 }
