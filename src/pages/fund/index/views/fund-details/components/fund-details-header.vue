@@ -12,12 +12,26 @@
                 p.number-black ${{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
             p {{$t('minInvestment')}} {{fundHeaderInfoVO.currencyType}} {{fundHeaderInfoVO.initialInvestAmount}}
-            span {{fundHeaderInfoVO.assetType}}
-            span {{fundHeaderInfoVO.fundRisk}}
+            .fund-tag
+                van-tag(
+                    color="#2177FF"
+                    plain
+                    ) {{ fundHeaderInfoVO.assetType }}
+            .fund-tag
+                van-tag(
+                    color="#2177FF"
+                    plain
+                    ) {{ fundHeaderInfoVO.fundRisk }}
+            //- span {{fundHeaderInfoVO.assetType}}
+            //- span {{fundHeaderInfoVO.fundRisk}}
 </template>
 <script>
 import dayjs from 'dayjs'
+import { Tag } from 'vant'
 export default {
+    components: {
+        [Tag.name]: Tag
+    },
     i18n: {
         zhCHS: {
             fundPrice: '基金价格',
@@ -112,15 +126,19 @@ export default {
             float: left;
             font-size: 0.24rem;
             margin: 0 20px 0 0;
+            line-height: 22px;
         }
-        span {
+        .fund-tag {
             float: left;
-            font-size: 0.2rem;
-            border: 1px solid rgba(33, 119, 255, 1);
-            margin: 0 3px;
-            padding: 0 5px;
-            color: rgba(33, 119, 255, 1);
         }
+        // span {
+        //     float: left;
+        //     font-size: 0.2rem;
+        //     border: 1px solid rgba(33, 119, 255, 1);
+        //     margin: 0 3px;
+        //     padding: 0 5px;
+        //     color: rgba(33, 119, 255, 1);
+        // }
     }
 }
 </style>
