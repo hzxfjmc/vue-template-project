@@ -75,7 +75,7 @@ export default {
             this.$emit('chooseTime', item.key)
         },
         draw() {
-            const chart = new F2.Chart({
+            let chart = new F2.Chart({
                 id: 'myChart',
                 pixelRatio: window.devicePixelRatio,
                 padding: [45, 'auto', 'auto']
@@ -106,8 +106,8 @@ export default {
             })
             chart.tooltip({
                 alwaysShow: false,
-                triggerOn: ['touchstart', 'touchmove'], // tooltip 出现的触发行为，可自定义，用法同 legend 的 triggerOn
-                triggerOff: 'touchend' // 消失的触发行为，可自定义
+                triggerOn: ['touchstart'], // tooltip 出现的触发行为，可自定义，用法同 legend 的 triggerOn
+                triggerOff: ['touchmove', 'touchend'] // 消失的触发行为，可自定义
             })
             // chart.tooltip(false)
             chart

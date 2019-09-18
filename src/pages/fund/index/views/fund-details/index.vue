@@ -127,6 +127,8 @@ export default {
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
                 )
+                this.fundHeaderInfoVO.currencyType =
+                    res.fundTradeInfoVO.currency.name
                 this.fundHeaderInfoVO.initialInvestAmount = transNumToThousandMark(
                     this.fundHeaderInfoVO.initialInvestAmount
                 )
