@@ -12,12 +12,13 @@ export default {
         [Checkbox.name]: Checkbox
     },
     created() {
+        console.log(this.bondRiskLevel, '0000')
         // 等待预定请求完成后，执行下一步操作
         this.getCurrentUser()
-        // 没有
         if (!this.$route.query.fundRiskType) {
-            this.handleSetupResult()
+            this.handleGetBondDetail()
         }
+        this.handleSetupResult()
     },
     data() {
         return {
@@ -47,7 +48,7 @@ export default {
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            await Promise.all([this.handleRiskAssessResult()])
+            await Promise.resolve(this.handleRiskAssessResult())
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.riskMatchResult = 1
@@ -69,7 +70,11 @@ export default {
                 let res = await riskAssessResult()
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName = res.assessResultName
-                console.log('riskAssessResult:data:>>> ', res.assessResult)
+                console.log(
+                    'riskAssessResult:data:>>> ',
+                    res.assessResult,
+                    this.assessResultName
+                )
             } catch (e) {
                 if (e.msg) {
                     this.$alert(e.msg)
@@ -135,18 +140,10 @@ export default {
                             fundCode: this.fundCode
                         }
                     }
-                    let arr = this.userInfo.extendStatusBit
-                        .toString(2)
-                        .split('')
-                    var step = 0
-                    for (let i in arr) {
-                        if (arr[i] === 0) {
-                            step = i
-                        }
-                    }
-                    console.log(step, 'step')
                     data.path =
-                        step < 4 ? '/open-permissions' : '/fund-subscribe'
+                        (31 & this.userInfo.extendStatusBit) > 0
+                            ? '/fund-subscribe'
+                            : '/open-permissions'
                     this.$router.push(data)
                 }
             }
