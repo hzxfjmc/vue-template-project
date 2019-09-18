@@ -51,8 +51,10 @@ export default {
         signNamePlaceholder() {
             return (
                 (this.user &&
-                    this.user.userAutograph &&
-                    this.$t('placeText') + this.user.userAutograph) ||
+                    this.user.firstName &&
+                    this.user.lastName &&
+                    this.$t('placeText') +
+                        `${this.user.firstName}${this.user.lastName}`) ||
                 this.$t('placeText')
             )
         }

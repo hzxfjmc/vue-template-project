@@ -10,7 +10,7 @@
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
                     template(slot-scope='scope')
                         .order-item.flex
-                            span(class="order-type") {{item.tradeType}}
+                            span(class="order-type") {{item.tradeTypeName}}
                             span(class="type-value" :class='item.color') {{item.typeValue}}
                         .order-item.flex
                             span(class="left-title") {{$t('amount')}}
@@ -111,7 +111,8 @@ export default {
                             '--',
                         color: differColor(item.externalStatus),
                         orderNo: item.orderNo,
-                        orderStatus: item.externalStatus
+                        orderStatus: item.externalStatus,
+                        tradeTypeName: item.tradeTypeName
                     })
 
                     this.assetType =
