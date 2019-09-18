@@ -3,7 +3,9 @@
     h3.fund-title(class="border-bottom") {{title}}
     span.fund-subtitle {{subtitle}}
     slot(name="fundStep")
-    FundCell(:cellList="cellList")
+    FundCell(
+        :currency="currency"
+        :cellList="cellList")
 </template>
 <script>
 import FundCell from '../common/fund-cell'
@@ -32,6 +34,10 @@ export default {
         },
         threeStepContent: {
             type: Object
+        },
+        currency: {
+            type: String,
+            default: ''
         }
     },
     data() {

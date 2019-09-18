@@ -33,9 +33,9 @@ export default {
             for (let key in this.list) {
                 this.list[key].value =
                     key == 'fundSize'
-                        ? `HKD ${transNumToThousandMark(
-                              this.$route.query[key]
-                          )}`
+                        ? `${
+                              this.$route.query.currency
+                          } ${transNumToThousandMark(this.$route.query[key])}`
                         : this.$route.query[key]
             }
         },

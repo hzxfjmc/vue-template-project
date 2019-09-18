@@ -3,6 +3,7 @@
     FundListItem(
         :title="$t('tradeTitle')"
         :cellList="tradeList"
+        :currency = "currency"
         :subtitle="$t('tradeSubTitle')")
         FundSteps(
             slot="fundStep"
@@ -15,6 +16,7 @@
         FundListItem(
             slot="fundStep"
             :title="$t('redeemTitle')"
+            :currency="currency"
             :cellList="redeemList"
             :subtitle="$t('redeemSubtitle')")
             FundSteps(
@@ -54,6 +56,7 @@ export default {
         return {
             tradeList: tradeList,
             redeemList: redeemList,
+            currency: '',
             tradeSubTitle: '423432423',
             managementList: managementList,
             buySubmit: {
@@ -104,6 +107,8 @@ export default {
         },
         InitState() {
             let params = this.$route.query
+            this.currency = params.currency
+            console.log(params)
             this.tradeList['tradeFrequency'].value = params.tradeFrequency
             this.tradeList['dividend'].value = Number(
                 params['dividend']

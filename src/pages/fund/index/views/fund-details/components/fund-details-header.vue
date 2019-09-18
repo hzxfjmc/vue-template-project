@@ -11,7 +11,7 @@
                 span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
                 p.number-black ${{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
-            p {{$t('minInvestment')}} {{fundHeaderInfoVO.initialInvestAmount}}
+            p {{$t('minInvestment')}} {{fundHeaderInfoVO.currencyType}} {{fundHeaderInfoVO.initialInvestAmount}}
             span {{fundHeaderInfoVO.assetType}}
             span {{fundHeaderInfoVO.fundRisk}}
 </template>
@@ -21,7 +21,7 @@ export default {
     i18n: {
         zhCHS: {
             fundPrice: '基金价格',
-            minInvestment: '起投金额 HKD',
+            minInvestment: '起投金额 ',
             oneYearShow: '近一年表现'
         },
         zhCHT: {
