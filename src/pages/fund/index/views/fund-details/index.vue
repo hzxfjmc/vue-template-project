@@ -236,7 +236,7 @@ export default {
                     path: '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
-                        extendStatusBit: this.userInfo.extendStatusBit == 4,
+                        extendStatusBit: this.userInfo.extendStatusBit,
                         fundRiskType: this.fundRiskType,
                         currencyType: this.fundTradeInfoVO.currency.type
                     }
