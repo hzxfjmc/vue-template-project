@@ -7,7 +7,7 @@
         .risk-result__content
             .risk-cell
                 span {{$t('yoursAppropriate')}}
-                strong {{ riskTypeList[userRiskLevel] && riskTypeList[userRiskLevel] || '--'  }}
+                strong {{ assessResultName || '--'  }}
             .risk-cell
                 span {{$t('proRisk')}}
                 strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}

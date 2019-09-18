@@ -26,10 +26,9 @@
 </template>
 
 <script>
-import { fundRiskAutograph } from '@/service/user-server.js'
+import { fundRiskAutograph, getCurrentUser } from '@/service/user-server.js'
 import { i18nOpenPermissions } from './open-permissions-i18n.js'
 import LS from '@/utils/local-storage.js'
-import { mapState } from 'vuex'
 
 export default {
     i18n: i18nOpenPermissions,
@@ -42,19 +41,19 @@ export default {
 在做出交易决定之前，您应仔细阅读这些条款和产品说明。
 在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
             disabled: true,
-            resultIndex: ''
+            resultIndex: '',
+            firstName: '',
+            lastName: ''
         }
     },
     computed: {
-        ...mapState(['user']),
         // 签名占位符
         signNamePlaceholder() {
             return (
-                (this.user &&
-                    this.user.firstName &&
-                    this.user.lastName &&
+                (this.firstName &&
+                    this.lastName &&
                     this.$t('placeText') +
-                        `${this.user.firstName}${this.user.lastName}`) ||
+                        `${this.lastName}${this.firstName}`) ||
                 this.$t('placeText')
             )
         }
@@ -69,12 +68,14 @@ export default {
         }
     },
     created() {
+        console.log(this.user)
         if (this.$route.query) {
             this.resultIndex = this.$route.query.assessResult
         }
         if (this.$route.query.fondCode) {
             this.fundCode = this.$route.query.fondCode
         }
+        this.getCurrentUser()
     },
     methods: {
         async openPermissionHandle() {
@@ -106,6 +107,16 @@ export default {
                         message: e.msg
                     })
                 }
+            }
+        },
+        //获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.firstName = res.firstName
+                this.lastName = res.lastName
+            } catch (e) {
+                console.log('getCurrentUser:error:>>>', e)
             }
         }
     }

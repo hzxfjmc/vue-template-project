@@ -2,7 +2,6 @@ import { Checkbox } from 'vant'
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
-
 import { i18nData } from './i18n.js'
 
 export default {
@@ -15,7 +14,10 @@ export default {
     created() {
         // 等待预定请求完成后，执行下一步操作
         this.getCurrentUser()
-        this.handleSetupResult()
+        // 没有
+        if (!this.$route.query.fundRiskType) {
+            this.handleSetupResult()
+        }
     },
     data() {
         return {
@@ -35,7 +37,7 @@ export default {
             },
             userRiskLevel: 0, // 用户风险测评等级
             assessResultName: '', //测评结果文案
-            bondRiskLevel: 100, // 债券风险等级
+            bondRiskLevel: this.$route.query.fundRiskType || 100, // 债券/基金风险等级
             btnText: '',
             isShowPage: false,
             userInfo: '',
@@ -45,10 +47,7 @@ export default {
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            await Promise.all([
-                this.handleRiskAssessResult(),
-                this.handleGetBondDetail()
-            ])
+            await Promise.all([this.handleRiskAssessResult()])
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.riskMatchResult = 1
@@ -103,11 +102,12 @@ export default {
                 this.userRiskLevel === 0 ||
                 this.userRiskLevel < this.bondRiskLevel
             ) {
-                // 尚未风评，跳转到风险测评
+                // 尚未风评，跳转到风险测评，或者等级不够
                 this.$router.push({
                     path: '/risk-assessment',
                     query: {
-                        id: this.$route.query.id
+                        id: this.$route.query.id,
+                        fundRiskType: this.$route.query.fundRiskType
                     }
                 })
             } else {
