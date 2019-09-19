@@ -87,22 +87,17 @@ export default {
             }
             localStorage.put('scroll', this.scroll)
             if (item.routerPath == '/fund-introduce')
-                // this.fundOverviewInfoVO.currency = JSON.stringify(
-                //     this.fundOverviewInfoVO.currency
-                // )
-                data.query = this.fundOverviewInfoVO
+                data.query = {
+                    id: this.$route.query.id
+                }
             if (item.routerPath == '/fund-files')
                 data.query = {
                     data: JSON.stringify(this.fundCorrelationFileList)
                 }
             if (item.routerPath == '/trade-rule') {
-                // if (this.fundTradeInfoVO.tradeFrequency.name) {
-                //     this.fundTradeInfoVO.tradeFrequency = this.fundTradeInfoVO.tradeFrequency.name
-                // }
-                // if (this.fundTradeInfoVO.currency.name) {
-                //     this.fundTradeInfoVO.currency = this.fundTradeInfoVO.currency.name
-                // }
-                data.query = this.fundTradeInfoVO
+                data.query = {
+                    id: this.$route.query.id
+                }
             }
             if (item.routerPath == '/order-record') {
                 data.query = {
