@@ -18,6 +18,7 @@
 <script>
 import { Introducelit, i18nIntroducelist } from './fund-introduce'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { getFundDetail } from '@/service/finance-info-server.js'
 export default {
     i18n: i18nIntroducelist,
     data() {
@@ -29,16 +30,32 @@ export default {
         foldItem(index) {
             this.list[index].flag = this.list[index].flag == 1 ? 2 : 1
         },
-        initState() {
-            for (let key in this.list) {
-                this.list[key].value =
-                    key == 'fundSize'
-                        ? `${
-                              this.$route.query.currency.name
-                          } ${transNumToThousandMark(this.$route.query[key])}`
-                        : this.$route.query[key]
+        async initState() {
+            try {
+                const {
+                    fundHeaderInfoVO,
+                    fundOverviewInfoVO
+                } = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: this.$route.query.id
+                })
+                for (let key in this.list) {
+                    console.log(fundHeaderInfoVO)
+                    this.list[key].value =
+                        key == 'fundSize'
+                            ? `${
+                                  fundOverviewInfoVO.currency.name
+                              } ${transNumToThousandMark(
+                                  fundOverviewInfoVO[key]
+                              )}`
+                            : fundOverviewInfoVO[key]
+                }
+                setTimeout(() => {
+                    this.initOffsetHeight()
+                }, 100)
+            } catch (e) {
+                console.log('getFundDetail:error:>>>', e)
             }
-            console.log(this.list)
         },
         initOffsetHeight() {
             if (this.$refs.intd[0].offsetHeight > 120) {
@@ -54,10 +71,6 @@ export default {
     },
     mounted() {
         this.initState()
-        setTimeout(() => {
-            this.initOffsetHeight()
-        }, 100)
-        console.log(this.$route.query)
     }
 }
 </script>

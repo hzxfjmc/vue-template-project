@@ -90,7 +90,9 @@ export default {
                 // this.fundOverviewInfoVO.currency = JSON.stringify(
                 //     this.fundOverviewInfoVO.currency
                 // )
-                data.query = this.fundOverviewInfoVO
+                data.query = {
+                    id: this.$route.query.id
+                }
             if (item.routerPath == '/fund-files')
                 data.query = {
                     data: JSON.stringify(this.fundCorrelationFileList)
