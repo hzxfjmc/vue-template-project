@@ -121,6 +121,7 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fondCode = this.fundHeaderInfoVO.fondCode
                 this.fundHeaderInfoVO.apy = (
                     Math.floor(Number(this.fundHeaderInfoVO.apy * 10000)) / 100

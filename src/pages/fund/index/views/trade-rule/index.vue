@@ -107,9 +107,8 @@ export default {
         },
         InitState() {
             let params = this.$route.query
-            this.currency = params.currency
-            console.log(params)
-            this.tradeList['tradeFrequency'].value = params.tradeFrequency
+            this.currency = params.currency.name
+            this.tradeList['tradeFrequency'].value = params.tradeFrequency.name
             this.tradeList['dividend'].value = Number(
                 params['dividend']
             ).toFixed(2)

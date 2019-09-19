@@ -75,6 +75,10 @@ export default {
             this.$emit('chooseTime', item.key)
         },
         draw() {
+            let arr = []
+            for (let item of this.initEchartList) {
+                arr.push(item.netPrice)
+            }
             let chart = new F2.Chart({
                 id: 'myChart',
                 pixelRatio: window.devicePixelRatio,
@@ -84,7 +88,8 @@ export default {
                 netPrice: {
                     alias: '今日净值',
                     tickCount: 5,
-                    min: 0,
+                    min: Math.min.apply(null, arr) * 0.9,
+                    max: Math.max.apply(null, arr) * 1.1,
                     formatter: function formatter(val) {
                         return val.toFixed(2)
                     }
@@ -102,6 +107,7 @@ export default {
                 labelOffset: 20 // 坐标轴文本距离轴线的距离
             })
             chart.axis('belongDay', {
+                line: null,
                 labelOffset: 15 // 坐标轴文本距离轴线的距离
             })
             chart.tooltip({
