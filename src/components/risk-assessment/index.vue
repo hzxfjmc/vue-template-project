@@ -23,10 +23,11 @@
                                     :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                 )
                 .has-child-container(v-if="[6,7].includes(subjectIndex)")
-                    van-panel(
+                    van-panel#child-title(
                         v-for="(subjectItem1, subjectIndex) in subjectItem.subject"
                         :key="subjectIndex"
                         :title="subjectItem1.title_cn"
+                        style="color:#000"
                     )
                         van-radio-group(v-model="subjectItem1.choiceNum")
                             van-cell-group
@@ -43,7 +44,6 @@
                                             slot-scope="props"
                                             :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                         )
-
         fixed-operate-btn(
             :text="$t('btnText')"
             :disabled="submitBtnDisabled"
@@ -82,7 +82,7 @@ export default {
     .risk-assessment-tips {
         padding: 5px 8px 5px 12px;
         background: rgba(255, 172, 79, 0.2);
-        color: #dda16b;
+        color: $risk-background-color;
         font-size: 0.28rem;
         line-height: 20px;
     }
@@ -109,7 +109,7 @@ export default {
                 padding: 10px 12px;
             }
             .van-cell__title {
-                color: rgba(#393939, 0.6) !important;
+                color: $hk-text-color6 !important;
             }
         }
         .van-hairline--top-bottom::after {
@@ -128,6 +128,13 @@ export default {
     }
     .fix-operate-btn.active {
         background-color: $sell-color;
+    }
+    #child-title {
+        .van-panel__header {
+            .van-cell__title {
+                color: $hk-text-color !important;
+            }
+        }
     }
 }
 </style>
