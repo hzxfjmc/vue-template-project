@@ -35,17 +35,17 @@ export default {
     i18n: {
         zhCHS: {
             fundPrice: '基金价格',
-            minInvestment: '起投金额 ',
+            minInvestment: '起投金额',
             oneYearShow: '近一年收益率'
         },
         zhCHT: {
             fundPrice: '基金價格',
-            minInvestment: '起投金額 HKD',
+            minInvestment: '起投金額',
             oneYearShow: '近一年表現'
         },
         en: {
             fundPrice: 'Price',
-            minInvestment: 'Min. Initial Investment HKD',
+            minInvestment: 'Min. Initial Investment',
             oneYearShow: 'Past Year'
         }
     },
