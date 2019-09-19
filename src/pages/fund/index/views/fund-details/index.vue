@@ -131,7 +131,6 @@ export default {
                 )
                 this.fundHeaderInfoVO.currencyType =
                     res.fundTradeInfoVO.currency.name
-                alert(this.fundHeaderInfoVO.currencyType)
                 this.fundHeaderInfoVO.initialInvestAmount = transNumToThousandMark(
                     this.fundHeaderInfoVO.initialInvestAmount
                 )
@@ -244,7 +243,6 @@ export default {
                     }
                 })
             } else {
-                console.log(23)
                 let data = {
                     query: {
                         id: this.$route.query.id,
