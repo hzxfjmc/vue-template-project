@@ -13,6 +13,7 @@
                     img(:src="item.ImgSrc")
 
     .no-bond-box(v-else)
+        //- img(src="~@/assets/img/fund/icon-nofile.png" class="img")
         .no-bond {{$t('nomore')}}
 </template>
 <script>
@@ -21,13 +22,13 @@ import dayjs from 'dayjs'
 export default {
     i18n: {
         zhCHS: {
-            nomore: '暂无文件'
+            nomore: '暂无收藏的信息'
         },
         zhCHT: {
-            nomore: '暫無文件'
+            nomore: '暫無收藏的信息'
         },
         en: {
-            nomore: 'No Document'
+            nomore: 'No File'
         }
     },
     components: {
@@ -71,6 +72,7 @@ export default {
         box-shadow: 0px 2px 4px 0px rgba(231, 236, 248, 1);
         border-radius: 6px;
         position: relative;
+        font-family: PingFangSC;
         padding: 10px;
         .list-item {
             width: 100%;
@@ -111,14 +113,15 @@ export default {
         height: 120px;
         margin: 0 auto;
         padding-top: 100px;
-        background: url('~@/assets/img/bond/icon-nobond.png') center 15px
+        background: url('~@/assets/img/fund/icon-nofile.png') center 15px
             no-repeat;
-        background-size: 110px;
+        background-size: 82px 78px;
         color: $text-color3;
         font-size: 0.28rem;
         line-height: 20px;
         text-align: center;
         box-sizing: border-box;
+        font-family: PingFangSC;
     }
 }
 </style>
