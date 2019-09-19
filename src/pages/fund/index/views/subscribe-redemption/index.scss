@@ -5,6 +5,7 @@
     //         border-bottom: 0.5px solid rgba($text-color, 0.05);
     //     }
     // }
+    font-family:PingFangSC;
     .succed {
         height: 183px;
         text-align: center;
@@ -63,7 +64,7 @@
         font-size: 0.32rem;
     }
     .gray {
-        background: $text-color5;
+        background: #d1d1d1;
     }
     .fond-buy {
         background: $background-color;
@@ -91,10 +92,16 @@
                 color: $text-color5;
                 line-height: 0.48rem;
             }
+            .text-overflow{
+                text-overflow: hidden;
+                text-overflow:ellipsis; //溢出用省略号显示
+                white-space:nowrap; //溢出不换行
+            }
             .right {
                 width: 65%;
                 font-size: 0.28rem;
                 line-height: 0.48rem;
+                font-family:PingFangSC;
                 .van-field {
                     padding: 0;
                     // height: 0.48rem;
@@ -104,6 +111,9 @@
                         font-size: 0.48rem !important;
                     }
                 }
+            }
+            .number{
+                font-family:DINPro;
             }
 
             .buy-monny {
@@ -115,7 +125,7 @@
             }
 
             a.left {
-                color: $primary-color;
+                color: #2F79FF;
             }
             span {
                 font-size: 0.28rem;

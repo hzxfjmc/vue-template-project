@@ -14,8 +14,8 @@
                     .right {{ currency }}
                 .buy-row
                     .left {{ $t('availableBalance') }}
-                    .right {{ withdrawBalance | formatCurrency }}
-                .buy-row
+                    .right(class="number") {{ withdrawBalance | formatCurrency }}
+                .buy-row(class="border-bottom")
                     .left {{ $t('buyMonny') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
@@ -23,13 +23,13 @@
                     .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr.border-bottom
-                .buy-row(style="justify-content: space-between; margin-top: 0px")
+                .buy-row(style="justify-content: space-between; margin-top: 10px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * redemptionFee | formatCurrency }}
                 a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
+                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
                     .right(style="text-align: right; width: 35%") {{ predictDay }}
 
             FundSteps(
