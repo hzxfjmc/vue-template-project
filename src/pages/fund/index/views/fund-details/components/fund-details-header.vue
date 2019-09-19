@@ -36,7 +36,7 @@ export default {
         zhCHS: {
             fundPrice: '基金价格',
             minInvestment: '起投金额 ',
-            oneYearShow: '近一年表现'
+            oneYearShow: '近一年收益率'
         },
         zhCHT: {
             fundPrice: '基金價格',

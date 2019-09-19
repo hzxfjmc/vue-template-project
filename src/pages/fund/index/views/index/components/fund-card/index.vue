@@ -18,7 +18,7 @@ import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
     i18n: {
         zhCHS: {
-            annualRateOfReturn: '近一年收益'
+            annualRateOfReturn: '近一年收益率'
         },
         zhCHT: { annualRateOfReturn: '近一年表現' },
         en: { annualRateOfReturn: 'Past Year' }
