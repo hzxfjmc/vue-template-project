@@ -48,6 +48,8 @@ export const Introducelit = {
 export const i18nIntroducelist = {
     zhCHS: {
         fundIntroduceTitle: '基金介绍',
+        zk: '展开',
+        zq: '折起',
         list: {
             fundCompanyName: {
                 label: '基金公司'
@@ -83,6 +85,8 @@ export const i18nIntroducelist = {
     },
     zhCHT: {
         fundIntroduceTitle: '基金介紹',
+        zk: '更多',
+        zq: '收起',
         list: {
             fundCompanyName: {
                 label: '基金公司'
@@ -118,6 +122,8 @@ export const i18nIntroducelist = {
     },
     en: {
         fundIntroduceTitle: 'Fund Introduction',
+        zk: 'More',
+        zq: 'Less',
         list: {
             fundCompanyName: {
                 label: 'Fund Company'

@@ -38,6 +38,21 @@ export default {
             return this.list
         }
     },
+    // watch: {
+    //     initState() {
+    //         this.initI18nState()
+    //     }
+    // },
+    methods: {
+        initI18nState() {
+            for (let key in this.list) {
+                this.list[key].label = this.$t('holdDetailsData')[key].label
+            }
+        }
+    },
+    mounted() {
+        this.initI18nState()
+    },
     data() {
         return {
             list: JSON.parse(JSON.stringify(holdDetailsData))
