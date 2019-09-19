@@ -158,7 +158,7 @@ export const i18nTrudeRuleData = {
     },
     en: {
         tradeTitle: 'Subscription',
-        managermentLabel: 'Management Expense',
+        managermentLabel: 'Management Fee',
         tradeSubTitle: 'Subscription Process',
         redeemTitle: 'Redemption',
         redeemSubtitle: 'Redemption Process',

@@ -72,8 +72,9 @@ export default {
     watch: {
         $route(to, from) {
             if (
-                from.path === '/order-record-detai' &&
-                this.$route.query.isRefresh
+                (from.path === '/order-record-detai' &&
+                    this.$route.query.isRefresh) ||
+                from.path === '/fund-details'
             ) {
                 this.fundOrderListFun()
             }

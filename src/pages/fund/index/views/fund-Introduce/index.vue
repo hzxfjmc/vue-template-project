@@ -13,7 +13,7 @@
                 span.active(
                     v-show="item.flag == 1 || item.flag == 2" 
                     @click="foldItem(index)" 
-                    :class="[item.flag == 2 ? 'activeShow':'']") {{item.flag == 1 ? '展开' : '收起'}}
+                    :class="[item.flag == 2 ? 'activeShow':'']") {{item.flag == 1 ? $t('zk') : $t('zq')}}
 </template>
 <script>
 import { Introducelit, i18nIntroducelist } from './fund-introduce'
