@@ -1,5 +1,5 @@
 <template lang="pug">
-    .risk-appropriate-result-wrapper(v-show="isShowPage")
+    .risk-appropriate-result-wrapper()
         .risk-result__header
             i(:type="riskMatchResult")
             h2 {{ riskMatchResult > 2 ? $t('matching') : $t('noMatching') }}
@@ -7,7 +7,7 @@
         .risk-result__content
             .risk-cell
                 span {{$t('yoursAppropriate')}}
-                strong {{ riskTypeList[userRiskLevel] && riskTypeList[userRiskLevel] || '--'  }}
+                strong {{ assessResultName || '--'  }}
             .risk-cell
                 span {{$t('proRisk')}}
                 strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
