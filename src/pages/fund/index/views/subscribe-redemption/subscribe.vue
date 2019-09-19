@@ -24,8 +24,8 @@
                         van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFee * 100  }}%
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * redemptionFee | formatCurrency }}
                 a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
@@ -91,7 +91,7 @@ export default {
             isin: '',
             currency: '',
             withdrawBalance: 0,
-            subscriptionFee: null,
+            redemptionFee: null,
             initialInvestAmount: 0, // 起投金额
             continueInvestAmount: 0, // 续投金额
             buyProtocolFileName: '',
@@ -143,8 +143,7 @@ export default {
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.currency = fundDetail.fundTradeInfoVO.currency.name
-                this.subscriptionFee =
-                    fundDetail.fundTradeInfoVO.subscriptionFee
+                this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
                 this.initialInvestAmount =
                     fundDetail.fundTradeInfoVO.initialInvestAmount
                 this.continueInvestAmount =
@@ -267,7 +266,7 @@ export default {
             bugBalance: '购买金额',
             minBugBalance: '最小申购金额',
             continueBalance: '续投金额',
-            redemption: '赎回费',
+            redemption: '申购费',
             predict: '预计',
             submiButtonText: '同意协议并提交',
             dayDone: '日完成',
@@ -292,7 +291,7 @@ export default {
             bugBalance: '购买金额',
             minBugBalance: '最小申購金額',
             continueBalance: '續投金額',
-            redemption: '贖回費',
+            redemption: '申購費',
             predict: '預計',
             submiButtonText: '同意協議並提交',
             dayDone: '日完成',
@@ -317,7 +316,7 @@ export default {
             bugBalance: 'Investment Amount',
             minBugBalance: 'Initial',
             continueBalance: 'Subsequent',
-            redemption: 'Redemption Fee',
+            redemption: 'Subscription Fee',
             predict: 'Estimated',
             submiButtonText: 'Agree to agreement and submit',
             dayDone: 'Complete in X days',
