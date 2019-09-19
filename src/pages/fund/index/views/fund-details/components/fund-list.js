@@ -3,7 +3,7 @@ export const itemList = {
         leftIcon: 'icon-iconEBshoucang',
         label: '交易记录',
         routerPath: '/order-record',
-        itemShow: false
+        itemShow: true
     },
     survey: {
         leftIcon: 'icon-icon-gaishu',
