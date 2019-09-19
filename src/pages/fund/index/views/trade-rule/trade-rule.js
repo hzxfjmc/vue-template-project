@@ -1,8 +1,4 @@
 export const tradeList = {
-    // managementFee: {
-    //     label: '基金管理费',
-    //     value: ''
-    // },
     tradeFrequency: {
         label: '交易频率',
         value: ''
