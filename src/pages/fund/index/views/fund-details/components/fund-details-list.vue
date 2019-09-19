@@ -73,11 +73,11 @@ export default {
     },
     watch: {
         positionStatus() {
-            if (this.positionStatus.type != -1) {
-                this.list['trade'].itemShow = true
-            } else {
-                this.list['trade'].itemShow = false
-            }
+            // if (this.positionStatus.type != -1) {
+            //     this.list['trade'].itemShow = true
+            // } else {
+            //     this.list['trade'].itemShow = false
+            // }
         }
     },
     methods: {

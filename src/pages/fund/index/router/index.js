@@ -10,54 +10,54 @@ export default new Router({
         {
             name: 'index',
             path: '/',
-            meta: { title: '精品基金' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () => import(`@/pages/fund/index/views/index/index.vue`)
         },
         {
             name: 'index',
             path: '/index',
-            meta: { title: '精品基金' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () => import(`@/pages/fund/index/views/index/index.vue`)
         },
         {
             name: 'fund-introduce',
             path: '/fund-introduce',
-            meta: { title: '基金介绍' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-Introduce/index.vue`)
         },
         {
             name: 'trade-rule',
             path: '/trade-rule',
-            meta: { title: '交易规则' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/trade-rule/index.vue`)
         },
         {
             name: 'fund-files',
             path: '/fund-files',
-            meta: { title: '相关文件' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-files/index.vue`)
         },
         {
             name: 'fund-details',
             path: '/fund-details',
-            meta: { title: '基金详情' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-details/index.vue`)
         },
         {
             name: 'risk-assessment',
             path: '/risk-assessment',
-            meta: { title: '风险测评' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/risk-assessment/index.vue`)
         },
         {
             name: 'risk-assessment-result',
             path: '/risk-assessment-result',
-            meta: { title: '测评结果' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(
                     `@/pages/fund/index/views/risk-assessment-result/index.vue`
@@ -66,7 +66,7 @@ export default new Router({
         {
             name: 'risk-appropriate-result',
             path: '/risk-appropriate-result',
-            meta: { title: '产品匹配' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(
                     `@/pages/fund/index/views/risk-appropriate-result/index.vue`
@@ -75,21 +75,21 @@ export default new Router({
         {
             name: 'open-permissions',
             path: '/open-permissions',
-            meta: { title: '基金权限开通' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/open-permissions/index.vue`)
         },
         {
             name: 'order-record',
             path: '/order-record',
-            meta: { title: '订单记录' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/order-record/index.vue`)
         },
         {
             name: 'fund-subscribe',
             path: '/fund-subscribe',
-            meta: { title: '基金申购' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(
                     `@/pages/fund/index/views/subscribe-redemption/subscribe.vue`
@@ -98,7 +98,7 @@ export default new Router({
         {
             name: 'fund-redemption',
             path: '/fund-redemption',
-            meta: { title: '基金赎回' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(
                     `@/pages/fund/index/views/subscribe-redemption/redemption.vue`
@@ -107,7 +107,7 @@ export default new Router({
         {
             name: 'order-record-detail',
             path: '/order-record-detail',
-            meta: { title: '订单记录详情' },
+            meta: { title: 'helpCenter', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/order-record-detail/index.vue`)
         }
