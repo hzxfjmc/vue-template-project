@@ -3,7 +3,7 @@ export const holdDetailsData = {
         label: '昨日收益',
         key: '',
         value: '00.00',
-        cname: '',
+        cname: '+',
         layout: 'left'
     },
     positionEarnings: {
@@ -50,9 +50,6 @@ export const i18nHoldDetailsData = {
             positionEarnings: {
                 label: '持有收益'
             },
-            // costPrice: {
-            //     label: '持仓成本'
-            // },
             positionShare: {
                 label: '持有份额'
             },
@@ -60,57 +57,47 @@ export const i18nHoldDetailsData = {
                 label: '持有市值'
             },
             inTransitAmount: {
-                label: '待确认金额'
+                label: '待确认金额1'
             }
         }
     },
     zhCHT: {
         holdFundTitle: '持倉詳情',
         holdDetailsData: {
-            holdDetailsData: {
-                yesterdayEarnings: {
-                    label: '昨日收益'
-                },
-                positionEarnings: {
-                    label: '持有收益'
-                },
-                costPrice: {
-                    label: '持倉成本'
-                },
-                positionShare: {
-                    label: '持有份額'
-                },
-                positionMarketValue: {
-                    label: '待確認金額'
-                },
-                inTransitAmount: {
-                    label: '待确认金额'
-                }
+            yesterdayEarnings: {
+                label: '昨日收益'
+            },
+            positionEarnings: {
+                label: '持有收益'
+            },
+            positionShare: {
+                label: '持有份額'
+            },
+            positionMarketValue: {
+                label: '待確認金額'
+            },
+            inTransitAmount: {
+                label: '待确认金额'
             }
         }
     },
     en: {
         holdFundTitle: 'Positon',
         holdDetailsData: {
-            holdDetailsData: {
-                yesterdayEarnings: {
-                    label: 'Yesterday P/L'
-                },
-                positionEarnings: {
-                    label: 'Total P/L'
-                },
-                costPrice: {
-                    label: 'Cost'
-                },
-                positionShare: {
-                    label: 'Holding Units'
-                },
-                positionMarketValue: {
-                    label: 'Holding Value'
-                },
-                inTransitAmount: {
-                    label: 'Amount to be confirmed'
-                }
+            yesterdayEarnings: {
+                label: 'Yesterday P/L'
+            },
+            positionEarnings: {
+                label: 'Total P/L'
+            },
+            positionShare: {
+                label: 'Holding Units'
+            },
+            positionMarketValue: {
+                label: 'Holding Value'
+            },
+            inTransitAmount: {
+                label: 'Amount to be confirmed'
             }
         }
     }

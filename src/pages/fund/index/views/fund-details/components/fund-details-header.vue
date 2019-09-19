@@ -1,37 +1,51 @@
 <template lang="pug">
 .funds-details-header
         h3 {{fundHeaderInfoVO.fundName}}
-        p.funds-details-subtitle {{fundHeaderInfoVO.feature}}
+        p.funds-details-subtitle {{fundHeaderInfoVO.isin}}
         .funds-details-number
             .header-left
                 span {{$t('oneYearShow')}}
                 p(
                     :class="fundHeaderInfoVO.apy<0 ? 'number-green':fundHeaderInfoVO.apy!=0?'number-red':''") {{fundHeaderInfoVO.apy  > 0 ? `+${fundHeaderInfoVO.apy}` : `${fundHeaderInfoVO.apy}`}}%
             .header-right
-                span {{$t('fundPrice')}} {{nowDate}}
+                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
                 p.number-black ${{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
-            p {{$t('minInvestment')}} {{fundHeaderInfoVO.initialInvestAmount}}
-            span {{fundHeaderInfoVO.assetType}}
-            span {{fundHeaderInfoVO.fundRisk}}
+            p {{$t('minInvestment')}} {{fundHeaderInfoVO.currencyType}} {{fundHeaderInfoVO.initialInvestAmount}}
+            .fund-tag
+                van-tag(
+                    color="#2177FF"
+                    plain
+                    ) {{ fundHeaderInfoVO.assetType }}
+            .fund-tag
+                van-tag(
+                    color="#2177FF"
+                    plain
+                    ) {{ fundHeaderInfoVO.fundRisk }}
+            //- span {{fundHeaderInfoVO.assetType}}
+            //- span {{fundHeaderInfoVO.fundRisk}}
 </template>
 <script>
 import dayjs from 'dayjs'
+import { Tag } from 'vant'
 export default {
+    components: {
+        [Tag.name]: Tag
+    },
     i18n: {
         zhCHS: {
             fundPrice: '基金价格',
-            minInvestment: '起投金额 HKD',
-            oneYearShow: '近一年表现'
+            minInvestment: '起投金额',
+            oneYearShow: '近一年收益率'
         },
         zhCHT: {
             fundPrice: '基金價格',
-            minInvestment: '起投金額 HKD',
+            minInvestment: '起投金額',
             oneYearShow: '近一年表現'
         },
         en: {
             fundPrice: 'Price',
-            minInvestment: 'Min. Initial Investment HKD',
+            minInvestment: 'Min. Initial Investment',
             oneYearShow: 'Past Year'
         }
     },
@@ -112,15 +126,19 @@ export default {
             float: left;
             font-size: 0.24rem;
             margin: 0 20px 0 0;
+            line-height: 22px;
         }
-        span {
+        .fund-tag {
             float: left;
-            font-size: 0.2rem;
-            border: 1px solid rgba(33, 119, 255, 1);
-            margin: 0 3px;
-            padding: 0 5px;
-            color: rgba(33, 119, 255, 1);
         }
+        // span {
+        //     float: left;
+        //     font-size: 0.2rem;
+        //     border: 1px solid rgba(33, 119, 255, 1);
+        //     margin: 0 3px;
+        //     padding: 0 5px;
+        //     color: rgba(33, 119, 255, 1);
+        // }
     }
 }
 </style>

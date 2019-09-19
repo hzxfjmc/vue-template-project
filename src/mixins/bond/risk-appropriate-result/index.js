@@ -2,7 +2,6 @@ import { Checkbox } from 'vant'
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
-
 import { i18nData } from './i18n.js'
 
 export default {
@@ -13,8 +12,12 @@ export default {
         [Checkbox.name]: Checkbox
     },
     created() {
+        console.log(this.bondRiskLevel, '0000')
         // 等待预定请求完成后，执行下一步操作
         this.getCurrentUser()
+        if (!this.$route.query.fundRiskType) {
+            this.handleGetBondDetail()
+        }
         this.handleSetupResult()
     },
     data() {
@@ -35,7 +38,7 @@ export default {
             },
             userRiskLevel: 0, // 用户风险测评等级
             assessResultName: '', //测评结果文案
-            bondRiskLevel: 100, // 债券风险等级
+            bondRiskLevel: this.$route.query.fundRiskType || 100, // 债券/基金风险等级
             btnText: '',
             isShowPage: false,
             userInfo: '',
@@ -45,10 +48,7 @@ export default {
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            await Promise.all([
-                this.handleRiskAssessResult(),
-                this.handleGetBondDetail()
-            ])
+            await Promise.resolve(this.handleRiskAssessResult())
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.riskMatchResult = 1
@@ -70,7 +70,11 @@ export default {
                 let res = await riskAssessResult()
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName = res.assessResultName
-                console.log('riskAssessResult:data:>>> ', res.assessResult)
+                console.log(
+                    'riskAssessResult:data:>>> ',
+                    res.assessResult,
+                    this.assessResultName
+                )
             } catch (e) {
                 if (e.msg) {
                     this.$alert(e.msg)
@@ -103,11 +107,12 @@ export default {
                 this.userRiskLevel === 0 ||
                 this.userRiskLevel < this.bondRiskLevel
             ) {
-                // 尚未风评，跳转到风险测评
+                // 尚未风评，跳转到风险测评，或者等级不够
                 this.$router.push({
                     path: '/risk-assessment',
                     query: {
-                        id: this.$route.query.id
+                        id: this.$route.query.id,
+                        fundRiskType: this.$route.query.fundRiskType
                     }
                 })
             } else {
@@ -128,26 +133,17 @@ export default {
                 } else {
                     let data = {
                         query: {
-                            id: this.$route.query.id && this.$route.query.id,
-                            currencyType:
-                                this.$route.query.currencyType &&
-                                this.$route.query.currencyType,
+                            id: this.$route.query.id,
+                            currencyType: this.$route.query.currencyType,
                             assessResult:
                                 this.userInfo && this.userInfo.assessResult,
                             fundCode: this.fundCode
                         }
                     }
-                    let arr = this.userInfo.extendStatusBit
-                        .toString(2)
-                        .split('')
-                    var step = 0
-                    for (let i in arr) {
-                        if (arr[i] === 0) {
-                            step = i
-                        }
-                    }
                     data.path =
-                        step < 4 ? '/open-permissions' : '/fund-subscribe'
+                        (31 & this.userInfo.extendStatusBit) > 0
+                            ? '/fund-subscribe'
+                            : '/open-permissions'
                     this.$router.push(data)
                 }
             }

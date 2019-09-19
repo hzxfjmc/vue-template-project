@@ -75,7 +75,11 @@ export default {
             this.$emit('chooseTime', item.key)
         },
         draw() {
-            const chart = new F2.Chart({
+            let arr = []
+            for (let item of this.initEchartList) {
+                arr.push(item.netPrice)
+            }
+            let chart = new F2.Chart({
                 id: 'myChart',
                 pixelRatio: window.devicePixelRatio,
                 padding: [45, 'auto', 'auto']
@@ -84,7 +88,8 @@ export default {
                 netPrice: {
                     alias: '今日净值',
                     tickCount: 5,
-                    min: 0,
+                    min: Math.min.apply(null, arr) * 0.9,
+                    max: Math.max.apply(null, arr) * 1.1,
                     formatter: function formatter(val) {
                         return val.toFixed(2)
                     }
@@ -102,12 +107,15 @@ export default {
                 labelOffset: 20 // 坐标轴文本距离轴线的距离
             })
             chart.axis('belongDay', {
+                line: null,
                 labelOffset: 15 // 坐标轴文本距离轴线的距离
             })
             chart.tooltip({
-                triggerOn: ['touchstart', 'touchmove'], // tooltip 出现的触发行为，可自定义，用法同 legend 的 triggerOn
-                triggerOff: 'touchend' // 消失的触发行为，可自定义
+                alwaysShow: false,
+                triggerOn: ['touchstart'], // tooltip 出现的触发行为，可自定义，用法同 legend 的 triggerOn
+                triggerOff: ['touchmove', 'touchend'] // 消失的触发行为，可自定义
             })
+            // chart.tooltip(false)
             chart
                 .line()
                 .position('belongDay*netPrice')
@@ -191,7 +199,7 @@ export default {
         border-right: none;
         .date-item {
             border-right: 1px solid rgba(235, 235, 235, 1);
-            display: inline-block;
+            // display: inline-block;
             width: 16.65%;
             text-align: center;
             line-height: 30px;
@@ -199,6 +207,7 @@ export default {
             border-radius: 2px;
             font-size: 0.24rem;
             color: $text-color;
+            margin: auto;
         }
         .active {
             background: rgba(25, 25, 25, 0.03);

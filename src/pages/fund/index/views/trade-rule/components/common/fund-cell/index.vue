@@ -3,7 +3,9 @@
     .fund-cell-list(v-for="item of cellList")
         .left {{item.label}}
         .right
-           span {{item.cname}} {{item.value}}
+           span  
+                em(v-if="item.cname") {{currency}} 
+                em {{item.value}}
            span(v-if="item.twoValue") {{item.twoValue}}
 </template>
 <script>
@@ -12,6 +14,10 @@ export default {
         cellList: {
             type: Object,
             default: () => {}
+        },
+        currency: {
+            type: String,
+            default: ''
         }
     },
     data() {
@@ -40,6 +46,9 @@ export default {
                 display: inline-block;
                 width: 100%;
                 line-height: 10px;
+                em {
+                    font-style: normal;
+                }
             }
         }
     }

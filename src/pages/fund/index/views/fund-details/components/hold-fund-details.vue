@@ -11,7 +11,7 @@
             span.holdSubtitle {{item.label}}
             p.holdNumber(
                 :class="item.value >= 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings') ? 'active_red' : item.value<0 ? 'active-green' : ''") 
-                em(v-if="item.value>0") {{item.cname}} 
+                em(v-if="item.value>0") {{item.cname}}
                 em {{item.value}}
 </template>
 <script>
@@ -37,6 +37,21 @@ export default {
             }
             return this.list
         }
+    },
+    // watch: {
+    //     initState() {
+    //         this.initI18nState()
+    //     }
+    // },
+    methods: {
+        initI18nState() {
+            for (let key in this.list) {
+                this.list[key].label = this.$t('holdDetailsData')[key].label
+            }
+        }
+    },
+    mounted() {
+        this.initI18nState()
     },
     data() {
         return {
@@ -67,6 +82,7 @@ export default {
         }
         .holdNumber {
             font-size: 0.36rem;
+            font-family: DINPro;
             // font-weight: bolder;
             em {
                 font-style: normal;

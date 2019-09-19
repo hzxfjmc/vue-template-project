@@ -10,7 +10,7 @@
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
                     template(slot-scope='scope')
                         .order-item.flex
-                            span(class="order-type") {{item.tradeType}}
+                            span(class="order-type") {{item.tradeTypeName}}
                             span(class="type-value" :class='item.color') {{item.typeValue}}
                         .order-item.flex
                             span(class="left-title") {{$t('amount')}}
@@ -72,8 +72,9 @@ export default {
     watch: {
         $route(to, from) {
             if (
-                from.path === '/order-record-detai' &&
-                this.$route.query.isRefresh
+                (from.path === '/order-record-detai' &&
+                    this.$route.query.isRefresh) ||
+                from.path === '/fund-details'
             ) {
                 this.fundOrderListFun()
             }
@@ -89,8 +90,7 @@ export default {
                 let params = {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    // fundId: this.$route.query.id
-                    fundId: 1
+                    fundId: this.$route.query.id
                 }
                 let res = await fundOrderList(params)
                 const _this = this
@@ -112,7 +112,8 @@ export default {
                             '--',
                         color: differColor(item.externalStatus),
                         orderNo: item.orderNo,
-                        orderStatus: item.externalStatus
+                        orderStatus: item.externalStatus,
+                        tradeTypeName: item.tradeTypeName
                     })
 
                     this.assetType =
@@ -181,6 +182,7 @@ export default {
         .order-record-list {
             border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
             .van-cell-item {
+                font-family: PingFangSC;
                 .order-item {
                     span {
                         margin-bottom: 10px;

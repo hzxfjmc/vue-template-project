@@ -1,8 +1,4 @@
 export const tradeList = {
-    // managementFee: {
-    //     label: '基金管理费',
-    //     value: ''
-    // },
     tradeFrequency: {
         label: '交易频率',
         value: ''
@@ -24,8 +20,7 @@ export const tradeList = {
     },
     redemptionFee: {
         label: '申购费',
-        value: '',
-        cname: 'HKD'
+        value: ''
     }
 }
 
@@ -37,8 +32,7 @@ export const redeemList = {
     },
     subscriptionFee: {
         label: '赎回费',
-        value: '',
-        cname: 'HKD'
+        value: ''
     }
 }
 
@@ -160,7 +154,7 @@ export const i18nTrudeRuleData = {
     },
     en: {
         tradeTitle: 'Subscription',
-        managermentLabel: 'Management Expense',
+        managermentLabel: 'Management Fee',
         tradeSubTitle: 'Subscription Process',
         redeemTitle: 'Redemption',
         redeemSubtitle: 'Redemption Process',

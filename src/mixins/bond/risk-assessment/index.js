@@ -70,7 +70,8 @@ export default {
                             path: '/risk-appropriate-result',
                             query: {
                                 id: this.$route.query.id,
-                                currencyType: this.$route.query.currencyType
+                                currencyType: this.$route.query.currencyType,
+                                fundRiskType: this.$route.query.fundRiskType
                             }
                         })
                     } else {

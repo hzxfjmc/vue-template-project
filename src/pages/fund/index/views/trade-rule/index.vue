@@ -3,6 +3,7 @@
     FundListItem(
         :title="$t('tradeTitle')"
         :cellList="tradeList"
+        :currency = "currency"
         :subtitle="$t('tradeSubTitle')")
         FundSteps(
             slot="fundStep"
@@ -15,6 +16,7 @@
         FundListItem(
             slot="fundStep"
             :title="$t('redeemTitle')"
+            :currency="currency"
             :cellList="redeemList"
             :subtitle="$t('redeemSubtitle')")
             FundSteps(
@@ -43,6 +45,7 @@ import {
     managementList,
     i18nTrudeRuleData
 } from './trade-rule'
+import { getFundDetail } from '@/service/finance-info-server.js'
 export default {
     i18n: i18nTrudeRuleData,
     components: {
@@ -54,6 +57,7 @@ export default {
         return {
             tradeList: tradeList,
             redeemList: redeemList,
+            currency: '',
             tradeSubTitle: '423432423',
             managementList: managementList,
             buySubmit: {
@@ -102,39 +106,54 @@ export default {
             this.sellSubmit.label = this.$t('sellSubmit.label')
             this.buyProfitLoss.label = this.$t('buyProfitLoss.label')
         },
-        InitState() {
-            let params = this.$route.query
-            this.tradeList['tradeFrequency'].value = params.tradeFrequency
-            this.tradeList['dividend'].value = Number(
-                params['dividend']
-            ).toFixed(2)
-            this.tradeList[
-                'initialInvestAmount'
-            ].value = transNumToThousandMark(params['initialInvestAmount'])
-            this.tradeList[
-                'continueInvestAmount'
-            ].value = transNumToThousandMark(params['continueInvestAmount'])
-            this.tradeList['redemptionFee'].value = transNumToThousandMark(
-                params['redemptionFee']
-            )
-            this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
-                params.lowestInvestAmount
-            )
-            this.redeemList.subscriptionFee.value = transNumToThousandMark(
-                params.subscriptionFee
-            )
-            this.buySubmit.value = params.buySubmit
-            this.buyConfirm.value = params.buyConfirm
-            this.buyProfitLoss.value = params.buyProfitLoss
-            this.sellSubmit.value = params.sellSubmit
-            this.sellConfirm.value = params.sellConfirm
-            this.sellProfitLoss.value = params.sellProfitLoss
-            this.managementList.managementFee.value = `${transNumToThousandMark(
-                params.managementFee
-            ) * 100}%`
-            this.managementList.platformManagementFee.value = `${transNumToThousandMark(
-                params.platformManagementFee
-            ) * 100}%`
+        async InitState() {
+            try {
+                const { fundTradeInfoVO } = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: this.$route.query.id
+                })
+                this.currency = fundTradeInfoVO.currency.name
+                this.tradeList['tradeFrequency'].value =
+                    fundTradeInfoVO.tradeFrequency.name
+                this.tradeList['dividend'].value = Number(
+                    fundTradeInfoVO['dividend']
+                ).toFixed(2)
+                this.tradeList[
+                    'initialInvestAmount'
+                ].value = transNumToThousandMark(
+                    fundTradeInfoVO['initialInvestAmount']
+                )
+                this.tradeList[
+                    'continueInvestAmount'
+                ].value = transNumToThousandMark(
+                    fundTradeInfoVO['continueInvestAmount']
+                )
+                this.tradeList[
+                    'redemptionFee'
+                ].value = `${transNumToThousandMark(
+                    fundTradeInfoVO['redemptionFee']
+                ) * 100}%`
+                this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
+                    fundTradeInfoVO.lowestInvestAmount
+                )
+                this.redeemList.subscriptionFee.value = `${transNumToThousandMark(
+                    fundTradeInfoVO.subscriptionFee
+                ) * 100}%`
+                this.buySubmit.value = fundTradeInfoVO.buySubmit
+                this.buyConfirm.value = fundTradeInfoVO.buyConfirm
+                this.buyProfitLoss.value = fundTradeInfoVO.buyProfitLoss
+                this.sellSubmit.value = fundTradeInfoVO.sellSubmit
+                this.sellConfirm.value = fundTradeInfoVO.sellConfirm
+                this.sellProfitLoss.value = fundTradeInfoVO.sellProfitLoss
+                this.managementList.managementFee.value = `${transNumToThousandMark(
+                    fundTradeInfoVO.managementFee
+                ) * 100}%`
+                this.managementList.platformManagementFee.value = `${transNumToThousandMark(
+                    fundTradeInfoVO.platformManagementFee
+                ) * 100}%`
+            } catch (e) {
+                console.log('getFundDetail:error:>>>', e)
+            }
         }
     },
     mounted() {

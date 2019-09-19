@@ -73,11 +73,11 @@ export default {
     },
     watch: {
         positionStatus() {
-            if (this.positionStatus.type != -1) {
-                this.list['trade'].itemShow = true
-            } else {
-                this.list['trade'].itemShow = false
-            }
+            // if (this.positionStatus.type != -1) {
+            //     this.list['trade'].itemShow = true
+            // } else {
+            //     this.list['trade'].itemShow = false
+            // }
         }
     },
     methods: {
@@ -87,14 +87,17 @@ export default {
             }
             localStorage.put('scroll', this.scroll)
             if (item.routerPath == '/fund-introduce')
-                data.query = this.fundOverviewInfoVO
+                data.query = {
+                    id: this.$route.query.id
+                }
             if (item.routerPath == '/fund-files')
                 data.query = {
                     data: JSON.stringify(this.fundCorrelationFileList)
                 }
             if (item.routerPath == '/trade-rule') {
-                this.fundTradeInfoVO.tradeFrequency = this.fundTradeInfoVO.tradeFrequency.name
-                data.query = this.fundTradeInfoVO
+                data.query = {
+                    id: this.$route.query.id
+                }
             }
             if (item.routerPath == '/order-record') {
                 data.query = {

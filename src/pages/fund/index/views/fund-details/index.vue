@@ -97,7 +97,8 @@ export default {
             btnShow1: false,
             fondCode: '',
             userInfo: null,
-            scroll: 0
+            scroll: 0,
+            fundRiskType: ''
         }
     },
     methods: {
@@ -120,6 +121,7 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fondCode = this.fundHeaderInfoVO.fondCode
                 this.fundHeaderInfoVO.apy = (
                     Math.floor(Number(this.fundHeaderInfoVO.apy * 10000)) / 100
@@ -127,15 +129,18 @@ export default {
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
                 )
+                this.fundHeaderInfoVO.currencyType =
+                    res.fundTradeInfoVO.currency.name
                 this.fundHeaderInfoVO.initialInvestAmount = transNumToThousandMark(
                     this.fundHeaderInfoVO.initialInvestAmount
                 )
                 this.fundHeaderInfoVO.belongDay = dayjs(
                     this.fundHeaderInfoVO.belongDay
-                ).format('YYYYMMDD')
+                ).format('MMDDYYYY')
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
+                this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -232,8 +237,8 @@ export default {
                     path: '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
-                        extendStatusBit: this.userInfo.extendStatusBit == 4,
-                        assessResult: this.userInfo.assessResult,
+                        extendStatusBit: this.userInfo.extendStatusBit,
+                        fundRiskType: this.fundRiskType,
                         currencyType: this.fundTradeInfoVO.currency.type
                     }
                 })
@@ -246,14 +251,10 @@ export default {
                         fundCode: this.fundCode
                     }
                 }
-                let arr = this.userInfo.extendStatusBit.toString(2).split('')
-                var step = 0
-                for (let i in arr) {
-                    if (arr[i] == 0) {
-                        step = i
-                    }
-                }
-                data.path = step < 4 ? '/open-permissions' : '/fund-subscribe'
+                data.path =
+                    (31 & this.userInfo.extendStatusBit) > 0
+                        ? '/fund-subscribe'
+                        : '/open-permissions'
                 this.$router.push(data)
             }
         },
