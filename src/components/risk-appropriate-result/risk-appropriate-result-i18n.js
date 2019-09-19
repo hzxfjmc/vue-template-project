@@ -14,7 +14,17 @@ export const i18nAppropriateData = {
         buyIt: '购买该产品',
         startRisk: '开始测评',
         againRisk: '重新测评',
-        sure: '确认'
+        sure: '确认',
+        riskTypeList: {
+            // 风险等级列表
+            100: '--',
+            0: '尚未风评',
+            1: '保守型及以上可购买',
+            2: '稳健型及以上可购买',
+            3: '均衡型及以上可购买',
+            4: '增长型及以上可购买',
+            5: '进取型'
+        }
     },
     zhCHT: {
         matching: '匹配',
@@ -31,7 +41,17 @@ export const i18nAppropriateData = {
         buyIt: '購買該產品',
         startRisk: '開始測評',
         againRisk: '重新測評',
-        sure: '確認'
+        sure: '確認',
+        riskTypeList: {
+            // 风险等级列表
+            100: '--',
+            0: '尚未風評',
+            1: '保守型及以上可購買',
+            2: '穩健型及以上可購買',
+            3: '均衡型及以上可購買',
+            4: '增長型及以上可購買',
+            5: '進取型'
+        }
     },
     en: {
         matching: 'Matched',
@@ -49,6 +69,16 @@ export const i18nAppropriateData = {
         buyIt: 'Buy this product',
         startRisk: 'Start Evaluation',
         againRisk: 'Again Evaluation',
-        sure: 'Confirm'
+        sure: 'Confirm',
+        riskTypeList: {
+            // 风险等级列表
+            100: '--',
+            0: 'Not Risk',
+            1: 'Conservative and the above can buy this product',
+            2: 'Stable and the above can buy this product',
+            3: 'Balanced and the above can buy this product',
+            4: 'Growth and the above can buy this product',
+            5: 'Aggressive and the above can buy this product'
+        }
     }
 }

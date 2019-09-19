@@ -20,9 +20,9 @@
             .msg-reason(v-for="(item,index) in $t('msgReason')")
                 .item-reason ({{index+1}}) {{item}}
             .btn-know(@click="showEasyCustomer = false") {{$t('iKnow')}}
-        van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toClose'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toCall'):$t('toCancel')" @cancel="callOrCancel(number)")
+        van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toCall'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toClose'):$t('toCancel')" @cancel="callOrCancel(number)" )
             .title {{$t('leastNum')}} {{number}} {{$t('times')}}
-            .years-info(v-if="number!==0") {{resetTime | date-format('YYYY年MM月DD日')}}{{$t('yearsInfo')}}
+            .years-info(v-if="number!==0") {{resetTimes}}
             .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
 </template>
 
@@ -35,7 +35,6 @@ export default {
             resultHd: '您的风评结果为：',
             btnText: '重新测评',
             lastTime: '上次风评日期：',
-            riskInfo: '您对资本亏损的承受能力偏低及重视保存资本',
             easyDangerCustomer: '易受损客户',
             iKnow: '我知道了',
             resultTitle: '保守型',
@@ -59,7 +58,6 @@ export default {
             resultHd: '您的風評結果為：',
             btnText: '重新測評',
             lastTime: '上次風評日期：',
-            riskInfo: '您對資本虧損的承受能力偏低及重視保存資本',
             easyDangerCustomer: '易受損客戶',
             iKnow: '我知道了',
             resultTitle: '保守型',
@@ -83,10 +81,9 @@ export default {
             resultHd: 'Result:',
             btnText: 'Submit',
             lastTime: 'Last Update:',
-            riskInfo: '您对资本亏损的承受能力偏低及重视保存资本',
-            easyDangerCustomer: 'Vulnerable customer',
-            iKnow: '我知道了',
-            resultTitle: '保守型',
+            easyDangerCustomer: 'Vulnerable Customer',
+            iKnow: 'Got it',
+            resultTitle: 'Conservative',
             resultCus: '您为“易受损客户”',
             msgTitle: '什么是“易受损客户”',
             msgReason: [
@@ -96,9 +93,9 @@ export default {
             ],
             leastNum: '剩余可测评次数：',
             yearsInfo: '重置',
-            yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
+            yearsInfoToCall: '如有调整，请联系客服',
             startRisk: '开始测评',
-            times: 'time',
+            times: '次',
             toCall: '拨打客服电话',
             toCancel: '取消',
             toClose: '关闭'
@@ -134,7 +131,7 @@ export default {
             margin-bottom: 10px;
         }
         .risk-result-info {
-            margin-top: 10px;
+            margin: 10px 16px 0;
             color: $primary-color-line;
         }
         .easy-danger-customer {
@@ -199,14 +196,14 @@ export default {
     }
 }
 .remaining-container {
-    padding: 20px 16px 0;
+    padding-top: 20px;
     .title {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
     .years-info {
         font-size: 14px;
         color: $text-color6;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
 }
 </style>

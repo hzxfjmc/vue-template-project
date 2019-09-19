@@ -10,7 +10,7 @@
                 strong {{ assessResultName || '--'  }}
             .risk-cell
                 span {{$t('proRisk')}}
-                strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
+                strong  {{ $t('riskTypeList')[bondRiskLevel] && $t('riskTypeList')[bondRiskLevel] || '--'  }}
         .risk-result__tips(v-if="riskMatchResult === 1")
             h2
                 span {{$t('riskMeans')}}

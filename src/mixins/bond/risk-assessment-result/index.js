@@ -1,6 +1,7 @@
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
+import dayjs from 'dayjs'
 
 export default {
     name: 'RiskAssessmentResult',
@@ -13,16 +14,6 @@ export default {
     },
     data() {
         return {
-            riskTypeList: {
-                // 风险等级列表
-                100: '已过期',
-                0: '尚未风评',
-                1: '低风险',
-                2: '中风险',
-                3: '高风险',
-                4: '超高风险',
-                5: '最高风险'
-            },
             userRiskLevel: 0, // 用户风险测评等级序号
             assessmentTime: 0, // 上次风评时间
             isShowPage: false,
@@ -36,10 +27,15 @@ export default {
         }
     },
     computed: {
-        // 风评等级
-        // assessmentType() {
-        //     return this.riskTypeList[this.userRiskLevel]
-        // }
+        resetTimes() {
+            return {
+                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                en:
+                    'Resert on 1st January, ' +
+                    dayjs(this.resetTime).format('YYYY')
+            }[this.$i18n.lang]
+        }
     },
     methods: {
         // 将多个异步聚合为同步
@@ -89,10 +85,10 @@ export default {
         showEasyCustomerInfo() {
             this.showEasyCustomer = true
         },
-        // 开始测评
+        // 开始测评或拨打客服电话
         startRiskHandle(number) {
             if (number === 0) {
-                this.showRemainingNum = false
+                jsBridge.gotoCustomerService()
             } else {
                 // 跳转到风险测评
                 this.$router.push({
@@ -100,13 +96,9 @@ export default {
                 })
             }
         },
-        // 关闭或者拨打客服电话
-        callOrCancel(number) {
-            if (number === 0) {
-                jsBridge.gotoCustomerService()
-            } else {
-                this.showRemainingNum = false
-            }
+        // 关闭
+        callOrCancel() {
+            this.showRemainingNum = false
         }
     }
 }

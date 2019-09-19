@@ -24,17 +24,17 @@ export default {
         return {
             isReadProductInfo: true, // 是否阅读了产品资料
             isDisabled: false, // 是否禁止按钮
-            riskMatchResult: 1, // 风险匹配结果
+            riskMatchResult: 0, // 风险匹配结果
             productUrl: '', // 产品资料url
             riskTypeList: {
                 // 风险等级列表
                 100: '--',
                 0: '尚未风评',
-                1: '低风险及以上可购买',
-                2: '中低风险及以上可购买',
-                3: '中风险及以上可购买',
-                4: '中高风险及以上可购买',
-                5: '高风险'
+                1: '保守型及以上可购买',
+                2: '稳健型及以上可购买',
+                3: '均衡型及以上可购买',
+                4: '增长型险及以上可购买',
+                5: '进取型'
             },
             userRiskLevel: 0, // 用户风险测评等级
             assessResultName: '', //测评结果文案

@@ -24,12 +24,10 @@ export default {
                     } else {
                         subItem.choiceNum = -1
                     }
-                    // console.log('riskAssessSubject:data:>>> ', subItem)
 
                     return subItem
                 }) || []
             this.version = version || 0
-            // console.log('riskAssessSubject:data:>>> ', subject, version)
         } catch (e) {
             console.log('riskAssessSubject:error:>>>', e)
         }
@@ -38,14 +36,6 @@ export default {
         return {
             subject: [],
             version: 0,
-            riskTypeTips: '',
-            riskTypeTipsMap: {
-                1: '(低风险)',
-                2: '(中风险)',
-                3: '(高风险)',
-                4: '(超高风险)',
-                5: '(最高风险)'
-            },
             submitBtnDisabled: true
         }
     },
@@ -82,7 +72,6 @@ export default {
                     assessOptionParams: serializeData,
                     subjectVersion: this.version
                 })
-                this.riskTypeTips = this.riskTypeTipsMap[assessResult]
                 // 点击提交按钮时候，才进行跳转
                 if (action === 'submit') {
                     if (this.$route.query.id) {
@@ -124,7 +113,6 @@ export default {
                 console.log('isAllSelected-------', isAllSelected)
                 if (isAllSelected) {
                     this.submitBtnDisabled = false
-                    this.handleSubmit()
                 } else {
                     this.submitBtnDisabled = true
                 }
