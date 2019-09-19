@@ -34,10 +34,11 @@ export default {
                 this.list[key].value =
                     key == 'fundSize'
                         ? `${
-                              this.$route.query.currency
+                              this.$route.query.currency.name
                           } ${transNumToThousandMark(this.$route.query[key])}`
                         : this.$route.query[key]
             }
+            console.log(this.list)
         },
         initOffsetHeight() {
             if (this.$refs.intd[0].offsetHeight > 120) {

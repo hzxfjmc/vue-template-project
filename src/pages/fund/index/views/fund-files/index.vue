@@ -18,6 +18,7 @@
 </template>
 <script>
 import { Row, Col } from 'vant'
+import { getCosUrl } from '@/utils/cos-utils'
 import dayjs from 'dayjs'
 export default {
     i18n: {
@@ -52,8 +53,13 @@ export default {
             })
             console.log(this.list)
         },
-        toJumpLink(item) {
-            window.location.href = item.filePath
+        async toJumpLink(item) {
+            try {
+                const res = await getCosUrl(item.filePath)
+                window.location.href = res
+            } catch (e) {
+                console.log('赎回页面-getCosUrl:error:>>>', e)
+            }
         }
     },
     mounted() {
