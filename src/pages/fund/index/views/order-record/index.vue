@@ -181,6 +181,7 @@ export default {
         .order-record-list {
             border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
             .van-cell-item {
+                font-family: PingFangSC;
                 .order-item {
                     span {
                         margin-bottom: 10px;

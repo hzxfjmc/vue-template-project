@@ -193,7 +193,7 @@ export default {
         border-right: none;
         .date-item {
             border-right: 1px solid rgba(235, 235, 235, 1);
-            display: inline-block;
+            // display: inline-block;
             width: 16.65%;
             text-align: center;
             line-height: 30px;
@@ -201,6 +201,7 @@ export default {
             border-radius: 2px;
             font-size: 0.24rem;
             color: $text-color;
+            margin: auto;
         }
         .active {
             background: rgba(25, 25, 25, 0.03);
