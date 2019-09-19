@@ -24,8 +24,7 @@ export const tradeList = {
     },
     redemptionFee: {
         label: '申购费',
-        value: '',
-        cname: 'HKD'
+        value: ''
     }
 }
 
@@ -37,8 +36,7 @@ export const redeemList = {
     },
     subscriptionFee: {
         label: '赎回费',
-        value: '',
-        cname: 'HKD'
+        value: ''
     }
 }
 

@@ -118,15 +118,15 @@ export default {
             this.tradeList[
                 'continueInvestAmount'
             ].value = transNumToThousandMark(params['continueInvestAmount'])
-            this.tradeList['redemptionFee'].value = transNumToThousandMark(
+            this.tradeList['redemptionFee'].value = `${transNumToThousandMark(
                 params['redemptionFee']
-            )
+            ) * 100}%`
             this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
                 params.lowestInvestAmount
             )
-            this.redeemList.subscriptionFee.value = transNumToThousandMark(
+            this.redeemList.subscriptionFee.value = `${transNumToThousandMark(
                 params.subscriptionFee
-            )
+            ) * 100}%`
             this.buySubmit.value = params.buySubmit
             this.buyConfirm.value = params.buyConfirm
             this.buyProfitLoss.value = params.buyProfitLoss
