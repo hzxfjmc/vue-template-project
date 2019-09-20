@@ -18,7 +18,8 @@
                         .order-item.flex
                             span(class="left-title") {{$t('time')}}
                             span(class="right-title" ) {{item.timeValue}}
-    .order-record-container-else(v-else style="text-align:center") {{$t('noOrder')}}
+    .order-record-container-else(v-else style="text-align:center") 
+        .no-record-box {{$t('noOrder')}}
 </template>
 
 <script>
@@ -207,16 +208,20 @@ export default {
     }
 }
 .order-record-container-else {
-    // height: 100%;
-    // display: flex;
-    // flex-direction: column;
-    // justify-content: center;
-    width: 130px;
-    height: 120px;
-    margin: 0 auto;
-    padding-top: 100px;
-    background: url('~@/assets/img/bond/icon-nobond.png') center 15px no-repeat;
-    background-size: 110px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    .no-record-box {
+        width: 130px;
+        height: 130px;
+        padding-top: 110px;
+        background: url('~@/assets/img/bond/icon-nobond.png') center 15px
+            no-repeat;
+        background-size: 110px;
+        box-sizing: border-box;
+    }
 }
 .yellow-style {
     color: $cell-right-color !important;
