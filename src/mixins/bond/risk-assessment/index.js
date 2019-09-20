@@ -17,11 +17,17 @@ export default {
             this.subject =
                 jsonSubject.map(subItem => {
                     // 绑定每个题目的选择项
-                    subItem.choiceNum = -1
+                    if (subItem.subject) {
+                        subItem.subject.map(i => {
+                            i.choiceNum = -1
+                        })
+                    } else {
+                        subItem.choiceNum = -1
+                    }
+
                     return subItem
                 }) || []
             this.version = version || 0
-            console.log('riskAssessSubject:data:>>> ', subject, version)
         } catch (e) {
             console.log('riskAssessSubject:error:>>>', e)
         }
@@ -30,14 +36,6 @@ export default {
         return {
             subject: [],
             version: 0,
-            riskTypeTips: '',
-            riskTypeTipsMap: {
-                1: '(低风险)',
-                2: '(中风险)',
-                3: '(高风险)',
-                4: '(超高风险)',
-                5: '(最高风险)'
-            },
             submitBtnDisabled: true
         }
     },
@@ -48,9 +46,21 @@ export default {
             try {
                 // 构造提交数据
                 let serializeData = this.subject.map(subjectItem => {
-                    return {
-                        subjectNum: subjectItem.num,
-                        optionNum: subjectItem.choiceNum
+                    if (subjectItem.subject) {
+                        let arr = []
+                        // 有子题目
+                        subjectItem.subject.map(i => {
+                            arr.push({
+                                subjectNum: i.num,
+                                optionNum: i.choiceNum
+                            })
+                        })
+                        return arr
+                    } else {
+                        return {
+                            subjectNum: subjectItem.num,
+                            optionNum: subjectItem.choiceNum
+                        }
                     }
                 })
                 let submitFlag = false
@@ -62,11 +72,10 @@ export default {
                     assessOptionParams: serializeData,
                     subjectVersion: this.version
                 })
-                this.riskTypeTips = this.riskTypeTipsMap[assessResult]
                 // 点击提交按钮时候，才进行跳转
                 if (action === 'submit') {
                     if (this.$route.query.id) {
-                        this.$router.push({
+                        this.$router.replace({
                             path: '/risk-appropriate-result',
                             query: {
                                 id: this.$route.query.id,
@@ -91,12 +100,19 @@ export default {
         subject: {
             handler() {
                 // 只要有一个等于-1，那么说明还有没有选择的题目
-                let isAllSelected = !this.subject.some(
-                    item => item.choiceNum === -1
-                )
+                let isAllSelected = !this.subject.some(item => {
+                    if (item.subject) {
+                        let childFlag = item.subject.some(i => {
+                            return i.choiceNum === -1
+                        })
+                        return childFlag
+                    } else {
+                        return item.choiceNum === -1
+                    }
+                })
+                console.log('isAllSelected-------', isAllSelected)
                 if (isAllSelected) {
                     this.submitBtnDisabled = false
-                    this.handleSubmit()
                 } else {
                     this.submitBtnDisabled = true
                 }

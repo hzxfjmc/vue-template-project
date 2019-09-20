@@ -40,14 +40,14 @@ export default {
             noOrder: '暂无记录'
         },
         zhCHT: {
-            amount: '金额',
-            time: '时间',
-            noOrder: '暂无记录'
+            amount: '金額',
+            time: '時間',
+            noOrder: '暫無記錄'
         },
         en: {
-            amount: '金额',
-            time: '时间',
-            noOrder: '暂无记录'
+            amount: 'Amount',
+            time: 'Time',
+            noOrder: 'Not Records'
         }
     },
     keepalive: true,
@@ -72,16 +72,20 @@ export default {
     watch: {
         $route(to, from) {
             if (
-                (from.path === '/order-record-detai' &&
-                    this.$route.query.isRefresh) ||
-                from.path === '/fund-details'
+                from.path === '/order-record-detai' &&
+                this.$route.query.isRefresh
             ) {
+                this.fundOrderListFun()
+            } else if (from.path === '/fund-details') {
+                this.orderRecordList = []
                 this.fundOrderListFun()
             }
         }
     },
     created() {
-        this.fundOrderListFun()
+        if (this.$route.query.id) {
+            this.fundOrderListFun()
+        }
     },
     methods: {
         // 查询列表
@@ -116,7 +120,6 @@ export default {
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })
-
                     this.assetType =
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
                     this.fundRisk = item.fundBaseInfoVO.fundRisk
@@ -204,10 +207,16 @@ export default {
     }
 }
 .order-record-container-else {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    // height: 100%;
+    // display: flex;
+    // flex-direction: column;
+    // justify-content: center;
+    width: 130px;
+    height: 120px;
+    margin: 0 auto;
+    padding-top: 100px;
+    background: url('~@/assets/img/bond/icon-nobond.png') center 15px no-repeat;
+    background-size: 110px;
 }
 .yellow-style {
     color: $cell-right-color !important;
