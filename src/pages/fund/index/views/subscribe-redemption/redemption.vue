@@ -139,7 +139,6 @@ export default {
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.lowestInvestAmount =
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
-                this.currency = fundDetail.fundHeaderInfoVO.currency.name
                 this.subscriptionFee =
                     fundDetail.fundTradeInfoVO.subscriptionFee
                 this.setCosUrl(
