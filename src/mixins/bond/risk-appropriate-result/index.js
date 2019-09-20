@@ -48,7 +48,8 @@ export default {
             fundCode: '',
             number: 0, //剩余测评次数
             showRemainingNum: false, //剩余次数弹窗
-            resetTime: '' //重置时间
+            resetTime: '', //重置时间
+            damagedStatus: 0 //是否为易受损用户
         }
     },
     methods: {
@@ -82,6 +83,16 @@ export default {
                 this.assessResultName = res.assessResultName
                 this.number = res.validCount
                 this.resetTime = res.resetTime
+                this.damagedStatus = res.damagedStatus
+                if (this.damagedStatus === 1) {
+                    this.$router.replace({
+                        path: '/risk-assessment-result',
+                        query: {
+                            id: this.$route.query.id,
+                            fundRiskType: this.$route.query.fundRiskType
+                        }
+                    })
+                }
                 console.log(
                     'riskAssessResult:data:>>> ',
                     res.assessResult,
