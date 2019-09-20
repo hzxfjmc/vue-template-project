@@ -57,7 +57,7 @@ export const i18nHoldDetailsData = {
                 label: '持有市值'
             },
             inTransitAmount: {
-                label: '待确认金额1'
+                label: '待确认金额'
             }
         }
     },
