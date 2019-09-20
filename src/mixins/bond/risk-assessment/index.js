@@ -10,7 +10,10 @@ export default {
         FixedOperateBtn
     },
     beforeCreate() {
-        window.location.replace('/wealth/fund/index.html#/risk-assessment')
+        console.log(111)
+        window.location.replace(
+            location.origin + '/wealth/fund/index.html#/risk-assessment'
+        )
     },
     async created() {
         // 拉取测评题目
