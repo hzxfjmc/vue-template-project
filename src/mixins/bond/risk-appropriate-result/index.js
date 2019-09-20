@@ -3,6 +3,8 @@ import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import { i18nData } from './i18n.js'
+import dayjs from 'dayjs'
+import jsBridge from '@/utils/js-bridge.js'
 
 export default {
     i18n: i18nData,
@@ -10,6 +12,17 @@ export default {
     components: {
         FixedOperateBtn,
         [Checkbox.name]: Checkbox
+    },
+    computed: {
+        resetTimes() {
+            return {
+                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                en:
+                    'Resert on 1st January, ' +
+                    dayjs(this.resetTime).format('YYYY')
+            }[this.$i18n.lang]
+        }
     },
     created() {
         console.log(this.bondRiskLevel, '0000')
@@ -32,7 +45,10 @@ export default {
             btnText: '',
             isShowPage: false,
             userInfo: '',
-            fundCode: ''
+            fundCode: '',
+            number: 0, //剩余测评次数
+            showRemainingNum: false, //剩余次数弹窗
+            resetTime: '' //重置时间
         }
     },
     methods: {
@@ -60,6 +76,8 @@ export default {
                 let res = await riskAssessResult()
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName = res.assessResultName
+                this.number = res.validCount
+                this.resetTime = res.resetTime
                 console.log(
                     'riskAssessResult:data:>>> ',
                     res.assessResult,
@@ -93,11 +111,8 @@ export default {
         // 操作按钮
         handleAction() {
             if (this.isDisabled) return
-            if (
-                this.userRiskLevel === 0 ||
-                this.userRiskLevel < this.bondRiskLevel
-            ) {
-                // 尚未风评，跳转到风险测评，或者等级不够
+            if (this.userRiskLevel === 0) {
+                // 尚未风评，跳转到风险测评
                 this.$router.push({
                     path: '/risk-assessment',
                     query: {
@@ -105,6 +120,9 @@ export default {
                         fundRiskType: this.$route.query.fundRiskType
                     }
                 })
+            } else if (this.userRiskLevel < this.bondRiskLevel) {
+                // 风险等级不够 弹出剩余次数提示
+                this.showRemainingNum = true
             } else {
                 // 风评级别够了，可以购买，跳转到下单界面
                 if (this.$route.query.direction) {
@@ -147,6 +165,25 @@ export default {
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)
             }
+        },
+        // 开始测评或拨打客服电话
+        startRiskHandle(number) {
+            if (number === 0) {
+                jsBridge.gotoCustomerService()
+            } else {
+                // 跳转到风险测评
+                this.$router.push({
+                    path: '/risk-assessment',
+                    query: {
+                        id: this.$route.query.id,
+                        fundRiskType: this.$route.query.fundRiskType
+                    }
+                })
+            }
+        },
+        // 关闭
+        callOrCancel() {
+            this.showRemainingNum = false
         }
     },
     watch: {

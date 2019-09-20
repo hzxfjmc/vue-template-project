@@ -31,6 +31,10 @@
             :disabled="isDisabled"
             @click="handleAction"
         )
+        van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toCall'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toClose'):$t('toCancel')" @cancel="callOrCancel(number)" )
+            .title {{$t('leastNum')}} {{number}} {{$t('times')}}
+            .years-info(v-if="number!==0") {{resetTimes}}
+            .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
 </template>
 
 <script>
@@ -157,6 +161,19 @@ export default {
                 font-size: 0.24rem;
             }
         }
+    }
+}
+.remaining-container {
+    text-align: center;
+    padding-top: 20px;
+    .title {
+        margin-bottom: 20px;
+    }
+    .years-info {
+        font-size: 14px;
+        color: $text-color6;
+        margin-bottom: 20px;
+        padding: 0 10px;
     }
 }
 </style>
