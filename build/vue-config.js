@@ -244,8 +244,8 @@ module.exports = {
             // },
             //奖励中心
             '/product-server': {
-                target: 'http://jy-sit.yxzq.com',
-                // target: 'http://admin-dev.yxzq.com',
+                // target: 'http://jy-sit.yxzq.com',
+                target: 'http://admin-dev.yxzq.com',
                 changOrigin: true
             },
             // '/customer-relationship-server': {
