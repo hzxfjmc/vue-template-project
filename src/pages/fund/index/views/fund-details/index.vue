@@ -247,6 +247,16 @@ export default {
                 return
             }
             if (
+                this.userInfo.assessResult < this.fundHeaderInfoVO.fundRiskType
+            ) {
+                return this.$router.push({
+                    path: '/risk-appropriate-result',
+                    query: {
+                        id: this.$route.query.id
+                    }
+                })
+            }
+            if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
