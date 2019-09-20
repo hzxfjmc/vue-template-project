@@ -51,7 +51,7 @@
                     .icon
                         .point
                     span.text-color5 {{ $t('predict') }}
-                    span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}日
+                    span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}{{ $t('day') }}
                     span.text-color5 {{ $t('monnyToAcc') }}
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
