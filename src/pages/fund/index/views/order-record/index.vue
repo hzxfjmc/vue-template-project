@@ -101,6 +101,7 @@ export default {
                         typeValue: item.externalName,
                         moneyValue:
                             item.currency.name +
+                            ' ' +
                             transNumToThousandMark(
                                 (item.orderAmount * 1).toFixed(2)
                             ),
