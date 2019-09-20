@@ -104,6 +104,24 @@ export default {
     methods: {
         //跳转
         toRouter(routerPath) {
+            if (routerPath == 'fund-subscribe') {
+                if (
+                    !this.userInfo.assessResult ||
+                    new Date().getTime() >
+                        new Date(this.userInfo.validTime).getTime()
+                ) {
+                    return this.$router.push({
+                        path: '/risk-assessment',
+                        query: {
+                            id: this.$route.query.id,
+                            extendStatusBit: this.userInfo.extendStatusBit,
+                            fundRiskType: this.fundRiskType,
+                            currencyType: this.fundTradeInfoVO.currency.type
+                        }
+                    })
+                }
+            }
+
             this.$router.push({
                 path: routerPath,
                 query: {
