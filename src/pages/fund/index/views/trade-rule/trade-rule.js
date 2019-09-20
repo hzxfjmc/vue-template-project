@@ -58,7 +58,7 @@ export const i18nTrudeRuleData = {
         buyConfirm: { label: '确认份额' },
         buyProfitLoss: { label: '查看盈亏' },
         tradeList: {
-            tradeFrequency: {
+            tradeFrequencyName: {
                 label: '交易频率'
             },
             dividend: {
@@ -119,7 +119,7 @@ export const i18nTrudeRuleData = {
             label: '查看盈虧'
         },
         tradeList: {
-            tradeFrequency: {
+            tradeFrequencyName: {
                 label: '交易頻率'
             },
             dividend: {
@@ -171,7 +171,7 @@ export const i18nTrudeRuleData = {
             label: 'Check P/L'
         },
         tradeList: {
-            tradeFrequency: {
+            tradeFrequencyName: {
                 label: 'Trading Frequency'
             },
             dividend: {
