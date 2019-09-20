@@ -19,6 +19,7 @@
                             span(class="left-title") {{$t('time')}}
                             span(class="right-title" ) {{item.timeValue}}
     .order-record-container-else(v-else style="text-align:center") 
+        img.img(src="~@/assets/img/fund/icon-norecord.png") 
         .no-record-box {{$t('noOrder')}}
 </template>
 
@@ -213,14 +214,14 @@ export default {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    .no-record-box {
+    .img {
         width: 130px;
         height: 130px;
-        padding-top: 110px;
-        background: url('~@/assets/img/bond/icon-nobond.png') center 15px
-            no-repeat;
-        background-size: 110px;
-        box-sizing: border-box;
+        margin-bottom: 10px;
+        transform: translateY(-65px);
+    }
+    .no-record-box {
+        transform: translateY(-65px);
     }
 }
 .yellow-style {
