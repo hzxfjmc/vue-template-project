@@ -18,7 +18,8 @@
                         .order-item.flex
                             span(class="left-title") {{$t('time')}}
                             span(class="right-title" ) {{item.timeValue}}
-    .order-record-container-else(v-else style="text-align:center") {{$t('noOrder')}}
+    .order-record-container-else(v-else style="text-align:center") 
+        .no-record-box {{$t('noOrder')}}
 </template>
 
 <script>
@@ -40,14 +41,14 @@ export default {
             noOrder: '暂无记录'
         },
         zhCHT: {
-            amount: '金额',
-            time: '时间',
-            noOrder: '暂无记录'
+            amount: '金額',
+            time: '時間',
+            noOrder: '暫無記錄'
         },
         en: {
-            amount: '金额',
-            time: '时间',
-            noOrder: '暂无记录'
+            amount: 'Amount',
+            time: 'Time',
+            noOrder: 'Not Records'
         }
     },
     keepalive: true,
@@ -72,16 +73,20 @@ export default {
     watch: {
         $route(to, from) {
             if (
-                (from.path === '/order-record-detai' &&
-                    this.$route.query.isRefresh) ||
-                from.path === '/fund-details'
+                from.path === '/order-record-detai' &&
+                this.$route.query.isRefresh
             ) {
+                this.fundOrderListFun()
+            } else if (from.path === '/fund-details') {
+                this.orderRecordList = []
                 this.fundOrderListFun()
             }
         }
     },
     created() {
-        this.fundOrderListFun()
+        if (this.$route.query.id) {
+            this.fundOrderListFun()
+        }
     },
     methods: {
         // 查询列表
@@ -116,7 +121,6 @@ export default {
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })
-
                     this.assetType =
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
                     this.fundRisk = item.fundBaseInfoVO.fundRisk
@@ -208,6 +212,16 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    .no-record-box {
+        width: 130px;
+        height: 130px;
+        padding-top: 110px;
+        background: url('~@/assets/img/bond/icon-nobond.png') center 15px
+            no-repeat;
+        background-size: 110px;
+        box-sizing: border-box;
+    }
 }
 .yellow-style {
     color: $cell-right-color !important;

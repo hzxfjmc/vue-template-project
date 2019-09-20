@@ -4,8 +4,8 @@
             .risk-result__hd
                 p {{$t('resultHd')}}
             .risk-result__md {{ assessResultName  }}
-            .easy-danger-customer(v-if="userRiskLevel===1" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
-            .risk-result-info(v-if="userRiskLevel===1") {{$t('riskInfo')}}
+            .easy-danger-customer(v-if="damagedStatus===1" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
+            .risk-result-info() {{assessDefinition}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
             fixed-operate-btn(
@@ -14,15 +14,15 @@
             )
         van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
             .title {{$t('resultTitle') }}
-            .msg-info {{$t('riskInfo')}}
+            .msg-info {{assessDefinition}}
             .msg-result {{$t('resultCus')}}
             .msg-title {{$t('msgTitle')}}
             .msg-reason(v-for="(item,index) in $t('msgReason')")
                 .item-reason ({{index+1}}) {{item}}
             .btn-know(@click="showEasyCustomer = false") {{$t('iKnow')}}
-        van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toClose'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toCall'):$t('toCancel')" @cancel="callOrCancel(number)")
+        van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toCall'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toClose'):$t('toCancel')" @cancel="callOrCancel(number)" )
             .title {{$t('leastNum')}} {{number}} {{$t('times')}}
-            .years-info(v-if="number!==0") {{$t('yearsInfo')}}
+            .years-info(v-if="number!==0") {{resetTimes}}
             .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
 </template>
 
@@ -35,7 +35,6 @@ export default {
             resultHd: '您的风评结果为：',
             btnText: '重新测评',
             lastTime: '上次风评日期：',
-            riskInfo: '您对资本亏损的承受能力偏低及重视保存资本',
             easyDangerCustomer: '易受损客户',
             iKnow: '我知道了',
             resultTitle: '保守型',
@@ -47,7 +46,7 @@ export default {
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             leastNum: '剩余可测评次数：',
-            yearsInfo: '2020年1月1日重置',
+            yearsInfo: '重置',
             yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
             startRisk: '开始测评',
             times: '次',
@@ -59,49 +58,47 @@ export default {
             resultHd: '您的風評結果為：',
             btnText: '重新測評',
             lastTime: '上次風評日期：',
-            riskInfo: '您對資本虧損的承受能力偏低及重視保存資本',
             easyDangerCustomer: '易受損客戶',
             iKnow: '我知道了',
             resultTitle: '保守型',
-            resultCus: '您为“易受损客户”',
-            msgTitle: '什么是“易受损客户”',
+            resultCus: '您為"易受損客戶"',
+            msgTitle: '什麼是"易受損客戶"',
             msgReason: [
-                '65岁或以上；或',
-                '教育程度在小学或以下；或',
-                '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
+                '65歲或以上；或',
+                '教育程度在小學或以下；或',
+                '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
             ],
-            leastNum: '剩余可测评次数：',
-            yearsInfo: '2020年1月1日重置',
-            yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
-            startRisk: '开始测评',
+            leastNum: '剩餘可測評次數：',
+            yearsInfo: '重置',
+            yearsInfoToCall: '2020年1月1日重置，如有調整，請聯繫客服',
+            startRisk: '開始測評',
             times: '次',
-            toCall: '拨打客服电话',
+            toCall: '撥打客服電話',
             toCancel: '取消',
-            toClose: '关闭'
+            toClose: '關閉'
         },
         en: {
             resultHd: 'Result:',
             btnText: 'Submit',
             lastTime: 'Last Update:',
-            riskInfo: '您对资本亏损的承受能力偏低及重视保存资本',
-            easyDangerCustomer: 'Vulnerable customer',
-            iKnow: '我知道了',
-            resultTitle: '保守型',
-            resultCus: '您为“易受损客户”',
-            msgTitle: '什么是“易受损客户”',
+            easyDangerCustomer: 'Vulnerable Customer',
+            iKnow: 'Got it',
+            resultTitle: 'Conservative',
+            resultCus: 'You are vulnerable client',
+            msgTitle: 'What is vulnerable client',
             msgReason: [
-                '65岁或以上；或',
-                '教育程度在小学或以下；或',
-                '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
+                '65 years or older, or',
+                'level of education is equal to or below primary school level, or',
+                'retired and annual income < HK$ 200,000 and net asset value < HK$ 500,000'
             ],
-            leastNum: '剩余可测评次数：',
-            yearsInfo: '2020年1月1日重置',
-            yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
-            startRisk: '开始测评',
-            times: 'time',
-            toCall: '拨打客服电话',
-            toCancel: '取消',
-            toClose: '关闭'
+            leastNum: 'Remaining Assessment Chance：',
+            yearsInfo: 'Reset',
+            yearsInfoToCall: 'Please contact CS if there is any adjustment',
+            startRisk: 'Start The Assessment',
+            times: 'Times',
+            toCall: 'Call CS',
+            toCancel: 'Cancel',
+            toClose: 'Close'
         }
     }
 }
@@ -134,7 +131,7 @@ export default {
             margin-bottom: 10px;
         }
         .risk-result-info {
-            margin-top: 10px;
+            margin: 10px 16px 0;
             color: $primary-color-line;
         }
         .easy-danger-customer {
@@ -199,14 +196,14 @@ export default {
     }
 }
 .remaining-container {
-    padding: 20px 16px 0;
+    padding-top: 20px;
     .title {
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
     .years-info {
         font-size: 14px;
         color: $text-color6;
-        margin-bottom: 10px;
+        margin-bottom: 20px;
     }
 }
 </style>
