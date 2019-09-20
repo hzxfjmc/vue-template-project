@@ -252,7 +252,8 @@ export default {
                     }
                 }
                 data.path =
-                    (31 & this.userInfo.extendStatusBit) > 0
+                    // eslint-disable-next-line no-constant-condition
+                    1 << 4 == this.userInfo.extendStatusBit
                         ? '/fund-subscribe'
                         : '/open-permissions'
                 this.$router.push(data)
