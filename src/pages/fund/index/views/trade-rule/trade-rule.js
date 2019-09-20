@@ -1,5 +1,5 @@
 export const tradeList = {
-    tradeFrequency: {
+    tradeFrequencyName: {
         label: '交易频率',
         value: ''
     },

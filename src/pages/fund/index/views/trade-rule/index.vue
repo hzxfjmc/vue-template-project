@@ -113,11 +113,14 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.currency = fundTradeInfoVO.currency.name
-                this.tradeList['tradeFrequency'].value =
-                    fundTradeInfoVO.tradeFrequency.name
+
+                // this.tradeList['tradeFrequency'].value =
+                //     fundTradeInfoVO.tradeFrequency.name
                 this.tradeList['dividend'].value = Number(
                     fundTradeInfoVO['dividend']
                 ).toFixed(2)
+                this.tradeList['tradeFrequencyName'].value =
+                    fundTradeInfoVO.tradeFrequencyName
                 this.tradeList[
                     'initialInvestAmount'
                 ].value = transNumToThousandMark(
