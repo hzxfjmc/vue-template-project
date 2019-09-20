@@ -61,21 +61,21 @@ export default {
             easyDangerCustomer: '易受損客戶',
             iKnow: '我知道了',
             resultTitle: '保守型',
-            resultCus: '您为“易受损客户”',
-            msgTitle: '什么是“易受损客户”',
+            resultCus: '您為"易受損客戶"',
+            msgTitle: '什麼是"易受損客戶"',
             msgReason: [
-                '65岁或以上；或',
-                '教育程度在小学或以下；或',
-                '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
+                '65歲或以上；或',
+                '教育程度在小學或以下；或',
+                '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
             ],
-            leastNum: '剩余可测评次数：',
+            leastNum: '剩餘可測評次數：',
             yearsInfo: '重置',
-            yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
-            startRisk: '开始测评',
+            yearsInfoToCall: '2020年1月1日重置，如有調整，請聯繫客服',
+            startRisk: '開始測評',
             times: '次',
-            toCall: '拨打客服电话',
+            toCall: '撥打客服電話',
             toCancel: '取消',
-            toClose: '关闭'
+            toClose: '關閉'
         },
         en: {
             resultHd: 'Result:',
@@ -84,21 +84,21 @@ export default {
             easyDangerCustomer: 'Vulnerable Customer',
             iKnow: 'Got it',
             resultTitle: 'Conservative',
-            resultCus: '您为“易受损客户”',
-            msgTitle: '什么是“易受损客户”',
+            resultCus: 'You are vulnerable client',
+            msgTitle: 'What is vulnerable client',
             msgReason: [
-                '65岁或以上；或',
-                '教育程度在小学或以下；或',
-                '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
+                '65 years or older, or',
+                'level of education is equal to or below primary school level, or',
+                'retired and annual income < HK$ 200,000 and net asset value < HK$ 500,000'
             ],
-            leastNum: '剩余可测评次数：',
-            yearsInfo: '重置',
-            yearsInfoToCall: '如有调整，请联系客服',
-            startRisk: '开始测评',
-            times: '次',
-            toCall: '拨打客服电话',
-            toCancel: '取消',
-            toClose: '关闭'
+            leastNum: 'Remaining Assessment Chance：',
+            yearsInfo: 'Reset',
+            yearsInfoToCall: 'Please contact CS if there is any adjustment',
+            startRisk: 'Start The Assessment',
+            times: 'Times',
+            toCall: 'Call CS',
+            toCancel: 'Cancel',
+            toClose: 'Close'
         }
     }
 }

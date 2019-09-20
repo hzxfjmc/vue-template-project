@@ -75,7 +75,7 @@ export default {
                 // 点击提交按钮时候，才进行跳转
                 if (action === 'submit') {
                     if (this.$route.query.id) {
-                        this.$router.push({
+                        this.$router.replace({
                             path: '/risk-appropriate-result',
                             query: {
                                 id: this.$route.query.id,

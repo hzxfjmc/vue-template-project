@@ -3,14 +3,14 @@
         .risk-result__header
             i(:type="riskMatchResult")
             h2 {{ riskMatchResult > 2 ? $t('matching') : $t('noMatching') }}
-            p {{$t('yoursAppropriate')}}{{ riskMatchResult > 2 ? $t('suitable') : $t('noSuitable') }} {{$t('buyIt')}}
+            p {{$t('yoursAppropriate')}}{{ riskMatchResult > 2 ? $t('suitable') : $t('noSuitable') }}{{$t('buyIt')}}
         .risk-result__content
             .risk-cell
                 span {{$t('yoursAppropriate')}}
                 strong {{ assessResultName || '--'  }}
             .risk-cell
                 span {{$t('proRisk')}}
-                strong  {{ $t('riskTypeList')[bondRiskLevel] && $t('riskTypeList')[bondRiskLevel] || '--'  }}
+                strong {{ $t('riskTypeList')[bondRiskLevel] && $t('riskTypeList')[bondRiskLevel]  }}
         .risk-result__tips(v-if="riskMatchResult === 1")
             h2
                 span {{$t('riskMeans')}}
