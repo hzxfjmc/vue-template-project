@@ -1,7 +1,7 @@
 import { Checkbox } from 'vant'
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
-import { getBondDetail } from '@/service/finance-info-server.js'
+import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
 import { i18nData } from './i18n.js'
 import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
@@ -54,12 +54,16 @@ export default {
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            await Promise.resolve(this.handleRiskAssessResult())
+            await Promise.all([
+                this.handleRiskAssessResult(),
+                this.getFundDetailFun()
+            ])
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.riskMatchResult = 1
                 this.btnText = this.$t('startRisk')
             } else if (this.userRiskLevel < this.bondRiskLevel) {
+                console.log(this.bondRiskLevel, 'bondRiskLevel')
                 // 风评级别不够
                 this.riskMatchResult = 2
                 this.btnText = this.$t('againRisk')
@@ -107,6 +111,14 @@ export default {
             } catch (error) {
                 console.log('getBondDetail:error:>>> ', error)
             }
+        },
+        // 获取基金信息
+        async getFundDetailFun() {
+            let res = await getFundDetail({
+                displayLocation: 1,
+                fundId: this.$route.query.id
+            })
+            this.bondRiskLevel = res.fundHeaderInfoVO.fundRiskType
         },
         // 操作按钮
         handleAction() {
