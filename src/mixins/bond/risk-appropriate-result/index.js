@@ -56,8 +56,8 @@ export default {
         // 将多个异步聚合为同步
         async handleSetupResult() {
             await Promise.all([
-                this.handleRiskAssessResult(),
-                this.getFundDetailFun()
+                this.getFundDetailFun(),
+                this.handleRiskAssessResult()
             ])
             if (this.userRiskLevel === 0) {
                 // 尚未风评
@@ -84,20 +84,15 @@ export default {
                 this.number = res.validCount
                 this.resetTime = res.resetTime
                 this.damagedStatus = res.damagedStatus
-                if (this.damagedStatus === 1) {
+                if (res.damagedStatus === 1) {
                     this.$router.replace({
                         path: '/risk-assessment-result',
                         query: {
                             id: this.$route.query.id,
-                            fundRiskType: this.$route.query.fundRiskType
+                            fundRiskType: this.bondRiskLevel
                         }
                     })
                 }
-                console.log(
-                    'riskAssessResult:data:>>> ',
-                    res.assessResult,
-                    this.assessResultName
-                )
             } catch (e) {
                 if (e.msg) {
                     this.$alert(e.msg)
