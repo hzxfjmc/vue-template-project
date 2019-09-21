@@ -9,6 +9,12 @@ export default {
         [Radio.name]: Radio,
         FixedOperateBtn
     },
+    beforeCreate() {
+        console.log(111)
+        window.location.replace(
+            location.origin + '/wealth/fund/index.html#/risk-assessment'
+        )
+    },
     async created() {
         // 拉取测评题目
         try {

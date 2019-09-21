@@ -20,11 +20,11 @@
             :fundHeaderInfoVO = "fundHeaderInfoVO" 
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
-        van-button(class="btn fund-check" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-        van-button(class="btn fund-buy" @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        van-button(:class="[flag?'fund-check':'fund-no','btn']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+        van-button(:class="[flag?'fund-buy':'fund-no','btn']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
     .fund-footer-content(@click="handleBuyOrSell" v-if="btnShow1")
-        van-button(class="fund-footer btn") {{$t('buy')}}
+        van-button(:class="[flag?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
     
     
 </template>
@@ -98,13 +98,17 @@ export default {
             fondCode: '',
             userInfo: null,
             scroll: 0,
-            fundRiskType: ''
+            fundRiskType: '',
+            flag: true, //赎回
+            flag1: true, //追加
+            flag2: true //申购
         }
     },
     methods: {
         //跳转
         toRouter(routerPath) {
             if (routerPath == 'fund-subscribe') {
+                if (!this.flag1) return
                 if (
                     !this.userInfo.assessResult ||
                     new Date().getTime() >
@@ -120,6 +124,8 @@ export default {
                         }
                     })
                 }
+            } else {
+                if (!this.flag) return
             }
 
             this.$router.push({
@@ -159,6 +165,12 @@ export default {
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
+                this.flag =
+                    (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
+                this.flag1 =
+                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                this.flag2 =
+                    (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -230,6 +242,7 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell() {
+            if (!this.flag2) return
             // 未登录或未开户
             if (!this.userInfo) {
                 await this.$dialog.alert({
@@ -261,6 +274,17 @@ export default {
                     }
                 })
             } else {
+                if (
+                    this.userInfo.assessResult <
+                    this.fundHeaderInfoVO.fundRiskType
+                ) {
+                    return this.$router.push({
+                        path: '/risk-appropriate-result',
+                        query: {
+                            id: this.$route.query.id
+                        }
+                    })
+                }
                 let data = {
                     query: {
                         id: this.$route.query.id,
@@ -271,7 +295,7 @@ export default {
                 }
                 data.path =
                     // eslint-disable-next-line no-constant-condition
-                    1 << 4 == this.userInfo.extendStatusBit
+                    (this.userInfo.extendStatusBit & 16) > 0
                         ? '/fund-subscribe'
                         : '/open-permissions'
                 this.$router.push(data)
@@ -319,8 +343,10 @@ export default {
         overflow-y: auto;
         flex-direction: column;
     }
-    .fund-footer {
+    .button-width {
         width: 100%;
+    }
+    .fund-footer {
         background: $primary-color;
     }
     .btn {
@@ -342,6 +368,9 @@ export default {
     }
     .fund-buy {
         background: rgb(255, 191, 50);
+    }
+    .fund-no {
+        background: rgba(25, 25, 25, 0.2);
     }
     .van-button {
         border-radius: 0 !important;
