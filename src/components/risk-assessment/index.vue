@@ -5,14 +5,14 @@
             van-panel(
                 v-for="(subjectItem, subjectIndex) in subject"
                 :key="subjectIndex"
-                :title="subjectItem.title_cn"
+                :title="subjectItem[titleI18n]"
             )
                 van-radio-group(v-model="subjectItem.choiceNum")
                     van-cell-group
                         van-cell(
                             v-for="(optionItem, optionindex) in subjectItem.option"
                             :key="optionindex"
-                            :title="optionItem.text_cn"
+                            :title=`optionItem[textI18n]`
                             clickable
                             @click="subjectItem.choiceNum = optionItem.num"
                         )
@@ -26,7 +26,7 @@
                     van-panel#child-title(
                         v-for="(subjectItem1, subjectIndex) in subjectItem.subject"
                         :key="subjectIndex"
-                        :title="subjectItem1.title_cn"
+                        :title="subjectItem1[titleI18n]"
                         style="color:#000"
                     )
                         van-radio-group(v-model="subjectItem1.choiceNum")
@@ -34,7 +34,7 @@
                                 van-cell(
                                     v-for="(optionItem, optionindex) in subjectItem1.option"
                                     :key="optionindex"
-                                    :title="optionItem.text_cn"
+                                    :title="optionItem[textI18n]"
                                     clickable
                                     @click="subjectItem1.choiceNum = optionItem.num"
                                 )
