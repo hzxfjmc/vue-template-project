@@ -20,8 +20,8 @@
             :fundHeaderInfoVO = "fundHeaderInfoVO" 
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
-        van-button(:class="[flag?'fund-check':'fund-no','btn']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-        van-button(:class="[flag?'fund-buy':'fund-no','btn']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+        van-button(:class="[flag?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
     .fund-footer-content(@click="handleBuyOrSell" v-if="btnShow1")
         van-button(:class="[flag?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
@@ -168,7 +168,7 @@ export default {
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
                 this.flag1 =
-                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                    (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
             } catch (e) {
@@ -371,6 +371,12 @@ export default {
     }
     .fund-no {
         background: rgba(25, 25, 25, 0.2);
+    }
+    .button-5width {
+        width: 50%;
+    }
+    .button-left {
+        border-right: 1px solid #e1e1e1;
     }
     .van-button {
         border-radius: 0 !important;
