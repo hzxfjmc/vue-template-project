@@ -21,10 +21,10 @@
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-        van-button(:class="[flag?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
     .fund-footer-content(@click="handleBuyOrSell" v-if="btnShow1")
-        van-button(:class="[flag?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
+        van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
     
     
 </template>
@@ -107,7 +107,7 @@ export default {
     methods: {
         //跳转
         toRouter(routerPath) {
-            if (routerPath == 'fund-subscribe') {
+            if (routerPath == '/fund-subscribe') {
                 if (!this.flag1) return
                 if (
                     !this.userInfo.assessResult ||
@@ -171,6 +171,7 @@ export default {
                     (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
+                console.log(this.flag2)
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
