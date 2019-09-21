@@ -10,7 +10,6 @@ export default {
         FixedOperateBtn
     },
     beforeCreate() {
-        console.log(111)
         window.location.replace(
             location.origin + '/wealth/fund/index.html#/risk-assessment'
         )
@@ -43,6 +42,46 @@ export default {
             subject: [],
             version: 0,
             submitBtnDisabled: true
+        }
+    },
+    computed: {
+        titleI18n() {
+            return {
+                zhCHS: 'title_cn',
+                zhCHT: 'title_hk',
+                en: 'title_us'
+            }[this.$i18n.lang]
+        },
+        textI18n() {
+            return {
+                zhCHS: 'text_cn',
+                zhCHT: 'text_hk',
+                en: 'text_us'
+            }[this.$i18n.lang]
+        }
+    },
+    watch: {
+        subject: {
+            handler() {
+                // 只要有一个等于-1，那么说明还有没有选择的题目
+                let isAllSelected = !this.subject.some(item => {
+                    if (item.subject) {
+                        let childFlag = item.subject.some(i => {
+                            return i.choiceNum === -1
+                        })
+                        return childFlag
+                    } else {
+                        return item.choiceNum === -1
+                    }
+                })
+                console.log('isAllSelected-------', isAllSelected)
+                if (isAllSelected) {
+                    this.submitBtnDisabled = false
+                } else {
+                    this.submitBtnDisabled = true
+                }
+            },
+            deep: true
         }
     },
     methods: {
@@ -100,30 +139,6 @@ export default {
             } catch (e) {
                 console.log('riskAssessAnswer:error:>>>', e)
             }
-        }
-    },
-    watch: {
-        subject: {
-            handler() {
-                // 只要有一个等于-1，那么说明还有没有选择的题目
-                let isAllSelected = !this.subject.some(item => {
-                    if (item.subject) {
-                        let childFlag = item.subject.some(i => {
-                            return i.choiceNum === -1
-                        })
-                        return childFlag
-                    } else {
-                        return item.choiceNum === -1
-                    }
-                })
-                console.log('isAllSelected-------', isAllSelected)
-                if (isAllSelected) {
-                    this.submitBtnDisabled = false
-                } else {
-                    this.submitBtnDisabled = true
-                }
-            },
-            deep: true
         }
     }
 }
