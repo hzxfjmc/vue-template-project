@@ -160,7 +160,7 @@ export default {
                     this.userInfo.assessResult &&
                     !this.$route.query.notFirstSubmit
                 ) {
-                    this.$route.replace({
+                    this.$router.replace({
                         path: '/risk-assessment-result'
                     })
                 }
