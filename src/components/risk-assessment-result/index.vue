@@ -8,7 +8,10 @@
             .risk-result-info() {{assessDefinition}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
-            fixed-operate-btn(
+            van-button(
+                type="info" 
+                round 
+                size="large" 
                 :text="$t('btnText')"
                 @click="handleAction"
             )
@@ -154,7 +157,7 @@ export default {
             color: rgba(25, 25, 25, 0.3);
             font-size: 0.24rem;
             line-height: 24px;
-            margin-bottom: 59px;
+            margin-bottom: 10px;
         }
     }
 }

@@ -87,20 +87,14 @@ export default {
                 // 签名成功，本地设置标记，用与返回时候保留签名，刷新则清除
                 LS.put('signName', this.autograph)
                 console.log(res)
-                this.$dialog
-                    .alert({
-                        message: this.$t('openText')
-                    })
-                    .then(() => {
-                        // 跳申购页
-                        this.$router.replace({
-                            path: '/fund-subscribe',
-                            query: {
-                                id: this.$route.query.id,
-                                currencyType: this.$route.query.currencyType
-                            }
-                        })
-                    })
+                // 跳申购页
+                this.$router.replace({
+                    path: '/fund-subscribe',
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.$route.query.currencyType
+                    }
+                })
             } catch (e) {
                 if (e.msg) {
                     this.$dialog.alert({
@@ -168,12 +162,12 @@ export default {
                 min-height: 273px;
                 overflow: scroll;
                 background: rgba(47, 121, 255, 0.04);
-                font-size: 14px;
+                font-size: 0 14px 14px;
                 color: $text-color;
-                padding-left: 16px;
+                padding: 0 14px 14px;
                 display: flex;
                 flex-direction: column;
-                padding-bottom: 14px;
+                // padding-bottom: 14px;
                 .title-info {
                     padding: 14px 0;
                     line-height: 20px;
@@ -183,6 +177,17 @@ export default {
                     line-height: 24px;
                     opacity: 0.5;
                     flex: 1;
+                }
+                &::-webkit-scrollbar {
+                    width: 6px;
+                    height: 0;
+                    border-radius: 3px;
+                }
+                &::-webkit-scrollbar-thumb {
+                    border-radius: 3px;
+                    -webkit-box-shadow: inset 0 0 5px rgba(47, 121, 255, 0.0959);
+                    background: rgba(47, 121, 255, 0.0959);
+                    scrollbar-arrow-color: rgba(47, 121, 255, 0.0959);
                 }
             }
         }
