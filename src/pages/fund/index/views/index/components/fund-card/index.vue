@@ -36,7 +36,7 @@ export default {
     },
     computed: {
         stockColorType() {
-            return getStockColorType()
+            return +getStockColorType()
         },
         apy() {
             const func = this.info && this.info.apy > 0 ? Math.floor : Math.ceil
