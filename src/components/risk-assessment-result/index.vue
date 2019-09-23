@@ -8,7 +8,8 @@
             .risk-result-info() {{assessDefinition}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
-            fixed-operate-btn(
+            van-botton(
+                type="info" round size="large" 
                 :text="$t('btnText')"
                 @click="handleAction"
             )
