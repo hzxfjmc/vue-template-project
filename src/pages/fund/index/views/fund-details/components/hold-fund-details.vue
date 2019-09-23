@@ -10,11 +10,11 @@
             :class="item.layout") 
             span.holdSubtitle {{item.label}}
             p.holdNumber(
-                :class="stockColorType === 1 ? 'active-red' : 'active-green'"
+                :class="stockColorType === 1 ? 'active_red' : 'active-green'"
                 v-if="item.value > 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") +{{item.value}}
             p.holdNumber(
-                :class="stockColorType === 1 ? 'active-green' : 'active-red'"
-                v-else-if="item.value < 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") -{{item.value}}
+                :class="stockColorType === 1 ? 'active-green' : 'active_red'"
+                v-else-if="item.value < 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") {{item.value}}
              p.holdNumber(v-else) {{item.value}}
             //- p.holdNumber(
             //-     :class="item.value >= 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings') ? 'active_red' : item.value<0 ? 'active-green' : ''") 
