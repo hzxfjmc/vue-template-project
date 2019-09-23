@@ -2,12 +2,10 @@ import { Checkbox } from 'vant'
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
-import { i18nData } from './i18n.js'
 import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
 
 export default {
-    i18n: i18nData,
     name: 'RiskAppropriateResult',
     components: {
         FixedOperateBtn,
@@ -93,6 +91,7 @@ export default {
                         }
                     })
                 }
+                console.log(this.damagedStatus, 'this.damagedStatus')
             } catch (e) {
                 if (e.msg) {
                     this.$alert(e.msg)
@@ -124,6 +123,7 @@ export default {
                 displayLocation: 1,
                 fundId: this.$route.query.id
             })
+            console.log(this.$route.query.id, 'id')
             this.bondRiskLevel = res.fundHeaderInfoVO.fundRiskType
         },
         // 操作按钮
@@ -167,7 +167,7 @@ export default {
                         }
                     }
                     data.path =
-                        (31 & this.userInfo.extendStatusBit) > 0
+                        (this.userInfo.extendStatusBit & 16) > 0
                             ? '/fund-subscribe'
                             : '/open-permissions'
                     this.$router.push(data)
