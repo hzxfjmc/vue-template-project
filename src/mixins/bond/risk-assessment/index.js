@@ -21,7 +21,7 @@ export default {
         }
     },
     async created() {
-        await this.getCurrentUser()
+        // await this.getCurrentUser()
         // 拉取测评题目
         try {
             let { subject, version } = await riskAssessSubject()
@@ -153,6 +153,7 @@ export default {
             try {
                 const res = await getCurrentUser()
                 this.userInfo = res
+                console.log(this.userInfo.assessResult, 'assessResult')
                 if (this.userInfo.assessResult) {
                     this.$router.replace({
                         path: '/risk-assessment-result'

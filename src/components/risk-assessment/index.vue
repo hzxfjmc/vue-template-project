@@ -1,7 +1,8 @@
 <template lang="pug">
-    .risk-assessment-wrapper
-        .risk-assessment-tips {{$t('riskAssessmentTips')}}
-        .risk-assessment-form
+    yx-container.risk-assessment-wrapper
+        .risk-assessment-tips(slot="top") 
+            .content {{$t('riskAssessmentTips')}}
+        .risk-assessment-form(slot="main")
             van-panel(
                 v-for="(subjectItem, subjectIndex) in subject"
                 :key="subjectIndex"
@@ -44,12 +45,9 @@
                                             slot-scope="props"
                                             :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                         )
-        fixed-operate-btn(
-            :text="$t('btnText')"
-            :disabled="submitBtnDisabled"
-            @click="handleSubmit('submit')"
-            :class="{ active: !submitBtnDisabled }"
-        )
+        .van-bottom-btn(slot="bottom")
+            van-button.btn(:disabled="submitBtnDisabled" @click="handleSubmit('submit')"
+            :class="{ active: !submitBtnDisabled }") {{$t('btnText')}}
 </template>
 
 <script>
@@ -77,14 +75,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.risk-assessment-wrapper {
-    padding-bottom: 48px;
+.risk-assessment-wrapper.yx-container {
+    background-color: $text-color8;
+    font-family: 'PingFang SC';
     .risk-assessment-tips {
-        padding: 5px 8px 5px 12px;
-        background: rgba(255, 172, 79, 0.2);
-        color: $risk-background-color;
-        font-size: 0.28rem;
-        line-height: 20px;
+        background-color: #fff;
+        .content {
+            padding: 5px 8px 5px 12px;
+            background-color: rgba(255, 172, 79, 0.2);
+            color: $risk-background-color;
+            font-size: 0.28rem;
+            line-height: 20px;
+        }
     }
     .risk-assessment-form {
         .van-panel {
@@ -95,7 +97,7 @@ export default {
             &:after {
                 display: none;
             }
-            padding: 14px 14px 10px 12px;
+            // padding: 14px 14px 10px 12px;
             font-size: 0.28rem;
             line-height: 24px;
         }
@@ -126,14 +128,28 @@ export default {
             font-size: 0.32rem;
         }
     }
-    .fix-operate-btn.active {
-        background-color: $sell-color;
+    .van-bottom-btn {
+        .btn {
+            width: 100%;
+            height: 100%;
+            color: $background-color;
+            &[disabled='disabled'] {
+                background-color: $disabled-color;
+            }
+            &.active {
+                background-color: $primary-color;
+            }
+        }
     }
     #child-title {
         .van-panel__header {
             .van-cell__title {
                 color: $hk-text-color !important;
             }
+        }
+        border-bottom: 0.5px solid rgba($color: $text-color2, $alpha: 0.05);
+        &:nth-of-type(2) {
+            border-bottom: none;
         }
     }
 }

@@ -72,7 +72,11 @@ export default {
                 this.damagedStatus = damagedStatus
                 this.number = validCount
                 this.resetTime = resetTime
-                console.log('riskAssessResult:data:>>> ', assessResult)
+                console.log(
+                    'riskAssessResult:data:>>> ',
+                    assessResult,
+                    this.assessResultName
+                )
             } catch (error) {
                 console.log('riskAssessResult:error:>>>', error)
             }
