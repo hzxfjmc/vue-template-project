@@ -169,21 +169,18 @@ export default {
     display: flex;
     flex-direction: column;
     .fund-introduce {
-        padding: 0 12px;
-        height: 72px;
+        padding: 15px 12px;
         background-color: $background-color;
         margin-bottom: 10px;
         .fund-name {
             font-size: 16px;
             line-height: 22px;
-            padding-top: 15px;
             margin-bottom: 6px;
             font-family: '';
         }
         .fund-detail {
             display: flex;
             justify-content: flex-start;
-            margin-bottom: 10px;
         }
     }
     .order-record-box {

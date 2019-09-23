@@ -14,14 +14,16 @@ export default {
         FixedOperateBtn
     },
     beforeCreate() {
-        if (!this.$route.query.id) {
-            window.location.replace(
-                location.origin + '/wealth/fund/index.html#/risk-assessment'
-            )
-        }
+        // if (!this.$route.query.id) {
+        //     window.location.replace(
+        //         location.origin + '/wealth/fund/index.html#/risk-assessment'
+        //     )
+        // }
     },
     async created() {
-        await this.getCurrentUser()
+        if (!this.$route.query.id) {
+            await this.getCurrentUser()
+        }
         // 拉取测评题目
         try {
             let { subject, version } = await riskAssessSubject()
@@ -153,7 +155,11 @@ export default {
             try {
                 const res = await getCurrentUser()
                 this.userInfo = res
-                if (this.userInfo.assessResult) {
+                console.log(this.userInfo.assessResult, 'assessResult')
+                if (
+                    this.userInfo.assessResult &&
+                    !this.$route.query.notFirstSubmit
+                ) {
                     this.$router.replace({
                         path: '/risk-assessment-result'
                     })
