@@ -147,9 +147,14 @@ export default {
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fondCode = this.fundHeaderInfoVO.fondCode
+                let flag = this.fundHeaderInfoVO.apy < 0
                 this.fundHeaderInfoVO.apy = (
-                    Math.floor(Number(this.fundHeaderInfoVO.apy * 10000)) / 100
+                    Math.floor(Math.abs(this.fundHeaderInfoVO.apy) * 10000) /
+                    100
                 ).toFixed(2)
+                this.fundHeaderInfoVO.apy = flag
+                    ? -this.fundHeaderInfoVO.apy
+                    : this.fundHeaderInfoVO.apy
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice
                 )
@@ -202,6 +207,20 @@ export default {
                 } else {
                     this.holdDetailsShow = false
                 }
+                for (let key in this.holdInitState) {
+                    console.log(this.holdInitState[key])
+                    if (key != 'positionStatus') {
+                        let flag = this.holdInitState < 0
+                        this.holdInitState[key] = (
+                            Math.floor(Number(this.holdInitState[key]) * 100) /
+                            100
+                        ).toFixed(2)
+                        if (flag) {
+                            this.holdInitState[key] = -this.holdInitState[key]
+                        }
+                    }
+                }
+                console.log(this.holdInitState)
             } catch (e) {
                 console.log('getFundPosition:error:>>>', e)
             }

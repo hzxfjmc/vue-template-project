@@ -32,7 +32,7 @@ export default {
                 zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
                 zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
                 en:
-                    'Resert on 1st January, ' +
+                    'Reset on 1st January, ' +
                     dayjs(this.resetTime).format('YYYY')
             }[this.$i18n.lang]
         }
@@ -40,7 +40,7 @@ export default {
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            await Promise.all([this.handleRiskAssessResult()])
+            await Promise.resolve(this.handleRiskAssessResult())
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.startRiskHandle()
