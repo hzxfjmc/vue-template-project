@@ -24,8 +24,8 @@
                         van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 10px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFee * 100  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * redemptionFee | formatCurrency }}
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
                 a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
@@ -91,7 +91,7 @@ export default {
             isin: '',
             currency: '',
             withdrawBalance: 0,
-            redemptionFee: null,
+            subscriptionFee: null,
             initialInvestAmount: 0, // 起投金额
             continueInvestAmount: 0, // 续投金额
             buyProtocolFileName: '',
@@ -143,7 +143,9 @@ export default {
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.currency = fundDetail.fundTradeInfoVO.currency.name
-                this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
+                this.subscriptionFee = Number(
+                    fundDetail.fundTradeInfoVO.subscriptionFee
+                ).toFixed(4)
                 this.initialInvestAmount =
                     fundDetail.fundTradeInfoVO.initialInvestAmount
                 this.continueInvestAmount =

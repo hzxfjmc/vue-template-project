@@ -1,8 +1,8 @@
 <template lang="pug">
     .fund-card
         .left
-            .rate-num.color-red(v-if="apy > 0") +{{ apy }}%
-            .rate-num.color-green(v-else-if="apy < 0") {{ apy }}%
+            .rate-num(v-if="apy > 0" :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{ apy }}%
+            .rate-num(v-else-if="apy < 0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") {{ apy }}%
             .rate-num(v-else) {{ apy }}%
             .annualized-returns {{ $t('annualRateOfReturn') }}
         .right
@@ -15,6 +15,7 @@
 
 <script>
 import fundTag from '@/biz-components/fund-tag/index.vue'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     i18n: {
         zhCHS: {
@@ -34,6 +35,9 @@ export default {
         }
     },
     computed: {
+        stockColorType() {
+            return getStockColorType()
+        },
         apy() {
             return (
                 this.info &&

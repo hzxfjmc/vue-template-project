@@ -202,6 +202,16 @@ export default {
                 } else {
                     this.holdDetailsShow = false
                 }
+                for (let key in this.holdInitState) {
+                    console.log(this.holdInitState[key])
+                    if (key != 'positionStatus') {
+                        this.holdInitState[key] = (
+                            Math.floor(Number(this.holdInitState[key]) * 100) /
+                            100
+                        ).toFixed(2)
+                    }
+                }
+                console.log(this.holdInitState)
             } catch (e) {
                 console.log('getFundPosition:error:>>>', e)
             }
