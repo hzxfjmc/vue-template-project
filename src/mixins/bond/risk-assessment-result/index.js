@@ -1,6 +1,7 @@
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
+import dayjs from 'dayjs'
 
 export default {
     name: 'RiskAssessmentResult',
@@ -13,35 +14,33 @@ export default {
     },
     data() {
         return {
-            riskTypeList: {
-                // 风险等级列表
-                100: '已过期',
-                0: '尚未风评',
-                1: '低风险',
-                2: '中风险',
-                3: '高风险',
-                4: '超高风险',
-                5: '最高风险'
-            },
             userRiskLevel: 0, // 用户风险测评等级序号
             assessmentTime: 0, // 上次风评时间
             isShowPage: false,
             showEasyCustomer: false, // 易受损客户弹窗
             assessResultName: '',
             showRemainingNum: false, //剩余次数弹窗
-            number: 0 //剩余次数
+            number: 0, //剩余次数
+            assessDefinition: '', // 描述
+            damagedStatus: 0, //是否容易受损客户 0-否，1-是
+            resetTime: '' //重置时间
         }
     },
     computed: {
-        // 风评等级
-        // assessmentType() {
-        //     return this.riskTypeList[this.userRiskLevel]
-        // }
+        resetTimes() {
+            return {
+                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                en:
+                    'Reset on 1st January, ' +
+                    dayjs(this.resetTime).format('YYYY')
+            }[this.$i18n.lang]
+        }
     },
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            await Promise.all([this.handleRiskAssessResult()])
+            await Promise.resolve(this.handleRiskAssessResult())
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.startRiskHandle()
@@ -55,7 +54,11 @@ export default {
                     assessResult,
                     createTime,
                     validTime,
-                    assessResultName
+                    assessResultName,
+                    assessDefinition,
+                    damagedStatus,
+                    validCount,
+                    resetTime
                 } = await riskAssessResult()
                 if (validTime && new Date() > new Date(validTime)) {
                     // 当前时间大于测评有效时间，测评过期
@@ -65,7 +68,15 @@ export default {
                 }
                 this.assessmentTime = createTime || 0
                 this.assessResultName = assessResultName
-                console.log('riskAssessResult:data:>>> ', assessResult)
+                this.assessDefinition = assessDefinition
+                this.damagedStatus = damagedStatus
+                this.number = validCount
+                this.resetTime = resetTime
+                console.log(
+                    'riskAssessResult:data:>>> ',
+                    assessResult,
+                    this.assessResultName
+                )
             } catch (error) {
                 console.log('riskAssessResult:error:>>>', error)
             }
@@ -78,24 +89,23 @@ export default {
         showEasyCustomerInfo() {
             this.showEasyCustomer = true
         },
-        // 开始测评
+        // 开始测评或拨打客服电话
         startRiskHandle(number) {
-            if (number === 0) {
-                this.showRemainingNum = false
-            } else {
-                // 跳转到风险测评
-                this.$router.push({
-                    path: '/risk-assessment'
-                })
-            }
-        },
-        // 关闭或者拨打客服电话
-        callOrCancel(number) {
             if (number === 0) {
                 jsBridge.gotoCustomerService()
             } else {
-                this.showRemainingNum = false
+                // 跳转到风险测评
+                this.$router.push({
+                    path: '/risk-assessment',
+                    query: {
+                        notFirstSubmit: true
+                    }
+                })
             }
+        },
+        // 关闭
+        callOrCancel() {
+            this.showRemainingNum = false
         }
     }
 }

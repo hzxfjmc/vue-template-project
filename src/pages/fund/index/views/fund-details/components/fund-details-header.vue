@@ -5,8 +5,9 @@
         .funds-details-number
             .header-left
                 span {{$t('oneYearShow')}}
-                p(
-                    :class="fundHeaderInfoVO.apy<0 ? 'number-green':fundHeaderInfoVO.apy!=0?'number-red':''") {{fundHeaderInfoVO.apy  > 0 ? `+${fundHeaderInfoVO.apy}` : `${fundHeaderInfoVO.apy}`}}%
+                p(v-if="fundHeaderInfoVO.apy >0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}
+                p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}
+                p(v-else) {{fundHeaderInfoVO.apy}}
             .header-right
                 span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
                 p.number-black ${{fundHeaderInfoVO.netPrice}}
@@ -28,6 +29,7 @@
 <script>
 import dayjs from 'dayjs'
 import { Tag } from 'vant'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     components: {
         [Tag.name]: Tag
@@ -58,6 +60,11 @@ export default {
     data() {
         return {
             nowDate: dayjs(Date.parse(new Date())).format('MMDDYYYY')
+        }
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
         }
     }
 }

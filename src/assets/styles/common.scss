@@ -1,96 +1,96 @@
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 html {
-    background-color: #F1F3F8;
-    scroll-behavior: smooth;
+  background-color: #f1f3f8;
+  scroll-behavior: smooth;
 }
 
 @media (min-width: 560px) {
-
-    // 兼容pc页面
-    html {
-        font-size: 75px;
-    }
-    html, body {
-        max-width: 562.5px;
-    }
+  // 兼容pc页面
+  html {
+    font-size: 75px;
+  }
+  html,
+  body {
+    max-width: 562.5px;
+  }
 }
 
 @media (max-width: 1024px) {
-
-    // ipad
-    html{
-        font-size: 13.33333333vw;
-    }
-    html, body {
-        max-width: 1024px;
-    }
+  // ipad
+  html {
+    font-size: 13.33333333vw;
+  }
+  html,
+  body {
+    max-width: 1024px;
+  }
 }
 
 .full-height {
-    height: 100%;
+  height: 100%;
 }
 
 .scroll-able {
-    overflow: auto;
-    -webkit-overflow-scrolling: touch;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .flex {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 }
 .text-color {
-    color: $text-color;
+  color: $text-color;
 }
 .text-color7 {
-    color: $text-color7;
+  color: $text-color7;
 }
 .text-color5 {
-    color: $text-color5;
+  color: $text-color5;
 }
 .text-color2 {
-    color: $text-color2;
+  color: $text-color2;
 }
 .text-color3 {
-    color: $text-color3;
+  color: $text-color3;
 }
 .flex-fixed {
-    display: flex;
-    flex-direction: column;
-    background-color: #fff;
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
 }
 .flex-fixed-container {
-    flex: 1;
+  flex: 1;
 }
 
 .primary-color {
-    color: $primary-color;
+  color: $primary-color;
 }
 .hk-primary-color {
-    color: $hk-primary-color;
+  color: $hk-primary-color;
 }
 
 .right-icon {
-    transform: rotate(180deg);
-    display: inline-block;
+  transform: rotate(180deg);
+  display: inline-block;
 }
 .warn-color {
-    color: $warn-color;
+  color: $warn-color;
 }
-.common-radius{
+.common-radius {
   border-radius: 4px;
 }
-.en-font-size input{
-    font-size: 16px;
+.en-font-size input {
+  font-size: 16px;
 }
 .yx-company-provide {
-    padding: 10px $global-padding;
-    font-size:12px;
-    font-family:DINPro-Regular;
-    font-weight:400;
-    color:rgba(53,53,71,0.2);
-    line-height:17px;
+  padding: 10px $global-padding;
+  font-size: 12px;
+  font-family: DINPro-Regular;
+  font-weight: 400;
+  color: rgba(53, 53, 71, 0.2);
+  line-height: 17px;
 }

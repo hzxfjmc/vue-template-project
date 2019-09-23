@@ -1,5 +1,5 @@
 export const tradeList = {
-    tradeFrequency: {
+    tradeFrequencyName: {
         label: '交易频率',
         value: ''
     },
@@ -38,11 +38,11 @@ export const redeemList = {
 
 export const managementList = {
     managementFee: {
-        label: '基金年度管理费',
+        label: '基金管理费',
         value: ''
     },
     platformManagementFee: {
-        label: '基金托管费',
+        label: '平台管理费',
         value: ''
     }
 }
@@ -58,7 +58,7 @@ export const i18nTrudeRuleData = {
         buyConfirm: { label: '确认份额' },
         buyProfitLoss: { label: '查看盈亏' },
         tradeList: {
-            tradeFrequency: {
+            tradeFrequencyName: {
                 label: '交易频率'
             },
             dividend: {
@@ -84,10 +84,10 @@ export const i18nTrudeRuleData = {
         },
         managementList: {
             managementFee: {
-                label: '基金年度管理费'
+                label: '基金管理费'
             },
             platformManagementFee: {
-                label: '基金托管费'
+                label: '平台管理费'
             }
         },
         sellSubmit: {
@@ -119,7 +119,7 @@ export const i18nTrudeRuleData = {
             label: '查看盈虧'
         },
         tradeList: {
-            tradeFrequency: {
+            tradeFrequencyName: {
                 label: '交易頻率'
             },
             dividend: {
@@ -145,10 +145,10 @@ export const i18nTrudeRuleData = {
         },
         managementList: {
             managementFee: {
-                label: '基金年度管理費'
+                label: '基金管理費'
             },
             platformManagementFee: {
-                label: '基金託管費'
+                label: '平台管理費'
             }
         }
     },
@@ -171,7 +171,7 @@ export const i18nTrudeRuleData = {
             label: 'Check P/L'
         },
         tradeList: {
-            tradeFrequency: {
+            tradeFrequencyName: {
                 label: 'Trading Frequency'
             },
             dividend: {
@@ -197,10 +197,10 @@ export const i18nTrudeRuleData = {
         },
         managementList: {
             managementFee: {
-                label: 'Annual Management Fee'
+                label: 'Management Fee'
             },
             platformManagementFee: {
-                label: 'Management Fee'
+                label: 'Platform Fee'
             }
         }
     }

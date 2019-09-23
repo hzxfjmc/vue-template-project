@@ -10,13 +10,21 @@
             :class="item.layout") 
             span.holdSubtitle {{item.label}}
             p.holdNumber(
-                :class="item.value >= 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings') ? 'active_red' : item.value<0 ? 'active-green' : ''") 
-                em(v-if="item.value>0") {{item.cname}}
-                em {{item.value}}
+                :class="stockColorType === 1 ? 'active_red' : 'active-green'"
+                v-if="item.value > 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") +{{item.value}}
+            p.holdNumber(
+                :class="stockColorType === 1 ? 'active-green' : 'active_red'"
+                v-else-if="item.value < 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") {{item.value}}
+             p.holdNumber(v-else) {{item.value}}
+            //- p.holdNumber(
+            //-     :class="item.value >= 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings') ? 'active_red' : item.value<0 ? 'active-green' : ''") 
+            //-     em(v-if="item.value>0") {{item.cname}}
+            //-     em {{item.value}}
 </template>
 <script>
 import { Row, Col } from 'vant'
 import { holdDetailsData, i18nHoldDetailsData } from './hold-fund-data'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     i18n: i18nHoldDetailsData,
     props: {
@@ -36,6 +44,9 @@ export default {
                 this.list[key].value = Number(this.initState[key]).toFixed(2)
             }
             return this.list
+        },
+        stockColorType() {
+            return +getStockColorType()
         }
     },
     // watch: {

@@ -14,7 +14,24 @@ export const i18nAppropriateData = {
         buyIt: '购买该产品',
         startRisk: '开始测评',
         againRisk: '重新测评',
-        sure: '确认'
+        sure: '确认',
+        leastNum: '剩余可测评次数：',
+        yearsInfo: '重置',
+        yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
+        times: '次',
+        toCall: '拨打客服电话',
+        toCancel: '取消',
+        toClose: '关闭',
+        riskTypeList: {
+            // 风险等级列表
+            100: '--',
+            0: '尚未风评',
+            1: '保守型(A1)及以上可购买',
+            2: '稳健型(A2)及以上可购买',
+            3: '均衡型(A3)及以上可购买',
+            4: '增长型(A4)及以上可购买',
+            5: '进取型(A5)'
+        }
     },
     zhCHT: {
         matching: '匹配',
@@ -31,7 +48,24 @@ export const i18nAppropriateData = {
         buyIt: '購買該產品',
         startRisk: '開始測評',
         againRisk: '重新測評',
-        sure: '確認'
+        sure: '確認',
+        leastNum: '剩餘可測評次數：',
+        yearsInfo: '重置',
+        yearsInfoToCall: '2020年1月1日重置，如有調整，請聯繫客服',
+        times: '次',
+        toCall: '撥打客服電話',
+        toCancel: '取消',
+        toClose: '關閉',
+        riskTypeList: {
+            // 风险等级列表
+            100: '--',
+            0: '尚未進行風險評',
+            1: '保守型(A1)及以上可購買',
+            2: '穩健型(A2)及以上可購買',
+            3: '均衡型(A3)及以上可購買',
+            4: '增長型(A4)及以上可購買',
+            5: '進取型(A5)'
+        }
     },
     en: {
         matching: 'Matched',
@@ -47,8 +81,25 @@ export const i18nAppropriateData = {
             'I have read and are aware of related risks of trading bonds / funds. I have read product information.',
         productOverview: 'Prospectus',
         buyIt: 'Buy this product',
-        startRisk: 'Start Evaluation',
-        againRisk: 'Again Evaluation',
-        sure: 'Confirm'
+        startRisk: 'Start The Assessment',
+        againRisk: 'Assess Again',
+        sure: 'Confirm',
+        leastNum: 'Remaining Assessment Chance：',
+        yearsInfo: 'Reset',
+        yearsInfoToCall: 'Please contact CS if there is any adjustment',
+        times: 'Times',
+        toCall: 'Call CS',
+        toCancel: 'Cancel',
+        toClose: 'Close',
+        riskTypeList: {
+            // 风险等级列表
+            100: '--',
+            0: 'Risk assessment is not completed',
+            1: 'Available for conservative (or more aggressive) investor',
+            2: 'Available for steady (or more aggressive) investor',
+            3: 'Available for balanced (or more aggressive) investor',
+            4: 'Available for growth (or more aggressive) investor',
+            5: 'Aggressive'
+        }
     }
 }

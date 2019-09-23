@@ -1,18 +1,19 @@
 <template lang="pug">
-    .risk-assessment-wrapper
-        .risk-assessment-tips {{$t('riskAssessmentTips')}}
-        .risk-assessment-form
+    yx-container.risk-assessment-wrapper
+        .risk-assessment-tips(slot="top") 
+            .content {{$t('riskAssessmentTips')}}
+        .risk-assessment-form(slot="main")
             van-panel(
                 v-for="(subjectItem, subjectIndex) in subject"
                 :key="subjectIndex"
-                :title="subjectItem.num + '、' + subjectItem.title"
+                :title="subjectItem[titleI18n]"
             )
                 van-radio-group(v-model="subjectItem.choiceNum")
                     van-cell-group
                         van-cell(
                             v-for="(optionItem, optionindex) in subjectItem.option"
                             :key="optionindex"
-                            :title="optionItem.text"
+                            :title=`optionItem[textI18n]`
                             clickable
                             @click="subjectItem.choiceNum = optionItem.num"
                         )
@@ -22,12 +23,31 @@
                                     slot-scope="props"
                                     :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                 )
-        fixed-operate-btn(
-            :text="$t('btnText')"
-            :disabled="submitBtnDisabled"
-            @click="handleSubmit('submit')"
-            :class="{ active: !submitBtnDisabled }"
-        )
+                .has-child-container(v-if="[6,7].includes(subjectIndex)")
+                    van-panel#child-title(
+                        v-for="(subjectItem1, subjectIndex) in subjectItem.subject"
+                        :key="subjectIndex"
+                        :title="subjectItem1[titleI18n]"
+                        style="color:#000"
+                    )
+                        van-radio-group(v-model="subjectItem1.choiceNum")
+                            van-cell-group
+                                van-cell(
+                                    v-for="(optionItem, optionindex) in subjectItem1.option"
+                                    :key="optionindex"
+                                    :title="optionItem[textI18n]"
+                                    clickable
+                                    @click="subjectItem1.choiceNum = optionItem.num"
+                                )
+                                    van-radio(slot="right-icon" :name="optionItem.num")
+                                        i.iconfont(
+                                            slot="icon"
+                                            slot-scope="props"
+                                            :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
+                                        )
+        .van-bottom-btn(slot="bottom")
+            van-button.btn(:disabled="submitBtnDisabled" @click="handleSubmit('submit')"
+            :class="{ active: !submitBtnDisabled }") {{$t('btnText')}}
 </template>
 
 <script>
@@ -55,14 +75,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.risk-assessment-wrapper {
-    padding-bottom: 48px;
+.risk-assessment-wrapper.yx-container {
+    background-color: $text-color8;
+    font-family: 'PingFang SC';
     .risk-assessment-tips {
-        padding: 5px 8px 5px 12px;
-        background: rgba(255, 172, 79, 0.2);
-        color: #dda16b;
-        font-size: 0.28rem;
-        line-height: 20px;
+        background-color: #fff;
+        .content {
+            padding: 5px 8px 5px 12px;
+            background-color: rgba(255, 172, 79, 0.2);
+            color: $risk-background-color;
+            font-size: 0.28rem;
+            line-height: 20px;
+        }
     }
     .risk-assessment-form {
         .van-panel {
@@ -73,7 +97,7 @@ export default {
             &:after {
                 display: none;
             }
-            padding: 14px 14px 10px 12px;
+            // padding: 14px 14px 10px 12px;
             font-size: 0.28rem;
             line-height: 24px;
         }
@@ -87,7 +111,7 @@ export default {
                 padding: 10px 12px;
             }
             .van-cell__title {
-                color: rgba(#393939, 0.6) !important;
+                color: $hk-text-color6 !important;
             }
         }
         .van-hairline--top-bottom::after {
@@ -104,8 +128,29 @@ export default {
             font-size: 0.32rem;
         }
     }
-    .fix-operate-btn.active {
-        background-color: $sell-color;
+    .van-bottom-btn {
+        .btn {
+            width: 100%;
+            height: 100%;
+            color: $background-color;
+            &[disabled='disabled'] {
+                background-color: $disabled-color;
+            }
+            &.active {
+                background-color: $primary-color;
+            }
+        }
+    }
+    #child-title {
+        .van-panel__header {
+            .van-cell__title {
+                color: $hk-text-color !important;
+            }
+        }
+        border-bottom: 0.5px solid rgba($color: $text-color2, $alpha: 0.05);
+        &:nth-of-type(2) {
+            border-bottom: none;
+        }
     }
 }
 </style>

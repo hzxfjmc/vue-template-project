@@ -59,13 +59,13 @@ import { differColor } from '../order-record/differColor.js'
 
 export default {
     i18n: i18nOrderStatusData,
-    keepalive: true,
+    // keepalive: true,
     components: {
         orderStatusAbout
     },
     watch: {
         $route(to, from) {
-            if (from.path === '/order-record') {
+            if (from.path === '/order-record' && this.$route.query.orderNo) {
                 this.fundOrderDetailFun()
             }
             if (
@@ -112,7 +112,9 @@ export default {
         }
     },
     created() {
-        this.fundOrderDetailFun()
+        if (this.$route.query.orderNo) {
+            this.fundOrderDetailFun()
+        }
         this.$route.query.orderStatus === 1
             ? this.setTitleBarBOButton()
             : this.clearTitleBarBOButton()
@@ -201,7 +203,6 @@ export default {
 
             // test:
             submitStep = 1
-
             try {
                 if (submitStep === 1) {
                     let t = await getTradePasswordToken({
@@ -217,7 +218,8 @@ export default {
                     this.$router.replace({
                         name: 'order-record',
                         query: {
-                            isRefresh: true
+                            isRefresh: true,
+                            id: this.fondId
                         }
                     })
                     submitStep = 2
@@ -240,7 +242,7 @@ export default {
                 jsBridge.callApp('command_set_titlebar_button', {
                     position: 2,
                     type: 'text',
-                    text: '撤销',
+                    text: this.$t('backoutBtnText'),
                     clickCallback: 'showBackOut'
                 })
             }
@@ -258,9 +260,7 @@ export default {
         }
     },
     beforeRouteLeave(to, from, next) {
-        if (to.path !== '/order-record-detail') {
-            this.clearTitleBarBOButton()
-        }
+        this.clearTitleBarBOButton()
         next()
     }
 }

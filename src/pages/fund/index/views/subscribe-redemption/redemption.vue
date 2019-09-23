@@ -23,8 +23,8 @@
                         van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * subscriptionFee | formatCurrency }}
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFee * 100  }}%
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * redemptionFee | formatCurrency }}
                 a.submit.gray(v-if="redemptionShare === null || redemptionShare === ''") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
@@ -51,7 +51,7 @@
                     .icon
                         .point
                     span.text-color5 {{ $t('predict') }}
-                    span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}日
+                    span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}{{ $t('day') }}
                     span.text-color5 {{ $t('monnyToAcc') }}
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
@@ -89,7 +89,7 @@ export default {
             redemptionShare: null, // 赎回份额
             fundName: '',
             isin: '',
-            subscriptionFee: null,
+            redemptionFee: null,
             sellProtocolFileName: '',
             sellProtocol: '', // 基金卖出协议
             sellSubmit: '',
@@ -139,9 +139,9 @@ export default {
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.lowestInvestAmount =
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
-                this.currency = fundDetail.fundHeaderInfoVO.currency.name
-                this.subscriptionFee =
-                    fundDetail.fundTradeInfoVO.subscriptionFee
+                this.redemptionFee = Number(
+                    fundDetail.fundTradeInfoVO.redemptionFee
+                ).toFixed(4)
                 this.setCosUrl(
                     'sellProtocol',
                     fundDetail.fundTradeInfoVO.sellProtocol

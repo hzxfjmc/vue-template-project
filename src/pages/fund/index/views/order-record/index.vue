@@ -6,7 +6,7 @@
                 fund-tag(:title="assetType")
                 fund-tag(:title="fundRisk")
         .order-record-box
-            van-list.order-record-list(v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad")
+            van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="$t('noMore')" @load="onLoad")
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
                     template(slot-scope='scope')
                         .order-item.flex
@@ -18,7 +18,9 @@
                         .order-item.flex
                             span(class="left-title") {{$t('time')}}
                             span(class="right-title" ) {{item.timeValue}}
-    .order-record-container-else(v-else style="text-align:center") {{$t('noOrder')}}
+    .order-record-container-else(v-else style="text-align:center") 
+        img.img(src="~@/assets/img/fund/icon-norecord.png") 
+        .no-record-box {{$t('noOrder')}}
 </template>
 
 <script>
@@ -37,17 +39,20 @@ export default {
         zhCHS: {
             amount: '金额',
             time: '时间',
-            noOrder: '暂无记录'
+            noOrder: '暂无记录',
+            noMore: '没有更多了'
         },
         zhCHT: {
-            amount: '金额',
-            time: '时间',
-            noOrder: '暂无记录'
+            amount: '金額',
+            time: '時間',
+            noOrder: '暫無記錄',
+            noMore: '沒有更多了'
         },
         en: {
-            amount: '金额',
-            time: '时间',
-            noOrder: '暂无记录'
+            amount: 'Amount',
+            time: 'Time',
+            noOrder: 'Not Records',
+            noMore: 'No More'
         }
     },
     keepalive: true,
@@ -72,16 +77,20 @@ export default {
     watch: {
         $route(to, from) {
             if (
-                (from.path === '/order-record-detai' &&
-                    this.$route.query.isRefresh) ||
-                from.path === '/fund-details'
+                from.path === '/order-record-detail' &&
+                this.$route.query.isRefresh
             ) {
+                this.fundOrderListFun()
+            } else if (from.path === '/fund-details') {
+                this.orderRecordList = []
                 this.fundOrderListFun()
             }
         }
     },
     created() {
-        this.fundOrderListFun()
+        if (this.$route.query.id) {
+            this.fundOrderListFun()
+        }
     },
     methods: {
         // 查询列表
@@ -101,6 +110,7 @@ export default {
                         typeValue: item.externalName,
                         moneyValue:
                             item.currency.name +
+                            ' ' +
                             transNumToThousandMark(
                                 (item.orderAmount * 1).toFixed(2)
                             ),
@@ -115,7 +125,6 @@ export default {
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })
-
                     this.assetType =
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
                     this.fundRisk = item.fundBaseInfoVO.fundRisk
@@ -160,21 +169,18 @@ export default {
     display: flex;
     flex-direction: column;
     .fund-introduce {
-        padding: 0 12px;
-        height: 72px;
+        padding: 15px 12px;
         background-color: $background-color;
         margin-bottom: 10px;
         .fund-name {
             font-size: 16px;
             line-height: 22px;
-            padding-top: 15px;
             margin-bottom: 6px;
             font-family: '';
         }
         .fund-detail {
             display: flex;
             justify-content: flex-start;
-            margin-bottom: 10px;
         }
     }
     .order-record-box {
@@ -207,6 +213,16 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
+    .img {
+        width: 130px;
+        height: 130px;
+        margin-bottom: 10px;
+        transform: translateY(-65px);
+    }
+    .no-record-box {
+        transform: translateY(-65px);
+    }
 }
 .yellow-style {
     color: $cell-right-color !important;

@@ -57,6 +57,11 @@ export default {
                 console.log('getFundDetail:error:>>>', e)
             }
         },
+        initIn18State() {
+            for (let key in this.list) {
+                this.list[key].label = this.$t('list')[key].label
+            }
+        },
         initOffsetHeight() {
             if (this.$refs.intd[0].offsetHeight > 120) {
                 this.list.companyProfile.flag = 1
@@ -64,13 +69,11 @@ export default {
             if (this.$refs.target[0].offsetHeight > 120) {
                 this.list.investObjective.flag = 1
             }
-            for (let key in this.list) {
-                this.list[key].label = this.$t('list')[key].label
-            }
         }
     },
     mounted() {
         this.initState()
+        this.initIn18State()
     }
 }
 </script>
