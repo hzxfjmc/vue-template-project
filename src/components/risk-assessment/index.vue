@@ -46,7 +46,7 @@
                                             :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                         )
         .van-bottom-btn(slot="bottom")
-            van-button.btn(:disabled="submitBtnDisabled" @click="handleSubmit('submit')"
+            van-button.btn(type="info" round size="large" :disabled="submitBtnDisabled" @click="handleSubmit('submit')"
             :class="{ active: !submitBtnDisabled }") {{$t('btnText')}}
 </template>
 
@@ -136,9 +136,9 @@ export default {
             &[disabled='disabled'] {
                 background-color: $disabled-color;
             }
-            &.active {
-                background-color: $primary-color;
-            }
+            // &.active {
+            //     background-color: $primary-color;
+            // }
         }
     }
     #child-title {
