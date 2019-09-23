@@ -1,9 +1,9 @@
-import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
+import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 export default {
     name: 'RiskAssessmentResult',
     components: {
-        FixedOperateBtn
+        YxContainerBetter
     },
     created() {
         // 等待预定请求完成后，执行下一步操作

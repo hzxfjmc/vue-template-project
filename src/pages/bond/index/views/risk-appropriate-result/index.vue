@@ -1,33 +1,32 @@
 <template lang="pug">
     yx-container-better(v-show="isShowPage")
-        div(slot="main")
-            .risk-appropriate-result-wrapper
-                .risk-result__header
-                    i(:type="riskMatchResult")
-                    h2 {{ riskMatchResult > 2 ? '匹配' : '不匹配' }}
-                    p 您的风评取向{{ riskMatchResult > 2 ? '可以' : '不适合' }}购买该产品
-                .risk-result__content
-                    .risk-cell
-                        span 您的风险取向
-                        strong {{ riskTypeList[userRiskLevel] && riskTypeList[userRiskLevel] || '--'  }}
-                    .risk-cell
-                        span 产品的风险
-                        strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
-                .risk-result__tips(v-if="riskMatchResult === 1")
-                    h2
-                        span 什么是风险测评？
-                        i.iconfont.icon-about_icon
-                    p 为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的，通过风险测评可以了解您的风险承受能力和风险偏好。
-                .risk-agreement(v-if="riskMatchResult === 3")
-                    van-checkbox(v-model="isReadProductInfo")
-                        i.iconfont(
-                            slot="icon"
-                            slot-scope="props"
-                            :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
-                        )
-                    p
-                        span 我已阅读并知晓债券相关风险，我已阅读产品资料
-                        a(:href="productUrl") 《产品概览书》
+        .risk-appropriate-result-wrapper(slot="main")
+            .risk-result__header
+                i(:type="riskMatchResult")
+                h2 {{ riskMatchResult > 2 ? '匹配' : '不匹配' }}
+                p 您的风评取向{{ riskMatchResult > 2 ? '可以' : '不适合' }}购买该产品
+            .risk-result__content
+                .risk-cell
+                    span 您的风险取向
+                    strong {{ riskTypeList[userRiskLevel] && riskTypeList[userRiskLevel] || '--'  }}
+                .risk-cell
+                    span 产品的风险
+                    strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
+            .risk-result__tips(v-if="riskMatchResult === 1")
+                h2
+                    span 什么是风险测评？
+                    i.iconfont.icon-about_icon
+                p 为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的，通过风险测评可以了解您的风险承受能力和风险偏好。
+            .risk-agreement(v-if="riskMatchResult === 3")
+                van-checkbox(v-model="isReadProductInfo")
+                    i.iconfont(
+                        slot="icon"
+                        slot-scope="props"
+                        :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
+                    )
+                p
+                    span 我已阅读并知晓债券相关风险，我已阅读产品资料
+                    a(:href="productUrl") 《产品概览书》
         van-button(
             type="info"
             slot="bottom"
