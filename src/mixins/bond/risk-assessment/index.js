@@ -10,11 +10,14 @@ export default {
         FixedOperateBtn
     },
     beforeCreate() {
-        window.location.replace(
-            location.origin + '/wealth/fund/index.html#/risk-assessment'
-        )
+        if (!this.$route.query.id) {
+            window.location.replace(
+                location.origin + '/wealth/fund/index.html#/risk-assessment'
+            )
+        }
     },
     async created() {
+        console.log(this.$route.query.id, 'id')
         // 拉取测评题目
         try {
             let { subject, version } = await riskAssessSubject()
