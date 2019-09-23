@@ -14,11 +14,11 @@ export default {
         FixedOperateBtn
     },
     beforeCreate() {
-        if (!this.$route.query.id) {
-            window.location.replace(
-                location.origin + '/wealth/fund/index.html#/risk-assessment'
-            )
-        }
+        // if (!this.$route.query.id) {
+        //     window.location.replace(
+        //         location.origin + '/wealth/fund/index.html#/risk-assessment'
+        //     )
+        // }
     },
     async created() {
         if (!this.$route.query.id) {
@@ -156,11 +156,13 @@ export default {
                 const res = await getCurrentUser()
                 this.userInfo = res
                 console.log(this.userInfo.assessResult, 'assessResult')
-                if (this.userInfo.assessResult) {
-                    window.location.replace(
-                        location.origin +
-                            '/wealth/fund/index.html#/risk-assessment-result'
-                    )
+                if (
+                    this.userInfo.assessResult &&
+                    !this.$route.query.notFirstSubmit
+                ) {
+                    this.$route.replace({
+                        path: '/risk-assessment-result'
+                    })
                 }
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)
