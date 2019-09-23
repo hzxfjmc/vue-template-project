@@ -13,12 +13,10 @@ export default {
         [Radio.name]: Radio,
         FixedOperateBtn
     },
-    async beforeCreate() {
+    async created() {
         if (!this.$route.query.id) {
             await this.getCurrentUser()
         }
-    },
-    async created() {
         // 拉取测评题目
         try {
             let { subject, version } = await riskAssessSubject()
