@@ -21,7 +21,9 @@ export default {
         }
     },
     async created() {
-        // await this.getCurrentUser()
+        if (!this.$route.query.id) {
+            await this.getCurrentUser()
+        }
         // 拉取测评题目
         try {
             let { subject, version } = await riskAssessSubject()
@@ -155,9 +157,10 @@ export default {
                 this.userInfo = res
                 console.log(this.userInfo.assessResult, 'assessResult')
                 if (this.userInfo.assessResult) {
-                    this.$router.replace({
-                        path: '/risk-assessment-result'
-                    })
+                    window.location.replace(
+                        location.origin +
+                            '/wealth/fund/index.html#/risk-assessment-result'
+                    )
                 }
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)
