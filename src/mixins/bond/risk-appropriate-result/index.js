@@ -1,12 +1,13 @@
-import { Checkbox } from 'vant'
-import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
+import { Checkbox, Button } from 'vant'
+import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 export default {
     name: 'RiskAppropriateResult',
     components: {
-        FixedOperateBtn,
-        [Checkbox.name]: Checkbox
+        YxContainerBetter,
+        [Checkbox.name]: Checkbox,
+        [Button.name]: Button
     },
     created() {
         // 等待预定请求完成后，执行下一步操作
