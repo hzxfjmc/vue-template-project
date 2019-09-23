@@ -39,9 +39,10 @@ export default {
             return getStockColorType()
         },
         apy() {
+            const func = this.info && this.info.apy > 0 ? Math.floor : Math.ceil
             return (
                 this.info &&
-                (Math.floor((this.info.apy - 0) * 10000) / 100).toFixed(2)
+                (func((this.info.apy - 0) * 10000) / 100).toFixed(2)
             )
         },
         fundName() {
