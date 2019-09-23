@@ -1,5 +1,9 @@
 import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
-import { riskAssessSubject, riskAssessAnswer } from '@/service/user-server.js'
+import {
+    riskAssessSubject,
+    riskAssessAnswer,
+    getCurrentUser
+} from '@/service/user-server.js'
 import { RadioGroup, Radio, Panel } from 'vant'
 export default {
     name: 'RiskAssessment',
@@ -17,7 +21,7 @@ export default {
         }
     },
     async created() {
-        console.log(this.$route.query.id, 'id')
+        await this.getCurrentUser()
         // 拉取测评题目
         try {
             let { subject, version } = await riskAssessSubject()
@@ -44,7 +48,8 @@ export default {
         return {
             subject: [],
             version: 0,
-            submitBtnDisabled: true
+            submitBtnDisabled: true,
+            userInfo: ''
         }
     },
     computed: {
@@ -141,6 +146,20 @@ export default {
                 console.log('riskAssessAnswer:data:>>> ', assessResult)
             } catch (e) {
                 console.log('riskAssessAnswer:error:>>>', e)
+            }
+        },
+        // 获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.userInfo = res
+                if (this.userInfo.assessResult) {
+                    this.$router.replace({
+                        path: '/risk-assessment-result'
+                    })
+                }
+            } catch (e) {
+                console.log('getCurrentUser:error:>>>', e)
             }
         }
     }
