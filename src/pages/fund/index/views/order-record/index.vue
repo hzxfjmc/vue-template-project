@@ -186,7 +186,7 @@ export default {
     .order-record-box {
         flex: 1;
         .order-record-list {
-            border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
+            // border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
             .van-cell-item {
                 font-family: PingFangSC;
                 .order-item {
