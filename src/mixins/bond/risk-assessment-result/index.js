@@ -96,7 +96,10 @@ export default {
             } else {
                 // 跳转到风险测评
                 this.$router.push({
-                    path: '/risk-assessment'
+                    path: '/risk-assessment',
+                    query: {
+                        notFirstSubmit: true
+                    }
                 })
             }
         },
