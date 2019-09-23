@@ -1,4 +1,4 @@
-import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
+import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessSubject, riskAssessAnswer } from '@/service/user-server.js'
 import { RadioGroup, Radio, Panel } from 'vant'
 export default {
@@ -7,7 +7,7 @@ export default {
         [Panel.name]: Panel,
         [RadioGroup.name]: RadioGroup,
         [Radio.name]: Radio,
-        FixedOperateBtn
+        YxContainerBetter
     },
     async created() {
         // 拉取测评题目

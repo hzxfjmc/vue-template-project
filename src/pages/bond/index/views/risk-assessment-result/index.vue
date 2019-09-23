@@ -10,7 +10,6 @@
             slot="bottom"
             class="foot-button"
             text="重新测评"
-            :disabled="!isDisabled"
             @click="handleAction"
         )
 </template>
