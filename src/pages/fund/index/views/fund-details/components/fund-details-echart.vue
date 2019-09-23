@@ -195,10 +195,11 @@ export default {
     .fund-date-list {
         width: 100%;
         margin: 0 0 10px 0;
+        display: flex;
         // border: 1px solid rgba(235, 235, 235, 1);
         border-right: none;
         .date-item {
-            border-right: 1px solid rgba(235, 235, 235, 1);
+            // border-right: 1px solid rgba(235, 235, 235, 1);
             // display: inline-block;
             width: 16.65%;
             text-align: center;
