@@ -24,7 +24,16 @@
                         span {{netPrice}}
                     .order-item.flex(v-if="orderStatus===2")
                         span.itemName {{$t('orderShares')}}
-                        span {{orderShare}}  
+                        span {{orderShare}} 
+                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                            span.itemName {{$t('amount')}}
+                            span.type-text {{moneyNum}}
+                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                            span.itemName {{$t('orderName')}}
+                            span.type {{orderType}}
+                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                            span.itemName {{$t('orderFree')}}
+                            span.type {{orderFee}}
                 van-cell(class="order-time" v-if="![1,2].includes(orderStatus)")
                     .order-item.flex
                         span.itemName {{$t('orderNetWorth')}}
@@ -32,14 +41,15 @@
                     .order-item.flex
                         span.itemName {{$t('orderShares')}}
                         span {{orderShare}}
-                van-cell(class="order-money-cell" )
-                    .order-money.flex
-                        .left-title.flex
-                            span.type {{$t('orderName')}}
-                            span.type-text {{$t('amount')}}
-                        .right-value.flex 
-                            span.type {{orderType}}
+                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
+                            span.itemName {{$t('amount')}}
                             span.type-text {{moneyNum}}
+                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
+                            span.itemName {{$t('orderName')}}
+                            span.type {{orderType}}
+                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
+                            span.itemName {{$t('orderFree')}}
+                            span.type {{orderFee}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('confirmButtonText')" @confirm='confirmBackoutHandle')
@@ -108,7 +118,8 @@ export default {
             differenceColor: '',
             detailMsg: {},
             title: '订单',
-            isShowBackout: false
+            isShowBackout: false,
+            orderFee: ''
         }
     },
     created() {
@@ -133,6 +144,9 @@ export default {
                 this.orderStatusValue = res.externalName
                 this.orderStatus = res.externalStatus
                 this.allowRevoke = res.allowRevoke
+                this.orderFee = transNumToThousandMark(
+                    (res.orderFee * 1).toFixed(2)
+                )
                 if (this.orderStatus === 1 && this.allowRevoke) {
                     this.setTitleBarBOButton()
                 }
@@ -294,7 +308,7 @@ export default {
         }
     }
     .order-group {
-        padding-bottom: 41px;
+        margin-bottom: 41px;
         .order-time {
             .itemName {
                 color: $text-color5;
@@ -347,5 +361,8 @@ export default {
 }
 .green-style {
     color: $green-text-color !important;
+}
+.van-cell:not(:last-child)::after {
+    left: 0;
 }
 </style>
