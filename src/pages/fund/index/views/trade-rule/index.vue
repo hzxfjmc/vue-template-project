@@ -148,12 +148,12 @@ export default {
                 this.sellSubmit.value = fundTradeInfoVO.sellSubmit
                 this.sellConfirm.value = fundTradeInfoVO.sellConfirm
                 this.sellProfitLoss.value = fundTradeInfoVO.sellProfitLoss
-                this.managementList.managementFee.value = `${transNumToThousandMark(
+                this.managementList.managementFee.value = `${Number(
                     fundTradeInfoVO.managementFee
-                ) * 100}%`
-                this.managementList.platformManagementFee.value = `${transNumToThousandMark(
+                ).toFixed(4) * 100}%`
+                this.managementList.platformManagementFee.value = `${Number(
                     fundTradeInfoVO.platformManagementFee
-                ) * 100}%`
+                ).toFixed(4) * 100}%`
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }

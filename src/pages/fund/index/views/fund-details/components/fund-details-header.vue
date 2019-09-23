@@ -5,8 +5,8 @@
         .funds-details-number
             .header-left
                 span {{$t('oneYearShow')}}
-                p(v-if="fundHeaderInfoVO.apy >0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}
-                p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}
+                p(v-if="fundHeaderInfoVO.apy >0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
+                p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
                 p(v-else) {{fundHeaderInfoVO.apy}}
             .header-right
                 span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
@@ -74,7 +74,7 @@ export default {
     background: $background-color;
     float: left;
     width: 100%;
-    min-height: 180px;
+    min-height: 174px;
     padding: 10px;
     h3 {
         font-size: 0.32rem;
@@ -127,16 +127,19 @@ export default {
     .funds-details-footer {
         width: 100%;
         float: left;
+        // border: 1px solid red;
         margin: 10px 0;
         p {
             color: $text-color5;
             float: left;
             font-size: 0.24rem;
             margin: 0 20px 0 0;
-            line-height: 22px;
+            line-height: 28px;
         }
         .fund-tag {
             float: left;
+            // border: 1px solid red;
+            padding: 3px;
         }
         // span {
         //     float: left;

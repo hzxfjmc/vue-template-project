@@ -23,7 +23,9 @@
         van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toCall'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toClose'):$t('toCancel')" @cancel="callOrCancel(number)" )
             .title {{$t('leastNum')}} {{number}} {{$t('times')}}
             .years-info(v-if="number!==0") {{resetTimes}}
-            .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
+            .years-info(v-if="number===0") 
+                .p {{resetTimes}}
+                .p {{ $t('yearsInfoToCall')}}
 </template>
 
 <script>
@@ -47,7 +49,7 @@ export default {
             ],
             leastNum: '剩余可测评次数：',
             yearsInfo: '重置',
-            yearsInfoToCall: '2020年1月1日重置，如有调整，请联系客服',
+            yearsInfoToCall: '如有调整，请联系客服',
             startRisk: '开始测评',
             times: '次',
             toCall: '拨打客服电话',
@@ -70,7 +72,7 @@ export default {
             ],
             leastNum: '剩餘可測評次數：',
             yearsInfo: '重置',
-            yearsInfoToCall: '2020年1月1日重置，如有調整，請聯繫客服',
+            yearsInfoToCall: '如有調整，請聯繫客服',
             startRisk: '開始測評',
             times: '次',
             toCall: '撥打客服電話',
