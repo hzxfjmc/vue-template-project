@@ -1,46 +1,50 @@
 <template lang="pug">
-    .transaction-card
-        media-box.transaction-header(
-            :title="issuerName"
-            :desc="bondName"
-        )
-        .yx-cell(style="padding:0.4rem 0.28rem")
-            .yx-cell__header {{ direction === 1 ? '买入价格' : '卖出价格' }}
-                .yx-cell__header-tip ({{ currency }})
-            .yx-cell__primary {{ buyOrSellPrice }}
+    yx-container-better
+        .transaction-card(slot="main")
+            media-box.transaction-header(
+                :title="issuerName"
+                :desc="bondName"
+            )
+            .yx-cell(style="padding:0.4rem 0.28rem")
+                .yx-cell__header {{ direction === 1 ? '买入价格' : '卖出价格' }}
+                    .yx-cell__header-tip ({{ currency }})
+                .yx-cell__primary {{ buyOrSellPrice }}
 
-        .yx-cell
-            .yx-cell__header 份数
-            .yx-cell__primary
-                van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-                .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currency }}/份)
-        .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
-            .yx-cell__header 金额
-            .yx-cell__primary {{ tradeMoney | thousand-spilt }}
+            .yx-cell
+                .yx-cell__header 份数
+                .yx-cell__primary
+                    van-stepper(v-model="transactionNum" integer min="1" max="9999999")
+                    .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currency }}/份)
+            .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
+                .yx-cell__header 金额
+                .yx-cell__primary {{ tradeMoney | thousand-spilt }}
 
-        .yx-cell
-            .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
-                .yx-cell__header-tip
-                    i.iconfont.icon-wenhao(@click="showTips('interest')")
-            .yx-cell__primary +{{ calcInterest | thousand-spilt }}
+            .yx-cell
+                .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
+                    .yx-cell__header-tip
+                        i.iconfont.icon-wenhao(@click="showTips('interest')")
+                .yx-cell__primary +{{ calcInterest | thousand-spilt }}
 
-        .yx-cell(style="padding-top:0.2rem")
-            .yx-cell__header 手续费(预估)
-            .yx-cell__primary {{direction === 1 ? '+' : '-'}}{{ serviceCharge }}
+            .yx-cell(style="padding-top:0.2rem")
+                .yx-cell__header 手续费(预估)
+                .yx-cell__primary {{direction === 1 ? '+' : '-'}}{{ serviceCharge }}
 
-        .divider-line
+            .divider-line
 
-        .yx-cell.total-trade-money
-            .yx-cell__header 总额
-                .yx-cell__header-tip ({{ currency }})
-            .yx-cell__primary {{ totalTradeMoney | thousand-spilt }}
+            .yx-cell.total-trade-money
+                .yx-cell__header 总额
+                    .yx-cell__header-tip ({{ currency }})
+                .yx-cell__primary {{ totalTradeMoney | thousand-spilt }}
 
-        .tips
-            i.iconfont.icon-wenhao(@click="showTips('total')")
-            span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
-            strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currency }}
-            strong(v-if="direction === 2") {{ marketValue }}
-        fixed-operate-btn(
+            .tips
+                i.iconfont.icon-wenhao(@click="showTips('total')")
+                span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
+                strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currency }}
+                strong(v-if="direction === 2") {{ marketValue }}
+        van-button(
+            type="info"
+            slot="bottom"
+            class="foot-button"
             :text="btnText"
             :customStyle="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
             @click="handleTradeToken"
@@ -49,7 +53,7 @@
 
 <script>
 import MediaBox from '@/biz-components/media-box/index.vue'
-import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
+import YxContainerBetter from '@/components/yx-container-better'
 import { feePackageCurr } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import {
@@ -65,7 +69,7 @@ export default {
     components: {
         [Stepper.name]: Stepper,
         MediaBox,
-        FixedOperateBtn
+        YxContainerBetter
     },
     props: {
         btnText: {
@@ -477,9 +481,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.yx-container {
+    padding-top: 10px;
+    background: transparent;
+}
 .transaction-card {
     overflow: hidden;
-    padding-bottom: 20px;
+    margin: 0 10px;
+    padding-bottom: 68px;
     background-color: #fff;
     border-radius: 4px;
 }
