@@ -54,49 +54,31 @@ export default {
         initEchartList: {
             type: Array,
             default: () => {}
+        },
+        step: {
+            type: Number,
+            default: 0
         }
     },
     data() {
         return {
-            active: 'one',
+            active: 0,
             list: {
-                one: { date: '1个月', key: 1, show: false },
-                two: { date: '3个月', key: 2, show: false },
-                three: { date: '6个月', key: 3, show: false },
-                four: { date: '1年', key: 4, show: false },
-                five: { date: '3年', key: 5, show: false },
-                all: { date: '全部', key: 6, show: false }
+                0: { date: '1个月', key: 1, show: false },
+                1: { date: '3个月', key: 2, show: false },
+                2: { date: '6个月', key: 3, show: false },
+                3: { date: '1年', key: 4, show: false },
+                4: { date: '3年', key: 5, show: false },
+                5: { date: '全部', key: 6, show: false }
             },
-            initChooseList: []
+            initChooseList: [],
+            initList: []
         }
     },
     methods: {
         chooseMonth(item, index) {
             this.active = index
-            if (!this.initChooseList) return
-            // this.$emit('chooseTime', item.key)
-            switch (item.key) {
-                case 1:
-                    this.initEchartList = this.initChooseList.slice(0, 22)
-                    break
-                case 2:
-                    this.initEchartList = this.initChooseList.slice(0, 66)
-                    break
-                case 3:
-                    this.initEchartList = this.initChooseList.slice(0, 132)
-                    break
-                case 4:
-                    this.initEchartList = this.initChooseList.slice(0, 245)
-                    break
-                case 5:
-                    this.initEchartList = this.initChooseList
-                    break
-                case 6:
-                    this.initEchartList = this.initChooseList
-                    break
-                default:
-                    break
-            }
+            this.$emit('chooseTime', item.key)
         },
         draw() {
             let arr = []
@@ -147,47 +129,26 @@ export default {
             chart.render()
         },
         initI18nState() {
-            this.active = 'one'
+            this.active = 0
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
             }
         },
-        tabShow(flag) {
-            for (let key in this.list) {
-                this.list[key].show = false
-            }
-            this.initChooseList =
-                flag == 1 ? JSON.parse(JSON.stringify(this.initEchartList)) : []
-            let point = this.initEchartList.length
-            if (point >= 0 && point <= 22) {
-                this.list.one.show = true
-            } else if (point > 22 && point <= 66) {
-                this.list.one.show = true
-                this.list.two.show = true
-            } else if (point > 66 && point <= 132) {
-                this.list.one.show = true
-                this.list.two.show = true
-                this.list.three.show = true
-            } else if (point > 132 && point <= 245) {
-                this.list.one.show = true
-                this.list.two.show = true
-                this.list.three.show = true
-                this.list.four.show = true
-            } else {
-                for (let key in this.list) {
-                    this.list[key].show = true
-                }
+        tabShow() {
+            for (let i = 0; i <= this.step; i++) {
+                this.list[i].show = true
             }
         }
     },
     watch: {
         initEchartList() {
             this.draw()
-            this.tabShow(2)
+            this.active = this.step
+            this.tabShow()
         },
         $route(to, from) {
             if (from.path == '/') {
-                this.active = 'one'
+                this.active = this.step
             }
         }
     },
