@@ -13,13 +13,6 @@ export default {
         [Radio.name]: Radio,
         FixedOperateBtn
     },
-    beforeCreate() {
-        // if (!this.$route.query.id) {
-        //     window.location.replace(
-        //         location.origin + '/wealth/fund/index.html#/risk-assessment'
-        //     )
-        // }
-    },
     async created() {
         if (!this.$route.query.id) {
             await this.getCurrentUser()
@@ -160,9 +153,13 @@ export default {
                     this.userInfo.assessResult &&
                     !this.$route.query.notFirstSubmit
                 ) {
-                    this.$route.replace({
-                        path: '/risk-assessment-result'
-                    })
+                    window.location.replace(
+                        location.origin +
+                            '/wealth/fund/index.html#/risk-assessment-result'
+                    )
+                    // this.$router.replace({
+                    //     path: '/risk-assessment-result'
+                    // })
                 }
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)

@@ -230,7 +230,7 @@ export default {
             try {
                 const res = await getFundNetPrice({
                     fundId: this.$route.query.id,
-                    fundNetPriceDateType: time || 1
+                    fundNetPriceDateType: time || 5
                 })
                 if (time == 5) {
                     for (let i = 0; i < 147; i++) {
@@ -344,6 +344,8 @@ export default {
                 this.getFundNetPrice()
                 this.getFundDetail()
                 this.getFundPosition()
+            } else if (from.path == '/risk-appropriate-result') {
+                this.getCurrentUser()
             } else {
                 this.scrollTop()
             }
