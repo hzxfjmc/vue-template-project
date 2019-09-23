@@ -403,9 +403,6 @@ export default {
     }
 }
 .fund-footer-content {
-    // position: fixed;
     width: 100%;
-    // bottom: 0;
-    // z-index: 999999999;
 }
 </style>
