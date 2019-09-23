@@ -46,7 +46,7 @@ export default {
             return this.list
         },
         stockColorType() {
-            return getStockColorType()
+            return +getStockColorType()
         }
     },
     // watch: {

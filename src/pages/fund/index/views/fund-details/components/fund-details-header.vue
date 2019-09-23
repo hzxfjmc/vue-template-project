@@ -64,7 +64,7 @@ export default {
     },
     computed: {
         stockColorType() {
-            return getStockColorType()
+            return +getStockColorType()
         }
     }
 }

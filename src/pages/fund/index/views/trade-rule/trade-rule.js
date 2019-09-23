@@ -38,11 +38,11 @@ export const redeemList = {
 
 export const managementList = {
     managementFee: {
-        label: '基金年度管理费',
+        label: '基金管理费',
         value: ''
     },
     platformManagementFee: {
-        label: '基金托管费',
+        label: '平台管理费',
         value: ''
     }
 }
@@ -84,10 +84,10 @@ export const i18nTrudeRuleData = {
         },
         managementList: {
             managementFee: {
-                label: '基金年度管理费'
+                label: '基金管理费'
             },
             platformManagementFee: {
-                label: '基金托管费'
+                label: '平台管理费'
             }
         },
         sellSubmit: {
@@ -145,10 +145,10 @@ export const i18nTrudeRuleData = {
         },
         managementList: {
             managementFee: {
-                label: '基金年度管理費'
+                label: '基金管理費'
             },
             platformManagementFee: {
-                label: '基金託管費'
+                label: '平台管理費'
             }
         }
     },
@@ -197,10 +197,10 @@ export const i18nTrudeRuleData = {
         },
         managementList: {
             managementFee: {
-                label: 'Annual Management Fee'
+                label: 'Management Fee'
             },
             platformManagementFee: {
-                label: 'Management Fee'
+                label: 'Platform Fee'
             }
         }
     }
