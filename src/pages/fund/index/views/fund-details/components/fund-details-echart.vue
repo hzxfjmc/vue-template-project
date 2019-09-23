@@ -78,27 +78,21 @@ export default {
             switch (item.key) {
                 case 1:
                     this.initEchartList = this.initChooseList.slice(0, 22)
-                    this.tabShow(1)
                     break
                 case 2:
                     this.initEchartList = this.initChooseList.slice(0, 66)
-                    this.tabShow(1)
                     break
                 case 3:
                     this.initEchartList = this.initChooseList.slice(0, 132)
-                    this.tabShow(1)
                     break
                 case 4:
                     this.initEchartList = this.initChooseList.slice(0, 245)
-                    this.tabShow(1)
                     break
                 case 5:
                     this.initEchartList = this.initChooseList
-                    this.tabShow(1)
                     break
                 case 6:
                     this.initEchartList = this.initChooseList
-                    this.tabShow(1)
                     break
                 default:
                     break
