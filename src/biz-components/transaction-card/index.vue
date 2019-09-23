@@ -45,8 +45,8 @@
             type="info"
             slot="bottom"
             class="foot-button"
+            :class="{ sell: btnText === '确认卖出' }"
             :text="btnText"
-            :customStyle="{backgroundColor: btnText === '确认买入' ? '#2f79ff' : '#ffbf32'}"
             @click="handleTradeToken"
         )
 </template>
@@ -553,6 +553,10 @@ export default {
     span {
         margin-right: 4px;
     }
+}
+.foot-button.sell {
+    background: #ffbf32;
+    border-color: #ffbf32;
 }
 </style>
 <style lang="scss">
