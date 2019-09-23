@@ -82,7 +82,6 @@ export default {
             ) {
                 this.fundOrderListFun()
             } else if (from.path === '/fund-details') {
-                this.orderRecordList = []
                 this.fundOrderListFun()
             }
         }
@@ -104,6 +103,7 @@ export default {
                 let res = await fundOrderList(params)
                 const _this = this
                 this.total = res.total
+                this.orderRecordList = []
                 res.list.map(item => {
                     this.orderRecordList.push({
                         tradeType: item.tradeType.name,
