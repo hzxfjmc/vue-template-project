@@ -6,7 +6,7 @@
                 fund-tag(:title="assetType")
                 fund-tag(:title="fundRisk")
         .order-record-box
-            van-list.order-record-list(v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad")
+            van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="$t('noMore')" @load="onLoad")
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
                     template(slot-scope='scope')
                         .order-item.flex
@@ -39,17 +39,20 @@ export default {
         zhCHS: {
             amount: '金额',
             time: '时间',
-            noOrder: '暂无记录'
+            noOrder: '暂无记录',
+            noMore: '没有更多了'
         },
         zhCHT: {
             amount: '金額',
             time: '時間',
-            noOrder: '暫無記錄'
+            noOrder: '暫無記錄',
+            noMore: '沒有更多了'
         },
         en: {
             amount: 'Amount',
             time: 'Time',
-            noOrder: 'Not Records'
+            noOrder: 'Not Records',
+            noMore: 'No More'
         }
     },
     keepalive: true,

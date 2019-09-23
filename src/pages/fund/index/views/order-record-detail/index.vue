@@ -242,7 +242,7 @@ export default {
                 jsBridge.callApp('command_set_titlebar_button', {
                     position: 2,
                     type: 'text',
-                    text: '撤销',
+                    text: this.$t('backoutBtnText'),
                     clickCallback: 'showBackOut'
                 })
             }
