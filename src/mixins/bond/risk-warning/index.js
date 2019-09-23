@@ -1,5 +1,5 @@
 import { Panel, Checkbox } from 'vant'
-import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
+import YxContainerBetter from '@/components/yx-container-better'
 import { bondRiskAutograph } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
 import LS from '@/utils/local-storage.js'
@@ -9,7 +9,7 @@ export default {
     components: {
         [Checkbox.name]: Checkbox,
         [Panel.name]: Panel,
-        FixedOperateBtn
+        YxContainerBetter
     },
     async created() {
         this.id = this.$route.query.id - 0
