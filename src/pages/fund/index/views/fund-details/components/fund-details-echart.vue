@@ -66,13 +66,43 @@ export default {
                 four: { date: '1年', key: 4, show: false },
                 five: { date: '3年', key: 5, show: false },
                 all: { date: '全部', key: 6, show: false }
-            }
+            },
+            initChooseList: []
         }
     },
     methods: {
         chooseMonth(item, index) {
             this.active = index
-            this.$emit('chooseTime', item.key)
+            if (!this.initChooseList) return
+            // this.$emit('chooseTime', item.key)
+            switch (item.key) {
+                case 1:
+                    this.initEchartList = this.initChooseList.slice(0, 22)
+                    this.tabShow(1)
+                    break
+                case 2:
+                    this.initEchartList = this.initChooseList.slice(0, 66)
+                    this.tabShow(1)
+                    break
+                case 3:
+                    this.initEchartList = this.initChooseList.slice(0, 132)
+                    this.tabShow(1)
+                    break
+                case 4:
+                    this.initEchartList = this.initChooseList.slice(0, 245)
+                    this.tabShow(1)
+                    break
+                case 5:
+                    this.initEchartList = this.initChooseList
+                    this.tabShow(1)
+                    break
+                case 6:
+                    this.initEchartList = this.initChooseList
+                    this.tabShow(1)
+                    break
+                default:
+                    break
+            }
         },
         draw() {
             let arr = []
@@ -128,10 +158,12 @@ export default {
                 this.list[key].date = this.$t('list')[key].date
             }
         },
-        tabShow() {
+        tabShow(flag) {
             for (let key in this.list) {
                 this.list[key].show = false
             }
+            this.initChooseList =
+                flag == 1 ? JSON.parse(JSON.stringify(this.initEchartList)) : []
             let point = this.initEchartList.length
             if (point >= 0 && point <= 22) {
                 this.list.one.show = true
@@ -157,7 +189,7 @@ export default {
     watch: {
         initEchartList() {
             this.draw()
-            this.tabShow()
+            this.tabShow(2)
         },
         $route(to, from) {
             if (from.path == '/') {
@@ -189,6 +221,7 @@ export default {
             height: 200px !important;
             margin: -20px 0 0 0;
             transform: translateX(-3%);
+
             // transform: scale(1.09);
         }
     }
@@ -196,10 +229,11 @@ export default {
         width: 100%;
         margin: 0 0 10px 0;
         display: flex;
-        // border: 1px solid rgba(235, 235, 235, 1);
+        justify-content: center;
         border-right: none;
         .date-item {
-            // border-right: 1px solid rgba(235, 235, 235, 1);
+            border: 1px solid rgba(235, 235, 235, 1);
+            border-left: 1px solid rgba(235, 235, 235, 1);
             // display: inline-block;
             width: 16.65%;
             text-align: center;
@@ -208,7 +242,10 @@ export default {
             border-radius: 2px;
             font-size: 0.24rem;
             color: $text-color;
-            margin: auto;
+            margin: 0;
+        }
+        .date-item:first-child {
+            border-left: 1px solid rgba(235, 235, 235, 1);
         }
         .active {
             background: rgba(25, 25, 25, 0.03);
