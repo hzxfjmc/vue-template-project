@@ -1,15 +1,12 @@
-import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import dayjs from 'dayjs'
 
 export default {
     name: 'RiskAssessmentResult',
-    components: {
-        FixedOperateBtn
-    },
-    created() {
+    async created() {
         // 等待预定请求完成后，执行下一步操作
+        await this.handleRiskAssessResult()
         this.handleSetupResult()
     },
     data() {
@@ -29,8 +26,8 @@ export default {
     computed: {
         resetTimes() {
             return {
-                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
-                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置,',
+                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置,',
                 en:
                     'Reset on 1st January, ' +
                     dayjs(this.resetTime).format('YYYY')
@@ -40,7 +37,7 @@ export default {
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            await Promise.resolve(this.handleRiskAssessResult())
+            // await Promise.resolve(this.handleRiskAssessResult())
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.startRiskHandle()
