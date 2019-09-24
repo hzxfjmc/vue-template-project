@@ -14,7 +14,6 @@
             .permission-content
                 .title {{$t('agreementTitle')}}
                 .main-content
-                    //- iframe(src=`/webapp/market/generator.html?key=bond01` )
                     //- iframe(src=`/webapp/market/generator.html?key=${fundCode}` v-if="fundCode")
                     .title-info {{$t('titleInfo')}}
                     .content {{$t('riskInfo')}}
