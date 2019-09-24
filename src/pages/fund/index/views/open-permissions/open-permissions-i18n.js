@@ -21,17 +21,17 @@ export const i18nOpenPermissions = {
             },
             3: {
                 registration: 'A3',
-                riskStyle: '平衡型3',
+                riskStyle: '均衡型',
                 suitPro: '中风险产品'
             },
             4: {
                 registration: 'A4',
-                riskStyle: '积极型',
+                riskStyle: '增长型',
                 suitPro: '中高风险产品'
             },
             5: {
                 registration: 'A5',
-                riskStyle: '激进型1',
+                riskStyle: '进取型',
                 suitPro: '高风险产品'
             }
         }
@@ -58,17 +58,17 @@ export const i18nOpenPermissions = {
             },
             3: {
                 registration: 'A3',
-                riskStyle: '平衡型',
+                riskStyle: '均衡型',
                 suitPro: '中風險產品'
             },
             4: {
                 registration: 'A4',
-                riskStyle: '積極型',
+                riskStyle: '增長型',
                 suitPro: '中高風險產品'
             },
             5: {
                 registration: 'A5',
-                riskStyle: '激進型',
+                riskStyle: '進取型',
                 suitPro: '高風險產品'
             }
         }
@@ -90,7 +90,7 @@ export const i18nOpenPermissions = {
             },
             2: {
                 registration: 'A2',
-                riskStyle: 'Steady',
+                riskStyle: 'Stable',
                 suitPro: 'Low - Medium Risk Products'
             },
             3: {
@@ -100,12 +100,12 @@ export const i18nOpenPermissions = {
             },
             4: {
                 registration: 'A4',
-                riskStyle: 'Aggressive',
+                riskStyle: 'Growth',
                 suitPro: 'Medium - High Risk Products'
             },
             5: {
                 registration: 'A5',
-                riskStyle: 'Radical',
+                riskStyle: 'Aggressive',
                 suitPro: 'High Risk Products'
             }
         }

@@ -38,12 +38,12 @@ export default {
             autograph: LS.get('signName') || '',
             titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
             permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
-在做出交易决定之前，您应仔细阅读这些条款和产品说明。
-在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
+在做出交易决定之前，您应仔细阅读这些条款和产品说明。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
             disabled: true,
             resultIndex: '',
             firstName: '',
-            lastName: ''
+            lastName: '',
+            userInfo: ''
         }
     },
     computed: {
@@ -68,14 +68,14 @@ export default {
         }
     },
     created() {
+        this.getCurrentUser()
         console.log(this.user)
-        if (this.$route.query) {
-            this.resultIndex = this.$route.query.assessResult
-        }
+        // if (this.$route.query) {
+        //     this.resultIndex = this.$route.query.assessResult
+        // }
         if (this.$route.query.fondCode) {
             this.fundCode = this.$route.query.fondCode
         }
-        this.getCurrentUser()
     },
     methods: {
         async openPermissionHandle() {
@@ -107,6 +107,8 @@ export default {
         async getCurrentUser() {
             try {
                 const res = await getCurrentUser()
+                this.userInfo = res
+                this.resultIndex = res.assessResult
                 this.firstName = res.firstName
                 this.lastName = res.lastName
             } catch (e) {
@@ -182,6 +184,7 @@ export default {
                     width: 6px;
                     height: 0;
                     border-radius: 3px;
+                    background: rgba(47, 121, 255, 0.0959);
                 }
                 &::-webkit-scrollbar-thumb {
                     border-radius: 3px;
