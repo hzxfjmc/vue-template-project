@@ -245,10 +245,18 @@ export default {
                     break
                 case 5:
                     this.step = 4
-                    this.initEchartList = this.copyinitEchartList
+                    this.initEchartList = []
+                    // eslint-disable-next-line no-case-declarations
+                    let count = parseInt(this.copyinitEchartList.length / 22)
+                    for (let i = 0; i < count; i++) {
+                        this.initEchartList.push(
+                            this.copyinitEchartList[i * 22]
+                        )
+                    }
                     break
                 case 6:
                     this.step = 5
+
                     this.initEchartList = this.copyinitEchartList
                 // eslint-disable-next-line no-fallthrough
                 default:
@@ -267,22 +275,22 @@ export default {
                 this.initEchartList = res
                 if (
                     this.initEchartList.length > 0 &&
-                    this.initEchartList.length < 22
+                    this.initEchartList.length <= 22
                 ) {
                     this.step = 0
                 } else if (
                     this.initEchartList.length > 22 &&
-                    this.initEchartList.length < 66
+                    this.initEchartList.length <= 66
                 ) {
                     this.step = 1
                 } else if (
                     this.initEchartList.length > 66 &&
-                    this.initEchartList.length < 132
+                    this.initEchartList.length <= 132
                 ) {
                     this.step = 2
                 } else if (
                     this.initEchartList.length > 132 &&
-                    this.initEchartList.length < 245
+                    this.initEchartList.length <= 245
                 ) {
                     this.step = 3
                 } else {
