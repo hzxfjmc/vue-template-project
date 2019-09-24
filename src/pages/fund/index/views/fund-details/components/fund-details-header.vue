@@ -1,7 +1,7 @@
 <template lang="pug">
 .funds-details-header
         h3 {{fundHeaderInfoVO.fundName}}
-        p.funds-details-subtitle {{fundHeaderInfoVO.isin}}
+        p.funds-details-subtitle ISIN {{fundHeaderInfoVO.isin}}
         .funds-details-number
             .header-left
                 span {{$t('oneYearShow')}}

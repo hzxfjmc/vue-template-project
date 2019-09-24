@@ -27,10 +27,10 @@ export default {
     computed: {
         resetTimes() {
             return {
-                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置,',
-                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置,',
+                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
                 en:
-                    'Reset on 1st January, ' +
+                    'Reset on 1st January ' +
                     dayjs(this.resetTime).format('YYYY')
             }[this.$i18n.lang]
         }
