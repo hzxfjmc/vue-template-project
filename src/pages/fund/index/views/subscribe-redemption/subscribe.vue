@@ -21,12 +21,12 @@
                         p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
                         p {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny" :disabled="withdrawBalance === 0")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 10px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
-                a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
+                a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
                     a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
