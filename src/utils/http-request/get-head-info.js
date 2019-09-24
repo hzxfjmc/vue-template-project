@@ -39,6 +39,11 @@ export default async () => {
             XUid = '318439107153240064'
             data['X-Uid'] = XUid
         }
+        if (version >= '1.7.0') {
+            // X-Token，安全渗透，版本大于等于 1.7.0 时候加入 header
+            let data = await JSBridge.callApp('get_http_sign')
+            data['X-Token'] = data.xToken
+        }
         // 获取用户ID
         if (!data['X-Uid'] && isYouxinApp) {
             const user = await JSBridge.callApp('get_user_info')
