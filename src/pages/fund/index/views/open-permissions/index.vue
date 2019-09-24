@@ -16,8 +16,8 @@
                 .main-content
                     //- iframe(src=`/webapp/market/generator.html?key=bond01` )
                     //- iframe(src=`/webapp/market/generator.html?key=${fundCode}` v-if="fundCode")
-                    .title-info {{titleInfo}}
-                    .content {{permissionContent}}
+                    .title-info {{$t('titleInfo')}}
+                    .content {{$t('riskInfo')}}
             .signature-box
                 .title {{$t('inputName')}}
                 van-field(v-model="autograph" :placeholder="signNamePlaceholder" class="signature-input" )      
@@ -69,10 +69,6 @@ export default {
     },
     created() {
         this.getCurrentUser()
-        console.log(this.user)
-        // if (this.$route.query) {
-        //     this.resultIndex = this.$route.query.assessResult
-        // }
         if (this.$route.query.fondCode) {
             this.fundCode = this.$route.query.fondCode
         }
