@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-details-list
-    .vant-list.border-bottom(v-for="item of list" :key="item.label" @click="chooseItem(item)" :class="[item.borderBottom ? 'border-bottom' :'']" v-if="item.itemShow")
+    .vant-list(v-for="item of list" :key="item.label" @click="chooseItem(item)" :class="[item.borderBottom ? 'border-bottom' :'']" v-if="item.itemShow")
         em.left(class="iconfont" :class="item.leftIcon")
         span.center {{item.label}}
         em.right(class="iconfont icon-iconEBgengduoCopy")
@@ -129,7 +129,7 @@ export default {
     width: 100%;
     float: left;
     .vant-list {
-        padding: 0 10px;
+        margin: 0 10px;
         height: 50px;
         line-height: 50px;
         em {
@@ -150,6 +150,9 @@ export default {
         .icon-iconEBgengduoCopy {
             font-size: 0.3rem;
         }
+    }
+    .vant-list:last-child {
+        border: none;
     }
 }
 </style>
