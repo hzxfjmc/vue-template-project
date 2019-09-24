@@ -226,6 +226,7 @@ export default {
             }
         },
         getSwitchFundNetPrice(time) {
+            let count = Math.ceil(this.copyinitEchartList.length / 22)
             switch (time) {
                 case 1:
                     this.step = 0
@@ -246,8 +247,6 @@ export default {
                 case 5:
                     this.step = 4
                     this.initEchartList = []
-                    // eslint-disable-next-line no-case-declarations
-                    let count = parseInt(this.copyinitEchartList.length / 22)
                     for (let i = 0; i < count; i++) {
                         this.initEchartList.push(
                             this.copyinitEchartList[i * 22]
@@ -256,9 +255,8 @@ export default {
                     break
                 case 6:
                     this.step = 5
-
                     this.initEchartList = this.copyinitEchartList
-                // eslint-disable-next-line no-fallthrough
+                    break
                 default:
                     this.step = 6
                     break
