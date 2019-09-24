@@ -97,7 +97,6 @@ export default {
             &:after {
                 display: none;
             }
-            // padding: 14px 14px 10px 12px;
             font-size: 0.28rem;
             line-height: 24px;
         }
@@ -129,6 +128,12 @@ export default {
         }
     }
     .van-bottom-btn {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 48px;
+        background-color: #fff;
         .btn {
             width: 100%;
             height: 100%;
