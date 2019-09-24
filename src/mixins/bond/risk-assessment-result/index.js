@@ -20,16 +20,17 @@ export default {
             number: 0, //剩余次数
             assessDefinition: '', // 描述
             damagedStatus: 0, //是否容易受损客户 0-否，1-是
-            resetTime: '' //重置时间
+            resetTime: '', //重置时间
+            isExpried: false // 是否过期
         }
     },
     computed: {
         resetTimes() {
             return {
-                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置,',
-                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置,',
+                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
                 en:
-                    'Reset on 1st January, ' +
+                    'Reset on 1st January ' +
                     dayjs(this.resetTime).format('YYYY')
             }[this.$i18n.lang]
         }
@@ -60,6 +61,7 @@ export default {
                 if (validTime && new Date() > new Date(validTime)) {
                     // 当前时间大于测评有效时间，测评过期
                     this.userRiskLevel = 100
+                    this.isExpried = true
                 } else {
                     this.userRiskLevel = assessResult || 0 // 用户风险测评等级
                 }
@@ -80,7 +82,17 @@ export default {
         },
         // 操作按钮
         handleAction() {
-            this.showRemainingNum = true
+            if (this.isExpried) {
+                // 已过期，直接跳转到风评页面
+                this.$router.replace({
+                    path: '/risk-assessment',
+                    query: {
+                        notFirstSubmit: true
+                    }
+                })
+            } else {
+                this.showRemainingNum = true
+            }
         },
         // 点击易受损客户
         showEasyCustomerInfo() {
@@ -92,7 +104,7 @@ export default {
                 jsBridge.gotoCustomerService()
             } else {
                 // 跳转到风险测评
-                this.$router.push({
+                this.$router.replace({
                     path: '/risk-assessment',
                     query: {
                         notFirstSubmit: true

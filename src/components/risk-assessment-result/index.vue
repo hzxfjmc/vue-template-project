@@ -3,9 +3,9 @@
         .risk-result-top
             .risk-result__hd
                 p {{$t('resultHd')}}
-            .risk-result__md {{ assessResultName  }}
-            .easy-danger-customer(v-if="damagedStatus===1" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
-            .risk-result-info() {{assessDefinition}}
+            .risk-result__md {{ isExpried? $t('expired') : assessResultName}}
+            .easy-danger-customer(v-if="damagedStatus===1 && !isExpried" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
+            .risk-result-info(v-if="!isExpried") {{assessDefinition}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
             van-button(
@@ -57,7 +57,8 @@ export default {
             times: '次',
             toCall: '拨打客服电话',
             toCancel: '取消',
-            toClose: '关闭'
+            toClose: '关闭',
+            expired: '已过期'
         },
         zhCHT: {
             resultHd: '您的風評結果為：',
@@ -80,7 +81,8 @@ export default {
             times: '次',
             toCall: '撥打客服電話',
             toCancel: '取消',
-            toClose: '關閉'
+            toClose: '關閉',
+            expired: '已過期'
         },
         en: {
             resultHd: 'Result:',
@@ -103,7 +105,8 @@ export default {
             times: 'Times',
             toCall: 'Call CS',
             toCancel: 'Cancel',
-            toClose: 'Close'
+            toClose: 'Close',
+            expired: 'Expired'
         }
     }
 }

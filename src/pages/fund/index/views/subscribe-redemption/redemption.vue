@@ -20,12 +20,12 @@
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span {{ $t('minSellBalance') }}{{ lowestInvestAmount | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare" :disabled="positionShare === 0")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * redemptionFee | formatCurrency }}
-                a.submit.gray(v-if="redemptionShare === null || redemptionShare === ''") {{ $t('submiButtonText') }}
+                a.submit.gray(v-if="redemptionShare === null || redemptionShare === '' || positionShare === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
                     a.left(:href="sellProtocol" style="width: 65%") 《{{ sellProtocolFileName }}》
@@ -63,7 +63,7 @@
 </template>
 <script>
 import { getCosUrl } from '@/utils/cos-utils'
-import { getTradePasswordToken } from '@/service/user-server.js'
+// import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundRedemption, getFundPosition } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 // import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -205,16 +205,16 @@ export default {
             try {
                 if (submitStep === 1) {
                     this.$loading()
-                    let t = await getTradePasswordToken({
-                        password:
-                            'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    })
+                    // let t = await getTradePasswordToken({
+                    //     password:
+                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
+                    // })
                     let re = await fundRedemption({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         redemptionShare: this.redemptionShare,
                         requestId: generateUUID(),
-                        tradeToken: token || t.token
+                        tradeToken: token
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo

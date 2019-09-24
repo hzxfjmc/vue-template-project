@@ -112,10 +112,8 @@ export default {
                     displayLocation: 1,
                     fundId: this.$route.query.id
                 })
-                this.currency = fundTradeInfoVO.currency.name
 
-                // this.tradeList['tradeFrequency'].value =
-                //     fundTradeInfoVO.tradeFrequency.name
+                this.currency = fundTradeInfoVO.currency.name
                 this.tradeList['dividend'].value = Number(
                     fundTradeInfoVO['dividend']
                 ).toFixed(2)
@@ -131,29 +129,29 @@ export default {
                 ].value = transNumToThousandMark(
                     fundTradeInfoVO['continueInvestAmount']
                 )
-                this.tradeList[
-                    'redemptionFee'
-                ].value = `${transNumToThousandMark(
-                    fundTradeInfoVO['redemptionFee']
-                ) * 100}%`
+
+                this.tradeList['redemptionFee'].value = `${Math.floor(
+                    Number(fundTradeInfoVO['redemptionFee'] * 10000)
+                ) / 100}%`
                 this.redeemList.lowestInvestAmount.value = transNumToThousandMark(
                     fundTradeInfoVO.lowestInvestAmount
                 )
-                this.redeemList.subscriptionFee.value = `${transNumToThousandMark(
-                    fundTradeInfoVO.subscriptionFee
-                ) * 100}%`
+                this.redeemList.subscriptionFee.value = `${Math.floor(
+                    Number(fundTradeInfoVO.subscriptionFee * 10000)
+                ) / 100}%`
                 this.buySubmit.value = fundTradeInfoVO.buySubmit
                 this.buyConfirm.value = fundTradeInfoVO.buyConfirm
                 this.buyProfitLoss.value = fundTradeInfoVO.buyProfitLoss
                 this.sellSubmit.value = fundTradeInfoVO.sellSubmit
                 this.sellConfirm.value = fundTradeInfoVO.sellConfirm
                 this.sellProfitLoss.value = fundTradeInfoVO.sellProfitLoss
-                this.managementList.managementFee.value = `${Number(
-                    fundTradeInfoVO.managementFee
-                ).toFixed(4) * 100}%`
-                this.managementList.platformManagementFee.value = `${Number(
-                    fundTradeInfoVO.platformManagementFee
-                ).toFixed(4) * 100}%`
+                console.log(fundTradeInfoVO.managementFee * 100)
+                this.managementList.managementFee.value = `${Math.floor(
+                    Number(fundTradeInfoVO.managementFee * 10000)
+                ) / 100}%`
+                this.managementList.platformManagementFee.value = `${Math.floor(
+                    Number(fundTradeInfoVO.platformManagementFee * 10000)
+                ) / 100}%`
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }

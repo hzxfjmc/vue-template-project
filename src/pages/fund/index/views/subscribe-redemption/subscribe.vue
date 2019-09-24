@@ -21,12 +21,12 @@
                         p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
                         p {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny" :disabled="withdrawBalance === 0")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 10px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
-                a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
+                a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
                     a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
@@ -65,11 +65,10 @@
 </template>
 <script>
 import { getCosUrl } from '@/utils/cos-utils'
-import { getTradePasswordToken } from '@/service/user-server.js'
+// import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundPurchase } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
-import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
@@ -196,21 +195,6 @@ export default {
             }
         },
         async handleSubmit() {
-            try {
-                let { validTime } = await riskAssessResult()
-                if (validTime && new Date() > new Date(validTime)) {
-                    // 当前时间大于测评有效时间，测评过期
-                    this.$router.push({
-                        path: '/risk-appropriate-result',
-                        query: {
-                            id: this.$route.query.id
-                        }
-                    })
-                    return
-                }
-            } catch (error) {
-                console.log('申购页面-riskAssessResult:error:>>>', error)
-            }
             let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功
             let token = null
             try {
@@ -228,16 +212,16 @@ export default {
             if (submitStep === 1) {
                 try {
                     this.$loading()
-                    let t = await getTradePasswordToken({
-                        password:
-                            'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    })
+                    // let t = await getTradePasswordToken({
+                    //     password:
+                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
+                    // })
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         purchaseAmount: this.buyMonny,
                         requestId: generateUUID(),
-                        tradeToken: token || t.token
+                        tradeToken: token
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo

@@ -132,8 +132,8 @@ export default {
                             }
                         })
                     } else {
-                        // 如果不存在 id 等参数，说明是直接从测评结果页跳转的，测试完成，需要跳转回去
-                        this.$router.push({
+                        // 如果不存在 id 等参数，说明是直接从测评结果页跳转的，测试完成，直接跳转出去
+                        this.$router.replace({
                             path: '/risk-assessment-result'
                         })
                     }

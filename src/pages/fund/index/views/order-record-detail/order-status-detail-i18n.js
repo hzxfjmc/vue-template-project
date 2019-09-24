@@ -13,7 +13,8 @@ export const i18nOrderStatusData = {
         cancelButtonText: '取消',
         confirmButtonText: '确认',
         backoutBtnText: '撤销',
-        orderFree: '费用'
+        orderFree: '费用',
+        beConfirmed: '待确认'
     },
     zhCHT: {
         amount: '金額',
@@ -29,7 +30,8 @@ export const i18nOrderStatusData = {
         cancelButtonText: '取消',
         confirmButtonText: '確認',
         backoutBtnText: '撤销',
-        orderFree: '費用'
+        orderFree: '費用',
+        beConfirmed: '待確認'
     },
     en: {
         amount: 'Amount',
@@ -44,6 +46,7 @@ export const i18nOrderStatusData = {
         orderShares: 'Units',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Confirm',
-        orderFree: 'Cost'
+        orderFree: 'Cost',
+        beConfirmed: 'To Be Confirmed'
     }
 }
