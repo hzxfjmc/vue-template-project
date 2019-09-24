@@ -65,7 +65,7 @@
 </template>
 <script>
 import { getCosUrl } from '@/utils/cos-utils'
-import { getTradePasswordToken } from '@/service/user-server.js'
+// import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundPurchase } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -212,16 +212,16 @@ export default {
             if (submitStep === 1) {
                 try {
                     this.$loading()
-                    let t = await getTradePasswordToken({
-                        password:
-                            'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    })
+                    // let t = await getTradePasswordToken({
+                    //     password:
+                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
+                    // })
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         purchaseAmount: this.buyMonny,
                         requestId: generateUUID(),
-                        tradeToken: token || t.token
+                        tradeToken: token
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo
