@@ -176,9 +176,9 @@ export default {
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
                 this.flag1 =
-                    (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
+                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 this.flag2 =
-                    (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
+                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
