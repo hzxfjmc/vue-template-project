@@ -21,20 +21,23 @@ export const i18nOpenPermissions = {
             },
             3: {
                 registration: 'A3',
-                riskStyle: '平衡型3',
+                riskStyle: '均衡型',
                 suitPro: '中风险产品'
             },
             4: {
                 registration: 'A4',
-                riskStyle: '积极型',
+                riskStyle: '增长型',
                 suitPro: '中高风险产品'
             },
             5: {
                 registration: 'A5',
-                riskStyle: '激进型1',
+                riskStyle: '进取型',
                 suitPro: '高风险产品'
             }
-        }
+        },
+        titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
+        riskInfo: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
+        在做出交易决定之前，您应仔细阅读这些条款和产品说明。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`
     },
     zhCHT: {
         riskAblity: '您的風險承受能力',
@@ -58,20 +61,23 @@ export const i18nOpenPermissions = {
             },
             3: {
                 registration: 'A3',
-                riskStyle: '平衡型',
+                riskStyle: '均衡型',
                 suitPro: '中風險產品'
             },
             4: {
                 registration: 'A4',
-                riskStyle: '積極型',
+                riskStyle: '增長型',
                 suitPro: '中高風險產品'
             },
             5: {
                 registration: 'A5',
-                riskStyle: '激進型',
+                riskStyle: '進取型',
                 suitPro: '高風險產品'
             }
-        }
+        },
+        titleInfo: '為了降低您的投資風險，請您完整閱讀風險披露內容',
+        riskInfo: `正文：CFD 是不適合各類投資者的復雜產品，因此您應該始終確保您了解您所購買的產品是如何運作的，它是否能夠滿足您的需求，您是否能在虧損時擁有頭寸以承擔損失。
+        在做出交易決定之前，您應仔細閱讀這些條款和產品說明。在交易 CFD 之前，您務必確信了解所涉及的風險。您是否能在虧損時擁有頭寸以承擔損失。`
     },
     en: {
         riskAblity: 'Your Risk Profile',
@@ -90,7 +96,7 @@ export const i18nOpenPermissions = {
             },
             2: {
                 registration: 'A2',
-                riskStyle: 'Steady',
+                riskStyle: 'Stable',
                 suitPro: 'Low - Medium Risk Products'
             },
             3: {
@@ -100,14 +106,18 @@ export const i18nOpenPermissions = {
             },
             4: {
                 registration: 'A4',
-                riskStyle: 'Aggressive',
+                riskStyle: 'Growth',
                 suitPro: 'Medium - High Risk Products'
             },
             5: {
                 registration: 'A5',
-                riskStyle: 'Radical',
+                riskStyle: 'Aggressive',
                 suitPro: 'High Risk Products'
             }
-        }
+        },
+        titleInfo:
+            'In order to reduce your investment risk, please read the risk disclosure in full.',
+        riskInfo: `Text: CFD is a complex product that is not suitable for all types of investors, so you should always make sure that you understand how the product you are buying works, whether it meets your needs, and whether you can take a position to take losses.
+        You should read these terms and product description carefully before making a trade decision. Before trading CFD, make sure you understand the risks involved. Can you take a position to take a loss in the event of a loss?`
     }
 }
