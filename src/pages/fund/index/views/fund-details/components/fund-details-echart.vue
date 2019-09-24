@@ -19,34 +19,34 @@ export default {
         zhCHS: {
             fundTrade: '基金净值走势',
             list: {
-                one: { date: '1个月' },
-                two: { date: '3个月' },
-                three: { date: '6个月' },
-                four: { date: '1年' },
-                five: { date: '3年' },
-                all: { date: '全部' }
+                0: { date: '1个月' },
+                1: { date: '3个月' },
+                2: { date: '6个月' },
+                3: { date: '1年' },
+                4: { date: '3年' },
+                5: { date: '全部' }
             }
         },
         zhCHT: {
             fundTrade: '基金淨值走勢',
             list: {
-                one: { date: '1個月' },
-                two: { date: '3個月' },
-                three: { date: '6個月' },
-                four: { date: '1年' },
-                five: { date: '3年' },
-                all: { date: '全部' }
+                0: { date: '1個月' },
+                1: { date: '3個月' },
+                2: { date: '6個月' },
+                3: { date: '1年' },
+                4: { date: '3年' },
+                5: { date: '全部' }
             }
         },
         en: {
             fundTrade: 'Fund NAV Performance',
             list: {
-                one: { date: '1 Month' },
-                two: { date: '3 Months' },
-                three: { date: '6 Months' },
-                four: { date: '1 Year' },
-                five: { date: '3 Years' },
-                all: { date: 'All' }
+                0: { date: '1 Month' },
+                1: { date: '3 Months' },
+                2: { date: '6 Months' },
+                3: { date: '1 Year' },
+                4: { date: '3 Years' },
+                5: { date: 'All' }
             }
         }
     },
