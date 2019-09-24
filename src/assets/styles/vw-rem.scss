@@ -37,6 +37,7 @@ html {
         left: 0;
         right: 0;
         top: 0;
+
         @media only screen and (min-resolution: 2dppx) {
             // 非标准的
             -webkit-transform: scaleY(0.5);
