@@ -144,9 +144,9 @@ export default {
                 this.orderStatusValue = res.externalName
                 this.orderStatus = res.externalStatus
                 this.allowRevoke = res.allowRevoke
-                this.orderFee = transNumToThousandMark(
-                    (res.orderFee * 1).toFixed(2)
-                )
+                this.orderFee =
+                    transNumToThousandMark((res.orderFee * 1).toFixed(2)) * 1 ||
+                    this.$t('beConfirmed')
                 if (this.orderStatus === 1 && this.allowRevoke) {
                     this.setTitleBarBOButton()
                 }
