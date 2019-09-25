@@ -53,6 +53,9 @@ export default {
                             key
                         ].value = `A${fundHeaderInfoVO.fundRiskType} ${fundOverviewInfoVO[key]}`
                     }
+                    if (key == 'fundNameCn') {
+                        this.list[key].value = fundHeaderInfoVO.fundName
+                    }
                 }
                 setTimeout(() => {
                     this.initOffsetHeight()

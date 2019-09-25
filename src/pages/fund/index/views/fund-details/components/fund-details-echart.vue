@@ -106,11 +106,11 @@ export default {
                 netPrice: {
                     alias: '今日净值',
                     tickCount: 5,
-                    min: Math.min.apply(null, arr) * 0.9,
                     max: Math.max.apply(null, arr) * 1.1,
-                    formatter: function formatter(val) {
-                        return val.toFixed(2)
-                    }
+                    min: Math.min.apply(null, arr) * 0.9
+                    // formatter: function formatter(val) {
+                    //     return val.toFixed(2)
+                    // }
                 },
                 belongDay: {
                     type: 'timeCat',
@@ -131,8 +131,10 @@ export default {
             this.chart.tooltip({
                 alwaysShow: false,
                 onChange: obj => {
-                    console.log(obj.items[0].origin)
                     this.masterData = obj.items[0].origin
+                    this.masterData.netPrice = Number(
+                        this.masterData.netPrice
+                    ).toFixed(2)
                     this.masterData.belongDay = dayjs(
                         this.masterData.belongDay
                     ).format('YYYY-MM-DD')
@@ -183,21 +185,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-echart-header {
-    background: rgba(244, 248, 255, 1);
+    background: #eaf1ff;
     z-index: 99999;
     padding: 0 10px;
     width: 100%;
     left: 0;
     top: 0;
     float: left;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    line-height: 40px;
     position: absolute;
     .header-left,
     .header-right {
         width: 50%;
-        // line-height: 40px;
         float: left;
+        font-size: 0.24rem;
+        font-family: PingFangSC-Regular, PingFangSC;
     }
     .header-right {
         text-align: right;
@@ -209,7 +212,7 @@ export default {
             float: right;
         }
         .number {
-            line-height: 50px;
+            line-height: 40px;
             float: right;
         }
     }

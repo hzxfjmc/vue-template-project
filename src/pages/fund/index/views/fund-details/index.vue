@@ -294,6 +294,9 @@ export default {
                     this.step = 5
                 }
                 this.initEchartList.map(item => {
+                    item.netPrice = (
+                        Math.floor(Number(item.netPrice) * 100) / 100
+                    ).toFixed(2)
                     item.netPrice = Number(item.netPrice)
                 })
             } catch (e) {
