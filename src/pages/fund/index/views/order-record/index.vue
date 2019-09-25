@@ -221,8 +221,8 @@ export default {
     justify-content: center;
     align-items: center;
     .img {
-        width: 130px;
-        height: 130px;
+        width: 110px;
+        height: 88px;
         margin-bottom: 10px;
         transform: translateY(-65px);
     }

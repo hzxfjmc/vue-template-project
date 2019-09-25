@@ -21,12 +21,12 @@
                         p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
                         p {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny" :disabled="withdrawBalance === 0")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 10px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFeeScale  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
-                a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
+                a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
                     a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
@@ -113,6 +113,9 @@ export default {
                 zhCHT: `預計${this.buyProfitLoss.slice(0, 5)}日完成`,
                 en: `EST. ${this.buyProfitLoss.slice(0, 5).replace('.', '/')}`
             }[this.$i18n.lang]
+        },
+        subscriptionFeeScale() {
+            return Number(+this.subscriptionFee * 100).toFixed(2)
         }
     },
     watch: {
@@ -142,9 +145,8 @@ export default {
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.currency = fundDetail.fundTradeInfoVO.currency.name
-                this.subscriptionFee = Number(
+                this.subscriptionFee =
                     fundDetail.fundTradeInfoVO.subscriptionFee
-                ).toFixed(4)
                 this.initialInvestAmount =
                     fundDetail.fundTradeInfoVO.initialInvestAmount
                 this.continueInvestAmount =

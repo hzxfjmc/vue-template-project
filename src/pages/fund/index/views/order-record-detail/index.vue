@@ -144,9 +144,17 @@ export default {
                 this.orderStatusValue = res.externalName
                 this.orderStatus = res.externalStatus
                 this.allowRevoke = res.allowRevoke
-                this.orderFee = transNumToThousandMark(
-                    (res.orderFee * 1).toFixed(2)
-                )
+                if (
+                    res.orderFee === null ||
+                    ([1, 2].includes(res.externalStatus) &&
+                        res.orderFee * 1 === 0)
+                ) {
+                    this.orderFee = this.$t('beConfirmed')
+                } else {
+                    this.orderFee = transNumToThousandMark(
+                        (res.orderFee * 1).toFixed(2)
+                    )
+                }
                 if (this.orderStatus === 1 && this.allowRevoke) {
                     this.setTitleBarBOButton()
                 }
@@ -158,12 +166,28 @@ export default {
                     (res.deliveryDate &&
                         dayjs(res.deliveryDate).format('MM.DD')) ||
                     '--'
-                this.orderShare = transNumToThousandMark(
-                    (res.orderShare * 1).toFixed(3)
-                )
-                this.netPrice = transNumToThousandMark(
-                    (res.netPrice * 1).toFixed(2)
-                )
+                if (
+                    res.orderShare === null ||
+                    ([1, 2].includes(res.externalStatus) &&
+                        res.orderShare * 1 === 0)
+                ) {
+                    this.orderShare = this.$t('beConfirmed')
+                } else {
+                    this.orderShare = transNumToThousandMark(
+                        (res.orderShare * 1).toFixed(3)
+                    )
+                }
+                if (
+                    res.netPrice === null ||
+                    ([1, 2].includes(res.externalStatus) &&
+                        res.netPrice * 1 === 0)
+                ) {
+                    this.netPrice = this.$t('beConfirmed')
+                } else {
+                    this.netPrice = transNumToThousandMark(
+                        (res.netPrice * 1).toFixed(2)
+                    )
+                }
                 this.orderFinishValue =
                     (res.finishTime &&
                         dayjs(res.finishTime).format('YYYY-MM-DD HH:mm:ss')) ||
@@ -176,9 +200,17 @@ export default {
                     '--'
                 this.orderNumValue = res.orderNo
                 this.orderType = res.tradeTypeName
-                this.moneyNum = transNumToThousandMark(
-                    (res.orderAmount * 1).toFixed(2)
-                )
+                if (
+                    res.orderAmount === null ||
+                    ([1, 2].includes(res.externalStatus) &&
+                        res.orderAmount * 1 === 0)
+                ) {
+                    this.moneyNum = this.$t('beConfirmed')
+                } else {
+                    this.moneyNum =
+                        res.currency.name +
+                        transNumToThousandMark((res.orderAmount * 1).toFixed(2))
+                }
             } catch (e) {
                 if (e.msg) {
                     this.$alert({

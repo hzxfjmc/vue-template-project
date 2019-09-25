@@ -86,7 +86,7 @@ export default {
         },
         en: {
             resultHd: 'Result:',
-            btnText: 'Submit',
+            btnText: 'Assess Again',
             lastTime: 'Last Update:',
             easyDangerCustomer: 'Vulnerable Customer',
             iKnow: 'Got it',

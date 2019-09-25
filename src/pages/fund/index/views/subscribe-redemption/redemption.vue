@@ -20,12 +20,12 @@
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span {{ $t('minSellBalance') }}{{ lowestInvestAmount | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare" :disabled="positionShare === 0")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFee * 100  }}%
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFeeScale  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * redemptionFee | formatCurrency }}
-                a.submit.gray(v-if="redemptionShare === null || redemptionShare === ''") {{ $t('submiButtonText') }}
+                a.submit.gray(v-if="redemptionShare === null || redemptionShare === '' || positionShare === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
                     a.left(:href="sellProtocol" style="width: 65%") 《{{ sellProtocolFileName }}》
@@ -109,6 +109,9 @@ export default {
                 zhCHT: `預計${this.sellProfitLoss.slice(0, 5)}日完成`,
                 en: `EST. ${this.sellProfitLoss.slice(0, 5).replace('.', '/')}`
             }[this.$i18n.lang]
+        },
+        redemptionFeeScale() {
+            return Number(+this.redemptionFee * 100).toFixed(2)
         }
     },
     watch: {
@@ -139,9 +142,7 @@ export default {
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.lowestInvestAmount =
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
-                this.redemptionFee = Number(
-                    fundDetail.fundTradeInfoVO.redemptionFee
-                ).toFixed(4)
+                this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
                 this.setCosUrl(
                     'sellProtocol',
                     fundDetail.fundTradeInfoVO.sellProtocol
@@ -201,7 +202,7 @@ export default {
             }
 
             // test:
-            submitStep = 1
+            // submitStep = 1
             try {
                 if (submitStep === 1) {
                     this.$loading()
