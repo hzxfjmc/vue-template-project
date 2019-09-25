@@ -29,7 +29,7 @@ export default {
             nomore: '暫無文件'
         },
         en: {
-            nomore: 'No File'
+            nomore: 'Empty'
         }
     },
     components: {

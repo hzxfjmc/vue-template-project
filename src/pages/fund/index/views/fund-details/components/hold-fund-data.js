@@ -77,7 +77,7 @@ export const i18nHoldDetailsData = {
                 label: '待確認金額'
             },
             inTransitAmount: {
-                label: '待确认金额'
+                label: '待確認金額'
             }
         }
     },
@@ -97,7 +97,7 @@ export const i18nHoldDetailsData = {
                 label: 'Holding Value'
             },
             inTransitAmount: {
-                label: 'Amount to be confirmed'
+                label: 'Amount to be CFMD'
             }
         }
     }
