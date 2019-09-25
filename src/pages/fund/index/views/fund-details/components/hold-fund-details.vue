@@ -82,12 +82,12 @@ export default {
     height: 160px;
     float: left;
     width: 100%;
-    .center {
-        text-align: center;
-    }
-    .right {
-        text-align: right;
-    }
+    // .center {
+    //     text-align: center;
+    // }
+    // .right {
+    //     text-align: right;
+    // }
     .fund-row {
         margin: 10px 0 0 0;
         // text-align: center;
@@ -109,6 +109,9 @@ export default {
         .active-green {
             color: #04ba60;
         }
+    }
+    .fund-row:last-child {
+        width: 60%;
     }
 }
 </style>
