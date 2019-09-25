@@ -2,7 +2,12 @@
 .fund-details-echart
     span {{$t('fundTrade')}}
     .fund-echart-content
-        canvas(id="myChart")
+        .fund-echart-header(v-if="masterShow")
+            .header-left  日期：{{masterData.belongDay}}
+            .header-right 
+                span.number {{masterData.netPrice}}
+                p.day 今日净值： 
+        canvas(:id="myChart")
     .fund-date-list
         div.date-item(
             v-for="(item,index) of list" 
@@ -72,7 +77,14 @@ export default {
                 5: { date: '全部', key: 6, show: false }
             },
             initChooseList: [],
-            initList: []
+            initList: [],
+            chart: null,
+            myChart: 'myChart',
+            masterShow: false,
+            masterData: {
+                belongDay: '-',
+                netPrice: '-'
+            }
         }
     },
     methods: {
@@ -85,12 +97,12 @@ export default {
             for (let item of this.initEchartList) {
                 arr.push(item.netPrice)
             }
-            let chart = new F2.Chart({
-                id: 'myChart',
+            this.chart = new F2.Chart({
+                id: this.myChart,
                 pixelRatio: window.devicePixelRatio,
                 padding: [45, 'auto', 'auto']
             })
-            chart.source(this.initEchartList, {
+            this.chart.source(this.initEchartList, {
                 netPrice: {
                     alias: '今日净值',
                     tickCount: 5,
@@ -109,24 +121,32 @@ export default {
                     }
                 }
             })
-            chart.axis('netPrice', {
+            this.chart.axis('netPrice', {
                 labelOffset: 20 // 坐标轴文本距离轴线的距离
             })
-            chart.axis('belongDay', {
+            this.chart.axis('belongDay', {
                 line: null,
                 labelOffset: 15 // 坐标轴文本距离轴线的距离
             })
-            chart.tooltip({
+            this.chart.tooltip({
                 alwaysShow: false,
-                triggerOn: ['touchstart'], // tooltip 出现的触发行为，可自定义，用法同 legend 的 triggerOn
-                triggerOff: ['touchmove', 'touchend'] // 消失的触发行为，可自定义
+                onChange: obj => {
+                    console.log(obj.items[0].origin)
+                    this.masterData = obj.items[0].origin
+                    this.masterData.belongDay = dayjs(
+                        this.masterData.belongDay
+                    ).format('YYYY-MM-DD')
+                    this.masterShow = true
+                },
+                onHide: () => {
+                    this.masterShow = false
+                }
             })
             // chart.tooltip(false)
-            chart
+            this.chart
                 .line()
                 .position('belongDay*netPrice')
                 .color('#518DFE')
-            chart.render()
         },
         initI18nState() {
             this.active = 0
@@ -143,8 +163,11 @@ export default {
     watch: {
         initEchartList() {
             this.draw()
-            this.active = this.step
-            this.tabShow()
+            setTimeout(() => {
+                this.chart.render()
+                this.active = this.step
+                this.tabShow()
+            }, 200)
         },
         $route(to, from) {
             if (from.path == '/') {
@@ -159,10 +182,43 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.fund-echart-header {
+    background: rgba(244, 248, 255, 1);
+    z-index: 99999;
+    padding: 0 10px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    position: absolute;
+    .header-left,
+    .header-right {
+        width: 50%;
+        // line-height: 40px;
+        float: left;
+    }
+    .header-right {
+        text-align: right;
+        span {
+            display: inline-block;
+        }
+        .day {
+            width: 120px;
+            float: right;
+        }
+        .number {
+            line-height: 50px;
+            float: right;
+        }
+    }
+}
 .fund-details-echart {
     margin: 10px 0 0 0;
     width: 100%;
     float: left;
+    position: relative;
     padding: 10px;
     background: $background-color;
     span {
@@ -176,8 +232,6 @@ export default {
             height: 200px !important;
             margin: -20px 0 0 0;
             transform: translateX(-3%);
-
-            // transform: scale(1.09);
         }
     }
     .fund-date-list {
@@ -188,7 +242,7 @@ export default {
         border-right: none;
         .date-item {
             border: 1px solid rgba(235, 235, 235, 1);
-            border-left: 1px solid rgba(235, 235, 235, 1);
+            border-left: none;
             // display: inline-block;
             width: 16.65%;
             text-align: center;

@@ -84,6 +84,7 @@ export default {
             color: $text-color;
             font-size: 0.48rem;
             font-weight: bold;
+            font-family: DINPro-Medium, DINPro;
             line-height: 31px;
         }
         .color-green {
