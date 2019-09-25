@@ -104,7 +104,7 @@ export default {
                 jsBridge.gotoCustomerService()
             } else {
                 // 跳转到风险测评
-                this.$router.replace({
+                this.$router.push({
                     path: '/risk-assessment',
                     query: {
                         notFirstSubmit: true
