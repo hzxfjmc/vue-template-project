@@ -82,12 +82,12 @@ export default {
     height: 160px;
     float: left;
     width: 100%;
-    .center {
-        text-align: center;
-    }
-    .right {
-        text-align: right;
-    }
+    // .center {
+    //     text-align: center;
+    // }
+    // .right {
+    //     text-align: right;
+    // }
     .fund-row {
         margin: 10px 0 0 0;
         // text-align: center;
@@ -96,7 +96,7 @@ export default {
         }
         .holdNumber {
             font-size: 0.36rem;
-            font-family: DINPro;
+            font-family: yxFontDINPro-Regular;
             // font-weight: bolder;
             em {
                 font-style: normal;
@@ -109,6 +109,9 @@ export default {
         .active-green {
             color: #04ba60;
         }
+    }
+    .fund-row:last-child {
+        width: 60%;
     }
 }
 </style>

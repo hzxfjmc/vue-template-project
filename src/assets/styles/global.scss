@@ -52,7 +52,27 @@ textarea {
 
 @font-face {
   font-family: yxFont;
-  src: url('~@/assets/yx-font.otf');
+  src: url('~@/assets/font/yx-font.otf');
+}
+@font-face {
+  font-family: yxFontDINPro-Black;
+  src: url('~@/assets/font/DINPro-Black.otf');
+}
+@font-face {
+  font-family: yxFontDINPro-Bold;
+  src: url('~@/assets/font/DINPro-Bold.otf');
+}
+@font-face {
+  font-family: yxFontDINPro-Light;
+  src: url('~@/assets/font/DINPro-Light.otf');
+}
+@font-face {
+  font-family: yxFontDINPro-Medium;
+  src: url('~@/assets/font/DINPro-Medium.otf');
+}
+@font-face {
+  font-family: yxFontDINPro-Regular;
+  src: url('~@/assets/font/DINPro-Regular.otf');
 }
 body {
   font-size: 14px;
