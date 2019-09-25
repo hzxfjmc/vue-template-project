@@ -29,7 +29,8 @@
                 a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
+                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 
+                        span(v-show="buyProtocolFileName") 《{{ buyProtocolFileName }}》
                     .right(style="text-align: right; width: 35%") {{ predictDay }}
 
             FundSteps(
