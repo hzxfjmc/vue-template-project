@@ -217,6 +217,7 @@ export default {
 .order-record-container-else {
     height: 100%;
     display: flex;
+    background: #fff;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -227,6 +228,7 @@ export default {
         transform: translateY(-65px);
     }
     .no-record-box {
+        color: rgba(25, 25, 25, 0.3);
         transform: translateY(-65px);
     }
 }

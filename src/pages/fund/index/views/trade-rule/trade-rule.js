@@ -97,7 +97,7 @@ export const i18nTrudeRuleData = {
             label: '确认份额'
         },
         sellProfitLoss: {
-            label: '查看盈亏'
+            label: '资金到账'
         }
     },
     zhCHT: {
