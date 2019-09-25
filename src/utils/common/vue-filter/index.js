@@ -18,7 +18,7 @@ Vue.filter('idcard', function(num) {
 Vue.filter('date-format', function(date, format = 'YYYY-MM-DD HH:mm') {
     return dayjs(date).format(format)
 })
-//数字化千分位加两位小数
+//数字化千分位加两位小数（四舍五入）
 Vue.filter('formatCurrency', function(num) {
     let strVal = String(num)
     if (strVal.indexOf('.') != -1) {
@@ -29,6 +29,14 @@ Vue.filter('formatCurrency', function(num) {
         return `${Number(strVal).toLocaleString()}.00`
     }
 })
+//直接截取两位小数
+Vue.filter('interceptTwo', function(num) {
+    num = Number(num)
+    const func = num > 0 ? Math.floor : Math.ceil
+    num = (func(num * 100) / 100).toFixed(2)
+    return Number(num)
+})
+
 //不够五位数补0
 Vue.filter('PrefixInteger', function(num) {
     return (Array(5).join('0') + num).slice(-5)
