@@ -202,7 +202,7 @@ export default {
             }
 
             // test:
-            submitStep = 1
+            // submitStep = 1
             try {
                 if (submitStep === 1) {
                     this.$loading()
