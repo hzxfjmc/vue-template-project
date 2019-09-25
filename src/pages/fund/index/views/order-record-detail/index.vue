@@ -69,7 +69,6 @@ import { differColor } from '../order-record/differColor.js'
 
 export default {
     i18n: i18nOrderStatusData,
-    // keepalive: true,
     components: {
         orderStatusAbout
     },
@@ -246,7 +245,6 @@ export default {
             } catch (error) {
                 console.log('tradeErrorMsg :', error)
             }
-
             // test:
             submitStep = 1
             try {
@@ -259,16 +257,18 @@ export default {
                         orderNo: this.$route.query.orderNo,
                         tradeToken: token
                     }
-                    await cancelFundOrder(params)
-                    // 跳转到订单列表
-                    this.$router.replace({
-                        name: 'order-record',
-                        query: {
-                            isRefresh: true,
-                            id: this.fondId
-                        }
-                    })
-                    submitStep = 2
+                    if (params.orderNo && params.tradeToken) {
+                        await cancelFundOrder(params)
+                        // 跳转到订单列表
+                        this.$router.replace({
+                            name: 'order-record',
+                            query: {
+                                isRefresh: true,
+                                id: this.fondId
+                            }
+                        })
+                        submitStep = 2
+                    }
                 }
             } catch (e) {
                 if (e.msg) {
