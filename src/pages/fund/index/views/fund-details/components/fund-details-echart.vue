@@ -129,7 +129,9 @@ export default {
                 labelOffset: 15 // 坐标轴文本距离轴线的距离
             })
             this.chart.tooltip({
-                alwaysShow: false,
+                // alwaysShow: false,
+                showCrosshairs: true,
+                custom: true, // 自定义 tooltip 内容框
                 onChange: obj => {
                     this.masterData = obj.items[0].origin
                     this.masterData.netPrice = Number(
