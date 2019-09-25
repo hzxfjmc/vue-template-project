@@ -25,14 +25,12 @@ export default {
             canSubmit: false
         }
     },
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            console.log(vm, '001')
-            if (!vm.$route.query.id) {
-                vm.getCurrentUser()
-            }
-        })
-    },
+    // beforeRouteEnter(to, from, next) {
+    //     next(vm => {
+    //         console.log(vm, '001')
+    //         vm.judge()
+    //     })
+    // },
     computed: {
         titleI18n() {
             return {
@@ -74,6 +72,9 @@ export default {
         }
     },
     async created() {
+        if (!this.$route.query.id) {
+            await this.getCurrentUser()
+        }
         // 拉取测评题目
         try {
             let { subject, version } = await riskAssessSubject()
@@ -193,6 +194,11 @@ export default {
         closeEasyCustomer() {
             this.closeEasyCustomer = false
             this.jumpToResult()
+        },
+        judge() {
+            if (!this.$route.query.id) {
+                this.getCurrentUser()
+            }
         }
     }
 }
