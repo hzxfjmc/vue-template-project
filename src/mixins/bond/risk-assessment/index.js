@@ -159,13 +159,13 @@ export default {
                 ) {
                     console.log(this.userInfo.assessResult)
 
-                    // window.location.replace(
-                    //     location.origin +
-                    //         '/wealth/fund/index.html#/risk-assessment-result'
-                    // )
-                    this.$router.replace({
-                        path: '/risk-assessment-result'
-                    })
+                    window.location.replace(
+                        location.origin +
+                            '/wealth/fund/index.html#/risk-assessment-result'
+                    )
+                    // this.$router.replace({
+                    //     path: '/risk-assessment-result'
+                    // })
                 }
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)

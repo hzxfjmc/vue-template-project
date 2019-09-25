@@ -69,15 +69,6 @@
 import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
 export default {
     mixins: [riskAssessmentMixin],
-    // beforeRouteEnter(to, from, next) {
-    //     console.log(to, from)
-    //     next(vm => {
-    //         console.log(vm, '001')
-    //         if (!vm.$route.query.id) {
-    //             vm.getCurrentUser()
-    //         }
-    //     })
-    // },
     i18n: {
         zhCHS: {
             riskAssessmentTipsTop:
