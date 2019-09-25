@@ -4,17 +4,17 @@
     van-row()
         van-col( 
             span="8"
-            v-for="(item,index) of initPropState" 
+            v-for="(item,index) of list" 
             :key="item.label"
             class="fund-row" 
             :class="item.layout") 
             span.holdSubtitle {{item.label}}
             p.holdNumber(
                 :class="stockColorType === 1 ? 'active_red' : 'active-green'"
-                v-if="item.value > 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") +{{item.value}}
+                v-if="item.flag == 1 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") +{{item.value}}
             p.holdNumber(
                 :class="stockColorType === 1 ? 'active-green' : 'active_red'"
-                v-else-if="item.value < 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") {{item.value}}
+                v-else-if="item.flag == 2 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") {{item.value}}
              p.holdNumber(v-else) {{item.value}}
             //- p.holdNumber(
             //-     :class="item.value >= 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings') ? 'active_red' : item.value<0 ? 'active-green' : ''") 
@@ -25,6 +25,7 @@
 import { Row, Col } from 'vant'
 import { holdDetailsData, i18nHoldDetailsData } from './hold-fund-data'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     i18n: i18nHoldDetailsData,
     props: {
@@ -38,23 +39,24 @@ export default {
         Col
     },
     computed: {
-        initPropState() {
-            for (let key in this.list) {
-                // eslint-disable-next-line vue/no-side-effects-in-computed-properties
-                this.list[key].value = Number(this.initState[key]).toFixed(2)
-            }
-            return this.list
-        },
         stockColorType() {
             return +getStockColorType()
         }
     },
-    // watch: {
-    //     initState() {
-    //         this.initI18nState()
-    //     }
-    // },
     methods: {
+        initPropState() {
+            for (let key in this.list) {
+                this.list[key].flag =
+                    this.initState[key] > 0
+                        ? 1
+                        : this.initState[key] < 0
+                        ? 2
+                        : 3
+                this.list[key].value = transNumToThousandMark(
+                    this.initState[key]
+                )
+            }
+        },
         initI18nState() {
             for (let key in this.list) {
                 this.list[key].label = this.$t('holdDetailsData')[key].label
@@ -62,6 +64,7 @@ export default {
         }
     },
     mounted() {
+        this.initPropState()
         this.initI18nState()
     },
     data() {

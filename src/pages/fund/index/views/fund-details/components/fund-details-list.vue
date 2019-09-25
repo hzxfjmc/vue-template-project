@@ -86,6 +86,7 @@ export default {
                 path: item.routerPath
             }
             localStorage.put('scroll', this.scroll)
+            localStorage.put('scrollFlag', 2)
             if (item.routerPath == '/fund-introduce')
                 data.query = {
                     id: this.$route.query.id

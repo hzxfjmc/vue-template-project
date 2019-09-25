@@ -23,10 +23,10 @@ import dayjs from 'dayjs'
 export default {
     i18n: {
         zhCHS: {
-            nomore: '暂无收藏的信息'
+            nomore: '暂无文件'
         },
         zhCHT: {
-            nomore: '暫無收藏的信息'
+            nomore: '暫無文件'
         },
         en: {
             nomore: 'No File'
@@ -121,7 +121,7 @@ export default {
         padding-top: 100px;
         background: url('~@/assets/img/fund/icon-nofile.png') center 15px
             no-repeat;
-        background-size: 82px 78px;
+        background-size: 99.5px 78px;
         color: $text-color3;
         font-size: 0.28rem;
         line-height: 20px;
