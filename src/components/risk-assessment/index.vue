@@ -57,17 +57,18 @@ export default {
     i18n: {
         zhCHS: {
             riskAssessmentTips:
-                '友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的',
+                '友信智投致力于为全球用户提供更好的个人金融服务，为了您能获得更匹配的金融产品和服务，了解您的风险能力和取向是非常必要的。完成问卷用时约2分钟，请依据您的实际情况回答，每半年仅有一次重新测评机会。 ',
             btnText: '提交测评'
         },
         zhCHT: {
             riskAssessmentTips:
-                '友信智投致力於為全球用戶提供更好的個人金融服務，為了給您提供更匹配的金融產品和服務，了解您的風險能力和偏好是非常必要的',
+                '友信智投致力於為全球用戶提供更好的個人金融服務，為了您能獲得更匹配的金融產品和服務，了解您的風險能力和取向是非常必要的。完成問卷用時約2分鐘，請依據您的實際情況回答，每半年僅有一次重新測評機會 ',
             btnText: '提交測評'
         },
         en: {
-            riskAssessmentTips:
-                'Friendship Intelligence Investment is committed to providing better personal financial services for global users. In order to provide you with more matching financial products and services, it is necessary to understand your risk capabilities and preferences.',
+            riskAssessmentTips: `uSMART is dedicated to bring personal financial services to the world.
+This assessment is important to know about your investment risk profile for choosing suitable products.
+Please take 2 mins to complete assessment, you have only one chance to reassess every half-year. `,
             btnText: 'Submit'
         }
     }
