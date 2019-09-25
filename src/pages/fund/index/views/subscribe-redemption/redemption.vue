@@ -15,13 +15,13 @@
                 .buy-row
                     .left {{ $t('positionMarketValue') }}
                     .right {{ positionMarketValue | formatCurrency }}
-                .buy-row
+                .buy-row(class="border-bottom" style="height:40px")
                     .left {{ $t('redeemShares') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span {{ $t('minSellBalance') }}{{ lowestInvestAmount | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare" :disabled="positionShare === 0")
-                hr.border-bottom
+                //- hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFeeScale  }}%
                     .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * redemptionFee | formatCurrency }}

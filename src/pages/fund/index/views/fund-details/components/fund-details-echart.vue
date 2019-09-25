@@ -253,7 +253,7 @@ export default {
             text-align: center;
             line-height: 30px;
             height: 30px;
-            border-radius: 2px;
+            // border-radius: 2px;
             font-size: 0.24rem;
             color: $text-color;
             margin: 0;

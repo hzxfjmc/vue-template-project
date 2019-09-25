@@ -105,7 +105,7 @@ export default {
                 font-size: 0.56rem;
                 font-weight: 500;
                 // font-family: DINPro;
-                font-family: DINPro-Medium, DINPro;
+                font-family: yxFontDINPro-Medium;
             }
             .number-red {
                 color: rgba(234, 61, 61, 1);

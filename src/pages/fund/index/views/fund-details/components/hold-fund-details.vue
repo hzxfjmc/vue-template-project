@@ -96,7 +96,7 @@ export default {
         }
         .holdNumber {
             font-size: 0.36rem;
-            font-family: DINPro;
+            font-family: yxFontDINPro-Regular;
             // font-weight: bolder;
             em {
                 font-style: normal;

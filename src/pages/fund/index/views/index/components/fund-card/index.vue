@@ -83,8 +83,8 @@ export default {
             margin-bottom: 4px;
             color: $text-color;
             font-size: 0.48rem;
-            font-weight: bold;
-            font-family: DINPro-Medium, DINPro;
+            // font-weight: bold;
+            font-family: yxFontDINPro-Medium;
             line-height: 31px;
         }
         .color-green {

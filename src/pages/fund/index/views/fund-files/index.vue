@@ -69,7 +69,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-files {
-    margin: 0 10px;
+    height: 100%;
+    display: flex;
+    background: #fff;
+    flex-direction: column;
+    // justify-content: center;
+    // align-items: center;
     .span {
         background: #fff;
         margin: 10px 0 0 10px;
