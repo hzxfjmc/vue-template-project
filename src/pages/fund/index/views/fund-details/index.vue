@@ -110,6 +110,7 @@ export default {
         //跳转
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
+                console.log('追加')
                 this.handleBuyOrSell()
                 // if (!this.flag1) return
                 // console.log(312312)
@@ -130,8 +131,14 @@ export default {
                 // }
             } else {
                 if (!this.flag) return
+                this.$router.push({
+                    path: routerPath,
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.fundTradeInfoVO.currency.type
+                    }
+                })
             }
-
             this.$router.push({
                 path: routerPath,
                 query: {

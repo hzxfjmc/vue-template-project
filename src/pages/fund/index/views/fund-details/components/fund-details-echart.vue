@@ -177,7 +177,7 @@ export default {
             canvaStyle.transform = 'translateX(-3%)'
             // setTimeout(() => {
             this.draw(this.chartId)
-            // this.chart.render()
+            this.chart.render()
             this.active = this.step
             this.tabShow()
             // }, 200)
