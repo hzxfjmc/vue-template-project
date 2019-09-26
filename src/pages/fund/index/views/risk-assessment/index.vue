@@ -1,6 +1,6 @@
 <template lang="pug">
     .risk-assessment-wrapper
-        risk-assessment(v-if='isriskAssessment')
+        risk-assessment(v-show='isriskAssessment')
 </template>
 
 <script>
