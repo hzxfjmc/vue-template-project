@@ -92,7 +92,7 @@ export default {
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             dangerIntro:
-                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型（A1）。',
             toCallCS: '如果资料有误需要调整，请联系客服。'
         },
         zhCHT: {
@@ -113,8 +113,8 @@ export default {
                 '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
             ],
             dangerIntro:
-                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
-            toCallCS: '如果资料有误需要调整，请联系客服。'
+                '您的資料中，滿足以上任意一項，為“易受損客戶”，“易受損客戶”的風評為保守型（A1）。',
+            toCallCS: '如果資料有誤需要調整，請聯繫客服。'
         },
         en: {
             riskAssessmentTipsTop: `uSMART is dedicated to bring personal financial services to the world.
@@ -134,8 +134,8 @@ This assessment is important to know about your investment risk profile for choo
                 'retired and annual income < HK$ 200,000 and net asset value < HK$ 500,000'
             ],
             dangerIntro:
-                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
-            toCallCS: '如果资料有误需要调整，请联系客服。'
+                'You will be classed as vulnerable client if you match any of above criteria. Risk profile of vulnerable client is "Conservative" (A1).',
+            toCallCS: 'Please contact CS if there is any adjustment.'
         }
     }
 }
