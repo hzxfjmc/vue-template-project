@@ -8,7 +8,8 @@ import {
     isYouxinIos,
     isYouxinAndroid,
     isYouxinApp,
-    appType
+    appType,
+    lang
 } from '@/utils/html-utils'
 
 Vue.use(Vuex)
@@ -76,7 +77,10 @@ export default modules =>
                             phoneNumber: user.phoneNum,
                             userId: user.userId,
                             userToken: user.userToken,
-                            userName: user.userName
+                            userName: user.userName,
+                            openedAccount: user.openedAccount,
+                            bondSigned: user.bondSigned,
+                            userAutograph: user.userAutograph
                         })
                     } else {
                         store.commit('getUserInfoMutation', {
@@ -103,6 +107,7 @@ export default modules =>
             isYouxinIos: () => isYouxinIos,
             isYouxinAndroid: () => isYouxinAndroid,
             isYouxinApp: () => isYouxinApp,
-            appType: () => appType
+            appType: () => appType,
+            lang: () => lang // ['1', 'zhCHS'](简体), ['2', 'zhCHT']（繁体）, ['3', 'en']
         }
     })

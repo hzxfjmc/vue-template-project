@@ -8,20 +8,20 @@ html {
 .border-bottom {
     position: relative;
     &::after {
-        content: '';
         position: absolute;
-        z-index: 1;
+        box-sizing: border-box;
+        content: ' ';
         pointer-events: none;
-        background-color: $border-color;
-        height: 1px;
-        left: 0;
         right: 0;
         bottom: 0;
+        left: 0;
+        border-bottom: 1px solid #ebedf0;
+        
 
         @media only screen and (min-resolution: 2dppx) {
             // 非标准的
             -webkit-transform: scaleY(0.5);
-            -webkit-transform-origin: 50% 0%;
+            transform: scaleY(0.5);
         }
     }
 }
@@ -41,7 +41,7 @@ html {
         @media only screen and (min-resolution: 2dppx) {
             // 非标准的
             -webkit-transform: scaleY(0.5);
-            -webkit-transform-origin: 50% 0%;
+            transform: scaleY(0.5);
         }
     }
 }

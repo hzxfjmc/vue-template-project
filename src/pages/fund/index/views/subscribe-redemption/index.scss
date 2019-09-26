@@ -1,0 +1,187 @@
+.subscribe-wrapper, .redemption {
+    // .border-bottom {
+    //     border-bottom: 1px solid rgba($text-color, 0.05);
+    //     @media only screen and (min-resolution: 2dppx) {
+    //         border-bottom: 0.5px solid rgba($text-color, 0.05);
+    //     }
+    // }
+    font-family:PingFangSC;
+    .succed {
+        height: 183px;
+        text-align: center;
+        background: $background-color;
+        .text {
+            font-size: 0.4rem;
+            margin-top: 5px;
+        }
+        img {
+            margin-top: 30px;
+            width: 99px;
+        }
+    }
+    .line-height-8 {
+        line-height: 0.8rem !important;
+    }
+    .m-t10 {
+        margin-top: -10px;
+    }
+    .m-b28 {
+        margin-bottom: 28px;
+    }
+    .fond-des {
+        background: $background-color;
+        display: flex;
+        flex-direction: column;
+        // font-size: 0.32rem;
+        padding: 14px 12px;
+        .fond-name {
+            font-size: 0.3rem;
+            height: 0.48rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .ISIN {
+            font-size: 0.28rem;
+            color: $text-color5;
+        }
+    }
+    // .fond-bug-monny {
+    //     border: 1px solid rgba($text-color, 0.05);
+    //     @media only screen and (min-resolution: 2dppx) {
+    //         border-bottom: 0.5px solid rgba($text-color, 0.05);
+    //     }
+    // }
+   
+    .submit {
+        margin-top: 20px;
+        // margin-bottom: 28px;
+        background: $primary-color;
+        color: #fff;
+        text-align: center;
+        height: 0.96rem;
+        line-height: 0.96rem;
+        border-radius: 6px;
+        font-size: 0.32rem;
+    }
+    .gray {
+        background: #d1d1d1;
+    }
+    .fond-buy {
+        background: $background-color;
+        margin-top: 10px;
+        // padding-top: 24px;
+        display: flex;
+        flex-direction: column;
+        padding: 0 12px;
+        // padding-bottom: 10px;
+
+        .text-color3 {
+            color: $text-color3 !important;
+        }
+        .text-color5 {
+            color: $text-color5 !important;
+        }
+        .buy-row {
+            display: flex;
+            justify-content: flex-start;
+            margin: 0.24rem 0;
+
+            .left {
+                width: 35%;
+                font-size: 0.28rem;
+                color: $text-color5;
+                line-height: 0.48rem;
+            }
+            .text-overflow{
+                text-overflow: hidden;
+                text-overflow:ellipsis; //溢出用省略号显示
+                white-space:nowrap; //溢出不换行
+            }
+            .right {
+                width: 65%;
+                font-size: 0.28rem;
+                line-height: 0.48rem;
+                font-family:PingFangSC;
+                .van-field {
+                    padding: 0;
+                    // height: 0.48rem;
+                    width: 100%;
+                    .van-field__control {
+                        font-weight: bold !important;
+                        font-size: 0.48rem !important;
+                    }
+                }
+            }
+            .number{
+                font-family:DINPro;
+            }
+
+            .buy-monny {
+                height: 1rem;
+                font-size: 0.48rem;
+                input {
+                    margin-top: -4px;
+                }
+            }
+
+            a.left {
+                color: #2F79FF;
+            }
+            span {
+                font-size: 0.28rem;
+            }
+
+            .icon {
+                width: 0.48rem;
+                height: 0.48rem;
+                margin-right: 5px;
+                img {
+                    width: 0.32rem;
+                    height: 0.32rem;
+                    margin-top: 0.07rem;
+                }
+                .point {
+                    width: 6px;
+                    height: 6px;
+                    background: $text-color3;
+                    border-radius: 50%;
+                    margin-top: 0.16rem;
+                    margin-left: 0.1rem;
+                }
+            }
+        }
+        .line {
+            height: 56px;
+            border-left: 1px solid $text-color2;
+            margin-left: 0.14rem;
+            margin-top: -13px;
+            margin-bottom: -15px;
+            @media only screen and (min-resolution: 2dppx) {
+                border-left: 0.5px solid $text-color2;
+            }
+        }
+        hr {
+            margin-top: -20px;
+            height: 1px;
+            border: none;
+            // border-top: 1px solid $primary-color;
+            width: 100%;
+            opacity: 0.05;
+            // @media only screen and (min-resolution: 2dppx) {
+            //     border-top: 0.5px solid $primary-color;
+            // }
+        }
+    }
+}
+
+.subscribe-wrapper .placeHolder {
+    width: 139px;
+    height: 1rem;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+.redemption .placeHolder {
+    width: 139px;
+    height: 1rem;
+}
