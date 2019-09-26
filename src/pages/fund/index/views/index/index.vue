@@ -13,7 +13,7 @@
             )
                 Card(:info="item")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
-        .no-bond-box(v-if="list.length === 0")
+        .no-bond-box(v-if="load && list.length === 0")
             .no-bond {{ $t('noBond') }}
 </template>
 <script>
@@ -40,6 +40,7 @@ export default {
     },
     data() {
         return {
+            load: false,
             bannerUrl: [],
             list: []
         }
@@ -59,6 +60,7 @@ export default {
         async getListFundInfo() {
             try {
                 this.list = await getFundList()
+                this.load = true
             } catch (e) {
                 console.log('getListFundInfo:error:>>>', e)
             }
