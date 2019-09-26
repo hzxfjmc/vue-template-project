@@ -119,7 +119,7 @@ export default {
             height: 56px;
             background-color: $text-color;
             opacity: 0.19;
-            margin: 2px 0 -8px 8px;
+            margin: 2px 0 -8px 7px;
         }
         .end-time {
             @extend .begin-time;
@@ -130,7 +130,7 @@ export default {
                 border-radius: 3px;
                 background-color: $tip-color;
                 opacity: 0.19;
-                margin: 0 10px 0 6px;
+                margin: 0 10px 0 4.5px;
             }
         }
     }
