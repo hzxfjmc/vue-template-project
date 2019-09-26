@@ -225,6 +225,7 @@ export default {
             }
         },
         getSwitchFundNetPrice(time) {
+            this.initEchartList = []
             let count = Math.ceil(this.copyinitEchartList.length / 22)
             switch (time) {
                 case 1:
