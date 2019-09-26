@@ -110,26 +110,35 @@ export default {
         //跳转
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
-                if (!this.flag1) return
-                if (
-                    !this.userInfo.assessResult ||
-                    new Date().getTime() >
-                        new Date(this.userInfo.validTime).getTime()
-                ) {
-                    return this.$router.push({
-                        path: '/risk-assessment',
-                        query: {
-                            id: this.$route.query.id,
-                            extendStatusBit: this.userInfo.extendStatusBit,
-                            fundRiskType: this.fundRiskType,
-                            currencyType: this.fundTradeInfoVO.currency.type
-                        }
-                    })
-                }
+                console.log('追加')
+                this.handleBuyOrSell()
+                // if (!this.flag1) return
+                // console.log(312312)
+                // if (
+                //     !this.userInfo.assessResult ||
+                //     new Date().getTime() >
+                //         new Date(this.userInfo.validTime).getTime()
+                // ) {
+                //     return this.$router.push({
+                //         path: '/risk-assessment',
+                //         query: {
+                //             id: this.$route.query.id,
+                //             extendStatusBit: this.userInfo.extendStatusBit,
+                //             fundRiskType: this.fundRiskType,
+                //             currencyType: this.fundTradeInfoVO.currency.type
+                //         }
+                //     })
+                // }
             } else {
                 if (!this.flag) return
+                this.$router.push({
+                    path: routerPath,
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.fundTradeInfoVO.currency.type
+                    }
+                })
             }
-
             this.$router.push({
                 path: routerPath,
                 query: {

@@ -84,10 +84,15 @@ export default {
                 this.$route.query.isRefresh
             ) {
                 this.fundOrderListFun()
-            } else if (from.path === '/fund-details') {
-                this.fundOrderListFun()
             }
         }
+    },
+    beforeRouteEnter: (to, from, next) => {
+        next(async vm => {
+            if (from.path === '/fund-details') {
+                vm.fundOrderListFun()
+            }
+        })
     },
     created() {
         if (this.$route.query.id) {
