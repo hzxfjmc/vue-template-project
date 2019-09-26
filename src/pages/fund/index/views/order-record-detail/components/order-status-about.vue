@@ -69,17 +69,17 @@ export default {
         // 确认份额日多语言
         surePositionBeginTime() {
             return {
-                zhCHS: `${this.beginTime}日确认份额`,
-                zhCHT: `${this.beginTime}日確認份額`,
-                en: `Allocate Fund Units in ${this.beginTime} Days`
+                zhCHS: `${this.beginTime}日确认净值 `,
+                zhCHT: `${this.beginTime}日確認凈值`,
+                en: `${this.beginTime} CFMD NAV`
             }[this.$i18n.lang]
         },
         // 查收收益日多语言
         surePositionEndTime() {
             return {
-                zhCHS: `${this.endTime}日查收收益`,
-                zhCHT: `${this.endTime}日查收收益`,
-                en: `Check Earnings in ${this.endTime} Days`
+                zhCHS: `${this.endTime}日证券到达证券账户`,
+                zhCHT: `${this.endTime}日資金到達證券賬戶`,
+                en: `Funds Credited to Securities Account in ${this.endTime} Days`
             }[this.$i18n.lang]
         }
     },
