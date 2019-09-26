@@ -9,14 +9,12 @@
                         .begin-time
                             img(src="@/assets/img/fund/clock.png")
                             span {{$t('estimate')}} 
-                            span(class='time') {{beginTime}} 
-                            span {{$t('surePosition')}}
+                            span {{surePositionBeginTime}} 
                         .left-line
                         .end-time
                             i(class="dot")
                             span {{$t('estimate')}} 
-                            span(class='time') {{endTime}} 
-                            span {{$t('checkProfit')}} 
+                            span {{surePositionEndTime}} 
 </template>
 
 <script>
@@ -67,6 +65,22 @@ export default {
     computed: {
         differenceColor() {
             return differColor(this.orderStatus)
+        },
+        // 确认份额日多语言
+        surePositionBeginTime() {
+            return {
+                zhCHS: `${this.beginTime}日确认净值 `,
+                zhCHT: `${this.beginTime}日確認凈值`,
+                en: `${this.beginTime} CFMD NAV`
+            }[this.$i18n.lang]
+        },
+        // 查收收益日多语言
+        surePositionEndTime() {
+            return {
+                zhCHS: `${this.endTime}日证券到达证券账户`,
+                zhCHT: `${this.endTime}日資金到達證券賬戶`,
+                en: `Funds Credited to Securities Account in ${this.endTime} Days`
+            }[this.$i18n.lang]
         }
     },
     created() {},

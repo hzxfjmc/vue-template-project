@@ -11,24 +11,25 @@
             .fond-buy
                 .buy-row
                     .left {{ $t('positionShare') }}
-                    .right {{ positionShare | formatCurrency }}
+                    .right {{ positionShare | interceptTwo | formatCurrency }}
                 .buy-row
                     .left {{ $t('positionMarketValue') }}
-                    .right {{ positionMarketValue | formatCurrency }}
-                .buy-row
+                    .right {{ positionMarketValue | interceptTwo | formatCurrency }}
+                .buy-row(class="border-bottom" style="height:40px")
                     .left {{ $t('redeemShares') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        span {{ $t('minSellBalance') }}{{ lowestInvestAmount | formatCurrency}}
+                        span {{ $t('minSellBalance') }}{{ lowestInvestAmount | interceptTwo | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare")
-                hr.border-bottom
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare" :disabled="positionShare === 0")
+                //- hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFee * 100  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * redemptionFee | formatCurrency }}
-                a.submit.gray(v-if="redemptionShare === null || redemptionShare === ''") {{ $t('submiButtonText') }}
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFeeScale  }}%
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * redemptionFee | interceptTwo | formatCurrency }}
+                a.submit.gray(v-if="redemptionShare === null || redemptionShare === '' || positionShare === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="sellProtocol" style="width: 65%") 《{{ sellProtocolFileName }}》
+                    a.left(:href="sellProtocol" style="width: 65%") 
+                        span(v-show="sellProtocolFileName") 《{{ sellProtocolFileName }}》
                     .right(style="text-align: right;  width: 35%") {{ predictDay }}
 
             FundSteps(
@@ -56,14 +57,14 @@
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8 {{ $t('monny') }}
-                    .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | formatCurrency }}
+                    .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | interceptTwo | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
 
 </template>
 <script>
 import { getCosUrl } from '@/utils/cos-utils'
-import { getTradePasswordToken } from '@/service/user-server.js'
+// import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundRedemption, getFundPosition } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 // import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -109,6 +110,9 @@ export default {
                 zhCHT: `預計${this.sellProfitLoss.slice(0, 5)}日完成`,
                 en: `EST. ${this.sellProfitLoss.slice(0, 5).replace('.', '/')}`
             }[this.$i18n.lang]
+        },
+        redemptionFeeScale() {
+            return Number(+this.redemptionFee * 100).toFixed(2)
         }
     },
     watch: {
@@ -139,9 +143,7 @@ export default {
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.lowestInvestAmount =
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
-                this.redemptionFee = Number(
-                    fundDetail.fundTradeInfoVO.redemptionFee
-                ).toFixed(4)
+                this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
                 this.setCosUrl(
                     'sellProtocol',
                     fundDetail.fundTradeInfoVO.sellProtocol
@@ -201,20 +203,20 @@ export default {
             }
 
             // test:
-            submitStep = 1
+            // submitStep = 1
             try {
                 if (submitStep === 1) {
                     this.$loading()
-                    let t = await getTradePasswordToken({
-                        password:
-                            'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    })
+                    // let t = await getTradePasswordToken({
+                    //     password:
+                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
+                    // })
                     let re = await fundRedemption({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         redemptionShare: this.redemptionShare,
                         requestId: generateUUID(),
-                        tradeToken: token || t.token
+                        tradeToken: token
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo
@@ -237,7 +239,7 @@ export default {
     i18n: {
         zhCHS: {
             sellSuccess: '赎回成功',
-            positionShare: '持有份额',
+            positionShare: '可赎份额',
             positionMarketValue: '基金市值',
             redeemShares: '赎回份额',
             minSellBalance: '最小持有金额',
@@ -249,9 +251,9 @@ export default {
             balanceRule: '赎回规则',
             day: '日',
             stepOne: '提交赎回申请',
-            stepTwo: '确认份额',
-            stepThree: '资金到账',
-            confirmTheShare: '确认份额',
+            stepTwo: '确认净值',
+            stepThree: '资金到达证券账户',
+            confirmTheShare: '确认净值',
             earnings: '查看收益',
             monny: '金额',
             done: '完成',
@@ -260,7 +262,7 @@ export default {
         },
         zhCHT: {
             sellSuccess: '贖回成功',
-            positionShare: '持有份額',
+            positionShare: '可贖回份額',
             positionMarketValue: '基金市值',
             redeemShares: '贖回份額',
             minSellBalance: '最小持有金額',
@@ -272,9 +274,9 @@ export default {
             balanceRule: '贖回規則',
             day: '日',
             stepOne: '提交贖回申請',
-            stepTwo: '確認份額',
-            stepThree: '資金到賬',
-            confirmTheShare: '确认份额',
+            stepTwo: '確認凈值',
+            stepThree: '資金到達證券賬戶',
+            confirmTheShare: '確認凈值',
             earnings: '查看收益',
             monny: '金額',
             done: '完成',
@@ -283,7 +285,7 @@ export default {
         },
         en: {
             sellSuccess: 'Redemption Successful',
-            positionShare: 'Holding Units',
+            positionShare: 'Redeemable',
             positionMarketValue: 'Fund Value',
             redeemShares: 'Units of Redemption',
             minSellBalance: 'Min. Holding Amount',
@@ -295,9 +297,9 @@ export default {
             balanceRule: 'Redemption Rules',
             day: 'days',
             stepOne: 'Submit Redemption Application',
-            stepTwo: 'Fund Units Allocation',
-            stepThree: 'Funds Credited',
-            confirmTheShare: 'Fund Units Allocation',
+            stepTwo: 'CFMD NAV',
+            stepThree: 'Funds Credited to Securities Account',
+            confirmTheShare: 'CFMD NAV',
             earnings: 'Check Earnings',
             monny: 'Amount',
             done: 'Completed',

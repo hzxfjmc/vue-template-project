@@ -1,16 +1,16 @@
 <template lang="pug">
 .funds-details-header
         h3 {{fundHeaderInfoVO.fundName}}
-        p.funds-details-subtitle {{fundHeaderInfoVO.isin}}
+        p.funds-details-subtitle ISIN：{{fundHeaderInfoVO.isin}}
         .funds-details-number
             .header-left
                 span {{$t('oneYearShow')}}
                 p(v-if="fundHeaderInfoVO.apy >0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
                 p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
-                p(v-else) {{fundHeaderInfoVO.apy}}
+                p(v-else) {{fundHeaderInfoVO.apy}}%
             .header-right
                 span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
-                p.number-black ${{fundHeaderInfoVO.netPrice}}
+                p.number-black {{fundHeaderInfoVO.currencyType}}{{fundHeaderInfoVO.netPrice}}
         .funds-details-footer
             p {{$t('minInvestment')}} {{fundHeaderInfoVO.currencyType}} {{fundHeaderInfoVO.initialInvestAmount}}
             .fund-tag
@@ -104,7 +104,8 @@ export default {
             p {
                 font-size: 0.56rem;
                 font-weight: 500;
-                font-family: DINPro;
+                // font-family: DINPro;
+                font-family: yxFontDINPro-Medium;
             }
             .number-red {
                 color: rgba(234, 61, 61, 1);

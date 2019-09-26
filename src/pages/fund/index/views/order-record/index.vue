@@ -13,8 +13,8 @@
                             span(class="order-type") {{item.tradeTypeName}}
                             span(class="type-value" :class='item.color') {{item.typeValue}}
                         .order-item.flex
-                            span(class="left-title") {{$t('amount')}}
-                            span(class="money-value" ) {{item.moneyValue}}
+                            span(class="left-title") {{item.tradeType===1? $t('amount'):$t('share')}}
+                            span(class="money-value" ) {{item.tradeType===1? item.moneyValue : item.orderShare}}
                         .order-item.flex
                             span(class="left-title") {{$t('time')}}
                             span(class="right-title" ) {{item.timeValue}}
@@ -37,19 +37,22 @@ import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
     i18n: {
         zhCHS: {
-            amount: '金额',
+            amount: '订单金额',
+            share: '份额',
             time: '时间',
             noOrder: '暂无记录',
             noMore: '没有更多了'
         },
         zhCHT: {
-            amount: '金額',
+            amount: '訂單金額',
+            share: '份額',
             time: '時間',
             noOrder: '暫無記錄',
             noMore: '沒有更多了'
         },
         en: {
-            amount: 'Amount',
+            amount: 'Order Amount',
+            share: 'Share',
             time: 'Time',
             noOrder: 'Not Records',
             noMore: 'No More'
@@ -81,10 +84,15 @@ export default {
                 this.$route.query.isRefresh
             ) {
                 this.fundOrderListFun()
-            } else if (from.path === '/fund-details') {
-                this.fundOrderListFun()
             }
         }
+    },
+    beforeRouteEnter: (to, from, next) => {
+        next(async vm => {
+            if (from.path === '/fund-details') {
+                vm.fundOrderListFun()
+            }
+        })
     },
     created() {
         if (this.$route.query.id) {
@@ -106,7 +114,7 @@ export default {
                 this.orderRecordList = []
                 res.list.map(item => {
                     this.orderRecordList.push({
-                        tradeType: item.tradeType.name,
+                        tradeType: item.tradeType,
                         typeValue: item.externalName,
                         moneyValue:
                             item.currency.name +
@@ -122,6 +130,9 @@ export default {
                             '--',
                         color: differColor(item.externalStatus),
                         orderNo: item.orderNo,
+                        orderShare: transNumToThousandMark(
+                            (item.orderShare * 1).toFixed(2)
+                        ),
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })
@@ -211,16 +222,18 @@ export default {
 .order-record-container-else {
     height: 100%;
     display: flex;
+    background: #fff;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     .img {
-        width: 130px;
-        height: 130px;
+        width: 110px;
+        height: 88px;
         margin-bottom: 10px;
         transform: translateY(-65px);
     }
     .no-record-box {
+        color: rgba(25, 25, 25, 0.3);
         transform: translateY(-65px);
     }
 }

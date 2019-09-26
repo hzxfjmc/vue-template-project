@@ -14,22 +14,23 @@
                     .right {{ currency }}
                 .buy-row
                     .left {{ $t('availableBalance') }}
-                    .right(class="number") {{ withdrawBalance | formatCurrency }}
+                    .right(class="number") {{ withdrawBalance | interceptTwo | formatCurrency }}
                 .buy-row(class="border-bottom")
                     .left {{ $t('buyMonny') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
-                        p {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
+                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | interceptTwo | formatCurrency }}
+                        p {{ $t('continueBalance') }}{{ continueInvestAmount | interceptTwo | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny")
+                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny" :disabled="withdrawBalance === 0")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 10px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFee * 100  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
-                a.submit.gray(v-if="buyMonny === null || buyMonny === ''") {{ $t('submiButtonText') }}
+                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFeeScale  }}%
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | interceptTwo | formatCurrency }}
+                a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
+                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 
+                        span(v-show="buyProtocolFileName") 《{{ buyProtocolFileName }}》
                     .right(style="text-align: right; width: 35%") {{ predictDay }}
 
             FundSteps(
@@ -65,11 +66,10 @@
 </template>
 <script>
 import { getCosUrl } from '@/utils/cos-utils'
-import { getTradePasswordToken } from '@/service/user-server.js'
+// import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundPurchase } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
-import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
@@ -114,6 +114,9 @@ export default {
                 zhCHT: `預計${this.buyProfitLoss.slice(0, 5)}日完成`,
                 en: `EST. ${this.buyProfitLoss.slice(0, 5).replace('.', '/')}`
             }[this.$i18n.lang]
+        },
+        subscriptionFeeScale() {
+            return Number(+this.subscriptionFee * 100).toFixed(2)
         }
     },
     watch: {
@@ -143,9 +146,8 @@ export default {
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.currency = fundDetail.fundTradeInfoVO.currency.name
-                this.subscriptionFee = Number(
+                this.subscriptionFee =
                     fundDetail.fundTradeInfoVO.subscriptionFee
-                ).toFixed(4)
                 this.initialInvestAmount =
                     fundDetail.fundTradeInfoVO.initialInvestAmount
                 this.continueInvestAmount =
@@ -196,21 +198,6 @@ export default {
             }
         },
         async handleSubmit() {
-            try {
-                let { validTime } = await riskAssessResult()
-                if (validTime && new Date() > new Date(validTime)) {
-                    // 当前时间大于测评有效时间，测评过期
-                    this.$router.push({
-                        path: '/risk-appropriate-result',
-                        query: {
-                            id: this.$route.query.id
-                        }
-                    })
-                    return
-                }
-            } catch (error) {
-                console.log('申购页面-riskAssessResult:error:>>>', error)
-            }
             let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功
             let token = null
             try {
@@ -228,16 +215,16 @@ export default {
             if (submitStep === 1) {
                 try {
                     this.$loading()
-                    let t = await getTradePasswordToken({
-                        password:
-                            'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    })
+                    // let t = await getTradePasswordToken({
+                    //     password:
+                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
+                    // })
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         purchaseAmount: this.buyMonny,
                         requestId: generateUUID(),
-                        tradeToken: token || t.token
+                        tradeToken: token
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo

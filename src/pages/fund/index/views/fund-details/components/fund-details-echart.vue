@@ -2,7 +2,13 @@
 .fund-details-echart
     span {{$t('fundTrade')}}
     .fund-echart-content
-        canvas(id="myChart")
+        .fund-echart-header(v-if="masterShow")
+            .header-left  日期：{{masterData.belongDay}}
+            .header-right 
+                span.number {{masterData.netPrice}}
+                p.day 今日净值： 
+        .fund-echart-render(ref="renderEchart")
+            canvas(:id="chartId")
     .fund-date-list
         div.date-item(
             v-for="(item,index) of list" 
@@ -19,34 +25,34 @@ export default {
         zhCHS: {
             fundTrade: '基金净值走势',
             list: {
-                one: { date: '1个月' },
-                two: { date: '3个月' },
-                three: { date: '6个月' },
-                four: { date: '1年' },
-                five: { date: '3年' },
-                all: { date: '全部' }
+                0: { date: '1个月' },
+                1: { date: '3个月' },
+                2: { date: '6个月' },
+                3: { date: '1年' },
+                4: { date: '3年' },
+                5: { date: '全部' }
             }
         },
         zhCHT: {
             fundTrade: '基金淨值走勢',
             list: {
-                one: { date: '1個月' },
-                two: { date: '3個月' },
-                three: { date: '6個月' },
-                four: { date: '1年' },
-                five: { date: '3年' },
-                all: { date: '全部' }
+                0: { date: '1個月' },
+                1: { date: '3個月' },
+                2: { date: '6個月' },
+                3: { date: '1年' },
+                4: { date: '3年' },
+                5: { date: '全部' }
             }
         },
         en: {
             fundTrade: 'Fund NAV Performance',
             list: {
-                one: { date: '1 Month' },
-                two: { date: '3 Months' },
-                three: { date: '6 Months' },
-                four: { date: '1 Year' },
-                five: { date: '3 Years' },
-                all: { date: 'All' }
+                0: { date: '1 Month' },
+                1: { date: '3 Months' },
+                2: { date: '6 Months' },
+                3: { date: '1 Year' },
+                4: { date: '3 Years' },
+                5: { date: 'All' }
             }
         }
     },
@@ -72,7 +78,14 @@ export default {
                 5: { date: '全部', key: 6, show: false }
             },
             initChooseList: [],
-            initList: []
+            initList: [],
+            chart: null,
+            chartId: 'myChart',
+            masterShow: false,
+            masterData: {
+                belongDay: '-',
+                netPrice: '-'
+            }
         }
     },
     methods: {
@@ -80,24 +93,24 @@ export default {
             this.active = index
             this.$emit('chooseTime', item.key)
         },
-        draw() {
+        draw(data) {
             let arr = []
             for (let item of this.initEchartList) {
                 arr.push(item.netPrice)
             }
-            let chart = new F2.Chart({
-                id: 'myChart',
+            this.chart = new F2.Chart({
+                id: data,
                 pixelRatio: window.devicePixelRatio,
                 padding: [45, 'auto', 'auto']
             })
-            chart.source(this.initEchartList, {
+            this.chart.source(this.initEchartList, {
                 netPrice: {
                     alias: '今日净值',
                     tickCount: 5,
                     min: Math.min.apply(null, arr) * 0.9,
                     max: Math.max.apply(null, arr) * 1.1,
                     formatter: function formatter(val) {
-                        return val.toFixed(2)
+                        return val
                     }
                 },
                 belongDay: {
@@ -109,24 +122,35 @@ export default {
                     }
                 }
             })
-            chart.axis('netPrice', {
+            this.chart.axis('netPrice', {
                 labelOffset: 20 // 坐标轴文本距离轴线的距离
             })
-            chart.axis('belongDay', {
+            this.chart.axis('belongDay', {
                 line: null,
                 labelOffset: 15 // 坐标轴文本距离轴线的距离
             })
-            chart.tooltip({
-                alwaysShow: false,
-                triggerOn: ['touchstart'], // tooltip 出现的触发行为，可自定义，用法同 legend 的 triggerOn
-                triggerOff: ['touchmove', 'touchend'] // 消失的触发行为，可自定义
+            this.chart.tooltip({
+                showCrosshairs: true,
+                custom: true, // 自定义 tooltip 内容框
+                onChange: obj => {
+                    this.masterData = obj.items[0].origin
+                    // this.masterData.netPrice = Number(
+                    //     this.masterData.netPrice
+                    // ).toFixed(2)
+                    this.masterData.belongDay = dayjs(
+                        this.masterData.belongDay
+                    ).format('YYYY-MM-DD')
+                    this.masterShow = true
+                },
+                onHide: () => {
+                    this.masterShow = false
+                }
             })
-            // chart.tooltip(false)
-            chart
+            this.chart
                 .line()
                 .position('belongDay*netPrice')
                 .color('#518DFE')
-            chart.render()
+            this.chart.render()
         },
         initI18nState() {
             this.active = 0
@@ -142,9 +166,21 @@ export default {
     },
     watch: {
         initEchartList() {
-            this.draw()
+            let cavas = document.createElement('canvas')
+            this.$refs.renderEchart.innerHTML = ''
+            cavas.id = this.chartId
+            this.$refs.renderEchart.appendChild(cavas)
+            let canvaStyle = document.querySelector('#myChart')
+            canvaStyle.style.width = '100%'
+            canvaStyle.style.height = '200px'
+            canvaStyle.margin = '-20px 0 0 0'
+            canvaStyle.transform = 'translateX(-3%)'
+            // setTimeout(() => {
+            this.draw(this.chartId)
+            this.chart.render()
             this.active = this.step
             this.tabShow()
+            // }, 200)
         },
         $route(to, from) {
             if (from.path == '/') {
@@ -154,15 +190,50 @@ export default {
     },
     mounted() {
         this.initI18nState()
-        this.draw()
+        // setTimeout(() => {
+        this.draw(this.chartId)
+        // }, 1000)
     }
 }
 </script>
 <style lang="scss" scoped>
+.fund-echart-header {
+    background: rgba(244, 248, 255, 1);
+    z-index: 99999;
+    padding: 0 10px;
+    width: 100%;
+    left: 0;
+    top: 0;
+    float: left;
+    height: 50px;
+    line-height: 50px;
+    position: absolute;
+    .header-left,
+    .header-right {
+        width: 50%;
+        // line-height: 40px;
+        float: left;
+    }
+    .header-right {
+        text-align: right;
+        span {
+            display: inline-block;
+        }
+        .day {
+            width: 120px;
+            float: right;
+        }
+        .number {
+            line-height: 50px;
+            float: right;
+        }
+    }
+}
 .fund-details-echart {
     margin: 10px 0 0 0;
     width: 100%;
     float: left;
+    position: relative;
     padding: 10px;
     background: $background-color;
     span {
@@ -176,8 +247,6 @@ export default {
             height: 200px !important;
             margin: -20px 0 0 0;
             transform: translateX(-3%);
-
-            // transform: scale(1.09);
         }
     }
     .fund-date-list {
@@ -188,19 +257,26 @@ export default {
         border-right: none;
         .date-item {
             border: 1px solid rgba(235, 235, 235, 1);
-            border-left: 1px solid rgba(235, 235, 235, 1);
+            border-left: none;
             // display: inline-block;
             width: 16.65%;
             text-align: center;
             line-height: 30px;
             height: 30px;
-            border-radius: 2px;
+            // border-radius: 2px;
             font-size: 0.24rem;
             color: $text-color;
             margin: 0;
         }
         .date-item:first-child {
             border-left: 1px solid rgba(235, 235, 235, 1);
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+        .date-item:last-child {
+            border-left: 1px solid rgba(235, 235, 235, 1);
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
         }
         .active {
             background: rgba(25, 25, 25, 0.03);

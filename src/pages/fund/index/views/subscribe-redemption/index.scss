@@ -32,9 +32,10 @@
         background: $background-color;
         display: flex;
         flex-direction: column;
-        font-size: 0.32rem;
+        // font-size: 0.32rem;
         padding: 14px 12px;
         .fond-name {
+            font-size: 0.3rem;
             height: 0.48rem;
             overflow: hidden;
             text-overflow: ellipsis;

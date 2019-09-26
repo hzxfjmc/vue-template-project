@@ -53,7 +53,7 @@ export const i18nTrudeRuleData = {
         tradeTitle: '申购',
         tradeSubTitle: '申购流程',
         redeemTitle: '赎回',
-        redeemSubtitle: '赎回流程',
+        redeemSubtitle: '赎回规则',
         buySubmit: { label: '买入提交' },
         buyConfirm: { label: '确认份额' },
         buyProfitLoss: { label: '查看盈亏' },
@@ -97,7 +97,7 @@ export const i18nTrudeRuleData = {
             label: '确认份额'
         },
         sellProfitLoss: {
-            label: '查看盈亏'
+            label: '资金到账'
         }
     },
     zhCHT: {
@@ -105,7 +105,7 @@ export const i18nTrudeRuleData = {
         managermentLabel: '管理費',
         tradeSubTitle: '申購流程',
         redeemTitle: '贖回',
-        redeemSubtitle: '贖回流程',
+        redeemSubtitle: '贖回规则',
         buySubmit: { label: '買入提交' },
         buyConfirm: { label: '確認份額' },
         buyProfitLoss: { label: '查看盈虧' },
@@ -116,7 +116,7 @@ export const i18nTrudeRuleData = {
             label: '確認份額'
         },
         sellProfitLoss: {
-            label: '查看盈虧'
+            label: '資金到賬'
         },
         tradeList: {
             tradeFrequencyName: {
@@ -157,7 +157,7 @@ export const i18nTrudeRuleData = {
         managermentLabel: 'Management Fee',
         tradeSubTitle: 'Subscription Process',
         redeemTitle: 'Redemption',
-        redeemSubtitle: 'Redemption Process',
+        redeemSubtitle: 'Workflow',
         buySubmit: { label: 'Submit' },
         buyConfirm: { label: 'Allocate Fund Units' },
         buyProfitLoss: { label: 'Check P/L' },
@@ -168,7 +168,7 @@ export const i18nTrudeRuleData = {
             label: 'Allocate Fund Units'
         },
         sellProfitLoss: {
-            label: 'Check P/L'
+            label: 'Deposit'
         },
         tradeList: {
             tradeFrequencyName: {

@@ -3,9 +3,11 @@
         .risk-result-top
             .risk-result__hd
                 p {{$t('resultHd')}}
-            .risk-result__md {{ assessResultName  }}
-            .easy-danger-customer(v-if="damagedStatus===1" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
-            .risk-result-info() {{assessDefinition}}
+            .risk-result__md {{ isExpried? $t('expired') : assessResultName}}
+            .easy-danger-customer(v-if="damagedStatus===1 && !isExpried" @click='showEasyCustomerInfo') 
+                span {{$t('easyDangerCustomer')}}
+                img(src="~@/assets/img/fund/wenhao.png")
+            .risk-result-info(v-if="!isExpried") {{assessDefinition && assessDefinition}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
             van-button(
@@ -22,6 +24,8 @@
             .msg-title {{$t('msgTitle')}}
             .msg-reason(v-for="(item,index) in $t('msgReason')")
                 .item-reason ({{index+1}}) {{item}}
+            .danger-intro {{$t('dangerIntro')}}
+            .to-call-cs {{$t('toCallCS')}}
             .btn-know(@click="showEasyCustomer = false") {{$t('iKnow')}}
         van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toCall'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toClose'):$t('toCancel')" @cancel="callOrCancel(number)" )
             .title {{$t('leastNum')}} {{number}} {{$t('times')}}
@@ -42,7 +46,7 @@ export default {
             lastTime: '上次风评日期：',
             easyDangerCustomer: '易受损客户',
             iKnow: '我知道了',
-            resultTitle: '保守型',
+            resultTitle: '保守型(A1)',
             resultCus: '您为“易受损客户”',
             msgTitle: '什么是“易受损客户”',
             msgReason: [
@@ -57,7 +61,11 @@ export default {
             times: '次',
             toCall: '拨打客服电话',
             toCancel: '取消',
-            toClose: '关闭'
+            toClose: '关闭',
+            expired: '已过期',
+            dangerIntro:
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型（A1）。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         },
         zhCHT: {
             resultHd: '您的風評結果為：',
@@ -65,7 +73,7 @@ export default {
             lastTime: '上次風評日期：',
             easyDangerCustomer: '易受損客戶',
             iKnow: '我知道了',
-            resultTitle: '保守型',
+            resultTitle: '保守型(A1)',
             resultCus: '您為"易受損客戶"',
             msgTitle: '什麼是"易受損客戶"',
             msgReason: [
@@ -80,15 +88,19 @@ export default {
             times: '次',
             toCall: '撥打客服電話',
             toCancel: '取消',
-            toClose: '關閉'
+            toClose: '關閉',
+            expired: '已過期',
+            dangerIntro:
+                '您的資料中，滿足以上任意一項，為“易受損客戶“，“易受損客戶“的風險承受能力為保守型（A1）。',
+            toCallCS: '如果資料有誤需要調整，請聯系客服。'
         },
         en: {
             resultHd: 'Result:',
-            btnText: 'Submit',
+            btnText: 'Assess Again',
             lastTime: 'Last Update:',
             easyDangerCustomer: 'Vulnerable Customer',
             iKnow: 'Got it',
-            resultTitle: 'Conservative',
+            resultTitle: 'Conservative(A1)',
             resultCus: 'You are vulnerable client',
             msgTitle: 'What is vulnerable client',
             msgReason: [
@@ -103,7 +115,12 @@ export default {
             times: 'Times',
             toCall: 'Call CS',
             toCancel: 'Cancel',
-            toClose: 'Close'
+            toClose: 'Close',
+            expired: 'Expired',
+            dangerIntro:
+                'Your information meet any of the above, the risk tolerance of "vulnerable customers" and "vulnerable customers" is conservative (A1).',
+            toCallCS:
+                'If the information is incorrect, please contact customer service for revision.'
         }
     }
 }
@@ -148,6 +165,11 @@ export default {
             min-width: 80px;
             line-height: 25px;
             color: $primary-color-line;
+            img {
+                width: 12px;
+                height: 12px;
+                margin-top: 6px;
+            }
         }
     }
 
@@ -190,6 +212,16 @@ export default {
         @extend .msg-title;
         padding-left: 8px;
         line-height: 22px;
+    }
+    .danger-intro {
+        text-align: left;
+        margin-top: 10px;
+        font-size: 12px;
+    }
+    .to-call-cs {
+        text-align: left;
+        margin-top: 10px;
+        font-size: 12px;
     }
     .btn-know {
         height: 48px;
