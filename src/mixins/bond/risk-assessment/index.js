@@ -2,7 +2,7 @@ import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import {
     riskAssessSubject,
     riskAssessAnswer,
-    getCurrentUser
+    riskAssessResult
 } from '@/service/user-server.js'
 import { RadioGroup, Radio, Panel } from 'vant'
 export default {
@@ -13,38 +13,15 @@ export default {
         [Radio.name]: Radio,
         FixedOperateBtn
     },
-    async created() {
-        if (!this.$route.query.id) {
-            await this.getCurrentUser()
-        }
-        // 拉取测评题目
-        try {
-            let { subject, version } = await riskAssessSubject()
-            let jsonSubject = (subject && JSON.parse(subject)) || []
-            this.subject =
-                jsonSubject.map(subItem => {
-                    // 绑定每个题目的选择项
-                    if (subItem.subject) {
-                        subItem.subject.map(i => {
-                            i.choiceNum = -1
-                        })
-                    } else {
-                        subItem.choiceNum = -1
-                    }
-
-                    return subItem
-                }) || []
-            this.version = version || 0
-        } catch (e) {
-            console.log('riskAssessSubject:error:>>>', e)
-        }
-    },
     data() {
         return {
             subject: [],
             version: 0,
             submitBtnDisabled: true,
-            userInfo: ''
+            userInfo: '',
+            showEasyCustomer: false,
+            assessDefinition: '',
+            canSubmit: false
         }
     },
     computed: {
@@ -87,10 +64,34 @@ export default {
             deep: true
         }
     },
+    async created() {
+        // 拉取测评题目
+        try {
+            let { subject, version } = await riskAssessSubject()
+            let jsonSubject = (subject && JSON.parse(subject)) || []
+            this.subject =
+                jsonSubject.map(subItem => {
+                    // 绑定每个题目的选择项
+                    if (subItem.subject) {
+                        subItem.subject.map(i => {
+                            i.choiceNum = -1
+                        })
+                    } else {
+                        subItem.choiceNum = -1
+                    }
+
+                    return subItem
+                }) || []
+            this.version = version || 0
+        } catch (e) {
+            console.log('riskAssessSubject:error:>>>', e)
+        }
+    },
     methods: {
         // 提交测试题目
         async handleSubmit(action) {
-            if (this.submitBtnDisabled) return
+            if (!this.submitBtnDisabled && this.canSubmit) return
+            this.canSubmit = true
             try {
                 // 构造提交数据
                 let serializeData = this.subject.map(subjectItem => {
@@ -122,48 +123,67 @@ export default {
                 })
                 // 点击提交按钮时候，才进行跳转
                 if (action === 'submit') {
-                    if (this.$route.query.id) {
-                        this.$router.replace({
-                            path: '/risk-appropriate-result',
-                            query: {
-                                id: this.$route.query.id,
-                                currencyType: this.$route.query.currencyType,
-                                fundRiskType: this.$route.query.fundRiskType
-                            }
-                        })
+                    // 拉取风险测评结果
+                    let res = await riskAssessResult()
+                    this.assessDefinition = res.assessDefinition
+                    if (res.damagedStatus === 1) {
+                        this.showEasyCustomer = true
+                        console.log(this.showEasyCustomer)
                     } else {
-                        // 如果不存在 id 等参数，说明是直接从测评结果页跳转的，测试完成，直接跳转出去
-                        this.$router.replace({
-                            path: '/risk-assessment-result'
-                        })
+                        this.jumpToResult()
                     }
                 }
-                console.log('riskAssessAnswer:data:>>> ', assessResult)
+                console.log(assessResult)
             } catch (e) {
+                this.canSubmit = false
                 console.log('riskAssessAnswer:error:>>>', e)
             }
         },
         // 获取用户信息
-        async getCurrentUser() {
-            try {
-                const res = await getCurrentUser()
-                this.userInfo = res
-                console.log(this.userInfo.assessResult, 'assessResult')
-                if (
-                    this.userInfo.assessResult &&
-                    !this.$route.query.notFirstSubmit
-                ) {
-                    window.location.replace(
-                        location.origin +
-                            '/wealth/fund/index.html#/risk-assessment-result'
-                    )
-                    // this.$router.replace({
-                    //     path: '/risk-assessment-result'
-                    // })
-                }
-            } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
+        // async getCurrentUser() {
+        //     try {
+        //         const res = await getCurrentUser()
+        //         this.userInfo = res
+        //         console.log(this.userInfo.assessResult, 'assessResult')
+        //         if (
+        //             this.userInfo.assessResult &&
+        //             !this.$route.query.notFirstSubmit
+        //         ) {
+        //             console.log(this.userInfo.assessResult)
+        //             window.location.replace(
+        //                 location.origin +
+        //                     '/wealth/fund/index.html#/risk-assessment-result'
+        //             )
+        //             // this.$router.replace({
+        //             //     path: '/risk-assessment-result'
+        //             // })
+        //         }
+        //     } catch (e) {
+        //         console.log('getCurrentUser:error:>>>', e)
+        //     }
+        // },
+        // 跳转
+        jumpToResult() {
+            if (this.$route.query.id) {
+                this.$router.replace({
+                    path: '/risk-appropriate-result',
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.$route.query.currencyType,
+                        fundRiskType: this.$route.query.fundRiskType
+                    }
+                })
+            } else {
+                // 如果不存在 id 等参数，说明是直接从测评结果页跳转的，测试完成，直接跳转出去
+                this.$router.replace({
+                    path: '/risk-assessment-result'
+                })
             }
+        },
+        // 关闭弹窗
+        closeEasyCustomer() {
+            this.closeEasyCustomer = false
+            this.jumpToResult()
         }
     }
 }

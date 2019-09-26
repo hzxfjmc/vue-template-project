@@ -1,7 +1,7 @@
 <template lang="pug">
 .funds-details-header
         h3 {{fundHeaderInfoVO.fundName}}
-        p.funds-details-subtitle ISIN {{fundHeaderInfoVO.isin}}
+        p.funds-details-subtitle ISIN：{{fundHeaderInfoVO.isin}}
         .funds-details-number
             .header-left
                 span {{$t('oneYearShow')}}
@@ -104,7 +104,8 @@ export default {
             p {
                 font-size: 0.56rem;
                 font-weight: 500;
-                font-family: DINPro;
+                // font-family: DINPro;
+                font-family: yxFontDINPro-Medium;
             }
             .number-red {
                 color: rgba(234, 61, 61, 1);

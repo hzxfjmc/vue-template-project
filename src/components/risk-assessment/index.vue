@@ -1,7 +1,14 @@
 <template lang="pug">
     yx-container.risk-assessment-wrapper
         .risk-assessment-tips(slot="top") 
-            .content {{$t('riskAssessmentTips')}}
+            .content 
+                .top
+                    span.quotes 
+                    span.text {{$t('riskAssessmentTipsTop')}}
+                .bottom 
+                    .span {{$t('riskAssessmentTipsBottom')}}
+                    span.only-once {{$t('onlyOnce')}}
+                    span {{$t('riskAgainText')}}
         .risk-assessment-form(slot="main")
             van-panel(
                 v-for="(subjectItem, subjectIndex) in subject"
@@ -45,9 +52,20 @@
                                             slot-scope="props"
                                             :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                         )
+            van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
+                .title {{$t('resultTitle') }}
+                .msg-info {{assessDefinition && assessDefinition}}
+                .msg-result {{$t('resultCus')}}
+                .msg-title {{$t('msgTitle')}}
+                .msg-reason(v-for="(item,index) in $t('msgReason')")
+                    .item-reason ({{index+1}}) {{item}}
+                .danger-intro {{$t('dangerIntro')}}
+                .to-call-cs {{$t('toCallCS')}}
+                .btn-know(@click="closeEasyCustomer") {{$t('iKnow')}}
         .van-bottom-btn(slot="bottom")
             van-button.btn(type="info" round size="large" :disabled="submitBtnDisabled" @click="handleSubmit('submit')"
             :class="{ active: !submitBtnDisabled }") {{$t('btnText')}}
+
 </template>
 
 <script>
@@ -56,19 +74,68 @@ export default {
     mixins: [riskAssessmentMixin],
     i18n: {
         zhCHS: {
-            riskAssessmentTips:
-                '友信智投致力于为全球用户提供更好的个人金融服务，为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的',
-            btnText: '提交测评'
+            riskAssessmentTipsTop:
+                '友信智投致力于为全球用户提供更好的个人金融服务，为了您能获得更匹配的金融产品和服务，了解您的风险能力和取向是非常必要的。',
+            riskAssessmentTipsBottom:
+                '完成问卷用时约2分钟，请依据您的实际情况回答，每半年',
+            onlyOnce: '仅有一次',
+            riskAgainText: '重新测评机会。',
+            btnText: '提交测评',
+            easyDangerCustomer: '易受损客户',
+            iKnow: '我知道了',
+            resultTitle: '保守型(A1)',
+            resultCus: '您为“易受损客户”',
+            msgTitle: '什么是“易受损客户”',
+            msgReason: [
+                '65岁或以上；或',
+                '教育程度在小学或以下；或',
+                '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
+            ],
+            dangerIntro:
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         },
         zhCHT: {
-            riskAssessmentTips:
-                '友信智投致力於為全球用戶提供更好的個人金融服務，為了給您提供更匹配的金融產品和服務，了解您的風險能力和偏好是非常必要的',
-            btnText: '提交測評'
+            riskAssessmentTipsTop:
+                '友信智投致力於為全球用戶提供更好的個人金融服務，為了您能獲得更匹配的金融產品和服務，了解您的風險能力和取向是非常必要的。',
+            riskAssessmentTipsBottom:
+                '完成問卷用時約2分鐘，請依據您的實際情況回答，每半年',
+            onlyOnce: '僅有一次',
+            riskAgainText: '重新測評機會。',
+            btnText: '提交測評',
+            iKnow: '我知道了',
+            resultTitle: '保守型(A1)',
+            resultCus: '您為"易受損客戶"',
+            msgTitle: '什麼是"易受損客戶"',
+            msgReason: [
+                '65歲或以上；或',
+                '教育程度在小學或以下；或',
+                '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
+            ],
+            dangerIntro:
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         },
         en: {
-            riskAssessmentTips:
-                'Friendship Intelligence Investment is committed to providing better personal financial services for global users. In order to provide you with more matching financial products and services, it is necessary to understand your risk capabilities and preferences.',
-            btnText: 'Submit'
+            riskAssessmentTipsTop: `uSMART is dedicated to bring personal financial services to the world.
+This assessment is important to know about your investment risk profile for choosing suitable products.`,
+            riskAssessmentTipsBottom:
+                'Please take 2 mins to complete assessment, you have',
+            onlyOnce: 'only one chance',
+            riskAgainText: 'to reassess every half-year.',
+            btnText: 'Submit',
+            iKnow: 'Got it',
+            resultTitle: 'Conservative(A1)',
+            resultCus: 'You are vulnerable client',
+            msgTitle: 'What is vulnerable client',
+            msgReason: [
+                '65 years or older, or',
+                'level of education is equal to or below primary school level, or',
+                'retired and annual income < HK$ 200,000 and net asset value < HK$ 500,000'
+            ],
+            dangerIntro:
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         }
     }
 }
@@ -80,12 +147,43 @@ export default {
     font-family: 'PingFang SC';
     .risk-assessment-tips {
         background-color: #fff;
+        padding: 14px 10px 0;
+        position: relative;
         .content {
+            background: rgba(238, 244, 255, 1);
+            box-shadow: 0px 2px 6px 0px rgba(57, 57, 57, 0.05);
+            border-radius: 6px;
             padding: 5px 8px 5px 12px;
-            background-color: rgba(255, 172, 79, 0.2);
-            color: $risk-background-color;
             font-size: 0.28rem;
             line-height: 20px;
+            .top {
+                color: $primary-color-line;
+                .quotes {
+                    display: inline-block;
+                    width: 31px;
+                    height: 24px;
+                    background: url('~@/assets/img/fund/@2x.png') center
+                        no-repeat;
+                    background-size: contain;
+                    margin-right: 10px;
+                }
+                .text {
+                    font-size: 14px;
+                    font-family: PingFangSC-Medium, PingFangSC;
+                    font-weight: 600;
+                    color: $primary-color-line;
+                    line-height: 24px;
+                }
+            }
+            .bottom {
+                font-size: 12px;
+                color: $text-color3;
+                line-height: 18px;
+                .only-once {
+                    color: $text-color5;
+                    font-weight: 600;
+                }
+            }
         }
     }
     .risk-assessment-form {
@@ -141,9 +239,6 @@ export default {
             &[disabled='disabled'] {
                 background-color: $disabled-color;
             }
-            // &.active {
-            //     background-color: $primary-color;
-            // }
         }
     }
     #child-title {
@@ -156,6 +251,57 @@ export default {
         &:nth-of-type(2) {
             border-bottom: none;
         }
+    }
+}
+.easy-customer-container {
+    padding: 20px 16px;
+    text-align: center;
+
+    .title {
+        font-size: 20px;
+        color: $primary-color-line;
+        line-height: 20px;
+        margin-bottom: 13px;
+    }
+    .msg-info {
+        font-size: 12px;
+        color: $primary-color-line;
+        margin-bottom: 17px;
+        text-align: left;
+    }
+    .msg-result {
+        font-size: 18px;
+        color: $primary-color-line;
+        text-align: left;
+        margin-bottom: 12px;
+    }
+    .msg-title {
+        font-size: 14px;
+        color: $text-color5;
+        text-align: left;
+    }
+    .msg-reason {
+        @extend .msg-title;
+        padding-left: 8px;
+        line-height: 22px;
+    }
+    .danger-intro {
+        text-align: left;
+        margin-top: 10px;
+        font-size: 12px;
+    }
+    .to-call-cs {
+        text-align: left;
+        margin-top: 10px;
+        font-size: 12px;
+    }
+    .btn-know {
+        height: 48px;
+        background: $primary-color;
+        border-radius: 6px;
+        color: $background-color;
+        line-height: 48px;
+        margin-top: 19px;
     }
 }
 </style>

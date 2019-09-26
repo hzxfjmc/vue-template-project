@@ -40,7 +40,6 @@ export default {
                     fundId: this.$route.query.id
                 })
                 for (let key in this.list) {
-                    console.log(fundHeaderInfoVO)
                     this.list[key].value =
                         key == 'fundSize'
                             ? `${
@@ -49,6 +48,14 @@ export default {
                                   fundOverviewInfoVO[key]
                               )}`
                             : fundOverviewInfoVO[key]
+                    if (key == 'fundRisk') {
+                        this.list[
+                            key
+                        ].value = `A${fundHeaderInfoVO.fundRiskType} ${fundOverviewInfoVO[key]}`
+                    }
+                    if (key == 'fundNameCn') {
+                        this.list[key].value = fundHeaderInfoVO.fundName
+                    }
                 }
                 setTimeout(() => {
                     this.initOffsetHeight()

@@ -14,22 +14,23 @@
                     .right {{ currency }}
                 .buy-row
                     .left {{ $t('availableBalance') }}
-                    .right(class="number") {{ withdrawBalance | formatCurrency }}
+                    .right(class="number") {{ withdrawBalance | interceptTwo | formatCurrency }}
                 .buy-row(class="border-bottom")
                     .left {{ $t('buyMonny') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | formatCurrency }}
-                        p {{ $t('continueBalance') }}{{ continueInvestAmount | formatCurrency }}
+                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | interceptTwo | formatCurrency }}
+                        p {{ $t('continueBalance') }}{{ continueInvestAmount | interceptTwo | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny" :disabled="withdrawBalance === 0")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 10px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFeeScale  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | formatCurrency }}
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | interceptTwo | formatCurrency }}
                 a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 《{{ buyProtocolFileName }}》
+                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 
+                        span(v-show="buyProtocolFileName") 《{{ buyProtocolFileName }}》
                     .right(style="text-align: right; width: 35%") {{ predictDay }}
 
             FundSteps(

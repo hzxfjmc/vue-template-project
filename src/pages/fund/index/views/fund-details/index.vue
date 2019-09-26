@@ -44,7 +44,6 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPosition } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
-import localStorage from '../../../../../utils/local-storage'
 
 export default {
     i18n: {
@@ -64,7 +63,7 @@ export default {
             append: 'Incremental'
         }
     },
-    keepalive: true,
+    // keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
@@ -226,6 +225,7 @@ export default {
             }
         },
         getSwitchFundNetPrice(time) {
+            this.initEchartList = []
             let count = Math.ceil(this.copyinitEchartList.length / 22)
             switch (time) {
                 case 1:
@@ -295,6 +295,9 @@ export default {
                     this.step = 5
                 }
                 this.initEchartList.map(item => {
+                    item.netPrice = (
+                        Math.floor(Number(item.netPrice) * 100) / 100
+                    ).toFixed(2)
                     item.netPrice = Number(item.netPrice)
                 })
             } catch (e) {
@@ -370,36 +373,30 @@ export default {
                         : '/open-permissions'
                 this.$router.push(data)
             }
-        },
-        menu() {
-            this.scroll = this.$refs.content.scrollTop
-        },
-        scrollTop() {
-            this.$refs.content.scrollTop = localStorage.get('scroll')
         }
+        // menu() {
+        //     this.scroll = this.$refs.content.scrollTop
+        // },
+        // scrollTop() {
+        //      this.$refs.content.scrollTop = localStorage.get('scroll')
+        // }
     },
     mounted() {
         this.getCurrentUser()
         this.getFundNetPrice()
         this.getFundDetail()
         this.getFundPosition()
-        document
-            .querySelector('.fund-content')
-            .addEventListener('scroll', this.menu)
-    },
-    watch: {
-        $route(to, from) {
-            if (from.path == '/') {
-                this.getCurrentUser()
-                this.getFundNetPrice()
-                this.getFundDetail()
-                this.getFundPosition()
-            } else if (from.path == '/risk-appropriate-result') {
-                this.getCurrentUser()
-            } else {
-                this.scrollTop()
-            }
-        }
+        // if (localStorage.get('scrollFlag') == 2) {
+        //     document
+        //         .querySelector('.fund-content')
+        //         .addEventListener('scroll', this.menu)
+        //     this.scrollTop()
+        // } else {
+        //     document
+        //         .querySelector('.fund-content')
+        //         .addEventListener('scroll', this.menu)
+        // }
+        // localStorage.put('scrollFlag', 1)
     }
 }
 </script>
