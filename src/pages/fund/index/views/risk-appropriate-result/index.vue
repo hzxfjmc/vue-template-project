@@ -12,4 +12,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.risk-appropriate-result-wrapper {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+</style>
