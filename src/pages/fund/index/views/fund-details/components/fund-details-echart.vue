@@ -7,7 +7,8 @@
             .header-right 
                 span.number {{masterData.netPrice}}
                 p.day 今日净值： 
-        canvas(:id="myChart")
+        .fund-echart-render(ref="renderEchart")
+            canvas(:id="chartId")
     .fund-date-list
         div.date-item(
             v-for="(item,index) of list" 
@@ -79,7 +80,7 @@ export default {
             initChooseList: [],
             initList: [],
             chart: null,
-            myChart: 'myChart',
+            chartId: 'myChart',
             masterShow: false,
             masterData: {
                 belongDay: '-',
@@ -92,13 +93,13 @@ export default {
             this.active = index
             this.$emit('chooseTime', item.key)
         },
-        draw() {
+        draw(data) {
             let arr = []
             for (let item of this.initEchartList) {
                 arr.push(item.netPrice)
             }
             this.chart = new F2.Chart({
-                id: this.myChart,
+                id: data,
                 pixelRatio: window.devicePixelRatio,
                 padding: [45, 'auto', 'auto']
             })
@@ -106,11 +107,11 @@ export default {
                 netPrice: {
                     alias: '今日净值',
                     tickCount: 5,
+                    min: Math.min.apply(null, arr) * 0.9,
                     max: Math.max.apply(null, arr) * 1.1,
-                    min: Math.min.apply(null, arr) * 0.9
-                    // formatter: function formatter(val) {
-                    //     return val.toFixed(2)
-                    // }
+                    formatter: function formatter(val) {
+                        return val
+                    }
                 },
                 belongDay: {
                     type: 'timeCat',
@@ -129,7 +130,6 @@ export default {
                 labelOffset: 15 // 坐标轴文本距离轴线的距离
             })
             this.chart.tooltip({
-                // alwaysShow: false,
                 showCrosshairs: true,
                 custom: true, // 自定义 tooltip 内容框
                 onChange: obj => {
@@ -146,11 +146,11 @@ export default {
                     this.masterShow = false
                 }
             })
-            // chart.tooltip(false)
             this.chart
                 .line()
                 .position('belongDay*netPrice')
                 .color('#518DFE')
+            this.chart.render()
         },
         initI18nState() {
             this.active = 0
@@ -166,12 +166,21 @@ export default {
     },
     watch: {
         initEchartList() {
-            this.draw()
-            setTimeout(() => {
-                this.chart.render()
-                this.active = this.step
-                this.tabShow()
-            }, 200)
+            let cavas = document.createElement('canvas')
+            this.$refs.renderEchart.innerHTML = ''
+            cavas.id = this.chartId
+            this.$refs.renderEchart.appendChild(cavas)
+            let canvaStyle = document.querySelector('#myChart')
+            canvaStyle.style.width = '100%'
+            canvaStyle.style.height = '200px'
+            canvaStyle.margin = '-20px 0 0 0'
+            canvaStyle.transform = 'translateX(-3%)'
+            // setTimeout(() => {
+            this.draw(this.chartId)
+            // this.chart.render()
+            this.active = this.step
+            this.tabShow()
+            // }, 200)
         },
         $route(to, from) {
             if (from.path == '/') {
@@ -181,28 +190,29 @@ export default {
     },
     mounted() {
         this.initI18nState()
-        this.draw()
+        // setTimeout(() => {
+        this.draw(this.chartId)
+        // }, 1000)
     }
 }
 </script>
 <style lang="scss" scoped>
 .fund-echart-header {
-    background: #eaf1ff;
+    background: rgba(244, 248, 255, 1);
     z-index: 99999;
     padding: 0 10px;
     width: 100%;
     left: 0;
     top: 0;
     float: left;
-    height: 40px;
-    line-height: 40px;
+    height: 50px;
+    line-height: 50px;
     position: absolute;
     .header-left,
     .header-right {
         width: 50%;
+        // line-height: 40px;
         float: left;
-        font-size: 0.24rem;
-        font-family: PingFangSC-Regular, PingFangSC;
     }
     .header-right {
         text-align: right;
@@ -214,7 +224,7 @@ export default {
             float: right;
         }
         .number {
-            line-height: 40px;
+            line-height: 50px;
             float: right;
         }
     }
@@ -260,6 +270,13 @@ export default {
         }
         .date-item:first-child {
             border-left: 1px solid rgba(235, 235, 235, 1);
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
+        }
+        .date-item:last-child {
+            border-left: 1px solid rgba(235, 235, 235, 1);
+            border-top-left-radius: 2px;
+            border-bottom-left-radius: 2px;
         }
         .active {
             background: rgba(25, 25, 25, 0.03);
