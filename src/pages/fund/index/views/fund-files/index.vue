@@ -71,7 +71,7 @@ export default {
 .fund-files {
     height: 100%;
     display: flex;
-    background: #fff;
+    // background: #fff;
     flex-direction: column;
     // justify-content: center;
     // align-items: center;
