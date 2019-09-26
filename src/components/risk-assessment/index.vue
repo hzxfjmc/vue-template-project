@@ -52,17 +52,20 @@
                                             slot-scope="props"
                                             :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                         )
+            van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
+                .title {{$t('resultTitle') }}
+                .msg-info {{assessDefinition && assessDefinition}}
+                .msg-result {{$t('resultCus')}}
+                .msg-title {{$t('msgTitle')}}
+                .msg-reason(v-for="(item,index) in $t('msgReason')")
+                    .item-reason ({{index+1}}) {{item}}
+                .danger-intro {{$t('dangerIntro')}}
+                .to-call-cs {{$t('toCallCS')}}
+                .btn-know(@click="closeEasyCustomer") {{$t('iKnow')}}
         .van-bottom-btn(slot="bottom")
             van-button.btn(type="info" round size="large" :disabled="submitBtnDisabled" @click="handleSubmit('submit')"
             :class="{ active: !submitBtnDisabled }") {{$t('btnText')}}
-        van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
-            .title {{$t('resultTitle') }}
-            .msg-info {{assessDefinition && assessDefinition}}
-            .msg-result {{$t('resultCus')}}
-            .msg-title {{$t('msgTitle')}}
-            .msg-reason(v-for="(item,index) in $t('msgReason')")
-                .item-reason ({{index+1}}) {{item}}
-            .btn-know(@click="closeEasyCustomer") {{$t('iKnow')}}
+
 </template>
 
 <script>
@@ -87,7 +90,10 @@ export default {
                 '65岁或以上；或',
                 '教育程度在小学或以下；或',
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
-            ]
+            ],
+            dangerIntro:
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         },
         zhCHT: {
             riskAssessmentTipsTop:
@@ -105,7 +111,10 @@ export default {
                 '65歲或以上；或',
                 '教育程度在小學或以下；或',
                 '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
-            ]
+            ],
+            dangerIntro:
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         },
         en: {
             riskAssessmentTipsTop: `uSMART is dedicated to bring personal financial services to the world.
@@ -123,7 +132,10 @@ This assessment is important to know about your investment risk profile for choo
                 '65 years or older, or',
                 'level of education is equal to or below primary school level, or',
                 'retired and annual income < HK$ 200,000 and net asset value < HK$ 500,000'
-            ]
+            ],
+            dangerIntro:
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         }
     }
 }
@@ -239,6 +251,57 @@ This assessment is important to know about your investment risk profile for choo
         &:nth-of-type(2) {
             border-bottom: none;
         }
+    }
+}
+.easy-customer-container {
+    padding: 20px 16px;
+    text-align: center;
+
+    .title {
+        font-size: 20px;
+        color: $primary-color-line;
+        line-height: 20px;
+        margin-bottom: 13px;
+    }
+    .msg-info {
+        font-size: 12px;
+        color: $primary-color-line;
+        margin-bottom: 17px;
+        text-align: left;
+    }
+    .msg-result {
+        font-size: 18px;
+        color: $primary-color-line;
+        text-align: left;
+        margin-bottom: 12px;
+    }
+    .msg-title {
+        font-size: 14px;
+        color: $text-color5;
+        text-align: left;
+    }
+    .msg-reason {
+        @extend .msg-title;
+        padding-left: 8px;
+        line-height: 22px;
+    }
+    .danger-intro {
+        text-align: left;
+        margin-top: 10px;
+        font-size: 12px;
+    }
+    .to-call-cs {
+        text-align: left;
+        margin-top: 10px;
+        font-size: 12px;
+    }
+    .btn-know {
+        height: 48px;
+        background: $primary-color;
+        border-radius: 6px;
+        color: $background-color;
+        line-height: 48px;
+        margin-top: 19px;
     }
 }
 </style>

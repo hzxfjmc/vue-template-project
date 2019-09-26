@@ -2,8 +2,7 @@ import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import {
     riskAssessSubject,
     riskAssessAnswer,
-    riskAssessResult,
-    getCurrentUser
+    riskAssessResult
 } from '@/service/user-server.js'
 import { RadioGroup, Radio, Panel } from 'vant'
 export default {
@@ -24,14 +23,6 @@ export default {
             assessDefinition: '',
             canSubmit: false
         }
-    },
-    beforeRouteEnter(to, from, next) {
-        next(vm => {
-            console.log(vm, '001')
-            if (!vm.$route.query.id) {
-                vm.getCurrentUser()
-            }
-        })
     },
     computed: {
         titleI18n() {
@@ -99,8 +90,9 @@ export default {
     methods: {
         // 提交测试题目
         async handleSubmit(action) {
+            if (!this.submitBtnDisabled && this.canSubmit) return
+            this.canSubmit = true
             try {
-                if (this.submitBtnDisabled && this.canSubmit) return
                 // 构造提交数据
                 let serializeData = this.subject.map(subjectItem => {
                     if (subjectItem.subject) {
@@ -129,48 +121,47 @@ export default {
                     assessOptionParams: serializeData,
                     subjectVersion: this.version
                 })
-                this.canSubmit = true
                 // 点击提交按钮时候，才进行跳转
                 if (action === 'submit') {
                     // 拉取风险测评结果
                     let res = await riskAssessResult()
-                    this.canSubmit = true
                     this.assessDefinition = res.assessDefinition
                     if (res.damagedStatus === 1) {
                         this.showEasyCustomer = true
+                        console.log(this.showEasyCustomer)
                     } else {
                         this.jumpToResult()
                     }
                 }
                 console.log(assessResult)
             } catch (e) {
+                this.canSubmit = false
                 console.log('riskAssessAnswer:error:>>>', e)
             }
         },
         // 获取用户信息
-        async getCurrentUser() {
-            try {
-                const res = await getCurrentUser()
-                this.userInfo = res
-                console.log(this.userInfo.assessResult, 'assessResult')
-                if (
-                    this.userInfo.assessResult &&
-                    !this.$route.query.notFirstSubmit
-                ) {
-                    console.log(this.userInfo.assessResult)
-
-                    window.location.replace(
-                        location.origin +
-                            '/wealth/fund/index.html#/risk-assessment-result'
-                    )
-                    // this.$router.replace({
-                    //     path: '/risk-assessment-result'
-                    // })
-                }
-            } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
-            }
-        },
+        // async getCurrentUser() {
+        //     try {
+        //         const res = await getCurrentUser()
+        //         this.userInfo = res
+        //         console.log(this.userInfo.assessResult, 'assessResult')
+        //         if (
+        //             this.userInfo.assessResult &&
+        //             !this.$route.query.notFirstSubmit
+        //         ) {
+        //             console.log(this.userInfo.assessResult)
+        //             window.location.replace(
+        //                 location.origin +
+        //                     '/wealth/fund/index.html#/risk-assessment-result'
+        //             )
+        //             // this.$router.replace({
+        //             //     path: '/risk-assessment-result'
+        //             // })
+        //         }
+        //     } catch (e) {
+        //         console.log('getCurrentUser:error:>>>', e)
+        //     }
+        // },
         // 跳转
         jumpToResult() {
             if (this.$route.query.id) {
