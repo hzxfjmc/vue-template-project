@@ -143,6 +143,8 @@ This assessment is important to know about your investment risk profile for choo
 
 <style lang="scss" scoped>
 .risk-assessment-wrapper.yx-container {
+    display: flex;
+    flex-direction: column;
     background-color: $text-color8;
     font-family: 'PingFang SC';
     .risk-assessment-tips {
