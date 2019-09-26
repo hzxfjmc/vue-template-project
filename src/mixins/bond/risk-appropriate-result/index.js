@@ -20,6 +20,15 @@ export default {
                     'Resert on 1st January, ' +
                     dayjs(this.resetTime).format('YYYY')
             }[this.$i18n.lang]
+        },
+        btnText() {
+            if (this.userRiskLevel === 0) {
+                return this.$t('startRisk')
+            } else if (this.userRiskLevel < this.bondRiskLevel) {
+                return this.$t('againRisk')
+            } else {
+                return this.$t('sure')
+            }
         }
     },
     created() {
@@ -40,7 +49,7 @@ export default {
             userRiskLevel: 0, // 用户风险测评等级
             assessResultName: '', //测评结果文案
             bondRiskLevel: this.$route.query.fundRiskType || 100, // 债券/基金风险等级
-            btnText: '',
+            // btnText: '',
             isShowPage: false,
             userInfo: '',
             fundCode: '',
