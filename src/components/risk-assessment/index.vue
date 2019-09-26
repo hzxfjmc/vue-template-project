@@ -148,6 +148,7 @@ This assessment is important to know about your investment risk profile for choo
     background-color: $text-color8;
     font-family: 'PingFang SC';
     .risk-assessment-tips {
+        height: 153px;
         background-color: #fff;
         padding: 14px 10px 0;
         position: relative;
@@ -189,6 +190,7 @@ This assessment is important to know about your investment risk profile for choo
         }
     }
     .risk-assessment-form {
+        flex: 1;
         .van-panel {
             margin-bottom: 10px;
             padding-bottom: 10px;
@@ -228,12 +230,9 @@ This assessment is important to know about your investment risk profile for choo
         }
     }
     .van-bottom-btn {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
         height: 48px;
         background-color: #fff;
+        z-index: 10;
         .btn {
             width: 100%;
             height: 100%;

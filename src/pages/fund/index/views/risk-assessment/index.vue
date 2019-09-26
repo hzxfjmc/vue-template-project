@@ -41,4 +41,10 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.risk-assessment-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+</style>
