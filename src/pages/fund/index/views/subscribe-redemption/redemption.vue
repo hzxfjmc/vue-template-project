@@ -28,7 +28,8 @@
                 a.submit.gray(v-if="redemptionShare === null || redemptionShare === '' || positionShare === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
-                    a.left(:href="sellProtocol" style="width: 65%") 《{{ sellProtocolFileName }}》
+                    a.left(:href="sellProtocol" style="width: 65%") 
+                        span(v-show="sellProtocolFileName") 《{{ sellProtocolFileName }}》
                     .right(style="text-align: right;  width: 35%") {{ predictDay }}
 
             FundSteps(

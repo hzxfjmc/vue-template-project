@@ -4,7 +4,9 @@
             .risk-result__hd
                 p {{$t('resultHd')}}
             .risk-result__md {{ isExpried? $t('expired') : assessResultName}}
-            .easy-danger-customer(v-if="damagedStatus===1 && !isExpried" @click='showEasyCustomerInfo') {{$t('easyDangerCustomer')}}
+            .easy-danger-customer(v-if="damagedStatus===1 && !isExpried" @click='showEasyCustomerInfo') 
+                span {{$t('easyDangerCustomer')}}
+                img(src="~@/assets/img/fund/wenhao.png")
             .risk-result-info(v-if="!isExpried") {{assessDefinition && assessDefinition}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
@@ -162,6 +164,11 @@ export default {
             min-width: 80px;
             line-height: 25px;
             color: $primary-color-line;
+            img {
+                width: 12px;
+                height: 12px;
+                margin-top: 6px;
+            }
         }
     }
 
