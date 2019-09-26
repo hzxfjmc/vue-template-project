@@ -92,8 +92,8 @@ export default {
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             dangerIntro:
-                '您的资料中,满足以上任意一项,为“易受损客户”,“易受损客户”的风评为保守型(A1)。',
-            toCallCS: '如果资料有误需要调整,请联系客服。'
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         },
         zhCHT: {
             riskAssessmentTipsTop:
@@ -113,8 +113,8 @@ export default {
                 '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
             ],
             dangerIntro:
-                '您的资料中,满足以上任意一项，为“易受损客户”,“易受损客户”的风评为保守型(A1)。',
-            toCallCS: '如果资料有误需要调整,请联系客服。'
+                '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型(A1)。',
+            toCallCS: '如果资料有误需要调整，请联系客服。'
         },
         en: {
             riskAssessmentTipsTop: `uSMART is dedicated to bring personal financial services to the world.
