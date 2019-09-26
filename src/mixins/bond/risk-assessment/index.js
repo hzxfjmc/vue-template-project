@@ -2,8 +2,7 @@ import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
 import {
     riskAssessSubject,
     riskAssessAnswer,
-    riskAssessResult,
-    getCurrentUser
+    riskAssessResult
 } from '@/service/user-server.js'
 import { RadioGroup, Radio, Panel } from 'vant'
 export default {
@@ -141,28 +140,28 @@ export default {
             }
         },
         // 获取用户信息
-        async getCurrentUser() {
-            try {
-                const res = await getCurrentUser()
-                this.userInfo = res
-                console.log(this.userInfo.assessResult, 'assessResult')
-                if (
-                    this.userInfo.assessResult &&
-                    !this.$route.query.notFirstSubmit
-                ) {
-                    console.log(this.userInfo.assessResult)
-                    window.location.replace(
-                        location.origin +
-                            '/wealth/fund/index.html#/risk-assessment-result'
-                    )
-                    // this.$router.replace({
-                    //     path: '/risk-assessment-result'
-                    // })
-                }
-            } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
-            }
-        },
+        // async getCurrentUser() {
+        //     try {
+        //         const res = await getCurrentUser()
+        //         this.userInfo = res
+        //         console.log(this.userInfo.assessResult, 'assessResult')
+        //         if (
+        //             this.userInfo.assessResult &&
+        //             !this.$route.query.notFirstSubmit
+        //         ) {
+        //             console.log(this.userInfo.assessResult)
+        //             window.location.replace(
+        //                 location.origin +
+        //                     '/wealth/fund/index.html#/risk-assessment-result'
+        //             )
+        //             // this.$router.replace({
+        //             //     path: '/risk-assessment-result'
+        //             // })
+        //         }
+        //     } catch (e) {
+        //         console.log('getCurrentUser:error:>>>', e)
+        //     }
+        // },
         // 跳转
         jumpToResult() {
             if (this.$route.query.id) {
@@ -185,11 +184,6 @@ export default {
         closeEasyCustomer() {
             this.closeEasyCustomer = false
             this.jumpToResult()
-        },
-        judge() {
-            if (!this.$route.query.id) {
-                this.getCurrentUser()
-            }
         }
     }
 }
