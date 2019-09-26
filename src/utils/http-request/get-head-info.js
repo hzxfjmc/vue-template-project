@@ -2,6 +2,7 @@ import config from '@/utils/config'
 import JSBridge from '@/utils/js-bridge'
 import { isAndroid, isIOS, isYouxinApp, getUaValue } from '../html-utils'
 import domain from '../DOMAIN'
+import { compareVersion } from '@/utils/tools'
 const uuid = getUaValue('uuid')
 let version = getUaValue('appVersion')
 let langType = getUaValue('langType')
@@ -39,7 +40,7 @@ export default async () => {
             XUid = '318439107153240064'
             data['X-Uid'] = XUid
         }
-        if (version >= '1.7.0') {
+        if (compareVersion(version, '1.7.0') > -1) {
             // X-Token，安全渗透，版本大于等于 1.7.0 时候加入 header
             let data = await JSBridge.callApp('get_http_sign')
             data['X-Token'] = data.xToken
