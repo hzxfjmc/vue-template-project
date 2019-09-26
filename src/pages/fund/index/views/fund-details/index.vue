@@ -139,13 +139,6 @@ export default {
                     }
                 })
             }
-            this.$router.push({
-                path: routerPath,
-                query: {
-                    id: this.$route.query.id,
-                    currencyType: this.fundTradeInfoVO.currency.type
-                }
-            })
         },
         //获取基金详情
         async getFundDetail() {
