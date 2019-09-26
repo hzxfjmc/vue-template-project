@@ -74,7 +74,7 @@ export const i18nHoldDetailsData = {
                 label: '持有份額'
             },
             positionMarketValue: {
-                label: '待確認金額'
+                label: '持有市值'
             },
             inTransitAmount: {
                 label: '待確認金額'
