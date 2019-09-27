@@ -110,6 +110,7 @@ export default {
         //跳转
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
+                console.log('追加')
                 this.handleBuyOrSell()
                 // if (!this.flag1) return
                 // console.log(312312)
@@ -130,15 +131,14 @@ export default {
                 // }
             } else {
                 if (!this.flag) return
+                this.$router.push({
+                    path: routerPath,
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.fundTradeInfoVO.currency.type
+                    }
+                })
             }
-
-            this.$router.push({
-                path: routerPath,
-                query: {
-                    id: this.$route.query.id,
-                    currencyType: this.fundTradeInfoVO.currency.type
-                }
-            })
         },
         //获取基金详情
         async getFundDetail() {
@@ -209,18 +209,6 @@ export default {
                     this.holdDetailsShow = true
                 } else {
                     this.holdDetailsShow = false
-                }
-                for (let key in this.holdInitState) {
-                    if (key != 'positionStatus') {
-                        let flag = this.holdInitState < 0
-                        this.holdInitState[key] = (
-                            Math.floor(Number(this.holdInitState[key]) * 100) /
-                            100
-                        ).toFixed(2)
-                        if (flag) {
-                            this.holdInitState[key] = -this.holdInitState[key]
-                        }
-                    }
                 }
             } catch (e) {
                 console.log('getFundPosition:error:>>>', e)

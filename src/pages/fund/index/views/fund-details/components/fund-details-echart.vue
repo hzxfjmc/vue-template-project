@@ -85,7 +85,8 @@ export default {
             masterData: {
                 belongDay: '-',
                 netPrice: '-'
-            }
+            },
+            flag: true
         }
     },
     methods: {
@@ -95,6 +96,7 @@ export default {
         },
         draw(data) {
             let arr = []
+            let timer = false
             for (let item of this.initEchartList) {
                 arr.push(item.netPrice)
             }
@@ -141,9 +143,15 @@ export default {
                         this.masterData.belongDay
                     ).format('YYYY-MM-DD')
                     this.masterShow = true
+                    this.flag = true
                 },
                 onHide: () => {
-                    this.masterShow = false
+                    clearTimeout(timer) // 清除未执行的代码，重置回初始化状态
+                    timer = setTimeout(() => {
+                        // console.log('函数防抖')
+                        this.masterShow = false
+                        console.log(1)
+                    }, 3000)
                 }
             })
             this.chart
@@ -177,7 +185,7 @@ export default {
             canvaStyle.transform = 'translateX(-3%)'
             // setTimeout(() => {
             this.draw(this.chartId)
-            // this.chart.render()
+            this.chart.render()
             this.active = this.step
             this.tabShow()
             // }, 200)
