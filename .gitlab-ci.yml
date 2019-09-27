@@ -8,7 +8,7 @@ variables:
   project: wealth
   targetpage: webapp
   gitRep: wealth
-  hostName: m_yxzq_com
+  proRep: m_yxzq_com-wealth
 
 dev:
   stage: dev
