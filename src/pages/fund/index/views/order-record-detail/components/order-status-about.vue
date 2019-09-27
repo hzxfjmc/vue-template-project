@@ -9,12 +9,12 @@
                         .begin-time
                             img(src="@/assets/img/fund/clock.png")
                             span {{$t('estimate')}} 
-                            span {{surePositionBeginTime}} 
+                            span {{tradeType===1?sureNetWorthBeginTime:surePositionBeginTime}} 
                         .left-line
                         .end-time
                             i(class="dot")
                             span {{$t('estimate')}} 
-                            span {{surePositionEndTime}} 
+                            span {{tradeType===1?sureNetWorthEndTime: surePositionEndTime}} 
 </template>
 
 <script>
@@ -23,6 +23,10 @@ export default {
     name: 'order-status-about',
     props: {
         orderStatus: {
+            type: Number,
+            default: 0
+        },
+        tradeType: {
             type: Number,
             default: 0
         },
@@ -66,7 +70,22 @@ export default {
         differenceColor() {
             return differColor(this.orderStatus)
         },
-        // 确认份额日多语言
+        // 申购时确认份额日多语言
+        sureNetWorthBeginTime() {
+            return {
+                zhCHS: `${this.beginTime}日确认份额 `,
+                zhCHT: `${this.beginTime}日確認份額`,
+                en: `Fund Units Allocation in ${this.beginTime} Days `
+            }[this.$i18n.lang]
+        },
+        sureNetWorthEndTime() {
+            return {
+                zhCHS: `${this.beginTime}日查收收益 `,
+                zhCHT: `${this.beginTime}日查收收益`,
+                en: `Check Earnings in ${this.beginTime} Days `
+            }[this.$i18n.lang]
+        },
+        // 赎回时确认份额日多语言
         surePositionBeginTime() {
             return {
                 zhCHS: `${this.beginTime}日确认净值 `,

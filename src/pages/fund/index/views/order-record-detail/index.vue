@@ -4,7 +4,7 @@
             .fund-introduce
                 .fund-name {{fundIntro}}
                 .fund-detail(v-if="fundDetail") ISIN: {{fundDetail}}
-            order-status-about(:orderStatus='orderStatus' :orderStatusValue='orderStatusValue' :beginTime='beginTime' :endTime='endTime' v-if="[1,2].includes(orderStatus)")
+            order-status-about(:orderStatus='orderStatus' :orderStatusValue='orderStatusValue' :beginTime='beginTime' :endTime='endTime' :tradeType='tradeType' v-if="[1,2].includes(orderStatus)")
             van-cell-group(class="order-group")
                 van-cell(class="order-time" )
                     .order-item.flex(v-if="![1,2].includes(orderStatus)")
@@ -118,7 +118,8 @@ export default {
             detailMsg: {},
             title: '订单',
             isShowBackout: false,
-            orderFee: ''
+            orderFee: '',
+            tradeType: ''
         }
     },
     created() {
@@ -198,6 +199,7 @@ export default {
                         dayjs(res.orderTime).format('YYYY-MM-DD HH:mm:ss')) ||
                     '--'
                 this.orderNumValue = res.orderNo
+                this.tradeType = res.tradeType
                 this.orderType = res.tradeTypeName
                 if (
                     res.orderAmount === null ||
