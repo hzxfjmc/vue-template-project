@@ -210,18 +210,6 @@ export default {
                 } else {
                     this.holdDetailsShow = false
                 }
-                for (let key in this.holdInitState) {
-                    if (key != 'positionStatus') {
-                        let flag = this.holdInitState < 0
-                        this.holdInitState[key] = (
-                            Math.floor(Number(this.holdInitState[key]) * 100) /
-                            100
-                        ).toFixed(2)
-                        if (flag) {
-                            this.holdInitState[key] = -this.holdInitState[key]
-                        }
-                    }
-                }
             } catch (e) {
                 console.log('getFundPosition:error:>>>', e)
             }

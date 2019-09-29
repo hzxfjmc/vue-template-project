@@ -14,18 +14,18 @@
                     .right {{ currency }}
                 .buy-row
                     .left {{ $t('availableBalance') }}
-                    .right(class="number") {{ withdrawBalance | interceptTwo | formatCurrency }}
+                    .right(class="number") {{ withdrawBalance | sliceFixedTwo | formatCurrency }}
                 .buy-row(class="border-bottom")
                     .left {{ $t('buyMonny') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | interceptTwo | formatCurrency }}
-                        p {{ $t('continueBalance') }}{{ continueInvestAmount | interceptTwo | formatCurrency }}
+                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | sliceFixedTwo | formatCurrency }}
+                        p {{ $t('continueBalance') }}{{ continueInvestAmount | sliceFixedTwo | formatCurrency }}
                     .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny" :disabled="withdrawBalance === 0")
                 hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 10px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFeeScale  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +buyMonny * subscriptionFee | interceptTwo | formatCurrency }}
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ times(+buyMonny, +subscriptionFee) | sliceFixedTwo | formatCurrency }}
                 a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
@@ -65,6 +65,7 @@
 
 </template>
 <script>
+import NP from 'number-precision'
 import { getCosUrl } from '@/utils/cos-utils'
 // import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundPurchase } from '@/service/finance-server.js'
@@ -116,7 +117,7 @@ export default {
             }[this.$i18n.lang]
         },
         subscriptionFeeScale() {
-            return Number(+this.subscriptionFee * 100).toFixed(2)
+            return NP.times(+this.subscriptionFee, 100)
         }
     },
     watch: {
@@ -127,6 +128,7 @@ export default {
         }
     },
     methods: {
+        times: NP.times,
         gotoOrderRecordDetail(orderNo, currencyType) {
             this.$router.push({
                 path: '/order-record-detail',
