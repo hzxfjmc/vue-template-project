@@ -179,10 +179,18 @@ export default {
         },
         // 获取可用余额
         async getWithdrawBalance() {
+            let currencyType
+            if (this.$route.query.currencyType) {
+                currencyType = this.$route.query.currencyType
+            } else {
+                const fundDetail = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: this.$route.query.id
+                })
+                currencyType = fundDetail.fundTradeInfoVO.currency.type
+            }
             try {
-                const hsInfo = await hsAccountInfo(
-                    this.$route.query.currencyType
-                )
+                const hsInfo = await hsAccountInfo(currencyType)
                 this.withdrawBalance = hsInfo.withdrawBalance
             } catch (e) {
                 console.log('申购页面-getWithdrawBalance:error:>>>', e)
