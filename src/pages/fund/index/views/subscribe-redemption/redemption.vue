@@ -24,7 +24,7 @@
                 //- hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFeeScale  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * redemptionFee | sliceFixedTwo | formatCurrency }}
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | formatCurrency }}
                 a.submit.gray(v-if="redemptionShare === null || redemptionShare === '' || positionShare === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
@@ -63,6 +63,7 @@
 
 </template>
 <script>
+import NP from 'number-precision'
 import { getCosUrl } from '@/utils/cos-utils'
 // import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundRedemption, getFundPosition } from '@/service/finance-server.js'
@@ -112,7 +113,7 @@ export default {
             }[this.$i18n.lang]
         },
         redemptionFeeScale() {
-            return Number(+this.redemptionFee * 100).toFixed(2)
+            return NP.times(+this.redemptionFee, 100)
         }
     },
     watch: {
@@ -123,6 +124,7 @@ export default {
         }
     },
     methods: {
+        times: NP.times,
         gotoOrderRecordDetail(orderNo, currencyType) {
             this.$router.push({
                 path: '/order-record-detail',
