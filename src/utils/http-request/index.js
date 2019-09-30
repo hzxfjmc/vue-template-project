@@ -6,6 +6,11 @@ import qs from 'qs'
 import Vue from 'vue'
 import JSBridge from '@/utils/js-bridge'
 import { compareVersion, guid } from '@/utils/tools'
+import { Toast } from 'vant'
+import { isYouxinApp } from '@/utils/html-utils.js'
+
+// 开发环境使用，打包前注意要注释
+import proxyValid from '@/mock/utils/api-proxy.js'
 let token = {
     Authorization: LS.get('userToken')
 }
@@ -77,7 +82,9 @@ export default class baseRequest {
             return config
         })
         this.$http.interceptors.response.use(
-            ({ data }) => {
+            ({ data, config }) => {
+                // 开发环境需要，生产环境需要注释
+                proxyValid(config.url, config.method, data)
                 // 图片流
                 if (typeof data === 'string') {
                     return data
@@ -85,12 +92,20 @@ export default class baseRequest {
                 if (data.code === 0 || data.code === 301400) {
                     return data.data
                 } else if (data.code === 300101) {
-                    LS.remove('userToken')
+                    // LS.remove('userToken')
                     // 登录成功后刷新下页面 小概率事件 避免各种复杂情况
                     // jsBridge.callApp('command_user_login').then(() => {
                     //     window.location.reload()
                     // })
-                    return Promise.reject({ code: data.code })
+                    if (!isYouxinApp) {
+                        window.location.replace(
+                            window.location.origin +
+                                `/webapp/middle/register.html?callBackUrl=${encodeURIComponent(
+                                    window.location.href
+                                )}`
+                        )
+                    }
+                    return Promise.reject({ code: data.code, msg: data.msg })
                 } else {
                     return Promise.reject(data)
                 }
@@ -99,6 +114,11 @@ export default class baseRequest {
                 console.log(e, '报错了')
                 let errorNetwork =
                     Vue.prototype.$t && Vue.prototype.$t('errorNetwork')
+                Toast({
+                    position: 'bottom',
+                    message: errorNetwork || '网络开小差了,请稍后重试',
+                    duration: 2000
+                })
                 return Promise.reject({
                     msg: errorNetwork || '网络开小差了,请稍后重试'
                 })

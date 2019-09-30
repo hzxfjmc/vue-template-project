@@ -1,4 +1,4 @@
-import sensors from '@/pages/market/0-third/sensors'
+import sensors from '@/utils/sensors'
 // import { appType } from '../html-utils'
 import LS from '@/utils/local-storage'
 

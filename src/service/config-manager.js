@@ -28,6 +28,13 @@ export const cfgProSelect = serviceCode => {
     return api.post(`/cfg-pro-select/v1?serviceCode=${serviceCode}`)
 }
 
+/**
+ * 获取债券名称和债券协议地址
+ */
+export const selectProtocolInfo = serviceCode => {
+    return api.post(`/select-protocol-info/v1?serviceCode=${serviceCode}`)
+}
+
 export const customerStatusSelect = () => {
     return api.getForm(`/customer-status-select/v1`)
 }

@@ -1,8 +1,8 @@
-> by 村长 201812127 
+> by 村长 201812127      
 
 ## 命名规范
 
-不用驼峰
+不用驼峰 
 `a-b.vue`
 `c-d.js`
 
@@ -126,7 +126,7 @@ module.exports = {
 
 vw + rem
 
-设计稿对应 375 代码中直接用 px 写 postcss-px2rem 转成 rem
+设计稿对应 375 代码中直接用 px 写 postcss-px2rem 转成 rem 
 
 其中 font-size 和 line-height px 单位不会转
 
@@ -140,13 +140,13 @@ vw + rem
 
 ### global-components
 
-异步全局组件
+异步全局组件 
 
 ### vue plugins
 
-如 vant element
+如 vant element 
 
-### keepalive 方案
+### keepalive 方案 
 
 ```
 function parentIsAlive (component) {
@@ -172,5 +172,5 @@ Vue.mixin({
 })
 
 ```
- 
- 
+
+

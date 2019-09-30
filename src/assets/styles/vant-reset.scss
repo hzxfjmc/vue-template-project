@@ -31,7 +31,7 @@
     .van-cell__title {
         width: 80px;
         max-width: 100%;
-        color: $text-color7;
+        color: $text-color;
     }
     .van-field {
         line-height: 29px; // input 高度为50
@@ -64,6 +64,9 @@
         .van-button {
             font-size: 14px;
         }
+    }
+    .van-tag::after {
+        transform: scale(0.45);
     }
 }
 body {
