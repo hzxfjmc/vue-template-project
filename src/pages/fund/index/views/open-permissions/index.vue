@@ -12,11 +12,11 @@
                 .right {{ resultIndex && $t('resultList')[resultIndex].suitPro}}
         .permission-container(slot="main")
             .permission-content
-                .title {{$t('agreementTitle')}}
+                .title {{ agreementTitle }}
                 .main-content
                     //- iframe(src=`/webapp/market/generator.html?key=${fundCode}` v-if="fundCode")
                     .title-info {{$t('titleInfo')}}
-                    .content {{$t('riskInfo')}}
+                    .content(v-html="riskInfo") 
             .signature-box
                 .title {{$t('inputName')}}
                 van-field(v-model="autograph" :placeholder="signNamePlaceholder" class="signature-input" )      
@@ -28,6 +28,7 @@
 import { fundRiskAutograph, getCurrentUser } from '@/service/user-server.js'
 import { i18nOpenPermissions } from './open-permissions-i18n.js'
 import LS from '@/utils/local-storage.js'
+import { queryMessageDetail } from '@/service/news-helpcenter.js'
 
 export default {
     i18n: i18nOpenPermissions,
@@ -35,7 +36,8 @@ export default {
         return {
             fundCode: '',
             autograph: LS.get('signName') || '',
-            titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
+            agreementTitle: '',
+            riskInfo: '',
             permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
 在做出交易决定之前，您应仔细阅读这些条款和产品说明。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
             disabled: true,
@@ -66,10 +68,21 @@ export default {
             }
         }
     },
-    created() {
+    async created() {
         this.getCurrentUser()
         if (this.$route.query.fondCode) {
             this.fundCode = this.$route.query.fondCode
+        }
+        try {
+            let data = await queryMessageDetail({
+                key: 'fundagreement'
+            })
+            if (data && data.content) {
+                this.agreementTitle = data.title
+                this.riskInfo = JSON.parse(data.content)[0].htmlContent
+            }
+        } catch (e) {
+            console.log('queryMessageDetail:', e)
         }
     },
     methods: {
