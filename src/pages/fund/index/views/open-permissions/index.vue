@@ -78,7 +78,7 @@ export default {
                 key: 'fundagreement'
             })
             if (data && data.content) {
-                this.agreementTitle = JSON.parse(data.content)[0].title
+                this.agreementTitle = data.title
                 this.riskInfo = JSON.parse(data.content)[0].htmlContent
             }
         } catch (e) {
