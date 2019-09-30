@@ -20,6 +20,7 @@
             .signature-box
                 .title {{$t('inputName')}}
                 van-field(v-model="autograph" :placeholder="signNamePlaceholder" class="signature-input" )      
+                p {{ $t('agreeText') }}
         .footer-btn(slot='bottom')
             van-button(type="info" round  size="large" @click="openPermissionHandle" :disabled="disabled") {{$t('btnText')}}
 </template>
@@ -209,6 +210,11 @@ export default {
                 background-color: $btn-background-color;
                 border-radius: 4px;
                 border: 1px solid $btn-border-color;
+            }
+            p {
+                padding-top: 10px;
+                font-size: 12px;
+                color: $text-color5;
             }
         }
     }
