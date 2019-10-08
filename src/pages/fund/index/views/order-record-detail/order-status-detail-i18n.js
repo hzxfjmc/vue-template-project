@@ -46,6 +46,7 @@ export const i18nOrderStatusData = {
         orderShares: 'Units',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Confirm',
+        backoutBtnText: 'Cancel',
         orderFree: 'Cost',
         beConfirmed: 'To Be Confirmed'
     }

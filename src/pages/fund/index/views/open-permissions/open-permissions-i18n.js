@@ -1,5 +1,7 @@
 export const i18nOpenPermissions = {
     zhCHS: {
+        agreeText:
+            '本人同意, 使用电子签署签订本客户协议及开户文件, 经签署后, 以电子签署与手写的签名具有同等法律効力。',
         riskAblity: '您的风险承受能力',
         riskStyle: '风格类型',
         suitPro: '适合产品',
@@ -40,6 +42,8 @@ export const i18nOpenPermissions = {
         在做出交易决定之前，您应仔细阅读这些条款和产品说明。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`
     },
     zhCHT: {
+        agreeText:
+            '本人同意, 使用電子簽署簽訂本客戶協議及開戶文件, 經簽署後, 以電子簽署與手寫的簽名具有同等法律効力。',
         riskAblity: '您的風險承受能力',
         riskStyle: '風格類型',
         suitPro: '適合產品',
@@ -80,6 +84,8 @@ export const i18nOpenPermissions = {
         在做出交易決定之前，您應仔細閱讀這些條款和產品說明。在交易 CFD 之前，您務必確信了解所涉及的風險。您是否能在虧損時擁有頭寸以承擔損失。`
     },
     en: {
+        agreeText:
+            'I agree that, signing the Client Agreement and account opening documents by way of an electronic   signature. Once signed by you, the use of electronic signatures shall have the same legal validity and effect as that of handwritten signatures.',
         riskAblity: 'Your Risk Profile',
         riskStyle: 'Risk Type',
         suitPro: 'Suitable Product',

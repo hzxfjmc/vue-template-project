@@ -11,20 +11,20 @@
             .fond-buy
                 .buy-row
                     .left {{ $t('positionShare') }}
-                    .right {{ positionShare | interceptTwo | formatCurrency }}
+                    .right {{ positionShare | sliceFixedTwo | formatCurrency }}
                 .buy-row
                     .left {{ $t('positionMarketValue') }}
-                    .right {{ positionMarketValue | interceptTwo | formatCurrency }}
+                    .right {{ positionMarketValue | sliceFixedTwo | formatCurrency }}
                 .buy-row(class="border-bottom" style="height:40px")
                     .left {{ $t('redeemShares') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        span {{ $t('minSellBalance') }}{{ lowestInvestAmount | interceptTwo | formatCurrency}}
+                        span {{ $t('minSellBalance') }}{{ lowestInvestAmount | sliceFixedTwo | formatCurrency}}
                     .right.buy-monny(v-show="buyMonnyBlur" )
                         van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare" :disabled="positionShare === 0")
                 //- hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFeeScale  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ +redemptionShare * redemptionFee | interceptTwo | formatCurrency }}
+                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | formatCurrency }}
                 a.submit.gray(v-if="redemptionShare === null || redemptionShare === '' || positionShare === 0") {{ $t('submiButtonText') }}
                 a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
                 .buy-row(style="justify-content: space-between;")
@@ -57,12 +57,13 @@
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8 {{ $t('monny') }}
-                    .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | interceptTwo | formatCurrency }}
+                    .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
 
 </template>
 <script>
+import NP from 'number-precision'
 import { getCosUrl } from '@/utils/cos-utils'
 // import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundRedemption, getFundPosition } from '@/service/finance-server.js'
@@ -112,7 +113,7 @@ export default {
             }[this.$i18n.lang]
         },
         redemptionFeeScale() {
-            return Number(+this.redemptionFee * 100).toFixed(2)
+            return NP.times(+this.redemptionFee, 100)
         }
     },
     watch: {
@@ -123,6 +124,7 @@ export default {
         }
     },
     methods: {
+        times: NP.times,
         gotoOrderRecordDetail(orderNo, currencyType) {
             this.$router.push({
                 path: '/order-record-detail',

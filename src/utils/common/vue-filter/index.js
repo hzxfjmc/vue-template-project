@@ -29,12 +29,35 @@ Vue.filter('formatCurrency', function(num) {
         return `${Number(strVal).toLocaleString()}.00`
     }
 })
-//直接截取两位小数
-Vue.filter('interceptTwo', function(num) {
-    num = Number(num)
-    const func = num > 0 ? Math.floor : Math.ceil
-    num = (func(num * 100) / 100).toFixed(2)
-    return Number(num)
+
+// 截取小数，默认保留两位，不足补0
+Vue.filter('sliceFixedTwo', function(n, l = 2) {
+    const sliceDeci = (s, l) => {
+        let deci = s.split('.')[1].slice(0, l)
+        return s.split('.')[0] + '.' + deci
+    }
+
+    n = +n
+    let s = n + ''
+    // 整数 直接补0
+    if (s.indexOf('.') === -1) {
+        if (l > 0) {
+            s += '.'
+        }
+        for (let i = 0; i < l; i++) {
+            s += '0'
+        }
+        return sliceDeci(s, l)
+    }
+
+    let deci = s.split('.')[1]
+    if (deci.length < l) {
+        for (let i = 0; i < l - deci.length; i++) {
+            s += '0'
+        }
+    }
+
+    return sliceDeci(s, l)
 })
 
 //不够五位数补0
