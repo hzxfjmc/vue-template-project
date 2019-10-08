@@ -144,6 +144,8 @@ export const generateUUID = () => {
 
 //对钱进行处理
 export function transNumToThousandMark(num = '0', dot = 2) {
+    if (!num) num = 0
+    num = num + ''
     // 保留小数点后面的位数
     if (num.indexOf('.') !== -1) {
         let numArr = num.toString().split('.')
@@ -155,6 +157,6 @@ export function transNumToThousandMark(num = '0', dot = 2) {
         let number = num.replace(/\d{1,3}(?=(\d{3})+$)/g, v1 => {
             return v1 + ','
         })
-        return number
+        return Number(number).toFixed(2)
     }
 }
