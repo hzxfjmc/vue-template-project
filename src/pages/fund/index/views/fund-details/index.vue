@@ -110,7 +110,6 @@ export default {
         //跳转
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
-                console.log('追加')
                 this.handleBuyOrSell()
                 // if (!this.flag1) return
                 // console.log(312312)
