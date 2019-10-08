@@ -31,7 +31,7 @@ import axios from '../http-request'
 import { wechatShare } from '@/utils/share/wechat.js'
 
 // 友信证券公共库
-import { jsBridge, uSmartInit, htmlUtils } from 'yx-base-h5'
+import { jsBridge, uSmartInit, htmlUtils, DOMAIN } from 'yx-base-h5'
 
 const { isYouxinIos, isYouxinApp, appType, setTitle } = htmlUtils
 // 友信证券初始化方法
@@ -56,7 +56,7 @@ Vue.prototype.$debug = true
 Vue.prototype.$bus = new Vue()
 
 // 当前环境和当前的环境配置的host
-import DOMAIN from '../DOMAIN.js'
+// import DOMAIN from '../DOMAIN.js'
 Vue.prototype.$DOMAIN = DOMAIN
 
 const appOrigin = appType.Ch
