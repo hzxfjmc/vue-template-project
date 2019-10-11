@@ -5,7 +5,7 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  日期：{{masterData.belongDay}}
             .header-right 
-                span.number {{masterData.netPrice}}
+                span.number {{Number(masterData.netPrice).toFixed(2)}}
                 p.day 今日净值： 
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
@@ -102,8 +102,8 @@ export default {
             }
             this.chart = new F2.Chart({
                 id: data,
-                pixelRatio: window.devicePixelRatio,
-                padding: [45, 'auto', 'auto']
+                pixelRatio: window.devicePixelRatio
+                // padding: [45, 'auto', 'auto']
             })
             this.chart.source(this.initEchartList, {
                 netPrice: {
@@ -111,8 +111,9 @@ export default {
                     tickCount: 5,
                     min: Math.min.apply(null, arr) * 0.9,
                     max: Math.max.apply(null, arr) * 1.1,
+                    // min: 0,
                     formatter: function formatter(val) {
-                        return val
+                        return val.toFixed(2)
                     }
                 },
                 belongDay: {
@@ -125,7 +126,16 @@ export default {
                 }
             })
             this.chart.axis('netPrice', {
-                labelOffset: 20 // 坐标轴文本距离轴线的距离
+                labelOffset: 20, // 坐标轴文本距离轴线的距离
+                label: function label(text, index, total) {
+                    var textCfg = {}
+                    if (index === 0) {
+                        textCfg.textBaseline = 'bottom'
+                    } else if (index === total - 1) {
+                        textCfg.textBaseline = 'top'
+                    }
+                    return textCfg
+                }
             })
             this.chart.axis('belongDay', {
                 line: null,
@@ -282,7 +292,7 @@ export default {
             border-bottom-left-radius: 2px;
         }
         .date-item:last-child {
-            border-left: 1px solid rgba(235, 235, 235, 1);
+            // border-left: 1px solid rgba(235, 235, 235, 1);
             border-top-left-radius: 2px;
             border-bottom-left-radius: 2px;
         }
