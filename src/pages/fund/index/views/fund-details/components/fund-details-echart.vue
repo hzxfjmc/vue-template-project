@@ -293,8 +293,8 @@ export default {
         }
         .date-item:last-child {
             // border-left: 1px solid rgba(235, 235, 235, 1);
-            border-top-left-radius: 2px;
-            border-bottom-left-radius: 2px;
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
         }
         .active {
             background: rgba(25, 25, 25, 0.03);
