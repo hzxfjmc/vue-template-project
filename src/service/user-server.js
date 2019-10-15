@@ -14,6 +14,11 @@ export const bondRiskAutograph = data => {
     return axios.post('/user-server/api/bond-risk-autograph/v1', data)
 }
 
+// 基金协议签名
+export const fundRiskAutograph = data => {
+    return axios.post('/user-server/api/bund-risk-autograph/v1', data)
+}
+
 /**
  * 风险测评提交
  * @param {Object} data 请求对象
@@ -48,6 +53,11 @@ export function jsAuth() {
 export function getCurrentUser() {
     return axios.getForm(`/user-server/api/get-current-user/v1`)
 }
+// 获取用户交易密码临时认证token
+export function getTradePasswordToken(param) {
+    return axios.getForm(`/user-server/api/get-trade-password-token/v1`, param)
+}
+
 export default {
     //  活体认证调试用的接口 TODO: 生产环境需要删除
     register(phoneNumber, password, captcha, areaCode = '86') {

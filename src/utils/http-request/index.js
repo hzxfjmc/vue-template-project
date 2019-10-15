@@ -2,9 +2,10 @@ import axios from 'axios'
 import LS from '../local-storage.js'
 import { API_BASE_URL } from '../DOMAIN.js'
 import getHeadInfo from './get-head-info'
-import { guid } from './../tools'
 import qs from 'qs'
 import Vue from 'vue'
+import JSBridge from '@/utils/js-bridge'
+import { compareVersion, guid } from '@/utils/tools'
 import { Toast } from 'vant'
 import { isYouxinApp } from '@/utils/html-utils.js'
 
@@ -48,6 +49,26 @@ export default class baseRequest {
             headerInfo['X-Time'] = Date.now()
             headerInfo['X-Trans-Id'] = guid()
             headerInfo['X-Request-Id'] = guid()
+            if (compareVersion(headerInfo['X-Ver'], '1.7.0') > -1) {
+                // X-Token，安全渗透，版本大于等于 1.7.0 时候加入 header
+                let xTokenData = await JSBridge.callApp('get_http_sign', {
+                    timeStamp: headerInfo['X-Time'] + '',
+                    xUid: headerInfo['X-Uid'],
+                    userToken: token['Authorization'],
+                    langType: headerInfo['X-Lang'],
+                    appType: headerInfo['X-Type'],
+                    version: headerInfo['X-Ver'],
+                    transId: headerInfo['X-Trans-Id'],
+                    requestId: '0',
+                    devType: headerInfo['X-Dt'],
+                    devId: headerInfo['X-Dev-Id'],
+                    devInfo: headerInfo['X-Dev-Info'],
+                    netType: headerInfo['X-Net-Type']
+                })
+                console.log('xTokenData:', xTokenData)
+                headerInfo['X-Token'] = xTokenData.xToken
+            }
+            console.log('headerInfo:', headerInfo)
             // 手动设置语言
             if (langInfo.langType) {
                 headerInfo['X-Lang'] = langInfo.langType
@@ -71,7 +92,7 @@ export default class baseRequest {
                 if (data.code === 0 || data.code === 301400) {
                     return data.data
                 } else if (data.code === 300101) {
-                    LS.remove('userToken')
+                    // LS.remove('userToken')
                     // 登录成功后刷新下页面 小概率事件 避免各种复杂情况
                     // jsBridge.callApp('command_user_login').then(() => {
                     //     window.location.reload()

@@ -41,3 +41,22 @@ export const getCurrentBondPrices = id => {
         id
     })
 }
+
+/**
+ * 获取基金列表
+ */
+export const getFundList = () => {
+    return axios.post('/finance-info-server/api/get-fund-list/v1', {
+        displayLocation: 1
+    })
+}
+
+//获取基金详情
+export const getFundDetail = params => {
+    return axios.post(`/finance-info-server/api/get-fund-detail/v1`, params)
+}
+
+//基金净值查询
+export const getFundNetPrice = params => {
+    return axios.post(`/finance-info-server/api/get-fund-net-price/v1`, params)
+}

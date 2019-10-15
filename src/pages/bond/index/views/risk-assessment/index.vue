@@ -48,7 +48,7 @@ export default {
     .risk-assessment-tips {
         padding: 5px 8px 5px 12px;
         background: rgba(255, 172, 79, 0.2);
-        color: #dda16b;
+        color: $risk-background-color;
         font-size: 0.28rem;
         line-height: 20px;
     }

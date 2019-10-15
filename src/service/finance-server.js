@@ -35,3 +35,54 @@ export const getBondPosition = market => {
         market
     })
 }
+
+/**
+ * @describe 获取当前客户基金持仓
+ * @param {Object}
+ */
+export const getFundPosition = params => {
+    return axios.post(`/finance-server/api/get-fund-position/v1`, params)
+}
+
+/**
+ * @describe 申购
+ * @param {Object}
+ * {
+ *	"fundId": 1,
+ *	"purchaseAmount": "1",
+ *	"requestId": "e0669ac526954092b6107473a03ff7a2",
+ *	"tradeToken": "977bb092c9ab4111a69442c7113698f7"
+ * }
+ */
+export const fundPurchase = params => {
+    return axios.post(`/finance-server/api/fund-purchase/v1`, params)
+}
+
+/**
+ * @describe 赎回
+ * @param {Object}
+ * {
+ *	"fundId": 1,
+ *	"redemptionShare": "1",
+ *	"requestId": "e0669ac526954092b6107473a03ff7a2",
+ *	"tradeToken": "977bb092c9ab4111a69442c7113698f7"
+ * }
+ */
+export const fundRedemption = params => {
+    return axios.post(`/finance-server/api/fund-redemption/v1`, params)
+}
+
+// 基金交易记录列表
+export const fundOrderList = params => {
+    return axios.post(`/finance-server/api/fund-order-list/v1`, params)
+}
+
+// 基金交易记录详情
+export const fundOrderDetail = params => {
+    return axios.post(`/finance-server/api/fund-order-detail/v1`, params)
+}
+
+// 撤单
+export const cancelFundOrder = params => {
+    return axios.post(`/finance-server/api/cancel-fund-order/v1`, params)
+}
