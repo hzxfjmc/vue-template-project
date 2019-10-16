@@ -4,6 +4,7 @@
             van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
                 a(:href="bannerItem.jump_url" title="")
                     img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
+                    //- img(:src="require('@/assets/img/bond/banner-demo.png')" :alt="bannerItem.banner_title")
         .bond-list
             router-link(
                 v-for="(item, index) in bondList"
