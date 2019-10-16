@@ -71,15 +71,6 @@ export default {
             list: JSON.parse(JSON.stringify(itemList))
         }
     },
-    watch: {
-        positionStatus() {
-            // if (this.positionStatus.type != -1) {
-            //     this.list['trade'].itemShow = true
-            // } else {
-            //     this.list['trade'].itemShow = false
-            // }
-        }
-    },
     methods: {
         chooseItem(item) {
             let data = {
@@ -114,7 +105,9 @@ export default {
         },
         InitI18nState() {
             for (let key in this.list) {
-                this.list[key].label = this.$t('itemList')[key].label
+                if (key != 'history') {
+                    this.list[key].label = this.$t('itemList')[key].label
+                }
             }
         }
     },

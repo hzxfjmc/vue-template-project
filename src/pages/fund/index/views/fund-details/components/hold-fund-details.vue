@@ -1,25 +1,24 @@
 <template lang="pug">
 .hold-fund-details
-    span {{$t('holdFundTitle')}}
-    van-row()
-        van-col( 
-            span="8"
-            v-for="(item,index) of list" 
-            :key="item.label"
-            class="fund-row" 
-            :class="item.layout") 
-            span.holdSubtitle {{item.label}}
-            p.holdNumber(
-                :class="stockColorType === 1 ? 'active_red' : 'active-green'"
-                v-if="item.flag == 1 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") +{{item.value}}
-            p.holdNumber(
-                :class="stockColorType === 1 ? 'active-green' : 'active_red'"
-                v-else-if="item.flag == 2 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") {{item.value}}
-             p.holdNumber(v-else) {{item.value}}
-            //- p.holdNumber(
-            //-     :class="item.value >= 0 && (index == 'yesterdayEarnings' || index === 'positionEarnings') ? 'active_red' : item.value<0 ? 'active-green' : ''") 
-            //-     em(v-if="item.value>0") {{item.cname}}
-            //-     em {{item.value}}
+    .hold-fund-header
+        span {{$t('holdFundTitle')}}
+        span.hold-right(@click="foldUpCard") 折起
+    .hold-fund-content(v-if="contentShow")
+        van-row()
+            van-col( 
+                span="8"
+                v-for="(item,index) of list" 
+                :key="item.label"
+                class="fund-row" 
+                :class="item.layout") 
+                span.holdSubtitle {{item.label}}
+                p.holdNumber(
+                    :class="stockColorType === 1 ? 'active_red' : 'active-green'"
+                    v-if="item.flag == 1 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") +{{item.value}}
+                p.holdNumber(
+                    :class="stockColorType === 1 ? 'active-green' : 'active_red'"
+                    v-else-if="item.flag == 2 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") {{item.value}}
+                p.holdNumber(v-else) {{item.value}}
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -34,6 +33,12 @@ export default {
             default: () => {}
         }
     },
+    data() {
+        return {
+            list: JSON.parse(JSON.stringify(holdDetailsData)),
+            contentShow: true
+        }
+    },
     components: {
         Row,
         Col
@@ -44,6 +49,9 @@ export default {
         }
     },
     methods: {
+        foldUpCard() {
+            this.contentShow = !this.contentShow
+        },
         initPropState() {
             for (let key in this.list) {
                 this.list[key].flag =
@@ -66,11 +74,6 @@ export default {
     mounted() {
         this.initPropState()
         this.initI18nState()
-    },
-    data() {
-        return {
-            list: JSON.parse(JSON.stringify(holdDetailsData))
-        }
     }
 }
 </script>
@@ -79,25 +82,17 @@ export default {
     margin: 10px 0 0 0;
     background: $background-color;
     padding: 10px;
-    height: 160px;
+    // height: 160px;
     float: left;
     width: 100%;
-    // .center {
-    //     text-align: center;
-    // }
-    // .right {
-    //     text-align: right;
-    // }
     .fund-row {
         margin: 10px 0 0 0;
-        // text-align: center;
         .holdSubtitle {
             font-size: 0.24rem;
         }
         .holdNumber {
             font-size: 0.36rem;
             font-family: yxFontDINPro-Regular;
-            // font-weight: bolder;
             em {
                 font-style: normal;
                 font-size: 0.36rem;
@@ -112,6 +107,10 @@ export default {
     }
     .fund-row:last-child {
         width: 60%;
+    }
+    .hold-right {
+        float: right;
+        display: inline-block;
     }
 }
 </style>

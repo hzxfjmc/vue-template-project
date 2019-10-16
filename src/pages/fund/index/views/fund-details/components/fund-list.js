@@ -20,6 +20,13 @@ export const itemList = {
         itemShow: true,
         borderBottom: true
     },
+    history: {
+        leftIcon: 'icon-iconEBshoucang1',
+        label: '净值历史',
+        routerPath: '/trade-rule',
+        itemShow: true,
+        borderBottom: true
+    },
     files: {
         leftIcon: 'icon-icon_file1',
         label: '相关文件',
