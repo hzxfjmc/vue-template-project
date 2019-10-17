@@ -13,13 +13,15 @@ module.exports = {
     // 这里随便写一个资源路径进行覆盖
     transformIgnorePatterns: ['/src/assets'],
     moduleNameMapper: {
-        '^@/(.*)$': '<rootDir>/src/$1'
+        '^@/(.*)$': '<rootDir>/src/$1',
+        '^dayjs$': '<rootDir>/node_modules/dayjs'
     },
     // snapshotSerializers: ['jest-serializer-vue'],
     testMatch: [
         '**/test/**/*.test.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
-    ]
-    // testURL: 'http://localhost/',
+    ],
+    // 在测试代码中获取的 window.location.href 的值
+    testURL: 'http://www.baidu.com?test1=123&test2=321'
     // watchPlugins: [
     //     'jest-watch-typeahead/filename',
     //     'jest-watch-typeahead/testname'
