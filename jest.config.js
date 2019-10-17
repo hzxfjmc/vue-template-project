@@ -21,7 +21,7 @@ module.exports = {
         '**/test/**/*.test.(js|jsx|ts|tsx)|**/__tests__/*.(js|jsx|ts|tsx)'
     ],
     // 在测试代码中获取的 window.location.href 的值
-    testURL: 'http://www.baidu.com?test1=123&test2=321'
+    testURL: 'http://m-dev.baidu.com?test1=123&test2=321'
     // watchPlugins: [
     //     'jest-watch-typeahead/filename',
     //     'jest-watch-typeahead/testname'

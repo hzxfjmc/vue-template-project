@@ -65,6 +65,10 @@ describe('utils-tools', () => {
     })
 
     // 防抖
+    // expect(fn).toHaveBeenCalled()          // 是否被调用
+    // expect(fn).toHaveBeenCalledTimes(1)    // 是否只调用了一次
+    // expect(fn).toHaveBeenCalledWith(1, 2)  // 参数值
+    // expect(fn).toHaveReturnedWith(3)       // 返回值
     it('debounce', done => {
         const fn = jest.fn(() => {
             console.log('调用了 debounce')

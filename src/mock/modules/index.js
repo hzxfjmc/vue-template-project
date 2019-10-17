@@ -11,6 +11,7 @@ import bondRiskAutograph from './user-server/bond-risk-autograph'
 import riskAssessAnswer from './user-server/risk-assess-answer'
 import riskAssessResult from './user-server/risk-assess-result'
 import riskAssessSubject from './user-server/risk-assess-subject'
+import getCurrentUser from './user-server/get-current-user'
 
 // config-manager
 import selectProtocolInfo from './config-manager/select-protocol-info'
@@ -28,6 +29,7 @@ export default {
     riskAssessAnswer,
     riskAssessResult,
     riskAssessSubject,
+    getCurrentUser,
 
     selectProtocolInfo,
 
