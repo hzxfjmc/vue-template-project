@@ -1,4 +1,9 @@
 .subscribe-wrapper, .redemption {
+     display: flex;
+    flex-direction: column;
+    height: 100%;
+    -webkit-overflow-scrolling: touch;
+    overflow: hidden;
     // .border-bottom {
     //     border-bottom: 1px solid rgba($text-color, 0.05);
     //     @media only screen and (min-resolution: 2dppx) {
@@ -67,15 +72,21 @@
     .gray {
         background: #d1d1d1;
     }
+    .fund-content{
+        overflow: hidden;
+        overflow-y: auto;
+        height:100%;
+        flex-direction: column;
+    }
     .fond-buy {
         background: $background-color;
         margin-top: 10px;
         // padding-top: 24px;
-        display: flex;
-        flex-direction: column;
+        // display: flex;
+        // flex-direction: column;
         padding: 0 12px;
         // padding-bottom: 10px;
-
+        
         .text-color3 {
             color: $text-color3 !important;
         }
@@ -86,7 +97,6 @@
             display: flex;
             justify-content: flex-start;
             margin: 0.24rem 0;
-
             .left {
                 width: 35%;
                 font-size: 0.28rem;
@@ -151,6 +161,26 @@
                 }
             }
         }
+        .buy-row-item{
+            margin:0;
+            width:100%;
+            display: flex;
+            line-height: 30px;
+            .left-item{
+                width:50%;
+                
+            }
+            .right-item{
+                text-align: right;
+                width:50%;
+            }
+        }
+        .right-item-buyMonny{
+            input{
+                text-align: right;
+                border:none;
+            }
+        }
         .line {
             height: 56px;
             border-left: 1px solid $text-color2;
@@ -184,4 +214,14 @@
 .redemption .placeHolder {
     width: 139px;
     height: 1rem;
+}
+
+.fund-footer-content{
+    width:100%;
+    .van-button{
+        background:$primary-color;
+        color:#fff;
+        border:none;
+        width:100%;
+    }
 }

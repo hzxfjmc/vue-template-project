@@ -364,29 +364,12 @@ export default {
                 this.$router.push(data)
             }
         }
-        // menu() {
-        //     this.scroll = this.$refs.content.scrollTop
-        // },
-        // scrollTop() {
-        //      this.$refs.content.scrollTop = localStorage.get('scroll')
-        // }
     },
     mounted() {
         this.getCurrentUser()
         this.getFundNetPrice()
         this.getFundDetail()
         this.getFundPosition()
-        // if (localStorage.get('scrollFlag') == 2) {
-        //     document
-        //         .querySelector('.fund-content')
-        //         .addEventListener('scroll', this.menu)
-        //     this.scrollTop()
-        // } else {
-        //     document
-        //         .querySelector('.fund-content')
-        //         .addEventListener('scroll', this.menu)
-        // }
-        // localStorage.put('scrollFlag', 1)
     }
 }
 </script>

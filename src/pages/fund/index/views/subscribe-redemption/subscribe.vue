@@ -1,46 +1,38 @@
 <template lang="pug">
     .subscribe-wrapper
-        .succed.border-bottom(v-if="step === 2")
-            img(src="@/assets/img/fund/succed.svg")
-            div.text {{ $t('buySuccess') }}
-        .fond-des
-            .fond-name {{ fundName }}
-            .ISIN ISIN:{{ isin }}
-        
+        //- .succed.border-bottom(v-if="step === 2")
+        //-     img(src="@/assets/img/fund/succed.svg")
+        //-     div.text {{ $t('buySuccess') }}
         template(v-if="step === 1")
-            .fond-buy
-                .buy-row
-                    .left {{ $t('currency') }}
-                    .right {{ currency }}
-                .buy-row
-                    .left {{ $t('availableBalance') }}
-                    .right(class="number") {{ withdrawBalance | sliceFixedTwo | formatCurrency }}
-                .buy-row(class="border-bottom")
-                    .left {{ $t('buyMonny') }}
-                    .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | sliceFixedTwo | formatCurrency }}
-                        p {{ $t('continueBalance') }}{{ continueInvestAmount | sliceFixedTwo | formatCurrency }}
-                    .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny" :disabled="withdrawBalance === 0")
-                hr.border-bottom
-                .buy-row(style="justify-content: space-between; margin-top: 10px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFeeScale  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ times(+buyMonny, +subscriptionFee) | sliceFixedTwo | formatCurrency }}
-                a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
-                a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
-                .buy-row(style="justify-content: space-between;")
-                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 
-                        span(v-show="buyProtocolFileName") 《{{ buyProtocolFileName }}》
-                    .right(style="text-align: right; width: 35%") {{ predictDay }}
+            .fund-content
+                .fond-des
+                    .fond-name {{ fundName }}
+                    .ISIN ISIN:{{ isin }}
+                .fond-buy
+                    .buy-row-item(v-for="(item,index) in subscribeList")
+                        .left-item {{item.label}}
+                        .right-item 
+                            .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
+                                span {{item.value}}%
+                            .right-item-buyMonny(v-else-if="index=='buyMonny'")
+                                input(v-model="item.value" type="number")
+                            .right-item-other(v-else)
+                                span {{item.value}}
+                FundSteps(
+                    style="margin-top: 22px;"
+                    :title="$t('buyRule')"
+                    :curStep="0"
+                    :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
+                    :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
+                )
 
-            FundSteps(
-                style="margin-top: 22px;"
-                :title="$t('buyRule')"
-                :curStep="0"
-                :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
-                :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
-            )
+            .fund-footer-content()
+                van-button() jsdhjfhsdj
         template(v-else-if="step === 2")
+            .succed.border-bottom(v-if="step === 2")
+                img(src="@/assets/img/fund/succed.svg")
+                div.text {{ $t('buySuccess') }}
+       
             .fond-buy.border-bottom
                 .buy-row
                     .icon
@@ -61,7 +53,6 @@
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
-       
 
 </template>
 <script>
@@ -73,8 +64,8 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID } from '@/utils/tools.js'
-
+import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
+import { subscribeList } from './subscribe.js'
 import './index.scss'
 export default {
     name: 'subscribe',
@@ -86,6 +77,7 @@ export default {
             // 1: 购买 2:成功
             step: 1,
             orderNo: null,
+            subscribeList: subscribeList,
             buyMonnyBlur: false,
             buyMonny: null,
             fundName: '',
@@ -103,7 +95,6 @@ export default {
         }
     },
     async created() {
-        this.getFundDetailInfo()
         this.getWithdrawBalance()
         console.log('2323232', this.$i18n.lang)
     },
@@ -147,13 +138,30 @@ export default {
                 })
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
-                this.currency = fundDetail.fundTradeInfoVO.currency.name
-                this.subscriptionFee =
-                    fundDetail.fundTradeInfoVO.subscriptionFee
-                this.initialInvestAmount =
+
+                this.subscribeList.currency.value =
+                    fundDetail.fundTradeInfoVO.currency.name
+                this.subscribeList.initialInvestAmount.value = transNumToThousandMark(
                     fundDetail.fundTradeInfoVO.initialInvestAmount
-                this.continueInvestAmount =
+                )
+                this.subscribeList.continueInvestAmount.value = transNumToThousandMark(
                     fundDetail.fundTradeInfoVO.continueInvestAmount
+                )
+                this.subscribeList.subscriptionFee.value =
+                    fundDetail.fundTradeInfoVO.subscriptionFee * 100
+                let num =
+                    this.withdrawBalance / fundDetail.fundHeaderInfoVO.netPrice
+                this.subscribeList.withdrawBalanceNetPrice.value = transNumToThousandMark(
+                    num
+                )
+                //
+                // this.currency = fundDetail.fundTradeInfoVO.currency.name
+                // this.subscriptionFee =
+                //     fundDetail.fundTradeInfoVO.subscriptionFee
+                // this.initialInvestAmount =
+                //     fundDetail.fundTradeInfoVO.initialInvestAmount
+                // this.continueInvestAmount =
+                //     fundDetail.fundTradeInfoVO.continueInvestAmount
                 this.setCosUrl(
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
@@ -192,6 +200,10 @@ export default {
             try {
                 const hsInfo = await hsAccountInfo(currencyType)
                 this.withdrawBalance = hsInfo.withdrawBalance
+                this.subscribeList.withdrawBalance.value = transNumToThousandMark(
+                    hsInfo.withdrawBalance
+                )
+                this.getFundDetailInfo()
             } catch (e) {
                 console.log('申购页面-getWithdrawBalance:error:>>>', e)
             }
