@@ -1,5 +1,5 @@
 <template lang="pug">
-    .bond-index-wrapper(v-show="isShowPage")
+    .bond-index-wrapper
         van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
             van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
                 a(:href="bannerItem.jump_url" title="")
@@ -14,7 +14,7 @@
             )
                 bond-card(:bondInfo="item")
             .no-data(v-show="!hasData") 没有更多债券
-        .no-bond-box(v-if="bondList.length === 0")
+        .no-bond-box(v-if="bondList.length === 0 && isShowPage")
             .no-bond 暂无债券
 </template>
 <script>
@@ -29,7 +29,6 @@ export default {
     min-height: 100%;
     padding-bottom: 77px;
     .banner {
-        width: 375px;
         height: 150px;
         a {
             display: block;
