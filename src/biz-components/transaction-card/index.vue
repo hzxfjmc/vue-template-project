@@ -132,7 +132,8 @@ export default {
         // 债券名称
         bondName() {
             return (
-                (this.bondEditableInfo && this.bondEditableInfo.nameCn) || '--'
+                (this.bondEditableInfo && this.bondEditableInfo.bondName) ||
+                '--'
             )
         },
         // 货币单位
