@@ -160,7 +160,8 @@ export default {
                     ? -this.fundHeaderInfoVO.apy
                     : this.fundHeaderInfoVO.apy
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
-                    this.fundHeaderInfoVO.netPrice
+                    this.fundHeaderInfoVO.netPrice,
+                    4
                 )
                 this.fundHeaderInfoVO.currencyType =
                     res.fundTradeInfoVO.currency.name
