@@ -56,7 +56,7 @@ export default {
         },
         // 债券名称
         headerDesc() {
-            return this.bondEditableInfo && this.bondEditableInfo.nameCn
+            return this.bondEditableInfo && this.bondEditableInfo.bondName
         },
         colData() {
             let _this = this

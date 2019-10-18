@@ -16,6 +16,6 @@ export default {
 
 <style lang="scss" scoped>
 .transaction-wrapper {
-    padding: 10px 10px 48px;
+    height: 100%;
 }
 </style>

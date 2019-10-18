@@ -4,10 +4,10 @@ import { API_BASE_URL } from '../DOMAIN.js'
 import getHeadInfo from './get-head-info'
 import qs from 'qs'
 import Vue from 'vue'
-import { Toast } from 'vant'
-import { isYouxinApp } from '@/utils/html-utils.js'
 import JSBridge from '@/utils/js-bridge'
 import { compareVersion, guid } from '@/utils/tools'
+import { Toast } from 'vant'
+import { isYouxinApp } from '@/utils/html-utils.js'
 
 // 开发环境使用，打包前注意要注释
 import proxyValid from '@/mock/utils/api-proxy.js'

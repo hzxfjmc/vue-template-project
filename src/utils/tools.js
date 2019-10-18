@@ -73,6 +73,34 @@ export const debounce = (fn, delay) => {
         }, delay)
     }
 }
+
+/**
+ * 比较版本号
+ * @param v1 版本号，例：1.0.0
+ * @param v2 版本号，例：1.0.0
+ * @returns number 0：v1=v2，1：v1>v2，-1：v1<v2
+ */
+export function compareVersion(v1, v2) {
+    const v1_arr = v1.split('.').map(i => parseInt(i))
+    const v2_arr = v2.split('.').map(i => parseInt(i))
+    const maxLength =
+        v1_arr.length > v2_arr.length ? v1_arr.length : v2_arr.length
+    for (let i = 0; i < maxLength; i++) {
+        if (v1_arr[i] === undefined) {
+            return -1
+        }
+        if (v2_arr[i] === undefined) {
+            return 1
+        }
+        if (v1_arr[i] > v2_arr[i]) {
+            return 1
+        }
+        if (v1_arr[i] < v2_arr[i]) {
+            return -1
+        }
+    }
+    return 0
+}
 /**
  * 节流 规定时间内不管触发多少次只执行一次,与防抖不同，节流可以在第一次时候马上执行
  * @param {Function} fn 实际要执行的业务逻辑函数
@@ -159,32 +187,4 @@ export function transNumToThousandMark(num = '0', dot = 2) {
         })
         return Number(number).toFixed(2)
     }
-}
-
-/**
- * 比较版本号
- * @param v1 版本号，例：1.0.0
- * @param v2 版本号，例：1.0.0
- * @returns number 0：v1=v2，1：v1>v2，-1：v1<v2
- */
-export function compareVersion(v1, v2) {
-    const v1_arr = v1.split('.').map(i => parseInt(i))
-    const v2_arr = v2.split('.').map(i => parseInt(i))
-    const maxLength =
-        v1_arr.length > v2_arr.length ? v1_arr.length : v2_arr.length
-    for (let i = 0; i < maxLength; i++) {
-        if (v1_arr[i] === undefined) {
-            return -1
-        }
-        if (v2_arr[i] === undefined) {
-            return 1
-        }
-        if (v1_arr[i] > v2_arr[i]) {
-            return 1
-        }
-        if (v1_arr[i] < v2_arr[i]) {
-            return -1
-        }
-    }
-    return 0
 }
