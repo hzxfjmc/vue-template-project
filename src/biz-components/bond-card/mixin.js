@@ -61,23 +61,6 @@ export default {
                     (this.bondInfo.price.buyYtm - 0).toFixed(3) + '%') ||
                 '--'
             )
-        },
-        // 付息频率
-        paymentFrequency() {
-            return (
-                (this.bondInfo &&
-                    this.bondInfo.paymentFrequency &&
-                    this.bondInfo.paymentFrequency.name &&
-                    this.bondInfo.paymentFrequency.name + '付息') ||
-                '--'
-            )
-        },
-        // 付息日
-        paymentDates() {
-            let d = this.bondInfo && this.bondInfo.paymentDates
-            d = d ? d.split('|') : ''
-            let suffix = d.length > 2 ? '等' : ''
-            return d ? d.slice(0, 2).join('、') + suffix : '--'
         }
     }
 }

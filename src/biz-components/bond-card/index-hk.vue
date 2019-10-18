@@ -14,18 +14,48 @@
                 .text {{ buyYtm }}
                 .card-tips 到期年化收益表
             div
-                .text {{ buyYtm }}
+                .text {{ buyPrice }}
                 .card-tips 參考金額/份
             div
                 .text.interest-num
-                    span {{ buyYtm }}
+                    span {{ paymentAfterTaxPerYear }}
                 .card-tips 年稅後派息/份
 </template>
 
 <script>
 import mixin from './mixin'
 export default {
-    mixins: [mixin]
+    mixins: [mixin],
+    computed: {
+        // 參考金額
+        buyPrice() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.price &&
+                    this.bondInfo.price.buyPrice &&
+                    `${this.bondInfo.price.buyPrice}${this.currency}`) ||
+                '--'
+            )
+        },
+        // 货币单位
+        currency() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.enumCurrency &&
+                    this.bondInfo.enumCurrency.symbol) ||
+                ''
+            )
+        },
+        // 年稅後派息
+        paymentAfterTaxPerYear() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.paymentAfterTaxPerYear &&
+                    `${this.bondInfo.paymentAfterTaxPerYear}${this.currency}`) ||
+                '--'
+            )
+        }
+    }
 }
 </script>
 
