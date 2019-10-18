@@ -4,7 +4,7 @@
             van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
                 a(:href="bannerItem.jump_url" title="")
                     img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
-                    //- img(:src="require('@/assets/img/bond/banner-demo.png')" :alt="bannerItem.banner_title")
+                    //- img(:src="require('@/assets/img/bond-hk/banner-demo.png')" :alt="bannerItem.banner_title")
         .bond-list
             router-link(
                 v-for="(item, index) in bondList"
@@ -27,9 +27,10 @@ export default {
 <style lang="scss" scoped>
 .bond-index-wrapper {
     min-height: 100%;
-    padding-bottom: 77px;
+    padding: 8px 0 77px;
     .banner {
-        height: 150px;
+        height: 100px;
+        margin: 0 $hk-global-padding;
         a {
             display: block;
             height: 100%;
@@ -40,7 +41,7 @@ export default {
         }
     }
     .bond-list {
-        padding: 0 10px;
+        padding: 0 $hk-global-padding;
     }
     .no-data {
         padding: 10px 0 7px;
