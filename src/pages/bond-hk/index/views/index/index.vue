@@ -12,15 +12,19 @@
                 :to="{path: 'bond-detail?id=' + item.id}"
                 title=""
             )
-                bond-card(:bondInfo="item")
+                bond-card-hk(:bondInfo="item")
             .no-data(v-show="!hasData") 没有更多债券
         .no-bond-box(v-if="bondList.length === 0 && isShowPage")
             .no-bond 暂无债券
 </template>
 <script>
 import indexMixin from '@/mixins/bond/index/index.js'
+import BondCardHk from '@/biz-components/bond-card/index-hk'
 export default {
-    mixins: [indexMixin]
+    mixins: [indexMixin],
+    components: {
+        BondCardHk
+    }
 }
 </script>
 
