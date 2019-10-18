@@ -20,7 +20,7 @@
 <script>
 import mixin from './mixin'
 export default {
-    mixin: [mixin]
+    mixins: [mixin]
 }
 </script>
 
