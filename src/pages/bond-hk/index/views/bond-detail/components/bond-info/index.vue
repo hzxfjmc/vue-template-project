@@ -13,12 +13,15 @@
             )
                 i.icon
                 span 募集说明
+        .bond-tips 此債券面值為2000USD/份，買賣金額為2000*買賣價
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")
                 col-msg(
                     v-for="(msgItem, index) in moreBondMsg"
                     :key="index"
+                    titleClass="title-class"
+                    descClass="desc-class"
                     :colData="msgItem"
                 )
             i.iconfont(:class="[showMore ? 'icon-iconshouqi' : 'icon-iconxiala' ]")
@@ -43,25 +46,32 @@ export default {
             align-items: center;
             height: 22px;
             padding: 0 6px;
-            border: 1px solid #ebebeb;
-            color: #393939;
             border-radius: 1px;
             &:first-child {
-                margin-right: 10px;
+                margin-right: 15px;
             }
             i {
                 display: inline-block;
-                width: 12px;
-                height: 13px;
-                margin-right: 7px;
+                width: 15px;
+                height: 15px;
+                margin-right: 5px;
                 background: url('~@/assets/img/bond/icon-pdf.png') center
                     no-repeat;
                 background-size: 100% 100%;
             }
             span {
-                font-size: 12px;
+                color: rgba($color: $hk-text-color, $alpha: 0.6);
+                font-size: 0.24rem;
+                line-height: 17px;
             }
         }
+    }
+    .bond-tips {
+        margin-top: -1px;
+        padding: 0 14px 5px;
+        color: rgba($color: $hk-text-color, $alpha: 0.6);
+        font-size: 0.24rem;
+        line-height: 20px;
     }
     .col-column {
         padding-bottom: 20px;
@@ -82,13 +92,15 @@ export default {
 </style>
 <style lang="scss">
 .detail-bond-info-wrapper {
-    .hd-col {
-        &.col-column {
-            .van-col:nth-child(3) {
-                .van-col__title {
-                    font-size: 0.22rem;
-                }
-            }
+    .col-column {
+        .title-class {
+            color: $hk-text-color;
+            font-size: 0.36rem;
+        }
+        .desc-class {
+            margin-top: 1px;
+            color: rgba($color: $hk-text-color, $alpha: 0.6);
+            line-height: 20px;
         }
     }
 }

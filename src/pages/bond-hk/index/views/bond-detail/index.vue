@@ -85,13 +85,13 @@ export default {
     margin-top: 14px;
     border-radius: 10px;
     .van-panel__header {
-        padding: 7px 14px;
+        padding: 11px 14px;
         font-size: 0.28rem;
         line-height: 20px;
         &:after {
             content: '';
             position: absolute;
-            top: 11px;
+            top: 15px;
             left: 0;
             width: 4px;
             height: 14px;
