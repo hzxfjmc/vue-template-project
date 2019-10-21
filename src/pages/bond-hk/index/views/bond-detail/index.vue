@@ -7,7 +7,7 @@
         )
         van-panel(title="購買流程")
             purchasing-process(:bondUneditableInfo="bondUneditableInfo")
-        van-panel(title="債劵價格" style="position:relative")
+        van-panel(title="債劵價格" desc="（每份）" style="position:relative")
             BondPrice(:chartData="prices" :currentPrice="currentPrice")
         van-panel(title="債劵資料")
             BondInfo(
@@ -82,7 +82,7 @@ export default {
 // 微调 vant panel 样式
 .van-panel {
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 14px;
     border-radius: 10px;
     .van-panel__header {
         padding: 7px 14px;
@@ -103,6 +103,11 @@ export default {
     .van-cell__title {
         font-size: 0.32rem;
         line-height: 22px;
+        .van-cell__label {
+            display: inline-block;
+            color: rgba($color: $hk-text-color, $alpha: 0.4);
+            font-size: 0.24rem;
+        }
     }
 }
 </style>

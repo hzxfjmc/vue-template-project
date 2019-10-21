@@ -41,7 +41,7 @@ export default {
         }
         .van-step__line {
             width: 0;
-            border-left: 1px dashed rgba($color: $text-color, $alpha: 0.2);
+            border-left: 1px dashed rgba($color: $hk-text-color, $alpha: 0.2);
         }
         &:not(:last-child)::after {
             display: none;
@@ -52,7 +52,7 @@ export default {
             font-size: 0.24rem;
             line-height: 17px;
             h3 {
-                color: $text-color;
+                color: $hk-text-color;
             }
             p {
                 margin-top: 5px;

@@ -75,7 +75,7 @@ export default {
             width: 100%;
             height: 100%;
             padding-left: 14px;
-            border: 1px solid rgba($color: $text-color, $alpha: 0.05);
+            border: 1px solid rgba($color: $hk-text-color, $alpha: 0.05);
             color: #2e2e3c;
             font-size: 0.28rem;
             line-height: 48px;
