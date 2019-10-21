@@ -6,8 +6,8 @@
             :style="wrapperStyle"
             @click.native="emitHandle(index)"
         )
-            .van-col__title(:style="titleStyle") {{ colItem.title }}
-            .van-col__desc(:style="descStyle") {{ colItem.desc }}
+            .van-col__title(:style="titleStyle" :class="titleClass") {{ colItem.title }}
+            .van-col__desc(:style="descStyle" :class="descClass") {{ colItem.desc }}
                 i(v-if="colItem.class" class="iconfont" :class="colItem.class")
 </template>
 <script>
@@ -31,9 +31,17 @@ export default {
             type: Object,
             default: () => {}
         },
+        titleClass: {
+            type: String,
+            default: ''
+        },
         titleStyle: {
             type: Object,
             default: () => {}
+        },
+        descClass: {
+            type: String,
+            default: ''
         },
         descStyle: {
             type: Object,

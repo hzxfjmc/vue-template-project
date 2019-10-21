@@ -1,6 +1,17 @@
 import ColMsg from '@/biz-components/col-msg'
 import F2 from '@antv/f2'
 import dayjs from 'dayjs'
+import { mapGetters } from 'vuex'
+const multLangMap = {
+    buyPrice: {
+        1: '买入价',
+        2: '買入價'
+    },
+    sellPrice: {
+        1: '卖出价',
+        2: '賣出價'
+    }
+}
 export default {
     name: 'BondPrice',
     components: {
@@ -28,6 +39,10 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['appType']),
+        appTypeNumber() {
+            return this.appType.Ch ? 1 : 2
+        },
         // 构造好的地图数据
         resolveData() {
             let obj = []
@@ -39,7 +54,7 @@ export default {
                             'YYYY年MM月DD日'
                         ),
                         value: chartItem.buyPrice,
-                        type: '买入价',
+                        type: multLangMap.buyPrice[this.appTypeNumber],
                         buyYtm: chartItem.buyYtm
                     },
                     {
@@ -48,7 +63,7 @@ export default {
                             'YYYY年MM月DD日'
                         ),
                         value: chartItem.sellPrice,
-                        type: '卖出价',
+                        type: multLangMap.sellPrice[this.appTypeNumber],
                         buyYtm: chartItem.buyYtm
                     }
                 )
@@ -62,7 +77,7 @@ export default {
                         (this.currentPrice.buyPrice &&
                             (this.currentPrice.buyPrice - 0).toFixed(4)) ||
                         '--',
-                    desc: '买入价'
+                    desc: multLangMap.buyPrice[this.appTypeNumber]
                 },
                 {
                     title:
@@ -76,7 +91,7 @@ export default {
                         (this.currentPrice.sellPrice &&
                             (this.currentPrice.sellPrice - 0).toFixed(4)) ||
                         '--',
-                    desc: '卖出价'
+                    desc: multLangMap.sellPrice[this.appTypeNumber]
                 }
             ]
             return data
@@ -148,7 +163,7 @@ export default {
                 .line()
                 .position('date*value')
                 .color('type', value => {
-                    if (value === '买入价') {
+                    if (value === multLangMap.buyPrice[this.appTypeNumber]) {
                         return '#497AFF'
                     }
                     return '#FFBF32'
