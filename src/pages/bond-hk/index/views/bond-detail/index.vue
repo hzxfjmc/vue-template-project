@@ -5,22 +5,22 @@
             :bondUneditableInfo="bondUneditableInfo",
             :currentPrice="currentPrice"
         )
-        van-panel(title="购买流程")
+        van-panel(title="購買流程")
             purchasing-process(:bondUneditableInfo="bondUneditableInfo")
-        van-panel(title="债券价格" style="position:relative")
+        van-panel(title="債劵價格" style="position:relative")
             BondPrice(:chartData="prices" :currentPrice="currentPrice")
-        van-panel(title="债券资料")
+        van-panel(title="債劵資料")
             BondInfo(
                 :bondEditableInfo="bondEditableInfo"
                 :bondUneditableInfo="bondUneditableInfo"
             )
-        van-panel(title="交易规则")
+        van-panel(title="交易規則")
             TransactionRules
         .faq
-            a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
+            a(href="/webapp/market/generator.html?key=bond01" title="債劵常見問題") 債劵常見問題
         .operate-btn-box
-            div(@click="handleBuyOrSell('buy')") 买入
-            div(@click="handleBuyOrSell('sell')") 卖出
+            div(@click="handleBuyOrSell('buy')") 買入
+            div(@click="handleBuyOrSell('sell')") 賣出
 
 </template>
 <script>
@@ -85,16 +85,24 @@ export default {
     margin-top: 10px;
     border-radius: 10px;
     .van-panel__header {
-        padding: 14px 12px;
+        padding: 7px 14px;
         font-size: 0.28rem;
         line-height: 20px;
         &:after {
-            display: none;
+            content: '';
+            position: absolute;
+            top: 11px;
+            left: 0;
+            width: 4px;
+            height: 14px;
+            background-color: $hk-primary-color;
+            transform: none;
+            // display: none;
         }
     }
     .van-cell__title {
-        font-size: 0.28rem;
-        line-height: 20px;
+        font-size: 0.32rem;
+        line-height: 22px;
     }
 }
 </style>
