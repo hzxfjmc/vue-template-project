@@ -124,7 +124,7 @@ export default {
                                 title:
                                     obj.items[0].value &&
                                     (obj.items[0].value - 0).toFixed(4),
-                                desc: '买入价'
+                                desc: multLangMap.buyPrice[this.appTypeNumber]
                             },
                             {
                                 title:
@@ -140,7 +140,7 @@ export default {
                                     (obj.items[1].value &&
                                         (obj.items[1].value - 0).toFixed(4)) ||
                                     '--',
-                                desc: '卖出价'
+                                desc: multLangMap.sellPrice[this.appTypeNumber]
                             }
                         ]
                     }

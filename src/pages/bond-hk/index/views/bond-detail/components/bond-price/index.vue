@@ -22,13 +22,6 @@ export default {
 <style lang="scss" scoped>
 .detail-bond-price-wrapper {
     user-select: none;
-    .col-column {
-        padding: 0 14px;
-        margin-top: 13px;
-        .title-class {
-            color: $hk-text-color;
-        }
-    }
     .chart-wrapper {
         margin-top: 20px;
         padding-bottom: 5px;
@@ -43,6 +36,8 @@ export default {
 <style lang="scss">
 .detail-bond-price-wrapper {
     .col-column {
+        padding: 0 14px;
+        margin-top: 13px;
         .title-class {
             color: $hk-text-color;
             font-size: 0.36rem;
