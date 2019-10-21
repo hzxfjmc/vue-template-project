@@ -1,3 +1,4 @@
+import YxContainerBetter from '@/components/yx-container-better'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
@@ -6,7 +7,8 @@ import { mapState } from 'vuex'
 export default {
     name: 'BondList',
     components: {
-        [Panel.name]: Panel
+        [Panel.name]: Panel,
+        YxContainerBetter
     },
     created() {
         this.id = this.$route.query.id - 0

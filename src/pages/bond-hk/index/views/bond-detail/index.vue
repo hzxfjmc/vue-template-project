@@ -1,26 +1,35 @@
 <template lang="pug">
-    .bond-detail-wrapper
-        detail-header(
-            :bondEditableInfo="bondEditableInfo"
-            :bondUneditableInfo="bondUneditableInfo",
-            :currentPrice="currentPrice"
-        )
-        van-panel(title="購買流程")
-            purchasing-process(:bondUneditableInfo="bondUneditableInfo")
-        van-panel(title="債劵價格" desc="（每份）" style="position:relative")
-            BondPrice(:chartData="prices" :currentPrice="currentPrice")
-        van-panel(title="債劵資料")
-            BondInfo(
+    yx-container-better
+        .bond-detail-wrapper(slot="main")
+            detail-header(
                 :bondEditableInfo="bondEditableInfo"
-                :bondUneditableInfo="bondUneditableInfo"
+                :bondUneditableInfo="bondUneditableInfo",
+                :currentPrice="currentPrice"
             )
-        van-panel(title="交易規則")
-            TransactionRules
-        .faq
-            a(href="/webapp/market/generator.html?key=bond01" title="債劵常見問題") 債劵常見問題
-        .operate-btn-box
-            div(@click="handleBuyOrSell('buy')") 買入
-            div(@click="handleBuyOrSell('sell')") 賣出
+            van-panel(title="購買流程")
+                purchasing-process(:bondUneditableInfo="bondUneditableInfo")
+            van-panel(title="債劵價格" desc="（每份）" style="position:relative")
+                BondPrice(:chartData="prices" :currentPrice="currentPrice")
+            van-panel(title="債劵資料")
+                BondInfo(
+                    :bondEditableInfo="bondEditableInfo"
+                    :bondUneditableInfo="bondUneditableInfo"
+                )
+            van-panel(title="交易規則")
+                TransactionRules
+            .faq
+                a(href="/webapp/market/generator.html?key=bond01" title="債劵常見問題") 債劵常見問題
+        .operate-btn-box(slot="bottom")
+            van-button(
+                type="info"
+                text="買入"
+                @click="handleBuyOrSell('buy')"
+            )
+            van-button(
+                type="info"
+                text="賣出"
+                @click="handleBuyOrSell('sell')"
+            )
 
 </template>
 <script>
@@ -56,26 +65,24 @@ export default {
             line-height: 17px;
         }
     }
-    // 买入卖出按钮
-    .operate-btn-box {
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        height: 48px;
+}
+// 买入卖出按钮
+.operate-btn-box {
+    display: flex;
+    height: 48px;
+    .van-button {
         display: flex;
-        div {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            height: 100%;
-            background-color: $primary-color-line;
-            color: #fff;
-            font-size: 0.32rem;
-            &:last-child {
-                background-color: $sell-color;
-            }
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        height: 100%;
+        border-color: transparent;
+        background-color: $primary-color-line;
+        color: #fff;
+        font-size: 0.32rem;
+        border-radius: 0 !important;
+        &:last-child {
+            background-color: $sell-color;
         }
     }
 }

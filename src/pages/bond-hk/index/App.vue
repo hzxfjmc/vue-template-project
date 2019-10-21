@@ -12,6 +12,9 @@
 @import '~@/assets/styles/vant-reset-hk.scss';
 #app {
     background-color: $hk-background-color;
+    .yx-container {
+        background-color: transparent;
+    }
 }
 * {
     user-select: none;
