@@ -94,7 +94,8 @@ export default {
     background-color: rgba($color: #0055ff, $alpha: 0.6);
     border-radius: 10px;
     .header-column {
-        padding: 0 10px 14px 14px;
+        padding: 0 10px 20px 14px;
+        border-bottom: 1px solid #e6e6e6;
         >>> .van-col {
             flex-grow: 0;
         }
@@ -116,13 +117,13 @@ export default {
                 margin-top: 1px;
                 color: rgba($color: #fff, $alpha: 0.6);
                 font-size: 0.28rem;
-                line-height: 17px;
+                line-height: 20px;
             }
         }
     }
 }
 .header-features {
-    padding: 13px 0;
+    padding: 14px 0 18px 0;
     .media-box {
         padding: 0;
         .media-box__header {
@@ -135,13 +136,13 @@ export default {
         }
         .media-box__content {
             .media-box__title {
-                font-size: 0.28rem;
-                line-height: 20px;
+                font-size: 0.32rem;
+                line-height: 22px;
             }
         }
     }
     .media-box + .media-box {
-        margin-top: 12px;
+        margin-top: 10px;
     }
 }
 </style>

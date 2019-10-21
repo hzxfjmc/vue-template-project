@@ -81,8 +81,9 @@ export default {
 }
 // 微调 vant panel 样式
 .van-panel {
+    overflow: hidden;
     margin-top: 10px;
-    border-radius: 4px;
+    border-radius: 10px;
     .van-panel__header {
         padding: 14px 12px;
         font-size: 0.28rem;
