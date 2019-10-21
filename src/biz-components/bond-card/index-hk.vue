@@ -24,6 +24,7 @@
 
 <script>
 import mixin from './mixin'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     mixins: [mixin],
     computed: {
@@ -33,7 +34,10 @@ export default {
                 (this.bondInfo &&
                     this.bondInfo.price &&
                     this.bondInfo.price.buyPrice &&
-                    `${this.bondInfo.price.buyPrice}${this.currency}`) ||
+                    `${this.currency}${transNumToThousandMark(
+                        this.bondInfo.price.buyPrice,
+                        3
+                    )}`) ||
                 '--'
             )
         },
@@ -51,7 +55,10 @@ export default {
             return (
                 (this.bondInfo &&
                     this.bondInfo.paymentAfterTaxPerYear &&
-                    `${this.bondInfo.paymentAfterTaxPerYear}${this.currency}`) ||
+                    `${this.currency}${transNumToThousandMark(
+                        this.bondInfo.paymentAfterTaxPerYear,
+                        3
+                    )}`) ||
                 '--'
             )
         }

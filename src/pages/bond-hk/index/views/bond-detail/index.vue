@@ -44,7 +44,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bond-detail-wrapper {
-    padding: 10px 10px 48px;
+    padding: 8px $hk-global-padding 48px;
     color: #393939;
     // 常见问题
     .faq {

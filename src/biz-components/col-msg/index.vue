@@ -8,6 +8,7 @@
         )
             .van-col__title(:style="titleStyle") {{ colItem.title }}
             .van-col__desc(:style="descStyle") {{ colItem.desc }}
+                i(v-if="colItem.class" class="iconfont" :class="colItem.class")
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -53,6 +54,7 @@ export default {
     padding: 14px 16px;
     .van-col {
         flex: 1;
+        min-width: 22%;
     }
     .van-col__title {
         color: $text-color;
@@ -64,6 +66,11 @@ export default {
         color: $text-color5;
         font-size: 0.24rem;
         line-height: 17px;
+        .iconfont {
+            margin-left: 6px;
+            font-size: 0.26rem;
+            vertical-align: middle;
+        }
     }
 }
 .col-column + .col-column {
