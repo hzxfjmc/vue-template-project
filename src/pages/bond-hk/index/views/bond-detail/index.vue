@@ -49,7 +49,7 @@ export default {
     // 常见问题
     .faq {
         text-align: center;
-        margin: 10px auto 12px;
+        margin: 30px auto;
         a {
             color: $primary-color-line;
             font-size: 0.24rem;

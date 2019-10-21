@@ -15,13 +15,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .detail-transaction-rules-wrapper {
+    margin-top: 9px;
     padding-bottom: 7px;
     .yx-cell {
         display: flex;
-        padding: 10px 14px;
-        color: $text-color5;
+        padding: 7px 14px;
+        color: rgba($color: $hk-text-color, $alpha: 0.6);
         font-size: 0.24rem;
-        line-height: 17px;
+        line-height: 20px;
     }
     .yx-cell + .yx-cell {
         padding-top: 0;
