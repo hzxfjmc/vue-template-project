@@ -89,15 +89,18 @@ export const cancelFundOrder = params => {
 
 //获取当前客户持仓收益列表
 export const getFundPositionEarningsListV1 = params => {
-    return axios.post(`/api/get-fund-position-earnings-list/v1`, params)
+    return axios.post(
+        `/finance-server/api/get-fund-position-earnings-list/v1`,
+        params
+    )
 }
 
 //获取当前客户基金持仓列表V2
 export const getFundPositionList = params => {
-    return axios.post(`/api/get-fund-position-list/v2`, params)
+    return axios.post(`/finance-server/api/get-fund-position-list/v2`, params)
 }
 
 //获取当前客户单个基金持仓V2
 export const getFundPositionV2 = params => {
-    return axios.post(`/api/get-fund-position/v2`, params)
+    return axios.post(`/finance-server/api/get-fund-position/v2`, params)
 }

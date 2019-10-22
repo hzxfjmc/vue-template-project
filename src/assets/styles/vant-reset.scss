@@ -68,9 +68,6 @@
     .van-tag::after {
         transform: scale(0.45);
     }
-    .van-hairline--top-bottom:after {
-        border-width: 0 0;
-    }
 }
 body {
     .van-toast.toast-like-ios {
@@ -101,5 +98,23 @@ body {
     }
     .van-button--primary {
         color: #fff;
+    }
+}
+
+.fund-account-container{
+    .van-hairline--top-bottom:after {
+        border-width: 0 0;
+    }
+    .van-tab {
+        font-size:0.32rem;
+    }
+}
+
+.home-header-container{
+ .van-hairline--top-bottom:after {
+        border-width: 0 0;
+    }
+    .van-tab {
+        font-size:0.32rem;
     }
 }

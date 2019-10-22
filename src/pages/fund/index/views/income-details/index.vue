@@ -1,11 +1,15 @@
 <template lang="pug">
 .income-details-content
     .list(class="border-bottom" v-for="(item,index) in list")
-        .left 10/{{index}}
-        .content 
-            .top 收益
-            .bottom 华夏智能关怀人工防水等级很高
-        .right 0.{{index}}
+        .block-left 
+            span.element-fund-name 基金名称
+            span.element-price 金额
+            span.element-time 时间
+        .block-right 
+            span.element-fund-name 贝莱德全球基金-环球高收益
+            span.element-price +100,000.00
+            span.element-time 2019-07-08 15:55:08
+            
 </template>
 <script>
 export default {
@@ -26,20 +30,31 @@ export default {
     overflow: hidden;
     overflow-y: auto;
     .list {
-        width: 96%;
+        width: 100%;
         padding: 10px 2%;
+        // height: 150px;
         display: flex;
         align-items: center;
-        .left {
-            flex-grow: 1;
-            text-align: left;
+        .block-left {
+            display: flex;
+            width: 30%;
+            flex-direction: column;
+            span {
+                display: inline-block;
+                line-height: 25px;
+                color: $text-color5;
+            }
         }
-        .contet {
-            flex-grow: 2;
-        }
-        .right {
-            flex-grow: 1;
-            text-align: right;
+        .block-right {
+            display: flex;
+            width: 70%;
+            justify-content: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
+            span {
+                display: inline-block;
+                line-height: 25px;
+            }
         }
     }
 }

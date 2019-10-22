@@ -1,0 +1,106 @@
+<template lang="pug">
+.fund-list-content
+    .list-item-content(v-for="(item,index) in fundList" :key="index")
+        .fund-name {{item.fundName}}
+        .fund-list-num
+            .fund-row
+                span 近七日数据
+                .number {{item.weekEarnings}}
+            .fund-row
+                span 持仓收益
+                .number {{item.positionEarnings}}
+            .fund-row
+                span 金额
+                .number {{item.positionAmount}}
+            .fund-row
+                span 份额
+                .number 6
+        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' && item.inTransitAmount !== '0.00'")
+            .o-item
+                .footer-left 赎回中
+                .footer-right
+                    span 份额
+                    span.price-number {{item.redeemDeliveryShare}}
+            .o-item
+                .footer-left 申购中
+                .footer-right
+                    span USD
+                    span.price-number {{item.inTransitAmount}}
+</template>
+<script>
+export default {
+    props: {
+        fundList: {
+            type: Array,
+            default: () => {}
+        }
+    }
+}
+</script>
+<style lang="scss">
+.fund-list-content {
+    width: 94%;
+    margin: 0 3%;
+    .list-item-content {
+        width: 100%;
+        border-radius: 4px;
+        // height: 110px;
+        margin: 10px 0 0 0;
+        padding: 10px 2% 14px 2%;
+        background: #fff;
+        .fund-name {
+            font-size: 0.32rem;
+            line-height: 22px;
+            margin: 10px 0 5px 0;
+        }
+        .fund-list-num {
+            display: flex;
+            margin: 14px 0 0 0;
+            flex-direction: row;
+            .fund-row {
+                width: 25%;
+                text-align: right;
+                span {
+                    font-size: 0.24rem;
+                    color: rgba(25, 25, 25, 0.5);
+                }
+                .number {
+                    font-size: 0.32rem;
+                    font-family: 'yxFontDINPro-Regular';
+                }
+            }
+            .fund-row:first-child {
+                text-align: left;
+            }
+        }
+        .fund-list-other {
+            margin: 10px 0 0 0;
+            padding: 7px 0 0 0;
+            .o-item {
+                display: flex;
+                margin: 5px 0 0 0;
+                flex-direction: row;
+                .footer-left {
+                    width: 50%;
+                }
+                .footer-right {
+                    text-align: right;
+                    width: 50%;
+                    span {
+                        font-size: 0.24rem;
+                        color: rgba(25, 25, 25, 0.5);
+                    }
+                    .price-number {
+                        // width: 80px;
+                        font-size: 0.28rem;
+                        font-family: 'yxFontDINPro-Regular';
+                        color: rgba(25, 25, 25, 1);
+                        margin: 0 0 0 5px;
+                        display: inline-block;
+                    }
+                }
+            }
+        }
+    }
+}
+</style>

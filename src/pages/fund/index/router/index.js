@@ -134,7 +134,7 @@ export default new Router({
         {
             name: 'fund-account',
             path: '/fund-account',
-            meta: { title: 'fundOrderList', auth: true, cs: true },
+            meta: { title: 'fun-account', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-account/index.vue`)
         }
