@@ -9,8 +9,12 @@
 
 <script>
 import transactionBuyMixin from '@/mixins/bond/transaction-buy/index.js'
+import TransactionCard from '@/biz-components/transaction-card/index-hk.vue'
 export default {
-    mixins: [transactionBuyMixin]
+    mixins: [transactionBuyMixin],
+    components: {
+        TransactionCard
+    }
 }
 </script>
 
