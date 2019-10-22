@@ -6,6 +6,7 @@
             background="#2f79ff" 
             color="#fff" 
             border=false
+           @click="handlerCurrency"
             title-inactive-color="#fff" 
             title-active-color="#fff")
             van-tab(title="港币基金" name="1")
@@ -28,8 +29,8 @@
                 em(v-else) ****
     
     .header-footer-tab(class="border-top")
-        span.header-footer-left 收益明细
-        span 订单记录
+        span.header-footer-left(@click="toRouterPath('/income-details')") 收益明细
+        span(@click="toRouterPath('/fund-order-list')") 订单记录
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
@@ -42,7 +43,7 @@ export default {
     },
     data() {
         return {
-            active: '1',
+            active: 0,
             showPsd: true
         }
     },
@@ -61,6 +62,15 @@ export default {
         }
     },
     methods: {
+        //跳转路由
+        toRouterPath(path) {
+            this.$emit('toRouterPath', path)
+        },
+        //修改货币
+        handlerCurrency(name) {
+            name = name == 0 ? 2 : 1
+            this.$emit('handlerCurrency', name)
+        },
         hideNumber() {
             this.showPsd = !this.showPsd
         }
@@ -96,6 +106,7 @@ export default {
         .title {
             color: rgba(255, 255, 255, 0.6);
             line-height: 20px;
+            display: flex;
             font-size: 0.24rem;
             em {
                 float: left;

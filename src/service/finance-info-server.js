@@ -60,3 +60,8 @@ export const getFundDetail = params => {
 export const getFundNetPrice = params => {
     return axios.post(`/finance-info-server/api/get-fund-net-price/v1`, params)
 }
+
+//获取基金列表V2
+export const getFundListV2 = params => {
+    return axios.post(`/finance-info-server/api/get-fund-list/v2`, params)
+}

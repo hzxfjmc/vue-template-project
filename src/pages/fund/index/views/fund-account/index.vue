@@ -1,6 +1,9 @@
 <template lang="pug">
 .fund-account-container
-    fundAccountHeader(:holdData="holdData")
+    fundAccountHeader(
+        @toRouterPath = "toRouterPath"
+        @handlerCurrency="handlerCurrency"
+        :holdData="holdData")
     fundList(:fundList="fundList")
 
 </template>
@@ -13,7 +16,8 @@ export default {
     data() {
         return {
             holdData: {},
-            fundList: []
+            fundList: [],
+            currency: 2
         }
     },
     components: {
@@ -21,6 +25,16 @@ export default {
         fundList
     },
     methods: {
+        toRouterPath(path) {
+            this.$router.push({
+                path: path,
+                query: { currency: this.currency }
+            })
+        },
+        handlerCurrency(data) {
+            this.currency = data
+            this.getFundPositionList()
+        },
         async getFundPositionList() {
             const {
                 positionAmount,
@@ -28,7 +42,7 @@ export default {
                 weekEarnings,
                 positionList
             } = await getFundPositionList({
-                currency: 2
+                currency: this.currency
             })
             this.holdData = {
                 positionAmount: transNumToThousandMark(positionAmount),

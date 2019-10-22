@@ -5,11 +5,12 @@
             v-model="active" 
             background="#2f79ff" 
             color="#fff" 
+            @click="handlerCurrency"
             border=false
             title-inactive-color="#fff" 
             title-active-color="#fff")
-            van-tab(title="港币基金" name="1")
-            van-tab(title="美元基金" name="2")
+            van-tab(title="港币基金" name="2")
+            van-tab(title="美元基金" name="1")
     .header-content-item
         .list-item(v-for="(item,index) in list" :key="item.icon" @click='toFundList(item,index)')
             i.iconfont(:class="item.icon")
@@ -71,6 +72,11 @@ export default {
     },
 
     methods: {
+        //修改货币
+        handlerCurrency(name) {
+            name = name == 0 ? 2 : 1
+            this.$emit('handlerCurrency', name)
+        },
         //隐藏
         hideNumber() {
             this.showMoney = !this.showMoney
