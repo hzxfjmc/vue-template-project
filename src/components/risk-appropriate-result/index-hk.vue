@@ -14,20 +14,27 @@
                     strong {{ $t('riskTypeList')[bondRiskLevel] && $t('riskTypeList')[bondRiskLevel]  }}
             .risk-result__tips(v-if="riskMatchResult === 1")
                 h2
-                    span {{$t('riskMeans')}}
                     i.iconfont.icon-about_icon
+                    span {{$t('riskMeans')}}
                 p {{$t('meansInfo')}}
-            //- .risk-agreement(v-if="riskMatchResult === 3")
-            //-     van-checkbox(v-model="isReadProductInfo")
-            //-         i.iconfont(
-            //-             slot="icon"
-            //-             slot-scope="props"
-            //-             :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
-            //-         )
-            //-     p
-            //-         span 我已阅读并知晓债券相关风险，我已阅读产品资料
-            //-         a(:href="productUrl") 《产品概览书》
-            van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toCall'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toClose'):$t('toCancel')" @cancel="callOrCancel(number)" )
+            .risk-agreement(v-if="riskMatchResult === 3")
+                van-checkbox(v-model="isReadProductInfo")
+                    i.iconfont(
+                        slot="icon"
+                        slot-scope="props"
+                        :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
+                    )
+                p
+                    span 我已阅读并知晓债券相关风险，我已阅读产品资料
+                    a(:href="productUrl") 《产品概览书》
+            van-dialog.remaining-container(
+                v-model="showRemainingNum"
+                :show-cancel-button='true'
+                :confirm-button-text="number===0?$t('toCall'):$t('startRisk')"
+                @confirm="startRiskHandle(number)"
+                :cancel-button-text="number===0?$t('toClose'):$t('toCancel')"
+                @cancel="callOrCancel(number)"
+            )
                 .title {{$t('leastNum')}} {{number}} {{$t('times')}}
                 .years-info(v-if="number!==0") {{resetTimes}}
                 .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
@@ -50,96 +57,95 @@ export default {
 
 <style lang="scss" scoped>
 .yx-container.risk-appropriate-result-wrapper {
-    display: flex;
-    flex-direction: column;
+    background-color: #fff !important;
     .risk-appropriate-result-container {
-        flex: 1;
         .risk-result__header {
-            padding-top: 20px;
+            padding-top: 41px;
+            text-align: center;
             i {
                 display: block;
-                width: 90px;
-                height: 90px;
+                width: 100px;
+                height: 100px;
                 margin: 0 auto;
                 &[type='1'],
                 &[type='2'] {
-                    background: url('~@/assets/img/bond/icon-cry.png') center
+                    background: url('~@/assets/img/bond-hk/icon-cry.png') center
                         no-repeat;
                     background-size: 100%;
                 }
                 &[type='3'] {
-                    background: url('~@/assets/img/bond/icon-laugh.png') center
-                        no-repeat;
+                    background: url('~@/assets/img/bond-hk/icon-laugh.png')
+                        center no-repeat;
                     background-size: 100%;
                 }
             }
             h2 {
-                margin: 14px 0 2px;
-                color: $primary-color-line;
-                font-size: 0.48rem;
-                line-height: 24px;
-                text-align: center;
+                padding: 14px 0 5px;
+                color: $hk-primary-color;
+                font-size: 28px;
+                line-height: 40px;
             }
             p {
-                color: $text-color5;
-                font-size: 0.24rem;
-                opacity: 0.4;
-                line-height: 24px;
-                text-align: center;
+                color: $hk-text-color;
+                font-size: 14px;
+                line-height: 20px;
             }
         }
         .risk-result__content {
-            margin: 14px;
+            margin: 40px $hk-global-padding 0;
             padding: 20px 0;
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0px 2px 6px 0px rgba(57, 57, 57, 0.05);
-            border-radius: 6px;
+            border: 1px solid rgba($hk-text-color, 0.05);
+            box-shadow: 0px 2px 4px 0px rgba($hk-text-color, 0.05);
+            border-radius: 10px;
             .risk-cell {
                 display: flex;
-                margin-bottom: 20px;
+                margin-bottom: 14px;
                 padding: 0 14px;
-                font-size: 0.28rem;
-                line-height: 24px;
+                font-size: 16px;
+                line-height: 20px;
                 &:last-child {
                     margin-bottom: 0;
                 }
                 span {
-                    color: rgba(#393939, 0.6);
+                    color: $hk-text-color6;
                 }
                 strong {
-                    color: $text-color;
+                    color: $hk-text-color;
                     flex: 1;
                     text-align: right;
                 }
             }
         }
         .risk-result__tips {
-            margin: 0 14px;
-            color: $text-color3;
+            padding: 20px $hk-global-padding 0;
             h2 {
                 line-height: 1;
                 i {
-                    font-size: 0.3rem;
+                    margin-right: 6px;
+                    color: $hk-text-color6;
+                    font-size: 15px;
                     vertical-align: middle;
                 }
                 span {
-                    font-size: 0.24rem;
-                    line-height: 24px;
+                    color: $hk-text-color;
+                    font-size: 12px;
+                    line-height: 17px;
                     vertical-align: middle;
                 }
             }
             p {
-                margin-top: 2px;
-                font-size: 0.24rem;
-                line-height: 18px;
+                margin-top: 11px;
+                color: $hk-text-color6;
+                font-size: 12px;
+                line-height: 17px;
             }
         }
         .risk-agreement {
             display: flex;
             align-items: baseline;
             position: absolute;
-            bottom: 62px;
-            padding-left: 14px;
+            bottom: 108px;
+            padding: 0 $hk-global-padding;
             .van-checkbox {
                 display: inline-block;
                 margin-right: 6px;
@@ -147,23 +153,20 @@ export default {
             }
             .icon-selected,
             .icon-unchecked {
-                font-size: 0.32rem;
-                vertical-align: middle;
+                font-size: 16px;
+                vertical-align: top;
             }
             .icon-selected {
-                color: $primary-color-line;
+                color: $hk-primary-color;
             }
             p {
                 flex: 1;
-                color: $text-color5;
-                font-size: 0.24rem;
+                color: $hk-text-color;
+                font-size: 14px;
                 line-height: 20px;
-                span {
-                    opacity: 0.4;
-                }
                 a {
-                    color: $primary-color-line;
-                    font-size: 0.24rem;
+                    color: $hk-primary-color;
+                    font-size: 14px;
                 }
             }
         }
@@ -189,8 +192,9 @@ export default {
         width: 100%;
         height: 100%;
         color: $background-color;
+        border-radius: 0 !important;
         &[disabled='disabled'] {
-            background-color: $disabled-color;
+            background-color: $hk-disabled-color;
         }
     }
 }

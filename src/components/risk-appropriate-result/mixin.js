@@ -88,7 +88,7 @@ export default {
             try {
                 let res = await riskAssessResult()
                 res = res ? res : {}
-                this.userRiskLevel = res.assessResult || 10 // 用户风险测评等级
+                this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName = res.assessResultName
                 this.number = res.validCount
                 this.resetTime = res.resetTime
