@@ -1,7 +1,7 @@
-export const subscribeList = {
+export const subscribeObj = {
     currency: {
         label: '币种',
-        value: 'HKD'
+        value: ''
     },
     withdrawBalance: {
         label: '可用余额',
@@ -9,26 +9,26 @@ export const subscribeList = {
     },
     withdrawBalanceNetPrice: {
         label: '最大可买',
-        value: 'HKD'
+        value: ''
     },
     initialInvestAmount: {
         label: '最小买入',
-        value: 'HKD'
+        value: ''
     },
     continueInvestAmount: {
         label: '买入单位',
-        value: 'HKD'
+        value: ''
     },
-    buyMonny: {
+    buyMoney: {
         label: '购买金额',
         value: null
     },
     subscriptionFee: {
         label: '申购费（预计）',
-        value: 'HKD'
+        value: ''
     },
     g: {
         label: '订单总金额',
-        value: 'HKD'
+        value: ''
     }
 }

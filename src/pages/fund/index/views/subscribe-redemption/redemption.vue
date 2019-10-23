@@ -19,8 +19,8 @@
                     .left {{ $t('redeemShares') }}
                     .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
                         span {{ $t('minSellBalance') }}{{ lowestInvestAmount | sliceFixedTwo | formatCurrency}}
-                    .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare" :disabled="positionShare === 0")
+                    .right.buy-money(v-show="buyMonnyBlur" )
+                        van-field.input(type="number" ref="buy-money" @blur="handleOnblurBuyInput" v-model="redemptionShare" :disabled="positionShare === 0")
                 //- hr.border-bottom
                 .buy-row(style="justify-content: space-between; margin-top: 0px")
                     .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFeeScale  }}%
@@ -57,7 +57,7 @@
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8 {{ $t('monny') }}
-                    .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo | formatCurrency }}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
 
@@ -183,7 +183,7 @@ export default {
         handleClickBuyPlaceHolder() {
             this.buyMonnyBlur = true
             this.$nextTick(() => {
-                this.$refs['buy-monny'].focus()
+                this.$refs['buy-money'].focus()
             })
         },
         handleOnblurBuyInput() {
