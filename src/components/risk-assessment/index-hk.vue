@@ -28,7 +28,7 @@
                                 i.iconfont(
                                     slot="icon"
                                     slot-scope="props"
-                                    :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
+                                    :class="props.checked ? 'icon-xuanzhong' : 'icon-unchecked'"
                                 )
                 .has-child-container(v-if="[6,7].includes(subjectIndex)")
                     van-panel#child-title(
@@ -192,40 +192,42 @@ This assessment is important to know about your investment risk profile for choo
     .risk-assessment-form {
         flex: 1;
         .van-panel {
-            margin-bottom: 10px;
-            padding-bottom: 10px;
+            padding-bottom: 30px;
         }
         .van-cell {
+            padding: 10px $hk-global-padding;
             &:after {
                 display: none;
             }
-            font-size: 0.28rem;
-            line-height: 24px;
         }
         .van-panel__header {
+            font-size: 28px;
+            line-height: 35px;
             &:after {
                 display: none;
             }
         }
         .van-panel__content {
-            .van-cell {
-                padding: 10px 12px;
-            }
             .van-cell__title {
-                color: $hk-text-color6 !important;
+                color: $hk-text-color !important;
+                font-size: 14px;
+                line-height: 20px;
+            }
+            .van-radio {
+                line-height: 1;
             }
         }
         .van-hairline--top-bottom::after {
             display: none;
         }
-        .icon-selected {
+        .icon-xuanzhong {
             color: $primary-color-line;
         }
         .icon-unchecked {
             opacity: 0.4;
         }
         .icon-unchecked,
-        .icon-selected {
+        .icon-xuanzhong {
             font-size: 0.32rem;
         }
     }
