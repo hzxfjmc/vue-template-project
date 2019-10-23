@@ -60,10 +60,10 @@
                         .point
                     span.text-color5 {{ $t('predict') }}
                     span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}{{ $t('day') }}
-                    span.text-color5 {{ $t('monnyToAcc') }}
-            .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
+                    span.text-color5 {{ $t('moneyToAcc') }}
+            .fond-buy.fond-bug-money.border-bottom(style="margin-top: 0")
                 .buy-row
-                    .left.line-height-8 {{ $t('monny') }}
+                    .left.line-height-8 {{ $t('money') }}
                     .right.buy-money.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
@@ -302,10 +302,10 @@ export default {
             stepThree: '资金到达证券账户',
             confirmTheShare: '确认净值',
             earnings: '查看收益',
-            monny: '金额',
+            money: '金额',
             done: '完成',
             iKnow: '我知道了',
-            monnyToAcc: '资金到达证券账户'
+            moneyToAcc: '资金到达证券账户'
         },
         zhCHT: {
             sellSuccess: '贖回成功',
@@ -326,10 +326,10 @@ export default {
             stepThree: '資金到達證券賬戶',
             confirmTheShare: '確認凈值',
             earnings: '查看收益',
-            monny: '金額',
+            money: '金額',
             done: '完成',
             iKnow: '我知道了',
-            monnyToAcc: '資金到達證券賬戶'
+            moneyToAcc: '資金到達證券賬戶'
         },
         en: {
             sellSuccess: 'Redemption Successful',
@@ -350,10 +350,10 @@ export default {
             stepThree: 'Funds Credited to Securities Account',
             confirmTheShare: 'CFMD NAV',
             earnings: 'Check Earnings',
-            monny: 'Amount',
+            money: 'Amount',
             done: 'Completed',
             iKnow: 'Got it',
-            monnyToAcc: 'Funds Credited to Securities Account'
+            moneyToAcc: 'Funds Credited to Securities Account'
         }
     }
 }
