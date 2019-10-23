@@ -27,7 +27,7 @@
                 )
             .fund-footer-content
                 .protocol
-                    .protocol__checkbox.iconfont.icon-selected(:class="isCheckedProtocol ?'checked':'unchecked'" @click="checkProtocol")
+                    .protocol__checkbox.iconfont.icon-selected(:class="isCheckedProtocol ?'checked':'un-checked'" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") 已阅读并同意服务协议及风险提示，并查阅相关信息
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
                 van-button(:disabled="disabled" @click="handleSubmit") {{$t('submitButtonText')}}
