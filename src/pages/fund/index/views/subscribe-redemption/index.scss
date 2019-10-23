@@ -96,25 +96,24 @@
         .buy-row {
             display: flex;
             justify-content: flex-start;
-            margin: 0.24rem 0;
+            padding: 10px 0;
+            line-height: 30px;
             .left {
-                width: 35%;
+                width: 50%;
                 font-size: 0.28rem;
                 color: $text-color5;
-                line-height: 0.48rem;
             }
             .text-overflow{
                 text-overflow:ellipsis; //溢出用省略号显示
                 white-space:nowrap; //溢出不换行
             }
             .right {
-                width: 65%;
+                width: 50%;
                 font-size: 0.28rem;
-                line-height: 0.48rem;
                 font-family:PingFangSC;
+                text-align: right;
                 .van-field {
                     padding: 0;
-                    // height: 0.48rem;
                     width: 100%;
                     .van-field__control {
                         font-weight: bold !important;
@@ -125,12 +124,12 @@
             .number{
                 font-family:DINPro;
             }
-
             .buy-money {
-                height: 1rem;
-                font-size: 0.48rem;
                 input {
-                    margin-top: -4px;
+                    width: 100%;
+                    font-size: 24px;
+                    text-align: right;
+                    border:none;
                 }
             }
 

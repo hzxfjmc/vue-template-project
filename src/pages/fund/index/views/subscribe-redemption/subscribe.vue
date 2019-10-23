@@ -25,13 +25,12 @@
                     :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
                     :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
                 )
-
-            .fund-footer-content()
+            .fund-footer-content
                 .protocol
                     .protocol__checkbox.iconfont.icon-selected(:class="isCheckedProtocol ?'checked':'unchecked'" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") 已阅读并同意服务协议及风险提示，并查阅相关信息
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
-                van-button(:disabled="disabled" @click="handleSubmit") {{$t('submiButtonText')}}
+                van-button(:disabled="disabled" @click="handleSubmit") {{$t('submitButtonText')}}
         template(v-else-if="step === 2")
             .succed.border-bottom(v-if="step === 2")
                 img(src="@/assets/img/fund/succed.svg")
@@ -302,7 +301,7 @@ export default {
             continueBalance: '续投金额',
             redemption: '申购费',
             predict: '预计',
-            submiButtonText: '同意协议并提交',
+            submitButtonText: '同意协议并提交',
             dayDone: '日完成',
             day: '日',
             balanceRule: '申购规则',
@@ -327,7 +326,7 @@ export default {
             continueBalance: '續投金額',
             redemption: '申購費',
             predict: '預計',
-            submiButtonText: '同意協議並提交',
+            submitButtonText: '同意協議並提交',
             dayDone: '日完成',
             day: '日',
             balanceRule: '申購規則',
@@ -352,7 +351,7 @@ export default {
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
             predict: 'Estimated',
-            submiButtonText: 'Agree to agreement and submit',
+            submitButtonText: 'Agree to agreement and submit',
             dayDone: 'Complete in X days',
             day: 'Days',
             balanceRule: 'Subscription Rules',
