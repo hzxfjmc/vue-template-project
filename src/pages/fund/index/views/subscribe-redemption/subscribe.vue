@@ -106,7 +106,7 @@ export default {
             buyConfirm: '', // 买入确认份额时间
             buyProfitLoss: '', // 买入查看盈亏时间
             protocolVisible: false,
-            isCheckedProtocol: false
+            isCheckedProtocol: true
         }
     },
     async created() {
