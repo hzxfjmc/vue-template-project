@@ -27,7 +27,7 @@
                 )
 
             .fund-footer-content()
-                van-button() 买入
+                van-button() {{$t('submiButtonText')}}
         template(v-else-if="step === 2")
             .succed.border-bottom(v-if="step === 2")
                 img(src="@/assets/img/fund/succed.svg")
