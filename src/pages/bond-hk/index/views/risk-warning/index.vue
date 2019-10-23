@@ -7,8 +7,7 @@
                     p 2) 債券市場流動性差，友信提供流動性XXXXXXXX，價格點差XXXX。友信盡力撮合訂單，但不保證訂單一定能夠成交。
                     p 3) 成交價格公司可能有損益。
             van-panel.confirm-sign(title="確認簽名")
-                .signature-input
-                    input.signature-input__inner(v-model="signName" :placeholder="signNamePlaceholder")
+                van-field(v-model="signName" :placeholder="signNamePlaceholder" class="signature-input" )
             .statement
                 van-checkbox(v-model="isReadBondInfo")
                     i.iconfont(
@@ -84,27 +83,6 @@ export default {
             font-size: 20px;
             line-height: 28px;
         }
-        // 签名
-        .signature-input {
-            position: relative;
-            z-index: 1;
-            .signature-input__inner {
-                width: 100%;
-                height: 100%;
-                padding: 18px 0;
-                border: none;
-                border-bottom: 1px solid
-                    rgba($color: $hk-text-color, $alpha: 0.0765);
-                color: $hk-text-color;
-                font-size: 20px;
-                line-height: 1;
-                &::placeholder {
-                    color: $hk-text-color4;
-                    font-size: 16px;
-                    line-height: 22px;
-                }
-            }
-        }
     }
     // 声明
     .statement {
@@ -131,6 +109,30 @@ export default {
             line-height: 20px;
             a {
                 color: $hk-primary-color;
+            }
+        }
+    }
+}
+</style>
+<style lang="scss">
+.risk-warning-wrapper {
+    // 签名
+    .signature-input {
+        position: relative;
+        padding: 0;
+        z-index: 1;
+        .van-field__control {
+            padding: 18px 0;
+            border: none;
+            border-bottom: 1px solid
+                rgba($color: $hk-text-color, $alpha: 0.0765);
+            color: $hk-text-color;
+            font-size: 20px;
+            line-height: 1;
+            &::placeholder {
+                color: $hk-text-color4;
+                font-size: 16px;
+                line-height: 22px;
             }
         }
     }
