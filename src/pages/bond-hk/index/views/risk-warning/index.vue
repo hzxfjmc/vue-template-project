@@ -14,7 +14,7 @@
                     i.iconfont(
                         slot="icon"
                         slot-scope="props"
-                        :class="props.checked ? 'icon-confirm' : 'icon-noconfirm'"
+                        :class="props.checked ? 'icon-xuanzhong2' : 'icon-noconfirm'"
                     )
                 .text
                     span 我已閱讀並知曉債券相關風險本人已閱讀
@@ -112,13 +112,16 @@ export default {
         padding-top: 40px;
         .van-checkbox {
             margin-right: 10px;
-            .icon-confirm,
+            .icon-xuanzhong2,
             .icon-noconfirm {
                 font-size: 0.32rem;
                 vertical-align: top;
             }
-            .icon-confirm {
-                color: #2f79ff;
+            .icon-noconfirm {
+                color: $hk-text-color2;
+            }
+            .icon-xuanzhong2 {
+                color: $hk-primary-color;
             }
         }
         .text {

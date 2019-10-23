@@ -22,7 +22,7 @@
                     i.iconfont(
                         slot="icon"
                         slot-scope="props"
-                        :class="props.checked ? 'icon-confirm' : 'icon-noconfirm'"
+                        :class="props.checked ? 'icon-xuanzhong2' : 'icon-noconfirm'"
                     )
                 p
                     span 我已阅读并知晓债券相关风险，我已阅读产品资料
@@ -151,7 +151,7 @@ export default {
                 margin-right: 6px;
                 vertical-align: text-bottom;
             }
-            .icon-confirm,
+            .icon-xuanzhong2,
             .icon-noconfirm {
                 font-size: 16px;
                 vertical-align: top;
@@ -159,7 +159,7 @@ export default {
             .icon-noconfirm {
                 color: $hk-text-color2;
             }
-            .icon-confirm {
+            .icon-xuanzhong2 {
                 color: $hk-primary-color;
             }
             p {
