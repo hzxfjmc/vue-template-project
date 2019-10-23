@@ -35,7 +35,7 @@
 <script>
 import DetailHeader from './detail-header.vue'
 import PurchasingProcess from './purchasing-process.vue'
-import BondPrice from './components/bond-price/index.vue'
+import BondPrice from './bond-price.vue'
 import BondInfo from './bond-info.vue'
 import TransactionRules from './transaction-rules.vue'
 
