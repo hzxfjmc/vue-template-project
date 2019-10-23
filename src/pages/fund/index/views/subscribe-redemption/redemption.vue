@@ -17,8 +17,8 @@
                         .left {{ $t('positionMarketValue') }}
                         .right {{ positionMarketValue | sliceFixedTwo | formatCurrency }}
                     .buy-row
-                        .left {{ $t('minSellBalance') }}
-                        .right {{ lowestInvestAmount | sliceFixedTwo | formatCurrency }}
+                        .left {{ $t('minPositionShare') }}
+                        .right {{ minPositionShare | sliceFixedTwo | formatCurrency }}
                     .buy-row
                         .left {{ $t('redeemShares') }}
                         .right.buy-money.border-bottom
@@ -101,6 +101,7 @@ export default {
             positionShare: 0, // 持有份额
             positionMarketValue: 0, // 持仓市值
             lowestInvestAmount: 0, // 最低持有金额
+            minPositionShare: 0, // 最低持有份额
             redemptionShare: null, // 赎回份额
             fundName: '',
             isin: '',
@@ -179,6 +180,8 @@ export default {
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.lowestInvestAmount =
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
+                this.minPositionShare =
+                    fundDetail.fundTradeInfoVO.minPositionShare
                 this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
                 this.setCosUrl(
                     'sellProtocol',
@@ -279,6 +282,7 @@ export default {
             positionMarketValue: '基金市值',
             redeemShares: '赎回份额',
             minSellBalance: '最小持有金额',
+            minPositionShare: '最小持有份额',
             continueBalance: '续投金额',
             redemption: '赎回费',
             predict: '预计',
@@ -302,6 +306,7 @@ export default {
             positionMarketValue: '基金市值',
             redeemShares: '贖回份額',
             minSellBalance: '最小持有金額',
+            minPositionShare: '最小持有份额',
             continueBalance: '續投金額',
             redemption: '贖回費',
             predict: '預計',
@@ -325,6 +330,7 @@ export default {
             positionMarketValue: 'Fund Value',
             redeemShares: 'Units of Redemption',
             minSellBalance: 'Min. Holding Amount',
+            minPositionShare: 'Min. Holding Share',
             continueBalance: 'Redemption Rules',
             redemption: 'Redemption Fee',
             predict: 'Predict',
