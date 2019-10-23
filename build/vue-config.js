@@ -15,6 +15,7 @@ const absoluteSrcPath = sub_path => {
     return path.resolve(__dirname, `../src/${sub_path}`)
 }
 
+
 // 获取页面entry
 const pages = getPages(`./src/pages/${project}/**/main.js`)
 let openPage = ''
