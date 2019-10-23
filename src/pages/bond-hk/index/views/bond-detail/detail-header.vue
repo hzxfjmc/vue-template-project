@@ -12,14 +12,11 @@
         )
         .header-features
             media-box.medal(
-                :thumb="featureThumbMedal"
-                title="安全性高xxxxxxx"
-                desc="蘋果公司發行，公司穩健，違約風險低"
-            )
-            media-box.money(
-                :thumb="featureThumbMoney"
-                title="起購金額低xxxxxxx"
-                desc="2000美元可購買xxxxxx"
+                v-for="(titleItem, index) in bondTitleInfo"
+                :key="index"
+                :thumb="featureThumbList[index]"
+                :title="titleItem.mainTitle"
+                :desc="titleItem.subTitle"
             )
 </template>
 <script>
@@ -29,8 +26,13 @@ export default {
     mixins: [detailHeaderMixin],
     data() {
         return {
-            featureThumbMedal: require('@/assets/img/bond/icon-medal.png'),
-            featureThumbMoney: require('@/assets/img/bond/icon-money.png'),
+            featureThumbList: [
+                require('@/assets/img/bond/icon-medal.png'),
+                require('@/assets/img/bond/icon-money.png'),
+                require('@/assets/img/bond/icon-house.png'),
+                require('@/assets/img/bond/icon-praise.png'),
+                require('@/assets/img/bond/icon-umbrella.png')
+            ],
             titleStyle: {
                 color: '#fff',
                 'font-size': '0.4rem',
@@ -58,9 +60,10 @@ export default {
                     desc: '到期年化收益率',
                     click: () => {
                         this.$dialog.alert({
-                            message: `到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n
-到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。\n
-注：展示数值为已加入预估佣金、平台使用费之后的到期收益率。`,
+                            message:
+                                '到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n\n' +
+                                '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。\n\n' +
+                                '注：展示数值为已加入预估佣金、平台使用费之后的到期收益率。',
                             messageAlign: 'left',
                             confirmButtonText: '我知道了'
                         })
@@ -85,6 +88,13 @@ export default {
                 }
             ]
             return obj
+        },
+        bondTitleInfo() {
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.bondTitleInfo) ||
+                []
+            )
         }
     }
 }
