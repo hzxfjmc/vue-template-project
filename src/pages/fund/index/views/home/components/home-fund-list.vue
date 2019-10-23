@@ -27,6 +27,7 @@
                         ) {{item.earningsTypeName}}
                 .block-bottom {{item.feature}}
                 .block-position 
+            .block-element-msg(v-if="item.havePosition") 已持仓
 </template>
 <script>
 import { Tag } from 'vant'
@@ -73,6 +74,7 @@ export default {
         margin: 10px 2% 0 2%;
         padding: 20px 15px;
         background: #fff;
+        position: relative;
         display: flex;
         flex-direction: row;
         height: 110px;
@@ -99,6 +101,20 @@ export default {
         .block-right {
             width: 60%;
             line-height: 27px;
+        }
+        .block-element-msg {
+            position: absolute;
+            background: $primary-color-line;
+            bottom: 10px;
+            right: 0;
+            width: 43px;
+            height: 20px;
+            font-size: 10px;
+            border-top-left-radius: 20px;
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+            border-bottom-left-radius: 20px;
         }
     }
 }

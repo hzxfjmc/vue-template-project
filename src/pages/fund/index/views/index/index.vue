@@ -18,8 +18,7 @@
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { getFundList } from '@/service/finance-info-server.js'
-// import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
 export default {
     i18n: {
@@ -35,33 +34,35 @@ export default {
         Card
     },
     created() {
-        // this.handleGetFundBanner()
-        this.getListFundInfo()
+        this.getFundListV2()
     },
     data() {
         return {
             load: false,
             bannerUrl: [],
-            list: []
+            list: [],
+            pageNum: 1,
+            pageSize: 20,
+            total: 0,
+            currency: 2
         }
     },
     methods: {
-        // // 拉取债券banner
-        // async handleGetFundBanner() {
-        //     try {
-        //         // 基金暂时没有
-        //         let data = await bannerAdvertisement(21)
-        //         this.bannerUrl = (data && data.banner_list) || []
-        //     } catch (error) {
-        //         console.log('getBondBanner:error:>>>', error)
-        //     }
-        // },
         // 获取基金列表
-        async getListFundInfo() {
+        async getFundListV2() {
             try {
-                this.list = await getFundList()
+                const { list } = await getFundListV2({
+                    displayLocation: 1,
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    classify: 1,
+                    assetType: this.$route.query.type,
+                    currency: this.$route.query.currency
+                })
+                this.list = list
                 this.load = true
             } catch (e) {
+                this.$toast(e.msg)
                 console.log('getListFundInfo:error:>>>', e)
             }
         }

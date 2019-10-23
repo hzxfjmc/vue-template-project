@@ -46,10 +46,14 @@ export default {
         return {
             showMoney: true,
             list: [
-                { icon: 'icon-icon-currency-fund', label: '货币基金' },
-                { icon: 'icon-iconFFzhaiquanjijin', label: '债券基金' },
-                { icon: 'icon-icon-sharesfund', label: '股票基金' },
-                { icon: 'icon-iconFFhunhejijin', label: '混合基金' }
+                { icon: 'icon-icon-currency-fund', label: '货币基金', type: 4 },
+                {
+                    icon: 'icon-iconFFzhaiquanjijin',
+                    label: '债券基金',
+                    type: 2
+                },
+                { icon: 'icon-icon-sharesfund', label: '股票基金', type: 1 },
+                { icon: 'icon-iconFFhunhejijin', label: '混合基金', type: 3 }
             ],
             active: 0
         }
@@ -82,10 +86,8 @@ export default {
             this.showMoney = !this.showMoney
         },
         //跳转基金列表页面
-        toFundList() {
-            this.$router.push({
-                path: '/'
-            })
+        toFundList(data) {
+            this.$emit('toFundList', { type: data.type })
         },
         toFundAccount() {
             this.$router.push({

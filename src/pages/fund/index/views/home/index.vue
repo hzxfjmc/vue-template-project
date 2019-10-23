@@ -2,6 +2,7 @@
 .home-container
     HomeHeader(
         @handlerCurrency="handlerCurrency"
+        @toFundList = "toFundList"
         :holdData="holdData")
     .home-bannar
         img(src="https://tse4-mm.cn.bing.net/th?id=OIP.bbOTYYnZGn7AGDuzCi12MgHaEl&w=299&h=182&c=7&o=5&dpr=2&pid=1.7")
@@ -26,6 +27,16 @@ export default {
         }
     },
     methods: {
+        //跳转基金
+        toFundList(data) {
+            this.$router.push({
+                path: '/',
+                query: {
+                    type: data.type,
+                    currency: this.currency
+                }
+            })
+        },
         //查询基金列表
         async getFundListV2() {
             try {
@@ -43,7 +54,7 @@ export default {
                     item.apy = transNumToThousandMark(item.apy)
                 })
             } catch (e) {
-                this.$toast(e)
+                this.$toast(e.msg)
                 console.log('getFundListV2:error:>>> ', e)
             }
         },
@@ -66,7 +77,7 @@ export default {
                     weekEarnings: transNumToThousandMark(weekEarnings)
                 }
             } catch (e) {
-                this.$toast(e)
+                this.$toast(e.msg)
                 console.log('getFundPositionList:error:>>> ', e)
             }
         }
