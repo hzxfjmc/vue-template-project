@@ -28,9 +28,9 @@
 
             .fund-footer-content()
                 .protocol
-                    .protocol__checkbox.iconfont.icon-selected.checked
-                    .protocol__text 已阅读并同意服务协议及风险提示，并查阅相关信息
-                    .protocol__button.iconfont.icon-iconshouqi
+                    .protocol__checkbox.iconfont.icon-selected(:class="isCheckedProtocol ?'checked':'unchecked'" @click="checkProtocol")
+                    .protocol__text(@click="checkProtocol") 已阅读并同意服务协议及风险提示，并查阅相关信息
+                    .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
                 van-button() {{$t('submiButtonText')}}
         template(v-else-if="step === 2")
             .succed.border-bottom(v-if="step === 2")
@@ -57,7 +57,16 @@
                     .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
-
+        yx-popup(
+            v-model="protocolVisible"
+            position="bottom"
+            class="protocol-popup"
+            )
+                .protocol-list
+                    .protocol-list__body
+                        .protocol-list__text.border-bottom(@click="openProtocol(buyProtocol)") 《{{buyProtocolFileName}}》
+                    .protocol-list__footer
+                        .protocol-list__button(@click="hideProtocol") 取消
 </template>
 <script>
 import NP from 'number-precision'
@@ -95,12 +104,13 @@ export default {
             buyProtocol: '', // 基金购买协议
             buySubmit: '',
             buyConfirm: '', // 买入确认份额时间
-            buyProfitLoss: '' // 买入查看盈亏时间
+            buyProfitLoss: '', // 买入查看盈亏时间
+            protocolVisible: false,
+            isCheckedProtocol: false
         }
     },
     async created() {
         this.getWithdrawBalance()
-        console.log('2323232', this.$i18n.lang)
     },
     computed: {
         // 预计完成时间多语言配置
@@ -123,6 +133,18 @@ export default {
         }
     },
     methods: {
+        openProtocol(url) {
+            this.$jsBridge.gotoNewWebview(url)
+        },
+        checkProtocol() {
+            this.isCheckedProtocol = !this.isCheckedProtocol
+        },
+        showProtocol() {
+            this.protocolVisible = true
+        },
+        hideProtocol() {
+            this.protocolVisible = false
+        },
         times: NP.times,
         gotoOrderRecordDetail(orderNo, currencyType) {
             this.$router.push({
