@@ -228,3 +228,18 @@
         width:100%;
     }
 }
+
+.protocol{
+  display: flex;
+  justify-content: space-around;
+  padding-bottom: 14px;
+  .protocol__text{
+    line-height: 24px;
+  }
+    .checked{
+        color:$primary-color;
+    }
+    .unChecked{
+        color:$text-color5
+    }
+}
