@@ -14,7 +14,7 @@
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{item.value}}%
-                            .right-item-buyMoney(v-else-if="index=='buyMonny'")
+                            .right-item-buyMoney.border-bottom(v-else-if="index=='buyMonny'")
                                 input(v-model="item.value" type="number")
                             .right-item-other(v-else)
                                 span {{item.value}}
