@@ -1,44 +1,77 @@
 <template lang="pug">
 .income-details-content
-    .list(class="border-bottom" v-for="(item,index) in list")
-        .block-left 
-            span.element-fund-name {{item.tradeTypeName}}
-            span.element-price 金额
-            span.element-time 时间
-        .block-right 
-            span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.tradeTypeName}}
-            span.msg(class="element-fund-color")(v-if="item.externalStatus == 2") {{item.tradeTypeName}}
-            span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.tradeTypeName}}
-            span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.tradeTypeName}}
-            span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.tradeTypeName}}
-            span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
-            span.element-time {{item.orderTime}}
+    van-list.order-record-list(v-model="loading" :finished="finished" finished-text="无更多内容" @load="onLoad")
+        .list(class="border-bottom" v-for="(item,index) in list")
+            .block-left 
+                span.element-fund-name {{item.tradeTypeName}}
+                span.element-price 金额
+                span.element-time 时间
+            .block-right 
+                span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.tradeTypeName}}
+                span.msg(class="element-fund-color")(v-if="item.externalStatus == 2") {{item.tradeTypeName}}
+                span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.tradeTypeName}}
+                span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.tradeTypeName}}
+                span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.tradeTypeName}}
+                span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
+                span.element-time {{item.orderTime}}
             
 </template>
 <script>
 import { fundOrderList } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
+import { List } from 'vant'
 export default {
+    components: {
+        [List.name]: List
+    },
     data() {
         return {
             list: [],
             pageSize: 10,
             pageNum: 1,
+            total: 0,
+            loading: false,
+            finished: false,
             currency: this.$route.query.currency
         }
     },
     methods: {
+        //上拉加载更多
+        onLoad() {
+            // 异步更新数据
+            setTimeout(() => {
+                if (this.list.length < this.total) {
+                    this.pageNum = this.pageNum + 1
+                    this.fundOrderList()
+                }
+                // 加载状态结束
+                this.loading = false
+
+                // 数据全部加载完成
+                if (this.list.length >= this.total) {
+                    this.finished = true
+                }
+            }, 500)
+        },
         async fundOrderList() {
-            const { list } = await fundOrderList({
-                pageNum: this.pageNum,
-                pageSize: this.pageSize
-            })
-            this.list = list
-            this.list.map(item => {
-                item.orderAmount = item.orderTime = dayjs(
-                    item.orderTime
-                ).format('YYYY-MM-DD HH:mm:ss')
-            })
+            try {
+                const { list, pageSize, pageNum, total } = await fundOrderList({
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize
+                })
+                this.pageNum = pageNum
+                this.total = total
+                this.pageSize = pageSize
+                list.map(item => {
+                    item.orderAmount = item.orderTime = dayjs(
+                        item.orderTime
+                    ).format('YYYY-MM-DD HH:mm:ss')
+                })
+                this.list = this.list.concat(list)
+                console.log(this.list)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     mounted() {

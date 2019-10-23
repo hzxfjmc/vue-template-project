@@ -1,52 +1,88 @@
 <template lang="pug">
 .income-details-content
-    .list(class="border-bottom" v-for="(item,index) in list")
-        .block-left 
-            span.element-fund-name 基金名称
-            span.element-price 金额
-            span.element-time 时间
-        .block-right 
-            span.element-fund-name {{item.fundName}}
-            span.element-price-red(v-if="item.msg == 0") +{{item.earnings}}
-            span.element-price-green(v-if="item.msg == 1") {{item.earnings}}
-            span.element-price(v-if="item.msg == 2") {{item.earnings}}
-            span.element-time {{item.belongDate}}
-    .footer-msg 无更多内容
+    van-list.order-record-list(v-model="loading" :finished="finished" finished-text="无更多内容" @load="onLoad")
+        .list(class="border-bottom" v-for="(item,index) in list")
+            .block-left 
+                span.element-fund-name 基金名称
+                span.element-price 金额
+                span.element-time 时间
+            .block-right 
+                span.element-fund-name {{item.fundName}}
+                span.element-price-red(v-if="item.msg == 0") +{{item.earnings}}
+                span.element-price-green(v-if="item.msg == 1") {{item.earnings}}
+                span.element-price(v-if="item.msg == 2") {{item.earnings}}
+                span.element-time {{item.belongDate}}
             
 </template>
 <script>
 import { getFundPositionEarningsListV1 } from '@/service/finance-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import dayjs from 'dayjs'
+import { List } from 'vant'
 export default {
+    components: {
+        [List.name]: List
+    },
     data() {
         return {
             list: [],
             pageSize: 10,
             pageNum: 1,
+            total: 0,
+            loading: false,
+            finished: false,
             currency: this.$route.query.currency
         }
     },
     methods: {
+        //上拉加载更多
+        onLoad() {
+            // 异步更新数据
+            setTimeout(() => {
+                if (this.list.length < this.total) {
+                    this.pageNum = this.pageNum + 1
+                    this.getFundPositionEarningsListV1()
+                }
+                // 加载状态结束
+                this.loading = false
+
+                // 数据全部加载完成
+                if (this.list.length >= this.total) {
+                    this.finished = true
+                }
+            }, 500)
+        },
         async getFundPositionEarningsListV1() {
-            const { list } = await getFundPositionEarningsListV1({
-                pageNum: this.pageNum,
-                pageSize: this.pageSize,
-                currency: 2
-            })
-            this.list = list
-            this.list.map(item => {
-                item.msg =
-                    Number(item.earnings) > 0
-                        ? 0
-                        : Number(item.earnings) < 0
-                        ? 1
-                        : 2
-                item.earnings = transNumToThousandMark(item.earnings)
-                item.belongDate = dayjs(item.belongDate).format(
-                    'YYYY-MM-DD HH:MM:SS'
-                )
-            })
+            try {
+                const {
+                    list,
+                    pageSize,
+                    pageNum,
+                    total
+                } = await getFundPositionEarningsListV1({
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    currency: 2
+                })
+                list.map(item => {
+                    item.msg =
+                        Number(item.earnings) > 0
+                            ? 0
+                            : Number(item.earnings) < 0
+                            ? 1
+                            : 2
+                    item.earnings = transNumToThousandMark(item.earnings)
+                    item.belongDate = dayjs(item.belongDate).format(
+                        'YYYY-MM-DD HH:MM:SS'
+                    )
+                })
+                this.list = this.list.concat(list)
+                this.pageSize = pageSize
+                this.pageNum = pageNum
+                this.total = total
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     mounted() {
