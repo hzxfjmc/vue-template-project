@@ -24,6 +24,9 @@
                         .right.buy-money.border-bottom
                             input(v-model="redemptionShare" type="number" :disabled="positionShare === 0")
                     .buy-row
+                        .left  预计卖出资产
+                        .right {{ predictSellAmount | sliceFixedTwo | formatCurrency }}
+                    .buy-row
                         .left
                             span {{ $t('redemption') }}
                             span ( {{ $t('predict') }}) :
@@ -111,6 +114,8 @@ export default {
             sellSubmit: '',
             sellConfirm: '',
             sellProfitLoss: '',
+            predictSellAmount: '',
+            netPrice: 0,
             protocolVisible: false,
             isCheckedProtocol: true
         }
@@ -144,6 +149,7 @@ export default {
             if (val > +this.positionShare) {
                 this.redemptionShare = +this.positionShare
             }
+            this.predictSellAmount = this.redemptionShare * this.netPrice
         }
     },
     methods: {
@@ -177,6 +183,7 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
+                this.netPrice = fundDetail.fundHeaderInfoVO.netPrice
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.lowestInvestAmount =
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
