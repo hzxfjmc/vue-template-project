@@ -1,30 +1,30 @@
 <template lang="pug">
-.fund-list-content
+.block-fund-list-content
     .list-item-content(v-for="(item,index) in fundList" :key="index")
         .fund-name {{item.fundName}}
         .fund-list-num
             .fund-row
                 span 近七日数据
-                .number {{item.weekEarnings}}
+                .block-element-number {{item.weekEarnings}}
             .fund-row
                 span 持仓收益
-                .number {{item.positionEarnings}}
+                .block-element-number {{item.positionEarnings}}
             .fund-row
                 span 金额
-                .number {{item.positionAmount}}
+                .block-element-number {{item.positionAmount}}
             .fund-row
                 span 份额
-                .number 6
+                .block-element-number 6
         .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' && item.inTransitAmount !== '0.00'")
             .o-item
-                .footer-left 赎回中
+                .footer-left-l 赎回中
                 .footer-right
                     span 份额
                     span.price-number {{item.redeemDeliveryShare}}
             .o-item
-                .footer-left 申购中
+                .footer-left-l 申购中
                 .footer-right
-                    span USD
+                    span {{item.currency == 2 ? 'HKD':'USD'}}
                     span.price-number {{item.inTransitAmount}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
@@ -45,9 +45,10 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.fund-list-content {
+.block-fund-list-content {
     width: 94%;
     margin: 0 3%;
+    color: #000;
     .list-item-content {
         width: 100%;
         border-radius: 4px;
@@ -71,7 +72,7 @@ export default {
                     font-size: 0.24rem;
                     color: rgba(25, 25, 25, 0.5);
                 }
-                .number {
+                .block-element-number {
                     font-size: 0.32rem;
                     font-family: 'yxFontDINPro-Regular';
                 }
@@ -87,7 +88,7 @@ export default {
                 display: flex;
                 margin: 5px 0 0 0;
                 flex-direction: row;
-                .footer-left {
+                .footer-left-l {
                     width: 50%;
                 }
                 .footer-right {

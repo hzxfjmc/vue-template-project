@@ -1,36 +1,38 @@
 <template lang="pug">
 .fund-account-header
-    .header-tab
-        van-tabs(
-            v-model="active" 
-            background="#2f79ff" 
-            color="#fff" 
-            :line-width="width"
-            title-inactive-color="rgba(255,255,255,0.6)" 
-            @click="handlerCurrency"
-            title-active-color="#fff")
-            van-tab(title="港币基金" name="1")
-            van-tab(title="美元基金" name="2")
-    .header-content
-        .header-content-left
-            span.title 
-                em 我的港币资产
-                i.iconfont(class="icon-icon-eye" @click="hideNumber")
-            .number-price(v-if="showPsd") {{firstPositionAmount}}.
-                em(v-if="showPsd") {{secondPositionAmount}}
-            .number-price(v-if="!showPsd") ******
-        
-        .header-content-right
-            span 持仓盈亏
-                em(v-if="showPsd") {{holdData.positionEarnings}}
-                em(v-else) ****
-            span 近七日收益
-                em(v-if="showPsd") {{holdData.weekEarnings}}
-                em(v-else) ****
-    
-    .header-footer-tab(class="border-top")
-        span.header-footer-left(@click="toRouterPath('/income-details')") 收益明细
-        span(@click="toRouterPath('/fund-order-list')") 订单记录
+    van-tabs(
+        v-model="active" 
+        background="#2f79ff" 
+        color="#fff" 
+        :line-width="width"
+        :swipeable="swipeable"
+        title-inactive-color="rgba(255,255,255,0.6)" 
+        @click="handlerCurrency"
+        title-active-color="#fff")
+        van-tab(title="港币基金" name="1")
+        van-tab(title="美元基金" name="2")
+        .block-account-header
+            .header-content
+                .header-content-left
+                    span.title 
+                        em 我的港币资产
+                        i.iconfont(class="icon-icon-eye" @click="hideNumber")
+                    .number-price(v-if="showPsd") {{firstPositionAmount}}.
+                        em(v-if="showPsd") {{secondPositionAmount}}
+                    .number-price(v-if="!showPsd") ******
+                
+                .header-content-right
+                    span 持仓盈亏
+                        em(v-if="showPsd") {{holdData.positionEarnings}}
+                        em(v-else) ****
+                    span 近七日收益
+                        em(v-if="showPsd") {{holdData.weekEarnings}}
+                        em(v-else) ****
+            
+            .header-footer-tab(class="border-top")
+                span.header-footer-left(@click="toRouterPath('/income-details')") 收益明细
+                span(@click="toRouterPath('/fund-order-list')") 订单记录
+        slot(name="fundList")
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
@@ -45,6 +47,7 @@ export default {
         return {
             width: 0,
             active: 0,
+            swipeable: true,
             showPsd: true
         }
     },
@@ -81,7 +84,7 @@ export default {
 <style lang="scss" scoped>
 // @import './index.scss';
 .fund-account-header {
-    background: #2f79ff;
+    // background: #2f79ff;
     color: #fff;
     overflow: hidden;
     width: 100%;
@@ -95,12 +98,17 @@ export default {
         font-size: 0.32rem;
     }
 }
+.block-account-header {
+    width: 100%;
+    padding: 20px 0 0 0;
+    background: #2f79ff;
+}
 .header-content {
     width: 100%;
     display: flex;
-    padding: 0 3%;
+    padding: 0 3% 10px 3%;
     flex-direction: row;
-    margin: 10px 0 10px 0;
+    // margin: 20px 0 10px 0;
     .header-content-left {
         flex: 1;
         width: 60%;

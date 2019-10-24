@@ -1,38 +1,42 @@
 <template lang="pug">
 .home-header-container(class="fund-account-header")
-    .header-tab
-        van-tabs(
-            v-model="active" 
-            background="#2f79ff" 
-            color="#fff" 
-            @click="handlerCurrency"
-            :line-width="width"
-            title-inactive-color="rgba(255,255,255,0.6)" 
-            title-active-color="#fff")
+    van-tabs(
+        v-model="active" 
+        background="#2f79ff" 
+        color="#fff" 
+        :swipeable="swipeable"
+        @click="handlerCurrency"
+        :line-width="width"
+        title-inactive-color="rgba(255,255,255,0.6)" 
+        title-active-color="#fff")
             van-tab(title="港币基金" name="2")
             van-tab(title="美元基金" name="1")
-    .header-content-item
-        .list-item(v-for="(item,index) in list" :key="item.icon" @click='toFundList(item,index)')
-            i.iconfont(:class="item.icon")
-            span {{item.assetTypeName}}
-    
-    .header-content-number
-        .header-content-top
-            span 持仓总市值(HKD) 
-            i.iconfont(class="icon-icon-eye" @click="hideNumber")
-        .header-content(@click="toFundAccount")
-            span(v-if="showMoney") {{firstPositionAmount}}
-            em(v-if="showMoney") .{{secondPositionAmount}}
-            span(v-if="!showMoney") *******
-        .header-content-bottom
-            .header-row-left
-                span 持有收益
-                em(v-if="showMoney") {{holdData.positionEarnings}}
-                em.element-hide(v-else) ****
-            .header-row-right
-                span 近七日收益
-                em(v-if="showMoney") {{holdData.weekEarnings}}
-                em.element-hide(v-else) ****
+            .block-home-content
+                .header-content-item
+                    .list-item(v-for="(item,index) in list" :key="item.icon" @click='toFundList(item,index)')
+                        i.iconfont(:class="item.icon")
+                        span {{item.assetTypeName}}
+                
+                .header-content-number
+                    .header-content-top
+                        span 持仓总市值(HKD) 
+                        i.iconfont(class="icon-icon-eye" @click="hideNumber")
+                    .header-content(@click="toFundAccount")
+                        span(v-if="showMoney") {{firstPositionAmount}}
+                        em(v-if="showMoney") .{{secondPositionAmount}}
+                        span(v-if="!showMoney") *******
+                    .header-content-bottom
+                        .header-row-left
+                            span 持有收益
+                            em(v-if="showMoney") {{holdData.positionEarnings}}
+                            em.element-hide(v-else) ****
+                        .header-row-right
+                            span 近七日收益
+                            em(v-if="showMoney") {{holdData.weekEarnings}}
+                            em.element-hide(v-else) ****
+            .block-element
+                slot(name="bannar")
+                slot(name="fundList")
 
 </template>
 <script>
@@ -47,6 +51,7 @@ export default {
         return {
             width: 0,
             showMoney: true,
+            swipeable: true, //开启手势滑动
             list: [],
             active: 0
         }
@@ -118,10 +123,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block-home-content {
+    background: #2f79ff;
+    padding: 0 0 10px 0;
+}
 .home-header-container {
     width: 100%;
-    padding: 0 0 10px 0;
-    background: #2f79ff;
+
+    // background: #2f79ff;
 }
 .header-tab {
     font-size: 0.32rem;
@@ -137,6 +146,7 @@ export default {
     display: flex;
     padding: 20px 0 10px 0;
     height: 78px;
+    // background: #2f79ff;
     flex-direction: row;
     color: #fff;
     .iconfont {
@@ -145,6 +155,7 @@ export default {
     }
     .list-item {
         width: 25%;
+        background: #2f79ff;
         display: flex;
         flex-direction: column;
         text-align: center;
@@ -156,6 +167,7 @@ export default {
 .header-content-number {
     width: 96%;
     margin: 10px 2%;
+    background: #2f79ff;
     background: #fff;
     padding: 0 0 10px 0;
     height: 130px;

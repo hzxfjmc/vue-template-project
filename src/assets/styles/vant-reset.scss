@@ -108,13 +108,23 @@ body {
     .van-tab {
         font-size:0.32rem;
     }
+    .van-tabs__wrap{
+        width:100%;
+        padding:10px 25%;
+        background: #2f79ff;
+    }
 }
 
 .home-header-container{
- .van-hairline--top-bottom:after {
+    .van-hairline--top-bottom:after {
         border-width: 0 0;
     }
     .van-tab {
         font-size:0.32rem;
+    }
+    .van-tabs__wrap{
+        width:100%;
+        padding:10px 25% 15px 25%;
+        background: #2f79ff;
     }
 }

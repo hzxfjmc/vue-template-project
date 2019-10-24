@@ -1,7 +1,7 @@
 <template lang="pug">
 .income-details-content
     van-list.order-record-list(v-model="loading" :finished="finished" finished-text="无更多内容" @load="onLoad")
-        .list(class="border-bottom" v-for="(item,index) in list")
+        .block-list(class="border-bottom" v-for="(item,index) in list")
             .block-left 
                 span.element-fund-name {{item.tradeTypeName}}
                 span.element-price 金额
@@ -93,7 +93,7 @@ export default {
     background: #fff;
     overflow: hidden;
     overflow-y: auto;
-    .list {
+    .block-list {
         width: 100%;
         padding: 10px 2%;
         display: flex;

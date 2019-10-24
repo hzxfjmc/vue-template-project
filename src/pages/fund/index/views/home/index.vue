@@ -4,9 +4,9 @@
         @handlerCurrency="handlerCurrency"
         @toFundList = "toFundList"
         :holdData="holdData")
-    .home-bannar
-        img(src="https://tse4-mm.cn.bing.net/th?id=OIP.bbOTYYnZGn7AGDuzCi12MgHaEl&w=299&h=182&c=7&o=5&dpr=2&pid=1.7")
-    HomeFundList(:fundList="fundList")
+        .home-bannar(slot="bannar")
+            img(src="https://tse4-mm.cn.bing.net/th?id=OIP.bbOTYYnZGn7AGDuzCi12MgHaEl&w=299&h=182&c=7&o=5&dpr=2&pid=1.7")
+        HomeFundList(:fundList="fundList" slot="fundList")
 </template>
 <script>
 import HomeHeader from './components/home-header'

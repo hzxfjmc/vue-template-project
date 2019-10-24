@@ -4,9 +4,10 @@
         @toRouterPath = "toRouterPath"
         @handlerCurrency="handlerCurrency"
         :holdData="holdData")
-    fundList(
-        :noMoreShow="noMoreShow"        
-        :fundList="fundList")
+        fundList(
+            slot="fundList"
+            :noMoreShow="noMoreShow"        
+            :fundList="fundList")
 
 </template>
 <script>
@@ -59,8 +60,8 @@ export default {
                         item[key] = transNumToThousandMark(item[key])
                     }
                 }
+                item.currency = this.currency
             })
-            this.fundList = []
             this.noMoreShow = this.fundList.length == 0
         }
     },
