@@ -12,33 +12,45 @@
         .bond-card__content
             div
                 .text {{ buyYtm }}
-                .card-tips 到期年化收益表
+                .card-tips 到期年化收益率
             div
-                .text {{ buyPrice }}
-                .card-tips 參考金額/份
+                .text {{ subscriptionAmount | thousand-spilt }}
+                .card-tips 參攷認購金額/份
             div
                 .text.interest-num
-                    span {{ paymentAfterTaxPerYear }}
+                    span {{ paymentAfterTaxPerYear | thousand-spilt }}
                 .card-tips 年稅後派息/份
 </template>
 
 <script>
 import mixin from './mixin'
-import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     mixins: [mixin],
     computed: {
-        // 參考金額
+        // 參攷認購金額
+        subscriptionAmount() {
+            return (
+                (this.minFaceValue * this.buyPrice &&
+                    `${this.currency}${(
+                        this.minFaceValue * this.buyPrice
+                    ).toFixed(3)}`) ||
+                '--'
+            )
+        },
+        // 最小面额
+        minFaceValue() {
+            return (
+                (this.bondInfo && parseFloat(this.bondInfo.minFaceValue)) || 0
+            )
+        },
+        // 购买价格
         buyPrice() {
             return (
                 (this.bondInfo &&
                     this.bondInfo.price &&
                     this.bondInfo.price.buyPrice &&
-                    `${this.currency}${transNumToThousandMark(
-                        this.bondInfo.price.buyPrice,
-                        3
-                    )}`) ||
-                '--'
+                    parseFloat(this.bondInfo.price.buyPrice)) ||
+                0
             )
         },
         // 货币单位
@@ -55,10 +67,9 @@ export default {
             return (
                 (this.bondInfo &&
                     this.bondInfo.paymentAfterTaxPerYear &&
-                    `${this.currency}${transNumToThousandMark(
-                        this.bondInfo.paymentAfterTaxPerYear,
-                        3
-                    )}`) ||
+                    `${this.currency}${parseFloat(
+                        this.bondInfo.paymentAfterTaxPerYear
+                    ).toFixed(3)}`) ||
                 '--'
             )
         }
