@@ -39,9 +39,7 @@ export default {
         },
         // 最小面额
         minFaceValue() {
-            return (
-                (this.bondInfo && parseFloat(this.bondInfo.minFaceValue)) || 0
-            )
+            return (this.bondInfo && this.bondInfo.minFaceValue - 0) || 0
         },
         // 购买价格
         buyPrice() {
@@ -49,7 +47,7 @@ export default {
                 (this.bondInfo &&
                     this.bondInfo.price &&
                     this.bondInfo.price.buyPrice &&
-                    parseFloat(this.bondInfo.price.buyPrice)) ||
+                    this.bondInfo.price.buyPrice - 0) ||
                 0
             )
         },
@@ -67,8 +65,8 @@ export default {
             return (
                 (this.bondInfo &&
                     this.bondInfo.paymentAfterTaxPerYear &&
-                    `${this.currency}${parseFloat(
-                        this.bondInfo.paymentAfterTaxPerYear
+                    `${this.currency}${(
+                        this.bondInfo.paymentAfterTaxPerYear - 0
                     ).toFixed(3)}`) ||
                 '--'
             )

@@ -19,6 +19,7 @@
 
 <script>
 import mixin from './mixin'
+import { calcPaymentDates } from '@/pages/bond/index/tools.js'
 export default {
     mixins: [mixin],
     computed: {
@@ -34,10 +35,7 @@ export default {
         },
         // 付息日
         paymentDates() {
-            let d = this.bondInfo && this.bondInfo.paymentDates
-            d = d ? d.split('|') : ''
-            let suffix = d.length > 2 ? '等' : ''
-            return d ? d.slice(0, 2).join('、') + suffix : '--'
+            return calcPaymentDates(this.bondInfo && this.bondInfo.paymentDates)
         }
     }
 }
