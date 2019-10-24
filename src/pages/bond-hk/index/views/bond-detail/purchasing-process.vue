@@ -4,9 +4,9 @@
             van-step
                 <h3>下單購買</h3>
             van-step
-                <h3>T+1日計息</h3>
+                <h3>{{ enumDelivery }}日計息</h3>
             van-step
-                <h3>3.22, 9.22為付息日</h3>
+                <h3>{{ paymentDate }}為付息日</h3>
                 <p>・付息日支付利息，持有中途可賣出</p>
                 <p>・持有到期可收息10次，每次收息: 稅後150美元/份</p>
                 <p>・到期前合共收息:稅後1,500美元/份</p>
@@ -19,7 +19,22 @@
 <script>
 import purchasingProcessMixin from '@/mixins/bond/bond-detail/purchasing-process.js'
 export default {
-    mixins: [purchasingProcessMixin]
+    mixins: [purchasingProcessMixin],
+    computed: {
+        // 付息日
+        paymentDate() {
+            let d =
+                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate
+            d = d
+                ? d
+                      .replace(/月/g, '.')
+                      .replace(/日/g, '')
+                      .split('|')
+                : ''
+            let suffix = d.length > 2 ? '等' : ''
+            return d ? d.slice(0, 2).join('、') + suffix : '--'
+        }
+    }
 }
 </script>
 <style lang="scss" scoped></style>

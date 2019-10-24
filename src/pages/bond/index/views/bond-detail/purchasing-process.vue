@@ -27,7 +27,17 @@
 <script>
 import purchasingProcessMixin from '@/mixins/bond/bond-detail/purchasing-process.js'
 export default {
-    mixins: [purchasingProcessMixin]
+    mixins: [purchasingProcessMixin],
+    computed: {
+        // 付息日
+        paymentDate() {
+            let d =
+                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate
+            d = d ? d.split('|') : ''
+            let suffix = d.length > 2 ? '等' : ''
+            return d ? d.slice(0, 2).join('、') + suffix : '--'
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
