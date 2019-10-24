@@ -26,6 +26,9 @@
                 .footer-right
                     span USD
                     span.price-number {{item.inTransitAmount}}
+    .block-element-nomore(v-if="noMoreShow")
+        img.img(src="@/assets/img/fund/icon-norecord.png") 
+        .no-record-box 暂无持仓
 </template>
 <script>
 export default {
@@ -33,6 +36,10 @@ export default {
         fundList: {
             type: Array,
             default: () => {}
+        },
+        noMoreShow: {
+            type: Boolean,
+            default: false
         }
     }
 }
@@ -101,6 +108,18 @@ export default {
                 }
             }
         }
+    }
+}
+.block-element-nomore {
+    width: 100%;
+    text-align: center;
+    margin: 100px 0 0 0;
+    img {
+        width: 130px;
+    }
+    .no-record-box {
+        color: rgba(25, 25, 25, 0.5);
+        margin: 10px 0 0 0;
     }
 }
 </style>

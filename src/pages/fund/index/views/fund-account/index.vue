@@ -4,7 +4,9 @@
         @toRouterPath = "toRouterPath"
         @handlerCurrency="handlerCurrency"
         :holdData="holdData")
-    fundList(:fundList="fundList")
+    fundList(
+        :noMoreShow="noMoreShow"        
+        :fundList="fundList")
 
 </template>
 <script>
@@ -17,7 +19,8 @@ export default {
         return {
             holdData: {},
             fundList: [],
-            currency: 2
+            currency: 2,
+            noMoreShow: false
         }
     },
     components: {
@@ -57,6 +60,8 @@ export default {
                     }
                 }
             })
+            this.fundList = []
+            this.noMoreShow = this.fundList.length == 0
         }
     },
     mounted() {
