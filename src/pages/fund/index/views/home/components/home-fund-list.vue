@@ -4,7 +4,7 @@
         .title 人气之选
         .subtitle 众多投资者的选择
     .fund-list-content
-        .list-item(v-for="(item,index) in fundList" :key="index")
+        .list-item(v-for="(item,index) in fundList" :key="index" @click="toFundDetails(item)")
             .block-left
                 span.block-num(v-if="item.msg == 0") {{item.apy}}%
                 span.block-black(v-if="item.msg == 1") {{item.apy}}%
@@ -39,6 +39,15 @@ export default {
         fundList: {
             type: Array,
             default: () => {}
+        }
+    },
+    methods: {
+        toFundDetails(item) {
+            console.log(item)
+            this.$router.push({
+                path: '/fund-details',
+                query: { id: item.fondId }
+            })
         }
     }
 }

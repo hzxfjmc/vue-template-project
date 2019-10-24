@@ -55,7 +55,6 @@ export default {
                     displayLocation: 1,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    classify: 1,
                     assetType: this.$route.query.type,
                     currency: this.$route.query.currency
                 })

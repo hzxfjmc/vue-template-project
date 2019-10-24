@@ -1,6 +1,6 @@
 <template lang="pug">
 .block-fund-list-content
-    .list-item-content(v-for="(item,index) in fundList" :key="index")
+    .list-item-content(v-for="(item,index) in fundList" :key="index" @click="toFundDetails(item)")
         .fund-name {{item.fundName}}
         .fund-list-num
             .fund-row
@@ -40,6 +40,14 @@ export default {
         noMoreShow: {
             type: Boolean,
             default: false
+        }
+    },
+    methods: {
+        toFundDetails(item) {
+            this.$router.push({
+                path: '/fund-details',
+                query: { id: item.fondId }
+            })
         }
     }
 }

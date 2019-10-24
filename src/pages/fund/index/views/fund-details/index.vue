@@ -164,6 +164,7 @@ export default {
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
             } catch (e) {
+                this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
             }
         },
