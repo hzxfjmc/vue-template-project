@@ -65,3 +65,11 @@ export const getFundNetPrice = params => {
 export const getFundListV2 = params => {
     return axios.post(`/finance-info-server/api/get-fund-list/v2`, params)
 }
+
+//获取已发布的基金底层分类
+export const getReleaseFundAssetType = params => {
+    return axios.post(
+        `/finance-info-server/api/get-release-fund-asset-type/v1`,
+        params
+    )
+}

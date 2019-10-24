@@ -12,7 +12,9 @@
                 span.element-price-green(v-if="item.msg == 1") {{item.earnings}}
                 span.element-price(v-if="item.msg == 2") {{item.earnings}}
                 span.element-time {{item.belongDate}}
-            
+    .block-element-nomore(v-if="noMoreShow")
+        img.img(src="@/assets/img/fund/icon-norecord.png") 
+        .no-record-box 暂无收益
 </template>
 <script>
 import { getFundPositionEarningsListV1 } from '@/service/finance-server.js'
@@ -26,6 +28,7 @@ export default {
     data() {
         return {
             list: [],
+            noMoreShow: false,
             pageSize: 10,
             pageNum: 1,
             total: 0,
@@ -80,6 +83,8 @@ export default {
                 this.pageSize = pageSize
                 this.pageNum = pageNum
                 this.total = total
+                // this.total = 0
+                this.noMoreShow = this.total == 0
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -138,5 +143,17 @@ export default {
     width: 100%;
     text-align: center;
     margin: 10px 0;
+}
+.block-element-nomore {
+    width: 100%;
+    text-align: center;
+    margin: 150px 0 0 0;
+    img {
+        width: 130px;
+    }
+    .no-record-box {
+        color: rgba(25, 25, 25, 0.5);
+        margin: 10px 0 0 0;
+    }
 }
 </style>

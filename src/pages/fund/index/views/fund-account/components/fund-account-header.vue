@@ -5,9 +5,9 @@
             v-model="active" 
             background="#2f79ff" 
             color="#fff" 
-            border=false
-           @click="handlerCurrency"
-            title-inactive-color="#fff" 
+            :line-width="width"
+            title-inactive-color="rgba(255,255,255,0.6)" 
+            @click="handlerCurrency"
             title-active-color="#fff")
             van-tab(title="港币基金" name="1")
             van-tab(title="美元基金" name="2")
@@ -43,6 +43,7 @@ export default {
     },
     data() {
         return {
+            width: 0,
             active: 0,
             showPsd: true
         }

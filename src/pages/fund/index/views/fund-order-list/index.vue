@@ -14,6 +14,10 @@
                 span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.tradeTypeName}}
                 span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
                 span.element-time {{item.orderTime}}
+    
+    .block-element-nomore(v-if="noMoreShow")
+        img.img(src="@/assets/img/fund/icon-norecord.png") 
+        .no-record-box 暂无订单记录
             
 </template>
 <script>
@@ -27,6 +31,7 @@ export default {
     data() {
         return {
             list: [],
+            noMoreShow: false,
             pageSize: 10,
             pageNum: 1,
             total: 0,
@@ -68,7 +73,7 @@ export default {
                     ).format('YYYY-MM-DD HH:mm:ss')
                 })
                 this.list = this.list.concat(list)
-                console.log(this.list)
+                this.noMoreShow = this.total == 0
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -136,6 +141,18 @@ export default {
                 color: #41ca1e;
             }
         }
+    }
+}
+.block-element-nomore {
+    width: 100%;
+    text-align: center;
+    margin: 150px 0 0 0;
+    img {
+        width: 130px;
+    }
+    .no-record-box {
+        color: rgba(25, 25, 25, 0.5);
+        margin: 10px 0 0 0;
     }
 }
 </style>

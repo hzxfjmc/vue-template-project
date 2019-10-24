@@ -37,7 +37,7 @@ export default {
     }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .fund-list-content {
     width: 94%;
     margin: 0 3%;

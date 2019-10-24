@@ -6,15 +6,15 @@
             background="#2f79ff" 
             color="#fff" 
             @click="handlerCurrency"
-            border=false
-            title-inactive-color="#fff" 
+            :line-width="width"
+            title-inactive-color="rgba(255,255,255,0.6)" 
             title-active-color="#fff")
             van-tab(title="港币基金" name="2")
             van-tab(title="美元基金" name="1")
     .header-content-item
         .list-item(v-for="(item,index) in list" :key="item.icon" @click='toFundList(item,index)')
             i.iconfont(:class="item.icon")
-            span {{item.label}}
+            span {{item.assetTypeName}}
     
     .header-content-number
         .header-content-top
@@ -37,6 +37,7 @@
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
+import { getReleaseFundAssetType } from '@/service/finance-info-server.js'
 export default {
     components: {
         [Tab.name]: Tab,
@@ -44,17 +45,9 @@ export default {
     },
     data() {
         return {
+            width: 0,
             showMoney: true,
-            list: [
-                { icon: 'icon-icon-currency-fund', label: '货币基金', type: 4 },
-                {
-                    icon: 'icon-iconFFzhaiquanjijin',
-                    label: '债券基金',
-                    type: 2
-                },
-                { icon: 'icon-icon-sharesfund', label: '股票基金', type: 1 },
-                { icon: 'icon-iconFFhunhejijin', label: '混合基金', type: 3 }
-            ],
+            list: [],
             active: 0
         }
     },
@@ -76,6 +69,30 @@ export default {
     },
 
     methods: {
+        //获取已发布的基金底层分类
+        async getReleaseFundAssetType() {
+            try {
+                this.list = await getReleaseFundAssetType()
+                this.list.map(item => {
+                    switch (item.assetType) {
+                        case 1:
+                            item.icon = 'icon-icon-sharesfund'
+                            break
+                        case 2:
+                            item.icon = 'icon-iconFFzhaiquanjijin'
+                            break
+                        case 3:
+                            item.icon = 'icon-iconFFhunhejijin'
+                            break
+                        case 4:
+                            item.icon = 'icon-icon-currency-fund'
+                            break
+                    }
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         //修改货币
         handlerCurrency(name) {
             name = name == 0 ? 2 : 1
@@ -87,13 +104,16 @@ export default {
         },
         //跳转基金列表页面
         toFundList(data) {
-            this.$emit('toFundList', { type: data.type })
+            this.$emit('toFundList', { type: data.assetType })
         },
         toFundAccount() {
             this.$router.push({
                 path: '/fund-account'
             })
         }
+    },
+    mounted() {
+        this.getReleaseFundAssetType()
     }
 }
 </script>
@@ -116,6 +136,7 @@ export default {
     width: 100%;
     display: flex;
     padding: 20px 0 10px 0;
+    height: 78px;
     flex-direction: row;
     color: #fff;
     .iconfont {

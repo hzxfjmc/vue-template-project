@@ -9,11 +9,10 @@
                 v-for="(item, index) in list"
                 :key="index"
                 :to="{ name: 'fund-details', query: { id: `${item.fondId}` }}"
-                title=""
             )
                 Card(:info="item")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
-        .no-bond-box(v-if="load && list.length === 0")
+        .no-bond-box(v-if="load")
             .no-bond {{ $t('noBond') }}
 </template>
 <script>
@@ -51,6 +50,7 @@ export default {
         // 获取基金列表
         async getFundListV2() {
             try {
+                this.list = []
                 const { list } = await getFundListV2({
                     displayLocation: 1,
                     pageNum: this.pageNum,
@@ -60,10 +60,17 @@ export default {
                     currency: this.$route.query.currency
                 })
                 this.list = list
-                this.load = true
+                this.load = this.list.length == 0
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getListFundInfo:error:>>>', e)
+            }
+        }
+    },
+    watch: {
+        $route(to, from) {
+            if (from.path === '/home') {
+                this.getFundListV2()
             }
         }
     }
