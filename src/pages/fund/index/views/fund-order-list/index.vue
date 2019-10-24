@@ -1,6 +1,6 @@
 <template lang="pug">
 .income-details-content
-    van-list.order-record-list(v-model="loading" :finished="finished" finished-text="无更多内容" @load="onLoad")
+    van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
         .block-list(class="border-bottom" v-for="(item,index) in list")
             .block-left 
                 span.element-fund-name {{item.tradeTypeName}}
@@ -37,6 +37,7 @@ export default {
             total: 0,
             loading: false,
             finished: false,
+            finishedText: '无更多内容',
             currency: this.$route.query.currency
         }
     },
@@ -74,6 +75,7 @@ export default {
                 })
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
+                this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
                 this.$toast(e.msg)
             }

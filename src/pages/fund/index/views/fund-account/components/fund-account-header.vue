@@ -9,14 +9,14 @@
         title-inactive-color="rgba(255,255,255,0.6)" 
         @click="handlerCurrency"
         title-active-color="#fff")
-        van-tab(title="港币基金" name="1")
-        van-tab(title="美元基金" name="2")
+        van-tab(title="港币基金" name="2")
+        van-tab(title="美元基金" name="1")
         .block-account-header
             .header-content
                 .header-content-left
                     span.title 
                         em 我的港币资产
-                        i.iconfont(class="icon-icon-eye" @click="hideNumber")
+                        i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
                     .number-price(v-if="showPsd") {{firstPositionAmount}}.
                         em(v-if="showPsd") {{secondPositionAmount}}
                     .number-price(v-if="!showPsd") ******
@@ -120,7 +120,7 @@ export default {
             em {
                 float: left;
             }
-            .icon-icon-eye {
+            .iconfont {
                 font-size: 20px;
                 float: left;
                 margin: 0 0 0 10px;

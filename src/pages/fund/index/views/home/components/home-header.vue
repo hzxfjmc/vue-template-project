@@ -20,7 +20,7 @@
                 .header-content-number
                     .header-content-top
                         span 持仓总市值(HKD) 
-                        i.iconfont(class="icon-icon-eye" @click="hideNumber")
+                        i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click="hideNumber")
                     .header-content(@click="toFundAccount")
                         span(v-if="showMoney") {{firstPositionAmount}}
                         em(v-if="showMoney") .{{secondPositionAmount}}
@@ -100,6 +100,7 @@ export default {
         },
         //修改货币
         handlerCurrency(name) {
+            console.log(name)
             name = name == 0 ? 2 : 1
             this.$emit('handlerCurrency', name)
         },

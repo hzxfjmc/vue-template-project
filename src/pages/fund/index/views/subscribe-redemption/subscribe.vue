@@ -1,13 +1,14 @@
 <template lang="pug">
     .subscribe-wrapper
-        //- .succed.border-bottom(v-if="step === 2")
-        //-     img(src="@/assets/img/fund/succed.svg")
-        //-     div.text {{ $t('buySuccess') }}
+        .succed.border-bottom(v-if="step === 2")
+            img(src="@/assets/img/fund/succed.svg")
+            div.text {{ $t('buySuccess') }}
+        .fond-des
+            .fond-name {{ fundName }}
+            .ISIN ISIN:{{ isin }}
+
         template(v-if="step === 1")
             .fund-content
-                .fond-des
-                    .fond-name {{ fundName }}
-                    .ISIN ISIN:{{ isin }}
                 .fond-buy
                     .buy-row-item(v-for="(item,index) in subscribeObj")
                         .left-item {{item.label}}
@@ -32,10 +33,6 @@
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
                 van-button(:disabled="disabled" @click="handleSubmit") {{$t('submitButtonText')}}
         template(v-else-if="step === 2")
-            .succed.border-bottom(v-if="step === 2")
-                img(src="@/assets/img/fund/succed.svg")
-                div.text {{ $t('buySuccess') }}
-       
             .fond-buy.border-bottom
                 .buy-row
                     .icon
@@ -52,10 +49,14 @@
                     span.text-color5 {{ $t('earnings') }}
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
-                    .left.line-height-8 {{ $t('money') }}
-                    .right.buy-money.line-height-8(style="text-align: right;") {{ buyMoney | formatCurrency }}
+                    .left.line-height-8  订单金额
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
+                .buy-row
+                    .left.line-height-8 买入金额
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
+
         yx-popup(
             v-model="protocolVisible"
             position="bottom"
@@ -266,7 +267,7 @@ export default {
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
-                        purchaseAmount: this.buyMoney,
+                        purchaseAmount: this.subscribeObj.buyMoney.value,
                         requestId: generateUUID(),
                         tradeToken: token
                     })
