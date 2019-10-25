@@ -15,23 +15,24 @@
             .header-content
                 .header-content-left
                     span.title 
-                        em 我的港币资产
+                        em(v-if="holdData.currency == 2") {{$t('myHkdAccount')}}
+                        em(v-if="holdData.currency == 1") {{$t('myUsdAccount')}}
                         i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
                     .number-price(v-if="showPsd") {{firstPositionAmount}}.
                         em(v-if="showPsd") {{secondPositionAmount}}
                     .number-price(v-if="!showPsd") ******
                 
                 .header-content-right
-                    span 持仓盈亏
+                    span {{$t('profitPostion')}}
                         em(v-if="showPsd") {{holdData.positionEarnings}}
                         em(v-else) ****
-                    span 近七日收益
+                    span {{$t('SevenDayIncome')}}
                         em(v-if="showPsd") {{holdData.weekEarnings}}
                         em(v-else) ****
             
             .header-footer-tab(class="border-top")
-                span.header-footer-left(@click="toRouterPath('/income-details')") 收益明细
-                span(@click="toRouterPath('/fund-order-list')") 订单记录
+                span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
+                span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
         slot(name="fundList")
 </template>
 <script>
@@ -41,6 +42,32 @@ export default {
         holdData: {
             type: Object,
             default: () => {}
+        }
+    },
+    i18n: {
+        zhCHS: {
+            myHkdAccount: '港币基金',
+            myUsdAccount: '美元基金',
+            profitPostion: '持仓盈亏',
+            SevenDayIncome: '近七日收益',
+            IncomeDetails: '收益明细',
+            OrderRecord: '订单记录'
+        },
+        zhCHT: {
+            myHkdAccount: '港币基金',
+            myUsdAccount: '美元基金',
+            profitPostion: '持仓盈亏',
+            SevenDayIncome: '近七日收益',
+            IncomeDetails: '收益明细',
+            OrderRecord: '订单记录'
+        },
+        en: {
+            myHkdAccount: '港币基金',
+            myUsdAccount: '美元基金',
+            profitPostion: '持仓盈亏',
+            SevenDayIncome: '近七日收益',
+            IncomeDetails: '收益明细',
+            OrderRecord: '订单记录'
         }
     },
     data() {

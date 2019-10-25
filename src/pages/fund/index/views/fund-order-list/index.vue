@@ -4,20 +4,20 @@
         .block-list(class="border-bottom" v-for="(item,index) in list")
             .block-left 
                 span.element-fund-name {{item.tradeTypeName}}
-                span.element-price 金额
-                span.element-time 时间
+                span.element-price {{$t('amountMoney')}}
+                span.element-time {{$t('time')}}
             .block-right 
-                span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.tradeTypeName}}
-                span.msg(class="element-fund-color")(v-if="item.externalStatus == 2") {{item.tradeTypeName}}
-                span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.tradeTypeName}}
-                span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.tradeTypeName}}
-                span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.tradeTypeName}}
+                span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.externalName}}
+                span.msg(class="element-fund-color")(v-if="item.externalStatus == 2") {{item.externalName}}
+                span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.externalName}}
+                span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
+                span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
                 span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
                 span.element-time {{item.orderTime}}
     
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
-        .no-record-box 暂无订单记录
+        .no-record-box {{$t('nomore')}}
             
 </template>
 <script>
@@ -27,6 +27,28 @@ import { List } from 'vant'
 export default {
     components: {
         [List.name]: List
+    },
+    i18n: {
+        zhCHS: {
+            amountMoney: '金额',
+            time: '时间',
+            nomore: '暂无订单记录',
+            nomore1: '无更多内容'
+        },
+        zhCHT: {
+            FundNmae: '基金名称',
+            amountMoney: '金额',
+            time: '时间',
+            nomore: '暂无收益',
+            nomore1: '无更多内容'
+        },
+        en: {
+            FundNmae: '基金名称',
+            amountMoney: '金额',
+            time: '时间',
+            nomore: '暂无收益',
+            nomore1: '无更多内容'
+        }
     },
     data() {
         return {
@@ -75,6 +97,7 @@ export default {
                 })
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
+                this.finishedText = this.$t('nomore1')
                 this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
                 this.$toast(e.msg)

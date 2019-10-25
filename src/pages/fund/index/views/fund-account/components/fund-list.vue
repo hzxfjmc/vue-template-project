@@ -4,31 +4,31 @@
         .fund-name {{item.fundName}}
         .fund-list-num
             .fund-row
-                span 近七日数据
+                span {{$t('SevenDayIncome')}}
                 .block-element-number {{item.weekEarnings}}
             .fund-row
-                span 持仓收益
+                span {{$t('profitPostion')}}
                 .block-element-number {{item.positionEarnings}}
             .fund-row
-                span 金额
+                span {{$t('amountMoney')}}
                 .block-element-number {{item.positionAmount}}
             .fund-row
-                span 份额
+                span {{$t('share')}}
                 .block-element-number 6
         .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' && item.inTransitAmount !== '0.00'")
             .o-item
-                .footer-left-l 赎回中
+                .footer-left-l {{$t('Redemption')}}
                 .footer-right
-                    span 份额
+                    span {{$t('share')}}
                     span.price-number {{item.redeemDeliveryShare}}
             .o-item
-                .footer-left-l 申购中
+                .footer-left-l {{$t('subscribe')}}
                 .footer-right
                     span {{item.currency == 2 ? 'HKD':'USD'}}
                     span.price-number {{item.inTransitAmount}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
-        .no-record-box 暂无持仓
+        .no-record-box {{$t('nomore')}}
 </template>
 <script>
 export default {
@@ -40,6 +40,35 @@ export default {
         noMoreShow: {
             type: Boolean,
             default: false
+        }
+    },
+    i18n: {
+        zhCHS: {
+            amountMoney: '金额',
+            share: '份额',
+            profitPostion: '持仓收益',
+            SevenDayIncome: '近七日数据',
+            Redemption: '赎回中',
+            subscribe: '申购中',
+            nomore: '暂无持仓'
+        },
+        zhCHT: {
+            amountMoney: '金额',
+            share: '份额',
+            profitPostion: '持仓收益',
+            SevenDayIncome: '近七日数据',
+            Redemption: '赎回中',
+            subscribe: '申购中',
+            nomore: '暂无持仓'
+        },
+        en: {
+            amountMoney: '金额',
+            share: '份额',
+            profitPostion: '持仓收益',
+            SevenDayIncome: '近七日数据',
+            Redemption: '赎回中',
+            subscribe: '申购中',
+            nomore: '暂无持仓'
         }
     },
     methods: {

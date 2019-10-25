@@ -9,8 +9,8 @@
         :line-width="width"
         title-inactive-color="rgba(255,255,255,0.6)" 
         title-active-color="#fff")
-            van-tab(title="港币基金" name="2")
-            van-tab(title="美元基金" name="1")
+            van-tab(:title="$t('hkdFund')" name="2")
+            van-tab(:title="$t('usdFund')" name="1")
             .block-home-content
                 .header-content-item
                     .list-item(
@@ -23,7 +23,7 @@
                 
                 .header-content-number
                     .header-content-top
-                        span 持仓总市值(HKD) 
+                        span {{$t('AllTotalMarketPostion')}} ({{holdData.currency == 2 ? 'HKD':'USD'}}) 
                         i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click="hideNumber")
                     .header-content(@click="toFundAccount")
                         span(v-if="showMoney") {{firstPositionAmount}}
@@ -31,11 +31,11 @@
                         span(v-if="!showMoney") *******
                     .header-content-bottom
                         .header-row-left
-                            span 持有收益
+                            span {{$t('HoldIncome')}}
                             em(v-if="showMoney") {{holdData.positionEarnings}}
                             em.element-hide(v-else) ****
                         .header-row-right
-                            span 近七日收益
+                            span {{$t('SevenDayIncome')}}
                             em(v-if="showMoney") {{holdData.weekEarnings}}
                             em.element-hide(v-else) ****
             .block-element
@@ -50,6 +50,29 @@ export default {
     components: {
         [Tab.name]: Tab,
         [Tabs.name]: Tabs
+    },
+    i18n: {
+        zhCHS: {
+            hkdFund: '港币基金',
+            usdFund: '美元基金',
+            AllTotalMarketPostion: '持仓总市值',
+            HoldIncome: '持有收益',
+            SevenDayIncome: '近七日收益'
+        },
+        zhCHT: {
+            hkdFund: '港币基金',
+            usdFund: '美元基金',
+            AllTotalMarketPostion: '持仓总市值',
+            HoldIncome: '持有收益',
+            SevenDayIncome: '近七日收益'
+        },
+        en: {
+            hkdFund: '港币基金',
+            usdFund: '美元基金',
+            AllTotalMarketPostion: '持仓总市值',
+            HoldIncome: '持有收益',
+            SevenDayIncome: '近七日收益'
+        }
     },
     data() {
         return {

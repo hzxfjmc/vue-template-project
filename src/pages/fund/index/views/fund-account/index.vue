@@ -51,7 +51,8 @@ export default {
             this.holdData = {
                 positionAmount: transNumToThousandMark(positionAmount),
                 positionEarnings: transNumToThousandMark(positionEarnings),
-                weekEarnings: transNumToThousandMark(weekEarnings)
+                weekEarnings: transNumToThousandMark(weekEarnings),
+                currency: this.currency
             }
             this.fundList = positionList
             this.fundList.map(item => {

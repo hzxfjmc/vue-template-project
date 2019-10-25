@@ -74,7 +74,8 @@ export default {
                 this.holdData = {
                     positionAmount: transNumToThousandMark(positionAmount),
                     positionEarnings: transNumToThousandMark(positionEarnings),
-                    weekEarnings: transNumToThousandMark(weekEarnings)
+                    weekEarnings: transNumToThousandMark(weekEarnings),
+                    currency: this.currency
                 }
             } catch (e) {
                 this.$toast(e.msg)

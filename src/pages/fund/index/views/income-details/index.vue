@@ -3,9 +3,9 @@
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
         .list(class="border-bottom" v-for="(item,index) in list")
             .block-left 
-                span.element-fund-name 基金名称
-                span.element-price 金额
-                span.element-time 时间
+                span.element-fund-name {{$t('FundNmae')}}
+                span.element-price {{$t('amountMoney')}}
+                span.element-time {{$t('time')}}
             .block-right 
                 span.element-fund-name {{item.fundName}}
                 span.element-price-red(v-if="item.msg == 0") +{{item.earnings}}
@@ -14,7 +14,7 @@
                 span.element-time {{item.belongDate}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
-        .no-record-box 暂无收益
+        .no-record-box {{$t('nomore')}}
 </template>
 <script>
 import { getFundPositionEarningsListV1 } from '@/service/finance-server.js'
@@ -24,6 +24,29 @@ import { List } from 'vant'
 export default {
     components: {
         [List.name]: List
+    },
+    i18n: {
+        zhCHS: {
+            FundNmae: '基金名称',
+            amountMoney: '金额',
+            time: '时间',
+            nomore: '暂无收益',
+            nomore1: '无更多内容'
+        },
+        zhCHT: {
+            FundNmae: '基金名称',
+            amountMoney: '金额',
+            time: '时间',
+            nomore: '暂无收益',
+            nomore1: '无更多内容'
+        },
+        en: {
+            FundNmae: '基金名称',
+            amountMoney: '金额',
+            time: '时间',
+            nomore: '暂无收益',
+            nomore1: '无更多内容'
+        }
     },
     data() {
         return {
@@ -86,6 +109,7 @@ export default {
                 this.total = total
                 // this.total = 0
                 this.noMoreShow = this.total == 0
+                this.finishedText = this.$t('nomore1')
                 this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
                 this.$toast(e.msg)

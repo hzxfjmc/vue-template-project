@@ -1,15 +1,15 @@
 <template lang="pug">
 .home-fund-list
     .fund-title-name
-        .title 人气之选
-        .subtitle 众多投资者的选择
+        .title {{$t('title')}}
+        .subtitle {{$t('subtitle')}}
     .fund-list-content
         .list-item(v-for="(item,index) in fundList" :key="index" @click="toFundDetails(item)")
             .block-left
                 span.block-num(v-if="item.msg == 0") {{item.apy}}%
                 span.block-black(v-if="item.msg == 1") {{item.apy}}%
                 span.element-msg(v-if="item.msg == 2") {{item.apy}}%
-                span.block-p 近一年收益率
+                span.block-p {{$t('oneYearRate')}}
             .block-right
                 .block-top {{item.fundName}}
                 .block-content
@@ -27,7 +27,7 @@
                         ) {{item.earningsTypeName}}
                 .block-bottom {{item.feature}}
                 .block-position 
-            .block-element-msg(v-if="item.havePosition") 已持仓
+            .block-element-msg(v-if="item.havePosition") {{$t('holdPostion')}}
 </template>
 <script>
 import { Tag } from 'vant'
@@ -39,6 +39,26 @@ export default {
         fundList: {
             type: Array,
             default: () => {}
+        }
+    },
+    i18n: {
+        zhCHS: {
+            title: '人气之选',
+            subtitle: '众多投资者的选择',
+            oneYearRate: '近一年收益率',
+            holdPostion: '已持仓'
+        },
+        zhCHT: {
+            title: '人气之选',
+            subtitle: '众多投资者的选择',
+            oneYearRate: '近一年收益率',
+            holdPostion: '已持仓'
+        },
+        en: {
+            title: '人气之选',
+            subtitle: '众多投资者的选择',
+            oneYearRate: '近一年收益率',
+            holdPostion: '已持仓'
         }
     },
     methods: {

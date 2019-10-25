@@ -78,7 +78,7 @@ import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
-import { subscribeObj } from './subscribe.js'
+import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import './index.scss'
 export default {
     name: 'subscribe',
@@ -90,7 +90,7 @@ export default {
             // 1: 购买 2:成功
             step: 1,
             orderNo: null,
-            subscribeObj: subscribeObj,
+            subscribeObj: JSON.parse(JSON.stringify(subscribeObj)),
             buyMoneyBlur: false,
             buyMoney: null,
             fundName: '',
@@ -132,8 +132,18 @@ export default {
     },
     watch: {
         'subscribeObj.buyMoney.value'(val) {
+            console.log(this.subscribeObj.buyMoney.value)
+            this.subscribeObj.Totalorderamount.value =
+                Number(this.subscribeObj.buyMoney.value) +
+                this.subscribeObj.buyMoney.value *
+                    this.subscribeObj.subscriptionFee.value
+            console.log(this.subscribeObj.Totalorderamount.value)
+            this.subscribeObj.Totalorderamount.value = transNumToThousandMark(
+                this.subscribeObj.Totalorderamount.value
+            )
             if (val > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
+                console.log(123123)
             }
         }
     },
@@ -169,7 +179,17 @@ export default {
                 })
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
-
+                for (let key in this.subscribeObj) {
+                    if (key == 'currency') {
+                        this.subscribeObj['currency'].label = this.$t(
+                            'currency'
+                        )
+                    } else {
+                        this.subscribeObj[key].label = this.$t('subscribeObj')[
+                            key
+                        ]
+                    }
+                }
                 this.subscribeObj.currency.value =
                     fundDetail.fundTradeInfoVO.currency.name
                 this.subscribeObj.initialInvestAmount.value = transNumToThousandMark(
@@ -313,7 +333,8 @@ export default {
             earnings: '查看收益',
             money: '金额',
             done: '完成',
-            iKnow: '我知道了'
+            iKnow: '我知道了',
+            subscribeObj: subscribeObji18n.i18n.zhCHS
         },
         zhCHT: {
             buySuccess: '申購成功',
@@ -338,7 +359,8 @@ export default {
             earnings: '查看收益',
             money: '金額',
             done: '完成',
-            iKnow: '我知道了'
+            iKnow: '我知道了',
+            subscribeObj: subscribeObji18n.i18n.zhCHT
         },
         en: {
             buySuccess: 'Subscription Successful',
@@ -363,7 +385,8 @@ export default {
             earnings: 'Check P/L',
             money: 'Amount',
             done: 'Completed',
-            iKnow: 'Got it'
+            iKnow: 'Got it',
+            subscribeObj: subscribeObji18n.i18n.en
         }
     }
 }
