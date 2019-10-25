@@ -42,7 +42,10 @@ export default {
         },
         // 债券名称
         headerDesc() {
-            return this.bondEditableInfo && this.bondEditableInfo.bondName
+            return (
+                (this.bondEditableInfo && this.bondEditableInfo.bondName) ||
+                '--'
+            )
         }
     }
 }

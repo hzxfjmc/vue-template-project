@@ -21,7 +21,6 @@
 </template>
 <script>
 import detailHeaderMixin from '@/mixins/bond/bond-detail/detail-header.js'
-import { calcCountDownDay } from '@/utils/tools.js'
 export default {
     mixins: [detailHeaderMixin],
     data() {
@@ -48,15 +47,9 @@ export default {
     },
     computed: {
         colData() {
-            let _this = this
             let obj = [
                 {
-                    title:
-                        (this.currentPrice &&
-                            this.currentPrice &&
-                            this.currentPrice.buyYtm &&
-                            (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
-                        '--',
+                    title: this.buyYtm,
                     desc: '到期年化收益率',
                     click: () => {
                         this.$dialog.alert({
@@ -71,24 +64,73 @@ export default {
                     class: 'icon-wenhao'
                 },
                 {
-                    title: calcCountDownDay(
-                        _this.bondUneditableInfo &&
-                            _this.bondUneditableInfo.dueTime
-                    ),
-                    desc: '剩餘限期'
+                    title: this.subscriptionAmount,
+                    desc: '參攷認購金額/份'
                 },
                 {
-                    title:
-                        (this.bondUneditableInfo &&
-                            this.bondUneditableInfo.enumPaymentFrequency &&
-                            this.bondUneditableInfo.enumPaymentFrequency
-                                .name) ||
-                        '--',
-                    desc: '付息頻率'
+                    title: this.paymentAfterTaxPerYear,
+                    desc: '年稅後派息/份'
                 }
             ]
             return obj
         },
+        // 到期年化利率
+        buyYtm() {
+            return (
+                (this.currentPrice &&
+                    this.currentPrice.buyYtm &&
+                    (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
+                '--'
+            )
+        },
+        // 參攷認購金額
+        subscriptionAmount() {
+            return (
+                (this.minFaceValue * this.buyPrice &&
+                    `${this.currency}${(
+                        this.minFaceValue * this.buyPrice
+                    ).toFixed(3)}`) ||
+                '--'
+            )
+        },
+        // 最小面额
+        minFaceValue() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.minFaceValue - 0) ||
+                0
+            )
+        },
+        // 购买价格
+        buyPrice() {
+            return (
+                (this.currentPrice &&
+                    this.currentPrice.buyPrice &&
+                    this.currentPrice.buyPrice - 0) ||
+                0
+            )
+        },
+        // 货币单位
+        currency() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.symbol) ||
+                ''
+            )
+        },
+        // 年稅後派息
+        paymentAfterTaxPerYear() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.paymentAfterTaxPerYear &&
+                    `${this.currency}${(
+                        this.bondUneditableInfo.paymentAfterTaxPerYear - 0
+                    ).toFixed(3)}`) ||
+                '--'
+            )
+        },
+        // 债券特性列表
         bondTitleInfo() {
             return (
                 (this.bondEditableInfo &&
