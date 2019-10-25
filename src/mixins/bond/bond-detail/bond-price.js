@@ -1,6 +1,7 @@
 import ColMsg from '@/biz-components/col-msg'
 import F2 from '@antv/f2'
 import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 const multLangMap = {
     buyPrice: {
@@ -73,28 +74,40 @@ export default {
         colData() {
             let data = [
                 {
-                    title:
-                        (this.currentPrice.buyPrice &&
-                            (this.currentPrice.buyPrice - 0).toFixed(4)) ||
-                        '--',
+                    title: transNumToThousandMark(this.buyPrice, 4),
                     desc: multLangMap.buyPrice[this.appTypeNumber]
                 },
                 {
-                    title:
-                        (this.currentPrice.buyYtm &&
-                            (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
-                        '--',
+                    title: this.buyYtm,
                     desc: '到期年化收益率'
                 },
                 {
-                    title:
-                        (this.currentPrice.sellPrice &&
-                            (this.currentPrice.sellPrice - 0).toFixed(4)) ||
-                        '--',
+                    title: transNumToThousandMark(this.sellPrice, 4),
                     desc: multLangMap.sellPrice[this.appTypeNumber]
                 }
             ]
             return data
+        },
+        buyPrice() {
+            return (
+                (this.currentPrice.buyPrice &&
+                    (this.currentPrice.buyPrice - 0).toFixed(4)) ||
+                ''
+            )
+        },
+        sellPrice() {
+            return (
+                (this.currentPrice.sellPrice &&
+                    (this.currentPrice.sellPrice - 0).toFixed(4)) ||
+                ''
+            )
+        },
+        buyYtm() {
+            return (
+                (this.currentPrice.buyYtm &&
+                    (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
+                '--'
+            )
         }
     },
     methods: {
@@ -117,13 +130,20 @@ export default {
                 onChange: obj => {
                     // var legend = chart.get('legendController').legends.top[0]
                     // console.log('obj', obj)
+                    // transNumToThousandMark
+                    let buyPriceTitle =
+                        (obj.items[0].value &&
+                            (obj.items[0].value - 0).toFixed(4)) ||
+                        ''
+                    let sellPriceTitle =
+                        (obj.items[1].value &&
+                            (obj.items[1].value - 0).toFixed(4)) ||
+                        ''
                     this.maskData = {
                         title: obj.items[0].origin.time,
                         colData: [
                             {
-                                title:
-                                    obj.items[0].value &&
-                                    (obj.items[0].value - 0).toFixed(4),
+                                title: transNumToThousandMark(buyPriceTitle, 4),
                                 desc: multLangMap.buyPrice[this.appTypeNumber]
                             },
                             {
@@ -136,10 +156,10 @@ export default {
                                 desc: '到期年化收益率'
                             },
                             {
-                                title:
-                                    (obj.items[1].value &&
-                                        (obj.items[1].value - 0).toFixed(4)) ||
-                                    '--',
+                                title: transNumToThousandMark(
+                                    sellPriceTitle,
+                                    4
+                                ),
                                 desc: multLangMap.sellPrice[this.appTypeNumber]
                             }
                         ]

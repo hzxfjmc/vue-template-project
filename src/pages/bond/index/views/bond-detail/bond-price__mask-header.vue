@@ -2,7 +2,6 @@
     van-panel.mask-header(:title="title")
         col-msg(
             :colData="colData"
-            :descStyle="descStyle"
         )
 </template>
 
