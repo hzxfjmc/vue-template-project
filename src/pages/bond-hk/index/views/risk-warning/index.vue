@@ -1,138 +1,220 @@
 <template lang="pug">
-    yx-container-better
-        .risk-warning-wrapper(slot="main")
-            van-panel.risk-tips(title="債劵購買風險提示")
-                .risk-text-box
-                    p 1) 由於企業違約等XXXXXXX可能，債券可能違約，損失部分或全部本金和利息.XXXXXX
-                    p 2) 債券市場流動性差，友信提供流動性XXXXXXXX，價格點差XXXX。友信盡力撮合訂單，但不保證訂單一定能夠成交。
-                    p 3) 成交價格公司可能有損益。
-            van-panel.confirm-sign(title="確認簽名")
-                van-field(v-model="signName" :placeholder="signNamePlaceholder" class="signature-input" )
-            .statement
-                van-checkbox(v-model="isReadBondInfo")
-                    i.iconfont(
-                        slot="icon"
-                        slot-scope="props"
-                        :class="props.checked ? 'icon-xuanzhong2' : 'icon-noconfirm'"
-                    )
-                .text
-                    span 我已閱讀並知曉債券相關風險本人已閱讀
-                    a(:href="agreementData && agreementData.protocolUrl") 《{{ agreementData && agreementData.protocolName }}》
-                    span ；本人電子簽名代表對上述說明的同意，與本人手寫簽名具有相同的法律效力
-        van-button(
-            type="info"
-            slot="bottom"
-            class="foot-button"
-            text="確定"
-            :disabled="submitBtnDisabled"
-            @click="handleSubmitAutograph"
-        )
+    yx-container.open-permission-wrapper
+        .risk-result-container(slot="main")
+            .risk-item.flex
+                .left  {{$t('riskAblity')}}
+                .right {{ resultIndex && $t('resultList')[resultIndex].registration}}
+            .risk-item.flex
+                .left  {{$t('riskStyle')}}
+                .right {{ resultIndex && $t('resultList')[resultIndex].riskStyle}}
+            .risk-item.flex
+                .left  {{$t('suitPro')}}
+                .right {{ resultIndex && $t('resultList')[resultIndex].suitPro}}
+        .permission-container(slot="main")
+            .permission-content
+                .title {{ agreementTitle }}
+                .main-content
+                    //- iframe(src=`/webapp/market/generator.html?key=${fundCode}` v-if="fundCode")
+                    .title-info {{$t('titleInfo')}}
+                    .content(v-html="riskInfo")
+            .signature-box
+                .title {{$t('inputName')}}
+                van-field(v-model="autograph" :placeholder="signNamePlaceholder" class="signature-input" )
+                p {{ $t('agreeText') }}
+        .footer-btn(slot='bottom')
+            van-button(type="info" round  size="large" @click="openPermissionHandle" :disabled="disabled") {{$t('btnText')}}
 </template>
+
 <script>
-import riskWarningMixin from '@/mixins/bond/risk-warning/index.js'
+import { fundRiskAutograph, getCurrentUser } from '@/service/user-server.js'
+import { i18nOpenPermissions } from './open-permissions-i18n.js'
+import LS from '@/utils/local-storage.js'
+import { queryMessageDetail } from '@/service/news-helpcenter.js'
+
 export default {
-    mixins: [riskWarningMixin]
-}
-</script>
-<style lang="scss" scoped>
-.risk-warning-wrapper {
-    min-height: 100%;
-    padding: 29px $hk-global-padding 48px;
-    background: #fff;
-    color: $hk-text-color;
-    .van-panel,
-    .van-panel__header {
-        &:after {
-            display: none;
+    i18n: i18nOpenPermissions,
+    data() {
+        return {
+            fundCode: '',
+            autograph: LS.get('signName') || '',
+            agreementTitle: '',
+            riskInfo: '',
+            permissionContent: `正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
+在做出交易决定之前，您应仔细阅读这些条款和产品说明。在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。`,
+            disabled: true,
+            resultIndex: '',
+            firstName: '',
+            lastName: '',
+            userInfo: ''
+        }
+    },
+    computed: {
+        // 签名占位符
+        signNamePlaceholder() {
+            return (
+                (this.firstName &&
+                    this.lastName &&
+                    this.$t('placeText') +
+                        `${this.lastName}${this.firstName}`) ||
+                this.$t('placeText')
+            )
+        }
+    },
+    watch: {
+        autograph(val) {
+            if (val !== '') {
+                this.disabled = false
+            } else {
+                this.disabled = true
+            }
+        }
+    },
+    async created() {
+        this.getCurrentUser()
+        if (this.$route.query.fondCode) {
+            this.fundCode = this.$route.query.fondCode
+        }
+        try {
+            let data = await queryMessageDetail({
+                key: 'fundagreement'
+            })
+            if (data && data.content) {
+                this.agreementTitle = data.title
+                this.riskInfo = JSON.parse(data.content)[0].htmlContent
+            }
+        } catch (e) {
+            console.log('queryMessageDetail:', e)
+        }
+    },
+    methods: {
+        async openPermissionHandle() {
+            try {
+                let params = {
+                    autograph: this.autograph
+                }
+                let res = await fundRiskAutograph(params)
+                // 签名成功，本地设置标记，用与返回时候保留签名，刷新则清除
+                LS.put('signName', this.autograph)
+                console.log(res)
+                // 跳申购页
+                this.$router.replace({
+                    path: '/fund-subscribe',
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.$route.query.currencyType
+                    }
+                })
+            } catch (e) {
+                if (e.msg) {
+                    this.$dialog.alert({
+                        message: e.msg
+                    })
+                }
+            }
+        },
+        //获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.userInfo = res
+                this.resultIndex = res.assessResult
+                this.firstName = res.firstName
+                this.lastName = res.lastName
+            } catch (e) {
+                console.log('getCurrentUser:error:>>>', e)
+            }
         }
     }
-    .risk-tips {
-        .van-panel__header {
-            padding: 0 0 10px 0;
-        }
-        .van-cell__title {
-            color: $hk-text-color;
-            font-size: 28px;
-            line-height: 40px;
-        }
-        // 风险提示文本
-        .risk-text-box {
-            overflow-y: auto;
-            max-height: 180px;
-            padding: 20px 14px;
-            background: rgba($hk-primary-color, 0.05);
-            box-shadow: 0px 2px 4px 0px rgba($hk-text-color, 0.1);
-            p {
-                margin-bottom: 10px;
-                color: $hk-text-color;
+}
+</script>
+
+<style lang="scss" scoped>
+.open-permission-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    .risk-result-container {
+        padding: 14px 12px;
+        display: flex;
+        flex-direction: column;
+        background-color: $background-color;
+        margin-bottom: 10px;
+        height: 100px;
+        .risk-item {
+            line-height: 24px;
+            .left {
                 font-size: 14px;
-                line-height: 20px;
-                &:last-child {
-                    margin-bottom: 0;
+                color: $text-color;
+                opacity: 0.5;
+            }
+            .right {
+                font-size: 15px;
+            }
+        }
+    }
+    .permission-container {
+        padding: 0 12px 0;
+        background-color: $background-color;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        .title {
+            font-size: 18px;
+            color: $text-color;
+            line-height: 22px;
+            padding: 12px 0;
+        }
+        .permission-content {
+            // flex: 1;
+            .main-content {
+                height: 45vh;
+                max-height: 410px;
+                min-height: 273px;
+                overflow: scroll;
+                background: rgba(47, 121, 255, 0.04);
+                font-size: 0 14px 14px;
+                color: $text-color;
+                padding: 0 14px 14px;
+                display: flex;
+                flex-direction: column;
+                // padding-bottom: 14px;
+                .title-info {
+                    padding: 14px 0;
+                    line-height: 20px;
+                    opacity: 0.5;
+                }
+                .content {
+                    line-height: 24px;
+                    opacity: 0.5;
+                    flex: 1;
+                }
+                &::-webkit-scrollbar {
+                    width: 6px;
+                    height: 0;
+                    border-radius: 3px;
+                    background: rgba(47, 121, 255, 0.0959);
+                }
+                &::-webkit-scrollbar-thumb {
+                    border-radius: 3px;
+                    -webkit-box-shadow: inset 0 0 5px rgba(47, 121, 255, 0.0959);
+                    background: rgba(47, 121, 255, 0.0959);
+                    scrollbar-arrow-color: rgba(47, 121, 255, 0.0959);
                 }
             }
         }
-    }
-    .confirm-sign {
-        margin-top: 40px;
-        .van-panel__header {
-            padding: 0 0 2px 0;
-        }
-        .van-cell__title {
-            color: $hk-text-color;
-            font-size: 20px;
-            line-height: 28px;
-        }
-    }
-    // 声明
-    .statement {
-        display: flex;
-        padding-top: 40px;
-        .van-checkbox {
-            margin-right: 10px;
-            .icon-xuanzhong2,
-            .icon-noconfirm {
-                font-size: 0.32rem;
-                vertical-align: top;
+        .signature-box {
+            .signature-input {
+                height: 51px;
+                border-radius: 4px;
+                background-color: $btn-background-color;
+                border-radius: 4px;
+                border: 1px solid $btn-border-color;
             }
-            .icon-noconfirm {
-                color: $hk-text-color2;
-            }
-            .icon-xuanzhong2 {
-                color: $hk-primary-color;
-            }
-        }
-        .text {
-            flex: 1;
-            color: $hk-text-color;
-            font-size: 14px;
-            line-height: 20px;
-            a {
-                color: $hk-primary-color;
-            }
-        }
-    }
-}
-</style>
-<style lang="scss">
-.risk-warning-wrapper {
-    // 签名
-    .signature-input {
-        position: relative;
-        padding: 0;
-        z-index: 1;
-        .van-field__control {
-            padding: 18px 0;
-            border: none;
-            border-bottom: 1px solid
-                rgba($color: $hk-text-color, $alpha: 0.0765);
-            color: $hk-text-color;
-            font-size: 20px;
-            line-height: 1;
-            &::placeholder {
-                color: $hk-text-color4;
-                font-size: 16px;
-                line-height: 22px;
+            p {
+                padding-top: 10px;
+                font-size: 12px;
+                color: $text-color5;
             }
         }
     }

@@ -228,7 +228,7 @@ module.exports = {
             },
             // 帮助中心接口
             '/news-helpcenter': {
-                target: 'http://hz1-dev.yxzq.com',
+                target: 'http://hz-dev.yxzq.com',
                 changOrigin: true
             },
             // 行情资讯接口服务器
