@@ -19,7 +19,7 @@
                     .process-step__line
                 .process-step
                     .process-step__title 到期退出
-                        .process-step__title-tips {{ bondUneditableInfo && bondUneditableInfo.dueTime | date-format('YYYY.MM.DD') }}
+                        .process-step__title-tips {{ dueTime | date-format('YYYY.MM.DD') }}
                     .process-step__circle-container
                         i.process-step__circle
                     .process-step__line
@@ -27,17 +27,7 @@
 <script>
 import purchasingProcessMixin from '@/mixins/bond/bond-detail/purchasing-process.js'
 export default {
-    mixins: [purchasingProcessMixin],
-    computed: {
-        // 付息日
-        paymentDate() {
-            let d =
-                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate
-            d = d ? d.split('|') : ''
-            let suffix = d.length > 2 ? '等' : ''
-            return d ? d.slice(0, 2).join('、') + suffix : '--'
-        }
-    }
+    mixins: [purchasingProcessMixin]
 }
 </script>
 <style lang="scss" scoped>
