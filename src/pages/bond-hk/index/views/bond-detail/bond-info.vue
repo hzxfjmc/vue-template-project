@@ -13,7 +13,7 @@
             )
                 i.icon
                 span 募集說明書
-        .bond-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currency }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
+        .bond-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencyName }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")
@@ -59,7 +59,7 @@ export default {
             )
         },
         // 货币单位
-        currency() {
+        currencyName() {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.enumCurrency &&
