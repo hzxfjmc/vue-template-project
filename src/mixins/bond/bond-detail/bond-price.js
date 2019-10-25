@@ -2,19 +2,22 @@ import ColMsg from '@/biz-components/col-msg'
 import F2 from '@antv/f2'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
-import { mapGetters } from 'vuex'
-const multLangMap = {
-    buyPrice: {
-        1: '买入价',
-        2: '買入價'
-    },
-    sellPrice: {
-        1: '卖出价',
-        2: '賣出價'
-    }
-}
 export default {
     name: 'BondPrice',
+    i18n: {
+        zhCHS: {
+            buyPrice: '买入价',
+            sellPrice: '卖出价'
+        },
+        zhCHT: {
+            buyPrice: '買入價',
+            sellPrice: '賣出價'
+        },
+        en: {
+            buyPrice: '买入价',
+            sellPrice: '卖出价'
+        }
+    },
     components: {
         ColMsg
     },
@@ -40,10 +43,6 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['appType']),
-        appTypeNumber() {
-            return this.appType.Ch ? 1 : 2
-        },
         // 构造好的地图数据
         resolveData() {
             let obj = []
@@ -55,7 +54,7 @@ export default {
                             'YYYY年MM月DD日'
                         ),
                         value: chartItem.buyPrice,
-                        type: multLangMap.buyPrice[this.appTypeNumber],
+                        type: this.$t('buyPrice'),
                         buyYtm: chartItem.buyYtm
                     },
                     {
@@ -64,7 +63,7 @@ export default {
                             'YYYY年MM月DD日'
                         ),
                         value: chartItem.sellPrice,
-                        type: multLangMap.sellPrice[this.appTypeNumber],
+                        type: this.$t('sellPrice'),
                         buyYtm: chartItem.buyYtm
                     }
                 )
@@ -75,7 +74,7 @@ export default {
             let data = [
                 {
                     title: transNumToThousandMark(this.buyPrice, 4),
-                    desc: multLangMap.buyPrice[this.appTypeNumber]
+                    desc: this.$t('buyPrice')
                 },
                 {
                     title: this.buyYtm,
@@ -83,7 +82,7 @@ export default {
                 },
                 {
                     title: transNumToThousandMark(this.sellPrice, 4),
-                    desc: multLangMap.sellPrice[this.appTypeNumber]
+                    desc: this.$t('sellPrice')
                 }
             ]
             return data
@@ -144,7 +143,7 @@ export default {
                         colData: [
                             {
                                 title: transNumToThousandMark(buyPriceTitle, 4),
-                                desc: multLangMap.buyPrice[this.appTypeNumber]
+                                desc: this.$t('buyPrice')
                             },
                             {
                                 title:
@@ -160,7 +159,7 @@ export default {
                                     sellPriceTitle,
                                     4
                                 ),
-                                desc: multLangMap.sellPrice[this.appTypeNumber]
+                                desc: this.$t('sellPrice')
                             }
                         ]
                     }
@@ -183,7 +182,7 @@ export default {
                 .line()
                 .position('date*value')
                 .color('type', value => {
-                    if (value === multLangMap.buyPrice[this.appTypeNumber]) {
+                    if (value === this.$t('buyPrice')) {
                         return '#497AFF'
                     }
                     return '#FFBF32'
