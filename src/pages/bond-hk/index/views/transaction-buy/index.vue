@@ -1,7 +1,7 @@
 <template lang="pug">
     .transaction-wrapper
         transaction-card(
-            btnText="确认买入"
+            btnText="確定買入"
             :direction="1"
             :accountInfo="accountInfo"
         )
