@@ -64,7 +64,7 @@
             )
                 .protocol-list
                     .protocol-list__body
-                        .protocol-list__text.border-bottom(@click="openProtocol(buyProtocol)") 《{{buyProtocolFileName}}》
+                        .protocol-list__text.border-bottom(@click="openProtocol(item.filePath)" v-for="item in buyProtocolFileList" :key="item.createTime") 《{{item.fileName}}》
                     .protocol-list__footer
                         .protocol-list__button(@click="hideProtocol") 取消
 </template>
@@ -105,6 +105,8 @@ export default {
             buySubmit: '',
             buyConfirm: '', // 买入确认份额时间
             buyProfitLoss: '', // 买入查看盈亏时间
+            buyProtocolFileList: [],
+            sellProtocolFileList: [],
             protocolVisible: false,
             isCheckedProtocol: true
         }
@@ -141,13 +143,17 @@ export default {
             )
             if (val > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
-                console.log(123123)
             }
         }
     },
     methods: {
-        openProtocol(url) {
-            this.$jsBridge.gotoNewWebview(url)
+        async openProtocol(url) {
+            url = await getCosUrl(url)
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
         },
         checkProtocol() {
             this.isCheckedProtocol = !this.isCheckedProtocol
@@ -215,6 +221,8 @@ export default {
                 )
                     .split('/')
                     .pop()
+
+                this.buyProtocolFileList = fundDetail.buyProtocolFileList
             } catch (e) {
                 console.log('申购页面-getFundDetail:error:>>>', e)
             }
