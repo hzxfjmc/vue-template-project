@@ -27,11 +27,11 @@ export default {
     data() {
         return {
             featureThumbList: [
-                require('@/assets/img/bond/icon-medal.png'),
-                require('@/assets/img/bond/icon-money.png'),
-                require('@/assets/img/bond/icon-house.png'),
-                require('@/assets/img/bond/icon-praise.png'),
-                require('@/assets/img/bond/icon-umbrella.png')
+                require('@/assets/img/bond-hk/icon-medal.png'),
+                require('@/assets/img/bond-hk/icon-money.png'),
+                require('@/assets/img/bond-hk/icon-house.png'),
+                require('@/assets/img/bond-hk/icon-praise.png'),
+                require('@/assets/img/bond-hk/icon-umbrella.png')
             ],
             titleStyle: {
                 color: '#fff',
@@ -193,10 +193,10 @@ export default {
         padding: 0;
         .media-box__header {
             .media-box__thumb {
-                width: 40px;
-                height: 40px;
-                margin-right: 20px;
-                margin-left: 12px;
+                width: 30px;
+                height: 30px;
+                margin-right: 12px;
+                margin-left: 18px;
             }
         }
         .media-box__content {

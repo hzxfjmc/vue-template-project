@@ -31,7 +31,7 @@ export default {
 }
 .van-panel {
     .van-panel__header {
-        padding: 7px 14px;
+        padding: 11px 14px;
         background-color: #f4f8ff;
         font-size: 0.28rem;
         line-height: 20px;
