@@ -103,7 +103,12 @@ export default {
                 return
             }
             // 买入还是卖出
-            let direction = type === 'buy' ? 1 : 2
+            let direction = 2,
+                path = '/transaction-sell'
+            if (type === 'buy') {
+                direction = 1
+                path = '/risk-appropriate-result'
+            }
             // 未签名，跳转到签名页面
             if (!this.isSigned) {
                 this.$router.push({
@@ -118,7 +123,7 @@ export default {
             }
 
             this.$router.push({
-                path: '/risk-appropriate-result',
+                path,
                 query: {
                     id: this.id,
                     bondName: this.bondName,
