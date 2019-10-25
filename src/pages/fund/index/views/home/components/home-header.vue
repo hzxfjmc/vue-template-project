@@ -5,6 +5,7 @@
         background="#2f79ff" 
         color="#fff" 
         :swipeable="swipeable"
+        @change = "handlerCurrency"
         @click="handlerCurrency"
         :line-width="width"
         title-inactive-color="rgba(255,255,255,0.6)" 
@@ -46,6 +47,7 @@
 <script>
 import { Tab, Tabs } from 'vant'
 import { getReleaseFundAssetType } from '@/service/finance-info-server.js'
+import localStorage from '@/utils/local-storage'
 export default {
     components: {
         [Tab.name]: Tab,
@@ -134,6 +136,7 @@ export default {
         //隐藏
         hideNumber() {
             this.showMoney = !this.showMoney
+            localStorage.put('showMoney', this.showMoney)
         },
         //跳转基金列表页面
         toFundList(data) {
@@ -146,6 +149,11 @@ export default {
         }
     },
     mounted() {
+        this.showMoney =
+            localStorage.get('showMoney') != null
+                ? localStorage.get('showMoney')
+                : true
+        // this.showMoney = localStorage.get('showMoney') | true
         this.getReleaseFundAssetType()
     }
 }

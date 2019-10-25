@@ -139,7 +139,9 @@ export default {
         .block-left {
             display: flex;
             width: 30%;
+            // float: left;
             flex-direction: column;
+            // align-items: flex-start;
             span {
                 display: inline-block;
                 line-height: 25px;
@@ -148,6 +150,7 @@ export default {
         }
         .block-right {
             display: flex;
+            // float: right;
             width: 70%;
             justify-content: flex-end;
             flex-direction: column;

@@ -7,6 +7,7 @@
         :line-width="width"
         :swipeable="swipeable"
         title-inactive-color="rgba(255,255,255,0.6)" 
+        @change="handlerCurrency"
         @click="handlerCurrency"
         title-active-color="#fff")
         van-tab(title="港币基金" name="2")
@@ -37,6 +38,7 @@
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
+import localStorage from '@/utils/local-storage'
 export default {
     props: {
         holdData: {
@@ -104,7 +106,12 @@ export default {
         },
         hideNumber() {
             this.showPsd = !this.showPsd
+            localStorage.put('showMoney', this.showPsd)
         }
+    },
+    mounted() {
+        this.showPsd = localStorage.get('showMoney')
+        console.log(this.showPsd)
     }
 }
 </script>
