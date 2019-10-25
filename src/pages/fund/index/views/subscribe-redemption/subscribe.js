@@ -29,7 +29,7 @@ export const subscribeObj = {
     },
     Totalorderamount: {
         label: '订单总金额',
-        value: '0'
+        value: '0.00'
     }
 }
 

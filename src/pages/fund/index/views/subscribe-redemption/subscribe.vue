@@ -132,12 +132,10 @@ export default {
     },
     watch: {
         'subscribeObj.buyMoney.value'(val) {
-            console.log(this.subscribeObj.buyMoney.value)
             this.subscribeObj.Totalorderamount.value =
                 Number(this.subscribeObj.buyMoney.value) +
                 this.subscribeObj.buyMoney.value *
                     this.subscribeObj.subscriptionFee.value
-            console.log(this.subscribeObj.Totalorderamount.value)
             this.subscribeObj.Totalorderamount.value = transNumToThousandMark(
                 this.subscribeObj.Totalorderamount.value
             )
