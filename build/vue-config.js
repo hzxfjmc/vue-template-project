@@ -158,8 +158,8 @@ module.exports = {
             },
             // banner
             '/news-configserver': {
-                target: 'http://10.55.4.9:15002',
-                // target: 'http://hz1-dev.yxzq.com',
+                // target: 'http://10.55.4.9:15002',
+                target: 'http://hz-dev.yxzq.com',
                 changOrigin: true
             },
             // 行情资讯接口服务器
@@ -233,7 +233,7 @@ module.exports = {
             },
             // 行情资讯接口服务器
             '^/news-': {
-                target: 'http://hz1-dev.yxzq.com',
+                target: 'http://hz-dev.yxzq.com',
                 changOrigin: true
             },
             // 代理其他项目的图片

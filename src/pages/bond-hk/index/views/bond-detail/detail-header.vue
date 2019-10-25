@@ -45,7 +45,14 @@ export default {
             }
         }
     },
+    props: {
+        paymentAfterTaxPerYear: {
+            type: String,
+            default: ''
+        }
+    },
     computed: {
+        // 到期年化利率/參攷認購金額/年稅後派息
         colData() {
             let obj = [
                 {
@@ -68,7 +75,7 @@ export default {
                     desc: '參攷認購金額/份'
                 },
                 {
-                    title: this.paymentAfterTaxPerYear,
+                    title: this.solvePaymentAfterTaxPerYear,
                     desc: '年稅後派息/份'
                 }
             ]
@@ -120,12 +127,11 @@ export default {
             )
         },
         // 年稅後派息
-        paymentAfterTaxPerYear() {
+        solvePaymentAfterTaxPerYear() {
             return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.paymentAfterTaxPerYear &&
+                (this.paymentAfterTaxPerYear &&
                     `${this.currency}${(
-                        this.bondUneditableInfo.paymentAfterTaxPerYear - 0
+                        this.paymentAfterTaxPerYear - 0
                     ).toFixed(3)}`) ||
                 '--'
             )

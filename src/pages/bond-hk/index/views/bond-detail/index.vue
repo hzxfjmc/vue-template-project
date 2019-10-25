@@ -5,6 +5,7 @@
                 :bondEditableInfo="bondEditableInfo"
                 :bondUneditableInfo="bondUneditableInfo",
                 :currentPrice="currentPrice"
+                :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
             )
             van-panel(title="購買流程")
                 purchasing-process(:bondUneditableInfo="bondUneditableInfo")
