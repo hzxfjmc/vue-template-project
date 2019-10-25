@@ -5,6 +5,7 @@
         background="#2f79ff" 
         color="#fff" 
         :swipeable="swipeable"
+        @change = "handlerCurrency"
         @click="handlerCurrency"
         :line-width="width"
         title-inactive-color="rgba(255,255,255,0.6)" 

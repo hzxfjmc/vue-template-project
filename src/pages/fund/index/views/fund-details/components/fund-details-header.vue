@@ -143,10 +143,10 @@ export default {
         // display: flex;
         .block-left {
             width: 50%;
+            float: left;
         }
         .block-right {
             display: flex;
-            // align-content: flex-end;
             width: 50%;
         }
         p {
@@ -157,12 +157,13 @@ export default {
             line-height: 28px;
         }
         .fund-tag {
+            padding: 3px 0 3px 3px;
             float: left;
         }
         .block-bottom {
             width: 100%;
             font-size: 12px;
-
+            padding: 0 0 0 5px;
             color: $text-color5;
         }
     }

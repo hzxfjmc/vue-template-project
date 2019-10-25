@@ -7,6 +7,7 @@
         :line-width="width"
         :swipeable="swipeable"
         title-inactive-color="rgba(255,255,255,0.6)" 
+        @change="handlerCurrency"
         @click="handlerCurrency"
         title-active-color="#fff")
         van-tab(title="港币基金" name="2")
