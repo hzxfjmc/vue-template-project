@@ -18,6 +18,7 @@
                 BondInfo(
                     :bondEditableInfo="bondEditableInfo"
                     :bondUneditableInfo="bondUneditableInfo"
+                    :currentPrice="currentPrice"
                 )
             van-panel(title="交易規則")
                 TransactionRules

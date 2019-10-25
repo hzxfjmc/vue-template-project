@@ -13,7 +13,7 @@
             )
                 i.icon
                 span 募集說明書
-        .bond-tips 此債券面值為2000USD/份，買賣金額為2000*買賣價
+        .bond-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currency }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")
@@ -32,6 +32,12 @@ import { calcPaymentDates } from '@/pages/bond/index/tools.js'
 import bondInfoMixin from '@/mixins/bond/bond-detail/bond-info.js'
 export default {
     mixins: [bondInfoMixin],
+    props: {
+        currentPrice: {
+            type: Object,
+            default: () => {}
+        }
+    },
     computed: {
         // 付息日
         paymentDate() {
@@ -42,6 +48,38 @@ export default {
                 ',',
                 true
             )
+        },
+        // 最小面额
+        minFaceValue() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.minFaceValue &&
+                    this.bondUneditableInfo.minFaceValue - 0) ||
+                0
+            )
+        },
+        // 货币单位
+        currency() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.name) ||
+                ''
+            )
+        },
+        // 购买价格
+        buyPrice() {
+            return (
+                (this.currentPrice &&
+                    this.currentPrice.buyPrice &&
+                    this.currentPrice.buyPrice - 0) ||
+                0
+            )
+        },
+        // 每份购买金额
+        buyPerPrice() {
+            let t = this.minFaceValue * this.buyPrice
+            return (t && t.toFixed(4)) || ''
         }
     }
 }
