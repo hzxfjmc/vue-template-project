@@ -7,51 +7,56 @@
                 .card-header__sub-title {{ bondName }}
 
             //- 买入卖出价
-            van-cell(:title="direction === 1 ? '买入价格' : '卖出价格'")
+            van-cell
+                template(slot="title")
+                    span {{ direction === 1 ? $t('buyPrice') : $t('sellPrice') }}
                 template(slot="default")
                     span {{ buyOrSellPrice }}
-                    i {{ currency }}
+                    i {{ currencyShortSymbol }}
 
             //- 交易数量
-            van-cell(title="份数" style="margin-top:0.3rem")
+            van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
                 template(slot="default")
                     van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-            .van-cell__default-tips {{ minFaceValue | thousand-spilt }}{{ currency }}/份
+            .van-cell__default-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencyName }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
 
 
             //- 交易金额
-            van-cell.no-line.amount-money(title="金额")
+            van-cell.no-line.amount-money(:title="$t('amountMoney')")
                 template(slot="default")
                     span {{ tradeMoney | thousand-spilt }}
-                    i {{ currency }}
+                    i {{ currencyShortSymbol }}
 
             //- 应付、应得利息
-            van-cell.no-line.interest(:value="'+' + calcInterest")
+            van-cell.no-line.interest
                 template(slot="title")
-                    span {{ direction === 1 ? '应付利息' : '应得利息' }}
+                    span {{ direction === 1 ? $t('payableInterest') : $t('accruedInterest') }}
                     i.iconfont.icon-wenhao(@click="showTips('interest')")
-
-            //- 手续费
-            van-cell.service-charge(title="手續費 (預估)" :value="direction === 1 ? '+' : '-' + serviceCharge ")
                 template(slot="default")
                     span +{{ calcInterest | thousand-spilt }}
 
+            //- 手续费
+            van-cell.service-charge(:title="$t('serviceCharge')")
+                template(slot="default")
+                    span {{ direction === 1 ? '-' : '+' }}{{ serviceCharge | thousand-spilt }}
+
             //- 当次交易总额
-            van-cell.no-line.total-money(title="总额")
+            van-cell.no-line.total-money(:title="$t('totalMoney')")
                 template(slot="default")
                     span {{ totalTradeMoney | thousand-spilt }}
-                    i {{ currency }}
+                    i {{ currencyShortSymbol }}
             .van-cell__total-tips
                 i.iconfont.icon-wenhao(@click="showTips('total')")
-                span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
-                strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currency }}
+                span {{direction === 1 ? $t('availableMoney') : $t('positionsCanBeSold')}}
+                strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyShortSymbol }}
                 strong(v-if="direction === 2") {{ marketValue }}
 
         van-button(
             type="info"
             slot="bottom"
             class="foot-button"
-            :class="{ sell: btnText === '确认卖出' }"
+            :disabled="btnDisabled"
+            :class="{ sell: direction === 2 }"
             :text="btnText"
             @click="handleTradeToken"
         )

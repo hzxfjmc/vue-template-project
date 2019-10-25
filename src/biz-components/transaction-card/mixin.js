@@ -12,6 +12,47 @@ import { Stepper } from 'vant'
 import { mapGetters } from 'vuex'
 export default {
     name: 'TransactionCard',
+    i18n: {
+        zhCHS: {
+            buyPrice: '买入价格',
+            sellPrice: '卖出价格',
+            transactionNum: '份数',
+            unit: '份',
+            amountMoney: '金额',
+            payableInterest: '应付利息',
+            accruedInterest: '应得利息',
+            serviceCharge: '手续费(预估)',
+            totalMoney: '总额',
+            availableMoney: '债券可用资金',
+            positionsCanBeSold: '持仓可卖'
+        },
+        zhCHT: {
+            buyPrice: '買入價格',
+            sellPrice: '賣出價格',
+            transactionNum: '份数',
+            unit: '份數',
+            amountMoney: '金額',
+            payableInterest: '應付利息',
+            accruedInterest: '應得利息',
+            serviceCharge: '手續費（預估）',
+            totalMoney: '總額',
+            availableMoney: '債券可用資金',
+            positionsCanBeSold: '持倉可賣'
+        },
+        en: {
+            buyPrice: '买入价格',
+            sellPrice: '卖出价格',
+            transactionNum: '份数',
+            unit: '份',
+            amountMoney: '金额',
+            payableInterest: '应付利息',
+            accruedInterest: '应得利息',
+            serviceCharge: '手续费(预估)',
+            totalMoney: '总额',
+            availableMoney: '债券可用资金',
+            positionsCanBeSold: '持仓可卖'
+        }
+    },
     components: {
         [Stepper.name]: Stepper,
         MediaBox,
@@ -83,12 +124,20 @@ export default {
             )
         },
         // 货币单位
-        currency() {
+        currencyShortSymbol() {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.name) ||
-                '--'
+                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
+                ''
+            )
+        },
+        currencyName() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
+                ''
             )
         },
         // 当前债券售卖单价/交易单价
@@ -110,10 +159,17 @@ export default {
         minFaceValue() {
             return this.bondUneditableInfo.minFaceValue || 0
         },
+        // 每份购买金额
+        buyPerPrice() {
+            let t = this.minFaceValue * this.buyOrSellPrice
+            return (t && t.toFixed(4)) || ''
+        },
         // 交易金额
         tradeMoney() {
             let t =
-                this.minFaceValue * this.transactionNum * this.buyOrSellPrice
+                this.minFaceValue *
+                this.transactionNum *
+                (this.buyOrSellPrice - 0)
             return t ? t.toFixed(2) : 0
         },
         // 计算应计利息
@@ -124,7 +180,7 @@ export default {
                 (this.bondUneditableInfo.couponRate / 360) *
                 this.interestDays *
                 this.tradeMoney
-            res = res ? res.toFixed(2) : 0
+            res = res ? res.toFixed(2) : '0.00'
             return res
         },
         // 计算手续费
@@ -221,7 +277,7 @@ export default {
             } else {
                 res = yongjinfei + pingtaifei + huodongfei
             }
-            return res ? res.toFixed(2) : 0
+            return res ? res.toFixed(2) : '0.00'
         },
         // 交易总额(包含利息和手续费计算)
         totalTradeMoney() {
@@ -247,8 +303,12 @@ export default {
                 ? this.positionData.marketValue && this.positionData.marketValue
                 : '0.00'
             let count = Math.floor(mv / this.minFaceValue)
+            this.transactionNum = count
 
             return mv === '0.00' ? '0.00' : mv + '(' + count + '份)'
+        },
+        btnDisabled() {
+            return this.transactionNum <= 0 ? true : false
         }
     },
     methods: {
@@ -403,9 +463,10 @@ export default {
             let tipText = ''
             if (tipsType === 'interest') {
                 // 应付利息/应得利息提示弹窗
-                tipText = `应计利息是债券自上一次付息后至债券交收时之间的累计未付利息，由买方向卖方支付，即对于买方是“应付”，对于卖方是“应得”。\n
-对于卖方，多持有的这段时间的利息，会在交易时得到补偿，即应计利息。\n
-对于买方，应计利息并不会额外增加成本，会在付息日或卖出时得到补偿。`
+                tipText =
+                    '应计利息是债券自上一次付息后至债券交收时之间的累计未付利息，由买方向卖方支付，即对于买方是“应付”，对于卖方是“应得”。\n\n' +
+                    '对于卖方，多持有的这段时间的利息，会在交易时得到补偿，即应计利息。\n\n' +
+                    '对于买方，应计利息并不会额外增加成本，会在付息日或卖出时得到补偿。'
             } else {
                 // 可用资金提示弹窗
                 tipText = '可以用于购买债券的资金，等于您资产中的“可取现金”'
