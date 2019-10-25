@@ -2,23 +2,24 @@
 .hold-fund-details
     .hold-fund-header
         span {{$t('holdFundTitle')}}
-        span.hold-right(@click="foldUpCard") 折起
-    .hold-fund-content(v-if="contentShow")
-        van-row()
-            van-col( 
-                span="8"
-                v-for="(item,index) of list" 
-                :key="item.label"
-                class="fund-row" 
-                :class="item.layout") 
-                span.holdSubtitle {{item.label}}
-                p.holdNumber(
-                    :class="stockColorType === 1 ? 'active_red' : 'active-green'"
-                    v-if="item.flag == 1 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") +{{item.value}}
-                p.holdNumber(
-                    :class="stockColorType === 1 ? 'active-green' : 'active_red'"
-                    v-else-if="item.flag == 2 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") {{item.value}}
-                p.holdNumber(v-else) {{item.value}}
+        span.hold-right.iconfont(@click="foldUpCard" :class="[contentShow ? 'icon-icon-bottom':'icon-icon-top']")
+    transition(name="fade")  
+        .hold-fund-content(v-if="contentShow")
+            van-row()
+                van-col( 
+                    span="8"
+                    v-for="(item,index) of list" 
+                    :key="item.label"
+                    class="fund-row" 
+                    :class="item.layout") 
+                    span.holdSubtitle {{item.label}}
+                    p.holdNumber(
+                        :class="stockColorType === 1 ? 'active_red' : 'active-green'"
+                        v-if="item.flag == 1 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") +{{item.value}}
+                    p.holdNumber(
+                        :class="stockColorType === 1 ? 'active-green' : 'active_red'"
+                        v-else-if="item.flag == 2 && (index == 'yesterdayEarnings' || index === 'positionEarnings')") {{item.value}}
+                    p.holdNumber(v-else) {{item.value}}
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -105,12 +106,23 @@ export default {
             color: #04ba60;
         }
     }
-    // .fund-row:last-child {
-    //     width: 60%;
-    // }
     .hold-right {
+        font-size: 0.3rem;
         float: right;
+        width: 30px;
+        text-align: right;
+        height: 100%;
         display: inline-block;
     }
+}
+.fade-enter-active,
+.fade-leave-active {
+    transition: all 0.3s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    // opacity: 0;
+    height: 0;
+    // transform: translateY(-100px);
+    opacity: 0;
 }
 </style>

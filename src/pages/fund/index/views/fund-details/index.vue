@@ -41,7 +41,7 @@ import {
 } from '@/service/finance-info-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
-import { getFundPosition } from '@/service/finance-server.js'
+import { getFundPositionV2 } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 
@@ -171,9 +171,9 @@ export default {
             }
         },
         //获取持仓数据
-        async getFundPosition() {
+        async getFundPositionV2() {
             try {
-                const res = await getFundPosition({
+                const res = await getFundPositionV2({
                     fundId: this.$route.query.id
                 })
                 this.holdInitState = res
@@ -198,7 +198,7 @@ export default {
                 }
             } catch (e) {
                 this.$toast(e.msg)
-                console.log('getFundPosition:error:>>>', e)
+                console.log('getFundPositionV2:error:>>>', e)
             }
         },
         getSwitchFundNetPrice(time) {
@@ -356,7 +356,7 @@ export default {
         this.getCurrentUser()
         this.getFundNetPrice()
         this.getFundDetail()
-        this.getFundPosition()
+        this.getFundPositionV2()
     }
 }
 </script>
