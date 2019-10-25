@@ -6,13 +6,13 @@
                 :href="bondEditableInfo && bondEditableInfo.productOverview"
             )
                 i.icon
-                span 产品概览
+                span 產品概覽書
             a.pdf(
                 v-if="bondEditableInfo && bondEditableInfo.raiseManual"
                 :href="bondEditableInfo && bondEditableInfo.raiseManual"
             )
                 i.icon
-                span 募集说明
+                span 募集說明書
         .bond-tips 此債券面值為2000USD/份，買賣金額為2000*買賣價
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
@@ -28,9 +28,22 @@
 
 </template>
 <script>
+import { calcPaymentDates } from '@/pages/bond/index/tools.js'
 import bondInfoMixin from '@/mixins/bond/bond-detail/bond-info.js'
 export default {
-    mixins: [bondInfoMixin]
+    mixins: [bondInfoMixin],
+    computed: {
+        // 付息日
+        paymentDate() {
+            return calcPaymentDates(
+                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate,
+                true,
+                '/',
+                ',',
+                true
+            )
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -55,7 +68,7 @@ export default {
                 width: 15px;
                 height: 15px;
                 margin-right: 5px;
-                background: url('~@/assets/img/bond/icon-pdf.png') center
+                background: url('~@/assets/img/bond-hk/icon-pdf.png') center
                     no-repeat;
                 background-size: 100% 100%;
             }

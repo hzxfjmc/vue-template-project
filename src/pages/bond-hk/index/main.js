@@ -9,7 +9,6 @@ Vue.use(vConsole)
 import LS from '@/utils/local-storage.js'
 
 import storeMethod from '@/store/index.js'
-import { messages } from '@/utils/i18n-message/fund/index.js'
 const store = storeMethod()
 setTimeout(() => {
     console.log('main.js:>>>store:>>>', store.state)
@@ -18,7 +17,11 @@ setTimeout(() => {
 import i18n from '@/utils/common/plugins/yx-i18n/index.js'
 Vue.use(i18n, {
     lang: store.getters.lang,
-    messages
+    messages: {
+        zhCHS: {},
+        zhCHT: {},
+        en: {}
+    }
 })
 
 import '@/utils/common'
