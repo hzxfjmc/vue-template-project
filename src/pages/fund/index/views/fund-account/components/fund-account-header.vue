@@ -38,6 +38,7 @@
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
+import localStorage from '@/utils/local-storage'
 export default {
     props: {
         holdData: {
@@ -105,7 +106,12 @@ export default {
         },
         hideNumber() {
             this.showPsd = !this.showPsd
+            localStorage.put('showMoney', this.showPsd)
         }
+    },
+    mounted() {
+        this.showPsd = localStorage.get('showMoney')
+        console.log(this.showPsd)
     }
 }
 </script>
