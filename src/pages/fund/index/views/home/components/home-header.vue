@@ -134,8 +134,6 @@ export default {
 }
 .home-header-container {
     width: 100%;
-
-    // background: #2f79ff;
 }
 .header-tab {
     font-size: 0.32rem;
