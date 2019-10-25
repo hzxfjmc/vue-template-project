@@ -8,7 +8,10 @@
                 :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
             )
             van-panel(title="購買流程")
-                purchasing-process(:bondUneditableInfo="bondUneditableInfo")
+                purchasing-process(
+                    :bondUneditableInfo="bondUneditableInfo"
+                    :paymentInfo="paymentInfo"
+                )
             van-panel(title="債劵價格" desc="（每份）" style="position:relative")
                 BondPrice(:chartData="prices" :currentPrice="currentPrice")
             van-panel(title="債劵資料")

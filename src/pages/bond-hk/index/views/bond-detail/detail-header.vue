@@ -21,6 +21,7 @@
 </template>
 <script>
 import detailHeaderMixin from '@/mixins/bond/bond-detail/detail-header.js'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     mixins: [detailHeaderMixin],
     data() {
@@ -71,11 +72,17 @@ export default {
                     class: 'icon-wenhao'
                 },
                 {
-                    title: this.subscriptionAmount,
+                    title: transNumToThousandMark(
+                        this.subscriptionAmount.toString(),
+                        3
+                    ),
                     desc: '參攷認購金額/份'
                 },
                 {
-                    title: this.solvePaymentAfterTaxPerYear,
+                    title: transNumToThousandMark(
+                        this.solvePaymentAfterTaxPerYear.toString(),
+                        3
+                    ),
                     desc: '年稅後派息/份'
                 }
             ]

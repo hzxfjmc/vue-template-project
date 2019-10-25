@@ -8,31 +8,59 @@
             van-step
                 <h3>{{ paymentDate }}為付息日</h3>
                 <p>・付息日支付利息，持有中途可賣出</p>
-                <p>・持有到期可收息10次，每次收息: 稅後150美元/份</p>
-                <p>・到期前合共收息:稅後1,500美元/份</p>
+                <p>・持有到期可收息{{ paymentTime }}次，每次收息: 稅後{{ paymentAfterTaxPerTime | thousand-spilt }}{{ currency }}/份</p>
+                <p>・到期前合共收息:稅後{{ totalPayment | thousand-spilt }}{{ currency }}/份</p>
             van-step
                 <h3>到期退出</h3>
-                <p>・2020.03.22</p>
+                <p>・{{ dueTime | date-format('YYYY.MM.DD') }}</p>
                 <p>・派發最後一期利息</p>
-                <p>・返還本金份額: 2000美元/份</p>
+                <p>・返還本金份額: {{ minFaceValue | thousand-spilt }}{{ currency }}/份</p>
 </template>
 <script>
 import purchasingProcessMixin from '@/mixins/bond/bond-detail/purchasing-process.js'
 export default {
     mixins: [purchasingProcessMixin],
+    props: {
+        paymentInfo: {
+            type: Object,
+            default: () => {}
+        }
+    },
     computed: {
-        // 付息日
-        paymentDate() {
-            let d =
-                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate
-            d = d
-                ? d
-                      .replace(/月/g, '.')
-                      .replace(/日/g, '')
-                      .split('|')
-                : ''
-            let suffix = d.length > 2 ? '等' : ''
-            return d ? d.slice(0, 2).join('、') + suffix : '--'
+        // 现在到持有到期派息次数
+        paymentTime() {
+            return (this.paymentInfo && this.paymentInfo.paymentTime) || 0
+        },
+        // 每次收息税后收多少利息
+        paymentAfterTaxPerTime() {
+            return (
+                (this.paymentInfo &&
+                    this.paymentInfo.paymentAfterTaxPerTime &&
+                    (this.paymentInfo.paymentAfterTaxPerTime - 0).toFixed(3)) ||
+                0
+            )
+        },
+        // 合共收息
+        totalPayment() {
+            let t = this.paymentTime * this.paymentAfterTaxPerTime
+            return (t && t.toFixed(3)) || 0
+        },
+        // 本金份额
+        minFaceValue() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.minFaceValue) ||
+                '--'
+            )
+        },
+        // 货币单位
+        currency() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
+                ''
+            )
         }
     }
 }
