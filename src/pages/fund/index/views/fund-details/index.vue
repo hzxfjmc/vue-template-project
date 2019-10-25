@@ -103,7 +103,8 @@ export default {
             flag: true, //赎回
             flag1: true, //追加
             flag2: true, //申购
-            step: 0
+            step: 0,
+            forbidPrompt: ''
         }
     },
     methods: {
@@ -112,7 +113,7 @@ export default {
             if (routerPath == '/fund-subscribe') {
                 this.handleBuyOrSell()
             } else {
-                if (!this.flag) return
+                if (!this.flag) return this.$toast(this.forbidPrompt)
                 this.$router.push({
                     path: routerPath,
                     query: {
@@ -145,6 +146,7 @@ export default {
                     this.fundHeaderInfoVO.netPrice,
                     4
                 )
+                this.forbidPrompt = res.fundOverviewInfoVO.forbidPrompt
                 this.fundHeaderInfoVO.currencyType =
                     res.fundTradeInfoVO.currency.name
                 this.fundHeaderInfoVO.initialInvestAmount = transNumToThousandMark(
@@ -290,7 +292,7 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell() {
-            if (!this.flag2) return
+            if (!this.flag2) return this.$toast(this.forbidPrompt)
             // 未登录或未开户
             if (!this.userInfo) {
                 await this.$dialog.alert({

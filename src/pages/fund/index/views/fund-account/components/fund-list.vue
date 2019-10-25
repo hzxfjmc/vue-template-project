@@ -27,7 +27,7 @@
                     span {{item.currency == 2 ? 'HKD':'USD'}}
                     span.price-number {{item.inTransitAmount}}
     .block-element-nomore(v-if="noMoreShow")
-        img.img(src="@/assets/img/fund/icon-norecord.png") 
+        img.img(src="@/assets/img/fund/empty.png") 
         .no-record-box {{$t('nomore')}}
 </template>
 <script>

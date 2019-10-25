@@ -105,9 +105,9 @@ export default {
             color: #04ba60;
         }
     }
-    .fund-row:last-child {
-        width: 60%;
-    }
+    // .fund-row:last-child {
+    //     width: 60%;
+    // }
     .hold-right {
         float: right;
         display: inline-block;

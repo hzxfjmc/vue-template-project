@@ -266,7 +266,6 @@ export default {
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo
-                    console.log('fundRedemptionData:', re)
                     this.$close()
                 }
             } catch (error) {
