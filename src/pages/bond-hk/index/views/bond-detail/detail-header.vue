@@ -10,7 +10,7 @@
             :titleStyle="titleStyle"
             :descStyle="descStyle"
         )
-        .header-features
+        .header-features(v-if="bondTitleInfo.length !== 0")
             media-box.medal(
                 v-for="(titleItem, index) in bondTitleInfo"
                 :key="index"
@@ -62,9 +62,9 @@ export default {
                     click: () => {
                         this.$dialog.alert({
                             message:
-                                '到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n\n' +
-                                '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。\n\n' +
-                                '注：展示数值为已加入预估佣金、平台使用费之后的到期收益率。',
+                                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
+                                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參攷要素。\n\n' +
+                                '注：展示數值為已加入預估傭金、平臺使用費之後的到期收益率。',
                             messageAlign: 'left',
                             confirmButtonText: '我知道了'
                         })
@@ -87,15 +87,6 @@ export default {
                 }
             ]
             return obj
-        },
-        // 到期年化利率
-        buyYtm() {
-            return (
-                (this.currentPrice &&
-                    this.currentPrice.buyYtm &&
-                    (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
-                '--'
-            )
         },
         // 參攷認購金額
         subscriptionAmount() {
@@ -125,7 +116,7 @@ export default {
             )
         },
         // 货币单位
-        currency() {
+        currencySymbol() {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.enumCurrency &&
@@ -137,18 +128,10 @@ export default {
         solvePaymentAfterTaxPerYear() {
             return (
                 (this.paymentAfterTaxPerYear &&
-                    `${this.currency}${(
+                    `${this.currencySymbol}${(
                         this.paymentAfterTaxPerYear - 0
                     ).toFixed(3)}`) ||
                 '--'
-            )
-        },
-        // 债券特性列表
-        bondTitleInfo() {
-            return (
-                (this.bondEditableInfo &&
-                    this.bondEditableInfo.bondTitleInfo) ||
-                []
             )
         }
     }

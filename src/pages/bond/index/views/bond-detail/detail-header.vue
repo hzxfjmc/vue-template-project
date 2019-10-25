@@ -10,16 +10,13 @@
             :titleStyle="titleStyle"
             :descStyle="descStyle"
         )
-        .header-features
+        .header-features(v-if="bondTitleInfo.length !== 0")
             media-box.medal(
-                :thumb="featureThumbMedal"
-                title="安全性高xxxxxxx"
-                desc="苹果公司发行，公司稳健，违约风险低"
-            )
-            media-box.money(
-                :thumb="featureThumbMoney"
-                title="起购金额低xxxxxxx"
-                desc="2000美元可购买xxxxxxxxxx"
+                v-for="(titleItem, index) in bondTitleInfo"
+                :key="index"
+                :thumb="featureThumbList[index]"
+                :title="titleItem.mainTitle"
+                :desc="titleItem.subTitle"
             )
 
 </template>
@@ -30,6 +27,13 @@ export default {
     mixins: [detailHeaderMixin],
     data() {
         return {
+            featureThumbList: [
+                require('@/assets/img/bond/icon-medal.png'),
+                require('@/assets/img/bond/icon-money.png'),
+                require('@/assets/img/bond/icon-house.png'),
+                require('@/assets/img/bond/icon-praise.png'),
+                require('@/assets/img/bond/icon-umbrella.png')
+            ],
             featureThumbMedal: require('@/assets/img/bond/icon-medal.png'),
             featureThumbMoney: require('@/assets/img/bond/icon-money.png'),
             titleStyle: {
@@ -46,52 +50,56 @@ export default {
         }
     },
     computed: {
+        // 到期年化利率/剩余期限/起购金额
         colData() {
-            let _this = this
-            let obj = [
+            return [
                 {
-                    title:
-                        (this.currentPrice &&
-                            this.currentPrice &&
-                            this.currentPrice.buyYtm &&
-                            (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
-                        '--',
+                    title: this.buyYtm,
                     desc: '到期年化收益率',
                     click: () => {
                         this.$dialog.alert({
-                            message: `到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n
-到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。\n
-注：展示数值为已加入预估佣金、平台使用费之后的到期收益率。`,
+                            message:
+                                '到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n\n' +
+                                '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。\n\n' +
+                                '注：展示数值为已加入预估佣金、平台使用费之后的到期收益率。',
                             messageAlign: 'left',
                             confirmButtonText: '我知道了'
                         })
                     }
                 },
                 {
-                    title: calcCountDownDay(
-                        _this.bondUneditableInfo &&
-                            _this.bondUneditableInfo.dueTime
-                    ),
+                    title: this.dueDay,
                     desc: '剩余期限'
                 },
                 {
-                    title:
-                        (this.bondUneditableInfo &&
-                            this.bondUneditableInfo.minFaceValue &&
-                            (this.bondUneditableInfo.minFaceValue - 0).toFixed(
-                                3
-                            )) ||
-                        '--',
-                    desc:
-                        '起购金额(' +
-                        ((this.bondUneditableInfo &&
-                            this.bondUneditableInfo.enumCurrency &&
-                            this.bondUneditableInfo.enumCurrency.name) ||
-                            '美元') +
-                        '/份)'
+                    title: this.minFaceValue,
+                    desc: `起购金额(${this.currencyShortSymbol}/份)`
                 }
             ]
-            return obj
+        },
+        // 剩余期限
+        dueDay() {
+            return calcCountDownDay(
+                this.bondUneditableInfo && this.bondUneditableInfo.dueTime
+            )
+        },
+        // 起购金额/最小面额
+        minFaceValue() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.minFaceValue &&
+                    (this.bondUneditableInfo.minFaceValue - 0).toFixed(3)) ||
+                '--'
+            )
+        },
+        // 货币单位
+        currencyShortSymbol() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
+                ''
+            )
         }
     }
 }

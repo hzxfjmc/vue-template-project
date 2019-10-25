@@ -46,6 +46,23 @@ export default {
                 (this.bondEditableInfo && this.bondEditableInfo.bondName) ||
                 '--'
             )
+        },
+        // 债券特性列表
+        bondTitleInfo() {
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.bondTitleInfo) ||
+                []
+            )
+        },
+        // 到期年化利率
+        buyYtm() {
+            return (
+                (this.currentPrice &&
+                    this.currentPrice.buyYtm &&
+                    (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
+                '--'
+            )
         }
     }
 }
