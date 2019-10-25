@@ -170,7 +170,7 @@ export default {
                 this.minFaceValue *
                 this.transactionNum *
                 (this.buyOrSellPrice - 0)
-            return t ? t.toFixed(2) : 0
+            return t ? t.toFixed(2) : '0.00'
         },
         // 计算应计利息
         // 票面利率应该是除过100的小数
@@ -179,7 +179,7 @@ export default {
             let res =
                 (this.bondUneditableInfo.couponRate / 360) *
                 this.interestDays *
-                this.tradeMoney
+                (this.tradeMoney - 0)
             res = res ? res.toFixed(2) : '0.00'
             return res
         },

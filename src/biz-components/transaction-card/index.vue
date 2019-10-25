@@ -7,14 +7,14 @@
             )
             .yx-cell(style="padding:0.4rem 0.28rem")
                 .yx-cell__header {{ direction === 1 ? '买入价格' : '卖出价格' }}
-                    .yx-cell__header-tip ({{ currency }})
+                    .yx-cell__header-tip ({{ currencyName }})
                 .yx-cell__primary {{ buyOrSellPrice }}
 
             .yx-cell
                 .yx-cell__header 份数
                 .yx-cell__primary
                     van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-                    .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currency }}/份)
+                    .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currencyName }}/份)
             .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
                 .yx-cell__header 金额
                 .yx-cell__primary {{ tradeMoney | thousand-spilt }}
@@ -33,13 +33,13 @@
 
             .yx-cell.total-trade-money
                 .yx-cell__header 总额
-                    .yx-cell__header-tip ({{ currency }})
+                    .yx-cell__header-tip ({{ currencyName }})
                 .yx-cell__primary {{ totalTradeMoney | thousand-spilt }}
 
             .tips
                 i.iconfont.icon-wenhao(@click="showTips('total')")
                 span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
-                strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currency }}
+                strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyName }}
                 strong(v-if="direction === 2") {{ marketValue }}
         van-button(
             type="info"
