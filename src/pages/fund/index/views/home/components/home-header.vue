@@ -13,7 +13,11 @@
             van-tab(title="美元基金" name="1")
             .block-home-content
                 .header-content-item
-                    .list-item(v-for="(item,index) in list" :key="item.icon" @click='toFundList(item,index)')
+                    .list-item(
+                        v-for="(item,index) in list" 
+                        :key="item.icon" 
+                        :style="{width:`${100/(list.length)}%`}"
+                        @click='toFundList(item,index)')
                         i.iconfont(:class="item.icon")
                         span {{item.assetTypeName}}
                 
@@ -155,7 +159,6 @@ export default {
         font-size: 0.36rem;
     }
     .list-item {
-        width: 25%;
         background: #2f79ff;
         display: flex;
         flex-direction: column;

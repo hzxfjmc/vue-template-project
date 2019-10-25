@@ -195,6 +195,7 @@ export default {
                     this.holdDetailsShow = false
                 }
             } catch (e) {
+                this.$toast(e.msg)
                 console.log('getFundPosition:error:>>>', e)
             }
         },
