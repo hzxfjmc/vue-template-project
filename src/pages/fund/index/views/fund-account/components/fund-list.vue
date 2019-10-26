@@ -53,22 +53,22 @@ export default {
             nomore: '暂无持仓'
         },
         zhCHT: {
-            amountMoney: '金额',
-            share: '份额',
+            amountMoney: '金額',
+            share: '份額',
             profitPostion: '持仓收益',
-            SevenDayIncome: '近七日数据',
-            Redemption: '赎回中',
-            subscribe: '申购中',
-            nomore: '暂无持仓'
+            SevenDayIncome: '近七日數據',
+            Redemption: '贖回中',
+            subscribe: '申購中',
+            nomore: '暫無持倉'
         },
         en: {
-            amountMoney: '金额',
-            share: '份额',
+            amountMoney: 'Amount',
+            share: 'Unit',
             profitPostion: '持仓收益',
-            SevenDayIncome: '近七日数据',
-            Redemption: '赎回中',
-            subscribe: '申购中',
-            nomore: '暂无持仓'
+            SevenDayIncome: 'Data in Last 7d',
+            Redemption: 'Redeming',
+            subscribe: 'Purchasing',
+            nomore: 'No Position'
         }
     },
     methods: {

@@ -52,13 +52,13 @@ export default {
             title: '人气之选',
             subtitle: '众多投资者的选择',
             oneYearRate: '近一年收益率',
-            holdPostion: '已持仓'
+            holdPostion: '已持倉'
         },
         en: {
-            title: '人气之选',
-            subtitle: '众多投资者的选择',
-            oneYearRate: '近一年收益率',
-            holdPostion: '已持仓'
+            title: 'Hot',
+            subtitle: "Most investor's choices",
+            oneYearRate: 'Change in This Year',
+            holdPostion: 'Positioned'
         }
     },
     methods: {

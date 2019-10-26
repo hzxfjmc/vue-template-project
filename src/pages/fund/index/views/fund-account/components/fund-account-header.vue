@@ -48,28 +48,28 @@ export default {
     },
     i18n: {
         zhCHS: {
-            myHkdAccount: '港币基金',
-            myUsdAccount: '美元基金',
+            myHkdAccount: '港币资产',
+            myUsdAccount: '美元资产',
             profitPostion: '持仓盈亏',
             SevenDayIncome: '近七日收益',
             IncomeDetails: '收益明细',
             OrderRecord: '订单记录'
         },
         zhCHT: {
-            myHkdAccount: '港币基金',
-            myUsdAccount: '美元基金',
+            myHkdAccount: '港幣資產',
+            myUsdAccount: '美元資產',
             profitPostion: '持仓盈亏',
             SevenDayIncome: '近七日收益',
-            IncomeDetails: '收益明细',
-            OrderRecord: '订单记录'
+            IncomeDetails: '收益明細',
+            OrderRecord: '訂單記錄'
         },
         en: {
-            myHkdAccount: '港币基金',
-            myUsdAccount: '美元基金',
+            myHkdAccount: 'HKD Assets',
+            myUsdAccount: 'USD Assets',
             profitPostion: '持仓盈亏',
-            SevenDayIncome: '近七日收益',
-            IncomeDetails: '收益明细',
-            OrderRecord: '订单记录'
+            SevenDayIncome: 'RTN 7d ',
+            IncomeDetails: 'Revenue Detail',
+            OrderRecord: 'Order History'
         }
     },
     data() {

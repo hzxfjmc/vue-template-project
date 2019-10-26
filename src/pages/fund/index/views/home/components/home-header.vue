@@ -55,25 +55,25 @@ export default {
     },
     i18n: {
         zhCHS: {
-            hkdFund: '港币基金',
-            usdFund: '美元基金',
+            hkdFund: '港币资产',
+            usdFund: '美元资产',
             AllTotalMarketPostion: '持仓总市值',
             HoldIncome: '持有收益',
             SevenDayIncome: '近七日收益'
         },
         zhCHT: {
-            hkdFund: '港币基金',
-            usdFund: '美元基金',
-            AllTotalMarketPostion: '持仓总市值',
+            hkdFund: '港幣資產',
+            usdFund: '美元資產',
+            AllTotalMarketPostion: '持倉總市值',
             HoldIncome: '持有收益',
             SevenDayIncome: '近七日收益'
         },
         en: {
-            hkdFund: '港币基金',
-            usdFund: '美元基金',
-            AllTotalMarketPostion: '持仓总市值',
-            HoldIncome: '持有收益',
-            SevenDayIncome: '近七日收益'
+            hkdFund: 'HKD Assets',
+            usdFund: 'USD Assets',
+            AllTotalMarketPostion: 'Market Value',
+            HoldIncome: 'Total Return',
+            SevenDayIncome: 'RTN 7d'
         }
     },
     data() {

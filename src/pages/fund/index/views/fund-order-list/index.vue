@@ -36,18 +36,16 @@ export default {
             nomore1: '无更多内容'
         },
         zhCHT: {
-            FundNmae: '基金名称',
-            amountMoney: '金额',
+            amountMoney: '金額',
             time: '时间',
-            nomore: '暂无收益',
-            nomore1: '无更多内容'
+            nomore: '暫無訂單記錄',
+            nomore1: '無更多內容'
         },
         en: {
-            FundNmae: '基金名称',
-            amountMoney: '金额',
+            amountMoney: 'Amount',
             time: '时间',
-            nomore: '暂无收益',
-            nomore1: '无更多内容'
+            nomore: 'No Order Record',
+            nomore1: 'No More Content'
         }
     },
     data() {
