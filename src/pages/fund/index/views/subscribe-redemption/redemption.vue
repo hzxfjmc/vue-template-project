@@ -74,7 +74,7 @@
         )
             .protocol-list
                 .protocol-list__body
-                    .protocol-list__text.border-bottom(@click="openProtocol(sellProtocol)") 《{{sellProtocolFileName}}》
+                    .protocol-list__text.border-bottom(@click="openProtocol(item.filePath)" v-for="item in sellProtocolFileList" :key="item.createTime") 《{{item.fileName}}》
                 .protocol-list__footer
                     .protocol-list__button(@click="hideProtocol") 取消
 </template>
@@ -117,7 +117,8 @@ export default {
             predictSellAmount: '',
             netPrice: 0,
             protocolVisible: false,
-            isCheckedProtocol: true
+            isCheckedProtocol: true,
+            sellProtocolFileList: []
         }
     },
     async created() {
@@ -153,8 +154,13 @@ export default {
         }
     },
     methods: {
-        openProtocol(url) {
-            this.$jsBridge.gotoNewWebview(url)
+        async openProtocol(url) {
+            url = await getCosUrl(url)
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
         },
         checkProtocol() {
             this.isCheckedProtocol = !this.isCheckedProtocol
@@ -202,6 +208,7 @@ export default {
                 )
                     .split('/')
                     .pop()
+                this.sellProtocolFileList = fundDetail.sellProtocolFileList
             } catch (e) {
                 console.log('赎回页面-getFundDetailInfo:error:>>>', e)
             }
