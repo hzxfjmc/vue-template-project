@@ -48,12 +48,19 @@ export default {
             } = await getFundPositionList({
                 currency: this.currency
             })
+            let positionAmountFlag =
+                positionAmount > 0 ? '+' : positionAmount < 0 ? '-' : ''
+            let positionEarningsFlag =
+                positionEarnings > 0 ? '+' : positionEarnings < 0 ? '-' : ''
             this.holdData = {
                 positionAmount: transNumToThousandMark(positionAmount),
                 positionEarnings: transNumToThousandMark(positionEarnings),
                 weekEarnings: transNumToThousandMark(weekEarnings),
-                currency: this.currency
+                currency: this.currency,
+                positionAmountFlag: positionAmountFlag,
+                positionEarningsFlag: positionEarningsFlag
             }
+            console.log(this.holdData)
             this.fundList = positionList
             this.fundList.map(item => {
                 for (let key in item) {

@@ -25,10 +25,10 @@
                 
                 .header-content-right
                     span {{$t('profitPostion')}}
-                        em(v-if="showPsd") {{holdData.positionEarnings}}
+                        em(v-if="showPsd") {{holdData.positionAmountFlag}}{{holdData.positionEarnings}}
                         em(v-else) ****
                     span {{$t('SevenDayIncome')}}
-                        em(v-if="showPsd") {{holdData.weekEarnings}}
+                        em(v-if="showPsd") {{holdData.positionEarningsFlag}}{{holdData.weekEarnings}}
                         em(v-else) ****
             
             .header-footer-tab(class="border-top")
