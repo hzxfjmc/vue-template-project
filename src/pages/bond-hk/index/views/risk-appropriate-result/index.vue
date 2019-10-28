@@ -1,5 +1,5 @@
 <template lang="pug">
-    yx-container-better.risk-appropriate-result-wrapper
+    yx-container-better.risk-appropriate-result-wrapper(v-show="isShowPage")
         .risk-appropriate-result-container(slot="main")
             .risk-result__header
                 i(:type="riskMatchResult")
