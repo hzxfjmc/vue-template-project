@@ -1,13 +1,11 @@
 import { Swipe, SwipeItem } from 'vant'
 import { getBondList } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
-import BondCard from '@/biz-components/bond-card/index.vue'
 export default {
     name: 'index',
     components: {
         [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem,
-        BondCard
+        [SwipeItem.name]: SwipeItem
     },
     created() {
         this.handleSetupResult()
@@ -38,6 +36,7 @@ export default {
         // 拉取债券banner
         async handleGetBondBanner() {
             try {
+                // this.bannerUrl = ['/wealth/']
                 let data = await bannerAdvertisement(20)
                 this.bannerUrl = (data && data.banner_list) || []
                 console.log('getBondBanner:error:>>>', data)

@@ -3,6 +3,41 @@ import { calcCountDownDay, dateFormat } from '@/utils/tools.js'
 import ColMsg from '@/biz-components/col-msg/index.vue'
 export default {
     name: 'BondInfo',
+    i18n: {
+        zhCHS: {
+            issuerName: '债券发行人',
+            couponRate: '票面利率',
+            paymentDate: '付息日',
+            issueTime: '债券发行时间',
+            dueTime: '到期时间',
+            dueDay: '剩余年限',
+            paymentTypeName: '付息类型',
+            paymentFrequencyName: '付息频率',
+            creditRatingAgency: '发行人评级'
+        },
+        zhCHT: {
+            issuerName: '債券發行人',
+            couponRate: '票面利率',
+            paymentDate: '付息日',
+            issueTime: '債券發行時間',
+            dueTime: '到期時間',
+            dueDay: '剩餘年限',
+            paymentTypeName: '付息類型',
+            paymentFrequencyName: '付息頻率',
+            creditRatingAgency: '發行人評級'
+        },
+        en: {
+            issuerName: '债券发行人',
+            couponRate: '票面利率',
+            paymentDate: '付息日',
+            issueTime: '债券发行时间',
+            dueTime: '到期时间',
+            dueDay: '剩余年限',
+            paymentTypeName: '付息类型',
+            paymentFrequencyName: '付息频率',
+            creditRatingAgency: '发行人评级'
+        }
+    },
     components: {
         [Row.name]: Row,
         [Col.name]: Col,
@@ -25,105 +60,146 @@ export default {
     },
     computed: {
         colData() {
-            let obj = [
+            return [
                 {
-                    title:
-                        (this.bondEditableInfo &&
-                            this.bondEditableInfo.issuer &&
-                            this.bondEditableInfo.issuer.name) ||
-                        '--',
-                    desc: '债券发行人'
+                    title: this.issuerName,
+                    desc: this.$t('issuerName')
                 },
                 {
-                    title:
-                        (this.bondUneditableInfo &&
-                            this.bondUneditableInfo.couponRate &&
-                            (this.bondUneditableInfo.couponRate - 0).toFixed(
-                                3
-                            ) + '%') ||
-                        '--',
-                    desc: '票面利率'
+                    title: this.couponRate,
+                    desc: this.$t('couponRate')
                 },
                 {
-                    title: (() => {
-                        let d =
-                            this.bondUneditableInfo &&
-                            this.bondUneditableInfo.paymentDate
-                        d = d ? d.split('|') : []
-                        let suffix = d.length > 2 ? '等' : ''
-                        return d ? d.slice(0, 2).join('、') + suffix : '--'
-                    })(),
-                    desc: '付息日'
+                    title: this.paymentDate,
+                    desc: this.$t('paymentDate')
                 }
             ]
-            return obj
         },
         moreBondMsg() {
-            let _this = this
             let obj = [
                 [
                     {
-                        title:
-                            dateFormat(
-                                this.bondUneditableInfo &&
-                                    this.bondUneditableInfo.issueTime &&
-                                    this.bondUneditableInfo.issueTime,
-                                'YYYY年MM月DD日'
-                            ) || '--',
-                        desc: '债券发行时间'
+                        title: this.issueTime,
+                        desc: this.$t('issueTime')
                     },
                     {
-                        title:
-                            dateFormat(
-                                this.bondUneditableInfo &&
-                                    this.bondUneditableInfo.dueTime &&
-                                    this.bondUneditableInfo.dueTime,
-                                'YYYY年MM月DD日'
-                            ) || '--',
-                        desc: '到期时间'
+                        title: this.dueTime,
+                        desc: this.$t('dueTime')
                     },
                     {
-                        title: calcCountDownDay(
-                            _this.bondUneditableInfo &&
-                                _this.bondUneditableInfo.dueTime
-                        ),
-                        desc: '剩余年限'
+                        title: this.dueDay,
+                        desc: this.$t('dueDay')
                     }
                 ],
                 [
                     {
-                        title:
-                            (this.bondUneditableInfo &&
-                                this.bondUneditableInfo.enumPaymentType &&
-                                this.bondUneditableInfo.enumPaymentType.name) ||
-                            '--',
-                        desc: '付息类型'
+                        title: this.paymentTypeName,
+                        desc: this.$t('paymentTypeName')
                     },
                     {
-                        title:
-                            (this.bondUneditableInfo &&
-                                this.bondUneditableInfo.enumPaymentFrequency &&
-                                this.bondUneditableInfo.enumPaymentFrequency
-                                    .name) ||
-                            '--',
-                        desc: '付息频率'
-                    },
-                    {
-                        title:
-                            (this.bondEditableInfo &&
-                                this.bondEditableInfo.creditRating &&
-                                this.bondEditableInfo.creditRating.rank) ||
-                            '--',
-                        desc:
-                            '发行人评级（' +
-                            (this.bondEditableInfo &&
-                                this.bondEditableInfo.creditRating &&
-                                this.bondEditableInfo.creditRating.agency) +
-                            '）'
+                        title: this.paymentFrequencyName,
+                        desc: this.$t('paymentFrequencyName')
                     }
                 ]
             ]
+            // 有则展示，没有也增加一个空的，用来保持布局
+            if (this.creditRatingRank) {
+                obj[1].push({
+                    title: this.creditRatingRank,
+                    desc: `${this.$t('creditRatingAgency')}${
+                        this.creditRatingAgency
+                    }`
+                })
+            } else {
+                obj[1].push({
+                    title: '',
+                    desc: ''
+                })
+            }
             return obj
+        },
+        // 发行人
+        issuerName() {
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.issuer &&
+                    this.bondEditableInfo.issuer.name) ||
+                '--'
+            )
+        },
+        // 票面利率
+        couponRate() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.couponRate &&
+                    (this.bondUneditableInfo.couponRate - 0).toFixed(2) +
+                        '%') ||
+                '--'
+            )
+        },
+        // 债券发行时间
+        issueTime() {
+            return (
+                dateFormat(
+                    this.bondUneditableInfo &&
+                        this.bondUneditableInfo.issueTime &&
+                        this.bondUneditableInfo.issueTime,
+                    'YYYY.MM.DD'
+                ) || '--'
+            )
+        },
+        // 到期时间
+        dueTime() {
+            return (
+                dateFormat(
+                    this.bondUneditableInfo &&
+                        this.bondUneditableInfo.dueTime &&
+                        this.bondUneditableInfo.dueTime,
+                    'YYYY.MM.DD'
+                ) || '--'
+            )
+        },
+        // 剩余年限
+        dueDay() {
+            return calcCountDownDay(
+                this.bondUneditableInfo && this.bondUneditableInfo.dueTime
+            )
+        },
+        // 付息类型
+        paymentTypeName() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumPaymentType &&
+                    this.bondUneditableInfo.enumPaymentType.name) ||
+                '--'
+            )
+        },
+        // 付息频率
+        paymentFrequencyName() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumPaymentFrequency &&
+                    this.bondUneditableInfo.enumPaymentFrequency.name) ||
+                '--'
+            )
+        },
+        // 发行人评级
+        creditRatingRank() {
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.creditRating &&
+                    this.bondEditableInfo.creditRating.rank) ||
+                ''
+            )
+        },
+        // 发行人评级类型
+        creditRatingAgency() {
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.creditRating &&
+                    `（${this.bondEditableInfo.creditRating.agency}）`) ||
+                ''
+            )
         }
     },
     methods: {

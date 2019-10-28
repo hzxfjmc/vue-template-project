@@ -12,11 +12,6 @@ export default {
             defatult: () => {}
         }
     },
-    data() {
-        return {
-            descStyle: {}
-        }
-    },
     computed: {
         title() {
             return this.maskData && this.maskData.title

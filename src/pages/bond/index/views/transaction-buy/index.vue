@@ -9,13 +9,17 @@
 
 <script>
 import transactionBuyMixin from '@/mixins/bond/transaction-buy/index.js'
+import TransactionCard from '@/biz-components/transaction-card/index.vue'
 export default {
-    mixins: [transactionBuyMixin]
+    mixins: [transactionBuyMixin],
+    components: {
+        TransactionCard
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .transaction-wrapper {
-    padding: 10px 10px 48px;
+    height: 100%;
 }
 </style>

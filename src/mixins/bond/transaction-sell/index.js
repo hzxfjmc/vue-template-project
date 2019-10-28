@@ -1,9 +1,11 @@
+import YxContainerBetter from '@/components/yx-container-better'
 import TransactionCard from '@/biz-components/transaction-card/index.vue'
 import { getBondPosition } from '@/service/finance-server.js'
 export default {
     name: 'TransactionSell',
     components: {
-        TransactionCard
+        TransactionCard,
+        YxContainerBetter
     },
     async created() {
         this.handleGetBondPosition()
@@ -24,8 +26,7 @@ export default {
                             positionItem => positionItem.bondId === this.id
                         )) ||
                     []
-                this.positionData =
-                    (this.positionData[0] && this.positionData[0]) || {}
+                this.positionData = this.positionData[0] || {}
                 console.log('getBondPosition:data:>>> ', bondPositionList)
             } catch (error) {
                 console.log('getBondPosition:error:>>> ', error)
