@@ -8,6 +8,7 @@
 <script>
 import { itemList } from './fund-list'
 import localStorage from '../../../../../../utils/local-storage'
+import jsBridge from '@/utils/js-bridge'
 export default {
     i18n: {
         zhCHS: {
@@ -100,7 +101,27 @@ export default {
             if (item.routerPath == '/generator') {
                 window.location.href = `/webapp/market/generator.html?key=${this.fondCode}`
             } else {
-                this.$router.push(data)
+                // console.log(JSON.stringify(data.query))
+                let routerquery = ''
+                for (let key in data.query) {
+                    routerquery += `${key}=${data.query[key]}&`
+                }
+                this.openProtocol(
+                    window.location.origin +
+                        '/wealth/fund/index.html#' +
+                        data.path +
+                        '?' +
+                        routerquery
+                )
+                // this.$router.push(data)
+            }
+        },
+        //App页面跳转
+        async openProtocol(url) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
             }
         },
         InitI18nState() {
