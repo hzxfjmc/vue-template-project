@@ -246,6 +246,7 @@ export default {
                     fundId: this.$route.query.id,
                     fundNetPriceDateType: time || 5
                 })
+                // console.log(res)
                 this.copyinitEchartList = res
                 this.initEchartList = res
                 if (
@@ -272,9 +273,9 @@ export default {
                     this.step = 5
                 }
                 this.initEchartList.map(item => {
-                    item.netPrice = (
-                        Math.floor(Number(item.netPrice) * 100) / 100
-                    ).toFixed(2)
+                    // item.netPrice = (
+                    //     Math.floor(Number(item.netPrice) * 100) / 100
+                    // ).toFixed(4)
                     item.netPrice = Number(item.netPrice)
                 })
             } catch (e) {

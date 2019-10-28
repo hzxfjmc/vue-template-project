@@ -15,9 +15,9 @@
             .block-home-content
                 .header-content-item
                     .list-item(
-                        v-for="(item,index) in list" 
+                        v-for="(item,index) in lists" 
                         :key="item.icon" 
-                        :style="{width:`${100/(list.length)}%`}"
+                        :style="{width:`${100/(lists.length)}%`}"
                         @click='toFundList(item,index)')
                         i.iconfont(:class="item.icon")
                         span {{item.assetTypeName}}
@@ -46,7 +46,6 @@
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
-import { getReleaseFundAssetType } from '@/service/finance-info-server.js'
 import localStorage from '@/utils/local-storage'
 export default {
     components: {
@@ -78,7 +77,7 @@ export default {
     },
     data() {
         return {
-            width: 0,
+            width: 30,
             showMoney: true,
             swipeable: true, //开启手势滑动
             list: [],
@@ -88,6 +87,10 @@ export default {
     props: {
         holdData: {
             type: Object,
+            default: () => {}
+        },
+        lists: {
+            type: Array,
             default: () => {}
         }
     },
@@ -101,35 +104,9 @@ export default {
             return this.holdData.positionAmount.split('.')[1]
         }
     },
-
     methods: {
-        //获取已发布的基金底层分类
-        async getReleaseFundAssetType() {
-            try {
-                this.list = await getReleaseFundAssetType()
-                this.list.map(item => {
-                    switch (item.assetType) {
-                        case 1:
-                            item.icon = 'icon-icon-sharesfund'
-                            break
-                        case 2:
-                            item.icon = 'icon-iconFFzhaiquanjijin'
-                            break
-                        case 3:
-                            item.icon = 'icon-iconFFhunhejijin'
-                            break
-                        case 4:
-                            item.icon = 'icon-icon-currency-fund'
-                            break
-                    }
-                })
-            } catch (e) {
-                this.$toast(e.msg)
-            }
-        },
         //修改货币
         handlerCurrency(name) {
-            console.log(name)
             name = name == 0 ? 2 : 1
             this.$emit('handlerCurrency', name)
         },
@@ -153,8 +130,6 @@ export default {
             localStorage.get('showMoney') != null
                 ? localStorage.get('showMoney')
                 : true
-        // this.showMoney = localStorage.get('showMoney') | true
-        this.getReleaseFundAssetType()
     }
 }
 </script>

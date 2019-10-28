@@ -60,7 +60,6 @@ export default {
                 positionAmountFlag: positionAmountFlag,
                 positionEarningsFlag: positionEarningsFlag
             }
-            console.log(this.holdData)
             this.fundList = positionList
             this.fundList.map(item => {
                 for (let key in item) {

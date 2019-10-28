@@ -5,7 +5,7 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  日期：{{masterData.belongDay}}
             .header-right 
-                span.number {{Number(masterData.netPrice).toFixed(2)}}
+                span.number {{Number(masterData.netPrice).toFixed(4)}}
                 p.day 今日净值： 
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
@@ -103,7 +103,6 @@ export default {
             this.chart = new F2.Chart({
                 id: data,
                 pixelRatio: window.devicePixelRatio
-                // padding: [45, 'auto', 'auto']
             })
             this.chart.source(this.initEchartList, {
                 netPrice: {
@@ -113,7 +112,7 @@ export default {
                     max: Math.max.apply(null, arr) * 1.1,
                     // min: 0,
                     formatter: function formatter(val) {
-                        return val.toFixed(2)
+                        return val.toFixed(4)
                     }
                 },
                 belongDay: {
@@ -156,7 +155,6 @@ export default {
                     clearTimeout(timer) // 清除未执行的代码，重置回初始化状态
                     timer = setTimeout(() => {
                         this.masterShow = false
-                        console.log(1)
                     }, 3000)
                 }
             })

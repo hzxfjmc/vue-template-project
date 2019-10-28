@@ -3,6 +3,7 @@
     HomeHeader(
         @handlerCurrency="handlerCurrency"
         @toFundList = "toFundList"
+        :lists="list"
         :holdData="holdData")
         .home-bannar(slot="bannar")
             img(src="https://tse4-mm.cn.bing.net/th?id=OIP.bbOTYYnZGn7AGDuzCi12MgHaEl&w=299&h=182&c=7&o=5&dpr=2&pid=1.7")
@@ -12,7 +13,10 @@
 import HomeHeader from './components/home-header'
 import HomeFundList from './components/home-fund-list'
 import { getFundPositionList } from '@/service/finance-server.js'
-import { getFundListV2 } from '@/service/finance-info-server.js'
+import {
+    getFundListV2,
+    getReleaseFundAssetType
+} from '@/service/finance-info-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
@@ -23,7 +27,8 @@ export default {
         return {
             holdData: {},
             currency: 2,
-            fundList: []
+            fundList: [],
+            list: []
         }
     },
     methods: {
@@ -61,6 +66,7 @@ export default {
         handlerCurrency(data) {
             this.currency = data
             this.getFundPositionList()
+            this.getReleaseFundAssetType()
         },
         async getFundPositionList() {
             try {
@@ -81,9 +87,37 @@ export default {
                 this.$toast(e.msg)
                 console.log('getFundPositionList:error:>>> ', e)
             }
+        },
+        //获取已发布的基金底层分类
+        async getReleaseFundAssetType() {
+            try {
+                this.list = await getReleaseFundAssetType({
+                    currency: this.currency
+                })
+                this.list.map(item => {
+                    switch (item.assetType) {
+                        case 1:
+                            item.icon = 'icon-icon-sharesfund'
+                            break
+                        case 2:
+                            item.icon = 'icon-iconFFzhaiquanjijin'
+                            break
+                        case 3:
+                            item.icon = 'icon-iconFFhunhejijin'
+                            break
+                        case 4:
+                            item.icon = 'icon-icon-currency-fund'
+                            break
+                    }
+                })
+                console.log(this.list)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     mounted() {
+        this.getReleaseFundAssetType()
         this.getFundPositionList()
         this.getFundListV2()
     }

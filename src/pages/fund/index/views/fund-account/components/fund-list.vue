@@ -14,8 +14,8 @@
                 .block-element-number {{item.positionAmount}}
             .fund-row
                 span {{$t('share')}}
-                .block-element-number 6
-        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' && item.inTransitAmount !== '0.00'")
+                .block-element-number {{item.positionShare}}
+        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' || item.inTransitAmount !== '0.00'")
             .o-item
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
@@ -83,8 +83,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block-fund-list-content {
-    width: 94%;
-    margin: 0 3%;
+    width: 96%;
+    margin: 0 2%;
     color: #000;
     .list-item-content {
         width: 100%;

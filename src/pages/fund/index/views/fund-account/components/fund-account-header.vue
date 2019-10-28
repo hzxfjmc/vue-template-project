@@ -74,7 +74,7 @@ export default {
     },
     data() {
         return {
-            width: 0,
+            width: 30,
             active: 0,
             swipeable: true,
             showPsd: true
@@ -111,7 +111,6 @@ export default {
     },
     mounted() {
         this.showPsd = localStorage.get('showMoney')
-        console.log(this.showPsd)
     }
 }
 </script>
