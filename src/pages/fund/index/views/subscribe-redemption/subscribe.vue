@@ -56,17 +56,10 @@
                     .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
-
-        yx-popup(
+        protocol-popup(
             v-model="protocolVisible"
-            position="bottom"
-            class="protocol-popup"
+            :protocolFileList="buyProtocolFileList"
             )
-                .protocol-list
-                    .protocol-list__body
-                        .protocol-list__text.border-bottom(@click="openProtocol(item.filePath)" v-for="item in buyProtocolFileList" :key="item.createTime") 《{{item.fileName}}》
-                    .protocol-list__footer
-                        .protocol-list__button(@click="hideProtocol") 取消
 </template>
 <script>
 import NP from 'number-precision'
@@ -79,11 +72,13 @@ import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
+import protocolPopup from './components/protocol-popup'
 import './index.scss'
 export default {
     name: 'subscribe',
     components: {
-        FundSteps
+        FundSteps,
+        protocolPopup
     },
     data() {
         return {
