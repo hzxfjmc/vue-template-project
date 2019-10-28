@@ -159,7 +159,7 @@ module.exports = {
             // banner
             '/news-configserver': {
                 //target: 'http://10.55.4.9:15002',
-                target: 'http://hz1-uat.yxzq.com',
+                target: 'http://hz1-dev.yxzq.com',
                 changOrigin: true
             },
             // 行情资讯接口服务器
@@ -192,18 +192,18 @@ module.exports = {
                 changOrigin: true
             },
             // '/config-manager': {
-            // //   target: 'http://jy-sit.yxzq.com',
+            // //   target: 'http://jy-dev.yxzq.com',
             //     target: 'http://jy-dev.yxzq.com',
             //     changOrigin: true
             // },
             // '/stock-capital-server': {
-            //     // target: 'http://jy-sit.yxzq.com',
+            //     // target: 'http://jy-dev.yxzq.com',
             //     target: 'http://jy-dev.yxzq.com',
             //     changOrigin: true
             // },
             // '/stock-order-server': {
             //     // target: 'http://10.210.20.108:9903',
-            // //    target: 'http://jy-sit.yxzq.com',
+            // //    target: 'http://jy-dev.yxzq.com',
             //     target: 'http://jy-dev.yxzq.com',
             //     changOrigin: true
             // },
@@ -213,7 +213,7 @@ module.exports = {
                 changOrigin: true
             },
             // '/user-account-server': {
-            //     //  target: 'http://jy-sit.yxzq.com',
+            //     //  target: 'http://jy-dev.yxzq.com',
             //      target: 'http://jy-dev.yxzq.com',
             //     // target: 'http://10.210.20.87:8812',
             //     changOrigin: true
@@ -252,17 +252,17 @@ module.exports = {
                 changOrigin: true
             },
             // '/customer-relationship-server': {
-            // //    target: 'http://jy-sit.yxzq.com',
+            // //    target: 'http://jy-dev.yxzq.com',
             //     target: 'http://jy-dev.yxzq.com',
             //     changOrigin: true
             // },
             // '/user-oversea-server': {
-            // //    target: 'http://jy-sit.yxzq.com',
+            // //    target: 'http://jy-dev.yxzq.com',
             //     target: 'http://jy-dev.yxzq.com',
             //     changOrigin: true
             // },
             // '/verification-code-server': {
-            //     // target: 'http://jy-sit.yxzq.com',
+            //     // target: 'http://jy-dev.yxzq.com',
             //     target: 'http://jy-dev.yxzq.com',
             //     changOrigin: true
             // },

@@ -7,7 +7,7 @@
                 :key="index"
                 color="#2177FF"
                 plain
-            ) {{ tagItem.name && tagItem.name.zhCn }}
+            ) {{ tagItem }}
         .bond-card__content
             .flex-fixed-container
                 .rate-num {{ buyYtm }}
@@ -37,8 +37,7 @@ export default {
             return (
                 (this.bondInfo &&
                     this.bondInfo.issuerName &&
-                    this.bondInfo.issuerName.zhCn &&
-                    this.bondInfo.issuerName.zhCn.slice(0, 18)) ||
+                    this.bondInfo.issuerName.slice(0, 18)) ||
                 '--'
             )
         },
@@ -48,7 +47,7 @@ export default {
             let tags = (this.bondInfo && this.bondInfo.tags) || []
             let tagLen = 0
             tags.forEach(tag => {
-                tagLen += ((tag.name && tag.name.zhCn) || '').length
+                tagLen += tag.toString().length
             })
             // 极限条件 issuerName 发行人名称超过 13 个字符
             // 标签有三个，每个三个字符，共 9 个字符
@@ -96,7 +95,7 @@ export default {
         // 付息日
         paymentDates() {
             let d = this.bondInfo && this.bondInfo.paymentDates
-            d = d ? d.split('|') : []
+            d = d ? d.split('|') : ''
             let suffix = d.length > 2 ? '等' : ''
             return d ? d.slice(0, 2).join('、') + suffix : '--'
         }

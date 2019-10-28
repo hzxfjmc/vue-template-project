@@ -11,7 +11,7 @@ export default new Router({
         {
             name: 'index',
             path: '/',
-            meta: { title: '債券' },
+            meta: { title: '債券交易' },
             component: () =>
                 import(`@/pages/bond-hk/index/views/index/index.vue`)
         },
