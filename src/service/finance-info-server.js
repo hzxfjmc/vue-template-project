@@ -73,3 +73,11 @@ export const getReleaseFundAssetType = params => {
         params
     )
 }
+
+//基金净值历史查询接口
+export const getFundNetPriceHistoryV1 = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-net-price-history/v1`,
+        params
+    )
+}

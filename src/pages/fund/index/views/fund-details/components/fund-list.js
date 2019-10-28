@@ -21,7 +21,7 @@ export const itemList = {
         borderBottom: true
     },
     history: {
-        leftIcon: 'icon-iconEBshoucang1',
+        leftIcon: 'icon-icon-money',
         label: '净值历史',
         routerPath: '/trade-rule',
         itemShow: true,
