@@ -1,5 +1,5 @@
-import { Checkbox } from 'vant'
-import FixedOperateBtn from '@/biz-components/fix-operate-button/index.vue'
+import { Checkbox, Button } from 'vant'
+import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
@@ -8,8 +8,9 @@ import jsBridge from '@/utils/js-bridge.js'
 export default {
     name: 'RiskAppropriateResult',
     components: {
-        FixedOperateBtn,
-        [Checkbox.name]: Checkbox
+        YxContainerBetter,
+        [Checkbox.name]: Checkbox,
+        [Button.name]: Button
     },
     computed: {
         resetTimes() {

@@ -1,9 +1,11 @@
+import YxContainerBetter from '@/components/yx-container-better'
 import TransactionCard from '@/biz-components/transaction-card/index.vue'
 import { getBondPosition } from '@/service/finance-server.js'
 export default {
     name: 'TransactionSell',
     components: {
-        TransactionCard
+        TransactionCard,
+        YxContainerBetter
     },
     async created() {
         this.handleGetBondPosition()

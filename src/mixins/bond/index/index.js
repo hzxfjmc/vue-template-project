@@ -38,6 +38,7 @@ export default {
         // 拉取债券banner
         async handleGetBondBanner() {
             try {
+                // this.bannerUrl = ['/wealth/']
                 let data = await bannerAdvertisement(20)
                 this.bannerUrl = (data && data.banner_list) || []
                 console.log('getBondBanner:error:>>>', data)
