@@ -90,7 +90,10 @@ export default {
                 data.query = {
                     data: JSON.stringify(this.fundCorrelationFileList)
                 }
-            if (item.routerPath == '/trade-rule') {
+            if (
+                item.routerPath == '/trade-rule' ||
+                item.routerPath == '/fund-historical'
+            ) {
                 data.query = {
                     id: this.$route.query.id
                 }

@@ -23,7 +23,7 @@ export const itemList = {
     history: {
         leftIcon: 'icon-icon-money',
         label: '净值历史',
-        routerPath: '/trade-rule',
+        routerPath: '/fund-historical',
         itemShow: true,
         borderBottom: true
     },
