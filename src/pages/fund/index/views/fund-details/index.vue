@@ -349,10 +349,16 @@ export default {
                         ? '/fund-subscribe'
                         : '/open-permissions'
                 // this.$router.push(data)
+                let routerquery = ''
+                for (let key in data.query) {
+                    routerquery += `${key}=${data.query[key]}&`
+                }
                 this.openProtocol(
                     window.location.origin +
                         '/wealth/fund/index.html#' +
-                        data.path
+                        data.path +
+                        '?' +
+                        routerquery
                 )
             }
         },
