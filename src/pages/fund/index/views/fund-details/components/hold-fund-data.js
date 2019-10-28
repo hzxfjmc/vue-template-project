@@ -1,39 +1,39 @@
 export const holdDetailsData = {
-    yesterdayEarnings: {
-        label: '昨日收益',
+    positionMarketValue: {
+        label: '持有资产',
+        layout: 'left',
+        cname: '$',
+        key: '',
+        value: '00.00'
+    },
+    weekEarnings: {
+        label: '近7日收益',
         key: '',
         value: '00.00',
         cname: '+',
         layout: 'left'
     },
     positionEarnings: {
-        label: '持有收益',
+        label: '持仓收益',
         key: '',
         cname: '+',
         value: '00.00',
         layout: 'center'
     },
-    // costPrice: {
-    //     label: '持仓成本',
-    //     key: '',
-    //     layout: 'right',
-    //     value: '00.00'
-    // },
     positionShare: {
         label: '持有份额',
         key: '',
         layout: 'right',
         value: '00.00'
     },
-    positionMarketValue: {
-        label: '持有金额',
-        layout: 'left',
-        cname: '$',
+    redeemDeliveryShare: {
+        label: '赎回中(份额）',
         key: '',
-        value: '00.00'
+        layout: 'right',
+        value: '0.00'
     },
     inTransitAmount: {
-        label: '待确认金额',
+        label: '申购中(金额）',
         key: '',
         layout: 'center',
         value: '0.00'
@@ -44,27 +44,30 @@ export const i18nHoldDetailsData = {
     zhCHS: {
         holdFundTitle: '持仓详情',
         holdDetailsData: {
-            yesterdayEarnings: {
-                label: '昨日收益'
+            weekEarnings: {
+                label: '近7日收益'
             },
             positionEarnings: {
-                label: '持有收益'
+                label: '持仓收益'
             },
             positionShare: {
                 label: '持有份额'
             },
             positionMarketValue: {
-                label: '持有市值'
+                label: '持有资产'
             },
             inTransitAmount: {
-                label: '待确认金额'
+                label: '申购中(金额）'
+            },
+            redeemDeliveryShare: {
+                label: '赎回中(份额）'
             }
         }
     },
     zhCHT: {
         holdFundTitle: '持倉詳情',
         holdDetailsData: {
-            yesterdayEarnings: {
+            weekEarnings: {
                 label: '昨日收益'
             },
             positionEarnings: {
@@ -78,13 +81,16 @@ export const i18nHoldDetailsData = {
             },
             inTransitAmount: {
                 label: '待確認金額'
+            },
+            redeemDeliveryShare: {
+                label: '赎回份额'
             }
         }
     },
     en: {
         holdFundTitle: 'Positon',
         holdDetailsData: {
-            yesterdayEarnings: {
+            weekEarnings: {
                 label: 'Yesterday P/L'
             },
             positionEarnings: {
@@ -98,6 +104,9 @@ export const i18nHoldDetailsData = {
             },
             inTransitAmount: {
                 label: 'Amount to be CFMD'
+            },
+            redeemDeliveryShare: {
+                label: '赎回份额'
             }
         }
     }

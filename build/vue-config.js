@@ -208,8 +208,8 @@ module.exports = {
             //     changOrigin: true
             // },
             '/user-server': {
+                // target: 'http://jy-sit.yxzq.com',
                 target: 'http://jy-dev.yxzq.com',
-                // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
             // '/user-account-server': {
@@ -247,8 +247,8 @@ module.exports = {
             // },
             //奖励中心
             '/product-server': {
-                target: 'http://jy-dev.yxzq.com',
-                // target: 'http://admin-dev.yxzq.com',
+                // target: 'http://jy-sit.yxzq.com',
+                target: 'http://admin-dev.yxzq.com',
                 changOrigin: true
             },
             // '/customer-relationship-server': {
@@ -270,16 +270,16 @@ module.exports = {
                 target: 'http://admin-dev.yxzq.com',
                 changeOrigin: true
             },
-            // 债券交易
+            // 基金交易
             '/finance-server': {
+                // target: 'http://jy-sit.yxzq.com',
                 target: 'http://jy-dev.yxzq.com',
-                // target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
             },
-            // 债券信息
+            // 基金信息
             '/finance-info-server': {
-                // target: 'http://jy-dev.yxzq.com',
                 target: 'http://jy-dev.yxzq.com',
+                // target: 'http://jy-sit.yxzq.com',
                 changeOrigin: true
             },
 
@@ -307,8 +307,8 @@ module.exports = {
             // 债券交易
             '/': {
                 ws: false,
-                // target: 'http://jy-dev.yxzq.com',
                 target: 'http://jy-dev.yxzq.com',
+                // target: 'http://jy-sit.yxzq.com',
                 changeOrigin: true
             }
         },

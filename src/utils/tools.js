@@ -173,7 +173,8 @@ export const generateUUID = () => {
 //对钱进行处理
 export function transNumToThousandMark(num = '0', dot = 2) {
     if (!num) num = 0
-    num = num + ''
+    num = Number(num).toFixed(2)
+    // num = num + ''
     // 保留小数点后面的位数
     if (num.indexOf('.') !== -1) {
         let numArr = num.toString().split('.')
