@@ -3,10 +3,12 @@ import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
+import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
 import jsBridge from '@/utils/js-bridge.js'
 
 export default {
     name: 'RiskAppropriateResult',
+    i18n: i18nAppropriateData,
     components: {
         YxContainerBetter,
         [Checkbox.name]: Checkbox,
@@ -36,9 +38,9 @@ export default {
         console.log(this.bondRiskLevel, '0000')
         // 等待预定请求完成后，执行下一步操作
         this.getCurrentUser()
-        if (!this.$route.query.fundRiskType) {
-            this.handleGetBondDetail()
-        }
+        // if (!this.$route.query.fundRiskType) {
+        //     this.handleGetBondDetail()
+        // }
         this.handleSetupResult()
     },
     data() {
@@ -51,6 +53,16 @@ export default {
             assessResultName: '', //测评结果文案
             bondRiskLevel: this.$route.query.fundRiskType || 100, // 债券/基金风险等级
             // btnText: '',
+            riskTypeList: {
+                // 风险等级列表
+                100: '--',
+                0: '尚未风评',
+                1: '保守型(A1)及以上可购买',
+                2: '稳健型(A2)及以上可购买',
+                3: '均衡型(A3)及以上可购买',
+                4: '增长型(A4)及以上可购买',
+                5: '进取型(A5)'
+            },
             isShowPage: false,
             userInfo: '',
             fundCode: '',
@@ -64,22 +76,22 @@ export default {
         // 将多个异步聚合为同步
         async handleSetupResult() {
             await Promise.all([
-                this.getFundDetailFun(),
+                this.handleGetBondDetail(),
                 this.handleRiskAssessResult()
             ])
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.riskMatchResult = 1
-                this.btnText = this.$t('startRisk')
+                // this.btnText = this.$t('startRisk')
             } else if (this.userRiskLevel < this.bondRiskLevel) {
                 console.log(this.bondRiskLevel, 'bondRiskLevel')
                 // 风评级别不够
                 this.riskMatchResult = 2
-                this.btnText = this.$t('againRisk')
+                // this.btnText = this.$t('againRisk')
             } else {
                 // 风评级别够了，可以购买
                 this.riskMatchResult = 3
-                this.btnText = this.$t('sure')
+                // this.btnText = this.$t('sure')
             }
             this.isShowPage = true
         },
@@ -118,10 +130,7 @@ export default {
                 this.productUrl =
                     bondEditableInfo && bondEditableInfo.productOverview // 产品资料url
                 this.bondRiskLevel =
-                    (bondEditableInfo &&
-                        bondEditableInfo.riskLevel &&
-                        bondEditableInfo.riskLevel.type) ||
-                    100 // 债券风险等级
+                    (bondEditableInfo && bondEditableInfo.riskLevelType) || 100 // 债券风险等级
                 console.log('getBondDetail:data:>>> ', bondEditableInfo)
             } catch (error) {
                 console.log('getBondDetail:error:>>> ', error)
