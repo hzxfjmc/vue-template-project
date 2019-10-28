@@ -8,7 +8,7 @@
         .right
             h2(:style="h2Style") {{ fundName }}
             .labels 
-                fund-tag(:title="info.assetType")
+                //- fund-tag(:title="info.assetType")
                 fund-tag(:title="info.fundRisk")
             .feature {{ info.feature }}
 </template>

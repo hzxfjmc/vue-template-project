@@ -51,7 +51,6 @@ export default {
                         ? require('@/assets/img/fund/pdf.png')
                         : require('@/assets/img/fund/html.png')
             })
-            console.log(this.list)
         },
         async toJumpLink(item) {
             try {
@@ -69,14 +68,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-files {
-    height: 100%;
+    height: 96%;
+    margin: 0 2%;
     display: flex;
     // background: #fff;
     flex-direction: column;
+    justify-content: space-between;
     // justify-content: center;
     // align-items: center;
     .span {
         background: #fff;
+
         margin: 10px 0 0 10px;
         height: 110px;
         border-radius: 5px;

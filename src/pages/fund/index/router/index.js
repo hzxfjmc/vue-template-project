@@ -110,6 +110,40 @@ export default new Router({
             meta: { title: 'orderRecordDetail', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/order-record-detail/index.vue`)
+        },
+        {
+            name: 'income-details',
+            path: '/income-details',
+            meta: { title: 'incomeDetails', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/income-details/index.vue`)
+        },
+        {
+            name: 'home',
+            path: '/home',
+            meta: { title: 'incomeDetails', auth: true, cs: true },
+            component: () => import(`@/pages/fund/index/views/home/index.vue`)
+        },
+        {
+            name: 'fund-order-list',
+            path: '/fund-order-list',
+            meta: { title: 'fundOrderList', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-order-list/index.vue`)
+        },
+        {
+            name: 'fund-account',
+            path: '/fund-account',
+            meta: { title: 'fund-account', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-account/index.vue`)
+        },
+        {
+            name: 'fund-historical',
+            path: '/fund-historical',
+            meta: { title: 'fund-historical', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-historical/index.vue`)
         }
     ]
 })

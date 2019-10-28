@@ -9,17 +9,15 @@
                 v-for="(item, index) in list"
                 :key="index"
                 :to="{ name: 'fund-details', query: { id: `${item.fondId}` }}"
-                title=""
             )
                 Card(:info="item")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
-        .no-bond-box(v-if="load && list.length === 0")
+        .no-bond-box(v-if="load")
             .no-bond {{ $t('noBond') }}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { getFundList } from '@/service/finance-info-server.js'
-// import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
 export default {
     i18n: {
@@ -35,34 +33,43 @@ export default {
         Card
     },
     created() {
-        // this.handleGetFundBanner()
-        this.getListFundInfo()
+        this.getFundListV2()
     },
     data() {
         return {
             load: false,
             bannerUrl: [],
-            list: []
+            list: [],
+            pageNum: 1,
+            pageSize: 20,
+            total: 0,
+            currency: 2
         }
     },
     methods: {
-        // // 拉取债券banner
-        // async handleGetFundBanner() {
-        //     try {
-        //         // 基金暂时没有
-        //         let data = await bannerAdvertisement(21)
-        //         this.bannerUrl = (data && data.banner_list) || []
-        //     } catch (error) {
-        //         console.log('getBondBanner:error:>>>', error)
-        //     }
-        // },
         // 获取基金列表
-        async getListFundInfo() {
+        async getFundListV2() {
             try {
-                this.list = await getFundList()
-                this.load = true
+                this.list = []
+                const { list } = await getFundListV2({
+                    displayLocation: 1,
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    assetType: this.$route.query.type,
+                    currency: this.$route.query.currency
+                })
+                this.list = list
+                this.load = this.list.length == 0
             } catch (e) {
+                this.$toast(e.msg)
                 console.log('getListFundInfo:error:>>>', e)
+            }
+        }
+    },
+    watch: {
+        $route(to, from) {
+            if (from.path === '/home') {
+                this.getFundListV2()
             }
         }
     }

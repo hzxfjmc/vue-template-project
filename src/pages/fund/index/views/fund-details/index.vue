@@ -41,7 +41,7 @@ import {
 } from '@/service/finance-info-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
-import { getFundPosition } from '@/service/finance-server.js'
+import { getFundPositionV2 } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 
@@ -103,7 +103,8 @@ export default {
             flag: true, //赎回
             flag1: true, //追加
             flag2: true, //申购
-            step: 0
+            step: 0,
+            forbidPrompt: ''
         }
     },
     methods: {
@@ -111,25 +112,8 @@ export default {
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
                 this.handleBuyOrSell()
-                // if (!this.flag1) return
-                // console.log(312312)
-                // if (
-                //     !this.userInfo.assessResult ||
-                //     new Date().getTime() >
-                //         new Date(this.userInfo.validTime).getTime()
-                // ) {
-                //     return this.$router.push({
-                //         path: '/risk-assessment',
-                //         query: {
-                //             id: this.$route.query.id,
-                //             extendStatusBit: this.userInfo.extendStatusBit,
-                //             fundRiskType: this.fundRiskType,
-                //             currencyType: this.fundTradeInfoVO.currency.type
-                //         }
-                //     })
-                // }
             } else {
-                if (!this.flag) return
+                if (!this.flag) return this.$toast(this.forbidPrompt)
                 this.$router.push({
                     path: routerPath,
                     query: {
@@ -159,8 +143,10 @@ export default {
                     ? -this.fundHeaderInfoVO.apy
                     : this.fundHeaderInfoVO.apy
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
-                    this.fundHeaderInfoVO.netPrice
+                    this.fundHeaderInfoVO.netPrice,
+                    4
                 )
+                this.forbidPrompt = res.fundOverviewInfoVO.forbidPrompt
                 this.fundHeaderInfoVO.currencyType =
                     res.fundTradeInfoVO.currency.name
                 this.fundHeaderInfoVO.initialInvestAmount = transNumToThousandMark(
@@ -180,13 +166,14 @@ export default {
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
             } catch (e) {
+                this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
             }
         },
         //获取持仓数据
-        async getFundPosition() {
+        async getFundPositionV2() {
             try {
-                const res = await getFundPosition({
+                const res = await getFundPositionV2({
                     fundId: this.$route.query.id
                 })
                 this.holdInitState = res
@@ -210,7 +197,8 @@ export default {
                     this.holdDetailsShow = false
                 }
             } catch (e) {
-                console.log('getFundPosition:error:>>>', e)
+                this.$toast(e.msg)
+                console.log('getFundPositionV2:error:>>>', e)
             }
         },
         getSwitchFundNetPrice(time) {
@@ -304,7 +292,7 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell() {
-            if (!this.flag2) return
+            if (!this.flag2) return this.$toast(this.forbidPrompt)
             // 未登录或未开户
             if (!this.userInfo) {
                 await this.$dialog.alert({
@@ -360,32 +348,28 @@ export default {
                     (this.userInfo.extendStatusBit & 16) > 0
                         ? '/fund-subscribe'
                         : '/open-permissions'
-                this.$router.push(data)
+                // this.$router.push(data)
+                this.openProtocol(
+                    window.location.origin +
+                        '/wealth/fund/index.html#' +
+                        data.path
+                )
+            }
+        },
+        //App页面跳转
+        async openProtocol(url) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
             }
         }
-        // menu() {
-        //     this.scroll = this.$refs.content.scrollTop
-        // },
-        // scrollTop() {
-        //      this.$refs.content.scrollTop = localStorage.get('scroll')
-        // }
     },
     mounted() {
         this.getCurrentUser()
         this.getFundNetPrice()
         this.getFundDetail()
-        this.getFundPosition()
-        // if (localStorage.get('scrollFlag') == 2) {
-        //     document
-        //         .querySelector('.fund-content')
-        //         .addEventListener('scroll', this.menu)
-        //     this.scrollTop()
-        // } else {
-        //     document
-        //         .querySelector('.fund-content')
-        //         .addEventListener('scroll', this.menu)
-        // }
-        // localStorage.put('scrollFlag', 1)
+        this.getFundPositionV2()
     }
 }
 </script>

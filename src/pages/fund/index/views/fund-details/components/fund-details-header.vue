@@ -1,5 +1,6 @@
 <template lang="pug">
 .funds-details-header
+    .fund-details-header-top.border-bottom
         h3 {{fundHeaderInfoVO.fundName}}
         p.funds-details-subtitle ISIN：{{fundHeaderInfoVO.isin}}
         .funds-details-number
@@ -11,8 +12,8 @@
             .header-right
                 span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
                 p.number-black {{fundHeaderInfoVO.currencyType}}{{fundHeaderInfoVO.netPrice}}
-        .funds-details-footer
-            p {{$t('minInvestment')}} {{fundHeaderInfoVO.currencyType}} {{fundHeaderInfoVO.initialInvestAmount}}
+    .funds-details-footer
+        .block-left
             .fund-tag
                 van-tag(
                     color="#2177FF"
@@ -23,8 +24,9 @@
                     color="#2177FF"
                     plain
                     ) {{ fundHeaderInfoVO.fundRisk }}
-            //- span {{fundHeaderInfoVO.assetType}}
-            //- span {{fundHeaderInfoVO.fundRisk}}
+        .block-right
+            p {{$t('minInvestment')}} {{fundHeaderInfoVO.currencyType}} {{fundHeaderInfoVO.initialInvestAmount}}
+        .block-bottom {{fundHeaderInfoVO.feature}}
 </template>
 <script>
 import dayjs from 'dayjs'
@@ -75,7 +77,14 @@ export default {
     float: left;
     width: 100%;
     min-height: 174px;
-    padding: 10px;
+    // padding: 10px;
+    .fund-details-header-top {
+        // border-bottom: 1px solid red;
+        width: 100%;
+        padding: 10px;
+        // display: flex;
+        float: left;
+    }
     h3 {
         font-size: 0.32rem;
         color: $text-color;
@@ -130,26 +139,33 @@ export default {
         float: left;
         // border: 1px solid red;
         margin: 10px 0;
+        padding: 0 10px;
+        // display: flex;
+        .block-left {
+            width: 50%;
+            float: left;
+        }
+        .block-right {
+            display: flex;
+            width: 50%;
+        }
         p {
             color: $text-color5;
-            float: left;
+            text-align: right;
+            width: 100%;
             font-size: 0.24rem;
-            margin: 0 20px 0 0;
             line-height: 28px;
         }
         .fund-tag {
+            padding: 3px 0 3px 3px;
             float: left;
-            // border: 1px solid red;
-            padding: 3px;
         }
-        // span {
-        //     float: left;
-        //     font-size: 0.2rem;
-        //     border: 1px solid rgba(33, 119, 255, 1);
-        //     margin: 0 3px;
-        //     padding: 0 5px;
-        //     color: rgba(33, 119, 255, 1);
-        // }
+        .block-bottom {
+            width: 100%;
+            font-size: 12px;
+            padding: 0 0 0 5px;
+            color: $text-color5;
+        }
     }
 }
 </style>
