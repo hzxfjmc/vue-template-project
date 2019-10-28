@@ -36,9 +36,9 @@ export default {
         console.log(this.bondRiskLevel, '0000')
         // 等待预定请求完成后，执行下一步操作
         this.getCurrentUser()
-        // if (!this.$route.query.fundRiskType) {
-        //     this.handleGetBondDetail()
-        // }
+        if (!this.$route.query.fundRiskType) {
+            this.handleGetBondDetail()
+        }
         this.handleSetupResult()
     },
     data() {
@@ -64,22 +64,22 @@ export default {
         // 将多个异步聚合为同步
         async handleSetupResult() {
             await Promise.all([
-                this.selectHandle(),
+                this.getFundDetailFun(),
                 this.handleRiskAssessResult()
             ])
             if (this.userRiskLevel === 0) {
                 // 尚未风评
                 this.riskMatchResult = 1
-                // this.btnText = this.$t('startRisk')
+                this.btnText = this.$t('startRisk')
             } else if (this.userRiskLevel < this.bondRiskLevel) {
                 console.log(this.bondRiskLevel, 'bondRiskLevel')
                 // 风评级别不够
                 this.riskMatchResult = 2
-                // this.btnText = this.$t('againRisk')
+                this.btnText = this.$t('againRisk')
             } else {
                 // 风评级别够了，可以购买
                 this.riskMatchResult = 3
-                // this.btnText = this.$t('sure')
+                this.btnText = this.$t('sure')
             }
             this.isShowPage = true
         },
@@ -87,7 +87,6 @@ export default {
         async handleRiskAssessResult() {
             try {
                 let res = await riskAssessResult()
-                res = res ? res : {}
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName = res.assessResultName
                 this.number = res.validCount
@@ -110,13 +109,6 @@ export default {
                 console.log('riskAssessResult:error:>>>', e)
             }
         },
-        async selectHandle() {
-            if (!this.$route.query.fundRiskType) {
-                await this.handleGetBondDetail()
-            } else {
-                await this.getFundDetailFun()
-            }
-        },
         // 获取债券信息
         async handleGetBondDetail() {
             try {
@@ -134,16 +126,12 @@ export default {
         },
         // 获取基金信息
         async getFundDetailFun() {
-            try {
-                let res = await getFundDetail({
-                    displayLocation: 1,
-                    fundId: this.$route.query.id
-                })
-                console.log(this.$route.query.id, 'id')
-                this.bondRiskLevel = res.fundHeaderInfoVO.fundRiskType
-            } catch (error) {
-                console.log('getFundDetailFun:error:>>> ', error)
-            }
+            let res = await getFundDetail({
+                displayLocation: 1,
+                fundId: this.$route.query.id
+            })
+            console.log(this.$route.query.id, 'id')
+            this.bondRiskLevel = res.fundHeaderInfoVO.fundRiskType
         },
         // 操作按钮
         handleAction() {
