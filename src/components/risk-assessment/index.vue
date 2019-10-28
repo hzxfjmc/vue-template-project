@@ -1,11 +1,11 @@
 <template lang="pug">
     yx-container.risk-assessment-wrapper
-        .risk-assessment-tips(slot="top") 
-            .content 
+        .risk-assessment-tips(slot="top")
+            .content
                 .top
-                    span.quotes 
+                    span.quotes
                     span.text {{$t('riskAssessmentTipsTop')}}
-                .bottom 
+                .bottom
                     .span {{$t('riskAssessmentTipsBottom')}}
                     span.only-once {{$t('onlyOnce')}}
                     span {{$t('riskAgainText')}}
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
+import riskAssessmentMixin from './mixin.js'
 export default {
     mixins: [riskAssessmentMixin],
     i18n: {

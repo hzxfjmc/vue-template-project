@@ -5,7 +5,7 @@ import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
 import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
 import jsBridge from '@/utils/js-bridge.js'
-
+import { mapGetters } from 'vuex'
 export default {
     name: 'RiskAppropriateResult',
     i18n: i18nAppropriateData,
@@ -15,6 +15,10 @@ export default {
         [Button.name]: Button
     },
     computed: {
+        ...mapGetters(['appType']),
+        wealthPage() {
+            return this.appType.Ch ? 'bond' : 'bond-hk'
+        },
         resetTimes() {
             return {
                 zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
@@ -105,13 +109,17 @@ export default {
                 this.resetTime = res.resetTime
                 this.damagedStatus = res.damagedStatus
                 if (res.damagedStatus === 1) {
-                    this.$router.replace({
-                        path: '/risk-assessment-result',
-                        query: {
-                            id: this.$route.query.id,
-                            fundRiskType: this.bondRiskLevel
-                        }
-                    })
+                    let url =
+                        window.location.origin +
+                        `/wealth/fund/index.html#/risk-assessment-result?id=${this.$route.query.id}&fundRiskType=${this.bondRiskLevel}&wealthPage=${this.wealthPage}`
+                    window.location.replace(url)
+                    // this.$router.replace({
+                    //     path: '/risk-assessment-result',
+                    //     query: {
+                    //         id: this.$route.query.id,
+                    //         fundRiskType: this.bondRiskLevel
+                    //     }
+                    // })
                 }
                 console.log(this.damagedStatus, 'this.damagedStatus')
             } catch (e) {
@@ -150,13 +158,17 @@ export default {
             if (this.isDisabled) return
             if (this.userRiskLevel === 0) {
                 // 尚未风评，跳转到风险测评
-                this.$router.push({
-                    path: '/risk-assessment',
-                    query: {
-                        id: this.$route.query.id,
-                        fundRiskType: this.$route.query.fundRiskType
-                    }
-                })
+                let url =
+                    window.location.origin +
+                    `/wealth/fund/index.html#/risk-assessment?id=${this.$route.query.id}&direction=${this.$route.query.direction}&fundRiskType=${this.bondRiskLevel}&wealthPage=${this.wealthPage}`
+                window.location.replace(url)
+                // this.$router.push({
+                //     path: '/risk-assessment',
+                //     query: {
+                //         id: this.$route.query.id,
+                //         fundRiskType: this.$route.query.fundRiskType
+                //     }
+                // })
             } else if (this.userRiskLevel < this.bondRiskLevel) {
                 // 风险等级不够 弹出剩余次数提示
                 this.showRemainingNum = true

@@ -90,7 +90,7 @@ export default {
     },
     methods: {
         // 提交测试题目
-        async handleSubmit(action) {
+        async handleSubmit() {
             if (!this.submitBtnDisabled && this.canSubmit) return
             this.canSubmit = true
             try {
@@ -113,28 +113,24 @@ export default {
                         }
                     }
                 })
-                let submitFlag = false
-                if (action === 'submit') {
-                    submitFlag = true
-                }
+
+                // 提交测评
                 let { assessResult } = await riskAssessAnswer({
-                    submitFlag,
+                    submitFlag: true,
                     assessOptionParams: serializeData,
                     subjectVersion: this.version
                 })
-                // 点击提交按钮时候，才进行跳转
-                if (action === 'submit') {
-                    // 拉取风险测评结果
-                    let res = await riskAssessResult()
-                    this.assessDefinition = res.assessDefinition
-                    if (res.damagedStatus === 1) {
-                        this.showEasyCustomer = true
-                        console.log(this.showEasyCustomer)
-                    } else {
-                        this.jumpToResult()
-                    }
-                }
                 console.log(assessResult)
+
+                // 拉取风险测评结果
+                let res = await riskAssessResult()
+                this.assessDefinition = res.assessDefinition
+                if (res.damagedStatus === 1) {
+                    this.showEasyCustomer = true
+                    console.log(this.showEasyCustomer)
+                } else {
+                    this.jumpToResult()
+                }
             } catch (e) {
                 this.canSubmit = false
                 console.log('riskAssessAnswer:error:>>>', e)
@@ -165,11 +161,22 @@ export default {
         // },
         // 跳转
         jumpToResult() {
-            if (this.$route.query.id) {
+            let id = this.$route.query.id
+            if (id) {
+                let wealthPage = this.$route.query.wealthPage
+                let direction = this.$route.query.direction
+                if (wealthPage) {
+                    let url =
+                        window.location.origin +
+                        `/wealth/${wealthPage}/index.html#/risk-appropriate-result?id=${id}&direction=${direction}`
+                    window.location.replace(url)
+                    return
+                }
+
                 this.$router.replace({
                     path: '/risk-appropriate-result',
                     query: {
-                        id: this.$route.query.id,
+                        id: id,
                         currencyType: this.$route.query.currencyType,
                         fundRiskType: this.$route.query.fundRiskType
                     }
