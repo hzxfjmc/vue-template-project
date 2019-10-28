@@ -1,3 +1,4 @@
+import YxContainerBetter from '@/components/yx-container-better'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
@@ -6,7 +7,8 @@ import { mapState } from 'vuex'
 export default {
     name: 'BondList',
     components: {
-        [Panel.name]: Panel
+        [Panel.name]: Panel,
+        YxContainerBetter
     },
     created() {
         this.id = this.$route.query.id - 0
@@ -22,6 +24,8 @@ export default {
             bondEditableInfo: {},
             bondUneditableInfo: {},
             currentPrice: {},
+            paymentAfterTaxPerYear: '',
+            paymentInfo: {},
             prices: [],
             id: 0,
             bondName: '',
@@ -45,12 +49,16 @@ export default {
                     bondEditableInfo,
                     bondUneditableInfo,
                     currentPrice,
+                    paymentAfterTaxPerYear,
+                    paymentInfo,
                     prices
                 } = await getBondDetail(this.id)
 
                 this.bondEditableInfo = bondEditableInfo || {}
                 this.bondUneditableInfo = bondUneditableInfo || {}
                 this.currentPrice = currentPrice || {}
+                this.paymentAfterTaxPerYear = paymentAfterTaxPerYear || ''
+                this.paymentInfo = paymentInfo || {}
                 this.prices = prices || []
                 this.bondName =
                     (this.bondEditableInfo.issuer &&
@@ -95,7 +103,12 @@ export default {
                 return
             }
             // 买入还是卖出
-            let direction = type === 'buy' ? 1 : 2
+            let direction = 2,
+                path = '/transaction-sell'
+            if (type === 'buy') {
+                direction = 1
+                path = '/risk-appropriate-result'
+            }
             // 未签名，跳转到签名页面
             if (!this.isSigned) {
                 this.$router.push({
@@ -110,7 +123,7 @@ export default {
             }
 
             this.$router.push({
-                path: '/risk-appropriate-result',
+                path,
                 query: {
                     id: this.id,
                     bondName: this.bondName,

@@ -32,7 +32,7 @@
             slot="bottom"
             class="foot-button"
             :text="btnText"
-            :disabled="!isDisabled"
+            :disabled="isDisabled"
             @click="handleAction"
         )
 </template>

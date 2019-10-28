@@ -19,7 +19,7 @@
                     .process-step__line
                 .process-step
                     .process-step__title 到期退出
-                        .process-step__title-tips {{ bondUneditableInfo && bondUneditableInfo.dueTime | date-format('YYYY.MM.DD') }}
+                        .process-step__title-tips {{ dueTime | date-format('YYYY.MM.DD') }}
                     .process-step__circle-container
                         i.process-step__circle
                     .process-step__line
