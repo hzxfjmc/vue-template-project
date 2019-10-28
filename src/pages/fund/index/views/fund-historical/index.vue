@@ -96,7 +96,6 @@ export default {
                     item.price = transNumToThousandMark(item.price)
                     item.flag = item.price > 0 ? 0 : item.price < 0 ? 1 : 2
                 })
-                console.log(this.list)
             } catch (e) {
                 this.$toast(e.msg)
             }
