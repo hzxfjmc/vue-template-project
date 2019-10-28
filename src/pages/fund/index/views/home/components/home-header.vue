@@ -27,17 +27,17 @@
                         span {{$t('AllTotalMarketPostion')}} ({{holdData.currency == 2 ? 'HKD':'USD'}}) 
                         i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click="hideNumber")
                     .header-content(@click="toFundAccount")
-                        span(v-if="showMoney") {{firstPositionAmount}}
-                        em(v-if="showMoney") .{{secondPositionAmount}}
+                        span(v-if="showMoney") {{firstPositionAmount || '--'}}
+                        em(v-if="showMoney") .{{secondPositionAmount || '--'}}
                         span(v-if="!showMoney") *******
                     .header-content-bottom
                         .header-row-left
                             span {{$t('HoldIncome')}}
-                            em(v-if="showMoney") {{holdData.positionEarnings}}
+                            em(v-if="showMoney") {{holdData.positionEarnings || '--'}}
                             em.element-hide(v-else) ****
                         .header-row-right
                             span {{$t('SevenDayIncome')}}
-                            em(v-if="showMoney") {{holdData.weekEarnings}}
+                            em(v-if="showMoney") {{holdData.weekEarnings || '--'}}
                             em.element-hide(v-else) ****
             .block-element
                 slot(name="bannar")

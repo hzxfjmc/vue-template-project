@@ -19,16 +19,16 @@
                         em(v-if="holdData.currency == 2") {{$t('myHkdAccount')}}
                         em(v-if="holdData.currency == 1") {{$t('myUsdAccount')}}
                         i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
-                    .number-price(v-if="showPsd") {{firstPositionAmount}}.
-                        em(v-if="showPsd") {{secondPositionAmount}}
+                    .number-price(v-if="showPsd") {{firstPositionAmount || '--'}}.
+                        em(v-if="showPsd") {{secondPositionAmount || '--'}}
                     .number-price(v-if="!showPsd") ******
                 
                 .header-content-right
                     span {{$t('profitPostion')}}
-                        em(v-if="showPsd") {{holdData.positionAmountFlag}}{{holdData.positionEarnings}}
+                        em(v-if="showPsd") {{holdData.positionAmountFlag}}{{holdData.positionEarnings || '--'}}
                         em(v-else) ****
                     span {{$t('SevenDayIncome')}}
-                        em(v-if="showPsd") {{holdData.positionEarningsFlag}}{{holdData.weekEarnings}}
+                        em(v-if="showPsd") {{holdData.positionEarningsFlag}}{{holdData.weekEarnings || '--'}}
                         em(v-else) ****
             
             .header-footer-tab(class="border-top")
