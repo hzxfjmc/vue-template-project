@@ -50,7 +50,7 @@ export default {
         zhCHS: {
             myHkdAccount: '港币资产',
             myUsdAccount: '美元资产',
-            profitPostion: '持仓盈亏',
+            profitPostion: '持仓收益',
             SevenDayIncome: '近七日收益',
             IncomeDetails: '收益明细',
             OrderRecord: '订单记录'
@@ -58,7 +58,7 @@ export default {
         zhCHT: {
             myHkdAccount: '港幣資產',
             myUsdAccount: '美元資產',
-            profitPostion: '持仓盈亏',
+            profitPostion: '持倉收益',
             SevenDayIncome: '近七日收益',
             IncomeDetails: '收益明細',
             OrderRecord: '訂單記錄'
@@ -66,7 +66,7 @@ export default {
         en: {
             myHkdAccount: 'HKD Assets',
             myUsdAccount: 'USD Assets',
-            profitPostion: '持仓盈亏',
+            profitPostion: 'Total Return',
             SevenDayIncome: 'RTN 7d ',
             IncomeDetails: 'Revenue Detail',
             OrderRecord: 'Order History'

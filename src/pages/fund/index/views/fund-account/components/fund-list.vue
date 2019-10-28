@@ -55,7 +55,7 @@ export default {
         zhCHT: {
             amountMoney: '金額',
             share: '份額',
-            profitPostion: '持仓收益',
+            profitPostion: '持倉收益',
             SevenDayIncome: '近七日數據',
             Redemption: '贖回中',
             subscribe: '申購中',
@@ -64,7 +64,7 @@ export default {
         en: {
             amountMoney: 'Amount',
             share: 'Unit',
-            profitPostion: '持仓收益',
+            profitPostion: 'Total Return',
             SevenDayIncome: 'Data in Last 7d',
             Redemption: 'Redeming',
             subscribe: 'Purchasing',
