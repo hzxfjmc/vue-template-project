@@ -307,7 +307,8 @@ export default {
             money: '金额',
             done: '完成',
             iKnow: '我知道了',
-            moneyToAcc: '资金到达证券账户'
+            moneyToAcc: '资金到达证券账户',
+            protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息'
         },
         zhCHT: {
             sellSuccess: '贖回成功',
@@ -331,7 +332,8 @@ export default {
             money: '金額',
             done: '完成',
             iKnow: '我知道了',
-            moneyToAcc: '資金到達證券賬戶'
+            moneyToAcc: '資金到達證券賬戶',
+            protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息'
         },
         en: {
             sellSuccess: 'Redemption Successful',
@@ -355,7 +357,9 @@ export default {
             money: 'Amount',
             done: 'Completed',
             iKnow: 'Got it',
-            moneyToAcc: 'Funds Credited to Securities Account'
+            moneyToAcc: 'Funds Credited to Securities Account',
+            protocolTips:
+                'I have read and agree to the service agreement and risk warning, and consult relevant information'
         }
     }
 }
