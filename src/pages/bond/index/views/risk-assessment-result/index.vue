@@ -1,10 +1,14 @@
 <template lang="pug">
-    .risk-assessment-result-wrapper(v-show="isShowPage")
-        .risk-result__hd
-            p 您的风评结果为：
-        .risk-result__md {{ assessmentType  }}
-        .risk-result__bd 上次风评日期：{{ assessmentTime | date-format('YYYY年MM月DD日') }}
-        fixed-operate-btn(
+    yx-container-better(v-show="isShowPage")
+        .risk-assessment-result-wrapper(slot="main")
+            .risk-result__hd
+                p 您的风评结果为：
+            .risk-result__md {{ assessmentType  }}
+            .risk-result__bd 上次风评日期：{{ assessmentTime | date-format('YYYY年MM月DD日') }}
+        van-button(
+            type="info"
+            slot="bottom"
+            class="foot-button"
             text="重新测评"
             @click="handleAction"
         )

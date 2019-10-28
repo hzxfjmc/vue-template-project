@@ -1,9 +1,13 @@
+import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import dayjs from 'dayjs'
 
 export default {
     name: 'RiskAssessmentResult',
+    components: {
+        YxContainerBetter
+    },
     async created() {
         // 等待预定请求完成后，执行下一步操作
         await this.handleRiskAssessResult()

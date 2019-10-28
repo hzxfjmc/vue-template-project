@@ -87,8 +87,9 @@ export default {
             font-size: 0.32rem;
         }
     }
-    .fix-operate-btn.active {
-        background-color: $sell-color;
-    }
+}
+.foot-button.active {
+    background-color: $sell-color;
+    border-color: $sell-color;
 }
 </style>

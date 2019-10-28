@@ -27,9 +27,18 @@ import './global-validate'
 import Vue from 'vue'
 
 import axios from '../http-request'
-import { isYouxinIos, isYouxinApp, appType, setTitle } from '../html-utils.js'
-import jsBridge from '../js-bridge'
+
 import { wechatShare } from '@/utils/share/wechat.js'
+
+// 友信证券公共库
+import { jsBridge, uSmartInit, htmlUtils, DOMAIN } from 'yx-base-h5'
+
+const { isYouxinIos, isYouxinApp, appType, setTitle } = htmlUtils
+// 友信证券初始化方法
+uSmartInit()
+
+// import { isYouxinIos, isYouxinApp, appType, setTitle } from '../html-utils.js'
+// import jsBridge from '../js-bridge'
 
 // @babel/preset-env会根据源代码中出现的语言特性自动检测需要的 polyfill
 // 但不会检测vue模板中的polyfill，防止仅在模板中使用了includes而报错，故需要引用
@@ -47,7 +56,7 @@ Vue.prototype.$debug = true
 Vue.prototype.$bus = new Vue()
 
 // 当前环境和当前的环境配置的host
-import DOMAIN from '../DOMAIN.js'
+// import DOMAIN from '../DOMAIN.js'
 Vue.prototype.$DOMAIN = DOMAIN
 
 const appOrigin = appType.Ch
