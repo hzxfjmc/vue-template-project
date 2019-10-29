@@ -246,7 +246,7 @@ export default {
                     fundId: this.$route.query.id,
                     fundNetPriceDateType: time || 5
                 })
-                // console.log(res)
+                console.log(res)
                 this.copyinitEchartList = res
                 this.initEchartList = res
                 if (

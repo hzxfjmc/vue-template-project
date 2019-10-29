@@ -13,10 +13,7 @@
 import HomeHeader from './components/home-header'
 import HomeFundList from './components/home-fund-list'
 import { getFundPositionList } from '@/service/finance-server.js'
-import {
-    getFundListV2,
-    getReleaseFundAssetType
-} from '@/service/finance-info-server.js'
+import { getFundListV2 } from '@/service/finance-info-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
@@ -63,10 +60,11 @@ export default {
                 console.log('getFundListV2:error:>>> ', e)
             }
         },
+        //切换港币和美元
         handlerCurrency(data) {
             this.currency = data
             this.getFundPositionList()
-            this.getReleaseFundAssetType()
+            // this.getReleaseFundAssetType(true)
         },
         async getFundPositionList() {
             try {
@@ -87,37 +85,10 @@ export default {
                 this.$toast(e.msg)
                 console.log('getFundPositionList:error:>>> ', e)
             }
-        },
-        //获取已发布的基金底层分类
-        async getReleaseFundAssetType() {
-            try {
-                this.list = await getReleaseFundAssetType({
-                    currency: this.currency
-                })
-                this.list.map(item => {
-                    switch (item.assetType) {
-                        case 1:
-                            item.icon = 'icon-icon-sharesfund'
-                            break
-                        case 2:
-                            item.icon = 'icon-iconFFzhaiquanjijin'
-                            break
-                        case 3:
-                            item.icon = 'icon-iconFFhunhejijin'
-                            break
-                        case 4:
-                            item.icon = 'icon-icon-currency-fund'
-                            break
-                    }
-                })
-                console.log(this.list)
-            } catch (e) {
-                this.$toast(e.msg)
-            }
         }
     },
     mounted() {
-        this.getReleaseFundAssetType()
+        // this.getReleaseFundAssetType()
         this.getFundPositionList()
         this.getFundListV2()
     }

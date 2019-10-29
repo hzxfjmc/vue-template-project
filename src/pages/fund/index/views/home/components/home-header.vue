@@ -15,16 +15,16 @@
             .block-home-content
                 .header-content-item
                     .list-item(
-                        v-for="(item,index) in lists" 
+                        v-for="(item,index) in list" 
                         :key="item.icon" 
-                        :style="{width:`${100/(lists.length)}%`}"
+                        :style="{width:`${100/(list.length)}%`}"
                         @click='toFundList(item,index)')
                         i.iconfont(:class="item.icon")
                         span {{item.assetTypeName}}
                 
                 .header-content-number
                     .header-content-top
-                        span {{$t('AllTotalMarketPostion')}} ({{holdData.currency == 2 ? 'HKD':'USD'}}) 
+                        span {{$t('AllTotalMarketPostion')}} ({{this.currency == 2 ? 'HKD':'USD'}}) 
                         i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click="hideNumber")
                     .header-content(@click="toFundAccount")
                         span(v-if="showMoney") {{firstPositionAmount || '--'}}
@@ -47,6 +47,7 @@
 <script>
 import { Tab, Tabs } from 'vant'
 import localStorage from '@/utils/local-storage'
+import { getReleaseFundAssetType } from '@/service/finance-info-server.js'
 export default {
     components: {
         [Tab.name]: Tab,
@@ -81,6 +82,7 @@ export default {
             showMoney: true,
             swipeable: true, //开启手势滑动
             list: [],
+            currency: 2,
             active: 0
         }
     },
@@ -107,8 +109,10 @@ export default {
     methods: {
         //修改货币
         handlerCurrency(name) {
-            name = name == 0 ? 2 : 1
-            this.$emit('handlerCurrency', name)
+            localStorage.put('activeTab', name)
+            this.currency = name == 0 ? 2 : 1
+            this.getReleaseFundAssetType()
+            // this.$emit('handlerCurrency', name)
         },
         //隐藏
         hideNumber() {
@@ -123,9 +127,44 @@ export default {
             this.$router.push({
                 path: '/fund-account'
             })
+        },
+        //获取已发布的基金底层分类
+        async getReleaseFundAssetType() {
+            try {
+                let data = {
+                    currency: this.currency
+                }
+                if (localStorage.get('activeTab')) {
+                    data.currency = localStorage.get('activeTab') == 0 ? 2 : 1
+                }
+                this.list = await getReleaseFundAssetType(data)
+                this.list.map(item => {
+                    switch (item.assetType) {
+                        case 1:
+                            item.icon = 'icon-icon-sharesfund'
+                            break
+                        case 2:
+                            item.icon = 'icon-iconFFzhaiquanjijin'
+                            break
+                        case 3:
+                            item.icon = 'icon-iconFFhunhejijin'
+                            break
+                        case 4:
+                            item.icon = 'icon-icon-currency-fund'
+                            break
+                    }
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     mounted() {
+        this.getReleaseFundAssetType()
+        this.active =
+            localStorage.get('activeTab') != null
+                ? localStorage.get('activeTab')
+                : 0
         this.showMoney =
             localStorage.get('showMoney') != null
                 ? localStorage.get('showMoney')

@@ -2,10 +2,12 @@
 .fund-account-container
     fundAccountHeader(
         @toRouterPath = "toRouterPath"
+        @changeEyeTab = "changeEyeTab"
         @handlerCurrency="handlerCurrency"
         :holdData="holdData")
         fundList(
             slot="fundList"
+            :eyeTab="eyeTab"
             :noMoreShow="noMoreShow"        
             :fundList="fundList")
 
@@ -15,13 +17,15 @@ import fundAccountHeader from './components/fund-account-header'
 import fundList from './components/fund-list'
 import { getFundPositionList } from '@/service/finance-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import localStorage from '@/utils/local-storage'
 export default {
     data() {
         return {
             holdData: {},
             fundList: [],
             currency: 2,
-            noMoreShow: false
+            noMoreShow: false,
+            eyeTab: localStorage.get('showMoney')
         }
     },
     components: {
@@ -35,6 +39,10 @@ export default {
                 query: { currency: this.currency }
             })
         },
+        changeEyeTab(data) {
+            this.eyeTab = data
+        },
+        //切换货币
         handlerCurrency(data) {
             this.currency = data
             this.getFundPositionList()
@@ -73,6 +81,7 @@ export default {
         }
     },
     mounted() {
+        this.currency = localStorage.get('activeTab') == 0 ? 2 : 1
         this.getFundPositionList()
     }
 }
