@@ -121,13 +121,13 @@ export default {
             flex-direction: row;
             .fund-row {
                 width: 25%;
-                text-align: right;
+                // text-align: right;
                 span {
                     font-size: 0.24rem;
                     color: rgba(25, 25, 25, 0.5);
                 }
                 .block-element-number {
-                    font-size: 0.32rem;
+                    font-size: 15px;
                     font-family: 'yxFontDINPro-Regular';
                 }
             }

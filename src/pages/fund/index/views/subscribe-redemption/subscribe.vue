@@ -16,7 +16,7 @@
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{item.value}}%
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
-                                input(v-model="item.value" type="number")
+                                input(v-model="item.value" placeHolder="最小买入+买入单位*N" type="number")
                             .right-item-other(v-else)
                                 span {{item.value}}
                 FundSteps(
