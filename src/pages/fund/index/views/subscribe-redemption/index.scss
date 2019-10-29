@@ -129,10 +129,29 @@
             }
             .buy-money {
                 input {
-                    width: 100%;
+                    width: 60%;
                     font-size: 24px;
                     text-align: right;
                     border:none;
+                    line-height: 30px;
+                    float:left;
+                }
+                input::-webkit-input-placeholder {
+                    /* placeholder颜色  */
+                    color: #aab2bd;
+                    /* placeholder字体大小  */
+                    font-size: 14px;
+                    padding:0 0 20px 0;
+                    /* placeholder位置  */
+                    text-align: right;
+                }
+                span{
+                    display: inline-block;
+                    height:100%;
+                    float:right;
+                    margin:0 5px 0 0;
+                    line-height:38px;
+                    color:#0D50D8;
                 }
             }
 
@@ -184,6 +203,15 @@
                 text-align: right;
                 border:none;
             }
+              input::-webkit-input-placeholder {
+                    /* placeholder颜色  */
+                    color: #aab2bd;
+                    /* placeholder字体大小  */
+                    font-size: 14px;
+                    padding:0 0 20px 0;
+                    /* placeholder位置  */
+                    text-align: right;
+                }
         }
         .line {
             height: 56px;

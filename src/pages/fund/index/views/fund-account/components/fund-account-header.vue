@@ -74,7 +74,7 @@ export default {
     },
     data() {
         return {
-            width: 0,
+            width: 30,
             active: 0,
             swipeable: true,
             showPsd: true
@@ -101,17 +101,22 @@ export default {
         },
         //修改货币
         handlerCurrency(name) {
+            localStorage.put('activeTab', name)
             name = name == 0 ? 2 : 1
             this.$emit('handlerCurrency', name)
         },
         hideNumber() {
             this.showPsd = !this.showPsd
             localStorage.put('showMoney', this.showPsd)
+            this.$emit('changeEyeTab', this.showPsd)
         }
     },
     mounted() {
+        this.active =
+            localStorage.get('activeTab') != null
+                ? localStorage.get('activeTab')
+                : 0
         this.showPsd = localStorage.get('showMoney')
-        console.log(this.showPsd)
     }
 }
 </script>
@@ -145,7 +150,7 @@ export default {
     // margin: 20px 0 10px 0;
     .header-content-left {
         flex: 1;
-        width: 60%;
+        width: 52%;
         .title {
             color: rgba(255, 255, 255, 0.6);
             line-height: 20px;
@@ -169,7 +174,7 @@ export default {
     }
     .header-content-right {
         flex: 1;
-        width: 40%;
+        width: 43%;
         margin: 28px 0 0 0;
         span {
             display: inline-block;

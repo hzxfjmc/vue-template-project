@@ -73,7 +73,7 @@ export default {
                 })
                 this.pageNum = pageNum
                 this.pageSize = pageSize
-                this.list = list
+                this.list = this.list.concat(list)
                 this.total = total
                 this.list.map((item, index) => {
                     item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
@@ -96,6 +96,9 @@ export default {
                     item.price = transNumToThousandMark(item.price)
                     item.flag = item.price > 0 ? 0 : item.price < 0 ? 1 : 2
                 })
+                this.noMoreShow = this.total == 0
+                // this.finishedText = this.$t('nomore1')
+                this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
                 this.$toast(e.msg)
             }

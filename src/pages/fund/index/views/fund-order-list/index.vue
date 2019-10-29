@@ -4,6 +4,7 @@
         .block-list(class="border-bottom" v-for="(item,index) in list")
             .block-left 
                 span.element-fund-name {{item.tradeTypeName}}
+                span.element-fund-name1 {{$t('fundName')}}
                 span.element-price {{$t('amountMoney')}}
                 span.element-time {{$t('time')}}
             .block-right 
@@ -12,6 +13,7 @@
                 span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.externalName}}
                 span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
                 span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
+                span.element-time {{item.fundBaseInfoVO.fundName}}
                 span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
                 span.element-time {{item.orderTime}}
     
@@ -30,18 +32,21 @@ export default {
     },
     i18n: {
         zhCHS: {
+            fundName: '基金名称',
             amountMoney: '金额',
             time: '时间',
             nomore: '暂无订单记录',
             nomore1: '无更多内容'
         },
         zhCHT: {
+            fundName: '基金名稱',
             amountMoney: '金額',
             time: '时间',
             nomore: '暫無訂單記錄',
             nomore1: '無更多內容'
         },
         en: {
+            fundName: 'Fund Name',
             amountMoney: 'Amount',
             time: '时间',
             nomore: 'No Order Record',

@@ -3,6 +3,7 @@
     HomeHeader(
         @handlerCurrency="handlerCurrency"
         @toFundList = "toFundList"
+        :lists="list"
         :holdData="holdData")
         .home-bannar(slot="bannar")
             img(src="https://tse4-mm.cn.bing.net/th?id=OIP.bbOTYYnZGn7AGDuzCi12MgHaEl&w=299&h=182&c=7&o=5&dpr=2&pid=1.7")
@@ -23,7 +24,8 @@ export default {
         return {
             holdData: {},
             currency: 2,
-            fundList: []
+            fundList: [],
+            list: []
         }
     },
     methods: {
@@ -58,9 +60,11 @@ export default {
                 console.log('getFundListV2:error:>>> ', e)
             }
         },
+        //切换港币和美元
         handlerCurrency(data) {
             this.currency = data
             this.getFundPositionList()
+            // this.getReleaseFundAssetType(true)
         },
         async getFundPositionList() {
             try {
@@ -84,6 +88,7 @@ export default {
         }
     },
     mounted() {
+        // this.getReleaseFundAssetType()
         this.getFundPositionList()
         this.getFundListV2()
     }

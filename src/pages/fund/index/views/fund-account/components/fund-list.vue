@@ -5,32 +5,39 @@
         .fund-list-num
             .fund-row
                 span {{$t('SevenDayIncome')}}
-                .block-element-number {{item.weekEarnings}}
+                .block-element-number(v-if="eyeTab") {{item.weekEarnings}}
+                .block-element-number(v-else) ****
             .fund-row
                 span {{$t('profitPostion')}}
-                .block-element-number {{item.positionEarnings}}
+                .block-element-number(v-if="eyeTab") {{item.positionEarnings}}
+                .block-element-number(v-else) ****
             .fund-row
                 span {{$t('amountMoney')}}
-                .block-element-number {{item.positionAmount}}
+                .block-element-number(v-if="eyeTab") {{item.positionAmount}}
+                .block-element-number(v-else) ****
             .fund-row
                 span {{$t('share')}}
-                .block-element-number 6
-        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' && item.inTransitAmount !== '0.00'")
+                .block-element-number(v-if="eyeTab") {{item.positionShare}}
+                .block-element-number(v-else) ****
+        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' || item.inTransitAmount !== '0.00'")
             .o-item
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
                     span {{$t('share')}}
-                    span.price-number {{item.redeemDeliveryShare}}
+                    span.price-number(v-if="eyeTab") {{item.redeemDeliveryShare}}
+                    span.price-number(v-else) ****
             .o-item
                 .footer-left-l {{$t('subscribe')}}
                 .footer-right
                     span {{item.currency == 2 ? 'HKD':'USD'}}
-                    span.price-number {{item.inTransitAmount}}
+                    span.price-number(v-if="eyeTab") {{item.inTransitAmount}}
+                    span.price-number(v-else) ****
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/empty.png") 
         .no-record-box {{$t('nomore')}}
 </template>
 <script>
+import localStorage from '@/utils/local-storage'
 export default {
     props: {
         fundList: {
@@ -40,7 +47,14 @@ export default {
         noMoreShow: {
             type: Boolean,
             default: false
+        },
+        eyeTab: {
+            type: Boolean,
+            default: localStorage.get('showMoney')
         }
+    },
+    data() {
+        return {}
     },
     i18n: {
         zhCHS: {
@@ -77,14 +91,17 @@ export default {
                 path: '/fund-details',
                 query: { id: item.fundId }
             })
+        },
+        changeEye() {
+            this.eyeTab = localStorage.get('showMoney')
         }
     }
 }
 </script>
 <style lang="scss" scoped>
 .block-fund-list-content {
-    width: 94%;
-    margin: 0 3%;
+    width: 96%;
+    margin: 0 2%;
     color: #000;
     .list-item-content {
         width: 100%;
@@ -104,13 +121,13 @@ export default {
             flex-direction: row;
             .fund-row {
                 width: 25%;
-                text-align: right;
+                // text-align: right;
                 span {
                     font-size: 0.24rem;
                     color: rgba(25, 25, 25, 0.5);
                 }
                 .block-element-number {
-                    font-size: 0.32rem;
+                    font-size: 15px;
                     font-family: 'yxFontDINPro-Regular';
                 }
             }

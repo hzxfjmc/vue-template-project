@@ -22,7 +22,8 @@
                     .buy-row
                         .left {{ $t('redeemShares') }}
                         .right.buy-money.border-bottom
-                            input(v-model="redemptionShare" type="number" :disabled="positionShare === 0")
+                            input(v-model="redemptionShare" type="number" placeHolder="输入卖出份额" :disabled="positionShare === 0")
+                            span(@click="HandlerAllSell") 全部卖出
                     .buy-row
                         .left  预计卖出资产
                         .right {{ predictSellAmount | sliceFixedTwo | formatCurrency }}
@@ -83,7 +84,7 @@ import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
-
+import { transNumToThousandMark } from '@/utils/tools.js'
 import './index.scss'
 export default {
     name: 'subscribe',
@@ -150,6 +151,10 @@ export default {
         }
     },
     methods: {
+        //全部卖出
+        HandlerAllSell() {
+            this.redemptionShare = transNumToThousandMark(this.positionShare)
+        },
         async openProtocol(url) {
             url = await getCosUrl(url)
             if (jsBridge.isYouxinApp) {
