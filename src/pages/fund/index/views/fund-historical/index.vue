@@ -12,7 +12,7 @@
                     
                 .block-right.block-red(v-if="item.flag == 0") +{{item.price}}%
                 .block-right.block-green(v-if="item.flag  == 1") {{item.price}}%
-                .block-right(v-if="item.flag  == 2") {{item.price}}%
+                .block-right(v-if="item.flag  == 2") {{Math.abs(item.price).toFixed(2)}}%
 
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
@@ -94,7 +94,12 @@ export default {
                         }
                     }
                     item.price = transNumToThousandMark(item.price)
-                    item.flag = item.price > 0 ? 0 : item.price < 0 ? 1 : 2
+                    item.flag =
+                        Number(item.price) > 0
+                            ? 0
+                            : Number(item.price) == 0
+                            ? 2
+                            : 1
                 })
                 this.noMoreShow = this.total == 0
                 // this.finishedText = this.$t('nomore1')
@@ -113,8 +118,9 @@ export default {
 .fund-historacal {
     background: #fff;
     // display: flex;
+    float: left;
     width: 100%;
-    height: 100%;
+    // height: 100%;
 }
 .block-list {
     width: 96%;

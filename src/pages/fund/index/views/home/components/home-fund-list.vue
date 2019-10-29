@@ -103,6 +103,7 @@ export default {
         margin: 10px 2% 0 2%;
         padding: 20px 15px;
         background: #fff;
+        border-radius: 4px;
         position: relative;
         display: flex;
         flex-direction: row;

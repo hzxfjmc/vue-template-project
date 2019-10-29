@@ -181,6 +181,17 @@
                 }
             }
         }
+        .block-row{
+            .left{
+                width:30%;
+            }
+            .right{
+                width:70%;
+                input{
+                    width:72%;
+                }
+            }
+        }
         .buy-row-item{
             margin:0;
             width:100%;
