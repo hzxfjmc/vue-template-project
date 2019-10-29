@@ -70,9 +70,6 @@ export default {
         $route(to, from) {
             if (from.path === '/home') {
                 this.getFundListV2()
-                console.log('----------')
-                console.log(document.title)
-                document.title = this.$route.query.assetTypeName
             }
         }
     },
