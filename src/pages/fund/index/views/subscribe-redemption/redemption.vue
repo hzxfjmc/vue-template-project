@@ -219,7 +219,8 @@ export default {
                 const fundPos = await getFundPosition({
                     fundId: this.$route.query.id
                 })
-                this.positionShare = fundPos.availableShare
+                this.positionShare =
+                    fundPos.availableShare == this.positionShare
                 this.positionMarketValue = fundPos.positionMarketValue
             } catch (e) {
                 console.log('赎回页面-getFundPositionInfo:error:>>>', e)
@@ -261,17 +262,15 @@ export default {
             try {
                 if (submitStep === 1) {
                     this.$loading()
-                    // let t = await getTradePasswordToken({
-                    //     password:
-                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    // })
-                    let re = await fundRedemption({
+                    let data = {
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         redemptionShare: this.redemptionShare,
                         requestId: generateUUID(),
                         tradeToken: token
-                    })
+                    }
+                    data.emptyPosition = this.redemptionShare
+                    let re = await fundRedemption()
                     submitStep = 2
                     this.orderNo = re.orderNo
                     this.$close()
