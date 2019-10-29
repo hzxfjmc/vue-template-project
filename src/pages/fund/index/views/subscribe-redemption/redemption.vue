@@ -12,14 +12,14 @@
                 .fond-buy
                     .buy-row
                         .left {{ $t('positionShare') }}
-                        .right {{ positionShare | sliceFixedTwo | formatCurrency }}
+                        .right {{ positionShare | ceFixedTwo | formatCurrency }}
                     .buy-row
                         .left {{ $t('positionMarketValue') }}
                         .right {{ positionMarketValue | sliceFixedTwo | formatCurrency }}
                     .buy-row
                         .left {{ $t('minPositionShare') }}
                         .right {{ minPositionShare | sliceFixedTwo | formatCurrency }}
-                    .buy-row
+                    .buy-row.block-row
                         .left {{ $t('redeemShares') }}
                         .right.buy-money.border-bottom
                             input(v-model="redemptionShare" type="number" placeHolder="输入卖出份额" :disabled="positionShare === 0")
