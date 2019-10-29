@@ -121,7 +121,7 @@ export default new Router({
         {
             name: 'home',
             path: '/home',
-            meta: { title: 'incomeDetails', auth: true, cs: true },
+            meta: { title: 'home', auth: true, cs: true },
             component: () => import(`@/pages/fund/index/views/home/index.vue`)
         },
         {
@@ -134,14 +134,14 @@ export default new Router({
         {
             name: 'fund-account',
             path: '/fund-account',
-            meta: { title: 'fund-account', auth: true, cs: true },
+            meta: { title: 'fundAccount', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-account/index.vue`)
         },
         {
             name: 'fund-historical',
             path: '/fund-historical',
-            meta: { title: 'fund-historical', auth: true, cs: true },
+            meta: { title: 'fundHistorical', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-historical/index.vue`)
         }

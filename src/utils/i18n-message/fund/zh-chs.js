@@ -11,5 +11,10 @@ export const zhCHS = {
     orderRecord: '订单记录',
     fundSubscribe: '基金申购',
     fundRedemption: '基金赎回',
-    orderRecordDetail: '订单记录详情'
+    orderRecordDetail: '订单记录详情',
+    incomeDetails: '收益明细',
+    home: '友信宝',
+    fundOrderList: '订单列表',
+    fundAccount: '我的持仓',
+    fundHistorical: '净值历史'
 }

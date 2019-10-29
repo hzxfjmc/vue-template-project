@@ -72,6 +72,10 @@ export default {
                 this.getFundListV2()
             }
         }
+    },
+    beforeRouteEnter(to, from, next) {
+        to.meta.title = to.query.assetTypeName
+        next()
     }
 }
 </script>

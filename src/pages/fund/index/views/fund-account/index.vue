@@ -68,14 +68,34 @@ export default {
                 positionAmountFlag: positionAmountFlag,
                 positionEarningsFlag: positionEarningsFlag
             }
+            positionList.map(item => {
+                for (let key in item) {
+                    if (key != 'fundId' && key != 'fundName') {
+                        item.flag =
+                            item['positionEarnings'] > 0
+                                ? 0
+                                : item['positionEarnings'] < 0
+                                ? 1
+                                : 2
+                        item.flag1 =
+                            item['weekEarnings'] > 0
+                                ? 0
+                                : item['weekEarnings'] < 0
+                                ? 1
+                                : 2
+                        // item[key] = transNumToThousandMark(item[key])
+                    }
+                }
+                item.currency = this.currency
+            })
             this.fundList = positionList
+
             this.fundList.map(item => {
                 for (let key in item) {
                     if (key != 'fundId' && key != 'fundName') {
                         item[key] = transNumToThousandMark(item[key])
                     }
                 }
-                item.currency = this.currency
             })
             this.noMoreShow = this.fundList.length == 0
         }

@@ -5,12 +5,16 @@
         .fund-list-num
             .fund-row
                 span {{$t('SevenDayIncome')}}
-                .block-element-number(v-if="eyeTab") {{item.weekEarnings}}
-                .block-element-number(v-else) ****
+                .block-element-number.active-red(v-if="eyeTab && item.flag1 == 0") +{{item.weekEarnings}}
+                .block-element-number.active-green(v-if="eyeTab && item.flag1 == 1") {{item.weekEarnings}}
+                .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
+                .block-element-number(v-if="!eyeTab") ****
             .fund-row
                 span {{$t('profitPostion')}}
-                .block-element-number(v-if="eyeTab") {{item.positionEarnings}}
-                .block-element-number(v-else) ****
+                .block-element-number.active-red(v-if="eyeTab && item.flag == 0") +{{item.positionEarnings}}
+                .block-element-number.active-green(v-if="eyeTab && item.flag == 1") {{item.positionEarnings}}
+                .block-element-number(v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
+                .block-element-number(v-if="!eyeTab") ****
             .fund-row
                 span {{$t('amountMoney')}}
                 .block-element-number(v-if="eyeTab") {{item.positionAmount}}
@@ -129,6 +133,12 @@ export default {
                 .block-element-number {
                     font-size: 15px;
                     font-family: 'yxFontDINPro-Regular';
+                }
+                .active-red {
+                    color: #ea3d3d;
+                }
+                .active-green {
+                    color: #00ba60;
                 }
             }
             .fund-row:first-child {
