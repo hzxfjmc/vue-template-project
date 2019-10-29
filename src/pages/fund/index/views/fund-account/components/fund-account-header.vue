@@ -166,7 +166,7 @@ export default {
             }
         }
         .number-price {
-            font-size: 0.76rem;
+            font-size: 0.7rem;
             font-family: 'yxFontDINPro-Medium';
             em {
                 font-size: 0.4rem;

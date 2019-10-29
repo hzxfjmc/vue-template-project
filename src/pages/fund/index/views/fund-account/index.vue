@@ -57,13 +57,15 @@ export default {
                 currency: this.currency
             })
             let positionAmountFlag =
-                positionAmount > 0 ? '+' : positionAmount < 0 ? '-' : ''
-            let positionEarningsFlag =
                 positionEarnings > 0 ? '+' : positionEarnings < 0 ? '-' : ''
+            let positionEarningsFlag =
+                weekEarnings > 0 ? '+' : weekEarnings < 0 ? '-' : ''
             this.holdData = {
                 positionAmount: transNumToThousandMark(positionAmount),
-                positionEarnings: transNumToThousandMark(positionEarnings),
-                weekEarnings: transNumToThousandMark(weekEarnings),
+                positionEarnings: transNumToThousandMark(
+                    Math.abs(positionEarnings)
+                ),
+                weekEarnings: transNumToThousandMark(Math.abs(weekEarnings)),
                 currency: this.currency,
                 positionAmountFlag: positionAmountFlag,
                 positionEarningsFlag: positionEarningsFlag
