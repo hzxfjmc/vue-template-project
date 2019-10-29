@@ -70,8 +70,15 @@ export default {
         $route(to, from) {
             if (from.path === '/home') {
                 this.getFundListV2()
+                console.log('----------')
+                console.log(document.title)
+                document.title = this.$route.query.assetTypeName
             }
         }
+    },
+    beforeRouteEnter(to, from, next) {
+        to.meta.title = to.query.assetTypeName
+        next()
     }
 }
 </script>

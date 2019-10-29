@@ -121,7 +121,11 @@ export default {
         },
         //跳转基金列表页面
         toFundList(data) {
-            this.$emit('toFundList', { type: data.assetType })
+            console.log(data.assetTypeName)
+            this.$emit('toFundList', {
+                type: data.assetType,
+                assetTypeName: data.assetTypeName
+            })
         },
         toFundAccount() {
             this.$router.push({

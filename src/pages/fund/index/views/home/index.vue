@@ -35,7 +35,8 @@ export default {
                 path: '/',
                 query: {
                     type: data.type,
-                    currency: this.currency
+                    currency: this.currency,
+                    assetTypeName: data.assetTypeName
                 }
             })
         },
