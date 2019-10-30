@@ -112,7 +112,7 @@ export default {
             localStorage.put('activeTab', name)
             this.currency = name == 0 ? 2 : 1
             this.getReleaseFundAssetType()
-            // this.$emit('handlerCurrency', name)
+            this.$emit('handlerCurrency', this.currency)
         },
         //隐藏
         hideNumber() {
@@ -121,7 +121,6 @@ export default {
         },
         //跳转基金列表页面
         toFundList(data) {
-            console.log(data.assetTypeName)
             this.$emit('toFundList', {
                 type: data.assetType,
                 assetTypeName: data.assetTypeName
