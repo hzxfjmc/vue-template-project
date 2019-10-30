@@ -95,7 +95,11 @@ export default {
             this.fundList.map(item => {
                 for (let key in item) {
                     if (key != 'fundId' && key != 'fundName') {
-                        item[key] = transNumToThousandMark(item[key])
+                        if (key === 'positionShare') {
+                            item[key] = transNumToThousandMark(item[key], 4)
+                        } else {
+                            item[key] = transNumToThousandMark(item[key])
+                        }
                     }
                 }
             })

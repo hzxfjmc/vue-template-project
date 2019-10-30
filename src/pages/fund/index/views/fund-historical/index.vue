@@ -77,7 +77,7 @@ export default {
                 this.total = total
                 this.list.map((item, index) => {
                     item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
-                    item.netPrice = transNumToThousandMark(item.netPrice)
+                    item.netPrice = transNumToThousandMark(item.netPrice, 4)
                     if (index > 0) {
                         item.price =
                             (this.list[index - 1].netPrice -
@@ -93,13 +93,13 @@ export default {
                             this.list[0].price = 0.0
                         }
                     }
-                    item.price = transNumToThousandMark(item.price)
                     item.flag =
                         Number(item.price) > 0
                             ? 0
                             : Number(item.price) == 0
                             ? 2
                             : 1
+                    item.price = transNumToThousandMark(item.price)
                 })
                 this.noMoreShow = this.total == 0
                 // this.finishedText = this.$t('nomore1')
