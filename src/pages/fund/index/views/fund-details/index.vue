@@ -128,7 +128,7 @@ export default {
             try {
                 this.fundCorrelationFileList = []
                 const res = await getFundDetail({
-                    displayLocation: 1,
+                    displayLocation: this.$route.query.displayLoaction || 1,
                     fundId: this.$route.query.id
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
