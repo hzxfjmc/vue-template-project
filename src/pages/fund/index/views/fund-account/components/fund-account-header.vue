@@ -8,7 +8,7 @@
         :swipeable="swipeable"
         title-inactive-color="rgba(255,255,255,0.6)" 
         @change="handlerCurrency"
-        @click="handlerCurrency"
+        @click="handlerClickCurrency"
         title-active-color="#fff")
         van-tab(title="港币基金" name="2")
         van-tab(title="美元基金" name="1")
@@ -95,6 +95,10 @@ export default {
         }
     },
     methods: {
+        //
+        handlerClickCurrency() {
+            console.log(213123)
+        },
         //跳转路由
         toRouterPath(path) {
             this.$emit('toRouterPath', path)

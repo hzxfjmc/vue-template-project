@@ -12,7 +12,7 @@
                 .fond-buy
                     .buy-row
                         .left {{ $t('positionShare') }}
-                        .right {{ positionShare | ceFixedTwo | formatCurrency }}
+                        .right {{ positionShare | sliceFixedTwo | formatCurrency }}
                     .buy-row
                         .left {{ $t('positionMarketValue') }}
                         .right {{ positionMarketValue | sliceFixedTwo | formatCurrency }}
@@ -70,6 +70,7 @@
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
         protocol-popup(
             v-model="protocolVisible"
+            class="protocolVisible"
             :protocolFileList="sellProtocolFileList"
         )
 </template>
@@ -221,6 +222,7 @@ export default {
                 })
                 this.positionShare =
                     fundPos.availableShare == this.positionShare
+                console.log(fundPos)
                 this.positionMarketValue = fundPos.positionMarketValue
             } catch (e) {
                 console.log('赎回页面-getFundPositionInfo:error:>>>', e)
