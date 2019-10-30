@@ -11,31 +11,31 @@ export const holdDetailsData = {
         key: '',
         value: '00.00',
         cname: '+',
-        layout: 'left'
+        layout: 'center'
     },
     positionEarnings: {
         label: '持仓收益',
         key: '',
         cname: '+',
         value: '00.00',
-        layout: 'center'
+        layout: 'right'
     },
     positionShare: {
         label: '持有份额',
         key: '',
-        layout: 'right',
+        layout: 'left',
         value: '00.00'
     },
     redeemDeliveryShare: {
         label: '赎回中(份额）',
         key: '',
-        layout: 'right',
+        layout: 'center',
         value: '0.00'
     },
     inTransitAmount: {
         label: '申购中(金额）',
         key: '',
-        layout: 'center',
+        layout: 'right',
         value: '0.00'
     }
 }

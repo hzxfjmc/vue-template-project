@@ -122,6 +122,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block-right {
+    .element-fund-name {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        height: 20px;
+        width: 100%;
+        text-align: right;
+    }
+}
+
 .income-details-content {
     display: flex;
     flex-direction: column;
