@@ -8,7 +8,7 @@
             router-link(
                 v-for="(item, index) in list"
                 :key="index"
-                :to="{ name: 'fund-details', query: { id: `${item.fondId}` }}"
+                :to="{ name: 'fund-details', query: { id: `${item.fundId}` }}"
             )
                 Card(:info="item")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
