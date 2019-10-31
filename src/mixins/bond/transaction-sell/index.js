@@ -26,8 +26,7 @@ export default {
                             positionItem => positionItem.bondId === this.id
                         )) ||
                     []
-                this.positionData =
-                    (this.positionData[0] && this.positionData[0]) || {}
+                this.positionData = this.positionData[0] || {}
                 console.log('getBondPosition:data:>>> ', bondPositionList)
             } catch (error) {
                 console.log('getBondPosition:error:>>> ', error)

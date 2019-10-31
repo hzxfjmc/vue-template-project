@@ -24,11 +24,11 @@
 
 </template>
 <script>
-import DetailHeader from './components/detail-header/index.vue'
-import PurchasingProcess from './components/purchasing-process/index.vue'
-import BondPrice from './components/bond-price/index.vue'
-import BondInfo from './components/bond-info/index.vue'
-import TransactionRules from './components/transaction-rules/index.vue'
+import DetailHeader from './detail-header.vue'
+import PurchasingProcess from './purchasing-process.vue'
+import BondPrice from './bond-price.vue'
+import BondInfo from './bond-info.vue'
+import TransactionRules from './transaction-rules.vue'
 
 import bondDetailMixin from '@/mixins/bond/bond-detail/index.js'
 export default {

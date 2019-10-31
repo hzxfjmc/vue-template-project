@@ -19,8 +19,12 @@
 </template>
 <script>
 import indexMixin from '@/mixins/bond/index/index.js'
+import BondCard from '@/biz-components/bond-card/index'
 export default {
-    mixins: [indexMixin]
+    mixins: [indexMixin],
+    components: {
+        BondCard
+    }
 }
 </script>
 

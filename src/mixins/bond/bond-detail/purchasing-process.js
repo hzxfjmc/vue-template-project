@@ -1,5 +1,6 @@
 import { Step, Steps } from 'vant'
 // import { dateFormat } from '@/utils/tool.js'
+import { calcPaymentDates } from '@/pages/bond/index/tools.js'
 export default {
     name: 'PurchasingProcess',
     components: {
@@ -13,14 +14,20 @@ export default {
         }
     },
     computed: {
+        dueTime() {
+            return (
+                (this.bondUneditableInfo && this.bondUneditableInfo.dueTime) ||
+                0
+            )
+        },
         // 付息日
         paymentDate() {
-            let d =
-                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate
-            d = d ? d.split('|') : ''
-            let suffix = d.length > 2 ? '等' : ''
-            return d ? d.slice(0, 2).join('、') + suffix : '--'
+            return calcPaymentDates(
+                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate,
+                true
+            )
         },
+        // 计息日
         enumDelivery() {
             return (
                 (this.bondUneditableInfo &&

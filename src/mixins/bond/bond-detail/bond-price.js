@@ -1,8 +1,23 @@
 import ColMsg from '@/biz-components/col-msg'
 import F2 from '@antv/f2'
 import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     name: 'BondPrice',
+    i18n: {
+        zhCHS: {
+            buyPrice: '买入价',
+            sellPrice: '卖出价'
+        },
+        zhCHT: {
+            buyPrice: '買入價',
+            sellPrice: '賣出價'
+        },
+        en: {
+            buyPrice: '买入价',
+            sellPrice: '卖出价'
+        }
+    },
     components: {
         ColMsg
     },
@@ -39,7 +54,7 @@ export default {
                             'YYYY年MM月DD日'
                         ),
                         value: chartItem.buyPrice,
-                        type: '买入价',
+                        type: this.$t('buyPrice'),
                         buyYtm: chartItem.buyYtm
                     },
                     {
@@ -48,7 +63,7 @@ export default {
                             'YYYY年MM月DD日'
                         ),
                         value: chartItem.sellPrice,
-                        type: '卖出价',
+                        type: this.$t('sellPrice'),
                         buyYtm: chartItem.buyYtm
                     }
                 )
@@ -58,28 +73,40 @@ export default {
         colData() {
             let data = [
                 {
-                    title:
-                        (this.currentPrice.buyPrice &&
-                            (this.currentPrice.buyPrice - 0).toFixed(4)) ||
-                        '--',
-                    desc: '买入价'
+                    title: transNumToThousandMark(this.buyPrice, 4),
+                    desc: this.$t('buyPrice')
                 },
                 {
-                    title:
-                        (this.currentPrice.buyYtm &&
-                            (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
-                        '--',
+                    title: this.buyYtm,
                     desc: '到期年化收益率'
                 },
                 {
-                    title:
-                        (this.currentPrice.sellPrice &&
-                            (this.currentPrice.sellPrice - 0).toFixed(4)) ||
-                        '--',
-                    desc: '卖出价'
+                    title: transNumToThousandMark(this.sellPrice, 4),
+                    desc: this.$t('sellPrice')
                 }
             ]
             return data
+        },
+        buyPrice() {
+            return (
+                (this.currentPrice.buyPrice &&
+                    (this.currentPrice.buyPrice - 0).toFixed(4)) ||
+                ''
+            )
+        },
+        sellPrice() {
+            return (
+                (this.currentPrice.sellPrice &&
+                    (this.currentPrice.sellPrice - 0).toFixed(4)) ||
+                ''
+            )
+        },
+        buyYtm() {
+            return (
+                (this.currentPrice.buyYtm &&
+                    (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
+                '--'
+            )
         }
     },
     methods: {
@@ -102,14 +129,21 @@ export default {
                 onChange: obj => {
                     // var legend = chart.get('legendController').legends.top[0]
                     // console.log('obj', obj)
+                    // transNumToThousandMark
+                    let buyPriceTitle =
+                        (obj.items[0].value &&
+                            (obj.items[0].value - 0).toFixed(4)) ||
+                        ''
+                    let sellPriceTitle =
+                        (obj.items[1].value &&
+                            (obj.items[1].value - 0).toFixed(4)) ||
+                        ''
                     this.maskData = {
                         title: obj.items[0].origin.time,
                         colData: [
                             {
-                                title:
-                                    obj.items[0].value &&
-                                    (obj.items[0].value - 0).toFixed(4),
-                                desc: '买入价'
+                                title: transNumToThousandMark(buyPriceTitle, 4),
+                                desc: this.$t('buyPrice')
                             },
                             {
                                 title:
@@ -121,11 +155,11 @@ export default {
                                 desc: '到期年化收益率'
                             },
                             {
-                                title:
-                                    (obj.items[1].value &&
-                                        (obj.items[1].value - 0).toFixed(4)) ||
-                                    '--',
-                                desc: '卖出价'
+                                title: transNumToThousandMark(
+                                    sellPriceTitle,
+                                    4
+                                ),
+                                desc: this.$t('sellPrice')
                             }
                         ]
                     }
@@ -148,7 +182,7 @@ export default {
                 .line()
                 .position('date*value')
                 .color('type', value => {
-                    if (value === '买入价') {
+                    if (value === this.$t('buyPrice')) {
                         return '#497AFF'
                     }
                     return '#FFBF32'

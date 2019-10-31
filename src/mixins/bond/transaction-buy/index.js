@@ -1,10 +1,6 @@
-import TransactionCard from '@/biz-components/transaction-card/index.vue'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 export default {
     name: 'TransactionBuy',
-    components: {
-        TransactionCard
-    },
     created() {
         this.handleHsAccountInfo()
     },

@@ -1,13 +1,11 @@
 import { Swipe, SwipeItem } from 'vant'
 import { getBondList } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
-import BondCard from '@/biz-components/bond-card/index.vue'
 export default {
     name: 'index',
     components: {
         [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem,
-        BondCard
+        [SwipeItem.name]: SwipeItem
     },
     created() {
         this.handleSetupResult()

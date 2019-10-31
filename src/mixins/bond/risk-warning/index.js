@@ -6,6 +6,27 @@ import LS from '@/utils/local-storage.js'
 import { mapState } from 'vuex'
 export default {
     name: 'RiskWarning',
+    i18n: {
+        zhCHS: {
+            riskTipsTitle: '债劵购买风险提示',
+            riskTipsList: [
+                '1) 由於企業違約等XXXXXXX可能，債券可能違約，損失部分或全部本金和利息.XXXXXX',
+                '2) 債券市場流動性差，友信提供流動性XXXXXXXX，價格點差XXXX。友信盡力撮合訂單，但不保證訂單一定能夠成交。',
+                '3) 成交價格公司可能有損益。'
+            ]
+        },
+        zhCHT: {
+            riskTipsTitle: '債劵購買風險提示',
+            riskTipsList: [
+                '1）由于企业违约等XXXXXXX可能，债券可能违约，损失部分或全部本金和利息.XXXXXX',
+                '2）债券市场流动性差，友信提供流动性XXXXXXXX，价格点差XXXX。友信尽力撮合订单，但不保证订单一定能够成交。',
+                '3）成交价格公司可能有损益。'
+            ]
+        },
+        en: {
+            riskTipsTitle: '债劵购买风险提示'
+        }
+    },
     components: {
         [Checkbox.name]: Checkbox,
         [Panel.name]: Panel,

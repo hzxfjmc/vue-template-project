@@ -2,7 +2,8 @@
     van-panel.mask-header(:title="title")
         col-msg(
             :colData="colData"
-            :descStyle="descStyle"
+            titleClass="title-class"
+            descClass="desc-class"
         )
 </template>
 
@@ -24,7 +25,7 @@ export default {
 }
 .van-panel {
     .van-panel__header {
-        padding: 0.28rem 0.24rem;
+        padding: 11px 14px;
         background-color: #f4f8ff;
         font-size: 0.28rem;
         line-height: 20px;
@@ -32,12 +33,12 @@ export default {
             display: none;
         }
     }
+    .van-cell__title {
+        font-size: 0.32rem;
+        line-height: 22px;
+    }
     &:after {
         display: none;
     }
-}
-.col-column {
-    padding: 0 12px;
-    margin-top: -2px;
 }
 </style>
