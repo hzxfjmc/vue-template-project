@@ -11,5 +11,10 @@ export const en = {
     orderRecord: 'Order Records',
     fundSubscribe: 'Subscription',
     fundRedemption: 'Redemption',
-    orderRecordDetail: 'Order Records'
+    orderRecordDetail: 'Order Records',
+    incomeDetails: 'Revenue Detail',
+    home: 'YouXinFound',
+    fundOrderList: 'Order Records',
+    fundAccount: 'My Fund',
+    fundHistorical: 'NAV History'
 }

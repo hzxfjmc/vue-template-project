@@ -158,9 +158,9 @@ module.exports = {
             },
             // banner
             '/news-configserver': {
-                // target: 'http://10.55.4.9:15002',
+                //target: 'http://10.55.4.9:15002',
                 target: 'http://hz-dev.yxzq.com',
-                changOrigin: true
+                changOrigin: true,
             },
             // 行情资讯接口服务器
             '^/helpCenter': {
@@ -270,13 +270,13 @@ module.exports = {
                 target: 'http://admin-dev.yxzq.com',
                 changeOrigin: true
             },
-            // 债券交易
+            // 基金交易
             '/finance-server': {
                 target: 'http://jy-dev.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
             },
-            // 债券信息
+            // 基金信息
             '/finance-info-server': {
                 // target: 'http://jy-dev.yxzq.com',
                 target: 'http://jy-dev.yxzq.com',

@@ -128,3 +128,9 @@ body {
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+.fund-footer-content {
+    .van-button {
+        border-radius: 0 !important;
+    }
+}

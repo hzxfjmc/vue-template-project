@@ -1,15 +1,5 @@
 <template lang="pug">
     yx-container.open-permission-wrapper
-        .risk-result-container(slot="main")
-            .risk-item.flex
-                .left  {{$t('riskAblity')}}
-                .right {{ resultIndex && $t('resultList')[resultIndex].registration}}
-            .risk-item.flex
-                .left  {{$t('riskStyle')}}
-                .right {{ resultIndex && $t('resultList')[resultIndex].riskStyle}}
-            .risk-item.flex
-                .left  {{$t('suitPro')}}
-                .right {{ resultIndex && $t('resultList')[resultIndex].suitPro}}
         .permission-container(slot="main")
             .permission-content
                 .title {{ agreementTitle }}
