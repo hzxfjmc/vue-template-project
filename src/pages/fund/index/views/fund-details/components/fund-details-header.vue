@@ -163,6 +163,7 @@ export default {
         .block-bottom {
             width: 100%;
             font-size: 12px;
+            text-align: left;
             padding: 0 0 0 5px;
             color: $text-color5;
         }
