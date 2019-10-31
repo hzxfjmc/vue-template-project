@@ -8,37 +8,45 @@
             .ISIN ISIN:{{ isin }}
         
         template(v-if="step === 1")
-            .fond-buy
-                .buy-row
-                    .left {{ $t('positionShare') }}
-                    .right {{ positionShare | sliceFixedTwo | formatCurrency }}
-                .buy-row
-                    .left {{ $t('positionMarketValue') }}
-                    .right {{ positionMarketValue | sliceFixedTwo | formatCurrency }}
-                .buy-row(class="border-bottom" style="height:40px")
-                    .left {{ $t('redeemShares') }}
-                    .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        span {{ $t('minSellBalance') }}{{ lowestInvestAmount | sliceFixedTwo | formatCurrency}}
-                    .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="redemptionShare" :disabled="positionShare === 0")
-                //- hr.border-bottom
-                .buy-row(style="justify-content: space-between; margin-top: 0px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ redemptionFeeScale  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | formatCurrency }}
-                a.submit.gray(v-if="redemptionShare === null || redemptionShare === '' || positionShare === 0") {{ $t('submiButtonText') }}
-                a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
-                .buy-row(style="justify-content: space-between;")
-                    a.left(:href="sellProtocol" style="width: 65%") 
-                        span(v-show="sellProtocolFileName") 《{{ sellProtocolFileName }}》
-                    .right(style="text-align: right;  width: 35%") {{ predictDay }}
-
-            FundSteps(
-                style="margin-top: 22px;"
-                :title="$t('balanceRule')"
-                :curStep="0"
-                :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
-                :stepTimes="[sellSubmit, sellConfirm, sellProfitLoss]"
-            )
+            .fund-content
+                .fond-buy
+                    .buy-row
+                        .left {{ $t('positionShare') }}
+                        .right {{ positionShare | sliceFixedTwo | formatCurrency }}
+                    .buy-row
+                        .left {{ $t('positionMarketValue') }}
+                        .right {{ positionMarketValue | sliceFixedTwo | formatCurrency }}
+                    .buy-row
+                        .left {{ $t('minPositionShare') }}
+                        .right {{ minPositionShare | sliceFixedTwo | formatCurrency }}
+                    .buy-row.block-row
+                        .left {{ $t('redeemShares') }}
+                        .right.buy-money.border-bottom
+                            input(v-model="redemptionShare" type="number" placeHolder="输入卖出份额" :disabled="positionShare === 0")
+                            span(@click="HandlerAllSell") 全部卖出
+                    .buy-row
+                        .left  预计卖出资产
+                        .right {{ predictSellAmount | sliceFixedTwo | formatCurrency }}
+                    .buy-row
+                        .left
+                            span {{ $t('redemption') }}
+                            span ( {{ $t('predict') }}) :
+                        .right
+                            span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | formatCurrency }}
+                            span ({{ redemptionFeeScale  }}%)
+                FundSteps(
+                    style="margin-top: 22px;"
+                    :title="$t('balanceRule')"
+                    :curStep="0"
+                    :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
+                    :stepTimes="[sellSubmit, sellConfirm, sellProfitLoss]"
+                )
+            .fund-footer-content
+                .protocol
+                    .protocol__checkbox.iconfont.icon-selected(:class="isCheckedProtocol ?'checked':'un-checked'" @click="checkProtocol")
+                    .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
+                    .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
+                van-button(:disabled="disabled" @click="handleSubmit") {{$t('submitButtonText')}}
         template(v-else-if="step === 2")
             .fond-buy.border-bottom
                 .buy-row
@@ -53,14 +61,18 @@
                         .point
                     span.text-color5 {{ $t('predict') }}
                     span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}{{ $t('day') }}
-                    span.text-color5 {{ $t('monnyToAcc') }}
-            .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
+                    span.text-color5 {{ $t('moneyToAcc') }}
+            .fond-buy.fond-bug-money.border-bottom(style="margin-top: 0")
                 .buy-row
-                    .left.line-height-8 {{ $t('monny') }}
-                    .right.buy-monny.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo | formatCurrency }}
+                    .left.line-height-8 {{ $t('money') }}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo | formatCurrency }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
-
+        protocol-popup(
+            v-model="protocolVisible"
+            class="protocolVisible"
+            :protocolFileList="sellProtocolFileList"
+        )
 </template>
 <script>
 import NP from 'number-precision'
@@ -72,22 +84,25 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
-
+import protocolPopup from './components/protocol-popup'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import './index.scss'
 export default {
     name: 'subscribe',
     components: {
-        FundSteps
+        FundSteps,
+        protocolPopup
     },
     data() {
         return {
             // 1: 购买 2:成功
             step: 1,
             orderNo: null,
-            buyMonnyBlur: false,
+            buyMoneyBlur: false,
             positionShare: 0, // 持有份额
             positionMarketValue: 0, // 持仓市值
             lowestInvestAmount: 0, // 最低持有金额
+            minPositionShare: 0, // 最低持有份额
             redemptionShare: null, // 赎回份额
             fundName: '',
             isin: '',
@@ -96,7 +111,12 @@ export default {
             sellProtocol: '', // 基金卖出协议
             sellSubmit: '',
             sellConfirm: '',
-            sellProfitLoss: ''
+            sellProfitLoss: '',
+            predictSellAmount: '',
+            netPrice: 0,
+            protocolVisible: false,
+            isCheckedProtocol: true,
+            sellProtocolFileList: []
         }
     },
     async created() {
@@ -114,6 +134,13 @@ export default {
         },
         redemptionFeeScale() {
             return NP.times(+this.redemptionFee, 100)
+        },
+        disabled() {
+            return (
+                !this.isCheckedProtocol ||
+                !this.redemptionShare ||
+                !this.positionShare
+            )
         }
     },
     watch: {
@@ -121,9 +148,31 @@ export default {
             if (val > +this.positionShare) {
                 this.redemptionShare = +this.positionShare
             }
+            this.predictSellAmount = this.redemptionShare * this.netPrice
         }
     },
     methods: {
+        //全部卖出
+        HandlerAllSell() {
+            this.redemptionShare = transNumToThousandMark(this.positionShare)
+        },
+        async openProtocol(url) {
+            url = await getCosUrl(url)
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
+        },
+        checkProtocol() {
+            this.isCheckedProtocol = !this.isCheckedProtocol
+        },
+        showProtocol() {
+            this.protocolVisible = true
+        },
+        hideProtocol() {
+            this.protocolVisible = false
+        },
         times: NP.times,
         gotoOrderRecordDetail(orderNo, currencyType) {
             this.$router.push({
@@ -142,9 +191,12 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
+                this.netPrice = fundDetail.fundHeaderInfoVO.netPrice
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.lowestInvestAmount =
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
+                this.minPositionShare =
+                    fundDetail.fundTradeInfoVO.minPositionShare
                 this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
                 this.setCosUrl(
                     'sellProtocol',
@@ -158,6 +210,7 @@ export default {
                 )
                     .split('/')
                     .pop()
+                this.sellProtocolFileList = fundDetail.sellProtocolFileList
             } catch (e) {
                 console.log('赎回页面-getFundDetailInfo:error:>>>', e)
             }
@@ -167,7 +220,9 @@ export default {
                 const fundPos = await getFundPosition({
                     fundId: this.$route.query.id
                 })
-                this.positionShare = fundPos.availableShare
+                this.positionShare =
+                    fundPos.availableShare == this.positionShare
+                console.log(fundPos)
                 this.positionMarketValue = fundPos.positionMarketValue
             } catch (e) {
                 console.log('赎回页面-getFundPositionInfo:error:>>>', e)
@@ -181,14 +236,14 @@ export default {
             }
         },
         handleClickBuyPlaceHolder() {
-            this.buyMonnyBlur = true
+            this.buyMoneyBlur = true
             this.$nextTick(() => {
-                this.$refs['buy-monny'].focus()
+                this.$refs['buy-money'].focus()
             })
         },
         handleOnblurBuyInput() {
             if (this.redemptionShare === null || this.redemptionShare === '') {
-                this.buyMonnyBlur = false
+                this.buyMoneyBlur = false
             }
         },
         async handleSubmit() {
@@ -209,20 +264,17 @@ export default {
             try {
                 if (submitStep === 1) {
                     this.$loading()
-                    // let t = await getTradePasswordToken({
-                    //     password:
-                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    // })
-                    let re = await fundRedemption({
+                    let data = {
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         redemptionShare: this.redemptionShare,
                         requestId: generateUUID(),
                         tradeToken: token
-                    })
+                    }
+                    data.emptyPosition = this.redemptionShare
+                    let re = await fundRedemption()
                     submitStep = 2
                     this.orderNo = re.orderNo
-                    console.log('fundRedemptionData:', re)
                     this.$close()
                 }
             } catch (error) {
@@ -245,10 +297,11 @@ export default {
             positionMarketValue: '基金市值',
             redeemShares: '赎回份额',
             minSellBalance: '最小持有金额',
+            minPositionShare: '最小持有份额',
             continueBalance: '续投金额',
             redemption: '赎回费',
             predict: '预计',
-            submiButtonText: '同意协议并提交',
+            submitButtonText: '同意协议并提交',
             dayDone: '日完成',
             balanceRule: '赎回规则',
             day: '日',
@@ -257,10 +310,11 @@ export default {
             stepThree: '资金到达证券账户',
             confirmTheShare: '确认净值',
             earnings: '查看收益',
-            monny: '金额',
+            money: '金额',
             done: '完成',
             iKnow: '我知道了',
-            monnyToAcc: '资金到达证券账户'
+            moneyToAcc: '资金到达证券账户',
+            protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息'
         },
         zhCHT: {
             sellSuccess: '贖回成功',
@@ -268,10 +322,11 @@ export default {
             positionMarketValue: '基金市值',
             redeemShares: '贖回份額',
             minSellBalance: '最小持有金額',
+            minPositionShare: '最小持有份额',
             continueBalance: '續投金額',
             redemption: '贖回費',
             predict: '預計',
-            submiButtonText: '同意協議並提交',
+            submitButtonText: '同意協議並提交',
             dayDone: '日完成',
             balanceRule: '贖回規則',
             day: '日',
@@ -280,10 +335,11 @@ export default {
             stepThree: '資金到達證券賬戶',
             confirmTheShare: '確認凈值',
             earnings: '查看收益',
-            monny: '金額',
+            money: '金額',
             done: '完成',
             iKnow: '我知道了',
-            monnyToAcc: '資金到達證券賬戶'
+            moneyToAcc: '資金到達證券賬戶',
+            protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息'
         },
         en: {
             sellSuccess: 'Redemption Successful',
@@ -291,10 +347,11 @@ export default {
             positionMarketValue: 'Fund Value',
             redeemShares: 'Units of Redemption',
             minSellBalance: 'Min. Holding Amount',
+            minPositionShare: 'Min. Holding Share',
             continueBalance: 'Redemption Rules',
             redemption: 'Redemption Fee',
             predict: 'Predict',
-            submiButtonText: 'Agree to agreement and submit',
+            submitButtonText: 'Agree to agreement and submit',
             dayDone: 'Complete in X days',
             balanceRule: 'Redemption Rules',
             day: 'days',
@@ -303,10 +360,12 @@ export default {
             stepThree: 'Funds Credited to Securities Account',
             confirmTheShare: 'CFMD NAV',
             earnings: 'Check Earnings',
-            monny: 'Amount',
+            money: 'Amount',
             done: 'Completed',
             iKnow: 'Got it',
-            monnyToAcc: 'Funds Credited to Securities Account'
+            moneyToAcc: 'Funds Credited to Securities Account',
+            protocolTips:
+                'I have read and agree to the service agreement and risk warning, and consult relevant information'
         }
     }
 }

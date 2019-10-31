@@ -5,7 +5,7 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  日期：{{masterData.belongDay}}
             .header-right 
-                span.number {{Number(masterData.netPrice).toFixed(2)}}
+                span.number {{Number(masterData.netPrice).toFixed(4)}}
                 p.day 今日净值： 
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
@@ -103,7 +103,6 @@ export default {
             this.chart = new F2.Chart({
                 id: data,
                 pixelRatio: window.devicePixelRatio
-                // padding: [45, 'auto', 'auto']
             })
             this.chart.source(this.initEchartList, {
                 netPrice: {
@@ -113,7 +112,7 @@ export default {
                     max: Math.max.apply(null, arr) * 1.1,
                     // min: 0,
                     formatter: function formatter(val) {
-                        return val.toFixed(2)
+                        return val.toFixed(4)
                     }
                 },
                 belongDay: {
@@ -146,9 +145,6 @@ export default {
                 custom: true, // 自定义 tooltip 内容框
                 onChange: obj => {
                     this.masterData = obj.items[0].origin
-                    // this.masterData.netPrice = Number(
-                    //     this.masterData.netPrice
-                    // ).toFixed(2)
                     this.masterData.belongDay = dayjs(
                         this.masterData.belongDay
                     ).format('YYYY-MM-DD')
@@ -158,9 +154,7 @@ export default {
                 onHide: () => {
                     clearTimeout(timer) // 清除未执行的代码，重置回初始化状态
                     timer = setTimeout(() => {
-                        // console.log('函数防抖')
                         this.masterShow = false
-                        console.log(1)
                     }, 3000)
                 }
             })
@@ -193,12 +187,10 @@ export default {
             canvaStyle.style.height = '200px'
             canvaStyle.margin = '-20px 0 0 0'
             canvaStyle.transform = 'translateX(-3%)'
-            // setTimeout(() => {
             this.draw(this.chartId)
             this.chart.render()
             this.active = this.step
             this.tabShow()
-            // }, 200)
         },
         $route(to, from) {
             if (from.path == '/') {
@@ -208,9 +200,7 @@ export default {
     },
     mounted() {
         this.initI18nState()
-        // setTimeout(() => {
         this.draw(this.chartId)
-        // }, 1000)
     }
 }
 </script>

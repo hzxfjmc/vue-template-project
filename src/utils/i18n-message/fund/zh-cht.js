@@ -14,5 +14,10 @@ export const zhCHT = {
     orderRecord: '訂單記錄',
     fundSubscribe: '基金申購',
     fundRedemption: '基金贖回',
-    orderRecordDetail: '訂單記錄'
+    orderRecordDetail: '訂單記錄',
+    incomeDetails: '收益明細',
+    home: '友信寶',
+    fundOrderList: '訂單記錄',
+    fundAccount: '我的持倉',
+    fundHistorical: '淨值歷史'
 }
