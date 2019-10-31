@@ -7,14 +7,22 @@
             )
             .yx-cell(style="padding:0.4rem 0.28rem")
                 .yx-cell__header {{ direction === 1 ? '买入价格' : '卖出价格' }}
+<<<<<<< HEAD
                     .yx-cell__header-tip ({{ currency }})
+=======
+                    .yx-cell__header-tip ({{ currencyName }})
+>>>>>>> c9ab14eb76d5e1f57d41dc519a7d42d273ce1091
                 .yx-cell__primary {{ buyOrSellPrice }}
 
             .yx-cell
                 .yx-cell__header 份数
                 .yx-cell__primary
                     van-stepper(v-model="transactionNum" integer min="1" max="9999999")
+<<<<<<< HEAD
                     .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currency }}/份)
+=======
+                    .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currencyName }}/份)
+>>>>>>> c9ab14eb76d5e1f57d41dc519a7d42d273ce1091
             .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
                 .yx-cell__header 金额
                 .yx-cell__primary {{ tradeMoney | thousand-spilt }}

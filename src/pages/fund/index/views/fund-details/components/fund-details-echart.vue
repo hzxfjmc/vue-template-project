@@ -5,11 +5,7 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  日期：{{masterData.belongDay}}
             .header-right 
-<<<<<<< HEAD
-                span.number {{Number(masterData.netPrice).toFixed(2)}}
-=======
                 span.number {{Number(masterData.netPrice).toFixed(4)}}
->>>>>>> fund-10-15
                 p.day 今日净值： 
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
