@@ -6,7 +6,7 @@
         :lists="list"
         :holdData="holdData")
         .home-bannar(slot="bannar")
-            img(src="https://tse4-mm.cn.bing.net/th?id=OIP.bbOTYYnZGn7AGDuzCi12MgHaEl&w=299&h=182&c=7&o=5&dpr=2&pid=1.7")
+            img(:src="barnnerUrl")
         HomeFundList(:fundList="fundList" slot="fundList")
 </template>
 <script>
@@ -14,6 +14,7 @@ import HomeHeader from './components/home-header'
 import HomeFundList from './components/home-fund-list'
 import { getFundPositionList } from '@/service/finance-server.js'
 import { getFundListV2 } from '@/service/finance-info-server.js'
+import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
@@ -25,7 +26,9 @@ export default {
             holdData: {},
             currency: 2,
             fundList: [],
-            list: []
+            list: [],
+            barnnerUrl: '',
+            showPage: 27
         }
     },
     methods: {
@@ -39,6 +42,16 @@ export default {
                     assetTypeName: data.assetTypeName
                 }
             })
+        },
+        //获取banner图
+        async bannerAdvertisement() {
+            try {
+                this.showPage = this.currency == 2 ? 27 : 28
+                const { banner_list } = await bannerAdvertisement(this.showPage)
+                this.bannerUrl = banner_list[0]
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         },
         //查询基金列表
         async getFundListV2() {
@@ -65,6 +78,7 @@ export default {
         handlerCurrency(data) {
             this.currency = data
             this.getFundPositionList()
+            this.bannerAdvertisement()
             // this.getReleaseFundAssetType(true)
         },
         async getFundPositionList() {
@@ -89,7 +103,7 @@ export default {
         }
     },
     mounted() {
-        // this.getReleaseFundAssetType()
+        this.bannerAdvertisement()
         this.getFundPositionList()
         this.getFundListV2()
     }
