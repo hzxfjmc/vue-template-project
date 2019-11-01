@@ -119,7 +119,6 @@ export default {
                         '?' +
                         routerquery
                 )
-                // this.$router.push(data)
             }
         },
         //App页面跳转
