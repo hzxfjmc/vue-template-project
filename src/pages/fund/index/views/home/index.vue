@@ -84,6 +84,7 @@ export default {
             this.currency = data
             this.getFundPositionList()
             this.bannerAdvertisement()
+            this.getFundListV2()
             // this.getReleaseFundAssetType(true)
         },
         async getFundPositionList() {
