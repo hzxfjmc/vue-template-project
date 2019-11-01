@@ -153,7 +153,7 @@ export default {
                             item.icon = 'icon-iconFFhunhejijin'
                             break
                         case 4:
-                            item.icon = 'icon-icon-currency-fund'
+                            item.icon = 'icon-icon_MonetaryFund'
                             break
                     }
                 })
