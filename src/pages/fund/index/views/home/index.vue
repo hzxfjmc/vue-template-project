@@ -5,7 +5,7 @@
         @toFundList = "toFundList"
         :lists="list"
         :holdData="holdData")
-        .home-bannar(slot="bannar" v-if="bannerUrl!=''")
+        .home-banner(slot="banner" v-if="bannerUrl!=''")
             img(:src="bannerUrl")
         HomeFundList(:fundList="fundList" slot="fundList")
 </template>
@@ -121,7 +121,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.home-bannar {
+.home-banner {
     width: 100%;
     height: 110px;
     background: #fff;

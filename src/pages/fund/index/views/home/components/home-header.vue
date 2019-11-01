@@ -40,7 +40,7 @@
                             em(v-if="showMoney") {{holdData.weekEarnings || '--'}}
                             em.element-hide(v-else) ****
             .block-element
-                slot(name="bannar")
+                slot(name="banner")
                 slot(name="fundList")
 
 </template>

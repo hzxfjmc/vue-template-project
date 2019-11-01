@@ -349,26 +349,7 @@ export default {
                     (this.userInfo.extendStatusBit & 16) > 0
                         ? '/fund-subscribe'
                         : '/open-permissions'
-                // this.$router.push(data)
-                let routerquery = ''
-                for (let key in data.query) {
-                    routerquery += `${key}=${data.query[key]}&`
-                }
-                this.openProtocol(
-                    window.location.origin +
-                        '/wealth/fund/index.html#' +
-                        data.path +
-                        '?' +
-                        routerquery
-                )
-            }
-        },
-        //App页面跳转
-        async openProtocol(url) {
-            if (jsBridge.isYouxinApp) {
-                jsBridge.gotoNewWebview(url)
-            } else {
-                location.href = url
+                this.$router.push(data)
             }
         }
     },
