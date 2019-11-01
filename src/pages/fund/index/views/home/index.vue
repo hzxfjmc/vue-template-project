@@ -17,6 +17,7 @@ import { getFundListV2 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getCosUrl } from '@/utils/cos-utils'
+import localStorage from '@/utils/local-storage'
 export default {
     components: {
         HomeHeader,
@@ -52,8 +53,9 @@ export default {
                 if (banner_list[0]) {
                     const res = await getCosUrl(banner_list[0].picture_url)
                     this.bannerUrl = res
+                } else {
+                    this.bannerUrl = ''
                 }
-                console.log(this.bannerUrl)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -85,7 +87,6 @@ export default {
             this.getFundPositionList()
             this.bannerAdvertisement()
             this.getFundListV2()
-            // this.getReleaseFundAssetType(true)
         },
         async getFundPositionList() {
             try {
@@ -109,6 +110,10 @@ export default {
         }
     },
     mounted() {
+        this.currency =
+            localStorage.get('activeTab') != null
+                ? localStorage.get('activeTab')
+                : 2
         this.bannerAdvertisement()
         this.getFundPositionList()
         this.getFundListV2()
