@@ -27,7 +27,7 @@ export const subscribeObj = {
         label: '申购费（预计）',
         value: ''
     },
-    Totalorderamount: {
+    totalOrderAmount: {
         label: '订单总金额',
         value: '0.00'
     }
@@ -42,7 +42,7 @@ export const subscribeObji18n = {
             continueInvestAmount: '买入单位',
             buyMoney: '购买金额',
             subscriptionFee: '申购费（预计）',
-            Totalorderamount: '订单总金额',
+            totalOrderAmount: '订单总金额',
             readyXieyi: '已阅读并同意服务协议及风险提示，并查阅相关信息'
         },
         zhCHT: {
@@ -52,7 +52,7 @@ export const subscribeObji18n = {
             continueInvestAmount: '買入單位',
             buyMoney: '購買金額',
             subscriptionFee: '申購費（預計）',
-            Totalorderamount: '訂單總金額',
+            totalOrderAmount: '訂單總金額',
             readyXieyi: '已閱讀並同意服務協議及風險提示，並查閱相關信息'
         },
         en: {
@@ -62,7 +62,7 @@ export const subscribeObji18n = {
             continueInvestAmount: 'Purchase Unit',
             buyMoney: 'Amount of Purchasing',
             subscriptionFee: 'Subscription Fee (Expected)',
-            Totalorderamount: 'Total Amount of Orders',
+            totalOrderAmount: 'Total Amount of Orders',
             readyXieyi:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information'
         }
