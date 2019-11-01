@@ -65,7 +65,6 @@ export default {
     },
     methods: {
         toFundDetails(item) {
-            console.log(item)
             this.$router.push({
                 path: '/fund-details',
                 query: { id: item.fundId }
