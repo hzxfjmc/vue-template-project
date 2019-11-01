@@ -5,7 +5,7 @@
         @toFundList = "toFundList"
         :lists="list"
         :holdData="holdData")
-        .home-bannar(slot="bannar")
+        .home-bannar(slot="bannar" v-if="barnnerUrl !=''")
             img(:src="barnnerUrl")
         HomeFundList(:fundList="fundList" slot="fundList")
 </template>

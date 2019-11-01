@@ -11,7 +11,8 @@
                 span.element-msg(v-if="item.msg == 2") {{item.apy}}%
                 span.block-p {{$t('oneYearRate')}}
             .block-right
-                .block-top {{item.fundName}}
+                .block-top
+                    p {{item.fundName}} 
                 .block-content
                     van-tag(
                         color="#2177FF"
@@ -25,7 +26,8 @@
                         color="#2177FF"
                         plain
                         ) {{item.earningsTypeName}}
-                .block-bottom {{item.feature}}
+                .block-bottom 
+                    p {{item.feature}} 
                 .block-position 
             .block-element-msg(v-if="item.havePosition") {{$t('holdPostion')}}
 </template>
@@ -66,7 +68,7 @@ export default {
             console.log(item)
             this.$router.push({
                 path: '/fund-details',
-                query: { id: item.fondId }
+                query: { id: item.fundId }
             })
         }
     }
@@ -131,6 +133,26 @@ export default {
         .block-right {
             width: 60%;
             line-height: 27px;
+            .block-top {
+                p {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 1;
+                }
+            }
+            .block-bottom {
+                p {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
+                    line-height: 20px;
+                    font-size: 12px;
+                }
+            }
         }
         .block-element-msg {
             position: absolute;

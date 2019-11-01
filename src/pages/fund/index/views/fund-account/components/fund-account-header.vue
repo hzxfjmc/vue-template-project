@@ -31,7 +31,7 @@
                         em(v-if="showPsd") {{holdData.positionEarningsFlag}}{{holdData.weekEarnings || '--'}}
                         em(v-else) ****
             
-            .header-footer-tab(class="border-top")
+            .header-footer-tab(class="border-bottom-active")
                 span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
                 span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
         slot(name="fundList")
@@ -145,6 +145,25 @@ export default {
     width: 100%;
     padding: 20px 0 0 0;
     background: #2f79ff;
+}
+.border-bottom-active {
+    position: relative;
+    &::after {
+        position: absolute;
+        box-sizing: border-box;
+        content: ' ';
+        pointer-events: none;
+        right: 0;
+        top: 0;
+        left: 0;
+        border-top: 1px solid #5e97ff;
+
+        @media only screen and (min-resolution: 2dppx) {
+            // 非标准的
+            -webkit-transform: scaleY(0.5);
+            transform: scaleY(0.5);
+        }
+    }
 }
 .header-content {
     width: 100%;
