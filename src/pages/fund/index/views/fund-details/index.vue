@@ -351,14 +351,6 @@ export default {
                         : '/open-permissions'
                 this.$router.push(data)
             }
-        },
-        //App页面跳转
-        async openProtocol(url) {
-            if (jsBridge.isYouxinApp) {
-                jsBridge.gotoNewWebview(url)
-            } else {
-                location.href = url
-            }
         }
     },
     mounted() {
