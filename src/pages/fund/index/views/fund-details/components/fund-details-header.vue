@@ -113,7 +113,6 @@ export default {
             p {
                 font-size: 0.56rem;
                 font-weight: 500;
-                // font-family: DINPro;
                 font-family: yxFontDINPro-Medium;
             }
             .number-red {
@@ -137,10 +136,8 @@ export default {
     .funds-details-footer {
         width: 100%;
         float: left;
-        // border: 1px solid red;
         margin: 10px 0;
         padding: 0 10px;
-        // display: flex;
         .block-left {
             width: 50%;
             float: left;
