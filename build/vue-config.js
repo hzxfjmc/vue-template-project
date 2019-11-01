@@ -159,7 +159,7 @@ module.exports = {
             // banner
             '/news-configserver': {
                 //target: 'http://10.55.4.9:15002',
-                target: 'http://hz-dev.yxzq.com',
+                target: 'http://hz-sit.yxzq.com',
                 changOrigin: true,
             },
             // 行情资讯接口服务器

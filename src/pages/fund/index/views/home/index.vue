@@ -5,8 +5,8 @@
         @toFundList = "toFundList"
         :lists="list"
         :holdData="holdData")
-        .home-bannar(slot="bannar" v-if="barnnerUrl !=''")
-            img(:src="barnnerUrl")
+        .home-bannar(slot="bannar" v-if="bannerUrl!=''")
+            img(:src="bannerUrl")
         HomeFundList(:fundList="fundList" slot="fundList")
 </template>
 <script>
@@ -16,6 +16,7 @@ import { getFundPositionList } from '@/service/finance-server.js'
 import { getFundListV2 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { getCosUrl } from '@/utils/cos-utils'
 export default {
     components: {
         HomeHeader,
@@ -27,7 +28,7 @@ export default {
             currency: 2,
             fundList: [],
             list: [],
-            barnnerUrl: '',
+            bannerUrl: '',
             showPage: 27
         }
     },
@@ -48,7 +49,11 @@ export default {
             try {
                 this.showPage = this.currency == 2 ? 27 : 28
                 const { banner_list } = await bannerAdvertisement(this.showPage)
-                this.bannerUrl = banner_list[0]
+                if (banner_list[0]) {
+                    const res = await getCosUrl(banner_list[0].picture_url)
+                    this.bannerUrl = res
+                }
+                console.log(this.bannerUrl)
             } catch (e) {
                 this.$toast(e.msg)
             }
