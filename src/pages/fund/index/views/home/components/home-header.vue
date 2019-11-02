@@ -144,16 +144,22 @@ export default {
                 this.list.map(item => {
                     switch (item.assetType) {
                         case 1:
-                            item.icon = 'icon-icon-sharesfund'
+                            item.icon = 'icon-icon_EquityFund'
                             break
                         case 2:
-                            item.icon = 'icon-iconFFzhaiquanjijin'
+                            item.icon = 'icon-icon_BondFund'
                             break
                         case 3:
-                            item.icon = 'icon-iconFFhunhejijin'
+                            item.icon = 'icon-icon_MixedFund'
                             break
                         case 4:
                             item.icon = 'icon-icon_MonetaryFund'
+                            break
+                        case 5:
+                            item.icon = 'icon-icon_etf'
+                            break
+                        case 6:
+                            item.icon = 'icon-icon_Financialfund'
                             break
                     }
                 })
