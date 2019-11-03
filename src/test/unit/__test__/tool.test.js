@@ -106,7 +106,7 @@ describe('utils-tools', () => {
         expect(compareVersion('1.0.17', '1.0.7')).toBe(1)
     })
 
-    // 比较版本号
+    // 倒计时
     it('calcCountDownDay', () => {
         // 一年按 365 天计算
         let t1 = new Date('2020-05-15').getTime()

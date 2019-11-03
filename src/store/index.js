@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import jsBridge from '@/utils/js-bridge.js'
-import LS from '@/utils/local-storage.js'
-import { setToken } from '@/utils/http-request'
-import userService from '@/service/user-server.js'
 import {
     isYouxinIos,
     isYouxinAndroid,
@@ -11,6 +7,8 @@ import {
     appType,
     lang
 } from '@/utils/html-utils'
+
+import actions from './actions'
 
 Vue.use(Vuex)
 
@@ -26,80 +24,7 @@ export default modules =>
                 state.user = { ...state.user, ...data }
             }
         },
-        actions: {
-            async loginCommonAction(store) {
-                try {
-                    let user
-                    if (!store.getters.isLogin) {
-                        user = await jsBridge.callApp('command_user_login')
-                        setToken(user.userToken)
-                        store.commit('getUserInfoMutation', {
-                            phoneNumber: user.phoneNum,
-                            userId: user.userId,
-                            userToken: user.userToken,
-                            userName: user.userName
-                        })
-                    }
-                    if (!store.getters.phoneNumber) {
-                        user = await jsBridge.callApp(
-                            'command_bind_mobile_phone'
-                        )
-                        store.commit('getUserInfoMutation', {
-                            phoneNumber: user.phoneNum,
-                            userId: user.userId,
-                            userToken: user.userToken,
-                            userName: user.userName
-                        })
-                    }
-                } catch (e) {
-                    throw e
-                }
-            },
-            async getUserInfoAction({ commit }, device = 'web') {
-                try {
-                    let data = await userService.getCurrentUser(device)
-                    data.userId = data.uuid
-                    commit('getUserInfoMutation', data)
-                } catch (e) {
-                    throw e
-                }
-            },
-            async initAction(store) {
-                try {
-                    let userToken = LS.get('userToken')
-                    if (isYouxinApp) {
-                        // 如果是app进入页面的时候获取用户信息
-                        let data = await jsBridge.callApp('get_user_info')
-                        let user = data
-                        LS.put('userToken', user.userToken) // 保存信息到LocalStorage
-                        setToken(user.userToken)
-                        store.commit('getUserInfoMutation', {
-                            phoneNumber: user.phoneNum,
-                            userId: user.userId,
-                            userToken: user.userToken,
-                            userName: user.userName,
-                            openedAccount: user.openedAccount,
-                            bondSigned: user.bondSigned,
-                            userAutograph: user.userAutograph
-                        })
-                    } else {
-                        store.commit('getUserInfoMutation', {
-                            userToken: LS.get('userToken')
-                        })
-                        userToken && (await store.dispatch('getUserInfoAction'))
-                    }
-                } catch (e) {
-                    // LS.remove('userToken')
-                    store.commit('getUserInfoMutation', {
-                        phoneNumber: '',
-                        userId: '',
-                        userToken: '',
-                        userName: ''
-                    })
-                    throw e
-                }
-            }
-        },
+        actions,
         getters: {
             user: state => state.user,
             phoneNumber: state => state.user.phoneNumber,
