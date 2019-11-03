@@ -111,6 +111,11 @@ describe('utils-tools', () => {
         // 一年按 365 天计算
         let t1 = new Date('2020-05-15').getTime()
         let t2 = new Date('2022-05-15').getTime()
+        let initTime = new Date('2019-10-18').getTime()
+        // 重定义 getTime 方法，固化计算相差时间
+        Date.prototype.getTime = function() {
+            return initTime
+        }
         expect(calcCountDownDay(t1)).toBe('210天')
         expect(calcCountDownDay(t2)).toBe('2年210天')
     })
