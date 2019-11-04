@@ -143,15 +143,19 @@ export default {
     watch: {
         redemptionShare(val) {
             if (val > +this.positionShare) {
-                this.redemptionShare = +this.positionShare
+                this.redemptionShare = this.sliceDeci(this.positionShare)
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
         }
     },
     methods: {
+        sliceDeci(s, l) {
+            let deci = s.split('.')[1].slice(0, l)
+            return s.split('.')[0] + '.' + deci
+        },
         //全部卖出
         HandlerAllSell() {
-            this.redemptionShare = +this.positionShare
+            this.redemptionShare = Number(this.positionShare).toFixed(2)
         },
         async openProtocol(url) {
             url = await getCosUrl(url)
