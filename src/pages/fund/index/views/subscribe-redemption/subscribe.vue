@@ -14,7 +14,7 @@
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
-                                span {{subscriptionFee}} ({{item.value}}%)
+                                span {{subscriptionFee ||'--'}} ({{item.value}}%)
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
                                 input(v-model="item.value" :placeHolder="$t('buyMoneyPlaceHolder')" type="number")
                             .right-item-other(v-else)
