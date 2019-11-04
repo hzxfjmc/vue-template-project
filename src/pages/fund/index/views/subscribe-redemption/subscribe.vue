@@ -50,7 +50,7 @@
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8  {{$t('orderAmount')}}
-                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ orderTotalAmount | formatCurrency }}
                 .buy-row
                     .left.line-height-8 {{$t('buyMoney')}}
                     .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
@@ -107,7 +107,8 @@ export default {
             buyProtocolFileList: [],
             sellProtocolFileList: [],
             protocolVisible: false,
-            isCheckedProtocol: true
+            isCheckedProtocol: true,
+            orderTotalAmount: ''
         }
     },
     async created() {
@@ -306,6 +307,7 @@ export default {
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo
+                    this.orderTotalAmount = re.orderTotalAmount
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
