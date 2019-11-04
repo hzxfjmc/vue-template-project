@@ -24,7 +24,7 @@
                 
                 .header-content-number
                     .header-content-top
-                        span {{$t('AllTotalMarketPostion')}} ({{this.currency == 2 ? 'HKD':'USD'}}) 
+                        span {{$t('AllTotalMarketPostion')}} ({{this.currency === 2 ? 'HKD':'USD'}})
                         i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click="hideNumber")
                     .header-content(@click="toFundAccount")
                         span(v-if="showMoney") {{firstPositionAmount || '--'}}
@@ -178,6 +178,7 @@ export default {
             localStorage.get('showMoney') != null
                 ? localStorage.get('showMoney')
                 : true
+        this.currency = this.active === 0 ? 2 : 1
     }
 }
 </script>
