@@ -10,7 +10,7 @@
             .labels 
                 //- fund-tag(:title="info.assetType")
                 fund-tag(:title="info.fundRisk")
-            .feature {{ info.feature }}
+            .feature {{ info.feature }} 好几十开发的看法SDK付借款单房贷副科级放假看电
 </template>
 
 <script>
@@ -76,7 +76,7 @@ export default {
     display: flex;
     align-items: center;
     .left {
-        width: 143px;
+        width: 40%;
         display: flex;
         flex-direction: column;
         .rate-num {
@@ -100,6 +100,7 @@ export default {
     }
     .right {
         display: flex;
+        width: 65%;
         flex-direction: column;
         h2 {
             overflow: hidden;

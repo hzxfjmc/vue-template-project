@@ -10,8 +10,8 @@
         @change="handlerCurrency"
         @click="handlerClickCurrency"
         title-active-color="#fff")
-        van-tab(title="港币基金" name="2")
-        van-tab(title="美元基金" name="1")
+        van-tab(:title="$t('myHkdAccount')" name="2")
+        van-tab(:title="$t('myUsdAccount')" name="1")
         .block-account-header
             .header-content
                 .header-content-left
@@ -50,7 +50,7 @@ export default {
         zhCHS: {
             myHkdAccount: '港币资产',
             myUsdAccount: '美元资产',
-            profitPostion: '持仓收益',
+            profitPostion: '持有收益',
             SevenDayIncome: '近七日收益',
             IncomeDetails: '收益明细',
             OrderRecord: '订单记录'

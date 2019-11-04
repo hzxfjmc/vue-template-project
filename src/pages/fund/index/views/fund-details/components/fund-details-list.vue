@@ -105,25 +105,25 @@ export default {
                 }
             }
             if (item.routerPath == '/generator') {
-                window.location.href = `/webapp/market/generator.html?key=${this.fondCode}`
+                this.openWebView(
+                    `${window.location.origin}/webapp/market/generator.html?key=${this.fondCode}`
+                )
             } else {
-                // console.log(JSON.stringify(data.query))
-                let routerquery = ''
+                let routerQuery = ''
                 for (let key in data.query) {
-                    routerquery += `${key}=${data.query[key]}&`
+                    routerQuery += `${key}=${data.query[key]}&`
                 }
-                this.openProtocol(
+                this.openWebView(
                     window.location.origin +
                         '/wealth/fund/index.html#' +
                         data.path +
                         '?' +
-                        routerquery
+                        routerQuery
                 )
-                // this.$router.push(data)
             }
         },
         //App页面跳转
-        async openProtocol(url) {
+        async openWebView(url) {
             if (jsBridge.isYouxinApp) {
                 jsBridge.gotoNewWebview(url)
             } else {

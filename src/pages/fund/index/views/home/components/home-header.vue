@@ -24,7 +24,7 @@
                 
                 .header-content-number
                     .header-content-top
-                        span {{$t('AllTotalMarketPostion')}} ({{this.currency == 2 ? 'HKD':'USD'}}) 
+                        span {{$t('AllTotalMarketPostion')}} ({{this.currency === 2 ? 'HKD':'USD'}})
                         i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click="hideNumber")
                     .header-content(@click="toFundAccount")
                         span(v-if="showMoney") {{firstPositionAmount || '--'}}
@@ -40,7 +40,7 @@
                             em(v-if="showMoney") {{holdData.weekEarnings || '--'}}
                             em.element-hide(v-else) ****
             .block-element
-                slot(name="bannar")
+                slot(name="banner")
                 slot(name="fundList")
 
 </template>
@@ -137,23 +137,29 @@ export default {
                 let data = {
                     currency: this.currency
                 }
-                if (localStorage.get('activeTab')) {
+                if (localStorage.get('activeTab') != null) {
                     data.currency = localStorage.get('activeTab') == 0 ? 2 : 1
                 }
                 this.list = await getReleaseFundAssetType(data)
                 this.list.map(item => {
                     switch (item.assetType) {
                         case 1:
-                            item.icon = 'icon-icon-sharesfund'
+                            item.icon = 'icon-icon_EquityFund'
                             break
                         case 2:
-                            item.icon = 'icon-iconFFzhaiquanjijin'
+                            item.icon = 'icon-icon_BondFund'
                             break
                         case 3:
-                            item.icon = 'icon-iconFFhunhejijin'
+                            item.icon = 'icon-icon_MixedFund'
                             break
                         case 4:
-                            item.icon = 'icon-icon-currency-fund'
+                            item.icon = 'icon-icon_MonetaryFund'
+                            break
+                        case 5:
+                            item.icon = 'icon-icon_etf'
+                            break
+                        case 6:
+                            item.icon = 'icon-icon_Financialfund'
                             break
                     }
                 })
@@ -172,6 +178,7 @@ export default {
             localStorage.get('showMoney') != null
                 ? localStorage.get('showMoney')
                 : true
+        this.currency = this.active === 0 ? 2 : 1
     }
 }
 </script>

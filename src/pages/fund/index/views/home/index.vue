@@ -5,8 +5,8 @@
         @toFundList = "toFundList"
         :lists="list"
         :holdData="holdData")
-        .home-bannar(slot="bannar" v-if="barnnerUrl !=''")
-            img(:src="barnnerUrl")
+        .home-banner(slot="banner" v-if="bannerUrl!=''")
+            img(:src="bannerUrl")
         HomeFundList(:fundList="fundList" slot="fundList")
 </template>
 <script>
@@ -16,6 +16,8 @@ import { getFundPositionList } from '@/service/finance-server.js'
 import { getFundListV2 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { getCosUrl } from '@/utils/cos-utils'
+import localStorage from '@/utils/local-storage'
 export default {
     components: {
         HomeHeader,
@@ -27,7 +29,7 @@ export default {
             currency: 2,
             fundList: [],
             list: [],
-            barnnerUrl: '',
+            bannerUrl: '',
             showPage: 27
         }
     },
@@ -48,7 +50,13 @@ export default {
             try {
                 this.showPage = this.currency == 2 ? 27 : 28
                 const { banner_list } = await bannerAdvertisement(this.showPage)
-                this.bannerUrl = banner_list[0]
+                if (banner_list[0]) {
+                    const res = await getCosUrl(banner_list[0].picture_url)
+                    this.bannerUrl = res
+                } else {
+                    this.bannerUrl = ''
+                }
+                console.log(this.bannerUrl)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -67,7 +75,7 @@ export default {
                 this.fundList.map(item => {
                     item.msg =
                         Number(item.apy) > 0 ? 0 : Number(item.apy) < 0 ? 1 : 2
-                    item.apy = transNumToThousandMark(item.apy)
+                    item.apy = transNumToThousandMark(item.apy * 100)
                 })
             } catch (e) {
                 this.$toast(e.msg)
@@ -79,7 +87,7 @@ export default {
             this.currency = data
             this.getFundPositionList()
             this.bannerAdvertisement()
-            // this.getReleaseFundAssetType(true)
+            this.getFundListV2()
         },
         async getFundPositionList() {
             try {
@@ -103,6 +111,12 @@ export default {
         }
     },
     mounted() {
+        this.currency =
+            localStorage.get('activeTab') != null
+                ? localStorage.get('activeTab') == 0
+                    ? 2
+                    : 1
+                : 2
         this.bannerAdvertisement()
         this.getFundPositionList()
         this.getFundListV2()
@@ -110,7 +124,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.home-bannar {
+.home-banner {
     width: 100%;
     height: 110px;
     background: #fff;

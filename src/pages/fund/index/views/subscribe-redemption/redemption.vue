@@ -22,10 +22,10 @@
                     .buy-row.block-row
                         .left {{ $t('redeemShares') }}
                         .right.buy-money.border-bottom
-                            input(v-model="redemptionShare" type="number" placeHolder="输入卖出份额" :disabled="positionShare === 0")
-                            span(@click="HandlerAllSell") 全部卖出
+                            input(v-model="redemptionShare" type="number" :placeHolder="$t('entryUnit')" :disabled="positionShare === 0")
+                            span(@click="HandlerAllSell") {{$t('sellAll')}}
                     .buy-row
-                        .left  预计卖出资产
+                        .left  {{$t('predictSellAmount')}}
                         .right {{ predictSellAmount | sliceFixedTwo | formatCurrency }}
                     .buy-row
                         .left
@@ -67,7 +67,7 @@
                     .left.line-height-8 {{ $t('money') }}
                     .right.buy-money.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
+                a.submit(style="margin: 41px 0 28px 0" @click="goNext(orderNo, $route.query.currencyType)") {{ $t('done') }}
         protocol-popup(
             v-model="protocolVisible"
             class="protocolVisible"
@@ -77,15 +77,12 @@
 <script>
 import NP from 'number-precision'
 import { getCosUrl } from '@/utils/cos-utils'
-// import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundRedemption, getFundPosition } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
-// import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
-import { transNumToThousandMark } from '@/utils/tools.js'
 import './index.scss'
 export default {
     name: 'subscribe',
@@ -146,15 +143,19 @@ export default {
     watch: {
         redemptionShare(val) {
             if (val > +this.positionShare) {
-                this.redemptionShare = +this.positionShare
+                this.redemptionShare = this.sliceDeci(this.positionShare)
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
         }
     },
     methods: {
+        sliceDeci(s, l) {
+            let deci = s.split('.')[1].slice(0, l)
+            return s.split('.')[0] + '.' + deci
+        },
         //全部卖出
         HandlerAllSell() {
-            this.redemptionShare = transNumToThousandMark(this.positionShare)
+            this.redemptionShare = Number(this.positionShare).toFixed(2)
         },
         async openProtocol(url) {
             url = await getCosUrl(url)
@@ -174,14 +175,18 @@ export default {
             this.protocolVisible = false
         },
         times: NP.times,
-        gotoOrderRecordDetail(orderNo, currencyType) {
-            this.$router.push({
-                path: '/order-record-detail',
-                query: {
-                    orderNo,
-                    currencyType
-                }
-            })
+        goNext(orderNo, currencyType) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.callApp('command_close_webview')
+            } else {
+                this.$router.push({
+                    path: '/order-record-detail',
+                    query: {
+                        orderNo,
+                        currencyType
+                    }
+                })
+            }
         },
         // 获取基金信息
         async getFundDetailInfo() {
@@ -220,9 +225,7 @@ export default {
                 const fundPos = await getFundPosition({
                     fundId: this.$route.query.id
                 })
-                this.positionShare =
-                    fundPos.availableShare == this.positionShare
-                console.log(fundPos)
+                this.positionShare = fundPos.availableShare
                 this.positionMarketValue = fundPos.positionMarketValue
             } catch (e) {
                 console.log('赎回页面-getFundPositionInfo:error:>>>', e)
@@ -264,15 +267,18 @@ export default {
             try {
                 if (submitStep === 1) {
                     this.$loading()
-                    let data = {
+                    let params = {
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         redemptionShare: this.redemptionShare,
                         requestId: generateUUID(),
-                        tradeToken: token
+                        tradeToken: token,
+                        emptyPosition:
+                            +this.redemptionShare === +this.positionShare
+                                ? true
+                                : false
                     }
-                    data.emptyPosition = this.redemptionShare
-                    let re = await fundRedemption()
+                    let re = await fundRedemption(params)
                     submitStep = 2
                     this.orderNo = re.orderNo
                     this.$close()
@@ -310,11 +316,14 @@ export default {
             stepThree: '资金到达证券账户',
             confirmTheShare: '确认净值',
             earnings: '查看收益',
-            money: '金额',
+            money: '赎回份额',
             done: '完成',
             iKnow: '我知道了',
             moneyToAcc: '资金到达证券账户',
-            protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息'
+            protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
+            sellAll: '全部卖出',
+            entryUnit: '输入卖出份额',
+            predictSellAmount: '订单总金额'
         },
         zhCHT: {
             sellSuccess: '贖回成功',
@@ -335,11 +344,14 @@ export default {
             stepThree: '資金到達證券賬戶',
             confirmTheShare: '確認凈值',
             earnings: '查看收益',
-            money: '金額',
+            money: '贖回份額',
             done: '完成',
             iKnow: '我知道了',
             moneyToAcc: '資金到達證券賬戶',
-            protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息'
+            protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
+            sellAll: '全部賣出',
+            entryUnit: '輸入賣出份額',
+            predictSellAmount: '訂單總金額'
         },
         en: {
             sellSuccess: 'Redemption Successful',
@@ -360,12 +372,15 @@ export default {
             stepThree: 'Funds Credited to Securities Account',
             confirmTheShare: 'CFMD NAV',
             earnings: 'Check Earnings',
-            money: 'Amount',
+            money: 'Redemption Unit',
             done: 'Completed',
             iKnow: 'Got it',
             moneyToAcc: 'Funds Credited to Securities Account',
             protocolTips:
-                'I have read and agree to the service agreement and risk warning, and consult relevant information'
+                'I have read and agree to the service agreement and risk warning, and consult relevant information',
+            sellAll: 'Sell All',
+            entryUnit: 'Entry Unit',
+            predictSellAmount: 'Total Amount of Orders'
         }
     }
 }

@@ -25,6 +25,7 @@
 <script>
 import { fundOrderList } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import { List } from 'vant'
 export default {
     components: {
@@ -94,9 +95,10 @@ export default {
                 this.total = total
                 this.pageSize = pageSize
                 list.map(item => {
-                    item.orderAmount = item.orderTime = dayjs(
-                        item.orderTime
-                    ).format('YYYY-MM-DD HH:mm:ss')
+                    item.orderAmount = transNumToThousandMark(item.orderAmount)
+                    item.orderTime = dayjs(item.orderTime).format(
+                        'YYYY-MM-DD HH:mm:ss'
+                    )
                 })
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0

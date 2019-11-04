@@ -14,9 +14,9 @@
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
-                                span {{item.value}}%
+                                span {{subscriptionFee ||'--'}} ({{item.value}}%)
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
-                                input(v-model="item.value" placeHolder="最小买入+买入单位*N" type="number")
+                                input(v-model="item.value" :placeHolder="$t('buyMoneyPlaceHolder')" type="number")
                             .right-item-other(v-else)
                                 span {{item.value}}
                 FundSteps(
@@ -29,7 +29,7 @@
             .fund-footer-content
                 .protocol
                     .protocol__checkbox.iconfont.icon-selected(:class="isCheckedProtocol ?'checked':'un-checked'" @click="checkProtocol")
-                    .protocol__text(@click="checkProtocol") 已阅读并同意服务协议及风险提示，并查阅相关信息
+                    .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
                 van-button(:disabled="disabled" @click="handleSubmit") {{$t('submitButtonText')}}
         template(v-else-if="step === 2")
@@ -49,13 +49,13 @@
                     span.text-color5 {{ $t('earnings') }}
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
-                    .left.line-height-8  订单金额
-                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
+                    .left.line-height-8  {{$t('orderAmount')}}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ orderTotalAmount | formatCurrency }}
                 .buy-row
-                    .left.line-height-8 买入金额
+                    .left.line-height-8 {{$t('buyMoney')}}
                     .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
+                a.submit(style="margin: 41px 0 28px 0" @click="goNext(orderNo, $route.query.currencyType)") {{ $t('done') }}
         protocol-popup(
             v-model="protocolVisible"
             :protocolFileList="buyProtocolFileList"
@@ -70,7 +70,11 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
+import {
+    generateUUID,
+    transNumToThousandMark,
+    parseThousands
+} from '@/utils/tools.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
@@ -103,7 +107,8 @@ export default {
             buyProtocolFileList: [],
             sellProtocolFileList: [],
             protocolVisible: false,
-            isCheckedProtocol: true
+            isCheckedProtocol: true,
+            orderTotalAmount: ''
         }
     },
     async created() {
@@ -129,13 +134,17 @@ export default {
     },
     watch: {
         'subscribeObj.buyMoney.value'(val) {
-            this.subscribeObj.Totalorderamount.value =
+            this.subscribeObj.totalOrderAmount.value =
                 Number(this.subscribeObj.buyMoney.value) +
-                this.subscribeObj.buyMoney.value *
-                    this.subscribeObj.subscriptionFee.value
-            this.subscribeObj.Totalorderamount.value = transNumToThousandMark(
-                this.subscribeObj.Totalorderamount.value
-            )
+                (this.subscribeObj.buyMoney.value *
+                    this.subscribeObj.subscriptionFee.value) /
+                    100
+            this.subscribeObj.totalOrderAmount.value =
+                parseThousands(this.subscribeObj.totalOrderAmount.value) || '--'
+            this.subscriptionFee =
+                (this.subscribeObj.buyMoney.value *
+                    this.subscribeObj.subscriptionFee.value) /
+                    100 || '--'
             if (val > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
             }
@@ -160,14 +169,18 @@ export default {
             this.protocolVisible = false
         },
         times: NP.times,
-        gotoOrderRecordDetail(orderNo, currencyType) {
-            this.$router.push({
-                path: '/order-record-detail',
-                query: {
-                    orderNo,
-                    currencyType
-                }
-            })
+        goNext(orderNo, currencyType) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.callApp('command_close_webview')
+            } else {
+                this.$router.push({
+                    path: '/order-record-detail',
+                    query: {
+                        orderNo,
+                        currencyType
+                    }
+                })
+            }
         },
         // 获取基金信息
         async getFundDetailInfo() {
@@ -294,6 +307,7 @@ export default {
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo
+                    this.orderTotalAmount = re.orderTotalAmount
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
@@ -318,7 +332,7 @@ export default {
             buyRule: '申购规则',
             currency: '币种',
             availableBalance: '可用余额',
-            bugBalance: '购买金额',
+            buyBalance: '购买金额',
             minBugBalance: '最小申购金额',
             continueBalance: '续投金额',
             redemption: '申购费',
@@ -335,7 +349,10 @@ export default {
             money: '金额',
             done: '完成',
             iKnow: '我知道了',
-            subscribeObj: subscribeObji18n.i18n.zhCHS
+            subscribeObj: subscribeObji18n.i18n.zhCHS,
+            protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
+            buyMoneyPlaceHolder: '最小买入+买入单位*N',
+            orderAmount: '订单金额'
         },
         zhCHT: {
             buySuccess: '申購成功',
@@ -344,7 +361,7 @@ export default {
             buyRule: '申購規則',
             currency: '幣種',
             availableBalance: '可用餘額',
-            bugBalance: '购买金额',
+            buyBalance: '购买金额',
             minBugBalance: '最小申購金額',
             continueBalance: '續投金額',
             redemption: '申購費',
@@ -361,7 +378,10 @@ export default {
             money: '金額',
             done: '完成',
             iKnow: '我知道了',
-            subscribeObj: subscribeObji18n.i18n.zhCHT
+            subscribeObj: subscribeObji18n.i18n.zhCHT,
+            protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
+            buyMoneyPlaceHolder: '最小買入+買入單位*N',
+            orderAmount: '訂單金額'
         },
         en: {
             buySuccess: 'Subscription Successful',
@@ -370,7 +390,7 @@ export default {
             buyRule: 'Subscription Rules',
             currency: 'Currency',
             availableBalance: 'Available Balance',
-            bugBalance: 'Investment Amount',
+            buyBalance: 'Investment Amount',
             minBugBalance: 'Initial',
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
@@ -387,7 +407,11 @@ export default {
             money: 'Amount',
             done: 'Completed',
             iKnow: 'Got it',
-            subscribeObj: subscribeObji18n.i18n.en
+            subscribeObj: subscribeObji18n.i18n.en,
+            protocolTips:
+                'I have read and agree to the service agreement and risk warning, and consult relevant information',
+            buyMoneyPlaceHolder: 'Min. Purchase+Purchase Unit*N',
+            orderAmount: 'Amount of Orders'
         }
     }
 }
