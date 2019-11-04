@@ -161,6 +161,27 @@ export function transNumToThousandMark(num = '0', dot = 2) {
     }
 }
 
+export function parseThousands(priceVal) {
+    if (priceVal) {
+        priceVal = priceVal + ''
+        if (priceVal.indexOf('.') > -1) {
+            let numberInt = priceVal.substr(0, priceVal.indexOf('.'))
+            numberInt = numberInt.replace(
+                /(\d{1,3})(?=(\d{3})+(?:$|\.))/g,
+                '$1,'
+            )
+            numberInt = numberInt + priceVal.substr(priceVal.indexOf('.'))
+            return numberInt
+        } else {
+            return priceVal.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')
+        }
+    } else if (priceVal === '0') {
+        return '0'
+    } else {
+        return ''
+    }
+}
+
 /**
  * 比较版本号
  * @param v1 版本号，例：1.0.0

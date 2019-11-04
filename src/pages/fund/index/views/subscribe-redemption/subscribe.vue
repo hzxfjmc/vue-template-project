@@ -14,7 +14,7 @@
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
-                                span {{item.value}}%
+                                span {{subscriptionFee}} ({{item.value}}%)
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
                                 input(v-model="item.value" :placeHolder="$t('buyMoneyPlaceHolder')" type="number")
                             .right-item-other(v-else)
@@ -70,7 +70,11 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
+import {
+    generateUUID,
+    transNumToThousandMark,
+    parseThousands
+} from '@/utils/tools.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
@@ -131,11 +135,16 @@ export default {
         'subscribeObj.buyMoney.value'(val) {
             this.subscribeObj.totalOrderAmount.value =
                 Number(this.subscribeObj.buyMoney.value) +
-                this.subscribeObj.buyMoney.value *
-                    this.subscribeObj.subscriptionFee.value
-            this.subscribeObj.totalOrderAmount.value = transNumToThousandMark(
+                (this.subscribeObj.buyMoney.value *
+                    this.subscribeObj.subscriptionFee.value) /
+                    100
+            this.subscribeObj.totalOrderAmount.value = parseThousands(
                 this.subscribeObj.totalOrderAmount.value
             )
+            this.subscriptionFee =
+                (this.subscribeObj.buyMoney.value *
+                    this.subscribeObj.subscriptionFee.value) /
+                    100 || '--'
             if (val > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
             }
