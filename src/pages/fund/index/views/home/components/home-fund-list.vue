@@ -130,6 +130,7 @@ export default {
             }
             .block-num {
                 color: rgba(234, 61, 61, 1);
+                font-family: yxFontDINPro-Medium;
             }
             .block-black {
                 color: #04ba60;
