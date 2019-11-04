@@ -13,7 +13,7 @@ export const en = {
     fundRedemption: 'Redemption',
     orderRecordDetail: 'Order Records',
     incomeDetails: 'Revenue Detail',
-    home: 'YouXinFound',
+    home: 'YouXinFund',
     fundOrderList: 'Order Records',
     fundAccount: 'My Fund',
     fundHistorical: 'NAV History'
