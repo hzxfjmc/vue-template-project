@@ -113,7 +113,9 @@ export default {
     mounted() {
         this.currency =
             localStorage.get('activeTab') != null
-                ? localStorage.get('activeTab')
+                ? localStorage.get('activeTab') == 0
+                    ? 2
+                    : 1
                 : 2
         this.bannerAdvertisement()
         this.getFundPositionList()

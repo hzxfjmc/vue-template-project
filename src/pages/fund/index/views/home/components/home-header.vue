@@ -137,7 +137,7 @@ export default {
                 let data = {
                     currency: this.currency
                 }
-                if (localStorage.get('activeTab')) {
+                if (localStorage.get('activeTab') != null) {
                     data.currency = localStorage.get('activeTab') == 0 ? 2 : 1
                 }
                 this.list = await getReleaseFundAssetType(data)

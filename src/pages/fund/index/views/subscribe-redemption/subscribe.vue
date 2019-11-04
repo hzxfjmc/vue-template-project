@@ -14,7 +14,7 @@
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
-                                span {{item.value}}%
+                                span {{subscriptionFee ||'--'}} ({{item.value}}%)
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
                                 input(v-model="item.value" :placeHolder="$t('buyMoneyPlaceHolder')" type="number")
                             .right-item-other(v-else)
@@ -50,12 +50,12 @@
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8  {{$t('orderAmount')}}
-                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ orderTotalAmount | formatCurrency }}
                 .buy-row
                     .left.line-height-8 {{$t('buyMoney')}}
                     .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
+                a.submit(style="margin: 41px 0 28px 0" @click="goNext(orderNo, $route.query.currencyType)") {{ $t('done') }}
         protocol-popup(
             v-model="protocolVisible"
             :protocolFileList="buyProtocolFileList"
@@ -70,7 +70,11 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
+import {
+    generateUUID,
+    transNumToThousandMark,
+    parseThousands
+} from '@/utils/tools.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
@@ -103,7 +107,8 @@ export default {
             buyProtocolFileList: [],
             sellProtocolFileList: [],
             protocolVisible: false,
-            isCheckedProtocol: true
+            isCheckedProtocol: true,
+            orderTotalAmount: ''
         }
     },
     async created() {
@@ -131,11 +136,15 @@ export default {
         'subscribeObj.buyMoney.value'(val) {
             this.subscribeObj.totalOrderAmount.value =
                 Number(this.subscribeObj.buyMoney.value) +
-                this.subscribeObj.buyMoney.value *
-                    this.subscribeObj.subscriptionFee.value
-            this.subscribeObj.totalOrderAmount.value = transNumToThousandMark(
-                this.subscribeObj.totalOrderAmount.value
-            )
+                (this.subscribeObj.buyMoney.value *
+                    this.subscribeObj.subscriptionFee.value) /
+                    100
+            this.subscribeObj.totalOrderAmount.value =
+                parseThousands(this.subscribeObj.totalOrderAmount.value) || '--'
+            this.subscriptionFee =
+                (this.subscribeObj.buyMoney.value *
+                    this.subscribeObj.subscriptionFee.value) /
+                    100 || '--'
             if (val > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
             }
@@ -160,14 +169,18 @@ export default {
             this.protocolVisible = false
         },
         times: NP.times,
-        gotoOrderRecordDetail(orderNo, currencyType) {
-            this.$router.push({
-                path: '/order-record-detail',
-                query: {
-                    orderNo,
-                    currencyType
-                }
-            })
+        goNext(orderNo, currencyType) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.callApp('command_close_webview')
+            } else {
+                this.$router.push({
+                    path: '/order-record-detail',
+                    query: {
+                        orderNo,
+                        currencyType
+                    }
+                })
+            }
         },
         // 获取基金信息
         async getFundDetailInfo() {
@@ -294,6 +307,7 @@ export default {
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo
+                    this.orderTotalAmount = re.orderTotalAmount
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
