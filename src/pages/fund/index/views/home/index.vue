@@ -56,6 +56,7 @@ export default {
                 } else {
                     this.bannerUrl = ''
                 }
+                console.log(this.bannerUrl)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -74,7 +75,7 @@ export default {
                 this.fundList.map(item => {
                     item.msg =
                         Number(item.apy) > 0 ? 0 : Number(item.apy) < 0 ? 1 : 2
-                    item.apy = transNumToThousandMark(item.apy)
+                    item.apy = transNumToThousandMark(item.apy * 100)
                 })
             } catch (e) {
                 this.$toast(e.msg)
