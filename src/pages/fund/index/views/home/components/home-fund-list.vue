@@ -29,7 +29,7 @@
                 .block-bottom 
                     p {{item.feature}} 
                 .block-position 
-            .block-element-msg(v-if="item.havePosition") {{$t('holdPostion')}}
+            .block-element-msg(v-if="item.havePosition") {{$t('holdPosition')}}
 </template>
 <script>
 import { Tag } from 'vant'
@@ -49,19 +49,19 @@ export default {
             title: '人气之选',
             subtitle: '众多投资者的选择',
             oneYearRate: '近一年收益率',
-            holdPostion: '已持仓'
+            holdPosition: '已持仓'
         },
         zhCHT: {
-            title: '人气之选',
-            subtitle: '众多投资者的选择',
-            oneYearRate: '近一年收益率',
-            holdPostion: '已持倉'
+            title: '人氣之選',
+            subtitle: '眾多投資者的選擇',
+            oneYearRate: '近一年表現',
+            holdPosition: '已持倉'
         },
         en: {
             title: 'Hot',
             subtitle: "Most investor's choices",
             oneYearRate: 'Change in This Year',
-            holdPostion: 'Positioned'
+            holdPosition: 'Positioned'
         }
     },
     methods: {
