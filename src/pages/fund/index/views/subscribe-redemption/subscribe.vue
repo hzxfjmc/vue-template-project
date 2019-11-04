@@ -55,7 +55,7 @@
                     .left.line-height-8 {{$t('buyMoney')}}
                     .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
+                a.submit(style="margin: 41px 0 28px 0" @click="goNext(orderNo, $route.query.currencyType)") {{ $t('done') }}
         protocol-popup(
             v-model="protocolVisible"
             :protocolFileList="buyProtocolFileList"
@@ -138,9 +138,8 @@ export default {
                 (this.subscribeObj.buyMoney.value *
                     this.subscribeObj.subscriptionFee.value) /
                     100
-            this.subscribeObj.totalOrderAmount.value = parseThousands(
-                this.subscribeObj.totalOrderAmount.value
-            )
+            this.subscribeObj.totalOrderAmount.value =
+                parseThousands(this.subscribeObj.totalOrderAmount.value) || '--'
             this.subscriptionFee =
                 (this.subscribeObj.buyMoney.value *
                     this.subscribeObj.subscriptionFee.value) /
@@ -169,14 +168,18 @@ export default {
             this.protocolVisible = false
         },
         times: NP.times,
-        gotoOrderRecordDetail(orderNo, currencyType) {
-            this.$router.push({
-                path: '/order-record-detail',
-                query: {
-                    orderNo,
-                    currencyType
-                }
-            })
+        goNext(orderNo, currencyType) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.callApp('command_close_webview')
+            } else {
+                this.$router.push({
+                    path: '/order-record-detail',
+                    query: {
+                        orderNo,
+                        currencyType
+                    }
+                })
+            }
         },
         // 获取基金信息
         async getFundDetailInfo() {
