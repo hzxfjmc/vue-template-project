@@ -69,6 +69,8 @@ export default {
         async openWebView(url) {
             if (jsBridge.isYouxinApp) {
                 jsBridge.gotoNewWebview(url)
+            } else {
+                window.location.href = url
             }
         },
         toFundDetails(item) {
