@@ -133,7 +133,9 @@
                     font-size: 24px;
                     text-align: right;
                     border:none;
-                    line-height: 30px;
+                    height:40px;
+                    // border:1px solid red;
+                    line-height: 40px;
                     float:left;
                 }
                 input::-webkit-input-placeholder {

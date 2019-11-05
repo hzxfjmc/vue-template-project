@@ -24,13 +24,13 @@
                 .block-element-number(v-if="eyeTab") {{item.positionShare}}
                 .block-element-number(v-else) ****
         .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' || item.inTransitAmount !== '0.00'")
-            .o-item
+            .o-item(v-if="item.redeemDeliveryShare !== '0.00'")
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
                     span {{$t('share')}}
                     span.price-number(v-if="eyeTab") {{item.redeemDeliveryShare}}
                     span.price-number(v-else) ****
-            .o-item
+            .o-item(v-if="item.inTransitAmount !== '0.00'")
                 .footer-left-l {{$t('subscribe')}}
                 .footer-right
                     span {{item.currency == 2 ? 'HKD':'USD'}}
@@ -42,6 +42,7 @@
 </template>
 <script>
 import localStorage from '@/utils/local-storage'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     props: {
         fundList: {
@@ -91,10 +92,8 @@ export default {
     },
     methods: {
         toFundDetails(item) {
-            this.$router.push({
-                path: '/fund-details',
-                query: { id: item.fundId }
-            })
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
+            gotoNewWebView(url)
         },
         changeEye() {
             this.eyeTab = localStorage.get('showMoney')

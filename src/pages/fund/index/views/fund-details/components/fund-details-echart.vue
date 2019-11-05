@@ -5,7 +5,7 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  日期：{{masterData.belongDay}}
             .header-right 
-                span.number {{Number(masterData.netPrice).toFixed(4)}}
+                span.number {{Number(masterData.netPrice)| sliceFixedTwo(4)}}
                 p.day 今日净值： 
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")

@@ -18,6 +18,7 @@ import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getCosUrl } from '@/utils/cos-utils'
 import localStorage from '@/utils/local-storage'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     components: {
         HomeHeader,
@@ -36,14 +37,20 @@ export default {
     methods: {
         //跳转基金
         toFundList(data) {
-            this.$router.push({
-                path: '/',
-                query: {
-                    type: data.type,
-                    currency: this.currency,
-                    assetTypeName: data.assetTypeName
-                }
-            })
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/?type=${data.type}&currency=${
+                this.currency
+            }&assetTypeName=${encodeURIComponent(data.assetTypeName)}` // 中文没有编码WebView打不开
+            gotoNewWebView(url)
+            // this.$router.push({
+            //     path: '/',
+            //     query: {
+            //         type: data.type,
+            //         currency: this.currency,
+            //         assetTypeName: data.assetTypeName
+            //     }
+            // })
         },
         //获取banner图
         async bannerAdvertisement() {
@@ -75,7 +82,7 @@ export default {
                 this.fundList.map(item => {
                     item.msg =
                         Number(item.apy) > 0 ? 0 : Number(item.apy) < 0 ? 1 : 2
-                    item.apy = transNumToThousandMark(item.apy * 100)
+                    item.apy = item.apy * 100
                 })
             } catch (e) {
                 this.$toast(e.msg)

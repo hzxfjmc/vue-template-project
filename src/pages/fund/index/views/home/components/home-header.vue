@@ -48,6 +48,7 @@
 import { Tab, Tabs } from 'vant'
 import localStorage from '@/utils/local-storage'
 import { getReleaseFundAssetType } from '@/service/finance-info-server.js'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     components: {
         [Tab.name]: Tab,
@@ -127,9 +128,8 @@ export default {
             })
         },
         toFundAccount() {
-            this.$router.push({
-                path: '/fund-account'
-            })
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-account`
+            gotoNewWebView(url)
         },
         //获取已发布的基金底层分类
         async getReleaseFundAssetType() {

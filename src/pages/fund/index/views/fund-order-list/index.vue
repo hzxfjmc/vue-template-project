@@ -1,7 +1,7 @@
 <template lang="pug">
 .income-details-content
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
-        .block-list(class="border-bottom" v-for="(item,index) in list")
+        .block-list(class="border-bottom" v-for="(item,index) in list" :key="index" @click="toDetailHandle(item)")
             .block-left 
                 span.element-fund-name {{item.tradeTypeName}}
                 span.element-fund-name1 {{$t('fundName')}}
@@ -13,7 +13,7 @@
                 span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.externalName}}
                 span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
                 span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
-                span.element-time {{item.fundBaseInfoVO.fundName}}
+                span.element-time.fund-name {{item.fundBaseInfoVO.fundName}}
                 span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
                 span.element-time {{item.orderTime}}
     
@@ -68,6 +68,17 @@ export default {
         }
     },
     methods: {
+        // 跳转到详情
+        toDetailHandle(item) {
+            this.$router.push({
+                name: 'order-record-detail',
+                query: {
+                    orderNo: item.orderNo,
+                    orderStatus: item.externalStatus,
+                    currencyType: this.$route.query.currency
+                }
+            })
+        },
         //上拉加载更多
         onLoad() {
             // 异步更新数据
@@ -89,7 +100,8 @@ export default {
             try {
                 const { list, pageSize, pageNum, total } = await fundOrderList({
                     pageNum: this.pageNum,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
+                    currency: this.$route.query.currency
                 })
                 this.pageNum = pageNum
                 this.total = total
@@ -169,6 +181,21 @@ export default {
             }
             .element-fund-color3 {
                 color: #41ca1e;
+            }
+            .element-time {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
+            }
+            .fund-name {
+                width: 100%;
+                text-align: right;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: block;
+                white-space: nowrap;
+                line-height: 25px;
             }
         }
     }

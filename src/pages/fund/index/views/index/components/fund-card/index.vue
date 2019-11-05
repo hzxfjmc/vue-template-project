@@ -4,13 +4,13 @@
             .rate-num(v-if="apy > 0" :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{ apy }}%
             .rate-num(v-else-if="apy < 0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") {{ apy }}%
             .rate-num(v-else) {{ apy }}%
-            .annualized-returns {{ $t('annualRateOfReturn') }}
+            .annualized-returns {{ isMonetaryFund ? $t('yieldInLast7d') : $t('annualRateOfReturn') }}
         .right
             h2(:style="h2Style") {{ fundName }}
             .labels 
                 //- fund-tag(:title="info.assetType")
                 fund-tag(:title="info.fundRisk")
-            .feature {{ info.feature }} 好几十开发的看法SDK付借款单房贷副科级放假看电
+            .feature {{ info.feature }}
 </template>
 
 <script>
@@ -19,10 +19,17 @@ import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     i18n: {
         zhCHS: {
-            annualRateOfReturn: '近一年收益率'
+            annualRateOfReturn: '近一年收益率',
+            yieldInLast7d: '近七日年化'
         },
-        zhCHT: { annualRateOfReturn: '近一年表現' },
-        en: { annualRateOfReturn: 'Past Year' }
+        zhCHT: {
+            annualRateOfReturn: '近一年表現',
+            yieldInLast7d: '近七日年化'
+        },
+        en: {
+            annualRateOfReturn: 'Past Year',
+            yieldInLast7d: 'Yield in Last 7d'
+        }
     },
     name: 'BondCard',
     components: {
@@ -32,11 +39,22 @@ export default {
         info: {
             type: Object,
             default: () => {}
+        },
+        assetType: {
+            type: String,
+            default: ''
+        },
+        currency: {
+            type: [String, Number],
+            default: null
         }
     },
     computed: {
         stockColorType() {
             return +getStockColorType()
+        },
+        isMonetaryFund() {
+            return Number(this.assetType) === 4 // 货币型基金
         },
         apy() {
             const func = this.info && this.info.apy > 0 ? Math.floor : Math.ceil

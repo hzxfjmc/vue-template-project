@@ -82,6 +82,7 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
+// import { transNumToThousandMark } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
 export default {
@@ -144,6 +145,7 @@ export default {
         redemptionShare(val) {
             if (val > +this.positionShare) {
                 this.redemptionShare = this.sliceDeci(this.positionShare)
+                this.redemptionShare = Number(this.redemptionShare).toFixed(2)
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
         }
