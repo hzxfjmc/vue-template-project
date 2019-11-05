@@ -37,7 +37,11 @@ export default {
     methods: {
         //跳转基金
         toFundList(data) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/?type=${data.type}&currency=${this.currency}&assetTypeName=${data.assetTypeName}`
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/?type=${data.type}&currency=${
+                this.currency
+            }&assetTypeName=${encodeURIComponent(data.assetTypeName)}` // 中文没有编码WebView打不开
             gotoNewWebView(url)
             // this.$router.push({
             //     path: '/',
