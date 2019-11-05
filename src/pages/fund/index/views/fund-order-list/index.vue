@@ -1,7 +1,7 @@
 <template lang="pug">
 .income-details-content
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
-        .block-list(class="border-bottom" v-for="(item,index) in list")
+        .block-list(class="border-bottom" v-for="(item,index) in list" :key="index")
             .block-left 
                 span.element-fund-name {{item.tradeTypeName}}
                 span.element-fund-name1 {{$t('fundName')}}
@@ -89,7 +89,8 @@ export default {
             try {
                 const { list, pageSize, pageNum, total } = await fundOrderList({
                     pageNum: this.pageNum,
-                    pageSize: this.pageSize
+                    pageSize: this.pageSize,
+                    currency: this.$route.query.currency
                 })
                 this.pageNum = pageNum
                 this.total = total
@@ -169,6 +170,12 @@ export default {
             }
             .element-fund-color3 {
                 color: #41ca1e;
+            }
+            .element-time {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                overflow: hidden;
             }
         }
     }
