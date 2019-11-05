@@ -9,10 +9,10 @@
                 v-for="(item, index) in list"
                 :key="index"
             )
-                Card(:info="item" @click.native="goNext(item.fundId)")
+                Card(:info="item" :assetType="assetType" :currency="currency" @click.native="goNext(item.fundId)")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
         .no-bond-box(v-if="load")
-            .no-bond {{ $t('noBond') }}
+            .no-bond {{ $t('noFund') }}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -22,7 +22,13 @@ import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     i18n: {
         zhCHS: {
-            noBond: '暂无基金'
+            noFund: '暂无基金'
+        },
+        zhCHT: {
+            noFund: '暫無基金'
+        },
+        en: {
+            noFund: 'No Data'
         }
     },
     keepalive: true,
@@ -34,6 +40,8 @@ export default {
     },
     created() {
         this.getFundListV2()
+        this.assetType = this.$route.query.type
+        this.currency = this.$route.query.currency
     },
     data() {
         return {
@@ -43,7 +51,8 @@ export default {
             pageNum: 1,
             pageSize: 20,
             total: 0,
-            currency: 2
+            currency: 2,
+            assetType: ''
         }
     },
     methods: {

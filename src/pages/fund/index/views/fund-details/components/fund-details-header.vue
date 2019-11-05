@@ -5,7 +5,7 @@
         p.funds-details-subtitle ISIN：{{fundHeaderInfoVO.isin}}
         .funds-details-number
             .header-left
-                span {{$t('oneYearShow')}}
+                span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
                 p(v-if="fundHeaderInfoVO.apy >0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
                 p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
                 p(v-else) {{fundHeaderInfoVO.apy}}%
@@ -18,7 +18,7 @@
                 van-tag(
                     color="#2177FF"
                     plain
-                    ) {{ fundHeaderInfoVO.assetType }}
+                    ) {{ fundHeaderInfoVO.assetTypeName }}
             .fund-tag
                 van-tag(
                     color="#2177FF"
@@ -40,17 +40,20 @@ export default {
         zhCHS: {
             fundPrice: '基金价格',
             minInvestment: '起投金额',
-            oneYearShow: '近一年收益率'
+            oneYearShow: '近一年收益率',
+            yieldInLast7d: '近七日年化'
         },
         zhCHT: {
             fundPrice: '基金價格',
             minInvestment: '起投金額',
-            oneYearShow: '近一年表現'
+            oneYearShow: '近一年表現',
+            yieldInLast7d: '近七日年化'
         },
         en: {
             fundPrice: 'Price',
             minInvestment: 'Min. Initial Investment',
-            oneYearShow: 'Past Year'
+            oneYearShow: 'Past Year',
+            yieldInLast7d: 'Yield in Last 7d'
         }
     },
     props: {
@@ -67,6 +70,9 @@ export default {
     computed: {
         stockColorType() {
             return +getStockColorType()
+        },
+        isMonetaryFund() {
+            return Number(this.fundHeaderInfoVO.assetType) === 4 // 货币型基金
         }
     }
 }
