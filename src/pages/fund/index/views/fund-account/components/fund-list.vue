@@ -42,6 +42,7 @@
 </template>
 <script>
 import localStorage from '@/utils/local-storage'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     props: {
         fundList: {
@@ -91,10 +92,8 @@ export default {
     },
     methods: {
         toFundDetails(item) {
-            this.$router.push({
-                path: '/fund-details',
-                query: { id: item.fundId }
-            })
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
+            gotoNewWebView(url)
         },
         changeEye() {
             this.eyeTab = localStorage.get('showMoney')

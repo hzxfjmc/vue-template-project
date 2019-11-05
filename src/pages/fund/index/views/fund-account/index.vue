@@ -18,6 +18,7 @@ import fundList from './components/fund-list'
 import { getFundPositionList } from '@/service/finance-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import localStorage from '@/utils/local-storage'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     data() {
         return {
@@ -34,10 +35,8 @@ export default {
     },
     methods: {
         toRouterPath(path) {
-            this.$router.push({
-                path: path,
-                query: { currency: this.currency }
-            })
+            let url = `${window.location.origin}/wealth/fund/index.html#${path}?currency=${this.currency}`
+            gotoNewWebView(url)
         },
         changeEyeTab(data) {
             this.eyeTab = data
