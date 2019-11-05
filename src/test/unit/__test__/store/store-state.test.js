@@ -13,6 +13,15 @@ jest.mock('@/service/user-server.js', () => ({
         })
     }
 }))
+jest.mock('@/utils/js-bridge.js', () => ({
+    callApp: () => {
+        return new Promise(resolve => {
+            resolve({
+                userName: 'test'
+            })
+        })
+    }
+}))
 describe('store', () => {
     it('mutations', () => {
         let { commit, state } = store()
@@ -30,11 +39,17 @@ describe('store', () => {
         // 但是按照目前的 store 构造格式，以下测试方法行不通，因为 commit 被内置传入了，我们调用的时候传入的是无效的
         // 正确测试方式应该是这样
         let commit = jest.fn()
-        actions.getUserInfoAction({ commit }, 'h5').then(() => {
-            expect(commit).toHaveBeenCalledWith('getUserInfoMutation', {
-                uuid: 1,
-                userId: 1
-            })
+        let commit2 = jest.fn()
+        await actions.getUserInfoAction({ commit })
+        expect(commit).toHaveBeenCalledWith('getUserInfoMutation', {
+            uuid: 1,
+            userId: 1
         })
+
+        await actions.loginCommonAction({
+            commit: commit2,
+            getters: { isLogin: false }
+        })
+        expect(commit2).toHaveBeenCalledTimes(2)
     })
 })
