@@ -1,65 +1,70 @@
 <template lang="pug">
-    yx-container-better
-        .transaction-card(slot="main")
-            //- 债券信息
-            .card-header
-                .card-header__title {{ issuerName }}
-                .card-header__sub-title {{ bondName }}
+    van-pull-refresh(
+        v-model="isLoading"
+        @refresh="onRefresh"
+        success-text="刷新成功"
+    )
+        yx-container-better
+            .transaction-card(slot="main")
+                //- 债券信息
+                .card-header
+                    .card-header__title {{ issuerName }}
+                    .card-header__sub-title {{ bondName }}
 
-            //- 买入卖出价
-            van-cell
-                template(slot="title")
-                    span {{ direction === 1 ? $t('buyPrice') : $t('sellPrice') }}
-                template(slot="default")
-                    span {{ buyOrSellPrice }}
-                    i {{ currencyShortSymbol }}
+                //- 买入卖出价
+                van-cell
+                    template(slot="title")
+                        span {{ direction === 1 ? $t('buyPrice') : $t('sellPrice') }}
+                    template(slot="default")
+                        span {{ buyOrSellPrice }}
+                        i {{ currencyShortSymbol }}
 
-            //- 交易数量
-            van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
-                template(slot="default")
-                    van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-            .van-cell__default-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencyName }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
+                //- 交易数量
+                van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
+                    template(slot="default")
+                        van-stepper(v-model="transactionNum" integer min="1" max="9999999")
+                .van-cell__default-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencyName }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
 
 
-            //- 交易金额
-            van-cell.no-line.amount-money(:title="$t('amountMoney')")
-                template(slot="default")
-                    span {{ tradeMoney | thousand-spilt }}
-                    i {{ currencyShortSymbol }}
+                //- 交易金额
+                van-cell.no-line.amount-money(:title="$t('amountMoney')")
+                    template(slot="default")
+                        span {{ tradeMoney | thousand-spilt }}
+                        i {{ currencyShortSymbol }}
 
-            //- 应付、应得利息
-            van-cell.no-line.interest
-                template(slot="title")
-                    span {{ direction === 1 ? $t('payableInterest') : $t('accruedInterest') }}
-                    i.iconfont.icon-wenhao(@click="showTips('interest')")
-                template(slot="default")
-                    span +{{ calcInterest | thousand-spilt }}
+                //- 应付、应得利息
+                van-cell.no-line.interest
+                    template(slot="title")
+                        span {{ direction === 1 ? $t('payableInterest') : $t('accruedInterest') }}
+                        i.iconfont.icon-wenhao(@click="showTips('interest')")
+                    template(slot="default")
+                        span +{{ calcInterest | thousand-spilt }}
 
-            //- 手续费
-            van-cell.service-charge(:title="$t('serviceCharge')")
-                template(slot="default")
-                    span {{ direction === 1 ? '-' : '+' }}{{ serviceCharge | thousand-spilt }}
+                //- 手续费
+                van-cell.service-charge(:title="$t('serviceCharge')")
+                    template(slot="default")
+                        span {{ direction === 1 ? '-' : '+' }}{{ serviceCharge | thousand-spilt }}
 
-            //- 当次交易总额
-            van-cell.no-line.total-money(:title="$t('totalMoney')")
-                template(slot="default")
-                    span {{ totalTradeMoney | thousand-spilt }}
-                    i {{ currencyShortSymbol }}
-            .van-cell__total-tips
-                i.iconfont.icon-wenhao(@click="showTips('total')")
-                span {{direction === 1 ? $t('availableMoney') : $t('positionsCanBeSold')}}
-                strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyShortSymbol }}
-                strong(v-if="direction === 2") {{ marketValue }}
+                //- 当次交易总额
+                van-cell.no-line.total-money(:title="$t('totalMoney')")
+                    template(slot="default")
+                        span {{ totalTradeMoney | thousand-spilt }}
+                        i {{ currencyShortSymbol }}
+                .van-cell__total-tips
+                    i.iconfont.icon-wenhao(@click="showTips('total')")
+                    span {{direction === 1 ? $t('availableMoney') : $t('positionsCanBeSold')}}
+                    strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyShortSymbol }}
+                    strong(v-if="direction === 2") {{ marketValue }}
 
-        van-button(
-            type="info"
-            slot="bottom"
-            class="foot-button"
-            :disabled="btnDisabled"
-            :class="{ sell: direction === 2 }"
-            :text="btnText"
-            @click="handleTradeToken"
-        )
+            van-button(
+                type="info"
+                slot="bottom"
+                class="foot-button"
+                :disabled="btnDisabled"
+                :class="{ sell: direction === 2 }"
+                :text="btnText"
+                @click="handleTradeToken"
+            )
 </template>
 
 <script>
@@ -77,6 +82,9 @@ export default {
 .yx-container {
     padding-top: 22px;
     background: #fff !important;
+}
+.van-pull-refresh {
+    height: 100%;
 }
 .transaction-card {
     overflow: hidden;
@@ -129,6 +137,9 @@ export default {
 </style>
 <style lang="scss">
 // 组件库微调
+.van-pull-refresh .van-pull-refresh__track {
+    height: 100%;
+}
 .transaction-card {
     .van-cell {
         padding: 15px 0;
