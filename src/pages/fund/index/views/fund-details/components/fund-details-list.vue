@@ -7,7 +7,7 @@
 </template>
 <script>
 import { itemList } from './fund-list'
-import localStorage from '../../../../../../utils/local-storage'
+import LS from '@/utils/local-storage'
 import jsBridge from '@/utils/js-bridge'
 export default {
     i18n: {
@@ -80,16 +80,17 @@ export default {
             let data = {
                 path: item.routerPath
             }
-            localStorage.put('scroll', this.scroll)
-            localStorage.put('scrollFlag', 2)
+            LS.put('scroll', this.scroll)
+            LS.put('scrollFlag', 2)
             if (item.routerPath == '/fund-introduce')
                 data.query = {
                     id: this.$route.query.id
                 }
-            if (item.routerPath == '/fund-files')
-                data.query = {
-                    data: JSON.stringify(this.fundCorrelationFileList)
-                }
+            if (item.routerPath == '/fund-files') {
+                let filesData = this.fundCorrelationFileList
+                LS.remove('FILES-DATA')
+                LS.put('FILES-DATA', filesData)
+            }
             if (
                 item.routerPath == '/trade-rule' ||
                 item.routerPath == '/fund-historical'
