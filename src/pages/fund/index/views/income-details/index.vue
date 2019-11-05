@@ -1,7 +1,7 @@
 <template lang="pug">
 .income-details-content
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
-        .list(class="border-bottom" v-for="(item,index) in list")
+        .list(class="border-bottom" v-for="(item,index) in list" :key="index")
             .block-left 
                 span.element-fund-name {{$t('FundNmae')}}
                 span.element-price {{$t('amountMoney')}}
