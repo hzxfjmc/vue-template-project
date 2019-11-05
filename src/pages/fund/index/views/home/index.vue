@@ -43,14 +43,6 @@ export default {
                 this.currency
             }&assetTypeName=${encodeURIComponent(data.assetTypeName)}` // 中文没有编码WebView打不开
             gotoNewWebView(url)
-            // this.$router.push({
-            //     path: '/',
-            //     query: {
-            //         type: data.type,
-            //         currency: this.currency,
-            //         assetTypeName: data.assetTypeName
-            //     }
-            // })
         },
         //获取banner图
         async bannerAdvertisement() {
