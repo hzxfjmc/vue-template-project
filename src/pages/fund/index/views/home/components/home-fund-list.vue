@@ -6,9 +6,12 @@
     .fund-list-content
         .list-item(v-for="(item,index) in fundList" :key="index" @click="toFundDetails(item)")
             .block-left
-                span.block-num(v-if="item.msg == 0") {{item.apy}}%
-                span.block-black(v-if="item.msg == 1") {{item.apy}}%
-                span.element-msg(v-if="item.msg == 2") {{item.apy}}%
+                span.block-num(v-if="item.msg == 0 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
+                span.block-num(v-else-if="item.msg == 0 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
+                span.block-black(v-if="item.msg == 1 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
+                span.block-black(v-else-if="item.msg == 1 && item.apy <0"  :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
+                span.element-msg(v-if="item.msg == 2 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
+                span.element-msg(v-else-if="item.msg == 2 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
                 span.block-p {{$t('oneYearRate')}}
             .block-right
                 .block-top
@@ -33,7 +36,8 @@
 </template>
 <script>
 import { Tag } from 'vant'
-import jsBridge from '@/utils/js-bridge.js'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     components: {
         [Tag.name]: Tag
@@ -65,18 +69,15 @@ export default {
         }
     },
     methods: {
-        //App页面跳转
-        async openWebView(url) {
-            if (jsBridge.isYouxinApp) {
-                jsBridge.gotoNewWebview(url)
-            } else {
-                window.location.href = url
-            }
-        },
         toFundDetails(item) {
-            this.openWebView(
+            gotoNewWebView(
                 `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             )
+        }
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
         }
     }
 }
@@ -131,10 +132,15 @@ export default {
                 line-height: 31px;
             }
             .block-num {
-                color: rgba(234, 61, 61, 1);
                 font-family: yxFontDINPro-Medium;
             }
             .block-black {
+                color: #04ba60;
+            }
+            .number-red {
+                color: rgba(234, 61, 61, 1);
+            }
+            .number-green {
                 color: #04ba60;
             }
         }

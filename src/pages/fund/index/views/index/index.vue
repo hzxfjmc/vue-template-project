@@ -5,12 +5,11 @@
                 a(:href="bannerItem.jump_url" title="")
                     img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
         .bond-list
-            router-link(
+            div(
                 v-for="(item, index) in list"
                 :key="index"
-                :to="{ name: 'fund-details', query: { id: `${item.fundId}` }}"
             )
-                Card(:info="item")
+                Card(:info="item" @click.native="goNext(item.fundId)")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
         .no-bond-box(v-if="load")
             .no-bond {{ $t('noBond') }}
@@ -19,6 +18,7 @@
 import { Swipe, SwipeItem } from 'vant'
 import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     i18n: {
         zhCHS: {
@@ -64,6 +64,10 @@ export default {
                 this.$toast(e.msg)
                 console.log('getListFundInfo:error:>>>', e)
             }
+        },
+        goNext(fundId) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+            gotoNewWebView(url)
         }
     },
     watch: {
