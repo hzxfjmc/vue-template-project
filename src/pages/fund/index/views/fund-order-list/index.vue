@@ -1,7 +1,7 @@
 <template lang="pug">
 .income-details-content
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
-        .block-list(class="border-bottom" v-for="(item,index) in list" :key="index")
+        .block-list(class="border-bottom" v-for="(item,index) in list" :key="index" @click="toDetailHandle(item)")
             .block-left 
                 span.element-fund-name {{item.tradeTypeName}}
                 span.element-fund-name1 {{$t('fundName')}}
@@ -68,6 +68,17 @@ export default {
         }
     },
     methods: {
+        // 跳转到详情
+        toDetailHandle(item) {
+            this.$router.push({
+                name: 'order-record-detail',
+                query: {
+                    orderNo: item.orderNo,
+                    orderStatus: item.externalStatus,
+                    currencyType: this.$route.query.currency
+                }
+            })
+        },
         //上拉加载更多
         onLoad() {
             // 异步更新数据
