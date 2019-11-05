@@ -13,7 +13,7 @@
                 span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.externalName}}
                 span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
                 span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
-                span.element-time {{item.fundBaseInfoVO.fundName}}
+                span.element-time.fund-name {{item.fundBaseInfoVO.fundName}}
                 span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
                 span.element-time {{item.orderTime}}
     
@@ -176,6 +176,15 @@ export default {
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 1;
                 overflow: hidden;
+            }
+            .fund-name {
+                width: 100%;
+                text-align: right;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: block;
+                white-space: nowrap;
+                line-height: 25px;
             }
         }
     }

@@ -8,10 +8,13 @@
             .block-left
                 span.block-num(v-if="item.msg == 0 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
                 span.block-num(v-else-if="item.msg == 0 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
+                span.block-num(v-else-if="item.msg == 0") {{item.apy}}%
                 span.block-black(v-if="item.msg == 1 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
                 span.block-black(v-else-if="item.msg == 1 && item.apy <0"  :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
+                span.block-black(v-else-if="item.msg == 1") {{item.apy}}%
                 span.element-msg(v-if="item.msg == 2 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
                 span.element-msg(v-else-if="item.msg == 2 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
+                span.element-msg(v-else-if="item.msg == 2") {{item.apy}}%
                 span.block-p {{$t('oneYearRate')}}
             .block-right
                 .block-top
