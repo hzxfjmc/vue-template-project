@@ -33,7 +33,7 @@
 </template>
 <script>
 import { Tag } from 'vant'
-import jsBridge from '@/utils/js-bridge.js'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     components: {
         [Tag.name]: Tag
@@ -65,16 +65,8 @@ export default {
         }
     },
     methods: {
-        //App页面跳转
-        async openWebView(url) {
-            if (jsBridge.isYouxinApp) {
-                jsBridge.gotoNewWebview(url)
-            } else {
-                window.location.href = url
-            }
-        },
         toFundDetails(item) {
-            this.openWebView(
+            gotoNewWebView(
                 `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             )
         }
