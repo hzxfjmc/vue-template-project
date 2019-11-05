@@ -110,6 +110,8 @@ export default {
         }
     },
     mounted() {
+        console.log(location.href)
+        console.log(this.$route.query)
         this.currency =
             localStorage.get('activeTab') != null
                 ? localStorage.get('activeTab') == 0
