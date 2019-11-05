@@ -1,40 +1,45 @@
 <template lang="pug">
-    yx-container-better
-        .bond-detail-wrapper(slot="main")
-            detail-header(
-                :bondEditableInfo="bondEditableInfo"
-                :bondUneditableInfo="bondUneditableInfo",
-                :currentPrice="currentPrice"
-                :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
-            )
-            van-panel(title="購買流程")
-                purchasing-process(
-                    :bondUneditableInfo="bondUneditableInfo"
-                    :paymentInfo="paymentInfo"
-                )
-            van-panel(title="債劵價格" desc="（每份）" style="position:relative")
-                BondPrice(:chartData="prices" :currentPrice="currentPrice")
-            van-panel(title="債劵資料")
-                BondInfo(
+    van-pull-refresh(
+        v-model="isLoading"
+        @refresh="onRefresh"
+        success-text="刷新成功"
+    )
+        yx-container-better
+            .bond-detail-wrapper(slot="main")
+                detail-header(
                     :bondEditableInfo="bondEditableInfo"
-                    :bondUneditableInfo="bondUneditableInfo"
+                    :bondUneditableInfo="bondUneditableInfo",
                     :currentPrice="currentPrice"
+                    :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
                 )
-            van-panel(title="交易規則")
-                TransactionRules
-            .faq
-                a(href="/webapp/market/generator.html?key=bond01" title="債劵常見問題") 債劵常見問題
-        .operate-btn-box(slot="bottom")
-            van-button(
-                type="info"
-                text="買入"
-                @click="handleBuyOrSell('buy')"
-            )
-            van-button(
-                type="info"
-                text="賣出"
-                @click="handleBuyOrSell('sell')"
-            )
+                van-panel(title="購買流程")
+                    purchasing-process(
+                        :bondUneditableInfo="bondUneditableInfo"
+                        :paymentInfo="paymentInfo"
+                    )
+                van-panel(title="債劵價格" desc="（每份）" style="position:relative")
+                    BondPrice(:chartData="prices" :currentPrice="currentPrice")
+                van-panel(title="債劵資料")
+                    BondInfo(
+                        :bondEditableInfo="bondEditableInfo"
+                        :bondUneditableInfo="bondUneditableInfo"
+                        :currentPrice="currentPrice"
+                    )
+                van-panel(title="交易規則")
+                    TransactionRules
+                .faq
+                    a(href="/webapp/market/generator.html?key=bond01" title="債劵常見問題") 債劵常見問題
+            .operate-btn-box(slot="bottom")
+                van-button(
+                    type="info"
+                    text="買入"
+                    @click="handleBuyOrSell('buy')"
+                )
+                van-button(
+                    type="info"
+                    text="賣出"
+                    @click="handleBuyOrSell('sell')"
+                )
 
 </template>
 <script>

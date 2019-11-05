@@ -2,12 +2,13 @@ import YxContainerBetter from '@/components/yx-container-better'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
-import { Panel } from 'vant'
+import { Panel, PullRefresh } from 'vant'
 import { mapState } from 'vuex'
 export default {
     name: 'BondList',
     components: {
         [Panel.name]: Panel,
+        [PullRefresh.name]: PullRefresh,
         YxContainerBetter
     },
     created() {
@@ -18,6 +19,9 @@ export default {
 
         // 获取用户信息--主要拿签名状态
         this.handleGetCurrentUser()
+
+        // 定时更新行情数据
+        this.handleUpdateBondDetail()
     },
     data() {
         return {
@@ -29,7 +33,11 @@ export default {
             prices: [],
             id: 0,
             bondName: '',
-            extendStatusBit: 0 // 用户扩展状态
+            extendStatusBit: 0, // 用户扩展状态
+
+            isLoading: false, // 下拉刷新
+
+            updateTimer: null // 定时更新行情数据计时器
         }
     },
     computed: {
@@ -42,6 +50,26 @@ export default {
         }
     },
     methods: {
+        // 定时更新行情数据
+        handleUpdateBondDetail() {
+            clearInterval(this.updateTimer)
+            this.updateTimer = setInterval(() => {
+                this.handleGetBondDetail()
+            }, 30 * 1000)
+        },
+        // 下拉刷新
+        onRefresh() {
+            Promise.all([
+                this.handleGetBondDetail(),
+                this.handleGetCurrentUser()
+            ])
+                .then(() => {
+                    this.isLoading = false
+                })
+                .finally(() => {
+                    this.isLoading = false
+                })
+        },
         // 获取债券详情
         async handleGetBondDetail() {
             try {
@@ -80,7 +108,7 @@ export default {
             try {
                 let { extendStatusBit } = getCurrentUser()
                 this.extendStatusBit = (extendStatusBit && extendStatusBit) || 0
-                console.log('getCurrentUser:error:>>>', extendStatusBit)
+                console.log('getCurrentUser:data:>>>', extendStatusBit)
             } catch (error) {
                 console.log('getCurrentUser:error:>>>', error)
             }
