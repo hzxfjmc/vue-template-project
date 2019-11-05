@@ -82,7 +82,7 @@ export default {
                 this.fundList.map(item => {
                     item.msg =
                         Number(item.apy) > 0 ? 0 : Number(item.apy) < 0 ? 1 : 2
-                    item.apy = transNumToThousandMark(item.apy * 100)
+                    item.apy = item.apy * 100
                 })
             } catch (e) {
                 this.$toast(e.msg)

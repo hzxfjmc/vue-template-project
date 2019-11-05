@@ -41,6 +41,10 @@ export default {
         }
     },
     methods: {
+        sliceDeci(s, l) {
+            let deci = s.split('.')[1].slice(0, l)
+            return s.split('.')[0] + '.' + deci
+        },
         //上拉加载更多
         onLoad() {
             // 异步更新数据
@@ -77,7 +81,7 @@ export default {
                 this.total = total
                 this.list.map((item, index) => {
                     item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
-                    item.netPrice = transNumToThousandMark(item.netPrice, 4)
+                    item.netPrice = this.sliceDeci(item.netPrice, 4)
                     if (index > 0) {
                         item.price =
                             (this.list[index - 1].netPrice -
