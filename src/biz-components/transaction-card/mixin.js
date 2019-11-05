@@ -7,6 +7,7 @@ import {
     getBondInterestCalculate
 } from '@/service/finance-server.js'
 import { generateUUID, debounce } from '@/utils/tools.js'
+import { LongPress } from '@/utils/long-press'
 import jsBridge from '@/utils/js-bridge.js'
 import { Stepper, PullRefresh } from 'vant'
 import { mapGetters } from 'vuex'
@@ -93,6 +94,23 @@ export default {
         this.handleFeePackageCurr()
 
         this.debounceTradeToken = debounce(this.getTradeToken, 350)
+    },
+    mounted() {
+        setTimeout(() => {
+            // 长按递增/递减
+            new LongPress('.van-stepper__minus', () => {
+                this.transactionNum--
+                if (this.transactionNum <= 1) {
+                    this.transactionNum = 1
+                }
+            })
+            new LongPress('.van-stepper__plus', () => {
+                this.transactionNum++
+                if (this.transactionNum >= 9999999) {
+                    this.transactionNum = 9999999
+                }
+            })
+        }, 500)
     },
     data() {
         return {
