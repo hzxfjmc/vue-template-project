@@ -6,14 +6,14 @@
     .fund-list-content
         .list-item(v-for="(item,index) in fundList" :key="index" @click="toFundDetails(item)")
             .block-left
-                span.block-num(v-if="item.msg == 0 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
-                span.block-num(v-else-if="item.msg == 0 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
-                span.block-num(v-else-if="item.msg == 0") {{item.apy}}%
-                span.block-black(v-if="item.msg == 1 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
-                span.block-black(v-else-if="item.msg == 1 && item.apy <0"  :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
+                span.block-num(v-if="item.msg == 0 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy|filterThousand}}%
+                span.block-num(v-else-if="item.msg == 0 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy|filterThousand}}%
+                span.block-num(v-else-if="item.msg == 0") {{item.apy|filterThousand}}%
+                span.block-black(v-if="item.msg == 1 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy|filterThousand}}%
+                span.block-black(v-else-if="item.msg == 1 && item.apy <0"  :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy|filterThousand}}%
                 span.block-black(v-else-if="item.msg == 1") {{item.apy}}%
-                span.element-msg(v-if="item.msg == 2 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy}}%
-                span.element-msg(v-else-if="item.msg == 2 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy}}%
+                span.element-msg(v-if="item.msg == 2 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy|filterThousand}}%
+                span.element-msg(v-else-if="item.msg == 2 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy|filterThousand}}%
                 span.element-msg(v-else-if="item.msg == 2") {{item.apy}}%
                 span.block-p {{$t('oneYearRate')}}
             .block-right
@@ -41,6 +41,7 @@
 import { Tag } from 'vant'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
         [Tag.name]: Tag
@@ -70,6 +71,9 @@ export default {
             oneYearRate: 'Change in This Year',
             holdPosition: 'Positioned'
         }
+    },
+    filters: {
+        filterThousand: transNumToThousandMark
     },
     methods: {
         toFundDetails(item) {
