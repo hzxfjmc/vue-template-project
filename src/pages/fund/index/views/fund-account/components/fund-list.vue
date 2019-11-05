@@ -24,13 +24,13 @@
                 .block-element-number(v-if="eyeTab") {{item.positionShare}}
                 .block-element-number(v-else) ****
         .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' || item.inTransitAmount !== '0.00'")
-            .o-item
+            .o-item(v-if="item.redeemDeliveryShare !== '0.00'")
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
                     span {{$t('share')}}
                     span.price-number(v-if="eyeTab") {{item.redeemDeliveryShare}}
                     span.price-number(v-else) ****
-            .o-item
+            .o-item(v-if="item.inTransitAmount !== '0.00'")
                 .footer-left-l {{$t('subscribe')}}
                 .footer-right
                     span {{item.currency == 2 ? 'HKD':'USD'}}
