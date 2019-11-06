@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import hkRouter from './index-hk'
 
 Vue.use(Router)
 export default new Router({
@@ -66,6 +67,7 @@ export default new Router({
                 import(
                     `@/pages/bond/index/views/risk-assessment-result/index.vue`
                 )
-        }
+        },
+        ...hkRouter
     ]
 })
