@@ -92,7 +92,7 @@ export default {
         subscriptionAmount() {
             return (
                 (this.minFaceValue * this.buyPrice &&
-                    `${this.currency}${(
+                    `${this.currencySymbol}${(
                         this.minFaceValue * this.buyPrice
                     ).toFixed(3)}`) ||
                 '--'
