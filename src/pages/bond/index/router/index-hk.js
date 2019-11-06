@@ -1,5 +1,6 @@
-const hkpath = '/hk/'
-export default [
+const hkpath = '/hk'
+
+let routerList = [
     {
         name: 'index',
         path: hkpath,
@@ -8,51 +9,61 @@ export default [
     },
     {
         name: 'bond-detail',
-        path: `${hkpath}/bond-detail`,
+        path: '/bond-detail',
         meta: { title: '债券详情' },
         component: () =>
-            import(`@/pages/bond/index/views/bond-detail/index.vue`)
+            import(`@/pages/bond/index/views/bond-detail/index-hk.vue`)
     },
     {
         name: 'transaction-sell',
-        path: `${hkpath}/transaction-sell`,
+        path: '/transaction-sell',
         meta: { title: '卖出' },
         component: () =>
-            import(`@/pages/bond/index/views/transaction-sell/index.vue`)
+            import(`@/pages/bond/index/views/transaction-sell/index-hk.vue`)
     },
     {
         name: 'transaction-buy',
-        path: `${hkpath}/transaction-buy`,
+        path: '/transaction-buy',
         meta: { title: '买入' },
         component: () =>
-            import(`@/pages/bond/index/views/transaction-buy/index.vue`)
+            import(`@/pages/bond/index/views/transaction-buy/index-hk.vue`)
     },
     {
         name: 'risk-warning',
-        path: `${hkpath}/risk-warning`,
+        path: '/risk-warning',
         meta: { title: '风险提示' },
         component: () =>
-            import(`@/pages/bond/index/views/risk-warning/index.vue`)
+            import(`@/pages/bond/index/views/risk-warning/index-hk.vue`)
     },
     {
         name: 'risk-assessment',
-        path: `${hkpath}/risk-assessment`,
+        path: '/risk-assessment',
         meta: { title: '风险测评' },
         component: () =>
-            import(`@/pages/bond/index/views/risk-assessment/index.vue`)
+            import(`@/pages/bond/index/views/risk-assessment/index-hk.vue`)
     },
     {
         name: 'risk-appropriate-result',
-        path: `${hkpath}/risk-appropriate-result`,
+        path: '/risk-appropriate-result',
         meta: { title: '产品匹配' },
         component: () =>
-            import(`@/pages/bond/index/views/risk-appropriate-result/index.vue`)
+            import(
+                `@/pages/bond/index/views/risk-appropriate-result/index-hk.vue`
+            )
     },
     {
         name: 'risk-assessment-result',
-        path: `${hkpath}/risk-assessment-result`,
+        path: '/risk-assessment-result',
         meta: { title: '测评结果' },
         component: () =>
-            import(`@/pages/bond/index/views/risk-assessment-result/index.vue`)
+            import(
+                `@/pages/bond/index/views/risk-assessment-result/index-hk.vue`
+            )
     }
 ]
+
+routerList.forEach(routerItem => {
+    routerItem.path = `${hkpath}${routerItem.path}`
+})
+
+export default routerList
