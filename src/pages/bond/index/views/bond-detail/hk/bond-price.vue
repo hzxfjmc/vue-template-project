@@ -11,7 +11,7 @@
 </template>
 <script>
 import MaskHeader from './bond-price__mask-header'
-import bondPriceMixin from '@/mixins/bond/bond-detail/bond-price.js'
+import bondPriceMixin from '../mixins/bond-price.js'
 export default {
     mixins: [bondPriceMixin],
     components: {

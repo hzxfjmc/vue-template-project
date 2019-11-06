@@ -25,7 +25,7 @@
                     .process-step__line
 </template>
 <script>
-import purchasingProcessMixin from '@/mixins/bond/bond-detail/purchasing-process.js'
+import purchasingProcessMixin from './mixins/purchasing-process.js'
 export default {
     mixins: [purchasingProcessMixin]
 }

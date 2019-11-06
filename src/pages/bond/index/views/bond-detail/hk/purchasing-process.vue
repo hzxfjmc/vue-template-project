@@ -17,7 +17,7 @@
                 <p>・返還本金份額: {{ minFaceValue | thousand-spilt }}{{ currency }}/份</p>
 </template>
 <script>
-import purchasingProcessMixin from '@/mixins/bond/bond-detail/purchasing-process.js'
+import purchasingProcessMixin from '../mixins/purchasing-process.js'
 export default {
     mixins: [purchasingProcessMixin],
     props: {

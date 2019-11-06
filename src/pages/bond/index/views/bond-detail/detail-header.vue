@@ -21,7 +21,7 @@
 
 </template>
 <script>
-import detailHeaderMixin from '@/mixins/bond/bond-detail/detail-header.js'
+import detailHeaderMixin from './mixins/detail-header.js'
 import { calcCountDownDay } from '@/utils/tools.js'
 export default {
     mixins: [detailHeaderMixin],

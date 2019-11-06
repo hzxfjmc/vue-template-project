@@ -44,7 +44,7 @@ import BondPrice from './bond-price.vue'
 import BondInfo from './bond-info.vue'
 import TransactionRules from './transaction-rules.vue'
 
-import bondDetailMixin from '@/mixins/bond/bond-detail/index.js'
+import bondDetailMixin from './mixins'
 export default {
     mixins: [bondDetailMixin],
     components: {

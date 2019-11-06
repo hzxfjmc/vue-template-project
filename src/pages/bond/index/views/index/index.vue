@@ -18,7 +18,7 @@
             .no-bond 暂无债券
 </template>
 <script>
-import indexMixin from '@/mixins/bond/index/index.js'
+import indexMixin from './mixins.js'
 import BondCard from '@/biz-components/bond-card/index'
 export default {
     mixins: [indexMixin],

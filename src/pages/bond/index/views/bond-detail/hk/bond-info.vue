@@ -29,7 +29,7 @@
 </template>
 <script>
 import { calcPaymentDates } from '@/pages/bond/index/tools.js'
-import bondInfoMixin from '@/mixins/bond/bond-detail/bond-info.js'
+import bondInfoMixin from '../mixins/bond-info.js'
 export default {
     mixins: [bondInfoMixin],
     props: {

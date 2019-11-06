@@ -49,7 +49,7 @@ import BondPrice from './hk/bond-price.vue'
 import BondInfo from './hk/bond-info.vue'
 import TransactionRules from './hk/transaction-rules.vue'
 
-import bondDetailMixin from '@/mixins/bond/bond-detail/index.js'
+import bondDetailMixin from './mixins'
 export default {
     mixins: [bondDetailMixin],
     components: {

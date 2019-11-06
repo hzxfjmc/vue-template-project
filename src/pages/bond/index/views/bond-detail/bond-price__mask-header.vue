@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import bondPriceMaskHeaderMixin from '@/mixins/bond/bond-detail/bond-price__mask-header.js'
+import bondPriceMaskHeaderMixin from './mixins/bond-price__mask-header.js'
 export default {
     mixins: [bondPriceMaskHeaderMixin]
 }
