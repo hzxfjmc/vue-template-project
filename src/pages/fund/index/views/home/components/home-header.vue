@@ -70,8 +70,8 @@ export default {
             SevenDayIncome: '近七日收益'
         },
         en: {
-            hkdFund: 'HKD Assets',
-            usdFund: 'USD Assets',
+            hkdFund: 'HKD',
+            usdFund: 'USD',
             AllTotalMarketPostion: 'Market Value',
             HoldIncome: 'Total Return',
             SevenDayIncome: 'RTN 7d'

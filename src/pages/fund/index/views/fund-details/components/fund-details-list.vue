@@ -16,7 +16,7 @@ export default {
                 trade: { label: '交易记录' },
                 survey: { label: '基金概况' },
                 rule: { label: '交易规则' },
-                history: { label: '基金历史' },
+                history: { label: '净值历史' },
                 files: { label: '相关文件' },
                 tips: { label: '风险提示' }
             }
@@ -26,7 +26,7 @@ export default {
                 trade: { label: '交易記錄' },
                 survey: { label: '基金概況' },
                 rule: { label: '交易規則' },
-                history: { label: '基金历史' },
+                history: { label: '淨值歷史' },
                 files: { label: '相關文件' },
                 tips: { label: '風險提示' }
             }
@@ -36,7 +36,7 @@ export default {
                 trade: { label: 'Transaction Records' },
                 survey: { label: 'Fund Overview' },
                 rule: { label: 'Trading Rules' },
-                history: { label: '基金历史' },
+                history: { label: 'NAV History' },
                 files: { label: 'Related Documents' },
                 tips: { label: 'Risk Disclosure' }
             }
@@ -133,9 +133,7 @@ export default {
         },
         InitI18nState() {
             for (let key in this.list) {
-                if (key != 'history') {
-                    this.list[key].label = this.$t('itemList')[key].label
-                }
+                this.list[key].label = this.$t('itemList')[key].label
             }
         }
     },

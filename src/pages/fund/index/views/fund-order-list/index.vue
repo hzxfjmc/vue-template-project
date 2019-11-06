@@ -42,14 +42,14 @@ export default {
         zhCHT: {
             fundName: '基金名稱',
             amountMoney: '金額',
-            time: '时间',
+            time: '時間',
             nomore: '暫無訂單記錄',
             nomore1: '無更多內容'
         },
         en: {
             fundName: 'Fund Name',
             amountMoney: 'Amount',
-            time: '时间',
+            time: 'Time',
             nomore: 'No Order Record',
             nomore1: 'No More Content'
         }

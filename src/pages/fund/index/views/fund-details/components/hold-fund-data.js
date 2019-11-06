@@ -83,12 +83,12 @@ export const i18nHoldDetailsData = {
                 label: '待確認金額'
             },
             redeemDeliveryShare: {
-                label: '赎回份额'
+                label: '贖回份額'
             }
         }
     },
     en: {
-        holdFundTitle: 'Positon',
+        holdFundTitle: 'Position',
         holdDetailsData: {
             weekEarnings: {
                 label: 'Yesterday P/L'
@@ -106,7 +106,7 @@ export const i18nHoldDetailsData = {
                 label: 'Amount to be CFMD'
             },
             redeemDeliveryShare: {
-                label: '赎回份额'
+                label: 'Redeem Units'
             }
         }
     }
