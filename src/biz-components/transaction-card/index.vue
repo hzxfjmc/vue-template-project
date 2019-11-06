@@ -1,11 +1,12 @@
 <template lang="pug">
-    van-pull-refresh(
-        v-model="isLoading"
-        @refresh="onRefresh"
-        success-text="刷新成功"
-    )
-        yx-container-better
-            .transaction-card(slot="main")
+    yx-container-better
+        van-pull-refresh(
+            slot="main"
+            v-model="isLoading"
+            @refresh="onRefresh"
+            success-text="刷新成功"
+        )
+            .transaction-card
                 media-box.transaction-header(
                     :title="issuerName"
                     :desc="bondName"
@@ -46,14 +47,14 @@
                     span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
                     strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyName }}
                     strong(v-if="direction === 2") {{ marketValue }}
-            van-button(
-                type="info"
-                slot="bottom"
-                class="foot-button"
-                :class="{ sell: btnText === '确认卖出' }"
-                :text="btnText"
-                @click="handleTradeToken"
-            )
+        van-button(
+            type="info"
+            slot="bottom"
+            class="foot-button"
+            :class="{ sell: btnText === '确认卖出' }"
+            :text="btnText"
+            @click="handleTradeToken"
+        )
 </template>
 
 <script>
@@ -65,6 +66,7 @@ export default {
 
 <style lang="scss" scoped>
 .yx-container {
+    overflow: hidden;
     padding-top: 10px;
     background: transparent;
 }
@@ -72,7 +74,6 @@ export default {
     height: 100%;
 }
 .transaction-card {
-    overflow: hidden;
     margin: 0 10px;
     padding-bottom: 68px;
     background-color: #fff;
@@ -154,6 +155,12 @@ export default {
 }
 .van-pull-refresh .van-pull-refresh__track {
     height: 100%;
+}
+.yx-container {
+    .better-wrap,
+    .slotWrapss {
+        height: 100%;
+    }
 }
 .transaction-card {
     .van-stepper {

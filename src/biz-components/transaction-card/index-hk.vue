@@ -1,11 +1,12 @@
 <template lang="pug">
-    van-pull-refresh(
-        v-model="isLoading"
-        @refresh="onRefresh"
-        success-text="刷新成功"
-    )
-        yx-container-better
-            .transaction-card(slot="main")
+    yx-container-better
+        van-pull-refresh(
+            slot="main"
+            v-model="isLoading"
+            @refresh="onRefresh"
+            success-text="刷新成功"
+        )
+            .transaction-card
                 //- 债券信息
                 .card-header
                     .card-header__title {{ issuerName }}
@@ -56,15 +57,15 @@
                     strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyShortSymbol }}
                     strong(v-if="direction === 2") {{ marketValue }}
 
-            van-button(
-                type="info"
-                slot="bottom"
-                class="foot-button"
-                :disabled="btnDisabled"
-                :class="{ sell: direction === 2 }"
-                :text="btnText"
-                @click="handleTradeToken"
-            )
+        van-button(
+            type="info"
+            slot="bottom"
+            class="foot-button"
+            :disabled="btnDisabled"
+            :class="{ sell: direction === 2 }"
+            :text="btnText"
+            @click="handleTradeToken"
+        )
 </template>
 
 <script>
@@ -80,15 +81,14 @@ export default {
 
 <style lang="scss" scoped>
 .yx-container {
-    padding-top: 22px;
+    overflow: hidden;
     background: #fff !important;
 }
 .van-pull-refresh {
     height: 100%;
 }
 .transaction-card {
-    overflow: hidden;
-    padding: 0 $hk-global-padding 68px;
+    padding: 22px $hk-global-padding 68px;
     background-color: #fff;
     border-radius: 4px;
     .card-header {
@@ -139,6 +139,12 @@ export default {
 // 组件库微调
 .van-pull-refresh .van-pull-refresh__track {
     height: 100%;
+}
+.yx-container {
+    .better-wrap,
+    .slotWrapss {
+        height: 100%;
+    }
 }
 .transaction-card {
     .van-cell {
