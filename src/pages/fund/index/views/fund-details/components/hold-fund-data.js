@@ -83,7 +83,7 @@ export const i18nHoldDetailsData = {
                 label: '待確認金額'
             },
             redeemDeliveryShare: {
-                label: '贖回份額'
+                label: '贖回中(份額)'
             }
         }
     },
@@ -106,7 +106,7 @@ export const i18nHoldDetailsData = {
                 label: 'Amount to be CFMD'
             },
             redeemDeliveryShare: {
-                label: 'Redeem Units'
+                label: 'Redeeming（Unit）'
             }
         }
     }
