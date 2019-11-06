@@ -3,10 +3,10 @@
     span {{$t('fundTrade')}}
     .fund-echart-content
         .fund-echart-header(v-if="masterShow")
-            .header-left  日期：{{masterData.belongDay}}
-            .header-right 
+            .header-left  {{$t('time')}}：{{masterData.belongDay}}
+            .header-right
                 span.number {{Number(masterData.netPrice)| sliceFixedTwo(4)}}
-                p.day 今日净值： 
+                p.day {{$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
     .fund-date-list
@@ -24,6 +24,8 @@ export default {
     i18n: {
         zhCHS: {
             fundTrade: '基金净值走势',
+            nav: '今日净值',
+            time: '日期',
             list: {
                 0: { date: '1个月' },
                 1: { date: '3个月' },
@@ -35,6 +37,8 @@ export default {
         },
         zhCHT: {
             fundTrade: '基金淨值走勢',
+            nav: '今日淨值',
+            time: '日期',
             list: {
                 0: { date: '1個月' },
                 1: { date: '3個月' },
@@ -46,6 +50,8 @@ export default {
         },
         en: {
             fundTrade: 'Fund NAV Performance',
+            time: 'time',
+            nav: 'NAV',
             list: {
                 0: { date: '1 Month' },
                 1: { date: '3 Months' },

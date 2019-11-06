@@ -1,10 +1,10 @@
 <template lang="pug">
     .fund-historacal
-        van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
+        van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="$t('finishedText')" @load="onLoad")
             .block-list.border-bottom(class="block-header")
-                .block-left 日期
-                .block-content 单位净值
-                .block-right 日涨幅
+                .block-left {{$t('time')}}
+                .block-content {{$t('nav')}}
+                .block-right {{$t('dayChg')}}
             .block-list(class="border-bottom" v-for="(item,index) in list")
                 .block-left {{item.belongDay}}
                 .block-content {{item.netPrice}}
@@ -13,7 +13,7 @@
                 .block-right(v-else) {{item.price|transNumToThousandMark}}%
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
-            .no-record-box 暂无数据
+            .no-record-box {{$t('finishedText')}}
 </template>
 <script>
 import { List } from 'vant'
@@ -22,6 +22,26 @@ import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
+    i18n: {
+        zhCHS: {
+            dayChg: '日涨幅',
+            nav: '单位净值',
+            time: '日期',
+            finishedText: '无更多内容'
+        },
+        zhCHT: {
+            dayChg: '日漲幅',
+            nav: '單位淨值',
+            time: '日期',
+            finishedText: '無更多內容'
+        },
+        en: {
+            dayChg: 'Day%Chg',
+            time: 'time',
+            nav: 'NAV',
+            finishedText: 'No More Content'
+        }
+    },
     components: {
         [List.name]: List
     },
