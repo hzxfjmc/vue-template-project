@@ -37,7 +37,7 @@ export default {
         },
         en: {
             dayChg: 'Day%Chg',
-            time: 'time',
+            time: 'Time',
             nav: 'NAV',
             finishedText: 'No More Content'
         }

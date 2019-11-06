@@ -64,8 +64,8 @@ export default {
             OrderRecord: '訂單記錄'
         },
         en: {
-            myHkdAccount: 'HKD Assets',
-            myUsdAccount: 'USD Assets',
+            myHkdAccount: 'HKD',
+            myUsdAccount: 'USD',
             profitPosition: 'Total Return',
             SevenDayIncome: 'RTN 7d ',
             IncomeDetails: 'Revenue Detail',

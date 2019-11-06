@@ -8,9 +8,9 @@
                 span.element-time {{$t('time')}}
             .block-right 
                 span.element-fund-name {{item.fundName}}
-                span.element-price-red(v-if="item.msg == 0") +{{item.earnings}}
-                span.element-price-green(v-if="item.msg == 1") {{item.earnings}}
-                span.element-price(v-if="item.msg == 2") {{item.earnings}}
+                span.element-price-red(v-if="item.msg == 0") {{currency == 2 ?'HKD':'USD'}} +{{item.earnings}}
+                span.element-price-green(v-if="item.msg == 1") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
+                span.element-price(v-if="item.msg == 2") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
                 span.element-time {{item.belongDate}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 

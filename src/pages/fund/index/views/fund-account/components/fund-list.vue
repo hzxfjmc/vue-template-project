@@ -66,7 +66,7 @@ export default {
             amountMoney: '金额',
             share: '份额',
             profitPostion: '持有收益',
-            SevenDayIncome: '近七日数据',
+            SevenDayIncome: '近七日收益',
             Redemption: '赎回中',
             subscribe: '申购中',
             nomore: '暂无持仓'
@@ -75,7 +75,7 @@ export default {
             amountMoney: '金額',
             share: '份額',
             profitPostion: '持有收益',
-            SevenDayIncome: '近七日數據',
+            SevenDayIncome: '近七日收益',
             Redemption: '贖回中',
             subscribe: '申購中',
             nomore: '暫無持倉'

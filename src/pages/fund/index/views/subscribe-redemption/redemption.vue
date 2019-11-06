@@ -12,13 +12,13 @@
                 .fond-buy
                     .buy-row
                         .left {{ $t('positionShare') }}
-                        .right {{ positionShare | sliceFixedTwo | formatCurrency }}
+                        .right {{ positionShare |  parseThousands}}
                     .buy-row
                         .left {{ $t('positionMarketValue') }}
-                        .right {{ positionMarketValue | sliceFixedTwo | formatCurrency }}
+                        .right {{ positionMarketValue | sliceFixedTwo | parseThousands }}
                     .buy-row
                         .left {{ $t('minPositionShare') }}
-                        .right {{ minPositionShare | sliceFixedTwo | formatCurrency }}
+                        .right {{ minPositionShare | sliceFixedTwo| parseThousands }}
                     .buy-row.block-row
                         .left {{ $t('redeemShares') }}
                         .right.buy-money.border-bottom
@@ -26,13 +26,13 @@
                             span(@click="HandlerAllSell") {{$t('sellAll')}}
                     .buy-row
                         .left  {{$t('predictSellAmount')}}
-                        .right {{ predictSellAmount | sliceFixedTwo | formatCurrency }}
+                        .right {{ predictSellAmount | sliceFixedTwo | parseThousands }}
                     .buy-row
                         .left
                             span {{ $t('redemption') }}
                             span ( {{ $t('predict') }}) :
                         .right
-                            span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | formatCurrency }}
+                            span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | parseThousands }}
                             span ({{ redemptionFeeScale  }}%)
                 FundSteps(
                     style="margin-top: 22px;"
@@ -82,7 +82,7 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
-// import { transNumToThousandMark } from '@/utils/tools.js'
+import { parseThousands } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
 export default {
@@ -121,6 +121,9 @@ export default {
         this.getFundPositionInfo()
         this.getFundDetailInfo()
     },
+    filters: {
+        parseThousands
+    },
     computed: {
         // 预计完成时间多语言配置
         predictDay() {
@@ -144,7 +147,7 @@ export default {
     watch: {
         redemptionShare(val) {
             if (val > +this.positionShare) {
-                this.redemptionShare = this.sliceDeci(this.positionShare)
+                this.redemptionShare = this.sliceDeci(this.positionShare, 4)
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
         }
@@ -156,7 +159,7 @@ export default {
         },
         //全部卖出
         HandlerAllSell() {
-            this.redemptionShare = Number(this.positionShare).toFixed(2)
+            this.redemptionShare = this.positionShare
         },
         async openProtocol(url) {
             url = await getCosUrl(url)
@@ -226,7 +229,7 @@ export default {
                 const fundPos = await getFundPosition({
                     fundId: this.$route.query.id
                 })
-                this.positionShare = this.sliceDeci(fundPos.availableShare)
+                this.positionShare = this.sliceDeci(fundPos.availableShare, 4)
                 this.positionMarketValue = fundPos.positionMarketValue
             } catch (e) {
                 console.log('赎回页面-getFundPositionInfo:error:>>>', e)
