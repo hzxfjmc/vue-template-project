@@ -17,8 +17,9 @@ import fundAccountHeader from './components/fund-account-header'
 import fundList from './components/fund-list'
 import { getFundPositionList } from '@/service/finance-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
-import localStorage from '@/utils/local-storage'
+import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { enumCurrency } from '@/pages/fund/index/map'
 export default {
     data() {
         return {
@@ -26,7 +27,7 @@ export default {
             fundList: [],
             currency: 2,
             noMoreShow: false,
-            eyeTab: localStorage.get('showMoney')
+            eyeTab: LS.get('showMoney')
         }
     },
     components: {
@@ -42,8 +43,9 @@ export default {
             this.eyeTab = data
         },
         //切换货币
-        handlerCurrency(data) {
-            this.currency = data
+        handlerCurrency(currency, activeTab) {
+            this.currency = currency
+            LS.put('activeTab', activeTab)
             this.getFundPositionList()
         },
         async getFundPositionList() {
@@ -84,7 +86,6 @@ export default {
                                 : item['weekEarnings'] < 0
                                 ? 1
                                 : 2
-                        // item[key] = transNumToThousandMark(item[key])
                     }
                 }
                 item.currency = this.currency
@@ -106,7 +107,8 @@ export default {
         }
     },
     mounted() {
-        this.currency = localStorage.get('activeTab') == 0 ? 2 : 1
+        this.currency =
+            LS.get('activeTab') === 0 ? enumCurrency.HKD : enumCurrency.USD
         this.getFundPositionList()
     }
 }

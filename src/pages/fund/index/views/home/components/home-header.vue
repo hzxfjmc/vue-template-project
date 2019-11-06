@@ -5,13 +5,12 @@
         background="#2f79ff" 
         color="#fff" 
         :swipeable="swipeable"
-        @change = "handlerCurrency"
-        @click="handlerCurrency"
+        @change="handlerCurrency"
         :line-width="width"
-        title-inactive-color="rgba(255,255,255,0.6)" 
+        title-inactive-color="rgba(255,255,255,0.6)"
         title-active-color="#fff")
-            van-tab(:title="$t('hkdFund')" name="2")
-            van-tab(:title="$t('usdFund')" name="1")
+            van-tab(:title="$t('hkdFund')" :name="2")
+            van-tab(:title="$t('usdFund')" :name="1")
             .block-home-content
                 .header-content-item
                     .list-item(
@@ -46,9 +45,10 @@
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
-import localStorage from '@/utils/local-storage'
+import LS from '@/utils/local-storage'
 import { getReleaseFundAssetType } from '@/service/finance-info-server.js'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { enumCurrency } from '@/pages/fund/index/map'
 export default {
     components: {
         [Tab.name]: Tab,
@@ -83,7 +83,7 @@ export default {
             showMoney: true,
             swipeable: true, //开启手势滑动
             list: [],
-            currency: 2,
+            currency: null,
             active: 0
         }
     },
@@ -110,15 +110,14 @@ export default {
     methods: {
         //修改货币
         handlerCurrency(name) {
-            localStorage.put('activeTab', name)
-            this.currency = name == 0 ? 2 : 1
+            this.currency = name === 0 ? enumCurrency.HKD : enumCurrency.USD
             this.getReleaseFundAssetType()
-            this.$emit('handlerCurrency', this.currency)
+            this.$emit('handlerCurrency', this.currency, name)
         },
         //隐藏
         hideNumber() {
             this.showMoney = !this.showMoney
-            localStorage.put('showMoney', this.showMoney)
+            LS.put('showMoney', this.showMoney)
         },
         //跳转基金列表页面
         toFundList(data) {
@@ -137,8 +136,8 @@ export default {
                 let data = {
                     currency: this.currency
                 }
-                if (localStorage.get('activeTab') != null) {
-                    data.currency = localStorage.get('activeTab') == 0 ? 2 : 1
+                if (LS.get('activeTab') != null) {
+                    data.currency = LS.get('activeTab') == 0 ? 2 : 1
                 }
                 this.list = await getReleaseFundAssetType(data)
                 this.list.map(item => {
@@ -169,16 +168,14 @@ export default {
         }
     },
     mounted() {
+        this.active = LS.get('activeTab') || 0
         this.getReleaseFundAssetType()
-        this.active =
-            localStorage.get('activeTab') != null
-                ? localStorage.get('activeTab')
-                : 0
         this.showMoney =
-            localStorage.get('showMoney') != null
-                ? localStorage.get('showMoney')
-                : true
+            LS.get('showMoney') != null ? LS.get('showMoney') : true
         this.currency = this.active === 0 ? 2 : 1
+    },
+    updated() {
+        this.active = LS.get('activeTab')
     }
 }
 </script>
