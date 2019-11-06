@@ -7,22 +7,20 @@
                 .block-right 日涨幅
             .block-list(class="border-bottom" v-for="(item,index) in list")
                 .block-left {{item.belongDay}}
-                  
                 .block-content {{item.netPrice}}
-                    
-                .block-right.block-red(v-if="item.flag == 0") +{{item.price}}%
-                .block-right.block-green(v-if="item.flag  == 1") {{item.price}}%
-                .block-right(v-if="item.flag  == 2") {{Math.abs(item.price).toFixed(2)}}%
-
+                .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price |transNumToThousandMark}}%
+                .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price|transNumToThousandMark}}%
+                .block-right(v-else) {{item.price|transNumToThousandMark}}%
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
-            .no-record-box 暂无订单
+            .no-record-box 暂无数据
 </template>
 <script>
 import { List } from 'vant'
 import { getFundNetPriceHistoryV1 } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     components: {
         [List.name]: List
@@ -39,6 +37,14 @@ export default {
             total: 0,
             finishedText: '无更多内容'
         }
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
+        }
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
     },
     methods: {
         sliceDeci(s, l) {
@@ -79,34 +85,24 @@ export default {
                 this.pageSize = pageSize
                 this.list = this.list.concat(list)
                 this.total = total
-                this.list.map((item, index) => {
+                this.list.forEach((item, index) => {
                     item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
                     item.netPrice = this.sliceDeci(item.netPrice, 4)
-                    if (index > 0) {
-                        item.price =
-                            (this.list[index - 1].netPrice -
-                                this.list[index].netPrice) /
-                            this.list[index].netPrice
+                    if (index === this.list.length - 1) {
+                        this.list[this.list.length - 1].netPrice = '0.00'
                     } else {
-                        if (this.list.length > 1) {
-                            this.list[0].price =
-                                (this.list[0].netPrice -
-                                    this.list[1].netPrice) /
-                                this.list[1].netPrice
+                        if (Number(this.list[index + 1].netPrice) !== 0) {
+                            item.price =
+                                ((this.list[index].netPrice -
+                                    this.list[index + 1].netPrice) /
+                                    this.list[index + 1].netPrice) *
+                                100
                         } else {
-                            this.list[0].price = 0.0
+                            item.price = '0.00'
                         }
                     }
-                    item.flag =
-                        Number(item.price) > 0
-                            ? 0
-                            : Number(item.price) == 0
-                            ? 2
-                            : 1
-                    item.price = transNumToThousandMark(item.price)
                 })
                 this.noMoreShow = this.total == 0
-                // this.finishedText = this.$t('nomore1')
                 this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
                 this.$toast(e.msg)

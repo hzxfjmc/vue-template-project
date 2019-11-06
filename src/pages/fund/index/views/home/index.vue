@@ -4,7 +4,8 @@
         @handlerCurrency="handlerCurrency"
         @toFundList = "toFundList"
         :lists="list"
-        :holdData="holdData")
+        :holdData="holdData"
+        )
         .home-banner(slot="banner" v-if="bannerUrl!=''")
             img(:src="bannerUrl")
         HomeFundList(:fundList="fundList" slot="fundList")
@@ -17,8 +18,9 @@ import { getFundListV2 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getCosUrl } from '@/utils/cos-utils'
-import localStorage from '@/utils/local-storage'
+import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { enumCurrency } from '@/pages/fund/index/map'
 export default {
     components: {
         HomeHeader,
@@ -27,11 +29,13 @@ export default {
     data() {
         return {
             holdData: {},
-            currency: 2,
+            currency: enumCurrency.HKD,
             fundList: [],
             list: [],
             bannerUrl: '',
-            showPage: 27
+            showPage: 27,
+            market: '',
+            active: 0
         }
     },
     methods: {
@@ -43,14 +47,6 @@ export default {
                 this.currency
             }&assetTypeName=${encodeURIComponent(data.assetTypeName)}` // 中文没有编码WebView打不开
             gotoNewWebView(url)
-            // this.$router.push({
-            //     path: '/',
-            //     query: {
-            //         type: data.type,
-            //         currency: this.currency,
-            //         assetTypeName: data.assetTypeName
-            //     }
-            // })
         },
         //获取banner图
         async bannerAdvertisement() {
@@ -63,7 +59,6 @@ export default {
                 } else {
                     this.bannerUrl = ''
                 }
-                console.log(this.bannerUrl)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -90,8 +85,9 @@ export default {
             }
         },
         //切换港币和美元
-        handlerCurrency(data) {
-            this.currency = data
+        handlerCurrency(currency, activeTab) {
+            this.currency = currency
+            LS.put('activeTab', activeTab)
             this.getFundPositionList()
             this.bannerAdvertisement()
             this.getFundListV2()
@@ -115,15 +111,27 @@ export default {
                 this.$toast(e.msg)
                 console.log('getFundPositionList:error:>>> ', e)
             }
+        },
+        setCurrencyByMarket(market) {
+            let currency = ''
+            switch (market) {
+                case 'hk':
+                    currency = enumCurrency.HKD
+                    this.active = 0
+                    LS.put('activeTab', this.active)
+                    break
+                case 'us':
+                    currency = enumCurrency.USD
+                    this.active = 1
+                    LS.put('activeTab', this.active)
+                    break
+            }
+            return currency
         }
     },
-    mounted() {
-        this.currency =
-            localStorage.get('activeTab') != null
-                ? localStorage.get('activeTab') == 0
-                    ? 2
-                    : 1
-                : 2
+    created() {
+        this.market = this.$route.query.market || 'hk'
+        this.currency = this.setCurrencyByMarket(this.market)
         this.bannerAdvertisement()
         this.getFundPositionList()
         this.getFundListV2()

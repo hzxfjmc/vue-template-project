@@ -8,10 +8,9 @@
         :swipeable="swipeable"
         title-inactive-color="rgba(255,255,255,0.6)" 
         @change="handlerCurrency"
-        @click="handlerClickCurrency"
         title-active-color="#fff")
-        van-tab(:title="$t('myHkdAccount')" name="2")
-        van-tab(:title="$t('myUsdAccount')" name="1")
+        van-tab(:title="$t('myHkdAccount')" :name="2")
+        van-tab(:title="$t('myUsdAccount')" :name="1")
         .block-account-header
             .header-content
                 .header-content-left
@@ -24,7 +23,7 @@
                     .number-price(v-if="!showPsd") ******
                 
                 .header-content-right
-                    span {{$t('profitPostion')}}
+                    span {{$t('profitPosition')}}
                         em(v-if="showPsd") {{holdData.positionAmountFlag}}{{holdData.positionEarnings || '--'}}
                         em(v-else) ****
                     span {{$t('SevenDayIncome')}}
@@ -38,7 +37,8 @@
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
-import localStorage from '@/utils/local-storage'
+import LS from '@/utils/local-storage'
+import { enumCurrency } from '@/pages/fund/index/map'
 export default {
     props: {
         holdData: {
@@ -50,7 +50,7 @@ export default {
         zhCHS: {
             myHkdAccount: '港币资产',
             myUsdAccount: '美元资产',
-            profitPostion: '持有收益',
+            profitPosition: '持有收益',
             SevenDayIncome: '近七日收益',
             IncomeDetails: '收益明细',
             OrderRecord: '订单记录'
@@ -58,7 +58,7 @@ export default {
         zhCHT: {
             myHkdAccount: '港幣資產',
             myUsdAccount: '美元資產',
-            profitPostion: '持倉收益',
+            profitPosition: '持倉收益',
             SevenDayIncome: '近七日收益',
             IncomeDetails: '收益明細',
             OrderRecord: '訂單記錄'
@@ -66,7 +66,7 @@ export default {
         en: {
             myHkdAccount: 'HKD Assets',
             myUsdAccount: 'USD Assets',
-            profitPostion: 'Total Return',
+            profitPosition: 'Total Return',
             SevenDayIncome: 'RTN 7d ',
             IncomeDetails: 'Revenue Detail',
             OrderRecord: 'Order History'
@@ -77,7 +77,8 @@ export default {
             width: 30,
             active: 0,
             swipeable: true,
-            showPsd: true
+            showPsd: true,
+            currency: null
         }
     },
     components: {
@@ -95,32 +96,24 @@ export default {
         }
     },
     methods: {
-        //
-        handlerClickCurrency() {
-            console.log(213123)
-        },
         //跳转路由
         toRouterPath(path) {
             this.$emit('toRouterPath', path)
         },
         //修改货币
         handlerCurrency(name) {
-            localStorage.put('activeTab', name)
-            name = name == 0 ? 2 : 1
-            this.$emit('handlerCurrency', name)
+            this.currency = name === 0 ? enumCurrency.HKD : enumCurrency.USD
+            this.$emit('handlerCurrency', this.currency, name)
         },
         hideNumber() {
             this.showPsd = !this.showPsd
-            localStorage.put('showMoney', this.showPsd)
+            LS.put('showMoney', this.showPsd)
             this.$emit('changeEyeTab', this.showPsd)
         }
     },
     mounted() {
-        this.active =
-            localStorage.get('activeTab') != null
-                ? localStorage.get('activeTab')
-                : 0
-        this.showPsd = localStorage.get('showMoney')
+        this.active = LS.get('activeTab') || 0
+        this.showPsd = LS.get('showMoney')
     }
 }
 </script>
