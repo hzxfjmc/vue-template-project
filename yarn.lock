@@ -11037,9 +11037,9 @@ yup@^0.27.0:
     synchronous-promise "^2.0.6"
     toposort "^2.0.2"
 
-"yx-base-h5@git+http://szgitlab.youxin.com/web/yx-base-h5.git#1.0.0":
+"yx-base-h5@git+http://szgitlab.youxin.com/web/yx-base-h5.git#1.0.1":
   version "0.1.0"
-  resolved "git+http://szgitlab.youxin.com/web/yx-base-h5.git#612aee54b8b3d3d8dd107729d23af327145d7212"
+  resolved "git+http://szgitlab.youxin.com/web/yx-base-h5.git#2b77a5db1bc34f6215285a1ba254c7b92efb9cbc"
   dependencies:
     "@babel/runtime" "^7.6.2"
     "@jsmini/type" "0.4.0"
