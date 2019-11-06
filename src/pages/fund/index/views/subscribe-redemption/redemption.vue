@@ -145,7 +145,6 @@ export default {
         redemptionShare(val) {
             if (val > +this.positionShare) {
                 this.redemptionShare = this.sliceDeci(this.positionShare)
-                this.redemptionShare = Number(this.redemptionShare).toFixed(2)
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
         }
@@ -227,7 +226,7 @@ export default {
                 const fundPos = await getFundPosition({
                     fundId: this.$route.query.id
                 })
-                this.positionShare = fundPos.availableShare
+                this.positionShare = this.sliceDeci(fundPos.availableShare)
                 this.positionMarketValue = fundPos.positionMarketValue
             } catch (e) {
                 console.log('赎回页面-getFundPositionInfo:error:>>>', e)
