@@ -24,7 +24,7 @@ export const holdDetailsData = {
         label: '持有份额',
         key: '',
         layout: 'left',
-        value: '00.00'
+        value: '0.00'
     },
     redeemDeliveryShare: {
         label: '赎回中(份额）',

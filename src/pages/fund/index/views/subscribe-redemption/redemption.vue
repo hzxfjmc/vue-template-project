@@ -18,7 +18,7 @@
                         .right {{ positionMarketValue | sliceFixedTwo | parseThousands }}
                     .buy-row
                         .left {{ $t('minPositionShare') }}
-                        .right {{ minPositionShare | sliceFixedTwo| parseThousands }}
+                        .right {{ minPositionShare | sliceFixedTwo(4)| parseThousands }}
                     .buy-row.block-row
                         .left {{ $t('redeemShares') }}
                         .right.buy-money.border-bottom

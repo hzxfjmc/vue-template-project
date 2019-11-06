@@ -134,7 +134,8 @@ export default {
                     Number(fundTradeInfoVO['redemptionFee'] * 10000)
                 ) / 100}%`
                 this.redeemList.minPositionShare.value = transNumToThousandMark(
-                    fundTradeInfoVO.minPositionShare
+                    fundTradeInfoVO.minPositionShare,
+                    4
                 )
                 this.redeemList.subscriptionFee.value = `${Math.floor(
                     Number(fundTradeInfoVO.subscriptionFee * 10000)

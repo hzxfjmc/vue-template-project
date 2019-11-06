@@ -23,8 +23,8 @@
                 span {{$t('share')}}
                 .block-element-number(v-if="eyeTab") {{item.positionShare}}
                 .block-element-number(v-else) ****
-        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' || item.inTransitAmount !== '0.00'")
-            .o-item(v-if="item.redeemDeliveryShare !== '0.00'")
+        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.0000' || item.inTransitAmount !== '0.00'")
+            .o-item(v-if="item.redeemDeliveryShare !== '0.0000'")
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
                     span {{$t('share')}}

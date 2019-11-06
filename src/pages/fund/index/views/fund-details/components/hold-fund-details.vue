@@ -61,9 +61,15 @@ export default {
                         : this.initState[key] < 0
                         ? 2
                         : 3
-                this.list[key].value = transNumToThousandMark(
-                    this.initState[key]
-                )
+                if (key === 'redeemDeliveryShare' || key === 'positionShare') {
+                    this.list[key].value = Number(this.initState[key])
+                        ? transNumToThousandMark(this.initState[key], 4)
+                        : '0.00'
+                } else {
+                    this.list[key].value = transNumToThousandMark(
+                        this.initState[key]
+                    )
+                }
             }
         },
         initI18nState() {
