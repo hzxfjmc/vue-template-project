@@ -21,6 +21,7 @@ import { getCosUrl } from '@/utils/cos-utils'
 import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { enumCurrency } from '@/pages/fund/index/map'
+
 export default {
     components: {
         HomeHeader,
@@ -130,6 +131,7 @@ export default {
         }
     },
     created() {
+        LS.remove('activeTab')
         this.market = this.$route.query.market || 'hk'
         this.currency = this.setCurrencyByMarket(this.market)
         this.bannerAdvertisement()

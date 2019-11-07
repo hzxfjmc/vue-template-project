@@ -43,9 +43,8 @@ export default {
             this.eyeTab = data
         },
         //切换货币
-        handlerCurrency(currency, activeTab) {
+        handlerCurrency(currency) {
             this.currency = currency
-            LS.put('activeTab', activeTab)
             this.getFundPositionList()
         },
         async getFundPositionList() {
