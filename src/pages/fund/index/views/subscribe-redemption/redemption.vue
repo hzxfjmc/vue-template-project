@@ -65,7 +65,7 @@
             .fond-buy.fond-bug-money.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8 {{ $t('money') }}
-                    .right.buy-money.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo | formatCurrency }}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{ redemptionShare | sliceFixedTwo(4)| parseThousands }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="goNext(orderNo, $route.query.currencyType)") {{ $t('done') }}
         protocol-popup(
