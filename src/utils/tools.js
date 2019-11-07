@@ -172,6 +172,8 @@ export const generateUUID = () => {
 
 //对钱进行处理
 export function transNumToThousandMark(num = '0', dot = 2) {
+    if (!num) num = 0
+    num = num + ''
     // 保留小数点后面的位数
     if (num.indexOf('.') !== -1) {
         let numArr = num.toString().split('.')
@@ -183,6 +185,27 @@ export function transNumToThousandMark(num = '0', dot = 2) {
         let number = num.replace(/\d{1,3}(?=(\d{3})+$)/g, v1 => {
             return v1 + ','
         })
-        return number
+        return Number(number).toFixed(2)
+    }
+}
+
+export function parseThousands(priceVal) {
+    if (priceVal) {
+        priceVal = priceVal + ''
+        if (priceVal.indexOf('.') > -1) {
+            let numberInt = priceVal.substr(0, priceVal.indexOf('.'))
+            numberInt = numberInt.replace(
+                /(\d{1,3})(?=(\d{3})+(?:$|\.))/g,
+                '$1,'
+            )
+            numberInt = numberInt + priceVal.substr(priceVal.indexOf('.'))
+            return numberInt
+        } else {
+            return priceVal.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')
+        }
+    } else if (priceVal === '0') {
+        return '0'
+    } else {
+        return ''
     }
 }

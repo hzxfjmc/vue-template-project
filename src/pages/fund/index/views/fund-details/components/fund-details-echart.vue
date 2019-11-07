@@ -3,10 +3,10 @@
     span {{$t('fundTrade')}}
     .fund-echart-content
         .fund-echart-header(v-if="masterShow")
-            .header-left  日期：{{masterData.belongDay}}
-            .header-right 
-                span.number {{masterData.netPrice}}
-                p.day 今日净值： 
+            .header-left  {{$t('time')}}：{{masterData.belongDay}}
+            .header-right
+                span.number {{Number(masterData.netPrice)| sliceFixedTwo(4)}}
+                p.day {{$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
     .fund-date-list
@@ -24,6 +24,8 @@ export default {
     i18n: {
         zhCHS: {
             fundTrade: '基金净值走势',
+            nav: '今日净值',
+            time: '日期',
             list: {
                 0: { date: '1个月' },
                 1: { date: '3个月' },
@@ -35,6 +37,8 @@ export default {
         },
         zhCHT: {
             fundTrade: '基金淨值走勢',
+            nav: '今日淨值',
+            time: '日期',
             list: {
                 0: { date: '1個月' },
                 1: { date: '3個月' },
@@ -46,6 +50,8 @@ export default {
         },
         en: {
             fundTrade: 'Fund NAV Performance',
+            time: 'Time',
+            nav: 'NAV',
             list: {
                 0: { date: '1 Month' },
                 1: { date: '3 Months' },
@@ -102,8 +108,7 @@ export default {
             }
             this.chart = new F2.Chart({
                 id: data,
-                pixelRatio: window.devicePixelRatio,
-                padding: [45, 'auto', 'auto']
+                pixelRatio: window.devicePixelRatio
             })
             this.chart.source(this.initEchartList, {
                 netPrice: {
@@ -111,8 +116,9 @@ export default {
                     tickCount: 5,
                     min: Math.min.apply(null, arr) * 0.9,
                     max: Math.max.apply(null, arr) * 1.1,
+                    // min: 0,
                     formatter: function formatter(val) {
-                        return val
+                        return val.toFixed(4)
                     }
                 },
                 belongDay: {
@@ -125,7 +131,16 @@ export default {
                 }
             })
             this.chart.axis('netPrice', {
-                labelOffset: 20 // 坐标轴文本距离轴线的距离
+                labelOffset: 20, // 坐标轴文本距离轴线的距离
+                label: function label(text, index, total) {
+                    var textCfg = {}
+                    if (index === 0) {
+                        textCfg.textBaseline = 'bottom'
+                    } else if (index === total - 1) {
+                        textCfg.textBaseline = 'top'
+                    }
+                    return textCfg
+                }
             })
             this.chart.axis('belongDay', {
                 line: null,
@@ -136,9 +151,6 @@ export default {
                 custom: true, // 自定义 tooltip 内容框
                 onChange: obj => {
                     this.masterData = obj.items[0].origin
-                    // this.masterData.netPrice = Number(
-                    //     this.masterData.netPrice
-                    // ).toFixed(2)
                     this.masterData.belongDay = dayjs(
                         this.masterData.belongDay
                     ).format('YYYY-MM-DD')
@@ -148,9 +160,7 @@ export default {
                 onHide: () => {
                     clearTimeout(timer) // 清除未执行的代码，重置回初始化状态
                     timer = setTimeout(() => {
-                        // console.log('函数防抖')
                         this.masterShow = false
-                        console.log(1)
                     }, 3000)
                 }
             })
@@ -183,12 +193,10 @@ export default {
             canvaStyle.style.height = '200px'
             canvaStyle.margin = '-20px 0 0 0'
             canvaStyle.transform = 'translateX(-3%)'
-            // setTimeout(() => {
             this.draw(this.chartId)
             this.chart.render()
             this.active = this.step
             this.tabShow()
-            // }, 200)
         },
         $route(to, from) {
             if (from.path == '/') {
@@ -198,9 +206,7 @@ export default {
     },
     mounted() {
         this.initI18nState()
-        // setTimeout(() => {
         this.draw(this.chartId)
-        // }, 1000)
     }
 }
 </script>
@@ -282,9 +288,9 @@ export default {
             border-bottom-left-radius: 2px;
         }
         .date-item:last-child {
-            border-left: 1px solid rgba(235, 235, 235, 1);
-            border-top-left-radius: 2px;
-            border-bottom-left-radius: 2px;
+            // border-left: 1px solid rgba(235, 235, 235, 1);
+            border-top-right-radius: 2px;
+            border-bottom-right-radius: 2px;
         }
         .active {
             background: rgba(25, 25, 25, 0.03);

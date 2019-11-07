@@ -6,40 +6,32 @@
         .fond-des
             .fond-name {{ fundName }}
             .ISIN ISIN:{{ isin }}
-        
-        template(v-if="step === 1")
-            .fond-buy
-                .buy-row
-                    .left {{ $t('currency') }}
-                    .right {{ currency }}
-                .buy-row
-                    .left {{ $t('availableBalance') }}
-                    .right(class="number") {{ withdrawBalance | sliceFixedTwo | formatCurrency }}
-                .buy-row(class="border-bottom")
-                    .left {{ $t('buyMonny') }}
-                    .right.placeHolder.text-color3(v-show="!buyMonnyBlur" @click="handleClickBuyPlaceHolder")
-                        p {{ $t('minBugBalance') }}{{ initialInvestAmount | sliceFixedTwo | formatCurrency }}
-                        p {{ $t('continueBalance') }}{{ continueInvestAmount | sliceFixedTwo | formatCurrency }}
-                    .right.buy-monny(v-show="buyMonnyBlur" )
-                        van-field.input(type="number" ref="buy-monny" @blur="handleOnblurBuyInput" v-model="buyMonny" :disabled="withdrawBalance === 0")
-                hr.border-bottom
-                .buy-row(style="justify-content: space-between; margin-top: 10px")
-                    .left.text-color3(style="width: 50%") {{ $t('redemption') }}： {{ subscriptionFeeScale  }}%
-                    .right.text-color3(style="text-align: right;") {{ $t('predict') }}：{{ times(+buyMonny, +subscriptionFee) | sliceFixedTwo | formatCurrency }}
-                a.submit.gray(v-if="buyMonny === null || buyMonny === '' || withdrawBalance === 0") {{ $t('submiButtonText') }}
-                a.submit(v-else @click="handleSubmit") {{ $t('submiButtonText') }}
-                .buy-row(style="justify-content: space-between;")
-                    a.left(class="text-overflow" :href="buyProtocol" style="width: 65%") 
-                        span(v-show="buyProtocolFileName") 《{{ buyProtocolFileName }}》
-                    .right(style="text-align: right; width: 35%") {{ predictDay }}
 
-            FundSteps(
-                style="margin-top: 22px;"
-                :title="$t('buyRule')"
-                :curStep="0"
-                :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
-                :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
-            )
+        template(v-if="step === 1")
+            .fund-content
+                .fond-buy
+                    .buy-row-item(v-for="(item,index) in subscribeObj")
+                        .left-item {{item.label}}
+                        .right-item 
+                            .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
+                                span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value}}%)
+                            .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
+                                input(v-model="item.value" :placeHolder="$t('buyMoneyPlaceHolder')" type="number")
+                            .right-item-other(v-else)
+                                span {{item.value}}
+                FundSteps(
+                    style="margin-top: 22px;"
+                    :title="$t('buyRule')"
+                    :curStep="0"
+                    :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
+                    :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
+                )
+            .fund-footer-content
+                .protocol
+                    .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
+                    .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
+                    .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
+                van-button(:disabled="disabled" @click="handleSubmit") {{$t('submitButtonText')}}
         template(v-else-if="step === 2")
             .fond-buy.border-bottom
                 .buy-row
@@ -57,12 +49,17 @@
                     span.text-color5 {{ $t('earnings') }}
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
-                    .left.line-height-8 {{ $t('monny') }}
-                    .right.buy-monny.line-height-8(style="text-align: right;") {{ buyMonny | formatCurrency }}
+                    .left.line-height-8  {{$t('orderAmount')}}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ orderTotalAmount | sliceFixedTwo | formatCurrency }}
+                .buy-row
+                    .left.line-height-8 {{$t('buyMoney')}}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
             .fond-buy(style="margin-top: 0")
-                a.submit(style="margin: 41px 0 28px 0" @click="gotoOrderRecordDetail(orderNo, $route.query.currencyType)") {{ $t('done') }}
-       
-
+                a.submit(style="margin: 41px 0 28px 0" @click="goNext(orderNo, $route.query.currencyType)") {{ $t('done') }}
+        protocol-popup(
+            v-model="protocolVisible"
+            :protocolFileList="buyProtocolFileList"
+            )
 </template>
 <script>
 import NP from 'number-precision'
@@ -73,21 +70,28 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID } from '@/utils/tools.js'
-
+import {
+    generateUUID,
+    transNumToThousandMark,
+    parseThousands
+} from '@/utils/tools.js'
+import { subscribeObj, subscribeObji18n } from './subscribe.js'
+import protocolPopup from './components/protocol-popup'
 import './index.scss'
 export default {
     name: 'subscribe',
     components: {
-        FundSteps
+        FundSteps,
+        protocolPopup
     },
     data() {
         return {
             // 1: 购买 2:成功
             step: 1,
             orderNo: null,
-            buyMonnyBlur: false,
-            buyMonny: null,
+            subscribeObj: JSON.parse(JSON.stringify(subscribeObj)),
+            buyMoneyBlur: false,
+            buyMoney: null,
             fundName: '',
             isin: '',
             currency: '',
@@ -99,13 +103,16 @@ export default {
             buyProtocol: '', // 基金购买协议
             buySubmit: '',
             buyConfirm: '', // 买入确认份额时间
-            buyProfitLoss: '' // 买入查看盈亏时间
+            buyProfitLoss: '', // 买入查看盈亏时间
+            buyProtocolFileList: [],
+            sellProtocolFileList: [],
+            protocolVisible: false,
+            isCheckedProtocol: true,
+            orderTotalAmount: ''
         }
     },
     async created() {
-        this.getFundDetailInfo()
         this.getWithdrawBalance()
-        console.log('2323232', this.$i18n.lang)
     },
     computed: {
         // 预计完成时间多语言配置
@@ -118,25 +125,64 @@ export default {
         },
         subscriptionFeeScale() {
             return NP.times(+this.subscriptionFee, 100)
+        },
+        disabled() {
+            return (
+                !this.isCheckedProtocol || !this.subscribeObj['buyMoney'].value
+            )
         }
     },
     watch: {
-        buyMonny(val) {
+        'subscribeObj.buyMoney.value'(val) {
+            this.subscribeObj.totalOrderAmount.value =
+                Number(this.subscribeObj.buyMoney.value) +
+                    (this.subscribeObj.buyMoney.value *
+                        this.subscribeObj.subscriptionFee.value) /
+                        100 || '0.00'
+            this.subscribeObj.totalOrderAmount.value = parseThousands(
+                Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
+            )
+
+            this.subscriptionFee =
+                (this.subscribeObj.buyMoney.value *
+                    this.subscribeObj.subscriptionFee.value) /
+                100
             if (val > +this.withdrawBalance) {
-                this.buyMonny = +this.withdrawBalance
+                this.subscribeObj.buyMoney.value = +this.withdrawBalance
             }
         }
     },
     methods: {
+        async openProtocol(url) {
+            url = await getCosUrl(url)
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
+        },
+        checkProtocol() {
+            this.isCheckedProtocol = !this.isCheckedProtocol
+        },
+        showProtocol() {
+            this.protocolVisible = true
+        },
+        hideProtocol() {
+            this.protocolVisible = false
+        },
         times: NP.times,
-        gotoOrderRecordDetail(orderNo, currencyType) {
-            this.$router.push({
-                path: '/order-record-detail',
-                query: {
-                    orderNo,
-                    currencyType
-                }
-            })
+        goNext(orderNo, currencyType) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.callApp('command_close_webview')
+            } else {
+                this.$router.push({
+                    path: '/order-record-detail',
+                    query: {
+                        orderNo,
+                        currencyType
+                    }
+                })
+            }
         },
         // 获取基金信息
         async getFundDetailInfo() {
@@ -147,13 +193,32 @@ export default {
                 })
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
-                this.currency = fundDetail.fundTradeInfoVO.currency.name
-                this.subscriptionFee =
-                    fundDetail.fundTradeInfoVO.subscriptionFee
-                this.initialInvestAmount =
+                for (let key in this.subscribeObj) {
+                    if (key == 'currency') {
+                        this.subscribeObj['currency'].label = this.$t(
+                            'currency'
+                        )
+                    } else {
+                        this.subscribeObj[key].label = this.$t('subscribeObj')[
+                            key
+                        ]
+                    }
+                }
+                this.subscribeObj.currency.value =
+                    fundDetail.fundTradeInfoVO.currency.name
+                this.subscribeObj.initialInvestAmount.value = transNumToThousandMark(
                     fundDetail.fundTradeInfoVO.initialInvestAmount
-                this.continueInvestAmount =
+                )
+                this.subscribeObj.continueInvestAmount.value = transNumToThousandMark(
                     fundDetail.fundTradeInfoVO.continueInvestAmount
+                )
+                this.subscribeObj.subscriptionFee.value =
+                    fundDetail.fundTradeInfoVO.subscriptionFee * 100
+                let num =
+                    this.withdrawBalance / fundDetail.fundHeaderInfoVO.netPrice
+                this.subscribeObj.withdrawBalanceNetPrice.value = transNumToThousandMark(
+                    num
+                )
                 this.setCosUrl(
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
@@ -166,6 +231,8 @@ export default {
                 )
                     .split('/')
                     .pop()
+
+                this.buyProtocolFileList = fundDetail.buyProtocolFileList
             } catch (e) {
                 console.log('申购页面-getFundDetail:error:>>>', e)
             }
@@ -192,19 +259,23 @@ export default {
             try {
                 const hsInfo = await hsAccountInfo(currencyType)
                 this.withdrawBalance = hsInfo.withdrawBalance
+                this.subscribeObj.withdrawBalance.value = transNumToThousandMark(
+                    hsInfo.withdrawBalance
+                )
+                this.getFundDetailInfo()
             } catch (e) {
                 console.log('申购页面-getWithdrawBalance:error:>>>', e)
             }
         },
         handleClickBuyPlaceHolder() {
-            this.buyMonnyBlur = true
+            this.buyMoneyBlur = true
             this.$nextTick(() => {
-                this.$refs['buy-monny'].focus()
+                this.$refs['buy-money'].focus()
             })
         },
         handleOnblurBuyInput() {
-            if (this.buyMonny === null || this.buyMonny === '') {
-                this.buyMonnyBlur = false
+            if (this.buyMoney === null || this.buyMoney === '') {
+                this.buyMoneyBlur = false
             }
         },
         async handleSubmit() {
@@ -232,12 +303,13 @@ export default {
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
-                        purchaseAmount: this.buyMonny,
+                        purchaseAmount: this.subscribeObj.buyMoney.value,
                         requestId: generateUUID(),
                         tradeToken: token
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo
+                    this.orderTotalAmount = re.orderTotalAmount
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
@@ -257,17 +329,17 @@ export default {
     i18n: {
         zhCHS: {
             buySuccess: '申购成功',
-            buyMonny: '购买金额',
+            buyMoney: '购买金额',
             buyFile: '基金购买协议',
             buyRule: '申购规则',
             currency: '币种',
             availableBalance: '可用余额',
-            bugBalance: '购买金额',
+            buyBalance: '购买金额',
             minBugBalance: '最小申购金额',
             continueBalance: '续投金额',
             redemption: '申购费',
             predict: '预计',
-            submiButtonText: '同意协议并提交',
+            submitButtonText: '同意协议并提交',
             dayDone: '日完成',
             day: '日',
             balanceRule: '申购规则',
@@ -276,23 +348,27 @@ export default {
             stepThree: '查看盈亏',
             confirmTheShare: '确认份额',
             earnings: '查看收益',
-            monny: '金额',
+            money: '金额',
             done: '完成',
-            iKnow: '我知道了'
+            iKnow: '我知道了',
+            subscribeObj: subscribeObji18n.i18n.zhCHS,
+            protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
+            buyMoneyPlaceHolder: '最小买入+买入单位*N',
+            orderAmount: '订单金额'
         },
         zhCHT: {
             buySuccess: '申購成功',
-            buyMonny: '購買金額',
+            buyMoney: '購買金額',
             buyFile: '基金購買協議',
             buyRule: '申購規則',
             currency: '幣種',
             availableBalance: '可用餘額',
-            bugBalance: '购买金额',
+            buyBalance: '购买金额',
             minBugBalance: '最小申購金額',
             continueBalance: '續投金額',
             redemption: '申購費',
             predict: '預計',
-            submiButtonText: '同意協議並提交',
+            submitButtonText: '同意協議並提交',
             dayDone: '日完成',
             day: '日',
             balanceRule: '申購規則',
@@ -301,23 +377,27 @@ export default {
             stepThree: '查看盈虧',
             confirmTheShare: '確認份額',
             earnings: '查看收益',
-            monny: '金額',
+            money: '金額',
             done: '完成',
-            iKnow: '我知道了'
+            iKnow: '我知道了',
+            subscribeObj: subscribeObji18n.i18n.zhCHT,
+            protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
+            buyMoneyPlaceHolder: '最小買入+買入單位*N',
+            orderAmount: '訂單金額'
         },
         en: {
             buySuccess: 'Subscription Successful',
-            buyMonny: 'Investment Amount',
+            buyMoney: 'Investment Amount',
             buyFile: 'Fund Investment Agreement',
             buyRule: 'Subscription Rules',
             currency: 'Currency',
             availableBalance: 'Available Balance',
-            bugBalance: 'Investment Amount',
+            buyBalance: 'Investment Amount',
             minBugBalance: 'Initial',
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
             predict: 'Estimated',
-            submiButtonText: 'Agree to agreement and submit',
+            submitButtonText: 'Agree to agreement and submit',
             dayDone: 'Complete in X days',
             day: 'Days',
             balanceRule: 'Subscription Rules',
@@ -326,9 +406,14 @@ export default {
             stepThree: 'Check P/L',
             confirmTheShare: 'Fund Units Allocation',
             earnings: 'Check P/L',
-            monny: 'Amount',
+            money: 'Amount',
             done: 'Completed',
-            iKnow: 'Got it'
+            iKnow: 'Got it',
+            subscribeObj: subscribeObji18n.i18n.en,
+            protocolTips:
+                'I have read and agree to the service agreement and risk warning, and consult relevant information',
+            buyMoneyPlaceHolder: 'Min. Purchase+Purchase Unit*N',
+            orderAmount: 'Amount of Orders'
         }
     }
 }

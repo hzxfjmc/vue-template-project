@@ -52,7 +52,7 @@ export default {
         },
         en: {
             amount: 'Order Amount',
-            share: 'Share',
+            share: 'Unit',
             time: 'Time',
             noOrder: 'Not Records',
             noMore: 'No More'
