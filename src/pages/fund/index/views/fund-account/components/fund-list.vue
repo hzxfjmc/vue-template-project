@@ -4,11 +4,9 @@
         .fund-name {{item.fundName}}
         .fund-list-num
             .fund-row
-                span {{$t('SevenDayIncome')}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
-                .block-element-number(v-if="!eyeTab") ****
+                span {{$t('amountMoney')}}
+                .block-element-number(v-if="eyeTab") {{item.positionAmount}}
+                .block-element-number(v-else) ****
             .fund-row
                 span {{$t('profitPostion')}}
                 .block-element-number(v-if="eyeTab && item.flag == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings}}
@@ -16,9 +14,11 @@
                 .block-element-number(v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
                 .block-element-number(v-if="!eyeTab") ****
             .fund-row
-                span {{$t('amountMoney')}}
-                .block-element-number(v-if="eyeTab") {{item.positionAmount}}
-                .block-element-number(v-else) ****
+                span {{$t('SevenDayIncome')}}
+                .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
+                .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
+                .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
+                .block-element-number(v-if="!eyeTab") ****
             .fund-row
                 span {{$t('share')}}
                 .block-element-number(v-if="eyeTab") {{item.positionShare}}
