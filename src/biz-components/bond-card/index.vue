@@ -10,7 +10,7 @@
             ) {{ tagItem }}
         .bond-card__content
             .flex-fixed-container
-                .rate-num {{ buyYtm }}
+                .rate-num(:class="{ empty: buyYtm === '--' }") {{ buyYtm }}
                 .card-tips 到期年化收益率
             .flex-fixed-container
                 .interest-num {{ paymentDates }}
@@ -84,6 +84,9 @@ export default {
             color: #ea3d3d;
             font-size: 0.48rem;
             line-height: 31px;
+            &.empty {
+                color: $text-color;
+            }
         }
         .interest-num {
             margin-top: 3px;
