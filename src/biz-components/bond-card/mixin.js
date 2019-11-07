@@ -23,7 +23,7 @@ export default {
         },
         h2Style() {
             // 发行人名称字体变化策略
-            let issuerName = this.issuerName || ''
+            let issuerName = this.bondInfo.issuerName || ''
             let tags = (this.bondInfo && this.bondInfo.tags) || []
             let tagLen = 0
             tags.forEach(tag => {
