@@ -8,8 +8,8 @@
                 span.element-time {{$t('time')}}
             .block-right 
                 span.element-fund-name {{item.fundName}}
-                span.element-price-red(v-if="item.msg == 0") {{currency == 2 ?'HKD':'USD'}} +{{item.earnings}}
-                span.element-price-green(v-if="item.msg == 1") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
+                span(v-if="item.msg == 0" :class="stockColorType === 1 ?'element-price-red':'element-price-green'") {{currency == 2 ?'HKD':'USD'}} +{{item.earnings}}
+                span(v-if="item.msg == 1" :class="stockColorType === 1 ?'element-price-green':'element-price-red'") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
                 span.element-price(v-if="item.msg == 2") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
                 span.element-time {{item.belongDate}}
     .block-element-nomore(v-if="noMoreShow")
@@ -19,6 +19,7 @@
 <script>
 import { getFundPositionEarningsListV1 } from '@/service/finance-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import { List } from 'vant'
 export default {
@@ -59,6 +60,11 @@ export default {
             finishedText: '无更多内容',
             finished: false,
             currency: this.$route.query.currency
+        }
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
         }
     },
     methods: {

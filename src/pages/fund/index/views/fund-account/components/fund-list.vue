@@ -5,14 +5,14 @@
         .fund-list-num
             .fund-row
                 span {{$t('SevenDayIncome')}}
-                .block-element-number.active-red(v-if="eyeTab && item.flag1 == 0") +{{item.weekEarnings}}
-                .block-element-number.active-green(v-if="eyeTab && item.flag1 == 1") {{item.weekEarnings}}
+                .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
+                .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
                 .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
                 .block-element-number(v-if="!eyeTab") ****
             .fund-row
                 span {{$t('profitPostion')}}
-                .block-element-number.active-red(v-if="eyeTab && item.flag == 0") +{{item.positionEarnings}}
-                .block-element-number.active-green(v-if="eyeTab && item.flag == 1") {{item.positionEarnings}}
+                .block-element-number(v-if="eyeTab && item.flag == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings}}
+                .block-element-number(v-if="eyeTab && item.flag == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
                 .block-element-number(v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
                 .block-element-number(v-if="!eyeTab") ****
             .fund-row
@@ -43,6 +43,7 @@
 <script>
 import localStorage from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     props: {
         fundList: {
@@ -88,6 +89,11 @@ export default {
             Redemption: 'Redeming',
             subscribe: 'Purchasing',
             nomore: 'No Position'
+        }
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
         }
     },
     methods: {
