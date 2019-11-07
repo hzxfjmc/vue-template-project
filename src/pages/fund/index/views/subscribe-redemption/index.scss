@@ -275,6 +275,9 @@
   display: flex;
   justify-content: space-around;
   padding-bottom: 14px;
+    .protocol__button{
+        padding: 0 3px;
+    }
   .protocol__text{
     line-height: 24px;
   }
