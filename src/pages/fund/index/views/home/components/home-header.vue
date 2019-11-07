@@ -49,6 +49,8 @@ import LS from '@/utils/local-storage'
 import { getReleaseFundAssetType } from '@/service/finance-info-server.js'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { enumCurrency } from '@/pages/fund/index/map'
+import { debounce } from '@/utils/tools.js'
+import jsBridge from '@/utils/js-bridge.js'
 export default {
     components: {
         [Tab.name]: Tab,
@@ -162,6 +164,16 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            console.log('appVisible方法执行了')
         }
     },
     mounted() {
@@ -170,9 +182,20 @@ export default {
         this.getReleaseFundAssetType()
         this.showMoney =
             LS.get('showMoney') != null ? LS.get('showMoney') : true
+
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.appVisibleHandle, 1000)
     },
     updated() {
         this.active = LS.get('activeTab')
+        this.showMoney =
+            LS.get('showMoney') != null ? LS.get('showMoney') : true
     }
 }
 </script>
