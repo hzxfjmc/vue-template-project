@@ -112,10 +112,7 @@ export default {
         }
     },
     mounted() {
-        this.active = LS.get('activeTab') || 0
-        this.showPsd = LS.get('showMoney')
-    },
-    updated() {
+        this.active = LS.get('activeTab')
         this.showPsd = LS.get('showMoney')
     }
 }
