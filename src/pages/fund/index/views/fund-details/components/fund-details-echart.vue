@@ -50,7 +50,7 @@ export default {
         },
         en: {
             fundTrade: 'Fund NAV Performance',
-            time: 'time',
+            time: 'Time',
             nav: 'NAV',
             list: {
                 0: { date: '1 Month' },
