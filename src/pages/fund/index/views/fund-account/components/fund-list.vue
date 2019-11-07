@@ -85,7 +85,7 @@ export default {
             amountMoney: 'Amount',
             share: 'Unit',
             profitPostion: 'Total Return',
-            SevenDayIncome: 'Data in Last 7d',
+            SevenDayIncome: 'RTN 7d',
             Redemption: 'Redeming',
             subscribe: 'Purchasing',
             nomore: 'No Position'

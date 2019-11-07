@@ -136,9 +136,6 @@ export default {
                 let data = {
                     currency: this.currency
                 }
-                if (LS.get('activeTab') != null) {
-                    data.currency = LS.get('activeTab') == 0 ? 2 : 1
-                }
                 this.list = await getReleaseFundAssetType(data)
                 this.list.map(item => {
                     switch (item.assetType) {
@@ -169,10 +166,10 @@ export default {
     },
     mounted() {
         this.active = LS.get('activeTab') || 0
+        this.currency = this.active === 0 ? enumCurrency.HKD : enumCurrency.USD
         this.getReleaseFundAssetType()
         this.showMoney =
             LS.get('showMoney') != null ? LS.get('showMoney') : true
-        this.currency = this.active === 0 ? 2 : 1
     },
     updated() {
         this.active = LS.get('activeTab')
