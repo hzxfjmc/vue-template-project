@@ -24,7 +24,7 @@ export const holdDetailsData = {
         label: '持有份额',
         key: '',
         layout: 'left',
-        value: '00.00'
+        value: '0.00'
     },
     redeemDeliveryShare: {
         label: '赎回中(份额）',
@@ -83,12 +83,12 @@ export const i18nHoldDetailsData = {
                 label: '待確認金額'
             },
             redeemDeliveryShare: {
-                label: '赎回份额'
+                label: '贖回中(份額)'
             }
         }
     },
     en: {
-        holdFundTitle: 'Positon',
+        holdFundTitle: 'Position',
         holdDetailsData: {
             weekEarnings: {
                 label: 'Yesterday P/L'
@@ -106,7 +106,7 @@ export const i18nHoldDetailsData = {
                 label: 'Amount to be CFMD'
             },
             redeemDeliveryShare: {
-                label: '赎回份额'
+                label: 'Redeeming（Unit）'
             }
         }
     }

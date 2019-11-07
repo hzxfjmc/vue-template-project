@@ -69,7 +69,7 @@ export default {
             title: 'Hot',
             subtitle: "Most investor's choices",
             oneYearRate: 'Change in This Year',
-            holdPosition: 'Positioned'
+            holdPosition: 'Position'
         }
     },
     filters: {

@@ -23,8 +23,8 @@
                 span {{$t('share')}}
                 .block-element-number(v-if="eyeTab") {{item.positionShare}}
                 .block-element-number(v-else) ****
-        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.00' || item.inTransitAmount !== '0.00'")
-            .o-item(v-if="item.redeemDeliveryShare !== '0.00'")
+        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.0000' || item.inTransitAmount !== '0.00'")
+            .o-item(v-if="item.redeemDeliveryShare !== '0.0000'")
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
                     span {{$t('share')}}
@@ -66,7 +66,7 @@ export default {
             amountMoney: '金额',
             share: '份额',
             profitPostion: '持有收益',
-            SevenDayIncome: '近七日数据',
+            SevenDayIncome: '近七日收益',
             Redemption: '赎回中',
             subscribe: '申购中',
             nomore: '暂无持仓'
@@ -75,7 +75,7 @@ export default {
             amountMoney: '金額',
             share: '份額',
             profitPostion: '持有收益',
-            SevenDayIncome: '近七日數據',
+            SevenDayIncome: '近七日收益',
             Redemption: '贖回中',
             subscribe: '申購中',
             nomore: '暫無持倉'

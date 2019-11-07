@@ -8,9 +8,9 @@
                 span.element-time {{$t('time')}}
             .block-right 
                 span.element-fund-name {{item.fundName}}
-                span.element-price-red(v-if="item.msg == 0") +{{item.earnings}}
-                span.element-price-green(v-if="item.msg == 1") {{item.earnings}}
-                span.element-price(v-if="item.msg == 2") {{item.earnings}}
+                span.element-price-red(v-if="item.msg == 0") {{currency == 2 ?'HKD':'USD'}} +{{item.earnings}}
+                span.element-price-green(v-if="item.msg == 1") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
+                span.element-price(v-if="item.msg == 2") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
                 span.element-time {{item.belongDate}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
@@ -36,14 +36,14 @@ export default {
         zhCHT: {
             FundNmae: '基金名稱',
             amountMoney: '金額',
-            time: '时间',
+            time: '時間',
             nomore: '暫無收益',
             nomore1: '無更多內容'
         },
         en: {
             FundNmae: 'Fund Name',
             amountMoney: 'Amount',
-            time: '时间',
+            time: 'Time',
             nomore: 'No Return',
             nomore1: 'No More Content'
         }

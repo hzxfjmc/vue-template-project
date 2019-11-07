@@ -5,7 +5,10 @@
             .block-left 
                 span.element-fund-name {{item.tradeTypeName}}
                 span.element-fund-name1 {{$t('fundName')}}
-                span.element-price {{$t('amountMoney')}}
+                template(v-if="item.tradeType === 1")
+                    span.element-price {{$t('amountMoney')}}
+                template(v-else)
+                    span.element-price {{$t('share')}}
                 span.element-time {{$t('time')}}
             .block-right 
                 span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.externalName}}
@@ -14,7 +17,10 @@
                 span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
                 span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
                 span.element-time.fund-name {{item.fundBaseInfoVO.fundName}}
-                span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
+                template(v-if="item.tradeType === 1")
+                    span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
+                template(v-else)
+                    span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                 span.element-time {{item.orderTime}}
     
     .block-element-nomore(v-if="noMoreShow")
@@ -35,6 +41,7 @@ export default {
         zhCHS: {
             fundName: '基金名称',
             amountMoney: '金额',
+            share: '份额',
             time: '时间',
             nomore: '暂无订单记录',
             nomore1: '无更多内容'
@@ -42,14 +49,16 @@ export default {
         zhCHT: {
             fundName: '基金名稱',
             amountMoney: '金額',
-            time: '时间',
+            share: '份額',
+            time: '時間',
             nomore: '暫無訂單記錄',
             nomore1: '無更多內容'
         },
         en: {
             fundName: 'Fund Name',
             amountMoney: 'Amount',
-            time: '时间',
+            share: 'Unit',
+            time: 'Time',
             nomore: 'No Order Record',
             nomore1: 'No More Content'
         }
