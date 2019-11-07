@@ -27,7 +27,7 @@ export default {
             fundList: [],
             currency: 2,
             noMoreShow: false,
-            eyeTab: LS.get('showMoney')
+            eyeTab: LS.get('showMoney') || true
         }
     },
     components: {
