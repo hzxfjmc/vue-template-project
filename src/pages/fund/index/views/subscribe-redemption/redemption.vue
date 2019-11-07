@@ -43,7 +43,7 @@
                 )
             .fund-footer-content
                 .protocol
-                    .protocol__checkbox.iconfont.icon-selected(:class="isCheckedProtocol ?'checked':'un-checked'" @click="checkProtocol")
+                    .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
                 van-button(:disabled="disabled" @click="handleSubmit") {{$t('submitButtonText')}}
