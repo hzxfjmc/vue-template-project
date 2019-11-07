@@ -14,7 +14,7 @@
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
-                                span {{subscriptionFee ||'--'}} ({{item.value}}%)
+                                span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value}}%)
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
                                 input(v-model="item.value" :placeHolder="$t('buyMoneyPlaceHolder')" type="number")
                             .right-item-other(v-else)
@@ -50,7 +50,7 @@
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8  {{$t('orderAmount')}}
-                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ orderTotalAmount | formatCurrency }}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ orderTotalAmount | sliceFixedTwo | formatCurrency }}
                 .buy-row
                     .left.line-height-8 {{$t('buyMoney')}}
                     .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
@@ -136,15 +136,17 @@ export default {
         'subscribeObj.buyMoney.value'(val) {
             this.subscribeObj.totalOrderAmount.value =
                 Number(this.subscribeObj.buyMoney.value) +
-                (this.subscribeObj.buyMoney.value *
-                    this.subscribeObj.subscriptionFee.value) /
-                    100
-            this.subscribeObj.totalOrderAmount.value =
-                parseThousands(this.subscribeObj.totalOrderAmount.value) || '--'
+                    (this.subscribeObj.buyMoney.value *
+                        this.subscribeObj.subscriptionFee.value) /
+                        100 || '0.00'
+            this.subscribeObj.totalOrderAmount.value = parseThousands(
+                Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
+            )
+
             this.subscriptionFee =
                 (this.subscribeObj.buyMoney.value *
                     this.subscribeObj.subscriptionFee.value) /
-                    100 || '--'
+                100
             if (val > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
             }

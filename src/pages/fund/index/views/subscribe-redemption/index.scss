@@ -35,15 +35,11 @@
     }
     .fond-des {
         background: $background-color;
-        display: flex;
-        flex-direction: column;
-        // font-size: 0.32rem;
         padding: 14px 12px;
         .fond-name {
-            font-size: 0.3rem;
             padding:5px 0;
-            overflow: hidden;
             text-overflow: ellipsis;
+            overflow: hidden;
             white-space: nowrap;
         }
         .ISIN {
@@ -51,12 +47,6 @@
             color: $text-color5;
         }
     }
-    // .fond-bug-monny {
-    //     border: 1px solid rgba($text-color, 0.05);
-    //     @media only screen and (min-resolution: 2dppx) {
-    //         border-bottom: 0.5px solid rgba($text-color, 0.05);
-    //     }
-    // }
    
     .submit {
         margin-top: 20px;
@@ -74,10 +64,8 @@
         background: #d1d1d1;
     }
     .fund-content{
-        overflow: hidden;
-        overflow-y: auto;
-        height:100%;
-        flex-direction: column;
+        overflow: auto;
+        flex: 1
     }
     .fond-buy {
         background: $background-color;
