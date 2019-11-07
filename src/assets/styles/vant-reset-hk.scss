@@ -28,7 +28,13 @@ body {
     line-height:20px;
     top: 0;
   }
+  .van-cell__title {
+    color: $hk-text-color6;
+  }
+  .van-cell__value {
+    color: $text-color;
+  }
   .van-dialog__confirm {
-      color: $hk-primary-color;
+    color: $hk-primary-color;
   }
 }

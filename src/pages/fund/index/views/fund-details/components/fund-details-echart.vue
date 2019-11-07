@@ -109,7 +109,6 @@ export default {
             this.chart = new F2.Chart({
                 id: data,
                 pixelRatio: window.devicePixelRatio
-                // padding: [45, 'auto', 'auto']
             })
             this.chart.source(this.initEchartList, {
                 netPrice: {
@@ -119,7 +118,7 @@ export default {
                     max: Math.max.apply(null, arr) * 1.1,
                     // min: 0,
                     formatter: function formatter(val) {
-                        return val.toFixed(2)
+                        return val.toFixed(4)
                     }
                 },
                 belongDay: {
