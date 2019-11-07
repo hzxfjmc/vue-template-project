@@ -8,9 +8,9 @@ export default new Router({
     },
     routes: [
         {
-            name: 'index',
+            name: 'home',
             path: '/',
-            meta: { title: 'fundList', auth: true, cs: true },
+            meta: { title: 'home', auth: true, cs: true },
             component: () => import(`@/pages/fund/index/views/home/index.vue`)
         },
         {
