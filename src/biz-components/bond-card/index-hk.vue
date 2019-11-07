@@ -101,8 +101,8 @@ export default {
             .van-tag--plain {
                 overflow: hidden;
                 min-width: 45px;
-                max-width: 89px;
-                padding: 2px 7px 2px 8px;
+                max-width: 115px;
+                padding: 4px 7px;
                 margin-right: 5px;
                 font-size: 0.2rem;
                 text-align: center;
