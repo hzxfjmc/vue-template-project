@@ -113,7 +113,10 @@ export default {
     },
     mounted() {
         this.active = LS.get('activeTab') || 0
-        this.showPsd = LS.get('showMoney') || true
+        this.showPsd = LS.get('showMoney')
+    },
+    updated() {
+        this.showPsd = LS.get('showMoney')
     }
 }
 </script>
