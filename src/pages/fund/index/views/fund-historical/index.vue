@@ -109,7 +109,7 @@ export default {
                     item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
                     item.netPrice = this.sliceDeci(item.netPrice, 4)
                     if (index === this.list.length - 1) {
-                        this.list[this.list.length - 1].netPrice = '0.00'
+                        this.list[this.list.length - 1].price = '0.00' // 最后一项涨跌幅无法则算为0
                     } else {
                         if (Number(this.list[index + 1].netPrice) !== 0) {
                             item.price =
