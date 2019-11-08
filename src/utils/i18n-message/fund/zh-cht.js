@@ -1,7 +1,4 @@
 export const zhCHT = {
-    managermentLabel: '管理費',
-    zk: '更多',
-    zq: '收起',
     fundDetails: '基金詳情',
     fundList: '精選基金',
     fundIntroduce: '基金介绍',
