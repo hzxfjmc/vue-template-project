@@ -21,11 +21,11 @@
                         i.iconfont(:class="item.icon")
                         span {{item.assetTypeName}}
                 
-                .header-content-number
+                .header-content-number(@click="toFundAccount")
                     .header-content-top
                         span {{$t('AllTotalMarketPostion')}} ({{this.currency === 2 ? 'HKD':'USD'}})
-                        i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click="hideNumber")
-                    .header-content(@click="toFundAccount")
+                        i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click.stop="hideNumber")
+                    .header-content()
                         span(v-if="showMoney") {{firstPositionAmount || '--'}}
                         em(v-if="showMoney") .{{secondPositionAmount || '--'}}
                         span(v-if="!showMoney") *******

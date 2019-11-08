@@ -6,7 +6,7 @@
         :lists="list"
         :holdData="holdData"
         )
-        .home-banner(slot="banner" v-if="bannerUrl!=''")
+        .home-banner(slot="banner" v-if="bannerUrl!=''" @click="goBanner")
             img(:src="bannerUrl")
         HomeFundList(:fundList="fundList" slot="fundList")
 </template>
@@ -16,7 +16,7 @@ import HomeFundList from './components/home-fund-list'
 import { getFundPositionList } from '@/service/finance-server.js'
 import { getFundListV2 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getCosUrl } from '@/utils/cos-utils'
 import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
@@ -36,10 +36,17 @@ export default {
             bannerUrl: '',
             showPage: 27,
             market: '',
-            active: 0
+            active: 0,
+            jumpUrl: '',
+            jumpType: ''
         }
     },
     methods: {
+        goBanner() {
+            if (this.jumpUrl) {
+                jumpUrl(this.jumpType, this.jumpUrl)
+            }
+        },
         //跳转基金
         toFundList(data) {
             let url = `${
@@ -52,11 +59,13 @@ export default {
         //获取banner图
         async bannerAdvertisement() {
             try {
-                this.showPage = this.currency == 2 ? 27 : 28
+                this.showPage = this.currency == enumCurrency.HKD ? 26 : 27
                 const { banner_list } = await bannerAdvertisement(this.showPage)
                 if (banner_list[0]) {
                     const res = await getCosUrl(banner_list[0].picture_url)
                     this.bannerUrl = res
+                    this.jumpType = banner_list[0].news_jump_type
+                    this.jumpUrl = banner_list[0].jump_url
                 } else {
                     this.bannerUrl = ''
                 }
