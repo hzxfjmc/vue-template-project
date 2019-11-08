@@ -54,7 +54,7 @@ export default {
             return +getStockColorType()
         },
         isMonetaryFund() {
-            return Number(this.assetType) === 4 // 货币型基金
+            return Number(this.info.assetType) === 4 // 货币型基金
         },
         apy() {
             const func = this.info && this.info.apy > 0 ? Math.floor : Math.ceil
