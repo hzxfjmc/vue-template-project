@@ -3,6 +3,7 @@
 // import jsBridge from '@/utils/js-bridge.js'
 // import LS from '@/utils/local-storage.js'
 import dayjs from 'dayjs'
+import jsBridge from '@/utils/js-bridge.js'
 
 const camelizeRE = /-(\w)/g
 export function camelize(str) {
@@ -207,5 +208,22 @@ export function parseThousands(priceVal) {
         return '0'
     } else {
         return ''
+    }
+}
+
+/**
+ * @describe 跳转
+ * @params ${jump_type:跳转方式,jump_url:跳转链接}
+ */
+export function jumpUrl(jump_type, jump_url) {
+    console.log(jump_url)
+    if (jump_type != 5) {
+        if (jsBridge.isYouxinApp) {
+            jsBridge.gotoNewWebview(jump_url)
+        } else {
+            location.href = jump_url
+        }
+    } else {
+        jsBridge.gotoNativeModule(jump_url)
     }
 }
