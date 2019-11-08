@@ -234,7 +234,7 @@ export default {
             display: inline-block;
         }
         .day {
-            width: 120px;
+            width: 90px;
             float: right;
         }
         .number {
