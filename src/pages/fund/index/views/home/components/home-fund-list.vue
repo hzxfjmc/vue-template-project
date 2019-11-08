@@ -15,7 +15,7 @@
                 span.element-msg(v-if="item.msg == 2 && item.apy > 0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{item.apy|sliceFixedTwo|filterThousand}}%
                 span.element-msg(v-else-if="item.msg == 2 && item.apy < 0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{item.apy|sliceFixedTwo|filterThousand}}%
                 span.element-msg(v-else-if="item.msg == 2") {{item.apy}}%
-                span.block-p {{$t('oneYearRate')}}
+                span.block-p {{Number(item.assetType === 4) ? $t('yieldInLast7d'):$t('oneYearRate')}}
             .block-right
                 .block-top
                     p {{item.fundName}} 
@@ -57,18 +57,21 @@ export default {
             title: '人气之选',
             subtitle: '众多投资者的选择',
             oneYearRate: '近一年收益率',
+            yieldInLast7d: '近七日年化',
             holdPosition: '已持仓'
         },
         zhCHT: {
             title: '人氣之選',
             subtitle: '眾多投資者的選擇',
             oneYearRate: '近一年表現',
+            yieldInLast7d: '近七日年化',
             holdPosition: '已持倉'
         },
         en: {
             title: 'Hot',
             subtitle: "Most investor's choices",
             oneYearRate: 'Change in This Year',
+            yieldInLast7d: 'Yield in Last 7d',
             holdPosition: 'Position'
         }
     },
