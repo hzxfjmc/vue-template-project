@@ -95,7 +95,7 @@ export default {
                 } = await getFundPositionEarningsListV1({
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    currency: 2
+                    currency: this.$route.query.currency
                 })
                 list.map(item => {
                     item.msg =
