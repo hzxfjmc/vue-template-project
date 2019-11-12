@@ -37,7 +37,7 @@ export const subscribeObji18n = {
     i18n: {
         zhCHS: {
             withdrawBalance: '可用余额',
-            withdrawBalanceNetPrice: '最大可买',
+            withdrawBalanceNetPrice: '最大可买(份额)',
             initialInvestAmount: '最小买入',
             continueInvestAmount: '买入单位',
             buyMoney: '购买金额',
@@ -47,7 +47,7 @@ export const subscribeObji18n = {
         },
         zhCHT: {
             withdrawBalance: '可用餘額',
-            withdrawBalanceNetPrice: '最大可買',
+            withdrawBalanceNetPrice: '最大可買(份額)',
             initialInvestAmount: '最小買入',
             continueInvestAmount: '買入單位',
             buyMoney: '購買金額',
@@ -57,7 +57,7 @@ export const subscribeObji18n = {
         },
         en: {
             withdrawBalance: 'Available Balance',
-            withdrawBalanceNetPrice: 'Max Purchase',
+            withdrawBalanceNetPrice: 'Max Purchase(unit)',
             initialInvestAmount: 'Min Purchase',
             continueInvestAmount: 'Purchase Unit',
             buyMoney: 'Amount of Purchasing',
