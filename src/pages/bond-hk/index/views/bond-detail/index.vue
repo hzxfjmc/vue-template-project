@@ -1,9 +1,5 @@
 <template lang="pug">
-    van-pull-refresh(
-        v-model="isLoading"
-        @refresh="onRefresh"
-        success-text="刷新成功"
-    )
+
         yx-container-better
             .bond-detail-wrapper(slot="main")
                 detail-header(
