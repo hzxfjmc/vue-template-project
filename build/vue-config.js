@@ -119,7 +119,7 @@ module.exports = {
             // banner
             '/news-configserver': {
                 //target: 'http://10.55.4.9:15002',
-                target: 'http://hz-sit.yxzq.com',
+                target: 'http://hz-uat.yxzq.com',
                 changOrigin: true,
             },
             // 行情资讯接口服务器
@@ -168,7 +168,7 @@ module.exports = {
             //     changOrigin: true
             // },
             '/user-server': {
-                target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-uat.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changOrigin: true
             },
@@ -232,14 +232,14 @@ module.exports = {
             },
             // 基金交易
             '/finance-server': {
-                target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-uat.yxzq.com',
                 // target: 'http://jy-dev.yxzq.com',
                 changeOrigin: true
             },
             // 基金信息
             '/finance-info-server': {
                 // target: 'http://jy-dev.yxzq.com',
-                target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-uat.yxzq.com',
                 changeOrigin: true
             },
 
@@ -268,7 +268,7 @@ module.exports = {
             '/': {
                 ws: false,
                 // target: 'http://jy-dev.yxzq.com',
-                target: 'http://jy-sit.yxzq.com',
+                target: 'http://jy-uat.yxzq.com',
                 changeOrigin: true
             }
         },
