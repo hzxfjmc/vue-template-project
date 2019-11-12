@@ -106,7 +106,7 @@ export default {
         // 获取用户信息--主要拿签名状态
         async handleGetCurrentUser() {
             try {
-                let { extendStatusBit } = getCurrentUser()
+                let { extendStatusBit } = await getCurrentUser()
                 this.extendStatusBit = (extendStatusBit && extendStatusBit) || 0
                 console.log('getCurrentUser:data:>>>', extendStatusBit)
             } catch (error) {
@@ -159,5 +159,8 @@ export default {
                 }
             })
         }
+    },
+    beforeDestroy() {
+        clearInterval(this.updateTimer)
     }
 }
