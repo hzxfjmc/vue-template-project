@@ -10,7 +10,7 @@
             ) {{ tagItem }}
         .bond-card__content
             .flex-fixed-container
-                .rate-num {{ buyYtm }}
+                .rate-num(:class="{ empty: buyYtm === '--' }") {{ buyYtm }}
                 .card-tips 到期年化收益率
             .flex-fixed-container
                 .interest-num {{ paymentDates }}
@@ -113,8 +113,8 @@ export default {
         .van-tag--plain {
             overflow: hidden;
             min-width: 36px;
-            max-width: 89px;
-            padding: 1px 4px 1px 5px;
+            max-width: 115px;
+            padding: 4px 7px;
             margin-right: 6px;
             font-size: 0.2rem;
             text-align: center;
@@ -135,6 +135,9 @@ export default {
             color: #ea3d3d;
             font-size: 0.48rem;
             line-height: 31px;
+            &.empty {
+                color: $text-color;
+            }
         }
         .interest-num {
             margin-top: 3px;

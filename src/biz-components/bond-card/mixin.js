@@ -23,7 +23,7 @@ export default {
         },
         h2Style() {
             // 发行人名称字体变化策略
-            let issuerName = this.issuerName || ''
+            let issuerName = this.bondInfo.issuerName || ''
             let tags = (this.bondInfo && this.bondInfo.tags) || []
             let tagLen = 0
             tags.forEach(tag => {
@@ -32,8 +32,8 @@ export default {
             // 极限条件 issuerName 发行人名称超过 13 个字符
             // 标签有三个，每个三个字符，共 9 个字符
             // 此时按设计稿看，刚好充满一个整行
-            // 这里统一设置一个模糊边界策略，只要大于 13 + 9 = 22 就缩小字体
-            if (issuerName.length + tagLen > 22) {
+            // 这里统一设置一个模糊边界策略，只要大于 13 + 9 = 20 就缩小字体
+            if (issuerName.length + tagLen >= 19) {
                 return {
                     flex: 1,
                     fontSize: '0.32rem',

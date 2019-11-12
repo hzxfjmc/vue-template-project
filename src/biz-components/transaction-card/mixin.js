@@ -7,8 +7,9 @@ import {
     getBondInterestCalculate
 } from '@/service/finance-server.js'
 import { generateUUID, debounce } from '@/utils/tools.js'
+import { LongPress } from '@/utils/long-press'
 import jsBridge from '@/utils/js-bridge.js'
-import { Stepper } from 'vant'
+import { Stepper, PullRefresh } from 'vant'
 import { mapGetters } from 'vuex'
 export default {
     name: 'TransactionCard',
@@ -55,6 +56,7 @@ export default {
     },
     components: {
         [Stepper.name]: Stepper,
+        [PullRefresh.name]: PullRefresh,
         MediaBox,
         YxContainerBetter
     },
@@ -93,6 +95,23 @@ export default {
 
         this.debounceTradeToken = debounce(this.getTradeToken, 350)
     },
+    mounted() {
+        setTimeout(() => {
+            // 长按递增/递减
+            new LongPress('.van-stepper__minus', () => {
+                this.transactionNum--
+                if (this.transactionNum <= 1) {
+                    this.transactionNum = 1
+                }
+            })
+            new LongPress('.van-stepper__plus', () => {
+                this.transactionNum++
+                if (this.transactionNum >= 9999999) {
+                    this.transactionNum = 9999999
+                }
+            })
+        }, 500)
+    },
     data() {
         return {
             transactionNum: 1, // 交易份数
@@ -102,7 +121,9 @@ export default {
             debounceTradeToken: () => {}, // 交易防抖函数
             interestDays: 0, // 应计利息天数
             currentPrice: {}, // 当前价格
-            feeData: [] // 当前用户套餐费用
+            feeData: [], // 当前用户套餐费用
+
+            isLoading: false // 下拉刷新
         }
     },
     computed: {
@@ -312,6 +333,20 @@ export default {
         }
     },
     methods: {
+        // 下拉刷新
+        onRefresh() {
+            Promise.all([
+                this.handleGetBondDetail(),
+                this.handleGetBondInterestCalculate(),
+                this.handleFeePackageCurr()
+            ])
+                .then(() => {
+                    this.isLoading = false
+                })
+                .finally(() => {
+                    this.isLoading = false
+                })
+        },
         // 获取债券信息
         async handleGetBondDetail() {
             try {
@@ -346,7 +381,7 @@ export default {
         async handleFeePackageCurr() {
             try {
                 let feeData = await feePackageCurr({
-                    stockBusinessType: 1,
+                    stockBusinessType: 6,
                     userId: this.$store.state.user.userId - 0
                 })
                 console.log('feePackageCurr:data:>>> ', feeData)

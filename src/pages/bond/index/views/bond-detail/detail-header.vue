@@ -83,15 +83,6 @@ export default {
                 this.bondUneditableInfo && this.bondUneditableInfo.dueTime
             )
         },
-        // 起购金额/最小面额
-        minFaceValue() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.minFaceValue &&
-                    (this.bondUneditableInfo.minFaceValue - 0).toFixed(3)) ||
-                '--'
-            )
-        },
         // 货币单位
         currencyShortSymbol() {
             return (
