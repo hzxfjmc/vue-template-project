@@ -381,7 +381,7 @@ export default {
         async handleFeePackageCurr() {
             try {
                 let feeData = await feePackageCurr({
-                    stockBusinessType: 1,
+                    stockBusinessType: 6,
                     userId: this.$store.state.user.userId - 0
                 })
                 console.log('feePackageCurr:data:>>> ', feeData)
