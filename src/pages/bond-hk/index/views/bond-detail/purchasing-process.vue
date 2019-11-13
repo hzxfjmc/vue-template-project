@@ -9,7 +9,7 @@
                 <h3>{{ paymentDate }}為付息日</h3>
                 <p>・付息日支付利息，持有中途可賣出</p>
                 <p>・持有到期可收息{{ paymentTime }}次，每次收息: 稅後{{ paymentAfterTaxPerTime | thousand-spilt }}{{ currency }}/份</p>
-                <p>・到期前合共收息:稅後{{ totalPayment | thousand-spilt }}{{ currency }}/份</p>
+                <p>・到期前合共收息:稅後{{ paymentAfterTaxPerTimeTotal | thousand-spilt }}{{ currency }}/份</p>
             van-step
                 <h3>到期退出</h3>
                 <p>・{{ dueTime | date-format('YYYY.MM.DD') }}</p>
@@ -41,9 +41,17 @@ export default {
             )
         },
         // 合共收息
-        totalPayment() {
-            let t = this.paymentTime * this.paymentAfterTaxPerTime
-            return (t && t.toFixed(3)) || 0
+        paymentAfterTaxPerTimeTotal() {
+            // let t = this.paymentTime * this.paymentAfterTaxPerTime
+            // return (t && t.toFixed(3)) || 0
+            return (
+                (this.paymentInfo &&
+                    this.paymentInfo.paymentAfterTaxPerTimeTotal &&
+                    (this.paymentInfo.paymentAfterTaxPerTimeTotal - 0).toFixed(
+                        3
+                    )) ||
+                0
+            )
         },
         // 本金份额
         minFaceValue() {
