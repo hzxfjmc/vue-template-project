@@ -69,7 +69,7 @@ export default {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.minFaceValue &&
-                    (this.bondUneditableInfo.minFaceValue - 0).toFixed(3)) ||
+                    (this.bondUneditableInfo.minFaceValue - 0).toFixed(2)) ||
                 '--'
             )
         }
