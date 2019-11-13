@@ -183,6 +183,7 @@ export function transNumToThousandMark(num = '0', dot = 2) {
         })
         return docBeforeNum + '.' + numArr[1].substring(0, dot)
     } else {
+        num = Number(num).toFixed(dot)
         let number = num.replace(/\d{1,3}(?=(\d{3})+$)/g, v1 => {
             return v1 + ','
         })
