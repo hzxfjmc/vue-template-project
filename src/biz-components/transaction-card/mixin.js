@@ -311,7 +311,7 @@ export default {
                     : prevPrice - (this.serviceCharge - 0)
             return totalMoney ? totalMoney.toFixed(2) : 0
         },
-        // 卖：债券持仓/买：可用资金
+        // 卖：债券持仓可用数量 / 买：可用资金
         marketValue() {
             if (this.direction === 1) {
                 return (
@@ -320,13 +320,13 @@ export default {
                     '0.00'
                 )
             }
-            let mv = this.positionData.marketValue
-                ? this.positionData.marketValue && this.positionData.marketValue
+            let mv = this.positionData.availableQuantity
+                ? this.positionData.availableQuantity
                 : '0.00'
             let count = Math.floor(mv / this.minFaceValue)
             this.transactionNum = count
 
-            return mv === '0.00' ? '0.00' : mv + '(' + count + '份)'
+            return mv === '0.00' ? '0' : mv + '(' + count + '份)'
         },
         btnDisabled() {
             return this.transactionNum <= 0 ? true : false
