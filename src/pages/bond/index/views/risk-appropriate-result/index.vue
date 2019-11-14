@@ -17,6 +17,10 @@
                     span 什么是风险测评？
                     i.iconfont.icon-about_icon
                 p 为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的，通过风险测评可以了解您的风险承受能力和风险偏好。
+
+        .footer-wrapper(
+            slot="bottom"
+        )
             .risk-agreement(v-if="riskMatchResult === 3")
                 van-checkbox(v-model="isReadProductInfo")
                     i.iconfont(
@@ -27,14 +31,13 @@
                 p
                     span 我已阅读并知晓债券相关风险，我已阅读产品资料
                     a(:href="productUrl") 《产品概览书》
-        van-button(
-            type="info"
-            slot="bottom"
-            class="foot-button"
-            :text="btnText"
-            :disabled="isDisabled"
-            @click="handleAction"
-        )
+            van-button(
+                type="info"
+                class="foot-button"
+                :text="btnText"
+                :disabled="isDisabled"
+                @click="handleAction"
+            )
 </template>
 <script>
 import riskAppropriateResultMixin from './mixins.js'
@@ -125,11 +128,12 @@ export default {
             line-height: 18px;
         }
     }
+}
+.footer-wrapper {
     .risk-agreement {
         display: flex;
         align-items: baseline;
-        position: absolute;
-        bottom: 62px;
+        margin-bottom: 12px;
         padding-left: 14px;
         .van-checkbox {
             display: inline-block;

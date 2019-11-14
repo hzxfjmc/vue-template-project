@@ -17,16 +17,7 @@
                     i.iconfont.icon-about_icon
                     span {{$t('riskMeans')}}
                 p {{$t('meansInfo')}}
-            .risk-agreement(v-if="riskMatchResult === 3")
-                van-checkbox(v-model="isReadProductInfo")
-                    i.iconfont(
-                        slot="icon"
-                        slot-scope="props"
-                        :class="props.checked ? 'icon-xuanzhong2' : 'icon-noconfirm'"
-                    )
-                p
-                    span 我已阅读并知晓债券相关风险，我已阅读产品资料
-                    a(:href="productUrl") 《产品概览书》
+
             van-dialog.remaining-container(
                 v-model="showRemainingNum"
                 :show-cancel-button='true'
@@ -38,11 +29,25 @@
                 .title {{$t('leastNum')}} {{number}} {{$t('times')}}
                 .years-info(v-if="number!==0") {{resetTimes}}
                 .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
-        .van-bottom-btn(slot="bottom")
-            van-button.btn(type="info" round size="large"
-                :disabled="isDisabled"
-                @click="handleAction"
-            ) {{btnText}}
+
+        .footer-wrapper(
+            slot="bottom"
+        )
+            .risk-agreement(v-if="riskMatchResult === 1")
+                van-checkbox(v-model="isReadProductInfo")
+                    i.iconfont(
+                        slot="icon"
+                        slot-scope="props"
+                        :class="props.checked ? 'icon-xuanzhong2' : 'icon-noconfirm'"
+                    )
+                p
+                    span 我已阅读并知晓债券相关风险，我已阅读产品资料
+                    a(:href="productUrl") 《产品概览书》
+            .van-bottom-btn
+                van-button.btn(type="info" round size="large"
+                    :disabled="isDisabled"
+                    @click="handleAction"
+                ) {{btnText}}
 
 </template>
 
@@ -138,39 +143,6 @@ export default {
                 line-height: 17px;
             }
         }
-        .risk-agreement {
-            display: flex;
-            align-items: baseline;
-            position: absolute;
-            bottom: 108px;
-            padding: 0 $hk-global-padding;
-            .van-checkbox {
-                display: inline-block;
-                margin-right: 6px;
-                vertical-align: text-bottom;
-            }
-            .icon-xuanzhong2,
-            .icon-noconfirm {
-                font-size: 16px;
-                vertical-align: top;
-            }
-            .icon-noconfirm {
-                color: $hk-text-color2;
-            }
-            .icon-xuanzhong2 {
-                color: $hk-primary-color;
-            }
-            p {
-                flex: 1;
-                color: $hk-text-color;
-                font-size: 14px;
-                line-height: 20px;
-                a {
-                    color: $hk-primary-color;
-                    font-size: 14px;
-                }
-            }
-        }
     }
 }
 .remaining-container {
@@ -184,6 +156,38 @@ export default {
         color: $text-color6;
         margin-bottom: 20px;
         padding: 0 10px;
+    }
+}
+.risk-agreement {
+    display: flex;
+    align-items: baseline;
+    margin-bottom: 60px;
+    padding: 0 $hk-global-padding;
+    .van-checkbox {
+        display: inline-block;
+        margin-right: 6px;
+        vertical-align: text-bottom;
+    }
+    .icon-xuanzhong2,
+    .icon-noconfirm {
+        font-size: 16px;
+        vertical-align: top;
+    }
+    .icon-noconfirm {
+        color: $hk-text-color2;
+    }
+    .icon-xuanzhong2 {
+        color: $hk-primary-color;
+    }
+    p {
+        flex: 1;
+        color: $hk-text-color;
+        font-size: 14px;
+        line-height: 20px;
+        a {
+            color: $hk-primary-color;
+            font-size: 14px;
+        }
     }
 }
 .van-bottom-btn {
