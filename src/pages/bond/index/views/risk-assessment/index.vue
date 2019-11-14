@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import riskAssessmentMixin from '@/mixins/bond/risk-assessment/index.js'
+import riskAssessmentMixin from './mixins.js'
 export default {
     mixins: [riskAssessmentMixin]
 }
