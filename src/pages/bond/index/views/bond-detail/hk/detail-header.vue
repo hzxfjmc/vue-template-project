@@ -92,10 +92,8 @@ export default {
         subscriptionAmount() {
             return (
                 (this.minFaceValue * this.buyPrice &&
-                    `${this.currencySymbol}${(
-                        this.minFaceValue * this.buyPrice
-                    ).toFixed(3)}`) ||
-                '--'
+                    `${(this.minFaceValue * this.buyPrice).toFixed(3)}`) ||
+                ''
             )
         },
         // 最小面额
@@ -115,23 +113,21 @@ export default {
                 0
             )
         },
-        // 货币单位
-        currencySymbol() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.symbol) ||
-                ''
-            )
-        },
+        // // 货币单位
+        // currencySymbol() {
+        //     return (
+        //         (this.bondUneditableInfo &&
+        //             this.bondUneditableInfo.enumCurrency &&
+        //             this.bondUneditableInfo.enumCurrency.symbol) ||
+        //         ''
+        //     )
+        // },
         // 年稅後派息
         solvePaymentAfterTaxPerYear() {
             return (
                 (this.paymentAfterTaxPerYear &&
-                    `${this.currencySymbol}${(
-                        this.paymentAfterTaxPerYear - 0
-                    ).toFixed(3)}`) ||
-                '--'
+                    `${(this.paymentAfterTaxPerYear - 0).toFixed(3)}`) ||
+                ''
             )
         }
     }
