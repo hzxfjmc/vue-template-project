@@ -36,9 +36,8 @@
             @click="handleAction"
         )
 </template>
-
 <script>
-import riskAppropriateResultMixin from '@/mixins/bond/risk-appropriate-result/index.js'
+import riskAppropriateResultMixin from './mixins.js'
 export default {
     mixins: [riskAppropriateResultMixin]
 }
