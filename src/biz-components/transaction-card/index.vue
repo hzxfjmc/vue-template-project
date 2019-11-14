@@ -139,6 +139,9 @@ export default {
     span {
         margin-right: 4px;
     }
+    strong {
+        font-weight: normal;
+    }
 }
 .foot-button.sell {
     background: #ffbf32;
