@@ -4,16 +4,16 @@
             .risk-result__hd
                 p {{$t('resultHd')}}
             .risk-result__md {{ isExpried? $t('expired') : assessResultName}}
-            .easy-danger-customer(v-if="damagedStatus===1 && !isExpried" @click='showEasyCustomerInfo') 
+            .easy-danger-customer(v-if="damagedStatus===1 && !isExpried" @click='showEasyCustomerInfo')
                 span {{$t('easyDangerCustomer')}}
                 img(src="~@/assets/img/fund/wenhao.png")
             .risk-result-info(v-if="!isExpried") {{assessDefinition && assessDefinition}}
         .foot-container
             .risk-result__bd {{$t('lastTime')}} {{ assessmentTime | date-format('YYYY-MM-DD') }}
             van-button(
-                type="info" 
-                round 
-                size="large" 
+                type="info"
+                round
+                size="large"
                 :text="$t('btnText')"
                 @click="handleAction"
             )
@@ -30,13 +30,13 @@
         van-dialog.remaining-container(v-model="showRemainingNum" :show-cancel-button='true' :confirm-button-text="number===0?$t('toCall'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toClose'):$t('toCancel')" @cancel="callOrCancel(number)" )
             .title {{$t('leastNum')}} {{number}} {{$t('times')}}
             .years-info(v-if="number!==0") {{resetTimes}}
-            .years-info(v-if="number===0") 
+            .years-info(v-if="number===0")
                 .p {{resetTimes}}
                 .p {{ $t('yearsInfoToCall')}}
 </template>
 
 <script>
-import riskAssessmentResultMixin from '@/mixins/bond/risk-assessment-result/index.js'
+import riskAssessmentResultMixin from './mixin.js'
 export default {
     mixins: [riskAssessmentResultMixin],
     i18n: {
