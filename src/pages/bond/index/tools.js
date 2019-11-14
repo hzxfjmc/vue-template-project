@@ -1,3 +1,4 @@
+import { appType } from '@/utils/html-utils.js'
 /**
  * desc: 计算付息日展示
  * @param {String} d 付息日；可能有多个，大于2个后面接入‘等’；例如 5月8日|7月6日|8月9日：  5月8日、7月6日等
@@ -38,4 +39,21 @@ export function calcPaymentDates(
         })
     }
     return d.slice(0, 2).join(connectDivision) + suffix
+}
+
+/**
+ * desc 大陆版和港版跳转路由工具函数
+ * @param {Object} ctx 上下文
+ * @param {String} path 跳转路由路径，需要携带 斜杠 /
+ * @param {Object} query 跳转携带参数
+ * @param {String} jumpType 跳转方式  push 、 replace
+ */
+export function jumpRouter({ ctx, path, query = {}, jumpType = 'push' }) {
+    if (appType.Hk) {
+        path = '/hk' + path
+    }
+    ctx.$router[jumpType]({
+        path,
+        query
+    })
 }
