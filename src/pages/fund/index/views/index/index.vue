@@ -65,7 +65,8 @@ export default {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
                     assetType: this.$route.query.type,
-                    currency: this.$route.query.currency
+                    currency: this.$route.query.currency,
+                    classify: 0
                 })
                 this.list = list
                 this.load = this.list.length == 0
