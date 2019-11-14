@@ -132,7 +132,7 @@ export default {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.couponRate &&
-                    (this.bondUneditableInfo.couponRate - 0).toFixed(2) +
+                    (this.bondUneditableInfo.couponRate * 100).toFixed(2) +
                         '%') ||
                 '--'
             )
@@ -169,8 +169,7 @@ export default {
         paymentTypeName() {
             return (
                 (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumPaymentType &&
-                    this.bondUneditableInfo.enumPaymentType.name) ||
+                    this.bondUneditableInfo.paymentType) ||
                 '--'
             )
         },
@@ -178,8 +177,7 @@ export default {
         paymentFrequencyName() {
             return (
                 (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumPaymentFrequency &&
-                    this.bondUneditableInfo.enumPaymentFrequency.name) ||
+                    this.bondUneditableInfo.paymentFrequency) ||
                 '--'
             )
         },

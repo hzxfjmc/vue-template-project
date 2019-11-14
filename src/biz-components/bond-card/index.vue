@@ -10,7 +10,7 @@
             ) {{ tagItem }}
         .bond-card__content
             .flex-fixed-container
-                .rate-num {{ buyYtm }}
+                .rate-num(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
                 .card-tips 到期年化收益率
             .flex-fixed-container
                 .interest-num {{ paymentDates }}
@@ -20,9 +20,30 @@
 <script>
 import mixin from './mixin'
 import { calcPaymentDates } from '@/pages/bond/index/tools.js'
+import { getStockColorType } from '@/utils/html-utils'
+const stockColorType = getStockColorType()
+// 1 表示 红涨绿跌， 2 表示 绿涨红跌
+const stockColorClass = {
+    1: {
+        up: 'red',
+        down: 'green'
+    },
+    2: {
+        up: 'green',
+        down: 'red'
+    }
+}
 export default {
     mixins: [mixin],
     computed: {
+        // 股票上涨类名
+        up() {
+            return stockColorClass[stockColorType].up
+        },
+        // 股票下跌类名
+        down() {
+            return stockColorClass[stockColorType].down
+        },
         // 付息频率
         paymentFrequency() {
             return (
@@ -62,8 +83,8 @@ export default {
         .van-tag--plain {
             overflow: hidden;
             min-width: 36px;
-            max-width: 89px;
-            padding: 1px 4px 1px 5px;
+            max-width: 115px;
+            padding: 4px 7px;
             margin-right: 6px;
             font-size: 0.2rem;
             text-align: center;
@@ -81,9 +102,17 @@ export default {
         padding: 0 2px;
         .rate-num {
             margin-bottom: 4px;
-            color: #ea3d3d;
             font-size: 0.48rem;
             line-height: 31px;
+            &.red {
+                color: #ea3d3d;
+            }
+            &.green {
+                color: $green-text-color;
+            }
+            &.empty {
+                color: $text-color;
+            }
         }
         .interest-num {
             margin-top: 3px;

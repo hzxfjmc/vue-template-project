@@ -12,7 +12,7 @@
                 :href="bondEditableInfo && bondEditableInfo.raiseManual"
             )
                 i.icon
-                span 募集说明
+                span 募集说明书
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")

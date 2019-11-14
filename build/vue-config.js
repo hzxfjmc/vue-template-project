@@ -82,48 +82,6 @@ module.exports = {
             //     }
             // }
         })
-
-        // market项目公用代码目录别名
-        config.resolve.alias.set(
-            '@market-components',
-            absoluteSrcPath('pages/market/0-components')
-        )
-        config.resolve.alias.set(
-            '@market-config',
-            absoluteSrcPath('pages/market/0-config')
-        )
-        config.resolve.alias.set(
-            '@market-filters',
-            absoluteSrcPath('pages/market/0-filters')
-        )
-        config.resolve.alias.set(
-            '@market-images',
-            absoluteSrcPath('pages/market/0-images')
-        )
-        config.resolve.alias.set(
-            '@market-plugins',
-            absoluteSrcPath('pages/market/0-plugins')
-        )
-        config.resolve.alias.set(
-            '@market-service',
-            absoluteSrcPath('pages/market/0-service')
-        )
-        config.resolve.alias.set(
-            '@market-style',
-            absoluteSrcPath('pages/market/0-style')
-        )
-        config.resolve.alias.set(
-            '@market-third',
-            absoluteSrcPath('pages/market/0-third')
-        )
-        config.resolve.alias.set(
-            '@market-utils',
-            absoluteSrcPath('pages/market/0-utils')
-        )
-        config.resolve.alias.set(
-            '@market-mixins',
-            absoluteSrcPath('pages/market/0-mixins')
-        )
     },
     configureWebpack: config => {
         console.log(process.env.NODE_ENV, 'process.env.NODE_ENV')
@@ -144,6 +102,7 @@ module.exports = {
         disableHostCheck: true,
         open: true, // 是否打开页面
         host: '0.0.0.0', // m-dev.yxzq.com
+        sockHost: 'localhost',
         port: 80,
         https: false,
         hotOnly: true,

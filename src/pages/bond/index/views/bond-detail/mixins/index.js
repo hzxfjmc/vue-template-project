@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
 import { Panel, PullRefresh } from 'vant'
 import { mapState } from 'vuex'
+import { enumMarketName } from '@/utils/common/global-enum'
 export default {
     name: 'BondList',
     components: {
@@ -33,6 +34,7 @@ export default {
             prices: [],
             id: 0,
             bondName: '',
+            bindStock: {}, // 绑定的股票
             extendStatusBit: 0, // 用户扩展状态
 
             isLoading: false, // 下拉刷新
@@ -92,6 +94,10 @@ export default {
                     (this.bondEditableInfo.issuer &&
                         this.bondEditableInfo.issuer.name) ||
                     '--'
+
+                // 是否有绑定股票，有则右上角展示查看股票
+                this.bindStock =
+                    (bondEditableInfo && bondEditableInfo.bindStock) || {}
                 console.log(
                     'getBondDetail:data:>>> ',
                     bondEditableInfo,
@@ -106,7 +112,7 @@ export default {
         // 获取用户信息--主要拿签名状态
         async handleGetCurrentUser() {
             try {
-                let { extendStatusBit } = getCurrentUser()
+                let { extendStatusBit } = await getCurrentUser()
                 this.extendStatusBit = (extendStatusBit && extendStatusBit) || 0
                 console.log('getCurrentUser:data:>>>', extendStatusBit)
             } catch (error) {
@@ -159,5 +165,40 @@ export default {
                 }
             })
         }
+    },
+    watch: {
+        bindStock() {
+            if (
+                this.bindStock.stockCode &&
+                this.bindStock.stockMarket &&
+                this.bindStock.stockMarket.type
+            ) {
+                try {
+                    jsBridge.callApp('command_set_titlebar_button', {
+                        position: 2, //position取值1、2
+                        clickCallback: 'goToStockDetails',
+                        type: 'text', //text、icon、custom_icon、hide
+                        text: '查看股票' //自定义
+                    })
+                    window.goToStockDetails = () => {
+                        jsBridge.gotoNativeModule(
+                            `yxzq_goto://stock_quote?market=${
+                                enumMarketName[this.bindStock.stockMarket.type]
+                            }&code=${this.bindStock.stockCode}`
+                        )
+                    }
+                    console.log('goToStockDetails>>>success :')
+                } catch (error) {
+                    console.log('goToStockDetails>>>error :', error)
+                }
+            }
+        }
+    },
+    beforeDestroy() {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 2, //position取值1、2
+            type: 'hide' //text、icon、custom_icon、hide
+        })
+        clearInterval(this.updateTimer)
     }
 }

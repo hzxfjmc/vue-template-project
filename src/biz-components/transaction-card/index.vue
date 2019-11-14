@@ -13,7 +13,6 @@
                 )
                 .yx-cell(style="padding:0.4rem 0.28rem")
                     .yx-cell__header {{ direction === 1 ? '买入价格' : '卖出价格' }}
-                        .yx-cell__header-tip ({{ currencyName }})
                     .yx-cell__primary {{ buyOrSellPrice }}
 
                 .yx-cell
@@ -45,7 +44,7 @@
                 .tips
                     i.iconfont.icon-wenhao(@click="showTips('total')")
                     span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
-                    strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyName }}
+                    strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}
                     strong(v-if="direction === 2") {{ marketValue }}
         van-button(
             type="info"
@@ -139,6 +138,9 @@ export default {
     }
     span {
         margin-right: 4px;
+    }
+    strong {
+        font-weight: normal;
     }
 }
 .foot-button.sell {

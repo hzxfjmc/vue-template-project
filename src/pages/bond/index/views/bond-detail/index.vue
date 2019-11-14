@@ -4,37 +4,36 @@
         @refresh="onRefresh"
         success-text="刷新成功"
     )
-        yx-container-better
-            .bond-detail-wrapper(slot="main")
-                detail-header(
+        .bond-detail-wrapper
+            detail-header(
+                :bondEditableInfo="bondEditableInfo"
+                :bondUneditableInfo="bondUneditableInfo",
+                :currentPrice="currentPrice"
+            )
+            van-panel(title="购买流程")
+                purchasing-process(:bondUneditableInfo="bondUneditableInfo")
+            van-panel(title="债券价格" style="position:relative")
+                BondPrice(:chartData="prices" :currentPrice="currentPrice")
+            van-panel(title="债券资料")
+                BondInfo(
                     :bondEditableInfo="bondEditableInfo"
-                    :bondUneditableInfo="bondUneditableInfo",
-                    :currentPrice="currentPrice"
+                    :bondUneditableInfo="bondUneditableInfo"
                 )
-                van-panel(title="购买流程")
-                    purchasing-process(:bondUneditableInfo="bondUneditableInfo")
-                van-panel(title="债券价格" style="position:relative")
-                    BondPrice(:chartData="prices" :currentPrice="currentPrice")
-                van-panel(title="债券资料")
-                    BondInfo(
-                        :bondEditableInfo="bondEditableInfo"
-                        :bondUneditableInfo="bondUneditableInfo"
-                    )
-                van-panel(title="交易规则")
-                    TransactionRules
-                .faq
-                    a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
-            .operate-btn-box(slot="bottom")
-                van-button(
-                    type="info"
-                    text="买入"
-                    @click="handleBuyOrSell('buy')"
-                )
-                van-button(
-                    type="info"
-                    text="卖出"
-                    @click="handleBuyOrSell('sell')"
-                )
+            van-panel(title="交易规则")
+                TransactionRules
+            .faq
+                a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
+        .operate-btn-box
+            van-button(
+                type="info"
+                text="买入"
+                @click="handleBuyOrSell('buy')"
+            )
+            van-button(
+                type="info"
+                text="卖出"
+                @click="handleBuyOrSell('sell')"
+            )
 
 </template>
 <script>

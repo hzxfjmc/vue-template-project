@@ -49,8 +49,8 @@ export default {
             this.chartData.forEach(chartItem => {
                 obj.push(
                     {
-                        date: dayjs(chartItem.updateTime).format('M.DD'),
-                        time: dayjs(chartItem.updateTime).format(
+                        date: dayjs(chartItem.belongDay).format('M.DD'),
+                        time: dayjs(chartItem.belongDay).format(
                             'YYYY年MM月DD日'
                         ),
                         value: chartItem.buyPrice,
@@ -58,8 +58,8 @@ export default {
                         buyYtm: chartItem.buyYtm
                     },
                     {
-                        date: dayjs(chartItem.updateTime).format('M.DD'),
-                        time: dayjs(chartItem.updateTime).format(
+                        date: dayjs(chartItem.belongDay).format('M.DD'),
+                        time: dayjs(chartItem.belongDay).format(
                             'YYYY年MM月DD日'
                         ),
                         value: chartItem.sellPrice,
