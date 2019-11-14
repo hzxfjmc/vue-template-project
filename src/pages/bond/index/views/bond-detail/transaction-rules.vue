@@ -27,7 +27,7 @@ export default {
         flex: 1;
     }
     .yx-cell__header {
-        width: 75px;
+        width: 65px;
     }
     .yx-cell + .yx-cell {
         padding-top: 0;
