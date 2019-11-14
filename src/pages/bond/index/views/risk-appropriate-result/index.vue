@@ -74,9 +74,8 @@ export default {
             text-align: center;
         }
         p {
-            color: $text-color5;
+            color: $primary-color-line;
             font-size: 0.24rem;
-            opacity: 0.4;
             line-height: 24px;
             text-align: center;
         }
