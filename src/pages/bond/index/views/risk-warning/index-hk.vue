@@ -29,7 +29,7 @@
         )
 </template>
 <script>
-import riskWarningMixin from '@/mixins/bond/risk-warning/index.js'
+import riskWarningMixin from './mixins.js'
 export default {
     mixins: [riskWarningMixin]
 }
