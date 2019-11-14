@@ -169,8 +169,7 @@ export default {
         paymentTypeName() {
             return (
                 (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumPaymentType &&
-                    this.bondUneditableInfo.enumPaymentType.name) ||
+                    this.bondUneditableInfo.paymentType) ||
                 '--'
             )
         },
@@ -178,8 +177,7 @@ export default {
         paymentFrequencyName() {
             return (
                 (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumPaymentFrequency &&
-                    this.bondUneditableInfo.enumPaymentFrequency.name) ||
+                    this.bondUneditableInfo.paymentFrequency) ||
                 '--'
             )
         },
