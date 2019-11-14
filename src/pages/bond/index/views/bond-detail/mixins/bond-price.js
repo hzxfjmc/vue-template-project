@@ -24,7 +24,7 @@ export default {
     props: {
         chartData: {
             type: Array,
-            default: () => {}
+            default: () => []
         },
         currentPrice: {
             type: Object,
@@ -46,7 +46,8 @@ export default {
         // 构造好的地图数据
         resolveData() {
             let obj = []
-            this.chartData.forEach(chartItem => {
+            let tempChartData = (this.chartData || []).reverse()
+            tempChartData.forEach(chartItem => {
                 obj.push(
                     {
                         date: dayjs(chartItem.belongDay).format('M.DD'),
