@@ -132,7 +132,7 @@ export default {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.couponRate &&
-                    (this.bondUneditableInfo.couponRate - 0).toFixed(2) +
+                    (this.bondUneditableInfo.couponRate * 100).toFixed(2) +
                         '%') ||
                 '--'
             )
