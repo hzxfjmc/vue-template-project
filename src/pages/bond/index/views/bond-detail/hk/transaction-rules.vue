@@ -24,6 +24,9 @@ export default {
         font-size: 0.24rem;
         line-height: 20px;
     }
+    .yx-cell__content {
+        flex: 1;
+    }
     .yx-cell__header {
         width: 75px;
     }
