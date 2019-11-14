@@ -33,7 +33,7 @@
         .footer-wrapper(
             slot="bottom"
         )
-            .risk-agreement(v-if="riskMatchResult === 1")
+            .risk-agreement(v-if="riskMatchResult === 3")
                 van-checkbox(v-model="isReadProductInfo")
                     i.iconfont(
                         slot="icon"
