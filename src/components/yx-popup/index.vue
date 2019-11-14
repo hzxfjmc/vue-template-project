@@ -2,7 +2,9 @@
     .yx-popup
         van-popup(
         v-model="show"
-        v-bind="$attrs")
+        v-bind="$attrs"
+        :class="isPhoneX ? 'fix-bottom':''"
+        )
             slot
 </template>
 
@@ -27,6 +29,12 @@ export default {
             set(val) {
                 this.$emit('input', val)
             }
+        },
+        isPhoneX() {
+            return (
+                /iphone/gi.test(window.navigator.userAgent) &&
+                window.screen.height >= 812
+            )
         }
     }
 }
@@ -39,6 +47,9 @@ export default {
         bottom: 20px;
         right: auto;
         border-radius: 20px;
+    }
+    .van-popup--bottom.fix-bottom {
+        bottom: 30px !important;
     }
     .van-picker__toolbar::after {
         border: none;

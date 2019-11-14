@@ -7,7 +7,8 @@
 </template>
 <script>
 import { itemList } from './fund-list'
-import localStorage from '../../../../../../utils/local-storage'
+import LS from '@/utils/local-storage'
+import jsBridge from '@/utils/js-bridge'
 export default {
     i18n: {
         zhCHS: {
@@ -15,6 +16,7 @@ export default {
                 trade: { label: '交易记录' },
                 survey: { label: '基金概况' },
                 rule: { label: '交易规则' },
+                history: { label: '净值历史' },
                 files: { label: '相关文件' },
                 tips: { label: '风险提示' }
             }
@@ -24,6 +26,7 @@ export default {
                 trade: { label: '交易記錄' },
                 survey: { label: '基金概況' },
                 rule: { label: '交易規則' },
+                history: { label: '淨值歷史' },
                 files: { label: '相關文件' },
                 tips: { label: '風險提示' }
             }
@@ -33,6 +36,7 @@ export default {
                 trade: { label: 'Transaction Records' },
                 survey: { label: 'Fund Overview' },
                 rule: { label: 'Trading Rules' },
+                history: { label: 'NAV History' },
                 files: { label: 'Related Documents' },
                 tips: { label: 'Risk Disclosure' }
             }
@@ -71,31 +75,26 @@ export default {
             list: JSON.parse(JSON.stringify(itemList))
         }
     },
-    watch: {
-        positionStatus() {
-            // if (this.positionStatus.type != -1) {
-            //     this.list['trade'].itemShow = true
-            // } else {
-            //     this.list['trade'].itemShow = false
-            // }
-        }
-    },
     methods: {
         chooseItem(item) {
             let data = {
                 path: item.routerPath
             }
-            localStorage.put('scroll', this.scroll)
-            localStorage.put('scrollFlag', 2)
+            LS.put('scroll', this.scroll)
+            LS.put('scrollFlag', 2)
             if (item.routerPath == '/fund-introduce')
                 data.query = {
                     id: this.$route.query.id
                 }
-            if (item.routerPath == '/fund-files')
-                data.query = {
-                    data: JSON.stringify(this.fundCorrelationFileList)
-                }
-            if (item.routerPath == '/trade-rule') {
+            if (item.routerPath == '/fund-files') {
+                let filesData = this.fundCorrelationFileList
+                LS.remove('FILES-DATA')
+                LS.put('FILES-DATA', filesData)
+            }
+            if (
+                item.routerPath == '/trade-rule' ||
+                item.routerPath == '/fund-historical'
+            ) {
                 data.query = {
                     id: this.$route.query.id
                 }
@@ -107,9 +106,29 @@ export default {
                 }
             }
             if (item.routerPath == '/generator') {
-                window.location.href = `/webapp/market/generator.html?key=${this.fondCode}`
+                this.openWebView(
+                    `${window.location.origin}/webapp/market/generator.html?key=${this.fondCode}`
+                )
             } else {
-                this.$router.push(data)
+                let routerQuery = ''
+                for (let key in data.query) {
+                    routerQuery += `${key}=${data.query[key]}&`
+                }
+                this.openWebView(
+                    window.location.origin +
+                        '/wealth/fund/index.html#' +
+                        data.path +
+                        '?' +
+                        routerQuery
+                )
+            }
+        },
+        //App页面跳转
+        async openWebView(url) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
             }
         },
         InitI18nState() {

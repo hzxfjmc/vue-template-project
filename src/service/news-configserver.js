@@ -1,5 +1,6 @@
 import httpRequest from '@/utils/http-request'
-const axios = new httpRequest()
+import { DOMAIN } from 'yx-base-h5'
+const axios = new httpRequest(DOMAIN.API_BASE_URL.HZ)
 
 /**
  * 获取债券首页banner

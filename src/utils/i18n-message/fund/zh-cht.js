@@ -1,7 +1,4 @@
 export const zhCHT = {
-    managermentLabel: '管理費',
-    zk: '更多',
-    zq: '收起',
     fundDetails: '基金詳情',
     fundList: '精選基金',
     fundIntroduce: '基金介绍',
@@ -14,5 +11,10 @@ export const zhCHT = {
     orderRecord: '訂單記錄',
     fundSubscribe: '基金申購',
     fundRedemption: '基金贖回',
-    orderRecordDetail: '訂單記錄'
+    orderRecordDetail: '訂單記錄',
+    incomeDetails: '收益明細',
+    home: '智選基金',
+    fundOrderList: '訂單記錄',
+    fundAccount: '我的持倉',
+    fundHistorical: '淨值歷史'
 }

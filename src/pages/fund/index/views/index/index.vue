@@ -5,26 +5,30 @@
                 a(:href="bannerItem.jump_url" title="")
                     img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
         .bond-list
-            router-link(
+            div(
                 v-for="(item, index) in list"
                 :key="index"
-                :to="{ name: 'fund-details', query: { id: `${item.fondId}` }}"
-                title=""
             )
-                Card(:info="item")
+                Card(:info="item" :assetType="assetType" :currency="currency" @click.native="goNext(item.fundId)")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
-        .no-bond-box(v-if="load && list.length === 0")
-            .no-bond {{ $t('noBond') }}
+        .no-bond-box(v-if="load")
+            .no-bond {{ $t('noFund') }}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { getFundList } from '@/service/finance-info-server.js'
-// import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     i18n: {
         zhCHS: {
-            noBond: '暂无基金'
+            noFund: '暂无基金'
+        },
+        zhCHT: {
+            noFund: '暫無基金'
+        },
+        en: {
+            noFund: 'No Data'
         }
     },
     keepalive: true,
@@ -35,36 +39,56 @@ export default {
         Card
     },
     created() {
-        // this.handleGetFundBanner()
-        this.getListFundInfo()
+        this.getFundListV2()
+        this.assetType = this.$route.query.type
+        this.currency = this.$route.query.currency
     },
     data() {
         return {
             load: false,
             bannerUrl: [],
-            list: []
+            list: [],
+            pageNum: 1,
+            pageSize: 20,
+            total: 0,
+            currency: 2,
+            assetType: ''
         }
     },
     methods: {
-        // // 拉取债券banner
-        // async handleGetFundBanner() {
-        //     try {
-        //         // 基金暂时没有
-        //         let data = await bannerAdvertisement(21)
-        //         this.bannerUrl = (data && data.banner_list) || []
-        //     } catch (error) {
-        //         console.log('getBondBanner:error:>>>', error)
-        //     }
-        // },
         // 获取基金列表
-        async getListFundInfo() {
+        async getFundListV2() {
             try {
-                this.list = await getFundList()
-                this.load = true
+                this.list = []
+                const { list } = await getFundListV2({
+                    displayLocation: 1,
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    assetType: this.$route.query.type,
+                    currency: this.$route.query.currency
+                })
+                this.list = list
+                this.load = this.list.length == 0
             } catch (e) {
+                this.$toast(e.msg)
                 console.log('getListFundInfo:error:>>>', e)
             }
+        },
+        goNext(fundId) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+            gotoNewWebView(url)
         }
+    },
+    watch: {
+        $route(to, from) {
+            if (from.path === '/home') {
+                this.getFundListV2()
+            }
+        }
+    },
+    beforeRouteEnter(to, from, next) {
+        to.meta.title = to.query.assetTypeName
+        next()
     }
 }
 </script>

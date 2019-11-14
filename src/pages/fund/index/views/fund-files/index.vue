@@ -20,6 +20,7 @@
 import { Row, Col } from 'vant'
 import { getCosUrl } from '@/utils/cos-utils'
 import dayjs from 'dayjs'
+import LS from '@/utils/local-storage'
 export default {
     i18n: {
         zhCHS: {
@@ -43,7 +44,7 @@ export default {
     },
     methods: {
         initState() {
-            this.list = JSON.parse(this.$route.query.data)
+            this.list = LS.get('FILES-DATA') || []
             this.list.map((item, index) => {
                 item.createTime = dayjs(item.createTime).format('YYYY-MM-DD')
                 this.list[index].ImgSrc =
@@ -51,7 +52,6 @@ export default {
                         ? require('@/assets/img/fund/pdf.png')
                         : require('@/assets/img/fund/html.png')
             })
-            console.log(this.list)
         },
         async toJumpLink(item) {
             try {
@@ -69,14 +69,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-files {
-    height: 100%;
+    height: 96%;
+    margin: 0 2%;
     display: flex;
     // background: #fff;
     flex-direction: column;
+    justify-content: space-between;
     // justify-content: center;
     // align-items: center;
     .span {
         background: #fff;
+
         margin: 10px 0 0 10px;
         height: 110px;
         border-radius: 5px;

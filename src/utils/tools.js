@@ -3,6 +3,7 @@
 // import jsBridge from '@/utils/js-bridge.js'
 // import LS from '@/utils/local-storage.js'
 import dayjs from 'dayjs'
+import jsBridge from '@/utils/js-bridge.js'
 
 const camelizeRE = /-(\w)/g
 export function camelize(str) {
@@ -172,6 +173,8 @@ export const generateUUID = () => {
 
 //对钱进行处理
 export function transNumToThousandMark(num = '0', dot = 2) {
+    if (!num) num = 0
+    num = num + ''
     // 保留小数点后面的位数
     if (num.indexOf('.') !== -1) {
         let numArr = num.toString().split('.')
@@ -183,6 +186,44 @@ export function transNumToThousandMark(num = '0', dot = 2) {
         let number = num.replace(/\d{1,3}(?=(\d{3})+$)/g, v1 => {
             return v1 + ','
         })
-        return number
+        return Number(number).toFixed(2)
+    }
+}
+
+export function parseThousands(priceVal) {
+    if (priceVal) {
+        priceVal = priceVal + ''
+        if (priceVal.indexOf('.') > -1) {
+            let numberInt = priceVal.substr(0, priceVal.indexOf('.'))
+            numberInt = numberInt.replace(
+                /(\d{1,3})(?=(\d{3})+(?:$|\.))/g,
+                '$1,'
+            )
+            numberInt = numberInt + priceVal.substr(priceVal.indexOf('.'))
+            return numberInt
+        } else {
+            return priceVal.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')
+        }
+    } else if (priceVal === '0') {
+        return '0'
+    } else {
+        return ''
+    }
+}
+
+/**
+ * @describe 跳转
+ * @params ${jump_type:跳转方式,jump_url:跳转链接}
+ */
+export function jumpUrl(jump_type, jump_url) {
+    console.log(jump_url)
+    if (jump_type != 5) {
+        if (jsBridge.isYouxinApp) {
+            jsBridge.gotoNewWebview(jump_url)
+        } else {
+            location.href = jump_url
+        }
+    } else {
+        jsBridge.gotoNativeModule(jump_url)
     }
 }

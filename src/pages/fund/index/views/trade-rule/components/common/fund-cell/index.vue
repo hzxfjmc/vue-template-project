@@ -4,7 +4,7 @@
         .left {{item.label}}
         .right
            span  
-                em(v-if="item.cname") {{currency}} 
+                em(v-if="item.cname") {{currency}}
                 em {{item.value}}
            span(v-if="item.twoValue") {{item.twoValue}}
 </template>
