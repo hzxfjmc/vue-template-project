@@ -112,6 +112,9 @@ export default {
                     currency: this.currency
                 })
                 this.holdData = {
+                    positionEarningsFlag:
+                        Number(positionEarnings) > 0 ? '+' : '',
+                    weekEarningsFlag: Number(weekEarnings) > 0 ? '+' : '',
                     positionAmount: transNumToThousandMark(positionAmount),
                     positionEarnings: transNumToThousandMark(positionEarnings),
                     weekEarnings: transNumToThousandMark(weekEarnings),
