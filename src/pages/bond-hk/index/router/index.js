@@ -18,7 +18,7 @@ export default new Router({
         {
             name: 'bond-detail',
             path: '/bond-detail',
-            meta: { title: '債券详情' },
+            meta: { title: '債券交易' },
             component: () =>
                 import(`@/pages/bond-hk/index/views/bond-detail/index.vue`)
         },
