@@ -2,14 +2,16 @@
     .detail-bond-info-wrapper
         .bond-info-header
             a.pdf(
-                v-if="bondEditableInfo && bondEditableInfo.productOverview"
-                :href="bondEditableInfo && bondEditableInfo.productOverview"
+                v-if="productOverview"
+                target="_blank"
+                :href="productOverview"
             )
                 i.icon
                 span 產品概覽書
             a.pdf(
-                v-if="bondEditableInfo && bondEditableInfo.raiseManual"
-                :href="bondEditableInfo && bondEditableInfo.raiseManual"
+                v-if="raiseManual"
+                target="_blank"
+                :href="raiseManual"
             )
                 i.icon
                 span 募集說明書

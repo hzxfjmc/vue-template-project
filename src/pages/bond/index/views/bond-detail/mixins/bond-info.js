@@ -1,4 +1,5 @@
 import { Row, Col } from 'vant'
+import { selectProtocolInfo } from '@/service/config-manager.js'
 import { calcCountDownDay, dateFormat } from '@/utils/tools.js'
 import ColMsg from '@/biz-components/col-msg/index.vue'
 export default {
@@ -53,8 +54,13 @@ export default {
             default: () => {}
         }
     },
+    created() {
+        this.handleSelectProtocolInfo()
+    },
     data() {
         return {
+            productOverview: '',
+            raiseManual: '',
             showMore: false // 是否展示更多债券信息
         }
     },
@@ -201,8 +207,41 @@ export default {
         }
     },
     methods: {
+        // 获取 产品概览、募集说明书
+        async handleSelectProtocolInfo(key, pdfType) {
+            try {
+                let { protocolUrl } = await selectProtocolInfo(key)
+                if (pdfType === 'product') {
+                    this.productOverview = protocolUrl
+                } else {
+                    this.raiseManual = protocolUrl
+                }
+                console.log(
+                    'handleSelectProtocolInfo:pdfType>>>data :',
+                    protocolUrl
+                )
+            } catch (e) {
+                console.log('handleSelectProtocolInfo:pdfType>>>error :', e)
+            }
+        },
         toggleShowMoreMsg() {
             this.showMore = !this.showMore
+        }
+    },
+    watch: {
+        bondEditableInfo() {
+            if (this.bondEditableInfo.productOverview) {
+                this.handleSelectProtocolInfo(
+                    this.bondEditableInfo.productOverview,
+                    'product'
+                )
+            }
+            if (this.bondEditableInfo.raiseManual) {
+                this.handleSelectProtocolInfo(
+                    this.bondEditableInfo.raiseManual,
+                    'raise'
+                )
+            }
         }
     }
 }
