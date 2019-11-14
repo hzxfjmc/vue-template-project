@@ -99,6 +99,7 @@ export default {
 .detail-header {
     background-color: #2f79ff;
     border-radius: 4px;
+    font-family: DINPro-Regular, DINPro;
     .header-column {
         padding: 0 10px 14px 14px;
         >>> .van-col {

@@ -137,6 +137,7 @@ export default {
 .detail-header {
     background-color: rgba($color: #0055ff, $alpha: 0.6);
     border-radius: 10px;
+    font-family: DINPro-Regular, DINPro;
     .header-column {
         padding: 0 10px 20px 14px;
         border-bottom: 1px solid #e6e6e6;
