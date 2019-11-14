@@ -52,7 +52,7 @@ export default new Router({
         {
             name: 'risk-appropriate-result',
             path: '/risk-appropriate-result',
-            meta: { title: '产品匹配' },
+            meta: { title: '产品⻛险匹配' },
             component: () =>
                 import(
                     `@/pages/bond/index/views/risk-appropriate-result/index.vue`

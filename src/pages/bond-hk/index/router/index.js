@@ -25,35 +25,35 @@ export default new Router({
         {
             name: 'transaction-sell',
             path: '/transaction-sell',
-            meta: { title: '卖出' },
+            meta: { title: '賣出' },
             component: () =>
                 import(`@/pages/bond-hk/index/views/transaction-sell/index.vue`)
         },
         {
             name: 'transaction-buy',
             path: '/transaction-buy',
-            meta: { title: '买入' },
+            meta: { title: '買入' },
             component: () =>
                 import(`@/pages/bond-hk/index/views/transaction-buy/index.vue`)
         },
         {
             name: 'risk-warning',
             path: '/risk-warning',
-            meta: { title: '风险提示' },
+            meta: { title: '風險提示' },
             component: () =>
                 import(`@/pages/bond-hk/index/views/risk-warning/index.vue`)
         },
         {
             name: 'risk-assessment',
             path: '/risk-assessment',
-            meta: { title: '风险测评' },
+            meta: { title: '風險測評' },
             component: () =>
                 import(`@/pages/bond-hk/index/views/risk-assessment/index.vue`)
         },
         {
             name: 'risk-appropriate-result',
             path: '/risk-appropriate-result',
-            meta: { title: '产品匹配' },
+            meta: { title: '產品⻛險匹配' },
             component: () =>
                 import(
                     `@/pages/bond-hk/index/views/risk-appropriate-result/index.vue`
@@ -62,7 +62,7 @@ export default new Router({
         {
             name: 'risk-assessment-result',
             path: '/risk-assessment-result',
-            meta: { title: '测评结果' },
+            meta: { title: '測評結果' },
             component: () =>
                 import(
                     `@/pages/bond-hk/index/views/risk-assessment-result/index.vue`
