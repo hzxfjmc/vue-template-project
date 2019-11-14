@@ -108,19 +108,49 @@ export default {
                     }
                 ]
             ]
-            // 有则展示，没有也增加一个空的，用来保持布局
-            if (this.creditRatingRank) {
+            // 有则展示，没有也增加空的，用来保持布局
+            // 如果有发行人评级 没有则不展示
+            // 如果有债券评级 没有则不展示
+            // creditRatingRank
+            if (this.issuerRank) {
                 obj[1].push({
-                    title: this.creditRatingRank,
+                    title: this.issuerRank,
                     desc: `${this.$t('creditRatingAgency')}${
-                        this.creditRatingAgency
+                        this.issuerRankAgency
                     }`
                 })
+                if (this.creditRatingRank) {
+                    obj[2] = [
+                        {
+                            title: this.creditRatingRank,
+                            desc: `${this.$t('creditRatingAgency')}${
+                                this.creditRatingAgency
+                            }`
+                        },
+                        {
+                            title: '',
+                            desc: ''
+                        },
+                        {
+                            title: '',
+                            desc: ''
+                        }
+                    ]
+                }
             } else {
-                obj[1].push({
-                    title: '',
-                    desc: ''
-                })
+                if (this.creditRatingRank) {
+                    obj[1].push({
+                        title: this.creditRatingRank,
+                        desc: `${this.$t('creditRatingAgency')}${
+                            this.creditRatingAgency
+                        }`
+                    })
+                } else {
+                    obj[1].push({
+                        title: '',
+                        desc: ''
+                    })
+                }
             }
             return obj
         },
@@ -188,6 +218,26 @@ export default {
             )
         },
         // 发行人评级
+        issuerRank() {
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.issuer &&
+                    this.bondEditableInfo.issuer.rankInfo &&
+                    this.bondEditableInfo.issuer.rankInfo.rank) ||
+                ''
+            )
+        },
+        // 发行人评级类型
+        issuerRankAgency() {
+            return (
+                (this.bondEditableInfo &&
+                    this.bondEditableInfo.issuer &&
+                    this.bondEditableInfo.issuer.rankInfo &&
+                    this.bondEditableInfo.issuer.rankInfo.agency) ||
+                ''
+            )
+        },
+        // 债券评级
         creditRatingRank() {
             return (
                 (this.bondEditableInfo &&
@@ -196,7 +246,7 @@ export default {
                 ''
             )
         },
-        // 发行人评级类型
+        // 债券评级类型
         creditRatingAgency() {
             return (
                 (this.bondEditableInfo &&
