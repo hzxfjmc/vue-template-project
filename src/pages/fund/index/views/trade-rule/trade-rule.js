@@ -104,7 +104,7 @@ export const i18nTrudeRuleData = {
         managermentLabel: '管理費',
         tradeSubTitle: '申購流程',
         redeemTitle: '贖回',
-        redeemSubtitle: '贖回规则',
+        redeemSubtitle: '贖回規則',
         buySubmit: { label: '買入提交' },
         buyConfirm: { label: '確認份額' },
         buyProfitLoss: { label: '查看盈虧' },

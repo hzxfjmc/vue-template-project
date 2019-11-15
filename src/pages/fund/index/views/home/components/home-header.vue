@@ -32,11 +32,11 @@
                     .header-content-bottom
                         .header-row-left
                             span {{$t('HoldIncome')}}
-                            em(v-if="showMoney") {{holdData.positionEarnings || '--'}}
+                            em(v-if="showMoney") {{holdData.positionEarningsFlag}}{{holdData.positionEarnings || '--'}}
                             em.element-hide(v-else) ****
                         .header-row-right
                             span {{$t('SevenDayIncome')}}
-                            em(v-if="showMoney") {{holdData.weekEarnings || '--'}}
+                            em(v-if="showMoney") {{holdData.weekEarningsFlag}}{{holdData.weekEarnings || '--'}}
                             em.element-hide(v-else) ****
             .block-element
                 slot(name="banner")
