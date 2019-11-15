@@ -105,15 +105,6 @@ export default {
                 // this.number = 1
                 this.resetTime = res.resetTime
                 this.damagedStatus = res.damagedStatus
-                if (res.damagedStatus === 1) {
-                    this.$router.replace({
-                        path: '/risk-assessment-result',
-                        query: {
-                            id: this.$route.query.id,
-                            fundRiskType: this.bondRiskLevel
-                        }
-                    })
-                }
                 console.log(this.damagedStatus, 'this.damagedStatus')
             } catch (e) {
                 if (e.msg) {
