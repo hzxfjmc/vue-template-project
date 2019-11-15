@@ -87,6 +87,7 @@ export default {
             font-size: 0.28rem;
             line-height: 48px;
             border-radius: 4px;
+            appearance: none;
             &::placeholder {
                 color: $text-color2;
             }
