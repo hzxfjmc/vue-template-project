@@ -80,9 +80,9 @@ export default {
         },
         sureNetWorthEndTime() {
             return {
-                zhCHS: `${this.beginTime}日查收收益 `,
-                zhCHT: `${this.beginTime}日查收收益`,
-                en: `Check Earnings in ${this.beginTime} Days `
+                zhCHS: `${this.endTime}日查收收益 `,
+                zhCHT: `${this.endTime}日查收收益`,
+                en: `Check Earnings in ${this.endTime} Days `
             }[this.$i18n.lang]
         },
         // 赎回时确认份额日多语言
