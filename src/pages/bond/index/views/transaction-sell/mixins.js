@@ -23,7 +23,8 @@ export default {
                 this.positionData =
                     (bondPositionList &&
                         bondPositionList.filter(
-                            positionItem => positionItem.bondId === this.id
+                            positionItem =>
+                                positionItem.bondId === this.$route.query.id - 0
                         )) ||
                     []
                 this.positionData = this.positionData[0] || {}

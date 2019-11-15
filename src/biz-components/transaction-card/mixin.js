@@ -321,7 +321,7 @@ export default {
                 )
             }
             let mv = this.positionData.availableQuantity
-                ? this.positionData.availableQuantity
+                ? (this.positionData.availableQuantity - 0).toFixed(2)
                 : '0.00'
             let count = Math.floor(mv / this.minFaceValue)
             this.transactionNum = count
