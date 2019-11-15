@@ -88,9 +88,9 @@ export default {
         // 赎回时确认份额日多语言
         surePositionBeginTime() {
             return {
-                zhCHS: `${this.beginTime}日确认净值 `,
-                zhCHT: `${this.beginTime}日確認凈值`,
-                en: `${this.beginTime} CFMD NAV`
+                zhCHS: `${this.endTime}日确认净值 `,
+                zhCHT: `${this.endTime}日確認凈值`,
+                en: `${this.endTime} CFMD NAV`
             }[this.$i18n.lang]
         },
         // 查收收益日多语言
