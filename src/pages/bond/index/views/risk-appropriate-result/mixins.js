@@ -3,6 +3,7 @@ import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
+import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
 export default {
@@ -51,6 +52,15 @@ export default {
         wealthPage() {
             return this.appType.Ch ? 'bond' : 'bond-hk'
         },
+        resetTimes() {
+            return {
+                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                en:
+                    'Resert on 1st January, ' +
+                    dayjs(this.resetTime).format('YYYY')
+            }[this.$i18n.lang]
+        },
         // 底部按钮文案
         btnText() {
             if (this.userRiskLevel === 0) {
@@ -92,6 +102,7 @@ export default {
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName = res.assessResultName
                 this.number = res.validCount
+                // this.number = 1
                 this.resetTime = res.resetTime
                 this.damagedStatus = res.damagedStatus
                 if (res.damagedStatus === 1) {

@@ -18,6 +18,18 @@
                     i.iconfont.icon-about_icon
                 p 为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的，通过风险测评可以了解您的风险承受能力和风险偏好。
 
+            van-dialog.remaining-container(
+                v-model="showRemainingNum"
+                :show-cancel-button='true'
+                :confirm-button-text="number === 0 ? $t('toCall') : $t('startRisk')"
+                @confirm="startRiskHandle(number)"
+                :cancel-button-text="number === 0 ? $t('toClose') : $t('toCancel')"
+                @cancel="callOrCancel(number)"
+            )
+                .title {{$t('leastNum')}} {{number}} {{$t('times')}}
+                .years-info(v-if="number!==0") {{resetTimes}}
+                .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
+
         .footer-wrapper(
             slot="bottom"
         )
@@ -126,6 +138,19 @@ export default {
             margin-top: 2px;
             font-size: 0.24rem;
             line-height: 18px;
+        }
+    }
+    .remaining-container {
+        text-align: center;
+        padding-top: 20px;
+        .title {
+            margin-bottom: 20px;
+        }
+        .years-info {
+            font-size: 14px;
+            color: $text-color6;
+            margin-bottom: 20px;
+            padding: 0 10px;
         }
     }
 }
