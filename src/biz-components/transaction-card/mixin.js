@@ -125,6 +125,7 @@ export default {
             interestDays: 0, // 应计利息天数
             currentPrice: {}, // 当前价格
             feeData: [], // 当前用户套餐费用
+            activityFee: [], // 活动费用
 
             isLoading: false // 下拉刷新
         }
@@ -203,7 +204,7 @@ export default {
             let res =
                 (this.bondUneditableInfo.couponRate / 360) *
                 this.interestDays *
-                (this.tradeMoney - 0)
+                (this.minFaceValue * this.transactionNum)
             res = res ? res.toFixed(2) : '0.00'
             return res
         },
@@ -223,8 +224,8 @@ export default {
             // 2 直接取 feeAmount
             // 7 feeAmount * 交易额（最小交易额 * 交易数量）
             let yongjin = {},
-                pingtai = {},
-                huodong = {}
+                pingtai = {}
+
             this.feeData.forEach(feeItem => {
                 if (feeItem.feeCategory === 1) {
                     // 表示佣金
@@ -232,11 +233,9 @@ export default {
                 } else if (feeItem.feeCategory === 2) {
                     // 表示平台服务费
                     pingtai = feeItem
-                } else {
-                    // 表示活动费
-                    huodong = feeItem
                 }
             })
+            // 佣金费
             let yongjinFeeLadders =
                 (yongjin.feeLadders && yongjin.feeLadders[0]) || {}
             let yongjinfei = caclFinalFee(
@@ -245,6 +244,7 @@ export default {
                 this.transactionNum
             )
 
+            // 平台费
             let pingtaiFeeLadders =
                 (pingtai.feeLadders && pingtai.feeLadders[0]) || {}
             let pingtaifei = caclFinalFee(
@@ -253,17 +253,21 @@ export default {
                 this.transactionNum
             )
 
+            // 活动费
             let huodongFeeLadders =
-                (huodong.feeLadders && huodong.feeLadders[0]) || {}
+                (this.activityFee && this.activityFee[0]) || []
             let huodongfei = caclFinalFee(
                 huodongFeeLadders,
                 this.tradeMoney,
                 this.transactionNum
             )
 
+            console.log('this.tradeMoney :>>>>>>>', this.tradeMoney)
+            console.log('this.transactionNum :>>>>>>>', this.transactionNum)
+
             console.log('yongjinfei :>>>>>>>', yongjinfei)
             console.log('pingtaifei :>>>>>>>', pingtaifei)
-            console.log('huodongfei :>>>>>>>', huodongfei)
+            console.log('huodongfei :>>>>>>>', huodongfei, '\n\n')
             let res
             if (this.direction === 1) {
                 // 买入
@@ -370,11 +374,12 @@ export default {
         // 获取活动费用
         async handleFeePackageAgent() {
             try {
-                let feeData = await feePackageAgent({
+                let activityFee = await feePackageAgent({
                     feeType: 8,
                     marketType: 6
                 })
-                console.log('feePackageAgent:data:>>> ', feeData)
+                this.activityFee = activityFee
+                console.log('feePackageAgent:data:>>> ', activityFee)
                 // 当前为手机委托，过滤除手机委托外的其他套餐数据
                 // this.feeData =
                 //     (feeData &&

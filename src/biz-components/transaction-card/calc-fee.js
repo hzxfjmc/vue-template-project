@@ -82,7 +82,7 @@ export function calculateAmountPerQty(feeVO, marketValue, quantity) {
 
     let maxCommAmount = null
     //取佣金套餐中的最大金额
-    if (feeVO.getMaxFeeAmount != null) {
+    if (feeVO.maxFeeAmount != null) {
         maxCommAmount = feeVO.maxFeeAmount
     }
     //最大比例和最大金额都存在， 选择两者最大值作为最大佣金
