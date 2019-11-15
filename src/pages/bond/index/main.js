@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import router from './router'
-import App from './App.vue'
+import App from './transfer.vue'
 import { Dialog } from 'vant'
 Vue.use(Dialog)
 import vConsole from '@/utils/common/plugins/v-console.js'
@@ -9,20 +9,21 @@ Vue.use(vConsole)
 import LS from '@/utils/local-storage.js'
 
 import storeMethod from '@/store/index.js'
-const store = storeMethod()
+import bondIndex from '@/store/modules/bond-index'
+const store = storeMethod({ bondIndex })
 setTimeout(() => {
     console.log('main.js:>>>store:>>>', store.state)
 }, 1000)
 
-// import i18n from '@/utils/common/plugins/yx-i18n/index.js'
-// Vue.use(i18n, {
-//     lang: store.getters.lang,
-//     messages: {
-//         zhCHS: {},
-//         zhCHT: {},
-//         en: {}
-//     }
-// })
+import i18n from '@/utils/common/plugins/yx-i18n/index.js'
+Vue.use(i18n, {
+    lang: store.getters.lang,
+    messages: {
+        zhCHS: {},
+        zhCHT: {},
+        en: {}
+    }
+})
 
 import '@/utils/common'
 

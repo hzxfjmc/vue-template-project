@@ -8,14 +8,18 @@
 </template>
 
 <script>
-import transactionSellMixin from '@/mixins/bond/transaction-sell/index.js'
+import transactionSellMixin from './mixins.js'
+import TransactionCard from '@/biz-components/transaction-card/index.vue'
 export default {
-    mixins: [transactionSellMixin]
+    mixins: [transactionSellMixin],
+    components: {
+        TransactionCard
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .transaction-wrapper {
-    padding: 10px 10px 48px;
+    height: 100%;
 }
 </style>

@@ -26,11 +26,11 @@
                 :disabled="isDisabled"
                 @click="handleAction"
             ) {{btnText}}
-        
+
 </template>
 
 <script>
-import riskAppropriateResultMixin from '@/mixins/bond/risk-appropriate-result/index.js'
+import riskAppropriateResultMixin from './mixin.js'
 import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
 export default {
     mixins: [riskAppropriateResultMixin],

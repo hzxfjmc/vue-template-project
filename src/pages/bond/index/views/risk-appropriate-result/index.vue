@@ -1,40 +1,58 @@
 <template lang="pug">
-    .risk-appropriate-result-wrapper(v-show="isShowPage")
-        .risk-result__header
-            i(:type="riskMatchResult")
-            h2 {{ riskMatchResult > 2 ? '匹配' : '不匹配' }}
-            p 您的风评取向{{ riskMatchResult > 2 ? '可以' : '不适合' }}购买该产品
-        .risk-result__content
-            .risk-cell
-                span 您的风险取向
-                strong {{ riskTypeList[userRiskLevel] && riskTypeList[userRiskLevel] || '--'  }}
-            .risk-cell
-                span 产品的风险
-                strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
-        .risk-result__tips(v-if="riskMatchResult === 1")
-            h2
-                span 什么是风险测评？
-                i.iconfont.icon-about_icon
-            p 为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的，通过风险测评可以了解您的风险承受能力和风险偏好。
-        .risk-agreement(v-if="riskMatchResult === 3")
-            van-checkbox(v-model="isReadProductInfo")
-                i.iconfont(
-                    slot="icon"
-                    slot-scope="props"
-                    :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
-                )
-            p
-                span 我已阅读并知晓债券相关风险，我已阅读产品资料
-                a(:href="productUrl") 《产品概览书》
-        fixed-operate-btn(
-            :text="btnText"
-            :disabled="isDisabled"
-            @click="handleAction"
-        )
-</template>
+    yx-container-better(v-show="isShowPage")
+        .risk-appropriate-result-wrapper(slot="main")
+            .risk-result__header
+                i(:type="riskMatchResult")
+                h2 {{ riskMatchResult > 2 ? '匹配' : '不匹配' }}
+                p 您的风评取向{{ riskMatchResult > 2 ? '可以' : '不适合' }}购买该产品
+            .risk-result__content
+                .risk-cell
+                    span 您的风险取向
+                    strong {{ riskTypeList[userRiskLevel] && riskTypeList[userRiskLevel] || '--'  }}
+                .risk-cell
+                    span 产品的风险
+                    strong  {{ riskTypeList[bondRiskLevel] && riskTypeList[bondRiskLevel] || '--'  }}
+            .risk-result__tips(v-if="riskMatchResult === 1")
+                h2
+                    span 什么是风险测评？
+                    i.iconfont.icon-about_icon
+                p 为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的，通过风险测评可以了解您的风险承受能力和风险偏好。
 
+            van-dialog.remaining-container(
+                v-model="showRemainingNum"
+                :show-cancel-button='true'
+                :confirm-button-text="number === 0 ? $t('toCall') : $t('startRisk')"
+                @confirm="startRiskHandle(number)"
+                :cancel-button-text="number === 0 ? $t('toClose') : $t('toCancel')"
+                @cancel="callOrCancel(number)"
+            )
+                .title {{$t('leastNum')}} {{number}} {{$t('times')}}
+                .years-info(v-if="number!==0") {{resetTimes}}
+                .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
+
+        .footer-wrapper(
+            slot="bottom"
+        )
+            .risk-agreement(v-if="riskMatchResult === 3")
+                van-checkbox(v-model="isReadProductInfo")
+                    i.iconfont(
+                        slot="icon"
+                        slot-scope="props"
+                        :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
+                    )
+                p
+                    span 我已阅读并知晓债券相关风险，我已阅读产品资料
+                    a(:href="productUrl") 《产品概览书》
+            van-button(
+                type="info"
+                class="foot-button"
+                :text="btnText"
+                :disabled="isDisabled"
+                @click="handleAction"
+            )
+</template>
 <script>
-import riskAppropriateResultMixin from '@/mixins/bond/risk-appropriate-result/index.js'
+import riskAppropriateResultMixin from './mixins.js'
 export default {
     mixins: [riskAppropriateResultMixin]
 }
@@ -70,9 +88,8 @@ export default {
             text-align: center;
         }
         p {
-            color: $text-color5;
+            color: $primary-color-line;
             font-size: 0.24rem;
-            opacity: 0.4;
             line-height: 24px;
             text-align: center;
         }
@@ -123,11 +140,25 @@ export default {
             line-height: 18px;
         }
     }
+    .remaining-container {
+        text-align: center;
+        padding-top: 20px;
+        .title {
+            margin-bottom: 20px;
+        }
+        .years-info {
+            font-size: 14px;
+            color: $text-color6;
+            margin-bottom: 20px;
+            padding: 0 10px;
+        }
+    }
+}
+.footer-wrapper {
     .risk-agreement {
         display: flex;
         align-items: baseline;
-        position: absolute;
-        bottom: 62px;
+        margin-bottom: 12px;
         padding-left: 14px;
         .van-checkbox {
             display: inline-block;

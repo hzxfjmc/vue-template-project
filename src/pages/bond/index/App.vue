@@ -1,7 +1,6 @@
 <template lang="pug">
     #app
-        keep-alive
-            router-view
+        router-view
 </template>
 
 <style lang="scss">
@@ -10,6 +9,7 @@
 @import '~@/assets/styles/vant-reset.scss';
 #app {
     background-color: $background-bottom-color;
+    font-family: PingFangSC-Regular, PingFang SC;
 }
 * {
     user-select: none;
