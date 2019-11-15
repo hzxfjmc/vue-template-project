@@ -163,16 +163,6 @@ export default {
         jumpToResult() {
             let id = this.$route.query.id
             if (id) {
-                let wealthPage = this.$route.query.wealthPage
-                let direction = this.$route.query.direction
-                if (wealthPage) {
-                    let url =
-                        window.location.origin +
-                        `/wealth/${wealthPage}/index.html#/risk-appropriate-result?id=${id}&direction=${direction}`
-                    window.location.replace(url)
-                    return
-                }
-
                 this.$router.replace({
                     path: '/risk-appropriate-result',
                     query: {

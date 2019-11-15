@@ -109,17 +109,13 @@ export default {
                 this.resetTime = res.resetTime
                 this.damagedStatus = res.damagedStatus
                 if (res.damagedStatus === 1) {
-                    let url =
-                        window.location.origin +
-                        `/wealth/fund/index.html#/risk-assessment-result?id=${this.$route.query.id}&fundRiskType=${this.bondRiskLevel}&wealthPage=${this.wealthPage}`
-                    window.location.replace(url)
-                    // this.$router.replace({
-                    //     path: '/risk-assessment-result',
-                    //     query: {
-                    //         id: this.$route.query.id,
-                    //         fundRiskType: this.bondRiskLevel
-                    //     }
-                    // })
+                    this.$router.replace({
+                        path: '/risk-assessment-result',
+                        query: {
+                            id: this.$route.query.id,
+                            fundRiskType: this.bondRiskLevel
+                        }
+                    })
                 }
                 console.log(this.damagedStatus, 'this.damagedStatus')
             } catch (e) {
@@ -158,17 +154,13 @@ export default {
             if (this.isDisabled) return
             if (this.userRiskLevel === 0) {
                 // 尚未风评，跳转到风险测评
-                let url =
-                    window.location.origin +
-                    `/wealth/fund/index.html#/risk-assessment?id=${this.$route.query.id}&direction=${this.$route.query.direction}&fundRiskType=${this.bondRiskLevel}&wealthPage=${this.wealthPage}`
-                window.location.replace(url)
-                // this.$router.push({
-                //     path: '/risk-assessment',
-                //     query: {
-                //         id: this.$route.query.id,
-                //         fundRiskType: this.$route.query.fundRiskType
-                //     }
-                // })
+                this.$router.push({
+                    path: '/risk-assessment',
+                    query: {
+                        id: this.$route.query.id,
+                        fundRiskType: this.$route.query.fundRiskType
+                    }
+                })
             } else if (this.userRiskLevel < this.bondRiskLevel) {
                 // 风险等级不够 弹出剩余次数提示
                 this.showRemainingNum = true
