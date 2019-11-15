@@ -1,9 +1,8 @@
 import { Panel, Checkbox } from 'vant'
 import YxContainerBetter from '@/components/yx-container-better'
-import { bondRiskAutograph } from '@/service/user-server.js'
+import { bondRiskAutograph, getCurrentUser } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
 import LS from '@/utils/local-storage.js'
-import { mapState } from 'vuex'
 export default {
     name: 'RiskWarning',
     i18n: {
@@ -35,6 +34,10 @@ export default {
     async created() {
         this.id = this.$route.query.id - 0
         this.bondName = this.$route.query.bondName
+
+        // 获取用户签名信息
+        this.handleGetCurrentUser()
+
         // 拉取债券协议
         try {
             let data = await selectProtocolInfo('BOND001')
@@ -49,19 +52,20 @@ export default {
             signName: LS.get('signName') || '', // 签名
             agreementData: {}, // 债券协议
             id: 0,
+            firstName: '',
+            lastName: '',
             bondName: '',
             isReadBondInfo: true
         }
     },
     computed: {
-        ...mapState(['user']),
         // 签名占位符
         signNamePlaceholder() {
             return (
-                (this.user &&
-                    this.user.userAutograph &&
-                    '请输入签名:' + this.user.userAutograph) ||
-                '请输入签名'
+                (this.firstName &&
+                    this.lastName &&
+                    '请输入签名: ' + `${this.lastName}${this.firstName}`) ||
+                '请输入签名:'
             )
         },
         submitBtnDisabled() {
@@ -107,6 +111,17 @@ export default {
                 this.$dialog.alert({
                     message: e.msg || '请求失败'
                 })
+            }
+        },
+        //获取用户信息
+        async handleGetCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.firstName = res.firstName
+                this.lastName = res.lastName
+                console.log('getCurrentUser>>>data :', res)
+            } catch (e) {
+                console.log('getCurrentUser:error:>>>', e)
             }
         }
     }

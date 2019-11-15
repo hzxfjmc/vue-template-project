@@ -8,7 +8,10 @@
                     p 3、成交价格公司可能有损益。
             van-panel(title="确认签名" style="margin-top: -0.28rem")
                 .signature-input
-                    input.signature-input__inner(v-model="signName" :placeholder="signNamePlaceholder")
+                    input.signature-input__inner(
+                        v-model="signName"
+                        :placeholder="signNamePlaceholder"
+                    )
             .statement
                 van-checkbox(v-model="isReadBondInfo")
                     i.iconfont(
