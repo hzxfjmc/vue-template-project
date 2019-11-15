@@ -36,7 +36,8 @@ export default {
                 2: '稳健型(A2)及以上可购买',
                 3: '均衡型(A3)及以上可购买',
                 4: '增长型(A4)及以上可购买',
-                5: '进取型(A5)'
+                5: '进取型(A5)',
+                '-1': '已过期'
             },
             isShowPage: false,
             userInfo: '',
@@ -65,7 +66,7 @@ export default {
         },
         // 底部按钮文案
         btnText() {
-            if (this.userRiskLevel === 0) {
+            if (this.userRiskLevel === 0 || this.userRiskLevel === '-1') {
                 return this.$t('startRisk')
             } else if (this.userRiskLevel < this.bondRiskLevel) {
                 return this.$t('againRisk')
@@ -81,10 +82,7 @@ export default {
                 this.handleGetBondDetail(),
                 this.handleRiskAssessResult()
             ])
-            if (
-                this.userRiskLevel === 0 ||
-                new Date().getTime() > new Date(this.validTime).getTime()
-            ) {
+            if (this.userRiskLevel === 0 || this.userRiskLevel === '-1') {
                 // 尚未风评 或者 已过期
                 this.riskMatchResult = 1
                 // this.btnText = this.$t('startRisk')
@@ -109,8 +107,13 @@ export default {
                 this.number = res.validCount
                 // this.number = 1
                 this.resetTime = res.resetTime
+                // this.validTime = '2010-1-5 12:00:00'
                 this.validTime = res.validTime
                 this.damagedStatus = res.damagedStatus
+
+                if (new Date().getTime() > new Date(this.validTime).getTime()) {
+                    this.userRiskLevel = '-1'
+                }
                 console.log(this.damagedStatus, 'this.damagedStatus')
             } catch (e) {
                 if (e.msg) {
