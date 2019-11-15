@@ -44,6 +44,7 @@ export default {
             number: 0, //剩余测评次数
             showRemainingNum: false, //剩余次数弹窗
             resetTime: '', //重置时间
+            validTime: '', // 过期时间
             damagedStatus: 0 //是否为易受损用户
         }
     },
@@ -79,8 +80,11 @@ export default {
                 this.handleGetBondDetail(),
                 this.handleRiskAssessResult()
             ])
-            if (this.userRiskLevel === 0) {
-                // 尚未风评
+            if (
+                this.userRiskLevel === 0 ||
+                new Date().getTime() > new Date(this.validTime).getTime()
+            ) {
+                // 尚未风评 或者 已过期
                 this.riskMatchResult = 1
                 // this.btnText = this.$t('startRisk')
             } else if (this.userRiskLevel < this.bondRiskLevel) {
@@ -104,6 +108,7 @@ export default {
                 this.number = res.validCount
                 // this.number = 1
                 this.resetTime = res.resetTime
+                this.validTime = res.validTime
                 this.damagedStatus = res.damagedStatus
                 console.log(this.damagedStatus, 'this.damagedStatus')
             } catch (e) {
