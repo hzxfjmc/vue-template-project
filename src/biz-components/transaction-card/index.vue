@@ -42,7 +42,10 @@
                     .yx-cell__primary {{ totalTradeMoney | thousand-spilt }}
 
                 .tips
-                    i.iconfont.icon-wenhao(@click="showTips('total')")
+                    i.iconfont.icon-wenhao(
+                        v-if="direction === 1"
+                        @click="showTips('total')"
+                    )
                     span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
                     strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}
                     strong(v-if="direction === 2") {{ marketValue }}
@@ -81,6 +84,7 @@ export default {
 .transaction-header {
     padding: 12px 14px;
     background-color: $primary-color-line;
+    border-radius: 4px 4px 0px 0px;
 }
 .icon-wenhao {
     color: #9fb0ca;
