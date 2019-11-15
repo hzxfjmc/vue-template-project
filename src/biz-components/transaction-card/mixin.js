@@ -220,46 +220,39 @@ export default {
             // 1 交易额 * feePercent
             // 2 直接取 feeAmount
             // 7 feeAmount * 交易额（最小交易额 * 交易数量）
-
-            let yongjin =
-                this.feeData.filter(
-                    feeItem => feeItem.feeCategory === 1 // 表示佣金
-                ) || []
+            let yongjin = {},
+                pingtai = {},
+                huodong = {}
+            this.feeData.forEach(feeItem => {
+                if (feeItem.feeCategory === 1) {
+                    // 表示佣金
+                    yongjin = feeItem
+                } else if (feeItem.feeCategory === 2) {
+                    // 表示平台服务费
+                    pingtai = feeItem
+                } else {
+                    // 表示活动费
+                    huodong = feeItem
+                }
+            })
             let yongjinFeeLadders =
-                (yongjin[0] &&
-                    yongjin[0].feeLadders &&
-                    yongjin[0].feeLadders[0]) ||
-                {}
+                (yongjin.feeLadders && yongjin.feeLadders[0]) || {}
             let yongjinfei = caclFinalFee(
                 yongjinFeeLadders,
                 this.tradeMoney,
                 this.transactionNum
             )
 
-            let pingtai =
-                this.feeData.filter(
-                    feeItem => feeItem.feeCategory === 2 // 表示平台服务费
-                ) || []
             let pingtaiFeeLadders =
-                (pingtai[0] &&
-                    pingtai[0].feeLadders &&
-                    pingtai[0].feeLadders[0]) ||
-                {}
+                (pingtai.feeLadders && pingtai.feeLadders[0]) || {}
             let pingtaifei = caclFinalFee(
                 pingtaiFeeLadders,
                 this.tradeMoney,
                 this.transactionNum
             )
 
-            let huodong =
-                this.feeData.filter(
-                    feeItem => feeItem.feeCategory === 4 // 表示活动费
-                ) || []
             let huodongFeeLadders =
-                (huodong[0] &&
-                    huodong[0].feeLadders &&
-                    huodong[0].feeLadders[0]) ||
-                {}
+                (huodong.feeLadders && huodong.feeLadders[0]) || {}
             let huodongfei = caclFinalFee(
                 huodongFeeLadders,
                 this.tradeMoney,
