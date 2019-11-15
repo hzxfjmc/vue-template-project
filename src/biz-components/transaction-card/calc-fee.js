@@ -1,5 +1,5 @@
 /**
- * 百分比计费
+ * 百分比计费 feeMethod 为 1
  * @param feeVO 费用对象,包含相关计算属性
  * @param marketValue 交易金额 = 交易数量 * 最小交易面额 * 买入/卖出价
  * @return 费用
@@ -12,18 +12,18 @@ export function calculatePercent(feeVO, marketValue) {
     let amount = (marketValue * feeVO.feePercent) / 100
     // 交易金额 * 费用比例 < 最低金额，且 < 最高金额，取最低金额
     if (feeVO.minFeeAmount && amount - feeVO.minFeeAmount < 0) {
-        return feeVO.minFeeAmount()
+        return feeVO.minFeeAmount
     }
     // 交易金额 * 费用比例 > 最高金额，取最高金额
     if (feeVO.maxFeeAmount && amount - feeVO.maxFeeAmount > 0) {
-        return feeVO.maxFeeAmount()
+        return feeVO.maxFeeAmount
     }
     // 交易金额 * 费用比例 > 最低金额，且 < 最高金额，取交易金额 * 费用比例
     return amount
 }
 
 /**
- * amount方式计费
+ * amount方式计费 feeMethod 为 2
  * @param feeVO 费用对象,包含相关计算属性
  * @param marketValue 交易金额 = 交易数量 * 最小交易面额 * 买入/卖出价
  * @return 费用
@@ -44,7 +44,7 @@ export function calculateAmount(feeVO, marketValue) {
 }
 
 /**
- * amountPerQty方式计费
+ * amountPerQty方式计费 feeMethod 为 7
  * @param feeVO 费用
  * @return 费用
  */
@@ -163,5 +163,22 @@ export function contrastFeeMinMax(minFee, maxFee, fee) {
         else {
             return minFee
         }
+    }
+}
+
+/**
+ * 计算最终手续费用
+ * @param {Object} feeVO 费用对象,包含相关计算属性
+ * @param {Number} marketValue 交易金额 = 交易数量 * 最小交易面额 * 买入/卖出价
+ * @param {Number} quantity 交易股数
+ * @return {Number} 费用
+ */
+export function caclFinalFee(feeVO, marketValue, quantity) {
+    if (feeVO.feeMethod === 1) {
+        return calculatePercent(feeVO, marketValue)
+    } else if (feeVO.feeMethod === 2) {
+        return calculateAmount(feeVO, marketValue)
+    } else {
+        return calculateAmountPerQty(feeVO, marketValue, quantity)
     }
 }

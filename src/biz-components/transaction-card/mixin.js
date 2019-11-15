@@ -10,6 +10,7 @@ import { generateUUID, debounce } from '@/utils/tools.js'
 import { LongPress } from '@/utils/long-press'
 import jsBridge from '@/utils/js-bridge.js'
 import { Stepper, PullRefresh } from 'vant'
+import { caclFinalFee } from './calc-fee'
 import { mapGetters } from 'vuex'
 export default {
     name: 'TransactionCard',
@@ -206,6 +207,7 @@ export default {
         },
         // 计算手续费
         serviceCharge() {
+            if (this.tradeMoney <= 0) return '0.00'
             // 计算手续费
             // 买入： 手续费 = 佣金 + 平台服务费
             // 卖出： 手续费 = 佣金 + 平台服务费 + 活动费
@@ -218,33 +220,7 @@ export default {
             // 1 交易额 * feePercent
             // 2 直接取 feeAmount
             // 7 feeAmount * 交易额（最小交易额 * 交易数量）
-            let tradeMethodMap = {
-                1: feeLadder => {
-                    let feePercent = feeLadder.feePercent
-                        ? feeLadder.feePercent / 100
-                        : 0
-                    let fee =
-                        this.minFaceValue * this.transactionNum * feePercent
-                    console.log('yongjinfee :', fee)
-                    return fee > feeLadder.minFeeAmount
-                        ? fee
-                        : feeLadder.minFeeAmount
-                },
-                2: feeLadder => {
-                    console.log('pingtaifee :', feeLadder.feeAmount)
-                    return feeLadder.feeAmount
-                },
-                7: feeLadder => {
-                    let fee =
-                        feeLadder.feeAmount *
-                        this.minFaceValue *
-                        this.transactionNum
-                    console.log('huodongfee :', fee)
-                    return fee > feeLadder.maxFeeAmount
-                        ? feeLadder.maxFeeAmount
-                        : fee
-                }
-            }
+
             let yongjin =
                 this.feeData.filter(
                     feeItem => feeItem.feeCategory === 1 // 表示佣金
@@ -254,11 +230,11 @@ export default {
                     yongjin[0].feeLadders &&
                     yongjin[0].feeLadders[0]) ||
                 {}
-            let yongjinfei =
-                tradeMethodMap[yongjinFeeLadders.feeMethod] &&
-                tradeMethodMap[yongjinFeeLadders.feeMethod](
-                    yongjinFeeLadders || {}
-                )
+            let yongjinfei = caclFinalFee(
+                yongjinFeeLadders,
+                this.tradeMoney,
+                this.transactionNum
+            )
 
             let pingtai =
                 this.feeData.filter(
@@ -269,11 +245,11 @@ export default {
                     pingtai[0].feeLadders &&
                     pingtai[0].feeLadders[0]) ||
                 {}
-            let pingtaifei =
-                tradeMethodMap[pingtaiFeeLadders.feeMethod] &&
-                tradeMethodMap[pingtaiFeeLadders.feeMethod](
-                    pingtaiFeeLadders || {}
-                )
+            let pingtaifei = caclFinalFee(
+                pingtaiFeeLadders,
+                this.tradeMoney,
+                this.transactionNum
+            )
 
             let huodong =
                 this.feeData.filter(
@@ -284,13 +260,15 @@ export default {
                     huodong[0].feeLadders &&
                     huodong[0].feeLadders[0]) ||
                 {}
-            let huodongfei =
-                tradeMethodMap[huodongFeeLadders.feeMethod] &&
-                tradeMethodMap[huodongFeeLadders.feeMethod](
-                    huodongFeeLadders || {}
-                )
+            let huodongfei = caclFinalFee(
+                huodongFeeLadders,
+                this.tradeMoney,
+                this.transactionNum
+            )
 
-            console.log('object :>>>>>>>', yongjinfei, pingtaifei, huodongfei)
+            console.log('yongjinfei :>>>>>>>', yongjinfei)
+            console.log('pingtaifei :>>>>>>>', pingtaifei)
+            console.log('huodongfei :>>>>>>>', huodongfei)
             let res
             if (this.direction === 1) {
                 // 买入
