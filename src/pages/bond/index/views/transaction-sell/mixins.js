@@ -7,7 +7,7 @@ export default {
         TransactionCard,
         YxContainerBetter
     },
-    async created() {
+    created() {
         this.handleGetBondPosition()
     },
     data() {
@@ -20,14 +20,14 @@ export default {
         async handleGetBondPosition() {
             try {
                 let { bondPositionList } = await getBondPosition(2)
-                this.positionData =
+                let tempPositionData =
                     (bondPositionList &&
                         bondPositionList.filter(
                             positionItem =>
                                 positionItem.bondId === this.$route.query.id - 0
                         )) ||
                     []
-                this.positionData = this.positionData[0] || {}
+                this.positionData = tempPositionData[0] || {}
                 console.log('getBondPosition:data:>>> ', bondPositionList)
             } catch (error) {
                 console.log('getBondPosition:error:>>> ', error)
