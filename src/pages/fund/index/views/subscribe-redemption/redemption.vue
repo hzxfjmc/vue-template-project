@@ -53,14 +53,14 @@
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
                     span.text-color5 {{ $t('predict') }}
-                    span(style="margin: 0 3px;") {{ sellConfirm.slice(0, 5) }}{{ $t('day') }}
+                    span(style="margin: 0 3px;") {{ sellConfirm }}
                     span.text-color5 {{ $t('confirmTheShare') }}
                 .line
                 .buy-row
                     .icon
                         .point
                     span.text-color5 {{ $t('predict') }}
-                    span(style="margin: 0 3px;") {{ sellProfitLoss.slice(0, 5) }}{{ $t('day') }}
+                    span(style="margin: 0 3px;") {{ sellProfitLoss }}
                     span.text-color5 {{ $t('moneyToAcc') }}
             .fond-buy.fond-bug-money.border-bottom(style="margin-top: 0")
                 .buy-row
