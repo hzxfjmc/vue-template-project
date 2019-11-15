@@ -1,6 +1,6 @@
 import MediaBox from '@/biz-components/media-box/index.vue'
 import YxContainerBetter from '@/components/yx-container-better'
-import { feePackageCurr } from '@/service/product-server.js'
+import { feePackageCurr, feePackageAgent } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import {
     bondOrder,
@@ -93,6 +93,8 @@ export default {
 
         // 获取套餐费用
         this.handleFeePackageCurr()
+        // 获取活动费用
+        this.handleFeePackageAgent()
 
         this.debounceTradeToken = debounce(this.getTradeToken, 350)
     },
@@ -363,6 +365,23 @@ export default {
                     {}
             } catch (error) {
                 console.log('feePackageCurr:error:>>> ', error)
+            }
+        },
+        // 获取活动费用
+        async handleFeePackageAgent() {
+            try {
+                let feeData = await feePackageAgent({
+                    feeType: 8,
+                    marketType: 6
+                })
+                console.log('feePackageAgent:data:>>> ', feeData)
+                // 当前为手机委托，过滤除手机委托外的其他套餐数据
+                // this.feeData =
+                //     (feeData &&
+                //         feeData.filter(feeItem => feeItem.entrustType === 2)) ||
+                //     {}
+            } catch (error) {
+                console.log('feePackageAgent:error:>>> ', error)
             }
         },
         // 执行交易防抖函数
