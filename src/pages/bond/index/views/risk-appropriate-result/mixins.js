@@ -1,8 +1,7 @@
 import { Checkbox, Button } from 'vant'
 import YxContainerBetter from '@/components/yx-container-better'
-import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
-import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
-import dayjs from 'dayjs'
+import { riskAssessResult } from '@/service/user-server.js'
+import { getBondDetail } from '@/service/finance-info-server.js'
 import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
@@ -14,37 +13,8 @@ export default {
         [Checkbox.name]: Checkbox,
         [Button.name]: Button
     },
-    computed: {
-        ...mapGetters(['appType']),
-        wealthPage() {
-            return this.appType.Ch ? 'bond' : 'bond-hk'
-        },
-        resetTimes() {
-            return {
-                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
-                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
-                en:
-                    'Resert on 1st January, ' +
-                    dayjs(this.resetTime).format('YYYY')
-            }[this.$i18n.lang]
-        },
-        btnText() {
-            if (this.userRiskLevel === 0) {
-                return this.$t('startRisk')
-            } else if (this.userRiskLevel < this.bondRiskLevel) {
-                return this.$t('againRisk')
-            } else {
-                return this.$t('sure')
-            }
-        }
-    },
     created() {
-        console.log(this.bondRiskLevel, '0000')
         // 等待预定请求完成后，执行下一步操作
-        this.getCurrentUser()
-        // if (!this.$route.query.fundRiskType) {
-        //     this.handleGetBondDetail()
-        // }
         this.handleSetupResult()
     },
     data() {
@@ -74,6 +44,22 @@ export default {
             showRemainingNum: false, //剩余次数弹窗
             resetTime: '', //重置时间
             damagedStatus: 0 //是否为易受损用户
+        }
+    },
+    computed: {
+        ...mapGetters(['appType']),
+        wealthPage() {
+            return this.appType.Ch ? 'bond' : 'bond-hk'
+        },
+        // 底部按钮文案
+        btnText() {
+            if (this.userRiskLevel === 0) {
+                return this.$t('startRisk')
+            } else if (this.userRiskLevel < this.bondRiskLevel) {
+                return this.$t('againRisk')
+            } else {
+                return this.$t('sure')
+            }
         }
     },
     methods: {
@@ -140,15 +126,6 @@ export default {
                 console.log('getBondDetail:error:>>> ', error)
             }
         },
-        // 获取基金信息
-        async getFundDetailFun() {
-            let res = await getFundDetail({
-                displayLocation: 1,
-                fundId: this.$route.query.id
-            })
-            console.log(this.$route.query.id, 'id')
-            this.bondRiskLevel = res.fundHeaderInfoVO.fundRiskType
-        },
         // 操作按钮
         handleAction() {
             if (this.isDisabled) return
@@ -179,32 +156,7 @@ export default {
                             id: this.$route.query.id
                         }
                     })
-                } else {
-                    let data = {
-                        query: {
-                            id: this.$route.query.id,
-                            currencyType: this.$route.query.currencyType,
-                            assessResult:
-                                this.userInfo && this.userInfo.assessResult,
-                            fundCode: this.fundCode
-                        }
-                    }
-                    data.path =
-                        (this.userInfo.extendStatusBit & 16) > 0
-                            ? '/fund-subscribe'
-                            : '/open-permissions'
-                    this.$router.push(data)
                 }
-            }
-        },
-        //获取用户信息
-        async getCurrentUser() {
-            try {
-                const res = await getCurrentUser()
-                this.userInfo = res
-                console.log(this.userInfo)
-            } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
             }
         },
         // 开始测评或拨打客服电话

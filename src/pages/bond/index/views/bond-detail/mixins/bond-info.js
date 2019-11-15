@@ -11,7 +11,7 @@ export default {
             paymentDate: '付息日',
             issueTime: '债券发行时间',
             dueTime: '到期时间',
-            dueDay: '剩余年限',
+            dueDay: '剩余期限',
             paymentTypeName: '付息类型',
             paymentFrequencyName: '付息频率',
             creditRatingAgency: '发行人评级'
@@ -22,7 +22,7 @@ export default {
             paymentDate: '付息日',
             issueTime: '債券發行時間',
             dueTime: '到期時間',
-            dueDay: '剩餘年限',
+            dueDay: '剩余期限',
             paymentTypeName: '付息類型',
             paymentFrequencyName: '付息頻率',
             creditRatingAgency: '發行人評級'
@@ -33,7 +33,7 @@ export default {
             paymentDate: '付息日',
             issueTime: '债券发行时间',
             dueTime: '到期时间',
-            dueDay: '剩余年限',
+            dueDay: '剩余期限',
             paymentTypeName: '付息类型',
             paymentFrequencyName: '付息频率',
             creditRatingAgency: '发行人评级'
