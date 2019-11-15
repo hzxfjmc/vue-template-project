@@ -1,6 +1,6 @@
 import YxContainerBetter from '@/components/yx-container-better'
 import { getBondDetail } from '@/service/finance-info-server.js'
-import { getCurrentUser } from '@/service/user-server.js'
+import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
 import { Panel, PullRefresh } from 'vant'
 import { mapState } from 'vuex'
@@ -119,6 +119,7 @@ export default {
                 console.log('getCurrentUser:error:>>>', error)
             }
         },
+        // 买入、卖出
         async handleBuyOrSell(type) {
             // 未登录或未开户
             if (!this.user) {
@@ -154,6 +155,25 @@ export default {
                     }
                 })
                 return
+            }
+            try {
+                let { validTime } = await riskAssessResult()
+                if (new Date().getTime() > new Date(validTime).getTime()) {
+                    await this.$confirm({
+                        title: '提示',
+                        message:
+                            '您的风险测评已过期，如果要继续操作，请先去测评！'
+                    })
+                    this.$router.push({
+                        name: 'risk-assessment',
+                        query: {
+                            id: this.id
+                        }
+                    })
+                }
+                console.log('riskAssessResult :', validTime)
+            } catch (e) {
+                console.log('riskAssessResult>>>error :', e)
             }
 
             this.$router.push({
