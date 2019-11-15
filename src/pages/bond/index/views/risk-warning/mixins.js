@@ -2,6 +2,7 @@ import { Panel, Checkbox } from 'vant'
 import YxContainerBetter from '@/components/yx-container-better'
 import { bondRiskAutograph, getCurrentUser } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
+import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage.js'
 export default {
     name: 'RiskWarning',
@@ -59,6 +60,10 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['appType']),
+        prev() {
+            return this.appType.Hk ? '/hk' : ''
+        },
         // 签名占位符
         signNamePlaceholder() {
             return (
@@ -98,7 +103,7 @@ export default {
                 LS.put('signName', this.signName)
 
                 this.$router.push({
-                    path: '/risk-appropriate-result',
+                    path: this.prev + '/risk-appropriate-result',
                     query: {
                         id: this.id,
                         bondName: this.bondName,

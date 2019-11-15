@@ -3,7 +3,7 @@ import { getBondDetail } from '@/service/finance-info-server.js'
 import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
 import { Panel, PullRefresh } from 'vant'
-import { mapState } from 'vuex'
+import { mapState, mapGetters } from 'vuex'
 import { enumMarketName } from '@/utils/common/global-enum'
 export default {
     name: 'BondList',
@@ -44,6 +44,7 @@ export default {
     },
     computed: {
         ...mapState(['user']),
+        ...mapGetters(['appType']),
         isSigned() {
             // 转成 2 进制
             let bit = this.extendStatusBit.toString(2)
@@ -137,17 +138,23 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
+            let prev = ''
+            if (this.appType.Hk) {
+                prev = '/hk'
+            }
+
             // 买入还是卖出
             let direction = 2,
-                path = '/transaction-sell'
+                path = prev + '/transaction-sell'
+
             if (type === 'buy') {
                 direction = 1
-                path = '/risk-appropriate-result'
+                path = prev + '/risk-appropriate-result'
             }
             // 未签名，跳转到签名页面
             if (!this.isSigned) {
                 this.$router.push({
-                    path: '/risk-warning',
+                    path: prev + '/risk-warning',
                     query: {
                         id: this.id,
                         bondName: this.bondName,
@@ -165,7 +172,7 @@ export default {
                             '您的风险测评已过期，如果要继续操作，请先去测评！'
                     })
                     this.$router.push({
-                        name: 'risk-assessment',
+                        path: prev + '/risk-assessment',
                         query: {
                             id: this.id
                         }

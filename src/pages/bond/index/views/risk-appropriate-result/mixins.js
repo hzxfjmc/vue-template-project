@@ -50,8 +50,9 @@ export default {
     },
     computed: {
         ...mapGetters(['appType']),
-        wealthPage() {
-            return this.appType.Ch ? 'bond' : 'bond-hk'
+        // 跳转路由前缀，为 hk 使用
+        prev() {
+            return this.appType.Hk ? '/hk' : ''
         },
         resetTimes() {
             return {
@@ -139,7 +140,7 @@ export default {
             if (this.userRiskLevel === 0) {
                 // 尚未风评，跳转到风险测评
                 this.$router.push({
-                    path: '/risk-assessment',
+                    path: this.prev + '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
                         fundRiskType: this.$route.query.fundRiskType
@@ -156,9 +157,11 @@ export default {
                             this.$route.query.direction) ||
                         1
                     let path =
-                        direction == 2 ? 'transaction-sell' : 'transaction-buy'
+                        direction == 2
+                            ? '/transaction-sell'
+                            : '/transaction-buy'
                     this.$router.push({
-                        path: `/${path}`,
+                        path: `${this.prev}${path}`,
                         query: {
                             id: this.$route.query.id
                         }
@@ -173,7 +176,7 @@ export default {
             } else {
                 // 跳转到风险测评
                 this.$router.push({
-                    path: '/risk-assessment',
+                    path: this.prev + '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
                         fundRiskType: this.$route.query.fundRiskType

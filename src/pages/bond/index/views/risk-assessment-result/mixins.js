@@ -2,6 +2,7 @@ import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import dayjs from 'dayjs'
+import { mapGetters } from 'vuex'
 
 export default {
     name: 'RiskAssessmentResult',
@@ -29,6 +30,10 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['appType']),
+        prev() {
+            return this.appType.Hk ? '/hk' : ''
+        },
         resetTimes() {
             return {
                 zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
@@ -89,7 +94,7 @@ export default {
             if (this.isExpried) {
                 // 已过期，直接跳转到风评页面
                 this.$router.replace({
-                    path: '/risk-assessment',
+                    path: this.prev + '/risk-assessment',
                     query: {
                         notFirstSubmit: true
                     }
@@ -109,7 +114,7 @@ export default {
             } else {
                 // 跳转到风险测评
                 this.$router.push({
-                    path: '/risk-assessment',
+                    path: this.prev + '/risk-assessment',
                     query: {
                         notFirstSubmit: true
                     }
