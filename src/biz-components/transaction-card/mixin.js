@@ -488,6 +488,12 @@ export default {
                 }
             }
         },
+        handleChange(value) {
+            console.log('value :', value)
+            if (value > 9999999) {
+                this.transactionNum = 9999999
+            }
+        },
         // 提示弹窗
         showTips(tipsType) {
             let tipText = ''
@@ -506,13 +512,6 @@ export default {
                 messageAlign: 'left',
                 confirmButtonText: '我知道了'
             })
-        }
-    },
-    watch: {
-        transactionNum() {
-            if (this.transactionNum > 9999999) {
-                this.transactionNum = 9999999
-            }
         }
     }
 }
