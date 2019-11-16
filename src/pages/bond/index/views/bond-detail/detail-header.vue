@@ -56,7 +56,6 @@ export default {
                 {
                     title: this.buyYtm,
                     desc: '到期年化收益率',
-                    class: 'icon-wenhao',
                     click: () => {
                         this.$dialog.alert({
                             message:
