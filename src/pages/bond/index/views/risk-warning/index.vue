@@ -10,6 +10,7 @@
                 .signature-input
                     input.signature-input__inner(
                         v-model="signName"
+                        @blur="handleBlur"
                         :placeholder="signNamePlaceholder"
                     )
             .statement

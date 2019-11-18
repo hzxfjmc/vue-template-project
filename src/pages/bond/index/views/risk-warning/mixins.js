@@ -128,6 +128,17 @@ export default {
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)
             }
+        },
+        // 失焦事件
+        handleBlur() {
+            // iOS中，输入法输入时，不切确选择某个词，输入框还保持选择状态
+            // 这时候手指滑动界面，输入键盘回收，但是界面还处于上移状态
+            // 初步调试，发现是 utils/common/index.js 最后的处理函数。在上面场景中 focus 事件
+            // 先执行，导致 focusFlag 为 true，进而 延迟函数内部滚动逻辑不执行
+            // 所以现在在当前页面进行处理
+            setTimeout(() => {
+                document.body.scrollTop = document.body.scrollHeight
+            }, 300)
         }
     }
 }

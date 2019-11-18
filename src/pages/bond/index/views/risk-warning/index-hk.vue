@@ -7,7 +7,12 @@
                     p 2) 債券市場流動性差，友信提供流動性XXXXXXXX，價格點差XXXX。友信盡力撮合訂單，但不保證訂單一定能夠成交。
                     p 3) 成交價格公司可能有損益。
             van-panel.sign-box(title="確認簽名")
-                van-field(v-model="signName" :placeholder="signNamePlaceholder" class="sign-box__input" )
+                van-field(
+                    v-model="signName"
+                    @blur="handleBlur"
+                    :placeholder="signNamePlaceholder"
+                    class="sign-box__input"
+                )
             .statement
                 van-checkbox(v-model="isReadBondInfo")
                     i.iconfont(
