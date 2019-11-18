@@ -54,7 +54,7 @@ export default {
                         time: dayjs(chartItem.belongDay).format(
                             'YYYY年MM月DD日'
                         ),
-                        value: chartItem.buyPrice,
+                        value: (chartItem.buyPrice - 0).toFixed(4),
                         type: this.$t('buyPrice'),
                         buyYtm: chartItem.buyYtm
                     },
@@ -63,7 +63,7 @@ export default {
                         time: dayjs(chartItem.belongDay).format(
                             'YYYY年MM月DD日'
                         ),
-                        value: chartItem.sellPrice,
+                        value: (chartItem.sellPrice - 0).toFixed(4),
                         type: this.$t('sellPrice'),
                         buyYtm: chartItem.buyYtm
                     }
