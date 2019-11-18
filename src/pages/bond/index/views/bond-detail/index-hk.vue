@@ -13,7 +13,7 @@
                     :currentPrice="currentPrice"
                     :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
                 )
-                van-panel(title="購買流程")
+                van-panel(title="派息資料")
                     purchasing-process(
                         :bondUneditableInfo="bondUneditableInfo"
                         :paymentInfo="paymentInfo"
