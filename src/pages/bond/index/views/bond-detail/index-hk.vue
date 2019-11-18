@@ -19,7 +19,11 @@
                         :paymentInfo="paymentInfo"
                     )
                 van-panel(title="債劵價格" desc="（每份）" style="position:relative")
-                    BondPrice(:chartData="prices" :currentPrice="currentPrice")
+                    BondPrice(
+                        :chartData="prices"
+                        :currentPrice="currentPrice"
+                        :bondUneditableInfo="bondUneditableInfo"
+                    )
                 van-panel(title="債劵資料")
                     BondInfo(
                         :bondEditableInfo="bondEditableInfo"

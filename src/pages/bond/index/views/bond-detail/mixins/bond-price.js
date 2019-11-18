@@ -88,6 +88,7 @@ export default {
             ]
             return data
         },
+        // 购买价格
         buyPrice() {
             return (
                 (this.currentPrice.buyPrice &&

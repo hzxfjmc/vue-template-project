@@ -1,6 +1,7 @@
 <template lang="pug">
     .detail-bond-price-wrapper
         mask-header(v-show="isShowMask" :maskData="maskData")
+        .bond-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencySymbol }}/份，買賣金額為{{ minFaceValue | thousand-spilt }}{{ currencySymbol }} * 買賣價
         col-msg(
             :colData="colData"
             titleClass="title-class"
@@ -16,12 +17,45 @@ export default {
     mixins: [bondPriceMixin],
     components: {
         MaskHeader
+    },
+    props: {
+        bondUneditableInfo: {
+            type: Object,
+            default: () => {}
+        }
+    },
+    computed: {
+        // 最小面额
+        minFaceValue() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.minFaceValue &&
+                    this.bondUneditableInfo.minFaceValue - 0) ||
+                0
+            )
+        },
+        // 货币单位
+        currencySymbol() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
+                ''
+            )
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .detail-bond-price-wrapper {
     user-select: none;
+    .bond-tips {
+        margin-top: -1px;
+        padding: 0 14px 5px;
+        color: rgba($color: $hk-text-color, $alpha: 0.6);
+        font-size: 0.24rem;
+        line-height: 20px;
+    }
     .chart-wrapper {
         margin-top: 20px;
         padding-bottom: 5px;

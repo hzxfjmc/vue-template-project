@@ -80,7 +80,6 @@ export default {
                     bondEditableInfo,
                     bondUneditableInfo,
                     currentPrice,
-                    paymentAfterTaxPerYear,
                     paymentInfo,
                     prices
                 } = await getBondDetail(this.id)
@@ -88,8 +87,9 @@ export default {
                 this.bondEditableInfo = bondEditableInfo || {}
                 this.bondUneditableInfo = bondUneditableInfo || {}
                 this.currentPrice = currentPrice || {}
-                this.paymentAfterTaxPerYear = paymentAfterTaxPerYear || ''
                 this.paymentInfo = paymentInfo || {}
+                this.paymentAfterTaxPerYear =
+                    this.paymentInfo.paymentAfterTaxPerYear || ''
                 this.prices = prices || []
                 this.bondName =
                     (this.bondEditableInfo.issuer &&

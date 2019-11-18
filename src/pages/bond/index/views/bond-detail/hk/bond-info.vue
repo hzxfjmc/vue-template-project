@@ -15,7 +15,6 @@
             )
                 i.icon
                 span 募集說明書
-        .bond-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencyName }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")
@@ -50,38 +49,6 @@ export default {
                 ',',
                 true
             )
-        },
-        // 最小面额
-        minFaceValue() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.minFaceValue &&
-                    this.bondUneditableInfo.minFaceValue - 0) ||
-                0
-            )
-        },
-        // 货币单位
-        currencyName() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.name) ||
-                ''
-            )
-        },
-        // 购买价格
-        buyPrice() {
-            return (
-                (this.currentPrice &&
-                    this.currentPrice.buyPrice &&
-                    this.currentPrice.buyPrice - 0) ||
-                0
-            )
-        },
-        // 每份购买金额
-        buyPerPrice() {
-            let t = this.minFaceValue * this.buyPrice
-            return (t && t.toFixed(4)) || ''
         }
     }
 }
@@ -118,13 +85,6 @@ export default {
                 line-height: 17px;
             }
         }
-    }
-    .bond-tips {
-        margin-top: -1px;
-        padding: 0 14px 5px;
-        color: rgba($color: $hk-text-color, $alpha: 0.6);
-        font-size: 0.24rem;
-        line-height: 20px;
     }
     .col-column {
         padding-bottom: 20px;
