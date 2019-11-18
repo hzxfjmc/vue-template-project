@@ -25,7 +25,7 @@
                             max="9999999"
                             @change="handleChange"
                         )
-                        .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currencyName }}/份)
+                        .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }}/份)
                 .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
                     .yx-cell__header 金额
                     .yx-cell__primary {{ tradeMoney | thousand-spilt }}
@@ -44,7 +44,7 @@
 
                 .yx-cell.total-trade-money
                     .yx-cell__header 总额
-                        .yx-cell__header-tip ({{ currencyName }})
+                        .yx-cell__header-tip ({{ currencyShortSymbol }})
                     .yx-cell__primary {{ totalTradeMoney | thousand-spilt }}
 
                 .tips

@@ -148,16 +148,8 @@ export default {
                 '--'
             )
         },
-        // 货币单位
+        // 货币单位 美元
         currencyShortSymbol() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
-                ''
-            )
-        },
-        currencyName() {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.enumCurrency &&
@@ -183,11 +175,6 @@ export default {
         // 最小交易额
         minFaceValue() {
             return this.bondUneditableInfo.minFaceValue || 0
-        },
-        // 每份购买金额
-        buyPerPrice() {
-            let t = this.minFaceValue * this.buyOrSellPrice
-            return (t && t.toFixed(4)) || ''
         },
         // 交易金额
         tradeMoney() {
