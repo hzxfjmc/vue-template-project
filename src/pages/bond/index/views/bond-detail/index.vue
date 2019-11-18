@@ -24,7 +24,10 @@
                 van-panel(title="交易规则")
                     TransactionRules
                 .faq
-                    a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
+                    a(
+                        @click="jumpFaq"
+                        title="债券常见问题"
+                    ) 债券常见问题1
         .operate-btn-box(slot="bottom")
             van-button(
                 type="info"

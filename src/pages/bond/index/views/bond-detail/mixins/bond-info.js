@@ -57,9 +57,6 @@ export default {
             default: () => {}
         }
     },
-    created() {
-        this.handleSelectProtocolInfo()
-    },
     data() {
         return {
             productOverview: '',
