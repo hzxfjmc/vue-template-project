@@ -1,6 +1,6 @@
 import MediaBox from '@/biz-components/media-box/index.vue'
 import YxContainerBetter from '@/components/yx-container-better'
-import { feePackageCurr } from '@/service/product-server.js'
+import { feePackageCurr, feePackageAgent } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import {
     bondOrder,
@@ -10,6 +10,7 @@ import { generateUUID, debounce } from '@/utils/tools.js'
 import { LongPress } from '@/utils/long-press'
 import jsBridge from '@/utils/js-bridge.js'
 import { Stepper, PullRefresh } from 'vant'
+import { caclFinalFee } from './calc-fee'
 import { mapGetters } from 'vuex'
 export default {
     name: 'TransactionCard',
@@ -92,6 +93,8 @@ export default {
 
         // 获取套餐费用
         this.handleFeePackageCurr()
+        // 获取活动费用
+        this.handleFeePackageAgent()
 
         this.debounceTradeToken = debounce(this.getTradeToken, 350)
     },
@@ -122,6 +125,7 @@ export default {
             interestDays: 0, // 应计利息天数
             currentPrice: {}, // 当前价格
             feeData: [], // 当前用户套餐费用
+            activityFee: [], // 活动费用
 
             isLoading: false // 下拉刷新
         }
@@ -200,12 +204,13 @@ export default {
             let res =
                 (this.bondUneditableInfo.couponRate / 360) *
                 this.interestDays *
-                (this.tradeMoney - 0)
+                (this.minFaceValue * this.transactionNum)
             res = res ? res.toFixed(2) : '0.00'
             return res
         },
         // 计算手续费
         serviceCharge() {
+            if (this.tradeMoney <= 0) return '0.00'
             // 计算手续费
             // 买入： 手续费 = 佣金 + 平台服务费
             // 卖出： 手续费 = 佣金 + 平台服务费 + 活动费
@@ -218,79 +223,51 @@ export default {
             // 1 交易额 * feePercent
             // 2 直接取 feeAmount
             // 7 feeAmount * 交易额（最小交易额 * 交易数量）
-            let tradeMethodMap = {
-                1: feeLadder => {
-                    let feePercent = feeLadder.feePercent
-                        ? feeLadder.feePercent / 100
-                        : 0
-                    let fee =
-                        this.minFaceValue * this.transactionNum * feePercent
-                    console.log('yongjinfee :', fee)
-                    return fee > feeLadder.minFeeAmount
-                        ? fee
-                        : feeLadder.minFeeAmount
-                },
-                2: feeLadder => {
-                    console.log('pingtaifee :', feeLadder.feeAmount)
-                    return feeLadder.feeAmount
-                },
-                7: feeLadder => {
-                    let fee =
-                        feeLadder.feeAmount *
-                        this.minFaceValue *
-                        this.transactionNum
-                    console.log('huodongfee :', fee)
-                    return fee > feeLadder.maxFeeAmount
-                        ? feeLadder.maxFeeAmount
-                        : fee
+            let yongjin = {},
+                pingtai = {}
+
+            this.feeData.forEach(feeItem => {
+                if (feeItem.feeCategory === 1) {
+                    // 表示佣金
+                    yongjin = feeItem
+                } else if (feeItem.feeCategory === 2) {
+                    // 表示平台服务费
+                    pingtai = feeItem
                 }
-            }
-            let yongjin =
-                this.feeData.filter(
-                    feeItem => feeItem.feeCategory === 1 // 表示佣金
-                ) || []
+            })
+            // 佣金费
             let yongjinFeeLadders =
-                (yongjin[0] &&
-                    yongjin[0].feeLadders &&
-                    yongjin[0].feeLadders[0]) ||
-                {}
-            let yongjinfei =
-                tradeMethodMap[yongjinFeeLadders.feeMethod] &&
-                tradeMethodMap[yongjinFeeLadders.feeMethod](
-                    yongjinFeeLadders || {}
-                )
+                (yongjin.feeLadders && yongjin.feeLadders[0]) || {}
+            let yongjinfei = caclFinalFee(
+                yongjinFeeLadders,
+                this.tradeMoney,
+                this.transactionNum
+            )
 
-            let pingtai =
-                this.feeData.filter(
-                    feeItem => feeItem.feeCategory === 2 // 表示平台服务费
-                ) || []
+            // 平台费
             let pingtaiFeeLadders =
-                (pingtai[0] &&
-                    pingtai[0].feeLadders &&
-                    pingtai[0].feeLadders[0]) ||
-                {}
-            let pingtaifei =
-                tradeMethodMap[pingtaiFeeLadders.feeMethod] &&
-                tradeMethodMap[pingtaiFeeLadders.feeMethod](
-                    pingtaiFeeLadders || {}
-                )
+                (pingtai.feeLadders && pingtai.feeLadders[0]) || {}
+            let pingtaifei = caclFinalFee(
+                pingtaiFeeLadders,
+                this.tradeMoney,
+                this.transactionNum
+            )
 
-            let huodong =
-                this.feeData.filter(
-                    feeItem => feeItem.feeCategory === 4 // 表示活动费
-                ) || []
+            // 活动费
             let huodongFeeLadders =
-                (huodong[0] &&
-                    huodong[0].feeLadders &&
-                    huodong[0].feeLadders[0]) ||
-                {}
-            let huodongfei =
-                tradeMethodMap[huodongFeeLadders.feeMethod] &&
-                tradeMethodMap[huodongFeeLadders.feeMethod](
-                    huodongFeeLadders || {}
-                )
+                (this.activityFee && this.activityFee[0]) || []
+            let huodongfei = caclFinalFee(
+                huodongFeeLadders,
+                this.tradeMoney,
+                this.transactionNum
+            )
 
-            console.log('object :>>>>>>>', yongjinfei, pingtaifei, huodongfei)
+            console.log('this.tradeMoney :>>>>>>>', this.tradeMoney)
+            console.log('this.transactionNum :>>>>>>>', this.transactionNum)
+
+            console.log('yongjinfei :>>>>>>>', yongjinfei)
+            console.log('pingtaifei :>>>>>>>', pingtaifei)
+            console.log('huodongfei :>>>>>>>', huodongfei, '\n\n')
             let res
             if (this.direction === 1) {
                 // 买入
@@ -311,7 +288,7 @@ export default {
                     : prevPrice - (this.serviceCharge - 0)
             return totalMoney ? totalMoney.toFixed(2) : 0
         },
-        // 卖：债券持仓/买：可用资金
+        // 卖：债券持仓可用数量 / 买：可用资金
         marketValue() {
             if (this.direction === 1) {
                 return (
@@ -320,13 +297,13 @@ export default {
                     '0.00'
                 )
             }
-            let mv = this.positionData.marketValue
-                ? this.positionData.marketValue && this.positionData.marketValue
+            let mv = this.positionData.availableQuantity
+                ? (this.positionData.availableQuantity - 0).toFixed(2)
                 : '0.00'
             let count = Math.floor(mv / this.minFaceValue)
             this.transactionNum = count
 
-            return mv === '0.00' ? '0.00' : mv + '(' + count + '份)'
+            return mv === '0.00' ? '0' : mv + '(' + count + '份)'
         },
         btnDisabled() {
             return this.transactionNum <= 0 ? true : false
@@ -392,6 +369,24 @@ export default {
                     {}
             } catch (error) {
                 console.log('feePackageCurr:error:>>> ', error)
+            }
+        },
+        // 获取活动费用
+        async handleFeePackageAgent() {
+            try {
+                let activityFee = await feePackageAgent({
+                    feeType: 8,
+                    marketType: 6
+                })
+                this.activityFee = activityFee
+                console.log('feePackageAgent:data:>>> ', activityFee)
+                // 当前为手机委托，过滤除手机委托外的其他套餐数据
+                // this.feeData =
+                //     (feeData &&
+                //         feeData.filter(feeItem => feeItem.entrustType === 2)) ||
+                //     {}
+            } catch (error) {
+                console.log('feePackageAgent:error:>>> ', error)
             }
         },
         // 执行交易防抖函数
@@ -493,6 +488,12 @@ export default {
                 }
             }
         },
+        handleChange(value) {
+            console.log('value :', value)
+            if (value > 9999999) {
+                this.transactionNum = 9999999
+            }
+        },
         // 提示弹窗
         showTips(tipsType) {
             let tipText = ''
@@ -511,13 +512,6 @@ export default {
                 messageAlign: 'left',
                 confirmButtonText: '我知道了'
             })
-        }
-    },
-    watch: {
-        transactionNum() {
-            if (this.transactionNum > 9999999) {
-                this.transactionNum = 9999999
-            }
         }
     }
 }

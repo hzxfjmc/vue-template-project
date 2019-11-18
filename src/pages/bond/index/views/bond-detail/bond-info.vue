@@ -2,17 +2,19 @@
     .detail-bond-info-wrapper
         .bond-info-header
             a.pdf(
-                v-if="bondEditableInfo && bondEditableInfo.productOverview"
-                :href="bondEditableInfo && bondEditableInfo.productOverview"
+                v-if="productOverview"
+                target="_blank"
+                :href="productOverview"
             )
                 i.icon
                 span 产品概览
             a.pdf(
-                v-if="bondEditableInfo && bondEditableInfo.raiseManual"
-                :href="bondEditableInfo && bondEditableInfo.raiseManual"
+                v-if="raiseManual"
+                target="_blank"
+                :href="raiseManual"
             )
                 i.icon
-                span 募集说明
+                span 募集说明书
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")
@@ -26,7 +28,7 @@
 </template>
 <script>
 import { calcPaymentDates } from '@/pages/bond/index/tools.js'
-import bondInfoMixin from '@/mixins/bond/bond-detail/bond-info.js'
+import bondInfoMixin from './mixins/bond-info.js'
 export default {
     mixins: [bondInfoMixin],
     computed: {

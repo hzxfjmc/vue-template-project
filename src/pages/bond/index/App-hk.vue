@@ -6,10 +6,14 @@
 <style lang="scss">
 @import '~@/assets/styles/global.scss';
 @import '~@/assets/styles/common.scss';
+@import '~@/assets/styles/common-hk.scss';
 @import '~@/assets/styles/vant-reset.scss';
+@import '~@/assets/styles/vant-reset-hk.scss';
 #app {
-    background-color: $background-bottom-color;
-    font-family: PingFangSC-Regular, PingFang SC;
+    background-color: $hk-background-color;
+    .yx-container {
+        background-color: transparent;
+    }
 }
 * {
     user-select: none;

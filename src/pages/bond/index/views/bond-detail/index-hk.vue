@@ -11,45 +11,44 @@
                     :bondEditableInfo="bondEditableInfo"
                     :bondUneditableInfo="bondUneditableInfo",
                     :currentPrice="currentPrice"
+                    :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
                 )
-                van-panel(title="购买流程")
+                van-panel(title="購買流程")
                     purchasing-process(
                         :bondUneditableInfo="bondUneditableInfo"
                         :paymentInfo="paymentInfo"
                     )
-                van-panel(title="债券价格" style="position:relative")
+                van-panel(title="債劵價格" desc="（每份）" style="position:relative")
                     BondPrice(:chartData="prices" :currentPrice="currentPrice")
-                van-panel(title="债券资料")
+                van-panel(title="債劵資料")
                     BondInfo(
                         :bondEditableInfo="bondEditableInfo"
                         :bondUneditableInfo="bondUneditableInfo"
+                        :currentPrice="currentPrice"
                     )
-                van-panel(title="交易规则")
+                van-panel(title="交易規則")
                     TransactionRules
                 .faq
-                    a(
-                        @click="jumpFaq"
-                        title="债券常见问题"
-                    ) 债券常见问题1
+                    a(href="/webapp/market/generator.html?key=bond01" title="債劵常見問題") 債劵常見問題
         .operate-btn-box(slot="bottom")
             van-button(
                 type="info"
-                text="买入"
+                text="買入"
                 @click="handleBuyOrSell('buy')"
             )
             van-button(
                 type="info"
-                text="卖出"
+                text="賣出"
                 @click="handleBuyOrSell('sell')"
             )
 
 </template>
 <script>
-import DetailHeader from './detail-header.vue'
-import PurchasingProcess from './purchasing-process.vue'
-import BondPrice from './bond-price.vue'
-import BondInfo from './bond-info.vue'
-import TransactionRules from './transaction-rules.vue'
+import DetailHeader from './hk/detail-header.vue'
+import PurchasingProcess from './hk/purchasing-process.vue'
+import BondPrice from './hk/bond-price.vue'
+import BondInfo from './hk/bond-info.vue'
+import TransactionRules from './hk/transaction-rules.vue'
 
 import bondDetailMixin from './mixins'
 export default {
@@ -64,19 +63,13 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.yx-container {
-    background-color: transparent;
-    .yx-main {
-        height: auto;
-    }
-}
 .bond-detail-wrapper {
-    padding: 10px 10px 48px;
+    padding: 8px $hk-global-padding 48px;
     color: #393939;
     // 常见问题
     .faq {
         text-align: center;
-        margin: 10px auto 12px;
+        margin: 30px auto;
         a {
             color: $primary-color-line;
             font-size: 0.24rem;
@@ -86,15 +79,14 @@ export default {
 }
 // 买入卖出按钮
 .operate-btn-box {
-    height: 48px;
     display: flex;
+    height: 48px;
     .van-button {
         display: flex;
         align-items: center;
         justify-content: center;
         flex: 1;
         height: 100%;
-        margin: 0;
         border-color: transparent;
         background-color: $primary-color-line;
         color: #fff;
@@ -108,19 +100,32 @@ export default {
 // 微调 vant panel 样式
 .van-panel {
     overflow: hidden;
-    margin-top: 10px;
-    border-radius: 4px;
+    margin-top: 14px;
+    border-radius: 10px;
     .van-panel__header {
-        padding: 14px 12px;
+        padding: 11px 14px;
         font-size: 0.28rem;
         line-height: 20px;
         &:after {
-            display: none;
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 4px;
+            height: 14px;
+            background-color: $hk-primary-color;
+            transform: none;
+            // display: none;
         }
     }
     .van-cell__title {
-        font-size: 0.28rem;
-        line-height: 20px;
+        font-size: 0.32rem;
+        line-height: 22px;
+        .van-cell__label {
+            display: inline-block;
+            color: rgba($color: $hk-text-color, $alpha: 0.4);
+            font-size: 0.24rem;
+        }
     }
 }
 </style>

@@ -1,7 +1,7 @@
 <template lang="pug">
     .transaction-wrapper
         transaction-card(
-            btnText="确认买入"
+            btnText="確定買入"
             :direction="1"
             :accountInfo="accountInfo"
         )
@@ -9,7 +9,7 @@
 
 <script>
 import transactionBuyMixin from './mixins.js'
-import TransactionCard from '@/biz-components/transaction-card/index.vue'
+import TransactionCard from '@/biz-components/transaction-card/index-hk.vue'
 export default {
     mixins: [transactionBuyMixin],
     components: {

@@ -1,7 +1,7 @@
 <template lang="pug">
     .transaction-wrapper
         transaction-card(
-            btnText="确认卖出"
+            btnText="確定賣出"
             :direction="2"
             :positionData="positionData"
         )
@@ -9,7 +9,7 @@
 
 <script>
 import transactionSellMixin from './mixins.js'
-import TransactionCard from '@/biz-components/transaction-card/index.vue'
+import TransactionCard from '@/biz-components/transaction-card/index-hk.vue'
 export default {
     mixins: [transactionSellMixin],
     components: {

@@ -21,7 +21,7 @@
 
 </template>
 <script>
-import detailHeaderMixin from '@/mixins/bond/bond-detail/detail-header.js'
+import detailHeaderMixin from './mixins/detail-header.js'
 import { calcCountDownDay } from '@/utils/tools.js'
 export default {
     mixins: [detailHeaderMixin],
@@ -99,6 +99,7 @@ export default {
 .detail-header {
     background-color: #2f79ff;
     border-radius: 4px;
+    font-family: DINPro-Regular, DINPro;
     .header-column {
         padding: 0 10px 14px 14px;
         >>> .van-col {

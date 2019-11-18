@@ -4,26 +4,26 @@
             van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
                 a(:href="bannerItem.jump_url" title="")
                     img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
-                    //- img(:src="require('@/assets/img/bond/banner-demo.png')" :alt="bannerItem.banner_title")
+                    //- img(:src="require('@/assets/img/bond-hk/banner-demo.png')" :alt="bannerItem.banner_title")
         .bond-list
             router-link(
                 v-for="(item, index) in bondList"
                 :key="index"
-                :to="{path: 'bond-detail?id=' + item.id}"
+                :to="{path: '/hk/bond-detail?id=' + item.id}"
                 title=""
             )
-                bond-card(:bondInfo="item")
-            .no-data(v-show="!hasData") 没有更多债券
+                bond-card-hk(:bondInfo="item")
+            .no-data(v-show="!hasData") 沒有更多債券
         .no-bond-box(v-if="bondList.length === 0 && isShowPage")
-            .no-bond 暂无债券
+            .no-bond 暫無債券
 </template>
 <script>
 import indexMixin from './mixins.js'
-import BondCard from '@/biz-components/bond-card/index'
+import BondCardHk from '@/biz-components/bond-card/index-hk'
 export default {
     mixins: [indexMixin],
     components: {
-        BondCard
+        BondCardHk
     }
 }
 </script>
@@ -31,10 +31,10 @@ export default {
 <style lang="scss" scoped>
 .bond-index-wrapper {
     min-height: 100%;
-    padding-bottom: 77px;
+    padding: 8px 0 77px;
     .banner {
-        width: 375px;
-        height: 150px;
+        height: 100px;
+        margin: 0 $hk-global-padding;
         a {
             display: block;
             height: 100%;
@@ -45,7 +45,7 @@ export default {
         }
     }
     .bond-list {
-        padding: 0 10px;
+        padding: 0 $hk-global-padding;
     }
     .no-data {
         padding: 10px 0 7px;

@@ -8,7 +8,11 @@
                     p 3、成交价格公司可能有损益。
             van-panel(title="确认签名" style="margin-top: -0.28rem")
                 .signature-input
-                    input.signature-input__inner(v-model="signName" :placeholder="signNamePlaceholder")
+                    input.signature-input__inner(
+                        v-model="signName"
+                        @blur="handleBlur"
+                        :placeholder="signNamePlaceholder"
+                    )
             .statement
                 van-checkbox(v-model="isReadBondInfo")
                     i.iconfont(
@@ -30,7 +34,7 @@
         )
 </template>
 <script>
-import riskWarningMixin from '@/mixins/bond/risk-warning/index.js'
+import riskWarningMixin from './mixins.js'
 export default {
     mixins: [riskWarningMixin]
 }
@@ -52,7 +56,7 @@ export default {
     }
     .van-cell__title {
         color: #2e2e3c !important;
-        font-size: 0.36rem;
+        font-size: 18px;
         line-height: 22px;
     }
     // 风险提示文本
@@ -65,7 +69,7 @@ export default {
         box-sizing: border-box;
         p {
             color: $text-color5;
-            font-size: 0.28rem;
+            font-size: 14px;
             line-height: 24px;
         }
     }
@@ -78,12 +82,13 @@ export default {
         .signature-input__inner {
             width: 100%;
             height: 100%;
-            padding-left: 14px;
+            padding: 14px 0 13px 14px;
             border: 1px solid rgba($color: $text-color, $alpha: 0.05);
             color: #2e2e3c;
-            font-size: 0.28rem;
-            line-height: 48px;
+            font-size: 14px;
+            line-height: 24px;
             border-radius: 4px;
+            appearance: none;
             &::placeholder {
                 color: $text-color2;
             }
@@ -97,7 +102,7 @@ export default {
             margin-right: 6px;
             .icon-selected,
             .icon-unchecked {
-                font-size: 0.32rem;
+                font-size: 16px;
                 vertical-align: middle;
             }
             .icon-selected {
@@ -108,13 +113,13 @@ export default {
             flex: 1;
             color: $text-color3;
             span {
-                font-size: 0.24rem;
+                font-size: 12px;
                 line-height: 18px;
                 opacity: 0.4;
             }
             a {
                 color: $primary-color-line;
-                font-size: 0.24rem;
+                font-size: 12px;
                 line-height: 20px;
             }
         }

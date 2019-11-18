@@ -13,7 +13,7 @@
                         i.process-step__circle
                     .process-step__line
                 .process-step
-                    .process-step__title {{ paymentDate }}为付息日
+                    .process-step__title 每次收息{{ paymentPerTime }}{{ currency }}/份
                     .process-step__circle-container
                         span.process-step__text 付息日支付利息，持有中途可卖出
                     .process-step__line
@@ -25,9 +25,20 @@
                     .process-step__line
 </template>
 <script>
-import purchasingProcessMixin from '@/mixins/bond/bond-detail/purchasing-process.js'
+import purchasingProcessMixin from './mixins/purchasing-process.js'
 export default {
-    mixins: [purchasingProcessMixin]
+    mixins: [purchasingProcessMixin],
+    props: {
+        paymentInfo: {
+            type: Object,
+            default: () => {}
+        }
+    },
+    computed: {
+        paymentPerTime() {
+            return this.paymentInfo.paymentPerTime || 0
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
