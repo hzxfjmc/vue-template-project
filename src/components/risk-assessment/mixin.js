@@ -115,6 +115,9 @@ export default {
                 }
             } catch (e) {
                 this.canSubmit = false
+                if (e.msg) {
+                    this.$toast(e.msg)
+                }
                 console.log('riskAssessAnswer:error:>>>', e)
             }
         },
