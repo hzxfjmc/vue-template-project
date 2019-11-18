@@ -1,4 +1,5 @@
 import { Checkbox, Button } from 'vant'
+import { handleSelectProtocolInfo } from '@/pages/bond/index/tools'
 import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
@@ -128,8 +129,15 @@ export default {
                 let { bondEditableInfo } = await getBondDetail(
                     this.$route.query.id - 0
                 )
-                this.productUrl =
-                    bondEditableInfo && bondEditableInfo.productOverview // 产品资料url
+                // 获取 产品资料url
+                if (bondEditableInfo && bondEditableInfo.productOverview) {
+                    handleSelectProtocolInfo(
+                        bondEditableInfo.productOverview,
+                        res => {
+                            this.productUrl = (res && res.protocolUrl) || ''
+                        }
+                    )
+                }
                 this.bondRiskLevel =
                     (bondEditableInfo && bondEditableInfo.riskLevelType) || 100 // 债券风险等级
                 console.log('getBondDetail:data:>>> ', bondEditableInfo)

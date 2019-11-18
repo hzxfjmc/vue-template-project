@@ -1,5 +1,5 @@
 import { Row, Col } from 'vant'
-import { selectProtocolInfo } from '@/service/config-manager.js'
+import { handleSelectProtocolInfo } from '@/pages/bond/index/tools'
 import { calcCountDownDay, dateFormat } from '@/utils/tools.js'
 import ColMsg from '@/biz-components/col-msg/index.vue'
 export default {
@@ -257,39 +257,27 @@ export default {
         }
     },
     methods: {
-        // 获取 产品概览、募集说明书
-        async handleSelectProtocolInfo(key, pdfType) {
-            try {
-                let { protocolUrl } = await selectProtocolInfo(key)
-                if (pdfType === 'product') {
-                    this.productOverview = protocolUrl
-                } else {
-                    this.raiseManual = protocolUrl
-                }
-                console.log(
-                    'handleSelectProtocolInfo:pdfType>>>data :',
-                    protocolUrl
-                )
-            } catch (e) {
-                console.log('handleSelectProtocolInfo:pdfType>>>error :', e)
-            }
-        },
         toggleShowMoreMsg() {
             this.showMore = !this.showMore
         }
     },
     watch: {
+        // 获取 产品概览、募集说明书
         bondEditableInfo() {
             if (this.bondEditableInfo.productOverview) {
-                this.handleSelectProtocolInfo(
+                handleSelectProtocolInfo(
                     this.bondEditableInfo.productOverview,
-                    'product'
+                    res => {
+                        this.productOverview = (res && res.protocolUrl) || ''
+                    }
                 )
             }
             if (this.bondEditableInfo.raiseManual) {
-                this.handleSelectProtocolInfo(
+                handleSelectProtocolInfo(
                     this.bondEditableInfo.raiseManual,
-                    'raise'
+                    res => {
+                        this.raiseManual = (res && res.protocolUrl) || ''
+                    }
                 )
             }
         }

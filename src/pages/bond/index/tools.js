@@ -1,3 +1,4 @@
+import { selectProtocolInfo } from '@/service/config-manager.js'
 import { appType } from '@/utils/html-utils.js'
 /**
  * desc: 计算付息日展示
@@ -56,4 +57,19 @@ export function jumpRouter({ ctx, path, query = {}, jumpType = 'push' }) {
         path,
         query
     })
+}
+
+/**
+ * 获取 产品概览、募集说明书
+ * @param {String} key 获取 pdf 的 key，在中台协议配置中配置
+ * @param {String} cb 请求成功后执行的回调函数
+ */
+export async function handleSelectProtocolInfo(key, cb) {
+    try {
+        let data = await selectProtocolInfo(key)
+        cb && cb(data)
+        console.log('handleSelectProtocolInfo:pdfType>>>data :', data)
+    } catch (e) {
+        console.log('handleSelectProtocolInfo:pdfType>>>error :', e)
+    }
 }
