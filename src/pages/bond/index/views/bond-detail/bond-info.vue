@@ -7,7 +7,7 @@
                 :href="productOverview"
             )
                 i.icon
-                span 产品概览
+                span 产品概览书
             a.pdf(
                 v-if="raiseManual"
                 target="_blank"

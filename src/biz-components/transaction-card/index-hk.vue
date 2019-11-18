@@ -52,7 +52,7 @@
                         span {{ totalTradeMoney | thousand-spilt }}
                         i {{ currencyShortSymbol }}
                 .van-cell__total-tips
-                    i.iconfont.icon-wenhao(@click="showTips('total')")
+                    i.iconfont.icon-wenhao(@click="showTips('total')" v-if="direction === 1")
                     span {{direction === 1 ? $t('availableMoney') : $t('positionsCanBeSold')}}
                     strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyShortSymbol }}
                     strong(v-if="direction === 2") {{ marketValue }}
@@ -210,7 +210,8 @@ export default {
         .van-stepper__plus {
             width: 22px;
             height: 22px;
-            &:before {
+            &:before,
+            &:after {
                 display: none;
             }
         }

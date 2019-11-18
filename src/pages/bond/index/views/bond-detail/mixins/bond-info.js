@@ -233,7 +233,7 @@ export default {
                 (this.bondEditableInfo &&
                     this.bondEditableInfo.issuer &&
                     this.bondEditableInfo.issuer.rankInfo &&
-                    `（${this.bondEditableInfo.issuer.rankInfo.agency}）`) ||
+                    `(${this.bondEditableInfo.issuer.rankInfo.agency})`) ||
                 ''
             )
         },
@@ -251,7 +251,7 @@ export default {
             return (
                 (this.bondEditableInfo &&
                     this.bondEditableInfo.creditRating &&
-                    `（${this.bondEditableInfo.creditRating.agency}）`) ||
+                    `(${this.bondEditableInfo.creditRating.agency})`) ||
                 ''
             )
         }
