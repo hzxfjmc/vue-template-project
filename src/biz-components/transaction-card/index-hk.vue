@@ -44,7 +44,7 @@
                 //- 手续费
                 van-cell.service-charge(:title="$t('serviceCharge')")
                     template(slot="default")
-                        span {{ direction === 1 ? '-' : '+' }}{{ serviceCharge | thousand-spilt }}
+                        span {{ direction === 1 ? '+' : '-' }}{{ serviceCharge | thousand-spilt }}
 
                 //- 当次交易总额
                 van-cell.no-line.total-money(:title="$t('totalMoney')")
