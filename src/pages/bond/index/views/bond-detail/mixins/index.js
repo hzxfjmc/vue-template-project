@@ -165,6 +165,7 @@ export default {
             }
             try {
                 let { validTime } = await riskAssessResult()
+                validTime = validTime && validTime.replace(/-/g, '/')
                 if (new Date().getTime() > new Date(validTime).getTime()) {
                     await this.$confirm({
                         title: '提示',

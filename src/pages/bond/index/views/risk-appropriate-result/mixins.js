@@ -107,10 +107,10 @@ export default {
                 this.number = res.validCount
                 // this.number = 1
                 this.resetTime = res.resetTime
-                this.validTime = res.validTime
-                // this.validTime = '2010-1-5 12:00:00'
+                this.validTime =
+                    res.validTime && res.validTime.replace(/-/g, '/') // ios 中短横线日期格式使用 Date 处理无效
+                // this.validTime = '2010-1-5 12:00:00'.replace(/-/g, '/')
                 this.damagedStatus = res.damagedStatus
-
                 if (new Date().getTime() > new Date(this.validTime).getTime()) {
                     this.userRiskLevel = '-1'
                 }
