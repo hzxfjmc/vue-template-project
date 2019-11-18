@@ -1,29 +1,31 @@
 <template lang="pug">
-    van-pull-refresh(
-        v-model="isLoading"
-        @refresh="onRefresh"
-        success-text="刷新成功"
-    )
-        .bond-detail-wrapper
-            detail-header(
-                :bondEditableInfo="bondEditableInfo"
-                :bondUneditableInfo="bondUneditableInfo",
-                :currentPrice="currentPrice"
-            )
-            van-panel(title="购买流程")
-                purchasing-process(:bondUneditableInfo="bondUneditableInfo")
-            van-panel(title="债券价格" style="position:relative")
-                BondPrice(:chartData="prices" :currentPrice="currentPrice")
-            van-panel(title="债券资料")
-                BondInfo(
+    yx-container-better
+        van-pull-refresh(
+            slot="main"
+            v-model="isLoading"
+            @refresh="onRefresh"
+            success-text="刷新成功"
+        )
+            .bond-detail-wrapper
+                detail-header(
                     :bondEditableInfo="bondEditableInfo"
-                    :bondUneditableInfo="bondUneditableInfo"
+                    :bondUneditableInfo="bondUneditableInfo",
+                    :currentPrice="currentPrice"
                 )
-            van-panel(title="交易规则")
-                TransactionRules
-            .faq
-                a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
-        .operate-btn-box
+                van-panel(title="购买流程")
+                    purchasing-process(:bondUneditableInfo="bondUneditableInfo")
+                van-panel(title="债券价格" style="position:relative")
+                    BondPrice(:chartData="prices" :currentPrice="currentPrice")
+                van-panel(title="债券资料")
+                    BondInfo(
+                        :bondEditableInfo="bondEditableInfo"
+                        :bondUneditableInfo="bondUneditableInfo"
+                    )
+                van-panel(title="交易规则")
+                    TransactionRules
+                .faq
+                    a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
+        .operate-btn-box(slot="bottom")
             van-button(
                 type="info"
                 text="买入"
@@ -58,6 +60,9 @@ export default {
 <style lang="scss" scoped>
 .yx-container {
     background-color: transparent;
+    .yx-main {
+        height: auto;
+    }
 }
 .bond-detail-wrapper {
     padding: 10px 10px 48px;
@@ -75,10 +80,6 @@ export default {
 }
 // 买入卖出按钮
 .operate-btn-box {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
     height: 48px;
     display: flex;
     .van-button {
@@ -87,6 +88,7 @@ export default {
         justify-content: center;
         flex: 1;
         height: 100%;
+        margin: 0;
         border-color: transparent;
         background-color: $primary-color-line;
         color: #fff;
