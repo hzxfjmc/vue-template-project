@@ -20,30 +20,10 @@
 <script>
 import mixin from './mixin'
 import { calcPaymentDates } from '@/pages/bond/index/tools.js'
-import { getStockColorType } from '@/utils/html-utils'
-const stockColorType = getStockColorType()
-// 1 表示 红涨绿跌， 2 表示 绿涨红跌
-const stockColorClass = {
-    1: {
-        up: 'red',
-        down: 'green'
-    },
-    2: {
-        up: 'green',
-        down: 'red'
-    }
-}
+
 export default {
     mixins: [mixin],
     computed: {
-        // 股票上涨类名
-        up() {
-            return stockColorClass[stockColorType].up
-        },
-        // 股票下跌类名
-        down() {
-            return stockColorClass[stockColorType].down
-        },
         // 付息频率
         paymentFrequency() {
             return (

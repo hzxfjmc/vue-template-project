@@ -11,7 +11,7 @@
                 ) {{ tagItem }}
         .bond-card__content
             div
-                .text {{ buyYtm }}
+                .text(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
                 .card-tips 到期年化收益率
             div
                 .text {{ subscriptionAmount | thousand-spilt }}
@@ -125,6 +125,15 @@ export default {
             font-size: 0.4rem;
             font-weight: 500;
             margin-bottom: 6px;
+            &.red {
+                color: #ea3d3d;
+            }
+            &.green {
+                color: $green-text-color;
+            }
+            &.empty {
+                color: $text-color;
+            }
         }
         .interest-num {
             height: 0.4rem;
