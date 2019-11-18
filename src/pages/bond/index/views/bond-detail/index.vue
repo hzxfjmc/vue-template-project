@@ -13,7 +13,10 @@
                     :currentPrice="currentPrice"
                 )
                 van-panel(title="购买流程")
-                    purchasing-process(:bondUneditableInfo="bondUneditableInfo")
+                    purchasing-process(
+                        :bondUneditableInfo="bondUneditableInfo"
+                        :paymentInfo="paymentInfo"
+                    )
                 van-panel(title="债券价格" style="position:relative")
                     BondPrice(:chartData="prices" :currentPrice="currentPrice")
                 van-panel(title="债券资料")

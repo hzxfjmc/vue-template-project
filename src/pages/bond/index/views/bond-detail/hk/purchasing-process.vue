@@ -18,6 +18,7 @@
 </template>
 <script>
 import purchasingProcessMixin from '../mixins/purchasing-process.js'
+import { calcPaymentDates } from '@/pages/bond/index/tools.js'
 export default {
     mixins: [purchasingProcessMixin],
     props: {
@@ -27,6 +28,13 @@ export default {
         }
     },
     computed: {
+        // 付息日
+        paymentDate() {
+            return calcPaymentDates(
+                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate,
+                true
+            )
+        },
         // 现在到持有到期派息次数
         paymentTime() {
             return (this.paymentInfo && this.paymentInfo.paymentTime) || 0
@@ -51,15 +59,6 @@ export default {
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.minFaceValue) ||
                 '--'
-            )
-        },
-        // 货币单位
-        currency() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
-                ''
             )
         }
     }
