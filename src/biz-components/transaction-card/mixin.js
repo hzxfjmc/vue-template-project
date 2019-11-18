@@ -462,6 +462,7 @@ export default {
                             })
                             .catch(() => {
                                 this.buyOrSellPrice = e.data
+                                window.location.reload()
                             })
                     } else {
                         this.$dialog.alert({
