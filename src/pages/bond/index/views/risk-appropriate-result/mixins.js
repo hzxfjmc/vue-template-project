@@ -107,8 +107,8 @@ export default {
                 this.number = res.validCount
                 // this.number = 1
                 this.resetTime = res.resetTime
-                // this.validTime = '2010-1-5 12:00:00'
                 this.validTime = res.validTime
+                // this.validTime = '2010-1-5 12:00:00'
                 this.damagedStatus = res.damagedStatus
 
                 if (new Date().getTime() > new Date(this.validTime).getTime()) {
@@ -146,7 +146,7 @@ export default {
                     path: this.prev + '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
-                        fundRiskType: this.$route.query.fundRiskType
+                        direction: this.$route.query.direction
                     }
                 })
             } else if (this.userRiskLevel < this.bondRiskLevel) {
@@ -154,22 +154,18 @@ export default {
                 this.showRemainingNum = true
             } else {
                 // 风评级别够了，可以购买，跳转到下单界面
-                if (this.$route.query.direction) {
-                    let direction =
-                        (this.$route.query.direction &&
-                            this.$route.query.direction) ||
-                        1
-                    let path =
-                        direction == 2
-                            ? '/transaction-sell'
-                            : '/transaction-buy'
-                    this.$router.push({
-                        path: `${this.prev}${path}`,
-                        query: {
-                            id: this.$route.query.id
-                        }
-                    })
-                }
+                let direction =
+                    (this.$route.query.direction &&
+                        this.$route.query.direction) ||
+                    1
+                let path =
+                    direction == 2 ? '/transaction-sell' : '/transaction-buy'
+                this.$router.push({
+                    path: `${this.prev}${path}`,
+                    query: {
+                        id: this.$route.query.id
+                    }
+                })
             }
         },
         // 开始测评或拨打客服电话
@@ -182,7 +178,7 @@ export default {
                     path: this.prev + '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
-                        fundRiskType: this.$route.query.fundRiskType
+                        direction: this.$route.query.direction
                     }
                 })
             }

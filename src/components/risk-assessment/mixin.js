@@ -4,6 +4,7 @@ import {
     riskAssessAnswer,
     riskAssessResult
 } from '@/service/user-server.js'
+import { mapGetters } from 'vuex'
 
 import { RadioGroup, Radio, Panel } from 'vant'
 export default {
@@ -13,57 +14,6 @@ export default {
         [RadioGroup.name]: RadioGroup,
         [Radio.name]: Radio,
         YxContainerBetter
-    },
-    data() {
-        return {
-            subject: [],
-            version: 0,
-            submitBtnDisabled: true,
-            userInfo: '',
-            showEasyCustomer: false,
-            assessDefinition: '',
-            canSubmit: false
-        }
-    },
-    computed: {
-        titleI18n() {
-            return {
-                zhCHS: 'title_cn',
-                zhCHT: 'title_hk',
-                en: 'title_us'
-            }[this.$i18n.lang]
-        },
-        textI18n() {
-            return {
-                zhCHS: 'text_cn',
-                zhCHT: 'text_hk',
-                en: 'text_us'
-            }[this.$i18n.lang]
-        }
-    },
-    watch: {
-        subject: {
-            handler() {
-                // 只要有一个等于-1，那么说明还有没有选择的题目
-                let isAllSelected = !this.subject.some(item => {
-                    if (item.subject) {
-                        let childFlag = item.subject.some(i => {
-                            return i.choiceNum === -1
-                        })
-                        return childFlag
-                    } else {
-                        return item.choiceNum === -1
-                    }
-                })
-                console.log('isAllSelected-------', isAllSelected)
-                if (isAllSelected) {
-                    this.submitBtnDisabled = false
-                } else {
-                    this.submitBtnDisabled = true
-                }
-            },
-            deep: true
-        }
     },
     async created() {
         // 拉取测评题目
@@ -86,6 +36,38 @@ export default {
             this.version = version || 0
         } catch (e) {
             console.log('riskAssessSubject:error:>>>', e)
+        }
+    },
+    data() {
+        return {
+            subject: [],
+            version: 0,
+            submitBtnDisabled: true,
+            userInfo: '',
+            showEasyCustomer: false,
+            assessDefinition: '',
+            canSubmit: false
+        }
+    },
+    computed: {
+        ...mapGetters(['appType']),
+        // 跳转路由前缀，为 hk 使用
+        prev() {
+            return this.appType.Hk ? '/hk' : ''
+        },
+        titleI18n() {
+            return {
+                zhCHS: 'title_cn',
+                zhCHT: 'title_hk',
+                en: 'title_us'
+            }[this.$i18n.lang]
+        },
+        textI18n() {
+            return {
+                zhCHS: 'text_cn',
+                zhCHT: 'text_hk',
+                en: 'text_us'
+            }[this.$i18n.lang]
         }
     },
     methods: {
@@ -136,43 +118,48 @@ export default {
                 console.log('riskAssessAnswer:error:>>>', e)
             }
         },
-        // 获取用户信息
-        // async getCurrentUser() {
-        //     try {
-        //         const res = await getCurrentUser()
-        //         this.userInfo = res
-        //         console.log(this.userInfo.assessResult, 'assessResult')
-        //         if (
-        //             this.userInfo.assessResult &&
-        //             !this.$route.query.notFirstSubmit
-        //         ) {
-        //             console.log(this.userInfo.assessResult)
-        //             window.location.replace(
-        //                 location.origin +
-        //                     '/wealth/fund/index.html#/risk-assessment-result'
-        //             )
-        //             // this.$router.replace({
-        //             //     path: '/risk-assessment-result'
-        //             // })
-        //         }
-        //     } catch (e) {
-        //         console.log('getCurrentUser:error:>>>', e)
-        //     }
-        // },
         // 跳转
         jumpToResult() {
-            let id = this.$route.query.id
+            let id = this.$route.query.id,
+                direction = this.$route.query.direction, // 只有债券才有这个参数
+                path = '/risk-appropriate-result',
+                query = {
+                    // 默认传输基金参数
+                    id,
+                    currencyType: this.$route.query.currencyType,
+                    fundRiskType: this.$route.query.fundRiskType
+                }
+            // App 风险测评菜单进入：
+            // 1、/wealth/fund/index.html#/risk-assessment-result
+            // 2、/wealth/fund/index.html#/risk-assessment
+
+            // 基金
+            // H5 产品适当性匹配进入：
+            // 1、/wealth/fund/index.html#/risk-appropriate-result
+            // 2、/wealth/fund/index.html#/risk-assessment?id=&fundRiskType=
+
+            // 债券
+            // H5 产品适当性匹配进入：
+            // 1、/wealth/bond/index.html#/risk-appropriate-result
+            // 2、/wealth/bond/index.html#/risk-assessment?id=&direction=
+
+            // 债券参数
+            if (direction) {
+                path = this.prev + path
+                query = {
+                    id: id,
+                    direction
+                }
+            }
+
+            // 从 H5 进入风评测试
             if (id) {
                 this.$router.replace({
-                    path: '/risk-appropriate-result',
-                    query: {
-                        id: id,
-                        currencyType: this.$route.query.currencyType,
-                        fundRiskType: this.$route.query.fundRiskType
-                    }
+                    path,
+                    query
                 })
             } else {
-                // 如果不存在 id 等参数，说明是直接从测评结果页跳转的，测试完成，直接跳转出去
+                // 如果不存在 id 参数，说明是直接从测评结果页跳转的，测试完成，直接跳转出去
                 this.$router.replace({
                     path: '/risk-assessment-result'
                 })
@@ -182,6 +169,30 @@ export default {
         closeEasyCustomer() {
             this.closeEasyCustomer = false
             this.jumpToResult()
+        }
+    },
+    watch: {
+        subject: {
+            handler() {
+                // 只要有一个等于-1，那么说明还有没有选择的题目
+                let isAllSelected = !this.subject.some(item => {
+                    if (item.subject) {
+                        let childFlag = item.subject.some(i => {
+                            return i.choiceNum === -1
+                        })
+                        return childFlag
+                    } else {
+                        return item.choiceNum === -1
+                    }
+                })
+                console.log('isAllSelected-------', isAllSelected)
+                if (isAllSelected) {
+                    this.submitBtnDisabled = false
+                } else {
+                    this.submitBtnDisabled = true
+                }
+            },
+            deep: true
         }
     }
 }
