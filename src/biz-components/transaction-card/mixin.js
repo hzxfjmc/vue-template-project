@@ -421,6 +421,10 @@ export default {
                 })
                 await this.$toast('提交成功')
 
+                // 交易完成，挑战订单页，关闭当前 Webview ，防止返回按钮回到交易页
+                setTimeout(() => {
+                    jsBridge.callApp('command_close_webview')
+                }, 1000)
                 if (this.appType && this.appType.Hk) {
                     // 港版跳转到全部订单页
                     jsBridge.gotoNativeModule(
