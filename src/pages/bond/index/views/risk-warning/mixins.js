@@ -53,9 +53,8 @@ export default {
             signName: LS.get('signName') || '', // 签名
             agreementData: {}, // 债券协议
             id: 0,
-            firstName: '',
-            lastName: '',
             bondName: '',
+            userAutograph: '',
             isReadBondInfo: true
         }
     },
@@ -67,9 +66,7 @@ export default {
         // 签名占位符
         signNamePlaceholder() {
             return (
-                (this.firstName &&
-                    this.lastName &&
-                    '请输入签名: ' + `${this.lastName}${this.firstName}`) ||
+                (this.userAutograph && `请输入签名: ${this.userAutograph}`) ||
                 '请输入签名:'
             )
         },
@@ -122,8 +119,7 @@ export default {
         async handleGetCurrentUser() {
             try {
                 const res = await getCurrentUser()
-                this.firstName = res.firstName
-                this.lastName = res.lastName
+                this.userAutograph = res.userAutograph || ''
                 console.log('getCurrentUser>>>data :', res)
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)
