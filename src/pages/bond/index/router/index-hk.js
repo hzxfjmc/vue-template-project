@@ -45,7 +45,7 @@ let routerList = [
     {
         name: 'risk-appropriate-result',
         path: '/risk-appropriate-result',
-        meta: { title: '產品匹配' },
+        meta: { title: '產品風險匹配' },
         component: () =>
             import(
                 `@/pages/bond/index/views/risk-appropriate-result/index-hk.vue`
