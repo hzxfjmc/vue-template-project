@@ -22,7 +22,6 @@
                             integer
                             min="1"
                             max="9999999"
-                            @change="handleChange"
                         )
                         .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }}/份)
                 .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")

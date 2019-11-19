@@ -122,6 +122,16 @@ export default {
         color: $hk-text-color4;
         font-size: 15px;
     }
+    .hack-input {
+        position: absolute;
+        top: 0;
+        width: 56px;
+        right: 23px;
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        z-index: 1;
+    }
 }
 .foot-button {
     position: fixed;
@@ -164,6 +174,7 @@ export default {
             line-height: 22px;
         }
         .van-cell__value {
+            position: relative;
             font-size: 24px;
             line-height: 30px;
             i {
