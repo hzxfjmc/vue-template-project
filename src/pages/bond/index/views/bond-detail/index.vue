@@ -28,7 +28,7 @@
                 a(
                     @click="jumpFaq"
                     title="债券常见问题"
-                ) 债券常见问题1
+                ) 债券常见问题
         .operate-btn-box
             van-button(
                 type="info"
