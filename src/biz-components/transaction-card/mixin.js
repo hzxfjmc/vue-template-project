@@ -28,7 +28,10 @@ export default {
             serviceCharge: '手续费(预估)',
             totalMoney: '总额',
             availableMoney: '债券可用资金',
-            positionsCanBeSold: '持仓可卖 '
+            positionsCanBeSold: '持仓可卖 ',
+            submitSuccess: '提交成功',
+            submitFail: '提交失败',
+            ok: '我知道了'
         },
         zhCHT: {
             buyPrice: '買入價格',
@@ -43,7 +46,10 @@ export default {
             serviceCharge: '手續費（預估）',
             totalMoney: '總額',
             availableMoney: '債券可用資金',
-            positionsCanBeSold: '持倉可賣 '
+            positionsCanBeSold: '持倉可賣 ',
+            submitSuccess: '提交成功',
+            submitFail: '提交失敗',
+            ok: '我知道了'
         },
         en: {
             buyPrice: 'Bought',
@@ -58,7 +64,10 @@ export default {
             serviceCharge: 'Fee',
             totalMoney: 'Total Amount',
             availableMoney: 'Available Amount',
-            positionsCanBeSold: 'Position '
+            positionsCanBeSold: 'Position ',
+            submitSuccess: 'Submitted Successfully',
+            submitFail: 'Submitted Failed',
+            ok: 'OK'
         }
     },
     components: {
@@ -160,6 +169,15 @@ export default {
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.enumCurrency &&
                     this.bondUneditableInfo.enumCurrency.shortSymbol) ||
+                ''
+            )
+        },
+        // 货币单位 USD
+        currencyName() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.name) ||
                 ''
             )
         },
@@ -412,7 +430,7 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: tradeToken
                 })
-                await this.$toast('提交成功')
+                await this.$toast(this.$t('submitSuccess'))
 
                 // 交易完成，挑战订单页，关闭当前 Webview ，防止返回按钮回到交易页
                 setTimeout(() => {
@@ -457,7 +475,7 @@ export default {
                         // 价格发生变化
                         this.$dialog
                             .confirm({
-                                title: '提交失败',
+                                title: this.$t('submitFail'),
                                 message: e.msg
                             })
                             .then(async () => {
@@ -472,17 +490,17 @@ export default {
                             })
                     } else {
                         this.$dialog.alert({
-                            title: '提交失败',
+                            title: this.$t('submitFail'),
                             message: e.msg
                         })
                     }
                 } else if (specialCode.includes(e.code)) {
                     this.$dialog.alert({
-                        title: '提交失败',
+                        title: this.$t('submitFail'),
                         message: e.msg
                     })
                 } else {
-                    this.$toast('提交失败')
+                    this.$toast(this.$t('submitFail'))
                 }
             }
         },
@@ -508,7 +526,7 @@ export default {
             this.$dialog.alert({
                 message: tipText,
                 messageAlign: 'left',
-                confirmButtonText: '我知道了'
+                confirmButtonText: this.$t('ok')
             })
         }
     },
