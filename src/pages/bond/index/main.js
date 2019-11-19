@@ -16,13 +16,10 @@ setTimeout(() => {
 }, 1000)
 
 import i18n from '@/utils/common/plugins/yx-i18n/index.js'
+import bondI18n from '@/utils/i18n-message/bond/index'
 Vue.use(i18n, {
-    lang: store.getters.lang,
-    messages: {
-        zhCHS: {},
-        zhCHT: {},
-        en: {}
-    }
+    lang: 'zhCHT' || store.getters.lang,
+    messages: bondI18n
 })
 
 import '@/utils/common'
