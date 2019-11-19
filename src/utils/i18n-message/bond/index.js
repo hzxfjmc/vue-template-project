@@ -2,7 +2,7 @@ import { zhCHS } from './zh-chs'
 import { zhCHT } from './zh-cht'
 import { en } from './en'
 
-export const messages = {
+export default {
     // 简体中文
     zhCHS,
     // 繁体中文
