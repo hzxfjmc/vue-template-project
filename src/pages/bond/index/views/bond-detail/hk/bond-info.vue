@@ -7,14 +7,14 @@
                 :href="productOverview"
             )
                 i.icon
-                span 產品概覽書
+                span {{ $t('bondOverview') }}
             a.pdf(
                 v-if="raiseManual"
                 target="_blank"
                 :href="raiseManual"
             )
                 i.icon
-                span 募集說明書
+                span {{ $t('prospectus') }}
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")

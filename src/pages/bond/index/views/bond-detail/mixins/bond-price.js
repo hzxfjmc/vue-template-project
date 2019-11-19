@@ -6,16 +6,31 @@ export default {
     name: 'BondPrice',
     i18n: {
         zhCHS: {
+            bondValue: '此债券面值为',
+            tradingAmount: '买卖金额为',
+            bondPrice: '买卖价',
+            contract: '份',
             buyPrice: '买入价',
-            sellPrice: '卖出价'
+            sellPrice: '卖出价',
+            yieldToMaturity: '到期年化收益率'
         },
         zhCHT: {
+            bondValue: '此債券面值為',
+            tradingAmount: '買賣金額為',
+            bondPrice: '買賣價',
+            contract: '份',
             buyPrice: '買入價',
-            sellPrice: '賣出價'
+            sellPrice: '賣出價',
+            yieldToMaturity: '到期年化收益率'
         },
         en: {
-            buyPrice: '买入价',
-            sellPrice: '卖出价'
+            bondValue: 'Nominal value of this bond is ',
+            tradingAmount: 'trading amount is ',
+            bondPrice: 'bond price',
+            contract: ' USD',
+            buyPrice: 'Bid Price',
+            sellPrice: 'Ask Price',
+            yieldToMaturity: 'Yield-to-Maturity'
         }
     },
     components: {
@@ -79,7 +94,7 @@ export default {
                 },
                 {
                     title: this.buyYtm,
-                    desc: '到期年化收益率'
+                    desc: this.$t('yieldToMaturity')
                 },
                 {
                     title: transNumToThousandMark(this.sellPrice, 4),
@@ -154,7 +169,7 @@ export default {
                                             obj.items[0].origin.buyYtm - 0
                                         ).toFixed(3) + '%') ||
                                     '--',
-                                desc: '到期年化收益率'
+                                desc: this.$t('yieldToMaturity')
                             },
                             {
                                 title: transNumToThousandMark(

@@ -1,7 +1,7 @@
 <template lang="pug">
     .detail-bond-price-wrapper
         mask-header(v-show="isShowMask" :maskData="maskData")
-        .bond-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencySymbol }}/份，買賣金額為{{ minFaceValue | thousand-spilt }}{{ currencySymbol }} * 買賣價
+        .bond-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ currencySymbol }}/{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ currencySymbol }} * {{ $t('bondPrice') }}
         col-msg(
             :colData="colData"
             titleClass="title-class"

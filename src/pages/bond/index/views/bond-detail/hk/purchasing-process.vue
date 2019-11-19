@@ -2,24 +2,69 @@
     .detail-purchasing-process-wrapper
         van-steps(direction="vertical" :active="-1")
             van-step
-                <h3>下單購買</h3>
+                <h3>{{ $t('purchased') }}</h3>
             van-step
-                <h3>{{ enumDelivery }}日計息</h3>
+                <h3>{{ enumDelivery }}{{ $t('startEarningInterest') }}</h3>
             van-step
-                <h3>{{ paymentDate }}為付息日</h3>
-                <p>・付息日支付利息，持有中途可賣出</p>
-                <p>・持有到期可收息{{ paymentTime }}次，每次收息: {{ paymentAfterTaxPerTime | thousand-spilt }}{{ currency }}/份</p>
-                <p>・到期前合共收息: {{ totalPayment | thousand-spilt }}{{ currency }}/份</p>
+                <h3>{{ paymentDate }}{{ $t('interestPaymentDate') }}</h3>
+                <p>・{{ $t('receiveInterest') }}</p>
+                <p>・{{ $t('remainingInterest1') }}{{ paymentTime }}{{ $t('time') }}，{{ $t('remainingInterest2') }} {{ paymentAfterTaxPerTime | thousand-spilt }}{{ currency }} /{{ $t('contract') }}</p>
+                <p>・{{ $t('totalRemainingInterest') }}: {{ totalPayment | thousand-spilt }}{{ currency }} /{{ $t('contract') }}</p>
             van-step
-                <h3>到期退出</h3>
+                <h3>{{ $t('maturity') }}</h3>
                 <p>・{{ dueTime | date-format('YYYY.MM.DD') }}</p>
-                <p>・派發最後一期利息</p>
-                <p>・返還本金份額: {{ minFaceValue | thousand-spilt }}{{ currency }}/份</p>
+                <p>・{{ $t('receiveLastInterest') }}</p>
+                <p>・{{ $t('receiveNominalValue') }}: {{ minFaceValue | thousand-spilt }}{{ currency }} /{{ $t('contract') }}</p>
 </template>
 <script>
 import purchasingProcessMixin from '../mixins/purchasing-process.js'
 import { calcPaymentDates } from '@/pages/bond/index/tools.js'
 export default {
+    i18n: {
+        zhCHS: {
+            purchased: '成功买入',
+            startEarningInterest: '日计息',
+            interestPaymentDate: '付息日为',
+            receiveInterest: '派息日派息，持有中途可卖出',
+            remainingInterest1: '到期前剩余派息次数为',
+            remainingInterest2: '每次派息为: ',
+            time: '次',
+            totalRemainingInterest: '到期前总派息为',
+            maturity: '到期退出',
+            receiveLastInterest: '派发最后一期利息',
+            receiveNominalValue: '返还票面值',
+            contract: ' 份'
+        },
+        zhCHT: {
+            purchased: '成功買入',
+            startEarningInterest: '日計息',
+            interestPaymentDate: '付息日為',
+            receiveInterest: '派息日派息，持有中途可賣出',
+            remainingInterest1: '到期前剩餘派息次數為',
+            remainingInterest2: '每次派息為: ',
+            time: '次',
+            totalRemainingInterest: '到期前總派息為',
+            maturity: '到期退出',
+            receiveLastInterest: '派發最後一期利息',
+            receiveNominalValue: '返還票面值',
+            contract: ' 份'
+        },
+        en: {
+            purchased: 'Purchased',
+            startEarningInterest: ' start earning interest',
+            interestPaymentDate: ' Interest Payment Date',
+            receiveInterest: 'Receive interest on each interest payment date',
+            remainingInterest: 'Total Remaining Interest',
+            remainingInterest1: 'Remaining Interest ',
+            remainingInterest2: '',
+            time: ' time',
+            totalRemainingInterest: 'Total Remaining Interest',
+            maturity: 'Maturity',
+            receiveLastInterest: 'Receive the last round of interest',
+            receiveNominalValue: 'Receive nominal value',
+            contract: ' contract'
+        }
+    },
     mixins: [purchasingProcessMixin],
     props: {
         paymentInfo: {

@@ -23,6 +23,36 @@
 import detailHeaderMixin from '../mixins/detail-header.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
+    i18n: {
+        zhCHS: {
+            yieldToMaturity: '到期年化收益率',
+            yieldToMaturityTips:
+                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
+                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參攷要素。\n\n' +
+                '注：展示數值為已加入預估傭金、平臺使用費之後的到期收益率。',
+            refAmountContract: '参考认购金额/份',
+            annualInterestContract: '年税后派息/份',
+            ok: '我知道了'
+        },
+        zhCHT: {
+            yieldToMaturity: '到期年化收益率',
+            yieldToMaturityTips:
+                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
+                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參考要素。\n\n' +
+                '注：展示數值為已加入預估佣金、平台使用費之後的到期收益率。',
+            refAmountContract: '參攷認購金額/份',
+            annualInterestContract: '年稅後派息/份',
+            ok: '我知道了'
+        },
+        en: {
+            yieldToMaturity: 'Yield-to-Maturity',
+            yieldToMaturityTips:
+                'Yield to Maturity is the estimated annual average rate of return investors can expect to set aside to make this bond investment at the current market price (or the target price you entered). It includes accrued interest and the processing fee.',
+            refAmountContract: 'Ref. Amount / Contract',
+            annualInterestContract: 'Annual Interest / Contract',
+            ok: 'OK'
+        }
+    },
     mixins: [detailHeaderMixin],
     data() {
         return {
@@ -58,15 +88,12 @@ export default {
             let obj = [
                 {
                     title: this.buyYtm,
-                    desc: '到期年化收益率',
+                    desc: this.$t('yieldToMaturity'),
                     click: () => {
                         this.$dialog.alert({
-                            message:
-                                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
-                                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參攷要素。\n\n' +
-                                '注：展示數值為已加入預估傭金、平臺使用費之後的到期收益率。',
+                            message: this.$t('yieldToMaturityTips'),
                             messageAlign: 'left',
-                            confirmButtonText: '我知道了'
+                            confirmButtonText: this.$t('ok')
                         })
                     },
                     class: 'icon-wenhao'
@@ -76,14 +103,14 @@ export default {
                         this.subscriptionAmount.toString(),
                         3
                     ),
-                    desc: '參攷認購金額/份'
+                    desc: this.$t('refAmountContract')
                 },
                 {
                     title: transNumToThousandMark(
                         this.solvePaymentAfterTaxPerYear.toString(),
                         3
                     ),
-                    desc: '年稅後派息/份'
+                    desc: this.$t('annualInterestContract')
                 }
             ]
             return obj

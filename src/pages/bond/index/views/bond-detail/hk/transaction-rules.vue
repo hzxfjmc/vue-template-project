@@ -1,15 +1,35 @@
 <template lang="pug">
     .detail-transaction-rules-wrapper
         .yx-cell(style="padding-top:0")
-            .yx-cell__header 交易时间：
-            .yx-cell__content 同美股，北京时间21:30-4:00(夏令时)或22:30-5:00(冬令时)
+            .yx-cell__header {{ $t('tradingTime') }}：
+            .yx-cell__content {{ $t('tradingTimeTips') }}
         .yx-cell
-            .yx-cell__header 交易费用：
+            .yx-cell__header {{ $t('tradingTime') }}：
             .yx-cell__content XXXXXXX
 
 </template>
 <script>
 export default {
+    i18n: {
+        zhCHS: {
+            tradingTime: '交易时间',
+            tradingTimeTips:
+                '同美股，北京时间21:30-4:00(夏令时)或22:30-5:00(冬令时)',
+            charges: '交易费用'
+        },
+        zhCHT: {
+            tradingTime: '交易時間',
+            tradingTimeTips:
+                '同美股，北京时間21:30-4:00（夏令時）或22:30-5:00（冬令時）',
+            charges: '交易費用'
+        },
+        en: {
+            tradingTime: 'Trading Time',
+            tradingTimeTips:
+                '同美股，北京时间21:30-4:00(夏令时)或22:30-5:00(冬令时)',
+            charges: 'Charges'
+        }
+    },
     name: 'TransactionRules'
 }
 </script>
