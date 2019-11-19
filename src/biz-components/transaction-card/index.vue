@@ -85,6 +85,7 @@ export default {
     margin: 0 10px;
     padding-bottom: 68px;
     background-color: #fff;
+    font-family: PingFangSC-Regular, PingFang SC;
     border-radius: 4px;
 }
 .transaction-header {
@@ -100,20 +101,20 @@ export default {
     padding: 0 14px;
     &.total-trade-money {
         .yx-cell__primary {
-            font-size: 0.44rem;
+            font-size: 22px;
             font-weight: bold;
             line-height: 28px;
         }
     }
     .yx-cell__header {
-        font-size: 0.28rem;
+        font-size: 14px;
         line-height: 20px;
         color: $text-color5;
     }
     .yx-cell__header-tip {
         display: inline-block;
         margin-left: 4px;
-        font-size: 0.24rem;
+        font-size: 12px;
         line-height: 17px;
         color: $text-color6;
     }
@@ -121,13 +122,13 @@ export default {
         flex: 1;
         text-align: right;
         color: $text-color;
-        font-size: 0.36rem;
+        font-size: 18px;
         line-height: 23px;
     }
     .yx-cell__primary-tip {
         margin-top: 6px;
         color: $text-color3;
-        font-size: 0.2rem;
+        font-size: 10px;
         line-height: 14px;
     }
 }
@@ -140,7 +141,7 @@ export default {
     margin-top: 6px;
     padding-right: 15px;
     color: $text-color5;
-    font-size: 0.24rem;
+    font-size: 12px;
     line-height: 18px;
     text-align: right;
     i {
@@ -192,7 +193,7 @@ export default {
             padding: 0 4px;
             background-color: #fff;
             color: $text-color;
-            font-size: 0.36rem;
+            font-size: 18px;
             box-sizing: border-box;
         }
     }

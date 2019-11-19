@@ -5,9 +5,9 @@ import hkRouter from './index-hk'
 Vue.use(Router)
 export default new Router({
     // 不保留浏览器滚动位置
-    scrollBehavior() {
-        return { x: 0, y: 0 }
-    },
+    // scrollBehavior() {
+    //     return { x: 0, y: 0 }
+    // },
     routes: [
         {
             name: 'index',
