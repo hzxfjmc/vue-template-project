@@ -24,6 +24,7 @@ export const i18nAppropriateData = {
         toClose: '关闭',
         riskTypeList: {
             // 风险等级列表
+            '-1': '已过期',
             100: '--',
             0: '尚未风评',
             1: '保守型(A1)及以上可购买',
@@ -58,6 +59,7 @@ export const i18nAppropriateData = {
         toClose: '關閉',
         riskTypeList: {
             // 风险等级列表
+            '-1': '已過期',
             100: '--',
             0: '尚未進行風險評',
             1: '保守型(A1)及以上可購買',
@@ -93,6 +95,7 @@ export const i18nAppropriateData = {
         toClose: 'Close',
         riskTypeList: {
             // 风险等级列表
+            '-1': 'Expired',
             100: '--',
             0: 'Risk assessment is not completed',
             1: 'Available for conservative (or more aggressive) investor',
