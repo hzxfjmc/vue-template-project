@@ -12,19 +12,36 @@
         .bond-card__content
             div
                 .text(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
-                .card-tips 到期年化收益率
+                .card-tips {{ $t('yieldToMaturity') }}
             div
                 .text {{ subscriptionAmount | thousand-spilt }}
-                .card-tips 參攷認購金額/份
+                .card-tips {{ $t('refAmountContract') }}
             div
                 .text.interest-num
                     span {{ paymentAfterTaxPerYear | thousand-spilt }}
-                .card-tips 年稅後派息/份
+                .card-tips {{ $t('annualInterestContract') }}
 </template>
 
 <script>
 import mixin from './mixin'
 export default {
+    i18n: {
+        zhCHS: {
+            yieldToMaturity: '到期年化收益率',
+            refAmountContract: '参考认购金额/份',
+            annualInterestContract: '年税后派息/份'
+        },
+        zhCHT: {
+            yieldToMaturity: '到期年化收益率',
+            refAmountContract: '參攷認購金額/份',
+            annualInterestContract: '年稅後派息/份'
+        },
+        en: {
+            yieldToMaturity: 'Yield-to-Maturity',
+            refAmountContract: 'Ref. Amount / Contract',
+            annualInterestContract: 'Annual Interest / Contract'
+        }
+    },
     mixins: [mixin],
     computed: {
         // 參攷認購金額
