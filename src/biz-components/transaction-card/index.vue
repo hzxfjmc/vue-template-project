@@ -1,7 +1,6 @@
 <template lang="pug">
-    yx-container-better
+    .transaction-box
         van-pull-refresh(
-            slot="main"
             v-model="isLoading"
             @refresh="onRefresh"
             success-text="刷新成功"
@@ -57,7 +56,6 @@
                     strong(v-if="direction === 2") {{ marketValue }}
         van-button(
             type="info"
-            slot="bottom"
             class="foot-button"
             :class="{ sell: btnText === '确认卖出' }"
             :text="btnText"
@@ -73,17 +71,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.yx-container {
-    overflow: hidden;
+.transaction-box {
+    height: 100%;
     padding-top: 10px;
-    background: transparent;
 }
 .van-pull-refresh {
     height: 100%;
 }
 .transaction-card {
     margin: 0 10px;
-    padding-bottom: 68px;
+    padding: 0 0 70px;
     background-color: #fff;
     font-family: PingFangSC-Regular, PingFang SC;
     border-radius: 4px;
@@ -154,9 +151,17 @@ export default {
         font-weight: normal;
     }
 }
-.foot-button.sell {
-    background: #ffbf32;
-    border-color: #ffbf32;
+.foot-button {
+    position: fixed;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
+    left: 0;
+    right: 0;
+    height: 48px;
+    &.sell {
+        background: #ffbf32;
+        border-color: #ffbf32;
+    }
 }
 </style>
 <style lang="scss">

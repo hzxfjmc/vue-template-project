@@ -1,65 +1,62 @@
 <template lang="pug">
-    yx-container-better
+    .transaction-card
         van-pull-refresh(
-            slot="main"
             v-model="isLoading"
             @refresh="onRefresh"
             success-text="刷新成功"
         )
-            .transaction-card
-                //- 债券信息
-                .card-header
-                    .card-header__title {{ issuerName }}
-                    .card-header__sub-title {{ bondName }}
+            //- 债券信息
+            .card-header
+                .card-header__title {{ issuerName }}
+                .card-header__sub-title {{ bondName }}
 
-                //- 买入卖出价
-                van-cell
-                    template(slot="title")
-                        span {{ direction === 1 ? $t('buyPrice') : $t('sellPrice') }}
-                    template(slot="default")
-                        span {{ buyOrSellPrice }}
-                        i {{ currencyShortSymbol }}
+            //- 买入卖出价
+            van-cell
+                template(slot="title")
+                    span {{ direction === 1 ? $t('buyPrice') : $t('sellPrice') }}
+                template(slot="default")
+                    span {{ buyOrSellPrice }}
+                    i {{ currencyShortSymbol }}
 
-                //- 交易数量
-                van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
-                    template(slot="default")
-                        van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-                .van-cell__default-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }}/{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }} * {{ $t('bondPrice') }}
+            //- 交易数量
+            van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
+                template(slot="default")
+                    van-stepper(v-model="transactionNum" integer min="1" max="9999999")
+            .van-cell__default-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }}/{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }} * {{ $t('bondPrice') }}
 
 
-                //- 交易金额
-                van-cell.no-line.amount-money(:title="$t('amountMoney')")
-                    template(slot="default")
-                        span {{ tradeMoney | thousand-spilt }}
-                        i {{ currencyShortSymbol }}
+            //- 交易金额
+            van-cell.no-line.amount-money(:title="$t('amountMoney')")
+                template(slot="default")
+                    span {{ tradeMoney | thousand-spilt }}
+                    i {{ currencyShortSymbol }}
 
-                //- 应付、应得利息
-                van-cell.no-line.interest
-                    template(slot="title")
-                        span {{ direction === 1 ? $t('payableInterest') : $t('accruedInterest') }}
-                        i.iconfont.icon-wenhao(@click="showTips('interest')")
-                    template(slot="default")
-                        span +{{ calcInterest | thousand-spilt }}
+            //- 应付、应得利息
+            van-cell.no-line.interest
+                template(slot="title")
+                    span {{ direction === 1 ? $t('payableInterest') : $t('accruedInterest') }}
+                    i.iconfont.icon-wenhao(@click="showTips('interest')")
+                template(slot="default")
+                    span +{{ calcInterest | thousand-spilt }}
 
-                //- 手续费
-                van-cell.service-charge(:title="$t('serviceCharge')")
-                    template(slot="default")
-                        span {{ direction === 1 ? '+' : '-' }}{{ serviceCharge | thousand-spilt }}
+            //- 手续费
+            van-cell.service-charge(:title="$t('serviceCharge')")
+                template(slot="default")
+                    span {{ direction === 1 ? '+' : '-' }}{{ serviceCharge | thousand-spilt }}
 
-                //- 当次交易总额
-                van-cell.no-line.total-money(:title="$t('totalMoney')")
-                    template(slot="default")
-                        span {{ totalTradeMoney | thousand-spilt }}
-                        i {{ currencyShortSymbol }}
-                .van-cell__total-tips
-                    i.iconfont.icon-wenhao(@click="showTips('total')" v-if="direction === 1")
-                    span {{direction === 1 ? $t('availableMoney') : $t('positionsCanBeSold')}}
-                    strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyShortSymbol }}
-                    strong(v-if="direction === 2") {{ marketValue }}
+            //- 当次交易总额
+            van-cell.no-line.total-money(:title="$t('totalMoney')")
+                template(slot="default")
+                    span {{ totalTradeMoney | thousand-spilt }}
+                    i {{ currencyShortSymbol }}
+            .van-cell__total-tips
+                i.iconfont.icon-wenhao(@click="showTips('total')" v-if="direction === 1")
+                span {{direction === 1 ? $t('availableMoney') : $t('positionsCanBeSold')}}
+                strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyShortSymbol }}
+                strong(v-if="direction === 2") {{ marketValue }}
 
         van-button(
             type="info"
-            slot="bottom"
             class="foot-button"
             :disabled="btnDisabled"
             :class="{ sell: direction === 2 }"
@@ -80,15 +77,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.yx-container {
-    overflow: hidden;
-    background: #fff !important;
-}
 .van-pull-refresh {
     height: 100%;
 }
 .transaction-card {
-    padding: 22px $hk-global-padding 68px;
+    padding: 22px $hk-global-padding 70px;
     background-color: #fff;
     border-radius: 4px;
     .card-header {
@@ -130,9 +123,17 @@ export default {
         font-size: 15px;
     }
 }
-.foot-button.sell {
-    background: #ffbf32;
-    border-color: #ffbf32;
+.foot-button {
+    position: fixed;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
+    left: 0;
+    right: 0;
+    height: 48px;
+    &.sell {
+        background: #ffbf32;
+        border-color: #ffbf32;
+    }
 }
 </style>
 <style lang="scss">
@@ -206,6 +207,7 @@ export default {
         }
     }
     .van-stepper {
+        text-align: right;
         .van-stepper__minus,
         .van-stepper__plus {
             width: 22px;
