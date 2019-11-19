@@ -27,7 +27,7 @@ export default {
             bondValue: 'Nominal value of this bond is ',
             tradingAmount: 'trading amount is ',
             bondPrice: 'bond price',
-            contract: ' USD',
+            contract: ' contract',
             buyPrice: 'Bid Price',
             sellPrice: 'Ask Price',
             yieldToMaturity: 'Yield-to-Maturity'

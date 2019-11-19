@@ -1,7 +1,7 @@
 <template lang="pug">
     .detail-bond-price-wrapper
         mask-header(v-show="isShowMask" :maskData="maskData")
-        .bond-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ currencySymbol }}/{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ currencySymbol }} * {{ $t('bondPrice') }}
+        .bond-tips {{ $t('bondValue') }}{{ currencyName }} {{ minFaceValue | thousand-spilt }}/{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ currencyName }} {{ minFaceValue | thousand-spilt }} * {{ $t('bondPrice') }}
         col-msg(
             :colData="colData"
             titleClass="title-class"
@@ -35,11 +35,11 @@ export default {
             )
         },
         // 货币单位
-        currencySymbol() {
+        currencyName() {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
+                    this.bondUneditableInfo.enumCurrency.name) ||
                 ''
             )
         }

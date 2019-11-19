@@ -8,13 +8,13 @@
             van-step
                 <h3>{{ paymentDate }}{{ $t('interestPaymentDate') }}</h3>
                 <p>・{{ $t('receiveInterest') }}</p>
-                <p>・{{ $t('remainingInterest1') }}{{ paymentTime }}{{ $t('time') }}，{{ $t('remainingInterest2') }} {{ paymentAfterTaxPerTime | thousand-spilt }}{{ currency }} /{{ $t('contract') }}</p>
-                <p>・{{ $t('totalRemainingInterest') }}: {{ totalPayment | thousand-spilt }}{{ currency }} /{{ $t('contract') }}</p>
+                <p>・{{ $t('remainingInterest1') }}{{ paymentTime }}{{ $t('time') }}，{{ $t('remainingInterest2') }} {{ currencyName }} {{ paymentAfterTaxPerTime | thousand-spilt }} /{{ $t('process_contract') }}</p>
+                <p>・{{ $t('totalRemainingInterest') }}: {{ currencyName }} {{ totalPayment | thousand-spilt }} /{{ $t('process_contract') }}</p>
             van-step
                 <h3>{{ $t('maturity') }}</h3>
                 <p>・{{ dueTime | date-format('YYYY.MM.DD') }}</p>
                 <p>・{{ $t('receiveLastInterest') }}</p>
-                <p>・{{ $t('receiveNominalValue') }}: {{ minFaceValue | thousand-spilt }}{{ currency }} /{{ $t('contract') }}</p>
+                <p>・{{ $t('receiveNominalValue') }}: {{ currencyName }} {{ minFaceValue | thousand-spilt }} /{{ $t('process_contract') }}</p>
 </template>
 <script>
 import purchasingProcessMixin from '../mixins/purchasing-process.js'
@@ -33,7 +33,7 @@ export default {
             maturity: '到期退出',
             receiveLastInterest: '派发最后一期利息',
             receiveNominalValue: '返还票面值',
-            contract: ' 份'
+            process_contract: ' 份'
         },
         zhCHT: {
             purchased: '成功買入',
@@ -47,7 +47,7 @@ export default {
             maturity: '到期退出',
             receiveLastInterest: '派發最後一期利息',
             receiveNominalValue: '返還票面值',
-            contract: ' 份'
+            process_contract: ' 份'
         },
         en: {
             purchased: 'Purchased',
@@ -62,7 +62,7 @@ export default {
             maturity: 'Maturity',
             receiveLastInterest: 'Receive the last round of interest',
             receiveNominalValue: 'Receive nominal value',
-            contract: ' contract'
+            process_contract: ' contract'
         }
     },
     mixins: [purchasingProcessMixin],
@@ -104,6 +104,15 @@ export default {
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.minFaceValue) ||
                 '--'
+            )
+        },
+        // 货币单位
+        currencyName() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.name) ||
+                ''
             )
         }
     }
