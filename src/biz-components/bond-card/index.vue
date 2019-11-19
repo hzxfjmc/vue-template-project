@@ -54,7 +54,7 @@ export default {
         h2 {
             overflow: hidden;
             margin-right: 6px;
-            font-size: 0.36rem;
+            font-size: 18px;
             color: $title-color;
             line-height: 25px;
             text-overflow: ellipsis;
@@ -66,7 +66,7 @@ export default {
             max-width: 115px;
             padding: 4px 7px;
             margin-right: 6px;
-            font-size: 0.2rem;
+            font-size: 10px;
             text-align: center;
             line-height: 14px;
             text-overflow: ellipsis;
@@ -82,7 +82,7 @@ export default {
         padding: 0 2px;
         .rate-num {
             margin-bottom: 4px;
-            font-size: 0.48rem;
+            font-size: 24px;
             line-height: 31px;
             &.red {
                 color: #ea3d3d;
@@ -98,12 +98,12 @@ export default {
             margin-top: 3px;
             margin-bottom: 7px;
             color: $text-color;
-            font-size: 0.34rem;
+            font-size: 17px;
             line-height: 25px;
         }
         .card-tips {
             color: $text-color5;
-            font-size: 0.24rem;
+            font-size: 12px;
             line-height: 17px;
         }
     }

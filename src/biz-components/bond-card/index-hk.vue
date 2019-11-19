@@ -91,7 +91,7 @@ export default {
         h2 {
             overflow: hidden;
             margin-right: 20px;
-            font-size: 0.4rem;
+            font-size: 20px;
             color: $hk-text-color;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -104,7 +104,7 @@ export default {
                 max-width: 115px;
                 padding: 4px 7px;
                 margin-right: 5px;
-                font-size: 0.2rem;
+                font-size: 10px;
                 text-align: center;
                 line-height: 18px;
                 text-overflow: ellipsis;
@@ -122,7 +122,7 @@ export default {
         justify-content: space-between;
         .text {
             color: $hk-text-color;
-            font-size: 0.4rem;
+            font-size: 20px;
             font-weight: 500;
             margin-bottom: 6px;
             &.red {
@@ -136,15 +136,15 @@ export default {
             }
         }
         .interest-num {
-            height: 0.4rem;
-            font-size: 0.32rem;
+            height: 20px;
+            font-size: 16px;
             span {
                 vertical-align: sub;
             }
         }
         .card-tips {
             color: rgba($color: $hk-text-color, $alpha: 0.4);
-            font-size: 0.24rem;
+            font-size: 12px;
             line-height: 20px;
         }
     }
