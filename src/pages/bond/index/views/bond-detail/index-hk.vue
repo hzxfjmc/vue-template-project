@@ -1,40 +1,38 @@
 <template lang="pug">
-    yx-container-better
+    .bond-detail-wrapper
         van-pull-refresh(
-            slot="main"
             v-model="isLoading"
             @refresh="onRefresh"
             :success-text="$t('refreshSuccess')"
         )
-            .bond-detail-wrapper
-                detail-header(
-                    :bondEditableInfo="bondEditableInfo"
-                    :bondUneditableInfo="bondUneditableInfo",
-                    :currentPrice="currentPrice"
-                    :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
+            detail-header(
+                :bondEditableInfo="bondEditableInfo"
+                :bondUneditableInfo="bondUneditableInfo",
+                :currentPrice="currentPrice"
+                :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
+            )
+            van-panel(:title="$t('interest')")
+                purchasing-process(
+                    :bondUneditableInfo="bondUneditableInfo"
+                    :paymentInfo="paymentInfo"
                 )
-                van-panel(:title="$t('interest')")
-                    purchasing-process(
-                        :bondUneditableInfo="bondUneditableInfo"
-                        :paymentInfo="paymentInfo"
-                    )
-                van-panel(:title="$t('bondPrice')" :desc="$t('perContract')" style="position:relative")
-                    BondPrice(
-                        :chartData="prices"
-                        :currentPrice="currentPrice"
-                        :bondUneditableInfo="bondUneditableInfo"
-                    )
-                van-panel(:title="$t('bondInformation')")
-                    BondInfo(
-                        :bondEditableInfo="bondEditableInfo"
-                        :bondUneditableInfo="bondUneditableInfo"
-                        :currentPrice="currentPrice"
-                    )
-                van-panel(:title="$t('tradingRules')")
-                    TransactionRules
-                .faq
-                    a(href="/webapp/market/generator.html?key=bond01" :title="$t('bondFAQ')") {{ $t('bondFAQ') }}
-        .operate-btn-box(slot="bottom")
+            van-panel(:title="$t('bondPrice')" :desc="$t('perContract')" style="position:relative")
+                BondPrice(
+                    :chartData="prices"
+                    :currentPrice="currentPrice"
+                    :bondUneditableInfo="bondUneditableInfo"
+                )
+            van-panel(:title="$t('bondInformation')")
+                BondInfo(
+                    :bondEditableInfo="bondEditableInfo"
+                    :bondUneditableInfo="bondUneditableInfo"
+                    :currentPrice="currentPrice"
+                )
+            van-panel(:title="$t('tradingRules')")
+                TransactionRules
+            .faq
+                a(href="/webapp/market/generator.html?key=bond01" :title="$t('bondFAQ')") {{ $t('bondFAQ') }}
+        .operate-btn-box
             van-button(
                 type="info"
                 :text="$t('buy')"
@@ -103,7 +101,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bond-detail-wrapper {
-    padding: 8px $hk-global-padding 48px;
+    padding: 8px $hk-global-padding 96px;
     color: #393939;
     // 常见问题
     .faq {
@@ -118,6 +116,11 @@ export default {
 }
 // 买入卖出按钮
 .operate-btn-box {
+    position: fixed;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
+    left: 0;
+    right: 0;
     display: flex;
     height: 48px;
     .van-button {
@@ -126,6 +129,7 @@ export default {
         justify-content: center;
         flex: 1;
         height: 100%;
+        margin: 0;
         border-color: transparent;
         background-color: $primary-color-line;
         color: #fff;
