@@ -234,6 +234,9 @@ export default {
             }
         }
     }
+    .icon-wenhao {
+        color: #fff;
+    }
 }
 .header-features {
     padding: 14px 0 18px 0;
