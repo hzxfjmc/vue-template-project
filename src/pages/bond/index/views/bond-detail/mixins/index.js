@@ -217,6 +217,7 @@ export default {
                 this.bindStock.stockMarket.type
             ) {
                 try {
+                    if (this.appType.Hk) return
                     jsBridge.callApp('command_set_titlebar_button', {
                         position: 2, //position取值1、2
                         clickCallback: 'goToStockDetails',
