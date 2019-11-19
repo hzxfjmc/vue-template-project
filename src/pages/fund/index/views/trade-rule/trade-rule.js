@@ -18,7 +18,7 @@ export const tradeList = {
         value: '',
         cname: 'HKD'
     },
-    redemptionFee: {
+    subscriptionFee: {
         label: '申购费',
         value: ''
     }
@@ -29,7 +29,7 @@ export const redeemList = {
         label: '最低持有份额',
         value: ''
     },
-    subscriptionFee: {
+    redemptionFee: {
         label: '赎回费',
         value: ''
     }
@@ -69,7 +69,7 @@ export const i18nTrudeRuleData = {
             continueInvestAmount: {
                 label: '续投金额'
             },
-            redemptionFee: {
+            subscriptionFee: {
                 label: '申购费'
             }
         },
@@ -77,7 +77,7 @@ export const i18nTrudeRuleData = {
             minPositionShare: {
                 label: '最低持有份额'
             },
-            subscriptionFee: {
+            redemptionFee: {
                 label: '赎回费'
             }
         },
@@ -130,7 +130,7 @@ export const i18nTrudeRuleData = {
             continueInvestAmount: {
                 label: '續投金額'
             },
-            redemptionFee: {
+            subscriptionFee: {
                 label: '申購費'
             }
         },
@@ -138,7 +138,7 @@ export const i18nTrudeRuleData = {
             minPositionShare: {
                 label: '最低持有份額'
             },
-            subscriptionFee: {
+            redemptionFee: {
                 label: '贖回費'
             }
         },
@@ -182,7 +182,7 @@ export const i18nTrudeRuleData = {
             continueInvestAmount: {
                 label: 'Incremental Amount'
             },
-            redemptionFee: {
+            subscriptionFee: {
                 label: 'Subscription Fee'
             }
         },
@@ -190,7 +190,7 @@ export const i18nTrudeRuleData = {
             minPositionShare: {
                 label: 'Min. Holding Unit'
             },
-            subscriptionFee: {
+            redemptionFee: {
                 label: 'Redemption Fee'
             }
         },
