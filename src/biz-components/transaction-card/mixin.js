@@ -31,7 +31,8 @@ export default {
             positionsCanBeSold: '持仓可卖 ',
             submitSuccess: '提交成功',
             submitFail: '提交失败',
-            ok: '我知道了'
+            ok: '我知道了',
+            confirm: '确认'
         },
         zhCHT: {
             buyPrice: '買入價格',
@@ -49,7 +50,8 @@ export default {
             positionsCanBeSold: '持倉可賣 ',
             submitSuccess: '提交成功',
             submitFail: '提交失敗',
-            ok: '我知道了'
+            ok: '我知道了',
+            confirm: '確認'
         },
         en: {
             buyPrice: 'Bought',
@@ -67,7 +69,8 @@ export default {
             positionsCanBeSold: 'Position ',
             submitSuccess: 'Submitted Successfully',
             submitFail: 'Submitted Failed',
-            ok: 'OK'
+            ok: 'OK',
+            confirm: 'Confirm'
         }
     },
     components: {
@@ -476,7 +479,8 @@ export default {
                         this.$dialog
                             .confirm({
                                 title: this.$t('submitFail'),
-                                message: e.msg
+                                message: e.msg,
+                                confirmButtonText: this.$t('confirm')
                             })
                             .then(async () => {
                                 this.direction === 1
@@ -491,13 +495,15 @@ export default {
                     } else {
                         this.$dialog.alert({
                             title: this.$t('submitFail'),
-                            message: e.msg
+                            message: e.msg,
+                            confirmButtonText: this.$t('confirm')
                         })
                     }
                 } else if (specialCode.includes(e.code)) {
                     this.$dialog.alert({
                         title: this.$t('submitFail'),
-                        message: e.msg
+                        message: e.msg,
+                        confirmButtonText: this.$t('confirm')
                     })
                 } else {
                     this.$toast(this.$t('submitFail'))
