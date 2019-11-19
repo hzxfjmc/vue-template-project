@@ -24,7 +24,7 @@
                 van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
                     template(slot="default")
                         van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-                .van-cell__default-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }}/份，買賣金額為{{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }} * 買賣價
+                .van-cell__default-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }}/{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }} * {{ $t('bondPrice') }}
 
 
                 //- 交易金额
