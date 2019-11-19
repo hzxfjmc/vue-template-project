@@ -4,6 +4,10 @@
             :title="headerTitle"
             :desc="headerDesc"
         )
+        .check-stock(
+            v-if="hasBindStock"
+            @click="jumpToStock"
+        ) 查看股票
         col-msg.header-column(
             :col-data="colData"
             :wrapperStyle="wrapperStyle"
@@ -21,6 +25,8 @@
 </template>
 <script>
 import detailHeaderMixin from '../mixins/detail-header.js'
+import jsBridge from '@/utils/js-bridge'
+import { enumMarketName } from '@/utils/common/global-enum'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     i18n: {
@@ -73,13 +79,18 @@ export default {
                 color: 'rgba(255, 255, 255, 0.6)',
                 'font-size': '0.24rem',
                 'line-height': '0.4rem'
-            }
+            },
+            hasBindStock: false
         }
     },
     props: {
         paymentAfterTaxPerYear: {
             type: String,
             default: ''
+        },
+        bindStock: {
+            type: Object,
+            default: () => {}
         }
     },
     computed: {
@@ -157,11 +168,34 @@ export default {
                 ''
             )
         }
+    },
+    methods: {
+        jumpToStock() {
+            jsBridge.gotoNativeModule(
+                `yxzq_goto://stock_quote?market=${
+                    enumMarketName[this.bindStock.stockMarket.type]
+                }&code=${this.bindStock.stockCode}`
+            )
+        }
+    },
+    watch: {
+        bindStock() {
+            if (
+                this.bindStock.stockCode &&
+                this.bindStock.stockMarket &&
+                this.bindStock.stockMarket.type
+            ) {
+                this.hasBindStock = true
+            } else {
+                this.hasBindStock = false
+            }
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .detail-header {
+    position: relative;
     background-color: rgba($color: #0055ff, $alpha: 0.6);
     border-radius: 10px;
     font-family: DINPro-Regular, DINPro;
@@ -171,6 +205,13 @@ export default {
         >>> .van-col {
             flex-grow: 0;
         }
+    }
+    .check-stock {
+        position: absolute;
+        top: 24px;
+        right: 10px;
+        color: #fff;
+        font-size: 16px;
     }
 }
 </style>

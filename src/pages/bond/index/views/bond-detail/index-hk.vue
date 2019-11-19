@@ -9,6 +9,7 @@
                 :bondEditableInfo="bondEditableInfo"
                 :bondUneditableInfo="bondUneditableInfo",
                 :currentPrice="currentPrice"
+                :bindStock="bindStock"
                 :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
             )
             van-panel(:title="$t('interest')")
