@@ -109,6 +109,7 @@ export default {
             overflow: hidden;
             margin-right: 20px;
             font-size: 20px;
+            line-height: 22px;
             color: $hk-text-color;
             text-overflow: ellipsis;
             white-space: nowrap;
