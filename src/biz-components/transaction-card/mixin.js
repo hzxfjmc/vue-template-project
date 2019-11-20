@@ -23,7 +23,8 @@ export default {
             USD: '美元',
             tradingAmount: '买卖金额为',
             bondPrice: '*买卖价',
-            contract: '/份数',
+            transaction_contracts: '/份数',
+            transaction_contract: '份',
             amountMoney: '金额',
             payableInterest: '应付利息',
             interestDesc:
@@ -49,7 +50,8 @@ export default {
             USD: '美元',
             tradingAmount: '買賣金額為',
             bondPrice: '*買賣價',
-            contract: '/份数',
+            transaction_contracts: '/份数',
+            transaction_contract: '份',
             amountMoney: '金額',
             payableInterest: '應付利息',
             interestDesc:
@@ -75,7 +77,8 @@ export default {
             USD: ' USD',
             tradingAmount: 'trading amount is ',
             bondPrice: ' * bond price',
-            contract: '',
+            transaction_contracts: '',
+            transaction_contract: 'contract',
             amountMoney: 'Amount',
             payableInterest: 'Indicative Accrued Interest',
             interestDesc:
@@ -341,7 +344,9 @@ export default {
             let count = Math.floor(mv / this.minFaceValue)
             this.transactionNum = count
 
-            return mv === '0.00' ? '0' : mv + '(' + count + '份)'
+            return mv === '0.00'
+                ? '0'
+                : mv + '(' + count + this.$t('transaction_contract') + ')'
         },
         btnDisabled() {
             return this.transactionNum <= 0 ? true : false

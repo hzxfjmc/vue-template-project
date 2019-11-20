@@ -9,8 +9,12 @@ export default {
             bondValue: '此债券面值为',
             USD: '美元',
             tradingAmount: '买卖金额为',
-            bondPrice: '*买卖价',
+            spBondPrice: '*买卖价',
             contract: '/份',
+            price_年: '年',
+            月: '月',
+            日: '日',
+            天: '天',
             buyPrice: '买入价',
             sellPrice: '卖出价',
             yieldToMaturity: '到期年化收益率'
@@ -19,8 +23,12 @@ export default {
             bondValue: '此債券面值為',
             USD: '美元',
             tradingAmount: '買賣金額為',
-            bondPrice: '*買賣價',
+            spBondPrice: '*買賣價',
             contract: '/份',
+            年: '年',
+            月: '月',
+            日: '日',
+            天: '天',
             buyPrice: '買入價',
             sellPrice: '賣出價',
             yieldToMaturity: '到期年化收益率'
@@ -29,8 +37,12 @@ export default {
             bondValue: 'Nominal value of this bond is ',
             USD: ' USD',
             tradingAmount: 'trading amount is ',
-            bondPrice: ' * bond price',
+            spBondPrice: ' * bond price',
             contract: '',
+            年: '-',
+            月: '-',
+            日: '',
+            天: '',
             buyPrice: 'Bid Price',
             sellPrice: 'Ask Price',
             yieldToMaturity: 'Yield-to-Maturity'
@@ -70,7 +82,9 @@ export default {
                     {
                         date: dayjs(chartItem.belongDay).format('M.DD'),
                         time: dayjs(chartItem.belongDay).format(
-                            'YYYY年MM月DD日'
+                            `YYYY${this.$t('年')}MM${this.$t('月')}DD${this.$t(
+                                '日'
+                            )}`
                         ),
                         value: (chartItem.buyPrice - 0).toFixed(4),
                         type: this.$t('buyPrice'),
@@ -79,7 +93,9 @@ export default {
                     {
                         date: dayjs(chartItem.belongDay).format('M.DD'),
                         time: dayjs(chartItem.belongDay).format(
-                            'YYYY年MM月DD日'
+                            `YYYY${this.$t('年')}MM${this.$t('月')}DD${this.$t(
+                                '日'
+                            )}`
                         ),
                         value: (chartItem.sellPrice - 0).toFixed(4),
                         type: this.$t('sellPrice'),

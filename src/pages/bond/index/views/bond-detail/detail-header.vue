@@ -97,7 +97,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .detail-header {
-    background-color: #2f79ff;
+    background-color: $primary-color-line;
     border-radius: 4px;
     font-family: DINPro-Regular, DINPro;
     .header-column {

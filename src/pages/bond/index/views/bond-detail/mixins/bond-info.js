@@ -14,10 +14,12 @@ export default {
             issueTime: '首次付息日',
             dueTime: '到期时间',
             dueDay: '剩余期限',
+            infoYear: '年',
+            infoDay: '天',
             paymentTypeName: '付息类型',
             paymentFrequencyName: '付息频率',
-            creditRatingAgency: '债券评级',
-            issuerRankAgency: '发行人评级'
+            creditRatingAgency: '债券评级(标普)',
+            issuerRankAgency: '发行人评级(标普)'
         },
         zhCHT: {
             bondOverview: '產品概覽書',
@@ -28,10 +30,12 @@ export default {
             issueTime: '首次付息日',
             dueTime: '到期時間',
             dueDay: '剩余期限',
+            infoYear: '年',
+            infoDay: '天',
             paymentTypeName: '付息類型',
             paymentFrequencyName: '付息頻率',
-            creditRatingAgency: ' 債券評級',
-            issuerRankAgency: '發行人評級'
+            creditRatingAgency: ' 債券評級(標普)',
+            issuerRankAgency: '發行人評級(標普)'
         },
         en: {
             bondOverview: 'Bond Overview',
@@ -42,10 +46,12 @@ export default {
             issueTime: 'start Payment Date',
             dueTime: 'Maturity Date',
             dueDay: 'Time to Maturity',
+            infoYear: 'Year',
+            infoDay: 'Day',
             paymentTypeName: 'Coupon Type',
             paymentFrequencyName: 'Coupon Frequency',
-            creditRatingAgency: 'Credit Rating',
-            issuerRankAgency: 'Bond Issuer Rating'
+            creditRatingAgency: 'Credit Rating(S&P)',
+            issuerRankAgency: 'Bond Issuer Rating(S&P)'
         }
     },
     components: {
@@ -121,17 +127,13 @@ export default {
             if (this.issuerRank) {
                 obj[1].push({
                     title: this.issuerRank,
-                    desc: `${this.$t('issuerRankAgency')}${
-                        this.issuerRankAgency
-                    }`
+                    desc: `${this.$t('issuerRankAgency')}`
                 })
                 if (this.creditRatingRank) {
                     obj[2] = [
                         {
                             title: this.creditRatingRank,
-                            desc: `${this.$t('creditRatingAgency')}${
-                                this.creditRatingAgency
-                            }`
+                            desc: `${this.$t('creditRatingAgency')}`
                         },
                         {
                             title: '',
@@ -147,9 +149,7 @@ export default {
                 if (this.creditRatingRank) {
                     obj[1].push({
                         title: this.creditRatingRank,
-                        desc: `${this.$t('creditRatingAgency')}${
-                            this.creditRatingAgency
-                        }`
+                        desc: `${this.$t('creditRatingAgency')}`
                     })
                 } else {
                     obj[1].push({
@@ -206,6 +206,8 @@ export default {
             return calcCountDownDay(
                 this.bondUneditableInfo && this.bondUneditableInfo.dueTime
             )
+                .replace(/年/g, this.$t('Y'))
+                .replace(/天/g, this.$t('D'))
         },
         // 付息类型
         paymentTypeName() {
@@ -233,31 +235,12 @@ export default {
                 ''
             )
         },
-        // 发行人评级类型
-        issuerRankAgency() {
-            return (
-                (this.bondEditableInfo &&
-                    this.bondEditableInfo.issuer &&
-                    this.bondEditableInfo.issuer.rankInfo &&
-                    `(${this.bondEditableInfo.issuer.rankInfo.agency})`) ||
-                ''
-            )
-        },
         // 债券评级
         creditRatingRank() {
             return (
                 (this.bondEditableInfo &&
                     this.bondEditableInfo.creditRating &&
                     this.bondEditableInfo.creditRating.rank) ||
-                ''
-            )
-        },
-        // 债券评级类型
-        creditRatingAgency() {
-            return (
-                (this.bondEditableInfo &&
-                    this.bondEditableInfo.creditRating &&
-                    `(${this.bondEditableInfo.creditRating.agency})`) ||
                 ''
             )
         }
