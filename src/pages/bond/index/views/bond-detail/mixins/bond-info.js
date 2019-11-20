@@ -206,8 +206,8 @@ export default {
             return calcCountDownDay(
                 this.bondUneditableInfo && this.bondUneditableInfo.dueTime
             )
-                .replace(/年/g, this.$t('infoYear'))
-                .replace(/天/g, this.$t('infoDay'))
+                .replace(/年/g, this.$t('Y'))
+                .replace(/天/g, this.$t('D'))
         },
         // 付息类型
         paymentTypeName() {

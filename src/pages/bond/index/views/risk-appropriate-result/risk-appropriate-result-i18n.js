@@ -73,8 +73,8 @@ export const i18nAppropriateData = {
         matching: 'Matched',
         noMatching: 'Not Matched',
         yoursAppropriate: 'Your Risk Profile',
-        suitable: 'Confirm',
-        noSuitable: 'Not Suitable',
+        suitable: ' Matched ',
+        noSuitable: 'Not Matched',
         proRisk: 'Risk Of Product',
         riskMeans: 'What is risk profile?',
         meansInfo:
