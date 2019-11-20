@@ -107,20 +107,21 @@ export default {
         justify-content: space-between;
         h2 {
             overflow: hidden;
-            margin-right: 20px;
+            margin-right: 10px;
             font-size: 20px;
+            line-height: 22px;
             color: $hk-text-color;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
         .tag-box {
-            margin-right: 8px;
+            margin-right: 0px;
             .van-tag--plain {
                 overflow: hidden;
                 min-width: 45px;
-                max-width: 110px;
+                max-width: 100px;
                 padding: 4px 6px;
-                margin-right: 4px;
+                margin-right: 0px;
                 font-size: 10px;
                 text-align: center;
                 line-height: 18px;

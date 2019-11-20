@@ -10,7 +10,7 @@ export default new Router({
     },
     routes: [
         {
-            name: 'index',
+            name: '',
             path: '/',
             meta: { title: '债券' },
             component: () => import(`@/pages/bond/index/App.vue`),
@@ -86,7 +86,7 @@ export default new Router({
             ]
         },
         {
-            name: 'index',
+            name: '',
             path: '/hk',
             meta: { title: '债券' },
             component: () => import(`@/pages/bond/index/App-hk.vue`),

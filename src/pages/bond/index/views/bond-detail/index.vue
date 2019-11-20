@@ -63,7 +63,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bond-detail-wrapper {
-    background-color: transparent;
     padding: 10px 10px 96px;
     color: #393939;
     // 常见问题

@@ -8,8 +8,9 @@
 @import '~@/assets/styles/common.scss';
 @import '~@/assets/styles/vant-reset.scss';
 #app {
-    background-color: $background-bottom-color;
+    background-color: $text-color8;
     font-family: PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
 }
 * {
     user-select: none;
