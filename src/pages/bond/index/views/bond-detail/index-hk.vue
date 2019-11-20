@@ -3,7 +3,10 @@
         van-pull-refresh(
             v-model="isLoading"
             @refresh="onRefresh"
-            :success-text="$t('refreshSuccess')"
+            :pulling-text="$t('pullingText')"
+            :loosing-text="$t('loosingText')"
+            :loading-text="$t('loadingText')"
+            :success-text="$t('successText')"
         )
             detail-header(
                 :bondEditableInfo="bondEditableInfo"
@@ -65,7 +68,6 @@ export default {
             buy: '买入',
             sell: '卖出',
             bondFAQ: '债券常见问题',
-            refreshSuccess: '刷新成功',
             viewStocks: '查看股票'
         },
         zhCHT: {
@@ -77,7 +79,6 @@ export default {
             buy: '買入',
             sell: '賣出',
             bondFAQ: '債券常見問題',
-            refreshSuccess: '重繪成功',
             viewStocks: '查看股票'
         },
         en: {
@@ -89,7 +90,6 @@ export default {
             buy: 'Buy',
             sell: 'Sell',
             bondFAQ: 'Bond FAQ',
-            refreshSuccess: 'Refresh Success',
             viewStocks: 'View Stocks'
         }
     },

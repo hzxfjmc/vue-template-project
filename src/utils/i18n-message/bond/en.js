@@ -6,5 +6,9 @@ export const en = {
     风险提示: 'Risk Warning',
     风险测评: 'Risk Assessment',
     产品风险匹配: 'Product Matching',
-    测评结果: 'Assessment Result'
+    测评结果: 'Assessment Result',
+    pullingText: 'Drop down to refresh...',
+    loosingText: 'Release to refresh...',
+    loadingText: 'Loading...',
+    successText: 'Refresh success'
 }
