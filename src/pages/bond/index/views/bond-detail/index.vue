@@ -1,37 +1,35 @@
 <template lang="pug">
-    yx-container-better
+    .bond-detail-wrapper
         van-pull-refresh(
-            slot="main"
             v-model="isLoading"
             @refresh="onRefresh"
             success-text="刷新成功"
         )
-            .bond-detail-wrapper
-                detail-header(
-                    :bondEditableInfo="bondEditableInfo"
-                    :bondUneditableInfo="bondUneditableInfo",
-                    :currentPrice="currentPrice"
+            detail-header(
+                :bondEditableInfo="bondEditableInfo"
+                :bondUneditableInfo="bondUneditableInfo",
+                :currentPrice="currentPrice"
+            )
+            van-panel(title="购买流程")
+                purchasing-process(
+                    :bondUneditableInfo="bondUneditableInfo"
+                    :paymentInfo="paymentInfo"
                 )
-                van-panel(title="购买流程")
-                    purchasing-process(
-                        :bondUneditableInfo="bondUneditableInfo"
-                        :paymentInfo="paymentInfo"
-                    )
-                van-panel(title="债券价格" style="position:relative")
-                    BondPrice(:chartData="prices" :currentPrice="currentPrice")
-                van-panel(title="债券资料")
-                    BondInfo(
-                        :bondEditableInfo="bondEditableInfo"
-                        :bondUneditableInfo="bondUneditableInfo"
-                    )
-                van-panel(title="交易规则")
-                    TransactionRules
-                .faq
-                    a(
-                        @click="jumpFaq"
-                        title="债券常见问题"
-                    ) 债券常见问题1
-        .operate-btn-box(slot="bottom")
+            van-panel(title="债券价格" style="position:relative")
+                BondPrice(:chartData="prices" :currentPrice="currentPrice")
+            van-panel(title="债券资料")
+                BondInfo(
+                    :bondEditableInfo="bondEditableInfo"
+                    :bondUneditableInfo="bondUneditableInfo"
+                )
+            van-panel(title="交易规则")
+                TransactionRules
+            .faq
+                a(
+                    @click="jumpFaq"
+                    title="债券常见问题"
+                ) 债券常见问题
+        .operate-btn-box
             van-button(
                 type="info"
                 text="买入"
@@ -64,14 +62,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.yx-container {
-    background-color: transparent;
-    .yx-main {
-        height: auto;
-    }
-}
 .bond-detail-wrapper {
-    padding: 10px 10px 48px;
+    background-color: transparent;
+    padding: 10px 10px 96px;
     color: #393939;
     // 常见问题
     .faq {
@@ -86,6 +79,12 @@ export default {
 }
 // 买入卖出按钮
 .operate-btn-box {
+    position: fixed;
+    bottom: 0;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
+    left: 0;
+    right: 0;
     height: 48px;
     display: flex;
     .van-button {

@@ -1,44 +1,47 @@
 <template lang="pug">
-    yx-container-better
+    .bond-detail-wrapper
         van-pull-refresh(
-            slot="main"
             v-model="isLoading"
             @refresh="onRefresh"
-            success-text="刷新成功"
+            :success-text="$t('refreshSuccess')"
         )
-            .bond-detail-wrapper
-                detail-header(
-                    :bondEditableInfo="bondEditableInfo"
-                    :bondUneditableInfo="bondUneditableInfo",
-                    :currentPrice="currentPrice"
-                    :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
+            detail-header(
+                :bondEditableInfo="bondEditableInfo"
+                :bondUneditableInfo="bondUneditableInfo",
+                :currentPrice="currentPrice"
+                :bindStock="bindStock"
+                :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
+            )
+            van-panel(:title="$t('interest')")
+                purchasing-process(
+                    :bondUneditableInfo="bondUneditableInfo"
+                    :paymentInfo="paymentInfo"
                 )
-                van-panel(title="派息資料")
-                    purchasing-process(
-                        :bondUneditableInfo="bondUneditableInfo"
-                        :paymentInfo="paymentInfo"
-                    )
-                van-panel(title="債劵價格" desc="（每份）" style="position:relative")
-                    BondPrice(:chartData="prices" :currentPrice="currentPrice")
-                van-panel(title="債劵資料")
-                    BondInfo(
-                        :bondEditableInfo="bondEditableInfo"
-                        :bondUneditableInfo="bondUneditableInfo"
-                        :currentPrice="currentPrice"
-                    )
-                van-panel(title="交易規則")
-                    TransactionRules
-                .faq
-                    a(href="/webapp/market/generator.html?key=bond01" title="債劵常見問題") 債劵常見問題
-        .operate-btn-box(slot="bottom")
+            van-panel(:title="$t('bondPrice')" :desc="$t('perContract')" style="position:relative")
+                BondPrice(
+                    :chartData="prices"
+                    :currentPrice="currentPrice"
+                    :bondUneditableInfo="bondUneditableInfo"
+                )
+            van-panel(:title="$t('bondInformation')")
+                BondInfo(
+                    :bondEditableInfo="bondEditableInfo"
+                    :bondUneditableInfo="bondUneditableInfo"
+                    :currentPrice="currentPrice"
+                )
+            van-panel(:title="$t('tradingRules')")
+                TransactionRules
+            .faq
+                a(href="/webapp/market/generator.html?key=bond01" :title="$t('bondFAQ')") {{ $t('bondFAQ') }}
+        .operate-btn-box
             van-button(
                 type="info"
-                text="買入"
+                :text="$t('buy')"
                 @click="handleBuyOrSell('buy')"
             )
             van-button(
                 type="info"
-                text="賣出"
+                :text="$t('sell')"
                 @click="handleBuyOrSell('sell')"
             )
 
@@ -52,6 +55,44 @@ import TransactionRules from './hk/transaction-rules.vue'
 
 import bondDetailMixin from './mixins'
 export default {
+    i18n: {
+        zhCHS: {
+            interest: '派息资料',
+            bondPrice: '债券价格',
+            perContract: '（每份）',
+            bondInformation: '债券资料',
+            tradingRules: '交易規則',
+            buy: '买入',
+            sell: '卖出',
+            bondFAQ: '债券常见问题',
+            refreshSuccess: '刷新成功',
+            viewStocks: '查看股票'
+        },
+        zhCHT: {
+            interest: '派息資料',
+            bondPrice: '債券價格',
+            perContract: '（每份）',
+            bondInformation: '債券資料',
+            tradingRules: '交易規則',
+            buy: '買入',
+            sell: '賣出',
+            bondFAQ: '債券常見問題',
+            refreshSuccess: '重繪成功',
+            viewStocks: '查看股票'
+        },
+        en: {
+            interest: 'Interest',
+            bondPrice: 'Bond Price',
+            perContract: '（Per Contract）',
+            bondInformation: 'Bond Information',
+            tradingRules: 'Trading Rules',
+            buy: 'Buy',
+            sell: 'Sell',
+            bondFAQ: 'Bond FAQ',
+            refreshSuccess: 'Refresh Success',
+            viewStocks: 'View Stocks'
+        }
+    },
     mixins: [bondDetailMixin],
     components: {
         DetailHeader,
@@ -64,7 +105,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bond-detail-wrapper {
-    padding: 8px $hk-global-padding 48px;
+    padding: 8px $hk-global-padding 96px;
     color: #393939;
     // 常见问题
     .faq {
@@ -79,6 +120,12 @@ export default {
 }
 // 买入卖出按钮
 .operate-btn-box {
+    position: fixed;
+    bottom: 0;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
+    left: 0;
+    right: 0;
     display: flex;
     height: 48px;
     .van-button {
@@ -87,6 +134,7 @@ export default {
         justify-content: center;
         flex: 1;
         height: 100%;
+        margin: 0;
         border-color: transparent;
         background-color: $primary-color-line;
         color: #fff;

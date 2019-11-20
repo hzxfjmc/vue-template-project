@@ -4,6 +4,10 @@
             :title="headerTitle"
             :desc="headerDesc"
         )
+        .check-stock(
+            v-if="hasBindStock"
+            @click="jumpToStock"
+        ) {{ $t('viewStocks') }}
         col-msg.header-column(
             :col-data="colData"
             :wrapperStyle="wrapperStyle"
@@ -21,8 +25,43 @@
 </template>
 <script>
 import detailHeaderMixin from '../mixins/detail-header.js'
+import jsBridge from '@/utils/js-bridge'
+import { enumMarketName } from '@/utils/common/global-enum'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
+    i18n: {
+        zhCHS: {
+            yieldToMaturity: '到期年化收益率',
+            yieldToMaturityTips:
+                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
+                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參考要素。\n\n' +
+                '注：展示數值為已加入預估傭金、平臺使用費之後的到期收益率。',
+            refAmountContract: '参考认购金额/份',
+            annualInterestContract: '年税后派息/份',
+            viewStocks: '查看股票',
+            ok: '我知道了'
+        },
+        zhCHT: {
+            yieldToMaturity: '到期年化收益率',
+            yieldToMaturityTips:
+                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
+                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參考要素。\n\n' +
+                '注：展示數值為已加入預估佣金、平台使用費之後的到期收益率。',
+            refAmountContract: '參考認購金額/份',
+            annualInterestContract: '年稅後派息/份',
+            ok: '我知道了',
+            viewStocks: '查看股票'
+        },
+        en: {
+            yieldToMaturity: 'Yield-to-Maturity',
+            yieldToMaturityTips:
+                'Yield to Maturity is the estimated annual average rate of return investors can expect to set aside to make this bond investment at the current market price (or the target price you entered). It includes accrued interest and the processing fee.',
+            refAmountContract: 'Ref. Amount / Contract',
+            annualInterestContract: 'Annual Interest / Contract',
+            ok: 'OK',
+            viewStocks: 'View Stocks'
+        }
+    },
     mixins: [detailHeaderMixin],
     data() {
         return {
@@ -43,30 +82,32 @@ export default {
                 color: 'rgba(255, 255, 255, 0.6)',
                 'font-size': '0.24rem',
                 'line-height': '0.4rem'
-            }
+            },
+            hasBindStock: false
         }
     },
     props: {
         paymentAfterTaxPerYear: {
             type: String,
             default: ''
+        },
+        bindStock: {
+            type: Object,
+            default: () => {}
         }
     },
     computed: {
-        // 到期年化利率/參攷認購金額/年稅後派息
+        // 到期年化利率/參考認購金額/年稅後派息
         colData() {
             let obj = [
                 {
                     title: this.buyYtm,
-                    desc: '到期年化收益率',
+                    desc: this.$t('yieldToMaturity'),
                     click: () => {
                         this.$dialog.alert({
-                            message:
-                                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
-                                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參攷要素。\n\n' +
-                                '注：展示數值為已加入預估傭金、平臺使用費之後的到期收益率。',
+                            message: this.$t('yieldToMaturityTips'),
                             messageAlign: 'left',
-                            confirmButtonText: '我知道了'
+                            confirmButtonText: this.$t('ok')
                         })
                     },
                     class: 'icon-wenhao'
@@ -76,19 +117,19 @@ export default {
                         this.subscriptionAmount.toString(),
                         3
                     ),
-                    desc: '參攷認購金額/份'
+                    desc: this.$t('refAmountContract')
                 },
                 {
                     title: transNumToThousandMark(
                         this.solvePaymentAfterTaxPerYear.toString(),
                         3
                     ),
-                    desc: '年稅後派息/份'
+                    desc: this.$t('annualInterestContract')
                 }
             ]
             return obj
         },
-        // 參攷認購金額
+        // 參考認購金額
         subscriptionAmount() {
             return (
                 (this.minFaceValue * this.buyPrice &&
@@ -130,11 +171,34 @@ export default {
                 ''
             )
         }
+    },
+    methods: {
+        jumpToStock() {
+            jsBridge.gotoNativeModule(
+                `yxzq_goto://stock_quote?market=${
+                    enumMarketName[this.bindStock.stockMarket.type]
+                }&code=${this.bindStock.stockCode}`
+            )
+        }
+    },
+    watch: {
+        bindStock() {
+            if (
+                this.bindStock.stockCode &&
+                this.bindStock.stockMarket &&
+                this.bindStock.stockMarket.type
+            ) {
+                this.hasBindStock = true
+            } else {
+                this.hasBindStock = false
+            }
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .detail-header {
+    position: relative;
     background-color: rgba($color: #0055ff, $alpha: 0.6);
     border-radius: 10px;
     font-family: DINPro-Regular, DINPro;
@@ -144,6 +208,13 @@ export default {
         >>> .van-col {
             flex-grow: 0;
         }
+    }
+    .check-stock {
+        position: absolute;
+        top: 24px;
+        right: 10px;
+        color: #fff;
+        font-size: 16px;
     }
 }
 </style>
@@ -165,6 +236,9 @@ export default {
                 line-height: 20px;
             }
         }
+    }
+    .icon-wenhao {
+        color: #fff;
     }
 }
 .header-features {

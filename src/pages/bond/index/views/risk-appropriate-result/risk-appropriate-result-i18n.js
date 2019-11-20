@@ -9,7 +9,7 @@ export const i18nAppropriateData = {
         riskMeans: '什么是风险测评？',
         meansInfo:
             '为了给您提供更匹配的金融产品和服务，了解您的风险能力和偏好是非常必要的，通过风险测评可以了解您的风险承受能力和风险偏好。',
-        hadRead: '我已阅读并知晓债券/基金相关风险，我已阅读产品资料',
+        hadRead: '我已阅读并知晓债券相关风险。我已阅读产品资料',
         productOverview: '产品概览书',
         buyIt: '购买该产品',
         startRisk: '开始测评',
@@ -24,6 +24,7 @@ export const i18nAppropriateData = {
         toClose: '关闭',
         riskTypeList: {
             // 风险等级列表
+            '-1': '已过期',
             100: '--',
             0: '尚未风评',
             1: '保守型(A1)及以上可购买',
@@ -43,7 +44,7 @@ export const i18nAppropriateData = {
         riskMeans: '什麼是風險測評？',
         meansInfo:
             '為了給您提供更匹配的金融產品和服務，了解您的風險能力和偏好是非常必要的，通過風險測評可以了解您的風險承受能力和風險偏好。',
-        hadRead: '我已閱讀並知曉債券/基金相關風險，我已閱讀產品資料',
+        hadRead: '我已閱讀並認識債券相關風險。我已閱讀產品資料',
         productOverview: '產品概覽書',
         buyIt: '購買該產品',
         startRisk: '開始測評',
@@ -58,6 +59,7 @@ export const i18nAppropriateData = {
         toClose: '關閉',
         riskTypeList: {
             // 风险等级列表
+            '-1': '已過期',
             100: '--',
             0: '尚未進行風險評',
             1: '保守型(A1)及以上可購買',
@@ -78,7 +80,7 @@ export const i18nAppropriateData = {
         meansInfo:
             'order to provide you with more matching financial products and services, it is necessary to understand your risk ability and preference. Through risk assessment, you can understand your risk tolerance and risk preference.',
         hadRead:
-            'I have read and are aware of related risks of trading bonds / funds. I have read product information.',
+            'I have read and understood the risks of bonds trading and read the product information.',
         productOverview: 'Prospectus',
         buyIt: 'Buy this product',
         startRisk: 'Start The Assessment',
@@ -93,6 +95,7 @@ export const i18nAppropriateData = {
         toClose: 'Close',
         riskTypeList: {
             // 风险等级列表
+            '-1': 'Expired',
             100: '--',
             0: 'Risk assessment is not completed',
             1: 'Available for conservative (or more aggressive) investor',

@@ -6,6 +6,8 @@ export default {
     name: 'BondInfo',
     i18n: {
         zhCHS: {
+            bondOverview: '产品概览书',
+            prospectus: '募集说明书',
             issuerName: '债券发行人',
             couponRate: '票面利率',
             paymentDate: '付息日',
@@ -18,6 +20,8 @@ export default {
             issuerRankAgency: '发行人评级'
         },
         zhCHT: {
+            bondOverview: '產品概覽書',
+            prospectus: '募集說明書',
             issuerName: '債券發行人',
             couponRate: '票面利率',
             paymentDate: '付息日',
@@ -30,16 +34,18 @@ export default {
             issuerRankAgency: '發行人評級'
         },
         en: {
-            issuerName: '债券发行人',
-            couponRate: '票面利率',
-            paymentDate: '付息日',
-            issueTime: '首次付息日',
-            dueTime: '到期时间',
-            dueDay: '剩余期限',
-            paymentTypeName: '付息类型',
-            paymentFrequencyName: '付息频率',
-            creditRatingAgency: '债券评级',
-            issuerRankAgency: '发行人评级'
+            bondOverview: 'Bond Overview',
+            prospectus: 'Prospectus',
+            issuerName: 'Bond Issuer',
+            couponRate: 'Annual Coupon Rate',
+            paymentDate: 'Interest Payment Date',
+            issueTime: 'start Payment Date',
+            dueTime: 'Maturity Date',
+            dueDay: 'Time to Maturity',
+            paymentTypeName: 'Coupon Type',
+            paymentFrequencyName: 'Coupon Frequency',
+            creditRatingAgency: 'Credit Rating',
+            issuerRankAgency: 'Bond Issuer Rating'
         }
     },
     components: {
@@ -233,7 +239,7 @@ export default {
                 (this.bondEditableInfo &&
                     this.bondEditableInfo.issuer &&
                     this.bondEditableInfo.issuer.rankInfo &&
-                    `（${this.bondEditableInfo.issuer.rankInfo.agency}）`) ||
+                    `(${this.bondEditableInfo.issuer.rankInfo.agency})`) ||
                 ''
             )
         },
@@ -251,7 +257,7 @@ export default {
             return (
                 (this.bondEditableInfo &&
                     this.bondEditableInfo.creditRating &&
-                    `（${this.bondEditableInfo.creditRating.agency}）`) ||
+                    `(${this.bondEditableInfo.creditRating.agency})`) ||
                 ''
             )
         }

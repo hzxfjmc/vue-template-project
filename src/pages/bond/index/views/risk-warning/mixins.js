@@ -2,29 +2,54 @@ import { Panel, Checkbox } from 'vant'
 import YxContainerBetter from '@/components/yx-container-better'
 import { bondRiskAutograph, getCurrentUser } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
+// import { openBondFeePackage } from '@/service/finance-server'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage.js'
 export default {
     name: 'RiskWarning',
     i18n: {
         zhCHS: {
-            riskTipsTitle: '债劵购买风险提示',
-            riskTipsList: [
-                '1) 由於企業違約等XXXXXXX可能，債券可能違約，損失部分或全部本金和利息.XXXXXX',
-                '2) 債券市場流動性差，友信提供流動性XXXXXXXX，價格點差XXXX。友信盡力撮合訂單，但不保證訂單一定能夠成交。',
-                '3) 成交價格公司可能有損益。'
-            ]
-        },
-        zhCHT: {
-            riskTipsTitle: '債劵購買風險提示',
+            riskWarning: '债券购买风险提示',
             riskTipsList: [
                 '1）由于企业违约等XXXXXXX可能，债券可能违约，损失部分或全部本金和利息.XXXXXX',
                 '2）债券市场流动性差，友信提供流动性XXXXXXXX，价格点差XXXX。友信尽力撮合订单，但不保证订单一定能够成交。',
                 '3）成交价格公司可能有损益。'
-            ]
+            ],
+            signature: '确认签名',
+            pleaseEnter: '请输入签名: ',
+            bondRisk1: '我已阅读并知晓债券购买风险提示，及 ',
+            bondRisk2:
+                '中有关债券交易、场外交易、及在香港以外地方收取或持有的客户资产的相关条款及风险；本人电子签名代表对上述说明的同意，与本人手写签名具有相同的法律效力',
+            confirm: '确认'
+        },
+        zhCHT: {
+            riskWarning: '債券購買風險提示',
+            riskTipsList: [
+                '1）由于企业违约等XXXXXXX可能，债券可能违约，损失部分或全部本金和利息.XXXXXX',
+                '2）债券市场流动性差，友信提供流动性XXXXXXXX，价格点差XXXX。友信尽力撮合订单，但不保证订单一定能够成交。',
+                '3）成交价格公司可能有损益。'
+            ],
+            signature: '確認簽名',
+            pleaseEnter: '請輸入簽名: ',
+            bondRisk1: '我已閱讀並知曉債券購買風險提示，及 ',
+            bondRisk2:
+                '中有關債券交易、場外交易、及在香港以外地方收取或持有的客戶資產的相關條款及風險；本人電子簽名代表對上述說明的同意，與本人手寫簽名具有相同的法律效力',
+            confirm: '確認'
         },
         en: {
-            riskTipsTitle: '债劵购买风险提示'
+            riskWarning: 'Risk warning of trading bonds',
+            riskTipsList: [
+                '1）由于企业违约等XXXXXXX可能，债券可能违约，损失部分或全部本金和利息.XXXXXX',
+                '2）债券市场流动性差，友信提供流动性XXXXXXXX，价格点差XXXX。友信尽力撮合订单，但不保证订单一定能够成交。',
+                '3）成交价格公司可能有损益。'
+            ],
+            signature: 'Signature',
+            pleaseEnter: 'Please enter: ',
+            bondRisk1:
+                'I have read and are aware of related risks of trading bonds. I have read ',
+            bondRisk2:
+                '. My electronic signature, which has the same legal effect as my handwritten signature, indicate my consent to above content.',
+            confirm: 'Confirm'
         }
     },
     components: {
@@ -41,7 +66,7 @@ export default {
 
         // 拉取债券协议
         try {
-            let data = await selectProtocolInfo('BOND001')
+            let data = await selectProtocolInfo('AGR001')
             this.agreementData = data || {}
             console.log('selectProtocolInfo:data:>>> ', data)
         } catch (e) {
@@ -66,8 +91,9 @@ export default {
         // 签名占位符
         signNamePlaceholder() {
             return (
-                (this.userAutograph && `请输入签名: ${this.userAutograph}`) ||
-                '请输入签名:'
+                (this.userAutograph &&
+                    `${this.$t('pleaseEnter')}${this.userAutograph}`) ||
+                this.$t('pleaseEnter')
             )
         },
         submitBtnDisabled() {
@@ -90,14 +116,14 @@ export default {
                     autograph: this.signName,
                     bondId: this.id,
                     bondName: this.bondName,
-                    riskTips: `为了降低您的投资风险，请您完整阅读风险披露内容
-                                正文：CFD 是不适合各类投资者的复杂产品，因此您应该始终确保您了解您所购买的产品是如何运作的，它是否能够满足您的需求，您是否能在亏损时拥有头寸以承担损失。
-                                在做出交易决定之前，您应仔细阅读这些条款和产品说明。
-                                在交易 CFD 之前，您务必确信了解所涉及的风险。您是否能在亏损时拥有头寸以承担损失。
-                            `
+                    riskTips: this.$t('riskTipsList').join(',')
                 })
                 // 签名成功，本地设置标记，用与返回时候保留签名，刷新则清除
                 LS.put('signName', this.signName)
+
+                // 开通用户债券佣金套餐
+                // let openData = await openBondFeePackage()
+                // console.log('openBondFeePackage:data:>>> ', openData)
 
                 this.$router.push({
                     path: this.prev + '/risk-appropriate-result',
@@ -127,13 +153,19 @@ export default {
         },
         // 失焦事件
         handleBlur() {
+            // alert(1)
             // iOS中，输入法输入时，不切确选择某个词，输入框还保持选择状态
             // 这时候手指滑动界面，输入键盘回收，但是界面还处于上移状态
             // 初步调试，发现是 utils/common/index.js 最后的处理函数。在上面场景中 focus 事件
             // 先执行，导致 focusFlag 为 true，进而 延迟函数内部滚动逻辑不执行
             // 所以现在在当前页面进行处理
             setTimeout(() => {
+                // alert(3)
                 document.body.scrollTop = document.body.scrollHeight
+                // 兼容 iOS 输入框失焦后，整体不下移动bug
+                document.documentElement.scrollTop =
+                    document.documentElement.scrollHeight
+                // window.scrollTo(0, 1000)
             }, 300)
         }
     }

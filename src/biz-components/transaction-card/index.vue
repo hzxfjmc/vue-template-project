@@ -1,7 +1,6 @@
 <template lang="pug">
-    yx-container-better
+    .transaction-box
         van-pull-refresh(
-            slot="main"
             v-model="isLoading"
             @refresh="onRefresh"
             success-text="刷新成功"
@@ -23,9 +22,8 @@
                             integer
                             min="1"
                             max="9999999"
-                            @change="handleChange"
                         )
-                        .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currencyName }}/份)
+                        .yx-cell__primary-tip ({{ minFaceValue | thousand-spilt }}{{ currencyShortSymbol }}/份)
                 .yx-cell(style="padding:0.4rem 0.28rem 0.26rem")
                     .yx-cell__header 金额
                     .yx-cell__primary {{ tradeMoney | thousand-spilt }}
@@ -44,7 +42,7 @@
 
                 .yx-cell.total-trade-money
                     .yx-cell__header 总额
-                        .yx-cell__header-tip ({{ currencyName }})
+                        .yx-cell__header-tip ({{ currencyShortSymbol }})
                     .yx-cell__primary {{ totalTradeMoney | thousand-spilt }}
 
                 .tips
@@ -57,7 +55,6 @@
                     strong(v-if="direction === 2") {{ marketValue }}
         van-button(
             type="info"
-            slot="bottom"
             class="foot-button"
             :class="{ sell: btnText === '确认卖出' }"
             :text="btnText"
@@ -73,18 +70,18 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.yx-container {
-    overflow: hidden;
+.transaction-box {
+    height: 100%;
     padding-top: 10px;
-    background: transparent;
 }
 .van-pull-refresh {
     height: 100%;
 }
 .transaction-card {
     margin: 0 10px;
-    padding-bottom: 68px;
+    padding: 0 0 70px;
     background-color: #fff;
+    font-family: PingFangSC-Regular, PingFang SC;
     border-radius: 4px;
 }
 .transaction-header {
@@ -100,20 +97,20 @@ export default {
     padding: 0 14px;
     &.total-trade-money {
         .yx-cell__primary {
-            font-size: 0.44rem;
+            font-size: 22px;
             font-weight: bold;
             line-height: 28px;
         }
     }
     .yx-cell__header {
-        font-size: 0.28rem;
+        font-size: 14px;
         line-height: 20px;
         color: $text-color5;
     }
     .yx-cell__header-tip {
         display: inline-block;
         margin-left: 4px;
-        font-size: 0.24rem;
+        font-size: 12px;
         line-height: 17px;
         color: $text-color6;
     }
@@ -121,13 +118,13 @@ export default {
         flex: 1;
         text-align: right;
         color: $text-color;
-        font-size: 0.36rem;
+        font-size: 18px;
         line-height: 23px;
     }
     .yx-cell__primary-tip {
         margin-top: 6px;
         color: $text-color3;
-        font-size: 0.2rem;
+        font-size: 10px;
         line-height: 14px;
     }
 }
@@ -140,7 +137,7 @@ export default {
     margin-top: 6px;
     padding-right: 15px;
     color: $text-color5;
-    font-size: 0.24rem;
+    font-size: 12px;
     line-height: 18px;
     text-align: right;
     i {
@@ -153,9 +150,17 @@ export default {
         font-weight: normal;
     }
 }
-.foot-button.sell {
-    background: #ffbf32;
-    border-color: #ffbf32;
+.foot-button {
+    position: fixed;
+    bottom: constant(safe-area-inset-bottom);
+    bottom: env(safe-area-inset-bottom);
+    left: 0;
+    right: 0;
+    height: 48px;
+    &.sell {
+        background: #ffbf32;
+        border-color: #ffbf32;
+    }
 }
 </style>
 <style lang="scss">
@@ -192,7 +197,7 @@ export default {
             padding: 0 4px;
             background-color: #fff;
             color: $text-color;
-            font-size: 0.36rem;
+            font-size: 18px;
             box-sizing: border-box;
         }
     }

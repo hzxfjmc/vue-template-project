@@ -88,7 +88,7 @@ export default new Router({
         {
             name: 'index',
             path: '/hk',
-            meta: { title: '債券' },
+            meta: { title: '债券' },
             component: () => import(`@/pages/bond/index/App-hk.vue`),
             children: [...hkRouter]
         }

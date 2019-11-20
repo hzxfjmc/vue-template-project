@@ -1,6 +1,6 @@
 import YxContainerBetter from '@/components/yx-container-better'
 import { getBondDetail } from '@/service/finance-info-server.js'
-import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
+import { getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
 import { Panel, PullRefresh } from 'vant'
 import { mapState, mapGetters } from 'vuex'
@@ -80,7 +80,6 @@ export default {
                     bondEditableInfo,
                     bondUneditableInfo,
                     currentPrice,
-                    paymentAfterTaxPerYear,
                     paymentInfo,
                     prices
                 } = await getBondDetail(this.id)
@@ -88,8 +87,9 @@ export default {
                 this.bondEditableInfo = bondEditableInfo || {}
                 this.bondUneditableInfo = bondUneditableInfo || {}
                 this.currentPrice = currentPrice || {}
-                this.paymentAfterTaxPerYear = paymentAfterTaxPerYear || ''
                 this.paymentInfo = paymentInfo || {}
+                this.paymentAfterTaxPerYear =
+                    this.paymentInfo.paymentAfterTaxPerYear || ''
                 this.prices = prices || []
                 this.bondName =
                     (this.bondEditableInfo.issuer &&
@@ -163,26 +163,6 @@ export default {
                 })
                 return
             }
-            try {
-                let { validTime } = await riskAssessResult()
-                validTime = validTime && validTime.replace(/-/g, '/')
-                if (new Date().getTime() > new Date(validTime).getTime()) {
-                    await this.$confirm({
-                        title: '提示',
-                        message:
-                            '您的风险测评已过期，如果要继续操作，请先去测评！'
-                    })
-                    this.$router.push({
-                        path: prev + '/risk-assessment',
-                        query: {
-                            id: this.id
-                        }
-                    })
-                }
-                console.log('riskAssessResult :', validTime)
-            } catch (e) {
-                console.log('riskAssessResult>>>error :', e)
-            }
 
             this.$router.push({
                 path,
@@ -217,11 +197,12 @@ export default {
                 this.bindStock.stockMarket.type
             ) {
                 try {
+                    if (this.appType.Hk) return
                     jsBridge.callApp('command_set_titlebar_button', {
                         position: 2, //position取值1、2
                         clickCallback: 'goToStockDetails',
                         type: 'text', //text、icon、custom_icon、hide
-                        text: '查看股票' //自定义
+                        text: this.$t('viewStocks') //自定义
                     })
                     window.goToStockDetails = () => {
                         jsBridge.gotoNativeModule(

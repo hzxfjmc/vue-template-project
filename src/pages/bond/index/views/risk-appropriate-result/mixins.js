@@ -102,9 +102,10 @@ export default {
         // 拉取风险测评结果
         async handleRiskAssessResult() {
             try {
-                let res = await riskAssessResult()
+                let res = (await riskAssessResult()) || {}
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
-                this.assessResultName = res.assessResultName || '尚未风评'
+                this.assessResultName =
+                    res.assessResultName || this.$t('riskTypeList')[0]
                 this.number = res.validCount
                 // this.number = 1
                 this.resetTime = res.resetTime
@@ -114,7 +115,7 @@ export default {
                 this.damagedStatus = res.damagedStatus
                 if (new Date().getTime() > new Date(this.validTime).getTime()) {
                     this.userRiskLevel = '-1'
-                    this.assessResultName = '已过期'
+                    this.assessResultName = this.$t('riskTypeList')['-1']
                 }
                 console.log(this.damagedStatus, 'this.damagedStatus')
             } catch (e) {
