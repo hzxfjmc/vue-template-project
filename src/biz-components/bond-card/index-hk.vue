@@ -33,7 +33,7 @@ export default {
         },
         zhCHT: {
             yieldToMaturity: '到期年化收益率',
-            refAmountContract: '參攷認購金額/份',
+            refAmountContract: '參考認購金額/份',
             annualInterestContract: '年稅後派息/份'
         },
         en: {
@@ -44,7 +44,7 @@ export default {
     },
     mixins: [mixin],
     computed: {
-        // 參攷認購金額
+        // 參考認購金額
         subscriptionAmount() {
             return (
                 (this.minFaceValue * this.buyPrice &&

@@ -34,7 +34,7 @@ export default {
             yieldToMaturity: '到期年化收益率',
             yieldToMaturityTips:
                 '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
-                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參攷要素。\n\n' +
+                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參考要素。\n\n' +
                 '注：展示數值為已加入預估傭金、平臺使用費之後的到期收益率。',
             refAmountContract: '参考认购金额/份',
             annualInterestContract: '年税后派息/份',
@@ -47,7 +47,7 @@ export default {
                 '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
                 '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參考要素。\n\n' +
                 '注：展示數值為已加入預估佣金、平台使用費之後的到期收益率。',
-            refAmountContract: '參攷認購金額/份',
+            refAmountContract: '參考認購金額/份',
             annualInterestContract: '年稅後派息/份',
             ok: '我知道了',
             viewStocks: '查看股票'
@@ -97,7 +97,7 @@ export default {
         }
     },
     computed: {
-        // 到期年化利率/參攷認購金額/年稅後派息
+        // 到期年化利率/參考認購金額/年稅後派息
         colData() {
             let obj = [
                 {
@@ -129,7 +129,7 @@ export default {
             ]
             return obj
         },
-        // 參攷認購金額
+        // 參考認購金額
         subscriptionAmount() {
             return (
                 (this.minFaceValue * this.buyPrice &&
