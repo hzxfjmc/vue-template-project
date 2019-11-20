@@ -25,10 +25,16 @@ export default {
             contract: '份数',
             amountMoney: '金额',
             payableInterest: '应付利息',
+            interestDesc:
+                '应计利息是债券自上一次付息后至债券交收时之间的累计未付利息，由买方向卖方支付，即对于买方是“应付”，对于卖方是“应得”\n\n。' +
+                '对于卖方，多持有的这段时间的利息，会在交易时得到补偿，即应计利息。\n\n' +
+                '对于买方，应计利息并不会额外增加成本，会在付息日或卖出时得到补偿。',
             accruedInterest: '应得利息',
             serviceCharge: '手续费(预估)',
             totalMoney: '总额',
             availableMoney: '债券可用资金',
+            availableMoneyDesc:
+                '可以用于购买债券的资金，等于您资产中的“可取现金”',
             positionsCanBeSold: '持仓可卖 ',
             submitSuccess: '提交成功',
             submitFail: '提交失败',
@@ -44,10 +50,16 @@ export default {
             contract: '份数',
             amountMoney: '金額',
             payableInterest: '應付利息',
+            interestDesc:
+                '應計利率為債券自上一次付息後至債券交收時之間的過渡未付利息，由買方向支付支付，即對於指明是“應對”，對於可以是“應得”。\n\n' +
+                '對於預算，多持有人的這段時間的利息，會在交易時得到補償，即應計利息。\n\n' +
+                '對於某些，應計利息並不會額外增加成本，會在付息日或賣出時得到補償。',
             accruedInterest: '應得利息',
             serviceCharge: '手續費（預估）',
             totalMoney: '總額',
             availableMoney: '債券可用資金',
+            availableMoneyDesc:
+                '可以用作購買債券的資金，等於您資產中的“可取現金”',
             positionsCanBeSold: '持倉可賣 ',
             submitSuccess: '提交成功',
             submitFail: '提交失敗',
@@ -63,10 +75,15 @@ export default {
             contract: 'contract',
             amountMoney: 'Amount',
             payableInterest: 'Indicative Accrued Interest',
+            interestDesc:
+                'Accrued interest is the amount of interest earned on a debt, such as a bond, but not yet collected.\n\n' +
+                'When buying bonds in the secondary market, the buyer will have to pay accrued interest to the seller as part of the total purchase price.',
             accruedInterest: 'Indicative Accrued Interest',
             serviceCharge: 'Fee',
             totalMoney: 'Total Amount',
             availableMoney: 'Available Amount',
+            availableMoneyDesc:
+                'You can use your withdrawable cash to buy bond',
             positionsCanBeSold: 'Position ',
             submitSuccess: 'Submitted Successfully',
             submitFail: 'Submitted Failed',
@@ -528,13 +545,10 @@ export default {
             let tipText = ''
             if (tipsType === 'interest') {
                 // 应付利息/应得利息提示弹窗
-                tipText =
-                    '应计利息是债券自上一次付息后至债券交收时之间的累计未付利息，由买方向卖方支付，即对于买方是“应付”，对于卖方是“应得”。\n\n' +
-                    '对于卖方，多持有的这段时间的利息，会在交易时得到补偿，即应计利息。\n\n' +
-                    '对于买方，应计利息并不会额外增加成本，会在付息日或卖出时得到补偿。'
+                tipText = this.$t('interestDesc')
             } else {
                 // 可用资金提示弹窗
-                tipText = '可以用于购买债券的资金，等于您资产中的“可取现金”'
+                tipText = this.$t('availableMoneyDesc')
             }
             this.$dialog.alert({
                 message: tipText,

@@ -20,13 +20,13 @@ export default {
         zhCHT: {
             tradingTime: '交易時間',
             tradingTimeTips:
-                '同美股，北京时間21:30-4:00（夏令時）或22:30-5:00（冬令時）',
+                '交易時間：同美股，北京時間21：30-4：00（夏令時間）或22：30-5：00（冬令時間）',
             charges: '交易費用'
         },
         en: {
             tradingTime: 'Trading Time',
             tradingTimeTips:
-                '同美股，北京时间21:30-4:00(夏令时)或22:30-5:00(冬令时)',
+                'Trading Hours: Same as US stock market, Beijing time 21:30-4:00 (DST) or 22:30-5:00 (GMT)',
             charges: 'Charges'
         }
     },
