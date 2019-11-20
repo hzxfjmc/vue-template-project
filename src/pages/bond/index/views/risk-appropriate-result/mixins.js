@@ -3,7 +3,9 @@ import { handleSelectProtocolInfo } from '@/pages/bond/index/tools'
 import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
+import { feePackageCurr } from '@/service/product-server.js'
 import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
+import { openBondFeePackage } from '@/service/finance-server'
 import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
@@ -40,6 +42,7 @@ export default {
                 5: '进取型(A5)',
                 '-1': '已过期'
             },
+            feeData: [], // 套餐费用
             isShowPage: false,
             userInfo: '',
             fundCode: '',
@@ -81,7 +84,8 @@ export default {
         async handleSetupResult() {
             await Promise.all([
                 this.handleGetBondDetail(),
-                this.handleRiskAssessResult()
+                this.handleRiskAssessResult(),
+                this.handleFeePackageCurr()
             ])
             if (this.userRiskLevel === 0 || this.userRiskLevel === '-1') {
                 // 尚未风评 或者 已过期
@@ -98,6 +102,23 @@ export default {
                 // this.btnText = this.$t('sure')
             }
             this.isShowPage = true
+        },
+        // 获取套餐费用
+        async handleFeePackageCurr() {
+            try {
+                let feeData = await feePackageCurr({
+                    stockBusinessType: 6,
+                    userId: this.$store.state.user.userId - 0
+                })
+                console.log('feePackageCurr:data:>>> ', feeData)
+                // 当前为手机委托，过滤除手机委托外的其他套餐数据
+                this.feeData =
+                    (feeData &&
+                        feeData.filter(feeItem => feeItem.entrustType === 2)) ||
+                    {}
+            } catch (error) {
+                console.log('feePackageCurr:error:>>> ', error)
+            }
         },
         // 拉取风险测评结果
         async handleRiskAssessResult() {
@@ -148,34 +169,65 @@ export default {
             }
         },
         // 操作按钮
-        handleAction() {
+        async handleAction() {
             if (this.isDisabled) return
-            if (this.userRiskLevel === 0) {
-                // 尚未风评，跳转到风险测评
-                this.$router.push({
-                    path: this.prev + '/risk-assessment',
-                    query: {
-                        id: this.$route.query.id,
-                        direction: this.$route.query.direction
+            this.$loading()
+            try {
+                if (this.userRiskLevel === 0) {
+                    // 尚未风评，跳转到风险测评
+                    this.$router.push({
+                        path: this.prev + '/risk-assessment',
+                        query: {
+                            id: this.$route.query.id,
+                            direction: this.$route.query.direction
+                        }
+                    })
+                } else if (this.userRiskLevel < this.bondRiskLevel) {
+                    // 风险等级不够 弹出剩余次数提示
+                    this.showRemainingNum = true
+                } else {
+                    let direction =
+                        (this.$route.query.direction &&
+                            this.$route.query.direction) ||
+                        1
+                    let path =
+                        direction == 2
+                            ? '/transaction-sell'
+                            : '/transaction-buy'
+
+                    // 如果用户已经拥有套餐，直接跳转
+                    if (this.feeData.length !== 0) {
+                        this.$router.push({
+                            path: `${this.prev}${path}`,
+                            query: {
+                                id: this.$route.query.id
+                            }
+                        })
+                        return
                     }
-                })
-            } else if (this.userRiskLevel < this.bondRiskLevel) {
-                // 风险等级不够 弹出剩余次数提示
-                this.showRemainingNum = true
-            } else {
-                // 风评级别够了，可以购买，跳转到下单界面
-                let direction =
-                    (this.$route.query.direction &&
-                        this.$route.query.direction) ||
-                    1
-                let path =
-                    direction == 2 ? '/transaction-sell' : '/transaction-buy'
-                this.$router.push({
-                    path: `${this.prev}${path}`,
-                    query: {
-                        id: this.$route.query.id
-                    }
-                })
+
+                    // 开通用户债券佣金套餐
+                    let openData = await openBondFeePackage()
+                    console.log('openBondFeePackage:data:>>> ', openData)
+
+                    if (!openData) return
+
+                    // 风评级别够了，可以购买，跳转到下单界面
+
+                    this.$router.push({
+                        path: `${this.prev}${path}`,
+                        query: {
+                            id: this.$route.query.id
+                        }
+                    })
+                }
+            } catch (e) {
+                if (e.msg) {
+                    this.$toast(e.msg)
+                }
+                console.log('openBondFeePackage:error:>>> ', e)
+            } finally {
+                this.$close()
             }
         },
         // 开始测评或拨打客服电话
