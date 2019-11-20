@@ -65,7 +65,8 @@ export default {
             buy: '买入',
             sell: '卖出',
             bondFAQ: '债券常见问题',
-            refreshSuccess: '刷新成功'
+            refreshSuccess: '刷新成功',
+            viewStocks: '查看股票'
         },
         zhCHT: {
             interest: '派息資料',
@@ -76,7 +77,8 @@ export default {
             buy: '買入',
             sell: '賣出',
             bondFAQ: '債券常見問題',
-            refreshSuccess: '重繪成功'
+            refreshSuccess: '重繪成功',
+            viewStocks: '查看股票'
         },
         en: {
             interest: 'Interest',
@@ -87,7 +89,8 @@ export default {
             buy: 'Buy',
             sell: 'Sell',
             bondFAQ: 'Bond FAQ',
-            refreshSuccess: 'Refresh Success'
+            refreshSuccess: 'Refresh Success',
+            viewStocks: 'View Stocks'
         }
     },
     mixins: [bondDetailMixin],

@@ -7,7 +7,7 @@
         .check-stock(
             v-if="hasBindStock"
             @click="jumpToStock"
-        ) 查看股票
+        ) {{ $t('viewStocks') }}
         col-msg.header-column(
             :col-data="colData"
             :wrapperStyle="wrapperStyle"
@@ -38,6 +38,7 @@ export default {
                 '注：展示數值為已加入預估傭金、平臺使用費之後的到期收益率。',
             refAmountContract: '参考认购金额/份',
             annualInterestContract: '年税后派息/份',
+            viewStocks: '查看股票',
             ok: '我知道了'
         },
         zhCHT: {
@@ -48,7 +49,8 @@ export default {
                 '注：展示數值為已加入預估佣金、平台使用費之後的到期收益率。',
             refAmountContract: '參攷認購金額/份',
             annualInterestContract: '年稅後派息/份',
-            ok: '我知道了'
+            ok: '我知道了',
+            viewStocks: '查看股票'
         },
         en: {
             yieldToMaturity: 'Yield-to-Maturity',
@@ -56,7 +58,8 @@ export default {
                 'Yield to Maturity is the estimated annual average rate of return investors can expect to set aside to make this bond investment at the current market price (or the target price you entered). It includes accrued interest and the processing fee.',
             refAmountContract: 'Ref. Amount / Contract',
             annualInterestContract: 'Annual Interest / Contract',
-            ok: 'OK'
+            ok: 'OK',
+            viewStocks: 'View Stocks'
         }
     },
     mixins: [detailHeaderMixin],
