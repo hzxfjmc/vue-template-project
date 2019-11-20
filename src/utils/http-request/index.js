@@ -65,10 +65,10 @@ export default class baseRequest {
                     devInfo: headerInfo['X-Dev-Info'],
                     netType: headerInfo['X-Net-Type']
                 })
-                console.log('xTokenData:', xTokenData)
+                // console.log('xTokenData:', xTokenData)
                 headerInfo['X-Token'] = xTokenData.xToken
             }
-            console.log('headerInfo:', headerInfo)
+            // console.log('headerInfo:', headerInfo)
             // 手动设置语言
             if (langInfo.langType) {
                 headerInfo['X-Lang'] = langInfo.langType

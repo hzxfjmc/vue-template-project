@@ -104,3 +104,8 @@ export const getFundPositionList = params => {
 export const getFundPositionV2 = params => {
     return axios.post(`/finance-server/api/get-fund-position/v2`, params)
 }
+
+//获取当前客户单个基金持仓V2
+export const openBondFeePackage = params => {
+    return axios.post(`/finance-server/api/open-bond-fee-package/v1`, params)
+}
