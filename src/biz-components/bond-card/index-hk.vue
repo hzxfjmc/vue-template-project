@@ -8,7 +8,7 @@
                     :key="index"
                     color="#2177FF"
                     plain
-                ) {{ tagItem }}
+                ) {{ tagItem && tagItem.slice(0, 8) }}
         .bond-card__content
             div
                 .text(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
@@ -118,9 +118,9 @@ export default {
             .van-tag--plain {
                 overflow: hidden;
                 min-width: 45px;
-                max-width: 115px;
-                padding: 4px 7px;
-                margin-right: 5px;
+                max-width: 110px;
+                padding: 4px 6px;
+                margin-right: 4px;
                 font-size: 10px;
                 text-align: center;
                 line-height: 18px;
