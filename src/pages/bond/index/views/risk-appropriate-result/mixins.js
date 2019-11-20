@@ -5,7 +5,7 @@ import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import { feePackageCurr } from '@/service/product-server.js'
 import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
-import { openBondFeePackage } from '@/service/finance-server'
+// import { openBondFeePackage } from '@/service/finance-server'
 import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
@@ -196,21 +196,21 @@ export default {
                             : '/transaction-buy'
 
                     // 如果用户已经拥有套餐，直接跳转
-                    if (this.feeData.length !== 0) {
-                        this.$router.push({
-                            path: `${this.prev}${path}`,
-                            query: {
-                                id: this.$route.query.id
-                            }
-                        })
-                        return
-                    }
+                    // if (this.feeData.length !== 0) {
+                    //     this.$router.push({
+                    //         path: `${this.prev}${path}`,
+                    //         query: {
+                    //             id: this.$route.query.id
+                    //         }
+                    //     })
+                    //     return
+                    // }
 
                     // 开通用户债券佣金套餐
-                    let openData = await openBondFeePackage()
-                    console.log('openBondFeePackage:data:>>> ', openData)
+                    // let openData = await openBondFeePackage()
+                    // console.log('openBondFeePackage:data:>>> ', openData)
 
-                    if (!openData) return
+                    // if (!openData) return
 
                     // 风评级别够了，可以购买，跳转到下单界面
 
