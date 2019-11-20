@@ -36,9 +36,9 @@ export function calculateAmount(feeVO, marketValue) {
     // 费用金额 > 交易金额 * 最高比例，取交易金额 * 最高比例
     if (
         feeVO.maxFeePercent &&
-        feeVO.feeAmount - marketValue * feeVO.maxFeePercent > 0
+        feeVO.feeAmount - (marketValue * feeVO.maxFeePercent) / 100 > 0
     ) {
-        return marketValue * feeVO.maxFeePercent
+        return (marketValue * feeVO.maxFeePercent) / 100
     }
     return feeVO.feeAmount
 }
