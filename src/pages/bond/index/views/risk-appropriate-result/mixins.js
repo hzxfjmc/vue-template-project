@@ -102,7 +102,7 @@ export default {
         // 拉取风险测评结果
         async handleRiskAssessResult() {
             try {
-                let res = await riskAssessResult()
+                let res = (await riskAssessResult()) || {}
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName =
                     res.assessResultName || this.$t('riskTypeList')[0]
