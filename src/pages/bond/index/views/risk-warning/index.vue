@@ -21,9 +21,9 @@
                         :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                     )
                 .text
-                    span 我已阅读并知晓债券相关风险。本人已阅读
+                    span 我已阅读并知晓债券购买风险提示，及
                     a(:href="agreementData && agreementData.protocolUrl") 《{{ agreementData && agreementData.protocolName }}》
-                    span ；本人电子签名代表对上述说明的同意，与本人手写签名具有相同的法律效力
+                    span 中有关债券交易、场外交易、及在香港以外地方收取或持有的客户资产的相关条款及风险；本人电子签名代表对上述说明的同意，与本人手写签名具有相同的法律效力
         van-button(
             type="info"
             slot="bottom"

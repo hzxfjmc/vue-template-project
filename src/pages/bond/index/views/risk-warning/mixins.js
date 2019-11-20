@@ -2,6 +2,7 @@ import { Panel, Checkbox } from 'vant'
 import YxContainerBetter from '@/components/yx-container-better'
 import { bondRiskAutograph, getCurrentUser } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
+// import { openBondFeePackage } from '@/service/finance-server'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage.js'
 export default {
@@ -16,9 +17,9 @@ export default {
             ],
             signature: '确认签名',
             pleaseEnter: '请输入签名: ',
-            bondRisk1: '我已阅读并知晓债券相关风险。本人已阅读 ',
+            bondRisk1: '我已阅读并知晓债券购买风险提示，及 ',
             bondRisk2:
-                '；本人电子签名代表对上述说明的同意，与本人手写签名具有相同的法律效力',
+                '中有关债券交易、场外交易、及在香港以外地方收取或持有的客户资产的相关条款及风险；本人电子签名代表对上述说明的同意，与本人手写签名具有相同的法律效力',
             confirm: '确认'
         },
         zhCHT: {
@@ -30,9 +31,9 @@ export default {
             ],
             signature: '確認簽名',
             pleaseEnter: '請輸入簽名: ',
-            bondRisk1: '我已閱讀並知曉債券相關風險。本人已閱讀 ',
+            bondRisk1: '我已閱讀並知曉債券購買風險提示，及 ',
             bondRisk2:
-                '；本人電子簽名代表對上述說明的同意，與本人手寫簽名具有相同的法律效力',
+                '中有關債券交易、場外交易、及在香港以外地方收取或持有的客戶資產的相關條款及風險；本人電子簽名代表對上述說明的同意，與本人手寫簽名具有相同的法律效力',
             confirm: '確認'
         },
         en: {
@@ -65,7 +66,7 @@ export default {
 
         // 拉取债券协议
         try {
-            let data = await selectProtocolInfo('BOND001')
+            let data = await selectProtocolInfo('AGR001')
             this.agreementData = data || {}
             console.log('selectProtocolInfo:data:>>> ', data)
         } catch (e) {
@@ -119,6 +120,10 @@ export default {
                 })
                 // 签名成功，本地设置标记，用与返回时候保留签名，刷新则清除
                 LS.put('signName', this.signName)
+
+                // 开通用户债券佣金套餐
+                // let openData = await openBondFeePackage()
+                // console.log('openBondFeePackage:data:>>> ', openData)
 
                 this.$router.push({
                     path: this.prev + '/risk-appropriate-result',
