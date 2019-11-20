@@ -20,9 +20,10 @@ export default {
             buyPrice: '买入价格',
             sellPrice: '卖出价格',
             bondValue: '此债券面值为',
+            USD: '美元',
             tradingAmount: '买卖金额为',
-            bondPrice: '买卖价',
-            contract: '份数',
+            bondPrice: '*买卖价',
+            contract: '/份数',
             amountMoney: '金额',
             payableInterest: '应付利息',
             interestDesc:
@@ -45,9 +46,10 @@ export default {
             buyPrice: '買入價格',
             sellPrice: '賣出價格',
             bondValue: '此債券面值為',
+            USD: '美元',
             tradingAmount: '買賣金額為',
-            bondPrice: '買賣價',
-            contract: '份数',
+            bondPrice: '*買賣價',
+            contract: '/份数',
             amountMoney: '金額',
             payableInterest: '應付利息',
             interestDesc:
@@ -70,9 +72,10 @@ export default {
             buyPrice: 'Bought',
             sellPrice: 'Sold',
             bondValue: 'Nominal value of this bond is ',
+            USD: ' USD',
             tradingAmount: 'trading amount is ',
-            bondPrice: 'bond price',
-            contract: 'contract',
+            bondPrice: ' * bond price',
+            contract: '',
             amountMoney: 'Amount',
             payableInterest: 'Indicative Accrued Interest',
             interestDesc:
@@ -192,6 +195,9 @@ export default {
                     this.bondUneditableInfo.enumCurrency.shortSymbol) ||
                 ''
             )
+        },
+        i18nCurrencyName() {
+            return this.$t(this.currencyName)
         },
         // 货币单位 USD
         currencyName() {

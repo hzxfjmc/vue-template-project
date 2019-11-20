@@ -7,27 +7,30 @@ export default {
     i18n: {
         zhCHS: {
             bondValue: '此债券面值为',
+            USD: '美元',
             tradingAmount: '买卖金额为',
-            bondPrice: '买卖价',
-            contract: '份',
+            bondPrice: '*买卖价',
+            contract: '/份',
             buyPrice: '买入价',
             sellPrice: '卖出价',
             yieldToMaturity: '到期年化收益率'
         },
         zhCHT: {
             bondValue: '此債券面值為',
+            USD: '美元',
             tradingAmount: '買賣金額為',
-            bondPrice: '買賣價',
-            contract: '份',
+            bondPrice: '*買賣價',
+            contract: '/份',
             buyPrice: '買入價',
             sellPrice: '賣出價',
             yieldToMaturity: '到期年化收益率'
         },
         en: {
             bondValue: 'Nominal value of this bond is ',
+            USD: ' USD',
             tradingAmount: 'trading amount is ',
-            bondPrice: 'bond price',
-            contract: ' contract',
+            bondPrice: ' * bond price',
+            contract: '',
             buyPrice: 'Bid Price',
             sellPrice: 'Ask Price',
             yieldToMaturity: 'Yield-to-Maturity'

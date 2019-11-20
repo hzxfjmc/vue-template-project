@@ -8,13 +8,13 @@
             van-step
                 <h3>{{ paymentDate }}{{ $t('interestPaymentDate') }}</h3>
                 <p>・{{ $t('receiveInterest') }}</p>
-                <p>・{{ $t('remainingInterest1') }}{{ paymentTime }}{{ $t('time') }}，{{ $t('remainingInterest2') }} {{ currencyName }} {{ paymentAfterTaxPerTime | thousand-spilt }} /{{ $t('process_contract') }}</p>
-                <p>・{{ $t('totalRemainingInterest') }}: {{ currencyName }} {{ totalPayment | thousand-spilt }} /{{ $t('process_contract') }}</p>
+                <p>・{{ $t('remainingInterest1') }}{{ paymentTime }}{{ $t('time') }}，{{ $t('remainingInterest2') }} {{ paymentAfterTaxPerTime | thousand-spilt }}{{ i18nCurrencyName }} /{{ $t('process_contract') }}</p>
+                <p>・{{ $t('totalRemainingInterest') }}: {{ totalPayment | thousand-spilt }}{{ i18nCurrencyName }}/{{ $t('process_contract') }}</p>
             van-step
                 <h3>{{ $t('maturity') }}</h3>
                 <p>・{{ dueTime | date-format('YYYY.MM.DD') }}</p>
                 <p>・{{ $t('receiveLastInterest') }}</p>
-                <p>・{{ $t('receiveNominalValue') }}: {{ currencyName }} {{ minFaceValue | thousand-spilt }} /{{ $t('process_contract') }}</p>
+                <p>・{{ $t('receiveNominalValue') }}: {{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}/{{ $t('process_contract') }}</p>
 </template>
 <script>
 import purchasingProcessMixin from '../mixins/purchasing-process.js'
@@ -29,11 +29,12 @@ export default {
             remainingInterest1: '到期前剩余派息次数为',
             remainingInterest2: '每次派息为: ',
             time: '次',
+            USD: '美元',
             totalRemainingInterest: '到期前总派息为',
             maturity: '到期退出',
             receiveLastInterest: '派发最后一期利息',
             receiveNominalValue: '返还票面值',
-            process_contract: ' 份'
+            process_contract: '份'
         },
         zhCHT: {
             purchased: '成功買入',
@@ -43,11 +44,12 @@ export default {
             remainingInterest1: '到期前剩餘派息次數為',
             remainingInterest2: '每次派息為: ',
             time: '次',
+            USD: '美元',
             totalRemainingInterest: '到期前總派息為',
             maturity: '到期退出',
             receiveLastInterest: '派發最後一期利息',
             receiveNominalValue: '返還票面值',
-            process_contract: ' 份'
+            process_contract: '份'
         },
         en: {
             purchased: 'Purchased',
@@ -58,6 +60,7 @@ export default {
             remainingInterest1: 'Remaining Interest ',
             remainingInterest2: '',
             time: ' time',
+            USD: 'USD',
             totalRemainingInterest: 'Total Remaining Interest',
             maturity: 'Maturity',
             receiveLastInterest: 'Receive the last round of interest',
@@ -106,7 +109,10 @@ export default {
                 '--'
             )
         },
-        // 货币单位
+        i18nCurrencyName() {
+            return this.$t(this.currencyName)
+        },
+        // 货币单位 USD
         currencyName() {
             return (
                 (this.bondUneditableInfo &&

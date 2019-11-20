@@ -16,20 +16,20 @@
                     span {{ direction === 1 ? $t('buyPrice') : $t('sellPrice') }}
                 template(slot="default")
                     span {{ buyOrSellPrice }}
-                    i {{ currencyName }}
+                    i {{ i18nCurrencyName }}
 
             //- 交易数量
             van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
                 template(slot="default")
                     van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-            .van-cell__default-tips {{ $t('bondValue') }}{{ currencyName }} {{ minFaceValue | thousand-spilt }} / {{ $t('contract') }}，{{ $t('tradingAmount') }}{{ currencyName }} {{ minFaceValue | thousand-spilt }} * {{ $t('bondPrice') }}
+            .van-cell__default-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('bondPrice') }}
 
 
             //- 交易金额
             van-cell.no-line.amount-money(:title="$t('amountMoney')")
                 template(slot="default")
                     span {{ tradeMoney | thousand-spilt }}
-                    i {{ currencyName }}
+                    i {{ i18nCurrencyName }}
 
             //- 应付、应得利息
             van-cell.no-line.interest
@@ -48,11 +48,11 @@
             van-cell.no-line.total-money(:title="$t('totalMoney')")
                 template(slot="default")
                     span {{ totalTradeMoney | thousand-spilt }}
-                    i {{ currencyName }}
+                    i {{ i18nCurrencyName }}
             .van-cell__total-tips
                 i.iconfont.icon-wenhao(@click="showTips('total')" v-if="direction === 1")
                 span {{direction === 1 ? $t('availableMoney') : $t('positionsCanBeSold')}}
-                strong(v-if="direction === 1")  {{ marketValue | thousand-spilt }} {{ currencyName }}
+                strong(v-if="direction === 1")  {{ marketValue | thousand-spilt }} {{ i18nCurrencyName }}
                 strong(v-if="direction === 2") {{ marketValue }}
 
         van-button(
