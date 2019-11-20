@@ -1,7 +1,7 @@
 <template lang="pug">
     .detail-bond-price-wrapper
         mask-header(v-show="isShowMask" :maskData="maskData")
-        .bond-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('bondPrice') }}
+        .bond-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('spBondPrice') }}
         col-msg(
             :colData="colData"
             titleClass="title-class"

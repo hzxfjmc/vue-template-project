@@ -4,7 +4,7 @@
             .yx-cell__header {{ $t('tradingTime') }}：
             .yx-cell__content {{ $t('tradingTimeTips') }}
         .yx-cell
-            .yx-cell__header {{ $t('tradingTime') }}：
+            .yx-cell__header {{ $t('charges') }}：
             .yx-cell__content XXXXXXX
 
 </template>

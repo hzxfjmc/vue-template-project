@@ -1,5 +1,5 @@
 import { selectProtocolInfo } from '@/service/config-manager.js'
-import { appType } from '@/utils/html-utils.js'
+import { appType, lang } from '@/utils/html-utils.js'
 /**
  * desc: 计算付息日展示
  * @param {String} d 付息日；可能有多个，大于2个后面接入‘等’；例如 5月8日|7月6日|8月9日：  5月8日、7月6日等
@@ -27,8 +27,13 @@ export function calcPaymentDates(
     } else {
         d = dates.split('|')
     }
+    let moreMap = {
+        zhCHS: '等',
+        zhCHT: '等',
+        en: 'etc.'
+    }
     // 根据情况追加‘等’
-    let suffix = d.length > 2 ? '等' : ''
+    let suffix = d.length > 2 ? moreMap[lang] : ''
 
     // 适配港版日期显示  日/月/年
     if (isReverse) {
