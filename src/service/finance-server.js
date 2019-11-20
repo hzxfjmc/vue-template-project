@@ -109,3 +109,8 @@ export const getFundPositionV2 = params => {
 export const openBondFeePackage = () => {
     return axios.post(`/finance-server/api/open-bond-fee-package/v1`)
 }
+
+// 获取服务端计算的利息和佣金，对比客户端是否一样
+// export const bondOrderCalculate = params => {
+//     return axios.post(`/finance-server/api/bond-order-calculate/v1`, params)
+// }

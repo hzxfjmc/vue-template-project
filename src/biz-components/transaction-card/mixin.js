@@ -2,6 +2,7 @@ import MediaBox from '@/biz-components/media-box/index.vue'
 import YxContainerBetter from '@/components/yx-container-better'
 import { feePackageCurr, feePackageAgent } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
+// import { bondOrderCalculate } from '@/service/finance-server.js'
 import {
     bondOrder,
     getBondInterestCalculate
@@ -273,7 +274,7 @@ export default {
             let huodongfei = caclFinalFee(
                 huodongFeeLadders,
                 this.tradeMoney,
-                this.transactionNum
+                this.transactionNum * this.minFaceValue
             )
 
             console.log('this.tradeMoney :>>>>>>>', this.tradeMoney)
@@ -405,6 +406,12 @@ export default {
         },
         // 执行交易防抖函数
         handleTradeToken() {
+            // bondOrderCalculate({
+            //     bondId: this.id,
+            //     direction: this.direction,
+            //     entrustPrice: this.buyOrSellPrice - 0,
+            //     entrustQuantity: this.transactionNum
+            // })
             this.debounceTradeToken()
         },
         // 获取交易token

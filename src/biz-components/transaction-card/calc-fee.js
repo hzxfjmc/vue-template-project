@@ -46,6 +46,7 @@ export function calculateAmount(feeVO, marketValue) {
 /**
  * amountPerQty方式计费 feeMethod 为 7
  * @param feeVO 费用
+ * quantity :  最小面额 *  份数
  * @return 费用
  */
 export function calculateAmountPerQty(feeVO, marketValue, quantity) {
