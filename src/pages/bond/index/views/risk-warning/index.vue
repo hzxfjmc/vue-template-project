@@ -106,7 +106,7 @@ export default {
                 vertical-align: middle;
             }
             .icon-selected {
-                color: #2f79ff;
+                color: $primary-color-line;
             }
         }
         .text {
