@@ -53,13 +53,14 @@
                     span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
                     strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}
                     strong(v-if="direction === 2") {{ marketValue }}
-        van-button(
-            type="info"
-            class="foot-button"
-            :class="{ sell: btnText === '确认卖出' }"
-            :text="btnText"
-            @click="handleTradeToken"
-        )
+        .operate-btn-box
+            van-button(
+                type="info"
+                class="foot-button"
+                :class="{ sell: btnText === '确认卖出' }"
+                :text="btnText"
+                @click="handleTradeToken"
+            )
 </template>
 
 <script>
@@ -165,17 +166,21 @@ export default {
         }
     }
 }
-.foot-button {
+.operate-btn-box {
     position: fixed;
     bottom: 0;
-    bottom: constant(safe-area-inset-bottom);
-    bottom: env(safe-area-inset-bottom);
     left: 0;
     right: 0;
-    height: 48px;
-    &.sell {
-        background: #ffbf32;
-        border-color: #ffbf32;
+    background: #fff;
+    .foot-button {
+        height: 48px;
+        margin: 0;
+        margin-bottom: constant(safe-area-inset-bottom);
+        margin-bottom: env(safe-area-inset-bottom);
+        &.sell {
+            background: #ffbf32;
+            border-color: #ffbf32;
+        }
     }
 }
 </style>

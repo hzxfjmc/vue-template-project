@@ -74,7 +74,7 @@ export default {
         margin: 10px auto 12px;
         a {
             color: $primary-color-line;
-            font-size: 0.24rem;
+            font-size: 12px;
             line-height: 17px;
         }
     }
@@ -82,23 +82,23 @@ export default {
     .operate-btn-box {
         position: fixed;
         bottom: 0;
-        bottom: constant(safe-area-inset-bottom);
-        bottom: env(safe-area-inset-bottom);
         left: 0;
         right: 0;
-        height: 48px;
+        background: #fff;
         display: flex;
         .van-button {
             display: flex;
             align-items: center;
             justify-content: center;
             flex: 1;
-            height: 100%;
+            height: 48px;
             margin: 0;
+            margin-bottom: constant(safe-area-inset-bottom);
+            margin-bottom: env(safe-area-inset-bottom);
             border-color: transparent;
             background-color: $primary-color-line;
             color: #fff;
-            font-size: 0.32rem;
+            font-size: 16px;
             border-radius: 0 !important;
             &:last-child {
                 background-color: $sell-color;
@@ -112,14 +112,14 @@ export default {
         border-radius: 4px;
         .van-panel__header {
             padding: 14px 12px;
-            font-size: 0.28rem;
+            font-size: 14px;
             line-height: 20px;
             &:after {
                 display: none;
             }
         }
         .van-cell__title {
-            font-size: 0.28rem;
+            font-size: 14px;
             line-height: 20px;
         }
     }
