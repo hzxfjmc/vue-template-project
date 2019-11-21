@@ -73,11 +73,12 @@ export default {
         // 构造好的地图数据
         resolveData() {
             let obj = []
-            let tempChartData = (this.chartData || []).reverse()
+            let tempChartData = (this.chartData || []).map(item => item)
+            tempChartData = tempChartData.reverse()
             tempChartData.forEach(chartItem => {
                 obj.push(
                     {
-                        date: dayjs(chartItem.belongDay).format('M.DD'),
+                        date: dayjs(chartItem.belongDay).format('YYYY.M.DD'),
                         time: dayjs(chartItem.belongDay).format(
                             `YYYY${this.$t('price_年')}MM${this.$t(
                                 'price_月'
@@ -88,7 +89,7 @@ export default {
                         buyYtm: chartItem.buyYtm
                     },
                     {
-                        date: dayjs(chartItem.belongDay).format('M.DD'),
+                        date: dayjs(chartItem.belongDay).format('YYYY.M.DD'),
                         time: dayjs(chartItem.belongDay).format(
                             `YYYY${this.$t('price_年')}MM${this.$t(
                                 'price_月'
@@ -150,9 +151,16 @@ export default {
                 // padding: [0, 0, 0, 0]
             })
             chart.source(this.resolveData)
+            // 有个巨坑的地方，F2渲染图表，如果类型值一样，会进行值的叠加
+            // 比如 scale 为 date， date 中的数值 作为 key 来渲染占位
+            // 如果 date 数据为： [ { date: 12, x: 1}, { date: 12, x: 2 }], 此时
+            // 在图表中，这两个对象的数据会进行叠加，在一条竖线上标志数据，而不是两条线
             chart.scale('date', {
                 tickCount: 5,
-                type: 'cat'
+                type: 'cat',
+                formatter: function(x) {
+                    return x.slice(5)
+                }
             })
             chart.scale('value', {
                 tickCount: 3,
