@@ -38,7 +38,7 @@ export default {
             issuerRankAgency: '發行人評級(標普)'
         },
         en: {
-            bondOverview: 'Bond Overview',
+            bondOverview: 'Overview',
             prospectus: 'Prospectus',
             issuerName: 'Bond Issuer',
             couponRate: 'Annual Coupon Rate',

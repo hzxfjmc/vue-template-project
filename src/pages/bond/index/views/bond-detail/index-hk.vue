@@ -85,7 +85,7 @@ export default {
             interest: 'Interest',
             bondPrice: 'Bond Price',
             perContract: '（Per Contract）',
-            bondInformation: 'Bond Information',
+            bondInformation: 'Bond Info',
             tradingRules: 'Trading Rules',
             buy: 'Buy',
             sell: 'Sell',
