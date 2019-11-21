@@ -2,6 +2,7 @@ import MediaBox from '@/biz-components/media-box/index.vue'
 import YxContainerBetter from '@/components/yx-container-better'
 import { feePackageCurr, feePackageAgent } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
+// import { bondOrderCalculate } from '@/service/finance-server.js'
 import {
     bondOrder,
     getBondInterestCalculate
@@ -18,41 +19,82 @@ export default {
         zhCHS: {
             buyPrice: '买入价格',
             sellPrice: '卖出价格',
-            transactionNum: '份数',
-            unit: '份',
+            bondValue: '此债券面值为',
+            USD: '美元',
+            tradingAmount: '买卖金额为',
+            bondPrice: '*买卖价',
+            transaction_contracts: '/份数',
+            transaction_contract: '份',
             amountMoney: '金额',
             payableInterest: '应付利息',
+            interestDesc:
+                '应计利息是债券自上一次付息后至债券交收时之间的累计未付利息，由买方向卖方支付，即对于买方是“应付”，对于卖方是“应得”。\n\n' +
+                '对于卖方，多持有的这段时间的利息，会在交易时得到补偿，即应计利息。\n\n' +
+                '对于买方，应计利息并不会额外增加成本，会在付息日或卖出时得到补偿。',
             accruedInterest: '应得利息',
             serviceCharge: '手续费(预估)',
             totalMoney: '总额',
             availableMoney: '债券可用资金',
-            positionsCanBeSold: '持仓可卖'
+            availableMoneyDesc:
+                '可以用于购买债券的资金，等于您资产中的“可取现金”',
+            positionsCanBeSold: '持仓可卖 ',
+            submitSuccess: '提交成功',
+            submitFail: '提交失败',
+            ok: '我知道了',
+            confirm: '确认'
         },
         zhCHT: {
             buyPrice: '買入價格',
             sellPrice: '賣出價格',
-            transactionNum: '份数',
-            unit: '份數',
+            bondValue: '此債券面值為',
+            USD: '美元',
+            tradingAmount: '買賣金額為',
+            bondPrice: '*買賣價',
+            transaction_contracts: '/份数',
+            transaction_contract: '份',
             amountMoney: '金額',
             payableInterest: '應付利息',
+            interestDesc:
+                '應計利率為債券自上一次付息後至債券交收時之間的過渡未付利息，由買方向支付支付，即對於指明是“應對”，對於可以是“應得”。\n\n' +
+                '對於預算，多持有人的這段時間的利息，會在交易時得到補償，即應計利息。\n\n' +
+                '對於某些，應計利息並不會額外增加成本，會在付息日或賣出時得到補償。',
             accruedInterest: '應得利息',
             serviceCharge: '手續費（預估）',
             totalMoney: '總額',
             availableMoney: '債券可用資金',
-            positionsCanBeSold: '持倉可賣'
+            availableMoneyDesc:
+                '可以用作購買債券的資金，等於您資產中的“可取現金”',
+            positionsCanBeSold: '持倉可賣 ',
+            submitSuccess: '提交成功',
+            submitFail: '提交失敗',
+            ok: '我知道了',
+            confirm: '確認'
         },
         en: {
-            buyPrice: '买入价格',
-            sellPrice: '卖出价格',
-            transactionNum: '份数',
-            unit: '份',
-            amountMoney: '金额',
-            payableInterest: '应付利息',
-            accruedInterest: '应得利息',
-            serviceCharge: '手续费(预估)',
-            totalMoney: '总额',
-            availableMoney: '债券可用资金',
-            positionsCanBeSold: '持仓可卖'
+            buyPrice: 'Bought',
+            sellPrice: 'Sold',
+            bondValue: 'Nominal value of this bond is ',
+            USD: ' USD',
+            tradingAmount: 'trading amount is ',
+            bondPrice: ' * bond price',
+            transaction_contracts: '',
+            transaction_contract: 'contract',
+            amountMoney: 'Amount',
+            payableInterest: 'Indicative Accrued Interest',
+            interestDesc:
+                'Accrued interest is the amount of interest earned on a debt, such as a bond, but not yet collected.\n\n' +
+                'When buying bonds in the secondary market, the buyer will have to pay accrued interest to the seller as part of the total purchase price.',
+            accruedInterest: 'Indicative Accrued Interest',
+            serviceCharge: 'Fee',
+            totalMoney: 'Total Amount',
+            availableMoney: 'Available Amount',
+            availableMoneyDesc:
+                'You can use your withdrawable cash to buy bond',
+            positionsCanBeSold: 'Position ',
+            submitSuccess: 'Submitted Successfully',
+            submitFail: 'Submitted Failed',
+            ok: 'OK',
+            confirm: 'Confirm'
         }
     },
     components: {
@@ -148,7 +190,7 @@ export default {
                 '--'
             )
         },
-        // 货币单位
+        // 货币单位 美元
         currencyShortSymbol() {
             return (
                 (this.bondUneditableInfo &&
@@ -157,11 +199,15 @@ export default {
                 ''
             )
         },
+        i18nCurrencyName() {
+            return this.$t(this.currencyName)
+        },
+        // 货币单位 USD
         currencyName() {
             return (
                 (this.bondUneditableInfo &&
                     this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
+                    this.bondUneditableInfo.enumCurrency.name) ||
                 ''
             )
         },
@@ -183,11 +229,6 @@ export default {
         // 最小交易额
         minFaceValue() {
             return this.bondUneditableInfo.minFaceValue || 0
-        },
-        // 每份购买金额
-        buyPerPrice() {
-            let t = this.minFaceValue * this.buyOrSellPrice
-            return (t && t.toFixed(4)) || ''
         },
         // 交易金额
         tradeMoney() {
@@ -259,7 +300,7 @@ export default {
             let huodongfei = caclFinalFee(
                 huodongFeeLadders,
                 this.tradeMoney,
-                this.transactionNum
+                this.transactionNum * this.minFaceValue
             )
 
             console.log('this.tradeMoney :>>>>>>>', this.tradeMoney)
@@ -303,7 +344,9 @@ export default {
             let count = Math.floor(mv / this.minFaceValue)
             this.transactionNum = count
 
-            return mv === '0.00' ? '0' : mv + '(' + count + '份)'
+            return mv === '0.00'
+                ? '0'
+                : mv + '(' + count + this.$t('transaction_contract') + ')'
         },
         btnDisabled() {
             return this.transactionNum <= 0 ? true : false
@@ -391,6 +434,12 @@ export default {
         },
         // 执行交易防抖函数
         handleTradeToken() {
+            // bondOrderCalculate({
+            //     bondId: this.id,
+            //     direction: this.direction,
+            //     entrustPrice: this.buyOrSellPrice - 0,
+            //     entrustQuantity: this.transactionNum
+            // })
             this.debounceTradeToken()
         },
         // 获取交易token
@@ -419,8 +468,12 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: tradeToken
                 })
-                await this.$toast('提交成功')
+                await this.$toast(this.$t('submitSuccess'))
 
+                // 交易完成，挑战订单页，关闭当前 Webview ，防止返回按钮回到交易页
+                setTimeout(() => {
+                    jsBridge.callApp('command_close_webview')
+                }, 1000)
                 if (this.appType && this.appType.Hk) {
                     // 港版跳转到全部订单页
                     jsBridge.gotoNativeModule(
@@ -460,8 +513,9 @@ export default {
                         // 价格发生变化
                         this.$dialog
                             .confirm({
-                                title: '提交失败',
-                                message: e.msg
+                                title: this.$t('submitFail'),
+                                message: e.msg,
+                                confirmButtonText: this.$t('confirm')
                             })
                             .then(async () => {
                                 this.direction === 1
@@ -471,47 +525,56 @@ export default {
                             })
                             .catch(() => {
                                 this.buyOrSellPrice = e.data
+                                window.location.reload()
                             })
                     } else {
                         this.$dialog.alert({
-                            title: '提交失败',
-                            message: e.msg
+                            title: this.$t('submitFail'),
+                            message: e.msg,
+                            confirmButtonText: this.$t('confirm')
                         })
                     }
                 } else if (specialCode.includes(e.code)) {
                     this.$dialog.alert({
-                        title: '提交失败',
-                        message: e.msg
+                        title: this.$t('submitFail'),
+                        message: e.msg,
+                        confirmButtonText: this.$t('confirm')
                     })
                 } else {
-                    this.$toast('提交失败')
+                    this.$toast(this.$t('submitFail'))
                 }
             }
         },
+        // handleChange(value) {
+        //     console.log('value :', value)
+        //     if (value > 9999999) {
+        //         this.transactionNum = 9999999
+        //     }
+        // },
         // 提示弹窗
         showTips(tipsType) {
             let tipText = ''
             if (tipsType === 'interest') {
                 // 应付利息/应得利息提示弹窗
-                tipText =
-                    '应计利息是债券自上一次付息后至债券交收时之间的累计未付利息，由买方向卖方支付，即对于买方是“应付”，对于卖方是“应得”。\n\n' +
-                    '对于卖方，多持有的这段时间的利息，会在交易时得到补偿，即应计利息。\n\n' +
-                    '对于买方，应计利息并不会额外增加成本，会在付息日或卖出时得到补偿。'
+                tipText = this.$t('interestDesc')
             } else {
                 // 可用资金提示弹窗
-                tipText = '可以用于购买债券的资金，等于您资产中的“可取现金”'
+                tipText = this.$t('availableMoneyDesc')
             }
             this.$dialog.alert({
                 message: tipText,
                 messageAlign: 'left',
-                confirmButtonText: '我知道了'
+                confirmButtonText: this.$t('ok')
             })
         }
     },
     watch: {
         transactionNum() {
-            if (this.transactionNum > 9999999) {
-                this.transactionNum = 9999999
+            if (this.transactionNum >= 999) {
+                let inputEle = document.querySelector('.van-stepper__input')
+                this.transactionNum = 999
+                inputEle.value = 999
+                console.log('inputEle :', inputEle.value)
             }
         }
     }

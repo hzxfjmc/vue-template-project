@@ -36,9 +36,9 @@ export function calculateAmount(feeVO, marketValue) {
     // 费用金额 > 交易金额 * 最高比例，取交易金额 * 最高比例
     if (
         feeVO.maxFeePercent &&
-        feeVO.feeAmount - marketValue * feeVO.maxFeePercent > 0
+        feeVO.feeAmount - (marketValue * feeVO.maxFeePercent) / 100 > 0
     ) {
-        return marketValue * feeVO.maxFeePercent
+        return (marketValue * feeVO.maxFeePercent) / 100
     }
     return feeVO.feeAmount
 }
@@ -46,6 +46,7 @@ export function calculateAmount(feeVO, marketValue) {
 /**
  * amountPerQty方式计费 feeMethod 为 7
  * @param feeVO 费用
+ * quantity :  最小面额 *  份数
  * @return 费用
  */
 export function calculateAmountPerQty(feeVO, marketValue, quantity) {

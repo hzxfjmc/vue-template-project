@@ -4,14 +4,14 @@
             a.pdf(
                 v-if="productOverview"
                 target="_blank"
-                :href="productOverview"
+                @click="jumpPdf(productOverview)"
             )
                 i.icon
-                span 产品概览
+                span 产品概览书
             a.pdf(
                 v-if="raiseManual"
                 target="_blank"
-                :href="raiseManual"
+                @click="jumpPdf(raiseManual)"
             )
                 i.icon
                 span 募集说明书
@@ -89,20 +89,8 @@ export default {
             position: absolute;
             left: 50%;
             bottom: 0;
+            color: $text-color5;
             transform: translate(-50%);
-        }
-    }
-}
-</style>
-<style lang="scss">
-.detail-bond-info-wrapper {
-    .hd-col {
-        &.col-column {
-            .van-col:nth-child(3) {
-                .van-col__title {
-                    font-size: 0.22rem;
-                }
-            }
         }
     }
 }

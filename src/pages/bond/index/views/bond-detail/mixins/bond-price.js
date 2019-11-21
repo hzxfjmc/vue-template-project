@@ -6,16 +6,43 @@ export default {
     name: 'BondPrice',
     i18n: {
         zhCHS: {
+            bondValue: '此债券面值为',
+            USD: '美元',
+            tradingAmount: '买卖金额为',
+            spBondPrice: '*买卖价',
+            contract: '/份',
+            price_年: '年',
+            price_月: '月',
+            price_日: '日',
             buyPrice: '买入价',
-            sellPrice: '卖出价'
+            sellPrice: '卖出价',
+            yieldToMaturity: '到期年化收益率'
         },
         zhCHT: {
+            bondValue: '此債券面值為',
+            USD: '美元',
+            tradingAmount: '買賣金額為',
+            spBondPrice: '*買賣價',
+            contract: '/份',
+            price_年: '年',
+            price_月: '月',
+            price_日: '日',
             buyPrice: '買入價',
-            sellPrice: '賣出價'
+            sellPrice: '賣出價',
+            yieldToMaturity: '到期年化收益率'
         },
         en: {
-            buyPrice: '买入价',
-            sellPrice: '卖出价'
+            bondValue: 'Nominal value of this bond is ',
+            USD: ' USD',
+            tradingAmount: 'trading amount is ',
+            spBondPrice: ' * bond price',
+            contract: '',
+            price_年: '-',
+            price_月: '-',
+            price_日: '',
+            buyPrice: 'Bid Price',
+            sellPrice: 'Ask Price',
+            yieldToMaturity: 'Yield-to-Maturity'
         }
     },
     components: {
@@ -46,24 +73,29 @@ export default {
         // 构造好的地图数据
         resolveData() {
             let obj = []
-            let tempChartData = (this.chartData || []).reverse()
+            let tempChartData = (this.chartData || []).map(item => item)
+            tempChartData = tempChartData.reverse()
             tempChartData.forEach(chartItem => {
                 obj.push(
                     {
-                        date: dayjs(chartItem.belongDay).format('M.DD'),
+                        date: dayjs(chartItem.belongDay).format('YYYY.M.DD'),
                         time: dayjs(chartItem.belongDay).format(
-                            'YYYY年MM月DD日'
+                            `YYYY${this.$t('price_年')}MM${this.$t(
+                                'price_月'
+                            )}DD${this.$t('price_日')}`
                         ),
-                        value: chartItem.buyPrice,
+                        value: chartItem.buyPrice - 0,
                         type: this.$t('buyPrice'),
                         buyYtm: chartItem.buyYtm
                     },
                     {
-                        date: dayjs(chartItem.belongDay).format('M.DD'),
+                        date: dayjs(chartItem.belongDay).format('YYYY.M.DD'),
                         time: dayjs(chartItem.belongDay).format(
-                            'YYYY年MM月DD日'
+                            `YYYY${this.$t('price_年')}MM${this.$t(
+                                'price_月'
+                            )}DD${this.$t('price_日')}`
                         ),
-                        value: chartItem.sellPrice,
+                        value: chartItem.sellPrice - 0,
                         type: this.$t('sellPrice'),
                         buyYtm: chartItem.buyYtm
                     }
@@ -79,7 +111,7 @@ export default {
                 },
                 {
                     title: this.buyYtm,
-                    desc: '到期年化收益率'
+                    desc: this.$t('yieldToMaturity')
                 },
                 {
                     title: transNumToThousandMark(this.sellPrice, 4),
@@ -88,6 +120,7 @@ export default {
             ]
             return data
         },
+        // 购买价格
         buyPrice() {
             return (
                 (this.currentPrice.buyPrice &&
@@ -118,12 +151,22 @@ export default {
                 // padding: [0, 0, 0, 0]
             })
             chart.source(this.resolveData)
+            // 有个巨坑的地方，F2渲染图表，如果类型值一样，会进行值的叠加
+            // 比如 scale 为 date， date 中的数值 作为 key 来渲染占位
+            // 如果 date 数据为： [ { date: 12, x: 1}, { date: 12, x: 2 }], 此时
+            // 在图表中，这两个对象的数据会进行叠加，在一条竖线上标志数据，而不是两条线
             chart.scale('date', {
                 tickCount: 5,
-                type: 'cat'
+                type: 'cat',
+                formatter: function(x) {
+                    return x.slice(5)
+                }
             })
             chart.scale('value', {
-                tickCount: 3
+                tickCount: 3,
+                formatter: function(x) {
+                    return x.toFixed(4)
+                }
             })
             chart.tooltip({
                 custom: true, // 自定义 tooltip 内容框
@@ -153,7 +196,7 @@ export default {
                                             obj.items[0].origin.buyYtm - 0
                                         ).toFixed(3) + '%') ||
                                     '--',
-                                desc: '到期年化收益率'
+                                desc: this.$t('yieldToMaturity')
                             },
                             {
                                 title: transNumToThousandMark(
@@ -165,7 +208,7 @@ export default {
                         ]
                     }
                 },
-                triggerOn: ['touchstart'],
+                triggerOn: ['touchstart', 'touchmove'],
                 triggerOff: 'touchend',
                 onShow: () => {
                     this.isShowMask = true

@@ -34,7 +34,7 @@ export default {
         text-align: center;
     }
     .risk-result__md {
-        color: #2f79ff;
+        color: $primary-color-line;
         font-size: 0.48rem;
         line-height: 1;
     }

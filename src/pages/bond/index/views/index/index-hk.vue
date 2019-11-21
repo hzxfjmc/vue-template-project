@@ -2,7 +2,7 @@
     .bond-index-wrapper
         van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
             van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
-                a(:href="bannerItem.jump_url" title="")
+                a(:href="bannerItem.jump_url || 'javascript:void(0)'" title="")
                     img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
                     //- img(:src="require('@/assets/img/bond-hk/banner-demo.png')" :alt="bannerItem.banner_title")
         .bond-list

@@ -233,7 +233,7 @@ module.exports = {
             // 债券交易
             '/finance-server': {
                 target: 'http://jy-sit.yxzq.com',
-                // target: 'http://jy-sit.yxzq.com',
+                // target: 'http://10.210.24.161:8080',
                 changeOrigin: true
             },
             // 债券信息

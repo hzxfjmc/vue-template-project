@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import riskAssessment from '@/components/risk-assessment/index-hk'
+import riskAssessment from '@/components/risk-assessment/index'
 import { getCurrentUser } from '@/service/user-server.js'
 export default {
     components: {
@@ -28,7 +28,7 @@ export default {
                     console.log(userInfo.assessResult)
                     window.location.replace(
                         location.origin +
-                            '/wealth/bond-hk/index.html#/risk-assessment-result'
+                            '/wealth/bond/index.html#/hk/risk-assessment-result'
                     )
                 } else {
                     vm.isriskAssessment = true
