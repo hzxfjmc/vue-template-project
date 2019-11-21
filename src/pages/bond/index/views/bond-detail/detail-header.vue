@@ -65,7 +65,8 @@ export default {
                             messageAlign: 'left',
                             confirmButtonText: '我知道了'
                         })
-                    }
+                    },
+                    class: 'icon-wenhao'
                 },
                 {
                     title: this.dueDay,
@@ -109,6 +110,11 @@ export default {
 }
 </style>
 <style lang="scss">
+.detail-header {
+    .icon-wenhao {
+        color: rgba($color: #fff, $alpha: 0.6);
+    }
+}
 // 微调 media-box 样式
 .header-features {
     background: rgba(0, 0, 0, 0.06);
