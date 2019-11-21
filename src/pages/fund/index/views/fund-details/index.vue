@@ -225,14 +225,18 @@ export default {
                     this.step = 4
                     this.initEchartList = []
                     for (let i = 0; i < count; i++) {
-                        this.initEchartList.push(
-                            this.copyinitEchartList[i * 22]
-                        )
+                        this.initEchartList.push(this.copyinitEchartList[i * 5])
                     }
                     break
                 case 6:
                     this.step = 5
-                    this.initEchartList = this.copyinitEchartList
+                    this.initEchartList = []
+                    for (let i = 0; i < count; i++) {
+                        this.initEchartList.push(
+                            this.copyinitEchartList[i * 22]
+                        )
+                    }
+                    // this.initEchartList = this.copyinitEchartList
                     break
                 default:
                     this.step = 6
