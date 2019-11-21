@@ -23,7 +23,6 @@ if (Object.values(pages)[0]) {
     openPage = Object.values(pages)[0].filename // 当前项目的第一个单页
 }
 
-
 const api = 'http://jy-dev.yxzq.com'
 const sitapi = 'http://jy-sit.yxzq.com'
 // config 配置
