@@ -1,5 +1,5 @@
 <template lang="pug">
-    #app
+    #app.ch
         router-view
 </template>
 
@@ -7,7 +7,7 @@
 @import '~@/assets/styles/global.scss';
 @import '~@/assets/styles/common.scss';
 @import '~@/assets/styles/vant-reset.scss';
-#app {
+#app.ch {
     background-color: $text-color8;
     font-family: PingFangSC-Regular, PingFang SC;
     font-weight: 400;

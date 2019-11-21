@@ -188,8 +188,8 @@ export default {
             height: 28px;
             background: rgba(0, 0, 0, 0.04);
             border-radius: 2px;
-            .van-stepper__minus::before,
-            .van-stepper__plus::before {
+            &:before,
+            &:after {
                 background-color: $text-color;
             }
         }

@@ -3,7 +3,10 @@
         van-pull-refresh(
             v-model="isLoading"
             @refresh="onRefresh"
-            success-text="刷新成功"
+            :pulling-text="$t('pullingText')"
+            :loosing-text="$t('loosingText')"
+            :loading-text="$t('loadingText')"
+            :success-text="$t('successText')"
         )
             //- 债券信息
             .card-header
