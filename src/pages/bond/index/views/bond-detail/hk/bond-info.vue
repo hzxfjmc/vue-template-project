@@ -4,14 +4,14 @@
             a.pdf(
                 v-if="productOverview"
                 target="_blank"
-                :href="productOverview"
+                @click="jumpPdf(productOverview)"
             )
                 i.icon
                 span {{ $t('bondOverview') }}
             a.pdf(
                 v-if="raiseManual"
                 target="_blank"
-                :href="raiseManual"
+                @click="jumpPdf(raiseManual)"
             )
                 i.icon
                 span {{ $t('prospectus') }}

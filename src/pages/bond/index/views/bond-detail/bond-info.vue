@@ -4,14 +4,14 @@
             a.pdf(
                 v-if="productOverview"
                 target="_blank"
-                :href="productOverview"
+                @click="jumpPdf(productOverview)"
             )
                 i.icon
                 span 产品概览书
             a.pdf(
                 v-if="raiseManual"
                 target="_blank"
-                :href="raiseManual"
+                @click="jumpPdf(raiseManual)"
             )
                 i.icon
                 span 募集说明书

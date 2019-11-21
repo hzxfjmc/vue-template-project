@@ -225,7 +225,7 @@ export default {
         box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
         &.en {
             padding-left: 6px;
-            font-size: 11px;
+            font-size: 10px;
         }
     }
 }
