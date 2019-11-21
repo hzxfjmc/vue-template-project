@@ -73,81 +73,83 @@ export default {
 .transaction-box {
     height: 100%;
     padding-top: 10px;
-}
-.van-pull-refresh {
-    height: 100%;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    .van-pull-refresh {
+        height: 100%;
+    }
 }
 .transaction-card {
+    overflow: hidden;
     margin: 0 10px;
     padding: 0 0 70px;
     background-color: #fff;
-    font-family: PingFangSC-Regular, PingFang SC;
     border-radius: 4px;
-}
-.transaction-header {
-    padding: 12px 14px;
-    background-color: $primary-color-line;
-    border-radius: 4px 4px 0px 0px;
-}
-.icon-wenhao {
-    color: #9fb0ca;
-}
-.yx-cell {
-    display: flex;
-    padding: 0 14px;
-    &.total-trade-money {
+    .transaction-header {
+        padding: 12px 14px;
+        background-color: $primary-color-line;
+        border-radius: 4px 4px 0px 0px;
+    }
+    .icon-wenhao {
+        color: #9fb0ca;
+    }
+    .yx-cell {
+        display: flex;
+        padding: 0 14px;
+        &.total-trade-money {
+            .yx-cell__primary {
+                font-size: 22px;
+                font-weight: bold;
+                line-height: 28px;
+            }
+        }
+        .yx-cell__header {
+            font-size: 14px;
+            line-height: 20px;
+            color: $text-color7;
+        }
+        .yx-cell__header-tip {
+            display: inline-block;
+            margin-left: 4px;
+            font-size: 12px;
+            line-height: 17px;
+            color: $text-color6;
+        }
         .yx-cell__primary {
-            font-size: 22px;
-            font-weight: bold;
-            line-height: 28px;
+            flex: 1;
+            text-align: right;
+            color: $text-color;
+            font-size: 18px;
+            line-height: 23px;
+        }
+        .yx-cell__primary-tip {
+            margin-top: 6px;
+            color: $text-color3;
+            font-size: 10px;
+            line-height: 14px;
         }
     }
-    .yx-cell__header {
-        font-size: 14px;
-        line-height: 20px;
-        color: $text-color5;
+    .divider-line {
+        margin: 25px 14px 16px;
+        height: 1px;
+        background-color: rgba($text-color, 0.06);
     }
-    .yx-cell__header-tip {
-        display: inline-block;
-        margin-left: 4px;
-        font-size: 12px;
-        line-height: 17px;
-        color: $text-color6;
-    }
-    .yx-cell__primary {
-        flex: 1;
-        text-align: right;
-        color: $text-color;
-        font-size: 18px;
-        line-height: 23px;
-    }
-    .yx-cell__primary-tip {
+    .tips {
         margin-top: 6px;
-        color: $text-color3;
-        font-size: 10px;
-        line-height: 14px;
-    }
-}
-.divider-line {
-    margin: 25px 14px 16px;
-    height: 1px;
-    background-color: rgba($text-color, 0.06);
-}
-.tips {
-    margin-top: 6px;
-    padding-right: 15px;
-    color: $text-color5;
-    font-size: 12px;
-    line-height: 18px;
-    text-align: right;
-    i {
-        margin-right: 4px;
-    }
-    span {
-        margin-right: 4px;
-    }
-    strong {
-        font-weight: normal;
+        padding-right: 15px;
+        color: $text-color5;
+        font-size: 12px;
+        line-height: 18px;
+        text-align: right;
+        i {
+            margin-right: 4px;
+        }
+        span {
+            margin-right: 4px;
+        }
+        strong {
+            font-weight: normal;
+        }
     }
 }
 .foot-button {
@@ -165,22 +167,16 @@ export default {
 }
 </style>
 <style lang="scss">
-// 组件库微调
-.transaction-header {
-    .media-box__desc {
-        margin-top: 2px;
-    }
-}
 .van-pull-refresh .van-pull-refresh__track {
     height: 100%;
 }
-.yx-container {
-    .better-wrap,
-    .slotWrapss {
-        height: 100%;
-    }
-}
 .transaction-card {
+    // 组件库微调
+    .transaction-header {
+        .media-box__desc {
+            margin-top: 2px;
+        }
+    }
     .van-stepper {
         .van-stepper__minus,
         .van-stepper__plus {

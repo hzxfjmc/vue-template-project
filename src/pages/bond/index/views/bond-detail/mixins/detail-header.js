@@ -31,10 +31,6 @@ export default {
         }
     },
     computed: {
-        // 跳转pdf ios 部分使用原生 href 跳转不了
-        jumpPdf(url) {
-            window.location.href = url
-        },
         // 发行人
         headerTitle() {
             return (

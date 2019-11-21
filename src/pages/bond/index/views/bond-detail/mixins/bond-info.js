@@ -246,6 +246,10 @@ export default {
         }
     },
     methods: {
+        // 跳转pdf ios 部分使用原生 href 跳转不了
+        jumpPdf(url) {
+            window.location.href = url
+        },
         toggleShowMoreMsg() {
             this.showMore = !this.showMore
         }
