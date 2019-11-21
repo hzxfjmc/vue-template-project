@@ -115,7 +115,6 @@ export default {
             span {
                 font-size: 12px;
                 line-height: 18px;
-                opacity: 0.4;
             }
             a {
                 color: $primary-color-line;

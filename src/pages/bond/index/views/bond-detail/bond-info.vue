@@ -94,16 +94,3 @@ export default {
     }
 }
 </style>
-<style lang="scss">
-.detail-bond-info-wrapper {
-    .hd-col {
-        &.col-column {
-            .van-col:nth-child(3) {
-                .van-col__title {
-                    font-size: 0.22rem;
-                }
-            }
-        }
-    }
-}
-</style>

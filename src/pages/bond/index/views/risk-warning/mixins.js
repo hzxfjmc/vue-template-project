@@ -2,6 +2,7 @@ import { Panel, Checkbox } from 'vant'
 import YxContainerBetter from '@/components/yx-container-better'
 import { bondRiskAutograph, getCurrentUser } from '@/service/user-server.js'
 import { selectProtocolInfo } from '@/service/config-manager.js'
+import { openBondFeePackage } from '@/service/finance-server'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage.js'
 export default {
@@ -109,6 +110,7 @@ export default {
             if (this.submitBtnDisabled) return
 
             try {
+                this.$loading()
                 let data = await bondRiskAutograph({
                     agreementName: this.agreementData.protocolName,
                     agreementUrl: this.agreementData.protocolUrl,
@@ -119,6 +121,9 @@ export default {
                 })
                 // 签名成功，本地设置标记，用与返回时候保留签名，刷新则清除
                 LS.put('signName', this.signName)
+
+                // 开通用户债券佣金套餐,不关心是否开通，发起请求即可，后面会在产品适当性匹配页面再次判断
+                openBondFeePackage()
 
                 this.$router.push({
                     path: this.prev + '/risk-appropriate-result',
@@ -134,6 +139,8 @@ export default {
                 this.$dialog.alert({
                     message: e.msg || '请求失败'
                 })
+            } finally {
+                this.$close()
             }
         },
         //获取用户信息
