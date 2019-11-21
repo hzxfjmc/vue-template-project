@@ -64,7 +64,10 @@ export default {
 <style lang="scss" scoped>
 .bond-detail-wrapper {
     padding: 10px 10px 96px;
+    background-color: $text-color8;
     color: #393939;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
     // 常见问题
     .faq {
         text-align: center;
@@ -75,50 +78,50 @@ export default {
             line-height: 17px;
         }
     }
-}
-// 买入卖出按钮
-.operate-btn-box {
-    position: fixed;
-    bottom: 0;
-    bottom: constant(safe-area-inset-bottom);
-    bottom: env(safe-area-inset-bottom);
-    left: 0;
-    right: 0;
-    height: 48px;
-    display: flex;
-    .van-button {
+    // 买入卖出按钮
+    .operate-btn-box {
+        position: fixed;
+        bottom: 0;
+        bottom: constant(safe-area-inset-bottom);
+        bottom: env(safe-area-inset-bottom);
+        left: 0;
+        right: 0;
+        height: 48px;
         display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
-        height: 100%;
-        margin: 0;
-        border-color: transparent;
-        background-color: $primary-color-line;
-        color: #fff;
-        font-size: 0.32rem;
-        border-radius: 0 !important;
-        &:last-child {
-            background-color: $sell-color;
+        .van-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            margin: 0;
+            border-color: transparent;
+            background-color: $primary-color-line;
+            color: #fff;
+            font-size: 0.32rem;
+            border-radius: 0 !important;
+            &:last-child {
+                background-color: $sell-color;
+            }
         }
     }
-}
-// 微调 vant panel 样式
-.van-panel {
-    overflow: hidden;
-    margin-top: 10px;
-    border-radius: 4px;
-    .van-panel__header {
-        padding: 14px 12px;
-        font-size: 0.28rem;
-        line-height: 20px;
-        &:after {
-            display: none;
+    // 微调 vant panel 样式
+    .van-panel {
+        overflow: hidden;
+        margin-top: 10px;
+        border-radius: 4px;
+        .van-panel__header {
+            padding: 14px 12px;
+            font-size: 0.28rem;
+            line-height: 20px;
+            &:after {
+                display: none;
+            }
         }
-    }
-    .van-cell__title {
-        font-size: 0.28rem;
-        line-height: 20px;
+        .van-cell__title {
+            font-size: 0.28rem;
+            line-height: 20px;
+        }
     }
 }
 </style>
