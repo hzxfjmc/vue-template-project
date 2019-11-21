@@ -11,7 +11,7 @@ Vue.filter('thousand-spilt', function(value) {
     }
     return value
         .toString()
-        .replace(/(\d{1,3})(?<=\d)(?<!\.\d*)(?=(\d{3})+(\.|$))/g, '$1,')
+        .replace(/(\d{1,3})(?=\d)(?!\.\d*)(?=(\d{3})+(\.|$))/g, '$1,')
 })
 
 Vue.filter('idcard', function(num) {
