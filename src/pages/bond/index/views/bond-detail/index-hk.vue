@@ -107,6 +107,8 @@ export default {
 .bond-detail-wrapper {
     padding: 8px $hk-global-padding 96px;
     color: #393939;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
     // 常见问题
     .faq {
         text-align: center;
