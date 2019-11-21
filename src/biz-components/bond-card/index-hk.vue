@@ -109,7 +109,7 @@ export default {
             overflow: hidden;
             margin-right: 10px;
             font-size: 20px;
-            line-height: 22px;
+            line-height: 24px;
             color: $hk-text-color;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -136,7 +136,7 @@ export default {
     }
     .bond-card__content {
         display: flex;
-        margin-top: 25px;
+        margin-top: 24px;
         justify-content: space-between;
         .text {
             color: $hk-text-color;
