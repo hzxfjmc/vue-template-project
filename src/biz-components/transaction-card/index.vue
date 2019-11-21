@@ -28,13 +28,13 @@
                     .yx-cell__header 金额
                     .yx-cell__primary {{ tradeMoney | thousand-spilt }}
 
-                .yx-cell
+                .yx-cell.sp
                     .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
                         .yx-cell__header-tip
                             i.iconfont.icon-wenhao(@click="showTips('interest')")
                     .yx-cell__primary +{{ calcInterest | thousand-spilt }}
 
-                .yx-cell(style="padding-top:0.2rem")
+                .yx-cell.sp(style="padding-top:0.2rem")
                     .yx-cell__header 手续费(预估)
                     .yx-cell__primary {{direction === 1 ? '+' : '-'}}{{ serviceCharge }}
 
@@ -81,8 +81,8 @@ export default {
 }
 .transaction-card {
     overflow: hidden;
-    margin: 0 10px;
-    padding: 0 0 70px;
+    margin: 0 10px 50px;
+    padding-bottom: 20px;
     background-color: #fff;
     border-radius: 4px;
     .transaction-header {
@@ -91,22 +91,33 @@ export default {
         border-radius: 4px 4px 0px 0px;
     }
     .icon-wenhao {
-        color: #9fb0ca;
+        font-size: 14px;
     }
     .yx-cell {
         display: flex;
         padding: 0 14px;
+        &.sp {
+            .yx-cell__header {
+                font-size: 12px;
+                line-height: 18px;
+                color: $text-color5;
+            }
+            .yx-cell__primary {
+                font-size: 14px;
+                line-height: 18px;
+            }
+        }
         &.total-trade-money {
             .yx-cell__primary {
                 font-size: 22px;
-                font-weight: bold;
+                font-weight: 500;
                 line-height: 28px;
             }
         }
         .yx-cell__header {
             font-size: 14px;
             line-height: 20px;
-            color: $text-color7;
+            color: $text-color6;
         }
         .yx-cell__header-tip {
             display: inline-block;
@@ -130,13 +141,13 @@ export default {
         }
     }
     .divider-line {
-        margin: 25px 14px 16px;
+        margin: 25px 14px 17px;
         height: 1px;
-        background-color: rgba($text-color, 0.06);
+        background-color: $text-color8;
     }
     .tips {
         margin-top: 6px;
-        padding-right: 15px;
+        padding-right: 16px;
         color: $text-color5;
         font-size: 12px;
         line-height: 18px;
@@ -148,7 +159,9 @@ export default {
             margin-right: 4px;
         }
         strong {
+            font-size: 14px;
             font-weight: normal;
+            line-height: 18px;
         }
     }
 }
@@ -182,6 +195,7 @@ export default {
         .van-stepper__plus {
             width: 28px;
             height: 28px;
+            margin: 0;
             background: rgba(0, 0, 0, 0.04);
             border-radius: 2px;
             &:before,
