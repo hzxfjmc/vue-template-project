@@ -12,9 +12,8 @@ export default {
             spBondPrice: '*买卖价',
             contract: '/份',
             price_年: '年',
-            月: '月',
-            日: '日',
-            天: '天',
+            price_月: '月',
+            price_日: '日',
             buyPrice: '买入价',
             sellPrice: '卖出价',
             yieldToMaturity: '到期年化收益率'
@@ -25,10 +24,9 @@ export default {
             tradingAmount: '買賣金額為',
             spBondPrice: '*買賣價',
             contract: '/份',
-            年: '年',
-            月: '月',
-            日: '日',
-            天: '天',
+            price_年: '年',
+            price_月: '月',
+            price_日: '日',
             buyPrice: '買入價',
             sellPrice: '賣出價',
             yieldToMaturity: '到期年化收益率'
@@ -39,10 +37,9 @@ export default {
             tradingAmount: 'trading amount is ',
             spBondPrice: ' * bond price',
             contract: '',
-            年: '-',
-            月: '-',
-            日: '',
-            天: '',
+            price_年: '-',
+            price_月: '-',
+            price_日: '',
             buyPrice: 'Bid Price',
             sellPrice: 'Ask Price',
             yieldToMaturity: 'Yield-to-Maturity'
@@ -82,9 +79,9 @@ export default {
                     {
                         date: dayjs(chartItem.belongDay).format('M.DD'),
                         time: dayjs(chartItem.belongDay).format(
-                            `YYYY${this.$t('年')}MM${this.$t('月')}DD${this.$t(
-                                '日'
-                            )}`
+                            `YYYY${this.$t('price_年')}MM${this.$t(
+                                'price_月'
+                            )}DD${this.$t('price_日')}`
                         ),
                         value: chartItem.buyPrice - 0,
                         type: this.$t('buyPrice'),
@@ -93,9 +90,9 @@ export default {
                     {
                         date: dayjs(chartItem.belongDay).format('M.DD'),
                         time: dayjs(chartItem.belongDay).format(
-                            `YYYY${this.$t('年')}MM${this.$t('月')}DD${this.$t(
-                                '日'
-                            )}`
+                            `YYYY${this.$t('price_年')}MM${this.$t(
+                                'price_月'
+                            )}DD${this.$t('price_日')}`
                         ),
                         value: chartItem.sellPrice - 0,
                         type: this.$t('sellPrice'),
