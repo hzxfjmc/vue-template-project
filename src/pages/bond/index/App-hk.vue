@@ -1,5 +1,5 @@
 <template lang="pug">
-    #app
+    #app.hk
         router-view
 </template>
 
@@ -9,7 +9,7 @@
 @import '~@/assets/styles/common-hk.scss';
 @import '~@/assets/styles/vant-reset.scss';
 @import '~@/assets/styles/vant-reset-hk.scss';
-#app {
+#app.hk {
     background-color: $hk-background-color;
     .yx-container {
         background-color: transparent;
