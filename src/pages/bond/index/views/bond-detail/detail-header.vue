@@ -1,6 +1,6 @@
 <template lang="pug">
     .detail-header
-        media-box(
+        media-box.sp(
             :title="headerTitle"
             :desc="headerDesc"
         )
@@ -38,13 +38,13 @@ export default {
             featureThumbMoney: require('@/assets/img/bond/icon-money.png'),
             titleStyle: {
                 color: '#fff',
-                'font-size': '0.4rem',
+                'font-size': '20px',
                 'line-height': '0.52rem'
             },
             descStyle: {
                 'margin-top': '0.04rem',
                 color: 'rgba(255, 255, 255, 0.6)',
-                'font-size': '0.24rem',
+                'font-size': '12px',
                 'line-height': '0.34rem'
             }
         }
@@ -98,9 +98,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .detail-header {
+    overflow: hidden;
     background-color: $primary-color-line;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
     border-radius: 4px;
-    font-family: DINPro-Regular, DINPro;
     .header-column {
         padding: 0 10px 14px 14px;
         >>> .van-col {
@@ -113,6 +114,15 @@ export default {
 .detail-header {
     .icon-wenhao {
         color: rgba($color: #fff, $alpha: 0.6);
+    }
+}
+.detail-header {
+    .media-box.sp {
+        .media-box__content {
+            .media-box__desc {
+                margin-top: 2px;
+            }
+        }
     }
 }
 // 微调 media-box 样式
@@ -131,7 +141,7 @@ export default {
         }
         .media-box__content {
             .media-box__title {
-                font-size: 0.28rem;
+                font-size: 14px;
                 line-height: 20px;
             }
         }

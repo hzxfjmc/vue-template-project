@@ -86,6 +86,8 @@ export default {
 .transaction-card {
     padding: 22px $hk-global-padding 70px;
     background-color: #fff;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
     border-radius: 4px;
     .card-header {
         margin-bottom: 25px;

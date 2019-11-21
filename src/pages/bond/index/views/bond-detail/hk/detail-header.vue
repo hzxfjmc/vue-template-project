@@ -75,13 +75,13 @@ export default {
             ],
             titleStyle: {
                 color: '#fff',
-                'font-size': '0.4rem',
+                'font-size': '20px',
                 'line-height': '0.4rem'
             },
             descStyle: {
                 'margin-top': '0.12rem',
                 color: 'rgba(255, 255, 255, 0.6)',
-                'font-size': '0.24rem',
+                'font-size': '12px',
                 'line-height': '0.4rem'
             },
             hasBindStock: false
@@ -201,8 +201,9 @@ export default {
 .detail-header {
     position: relative;
     background-color: rgba($color: #0055ff, $alpha: 0.6);
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
     border-radius: 10px;
-    font-family: DINPro-Regular, DINPro;
     .header-column {
         padding: 0 10px 20px 14px;
         border-bottom: 1px solid #e6e6e6;

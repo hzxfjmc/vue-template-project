@@ -89,6 +89,7 @@ export default {
             position: absolute;
             left: 50%;
             bottom: 0;
+            color: $text-color5;
             transform: translate(-50%);
         }
     }

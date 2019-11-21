@@ -75,7 +75,7 @@ export default {
         font-size: 12px;
         line-height: 17px;
         .iconfont {
-            margin-left: 6px;
+            margin-left: 4px;
             font-size: 13px;
             vertical-align: middle;
         }

@@ -11,6 +11,8 @@
 @import '~@/assets/styles/vant-reset-hk.scss';
 #app.hk {
     background-color: $hk-background-color;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
     .yx-container {
         background-color: transparent;
     }
