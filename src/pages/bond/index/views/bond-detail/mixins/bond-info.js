@@ -46,8 +46,8 @@ export default {
             issueTime: 'start Payment Date',
             dueTime: 'Maturity Date',
             dueDay: 'Time to Maturity',
-            infoYear: 'Year',
-            infoDay: 'Day',
+            infoYear: 'Y ',
+            infoDay: 'D',
             paymentTypeName: 'Coupon Type',
             paymentFrequencyName: 'Coupon Frequency',
             creditRatingAgency: 'Credit Rating(S&P)',
@@ -206,8 +206,8 @@ export default {
             return calcCountDownDay(
                 this.bondUneditableInfo && this.bondUneditableInfo.dueTime
             )
-                .replace(/年/g, this.$t('Y'))
-                .replace(/天/g, this.$t('D'))
+                .replace(/年/g, this.$t('infoYear'))
+                .replace(/天/g, this.$t('infoDay'))
         },
         // 付息类型
         paymentTypeName() {
