@@ -253,29 +253,31 @@ export default {
                 console.log(res)
                 this.copyinitEchartList = res
                 this.initEchartList = res
-                if (
-                    this.initEchartList.length > 0 &&
-                    this.initEchartList.length <= 22
-                ) {
-                    this.step = 0
-                } else if (
-                    this.initEchartList.length > 22 &&
-                    this.initEchartList.length <= 66
-                ) {
-                    this.step = 1
-                } else if (
-                    this.initEchartList.length > 66 &&
-                    this.initEchartList.length <= 132
-                ) {
-                    this.step = 2
-                } else if (
-                    this.initEchartList.length > 132 &&
-                    this.initEchartList.length <= 245
-                ) {
-                    this.step = 3
-                } else {
-                    this.step = 5
-                }
+                this.initEchartList.slice(0, 22)
+                this.step = 0
+                // if (
+                //     this.initEchartList.length > 0 &&
+                //     this.initEchartList.length <= 22
+                // ) {
+                //     this.step = 0
+                // } else if (
+                //     this.initEchartList.length > 22 &&
+                //     this.initEchartList.length <= 66
+                // ) {
+                //     this.step = 1
+                // } else if (
+                //     this.initEchartList.length > 66 &&
+                //     this.initEchartList.length <= 132
+                // ) {
+                //     this.step = 2
+                // } else if (
+                //     this.initEchartList.length > 132 &&
+                //     this.initEchartList.length <= 245
+                // ) {
+                //     this.step = 3
+                // } else if(){
+                //     this.step = 5
+                // }
                 this.initEchartList.map(item => {
                     // item.netPrice = (
                     //     Math.floor(Number(item.netPrice) * 100) / 100
