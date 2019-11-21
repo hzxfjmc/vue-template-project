@@ -42,7 +42,6 @@ export default {
                 5: '进取型(A5)',
                 '-1': '已过期'
             },
-            feeData: [], // 套餐费用
             isShowPage: false,
             userInfo: '',
             fundCode: '',
@@ -84,8 +83,7 @@ export default {
         async handleSetupResult() {
             await Promise.all([
                 this.handleGetBondDetail(),
-                this.handleRiskAssessResult(),
-                this.handleFeePackageCurr()
+                this.handleRiskAssessResult()
             ])
             if (this.userRiskLevel === 0 || this.userRiskLevel === '-1') {
                 // 尚未风评 或者 已过期
@@ -102,23 +100,6 @@ export default {
                 // this.btnText = this.$t('sure')
             }
             this.isShowPage = true
-        },
-        // 获取套餐费用
-        async handleFeePackageCurr() {
-            try {
-                let feeData = await feePackageCurr({
-                    stockBusinessType: 6,
-                    userId: this.$store.state.user.userId - 0
-                })
-                console.log('feePackageCurr:data:>>> ', feeData)
-                // 当前为手机委托，过滤除手机委托外的其他套餐数据
-                this.feeData =
-                    (feeData &&
-                        feeData.filter(feeItem => feeItem.entrustType === 2)) ||
-                    {}
-            } catch (error) {
-                console.log('feePackageCurr:error:>>> ', error)
-            }
         },
         // 拉取风险测评结果
         async handleRiskAssessResult() {
@@ -195,8 +176,21 @@ export default {
                             ? '/transaction-sell'
                             : '/transaction-buy'
 
+                    // 获取用户套餐
+                    let feeData = await feePackageCurr({
+                        stockBusinessType: 6,
+                        userId: this.$store.state.user.userId - 0
+                    })
+                    console.log('feePackageCurr:data:>>> ', feeData)
+                    // 当前为手机委托，过滤除手机委托外的其他套餐数据
+                    feeData =
+                        (feeData &&
+                            feeData.filter(
+                                feeItem => feeItem.entrustType === 2
+                            )) ||
+                        []
                     // 如果用户已经拥有套餐，直接跳转
-                    if (this.feeData.length !== 0) {
+                    if (feeData.length !== 0) {
                         this.$router.push({
                             path: `${this.prev}${path}`,
                             query: {
@@ -205,8 +199,7 @@ export default {
                         })
                         return
                     }
-
-                    // 开通用户债券佣金套餐
+                    // 没有开通套餐，静默开通用户债券费用套餐
                     let openData = await openBondFeePackage()
                     console.log('openBondFeePackage:data:>>> ', openData)
 
