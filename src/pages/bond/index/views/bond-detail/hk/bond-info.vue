@@ -1,6 +1,6 @@
 <template lang="pug">
     .detail-bond-info-wrapper
-        .bond-info-header
+        .bond-info-header(:class="{ en: $i18n.lang === 'en'}")
             a.pdf(
                 v-if="productOverview"
                 target="_blank"
@@ -61,6 +61,14 @@ export default {
         top: 14px;
         right: 14px;
         display: flex;
+        &.en {
+            .pdf {
+                padding: 0;
+                &:first-child {
+                    margin-right: 0;
+                }
+            }
+        }
         .pdf {
             display: flex;
             align-items: center;
