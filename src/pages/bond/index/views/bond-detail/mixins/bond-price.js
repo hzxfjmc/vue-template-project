@@ -208,7 +208,7 @@ export default {
                         ]
                     }
                 },
-                triggerOn: ['touchstart'],
+                triggerOn: ['touchstart', 'touchmove'],
                 triggerOff: 'touchend',
                 onShow: () => {
                     this.isShowMask = true
