@@ -211,10 +211,17 @@ export default {
     }
     .check-stock {
         position: absolute;
-        top: 24px;
-        right: 10px;
+        top: 21px;
+        right: -1px;
+        width: 70px;
+        height: 30px;
+        border: 1px solid #fff;
+        padding-left: 10px;
         color: #fff;
-        font-size: 16px;
+        font-size: 13px;
+        line-height: 29px;
+        border-radius: 15px 0 0 15px;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
     }
 }
 </style>
