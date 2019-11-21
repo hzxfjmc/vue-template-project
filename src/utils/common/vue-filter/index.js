@@ -9,7 +9,9 @@ Vue.filter('thousand-spilt', function(value) {
     if (!value && value !== 0) {
         return ''
     }
-    return value.toString().replace(/(\d{1,3})(?=(\d{3})+(?:[$|.]))/g, '$1,')
+    return value
+        .toString()
+        .replace(/(\d{1,3})(?<=\d)(?<!\.\d*)(?=(\d{3})+(\.|$))/g, '$1,')
 })
 
 Vue.filter('idcard', function(num) {
