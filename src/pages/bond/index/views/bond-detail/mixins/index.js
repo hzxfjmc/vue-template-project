@@ -202,7 +202,7 @@ export default {
                         position: 2, //position取值1、2
                         clickCallback: 'goToStockDetails',
                         type: 'text', //text、icon、custom_icon、hide
-                        text: this.$t('viewStocks') //自定义
+                        text: '查看股票' //自定义
                     })
                     window.goToStockDetails = () => {
                         jsBridge.gotoNativeModule(
