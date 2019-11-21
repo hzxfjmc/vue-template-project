@@ -86,7 +86,7 @@ export default {
                                 '日'
                             )}`
                         ),
-                        value: (chartItem.buyPrice - 0).toFixed(4),
+                        value: chartItem.buyPrice - 0,
                         type: this.$t('buyPrice'),
                         buyYtm: chartItem.buyYtm
                     },
@@ -97,7 +97,7 @@ export default {
                                 '日'
                             )}`
                         ),
-                        value: (chartItem.sellPrice - 0).toFixed(4),
+                        value: chartItem.sellPrice - 0,
                         type: this.$t('sellPrice'),
                         buyYtm: chartItem.buyYtm
                     }
@@ -158,7 +158,10 @@ export default {
                 type: 'cat'
             })
             chart.scale('value', {
-                tickCount: 3
+                tickCount: 3,
+                formatter: function(x) {
+                    return x.toFixed(4)
+                }
             })
             chart.tooltip({
                 custom: true, // 自定义 tooltip 内容框
