@@ -7,6 +7,7 @@
         .check-stock(
             v-if="hasBindStock"
             @click="jumpToStock"
+            :class="{ en: $i18n.lang === 'en' }"
         ) {{ $t('viewStocks') }}
         col-msg.header-column(
             :col-data="colData"
@@ -222,6 +223,10 @@ export default {
         line-height: 29px;
         border-radius: 15px 0 0 15px;
         box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+        &.en {
+            padding-left: 6px;
+            font-size: 11px;
+        }
     }
 }
 </style>
