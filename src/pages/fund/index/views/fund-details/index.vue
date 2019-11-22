@@ -177,7 +177,7 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.holdInitState = res
-                this.positionStatus = res.positionStatus //
+                this.positionStatus = res.positionStatus
                 this.btnShow1 = false
                 this.btnShow = false
                 if (
@@ -236,7 +236,7 @@ export default {
                             this.copyinitEchartList[i * 22]
                         )
                     }
-                    // this.initEchartList = this.copyinitEchartList
+                    this.initEchartList = this.copyinitEchartList
                     break
                 default:
                     this.step = 6
@@ -250,38 +250,33 @@ export default {
                     fundId: this.$route.query.id,
                     fundNetPriceDateType: time || 5
                 })
-                console.log(res)
                 this.copyinitEchartList = res
                 this.initEchartList = res
-                this.initEchartList.slice(0, 22)
-                this.step = 0
-                // if (
-                //     this.initEchartList.length > 0 &&
-                //     this.initEchartList.length <= 22
-                // ) {
-                //     this.step = 0
-                // } else if (
-                //     this.initEchartList.length > 22 &&
-                //     this.initEchartList.length <= 66
-                // ) {
-                //     this.step = 1
-                // } else if (
-                //     this.initEchartList.length > 66 &&
-                //     this.initEchartList.length <= 132
-                // ) {
-                //     this.step = 2
-                // } else if (
-                //     this.initEchartList.length > 132 &&
-                //     this.initEchartList.length <= 245
-                // ) {
-                //     this.step = 3
-                // } else if(){
-                //     this.step = 5
-                // }
+                if (
+                    this.initEchartList.length > 0 &&
+                    this.initEchartList.length <= 22
+                ) {
+                    this.step = 0
+                } else if (
+                    this.initEchartList.length > 22 &&
+                    this.initEchartList.length <= 66
+                ) {
+                    this.step = 1
+                } else if (
+                    this.initEchartList.length > 66 &&
+                    this.initEchartList.length <= 132
+                ) {
+                    this.step = 2
+                } else if (
+                    this.initEchartList.length > 132 &&
+                    this.initEchartList.length <= 245
+                ) {
+                    this.step = 3
+                } else {
+                    this.step = 5
+                }
+                this.initEchartList = this.initEchartList.slice(0, 22)
                 this.initEchartList.map(item => {
-                    // item.netPrice = (
-                    //     Math.floor(Number(item.netPrice) * 100) / 100
-                    // ).toFixed(4)
                     item.netPrice = Number(item.netPrice)
                 })
             } catch (e) {
