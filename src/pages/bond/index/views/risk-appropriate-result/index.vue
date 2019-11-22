@@ -60,7 +60,7 @@ export default {
 
 <style lang="scss" scoped>
 .yx-container {
-    background-color: $text-color8;
+    background-color: $background-bottom-color;
 }
 .risk-appropriate-result-wrapper {
     padding-bottom: 48px;
@@ -182,9 +182,6 @@ export default {
             color: $text-color5;
             font-size: 0.24rem;
             line-height: 20px;
-            span {
-                opacity: 0.4;
-            }
             a {
                 color: $primary-color-line;
                 font-size: 0.24rem;

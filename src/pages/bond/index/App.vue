@@ -10,7 +10,7 @@
 // DINPro-Regular, DINPro 只对英文和数字生效，所以默认排在前面，
 // 如果不是英文和数字，后面的字体会生效
 #app.ch {
-    // background-color: $text-color8;
+    background-color: $background-bottom-color;
     font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
     font-weight: 400;
 }
