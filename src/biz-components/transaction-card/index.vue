@@ -74,6 +74,7 @@ export default {
 .transaction-box {
     height: 100%;
     padding-top: 10px;
+    background-color: $text-color8;
     font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
     font-weight: 400;
     .van-pull-refresh {

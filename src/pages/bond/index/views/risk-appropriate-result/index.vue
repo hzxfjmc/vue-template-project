@@ -59,6 +59,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.yx-container {
+    background-color: $text-color8;
+}
 .risk-appropriate-result-wrapper {
     padding-bottom: 48px;
     .risk-result__header {
@@ -95,6 +98,7 @@ export default {
         }
     }
     .risk-result__content {
+        overflow: hidden;
         margin: 14px;
         padding: 20px 0;
         background: rgba(255, 255, 255, 1);

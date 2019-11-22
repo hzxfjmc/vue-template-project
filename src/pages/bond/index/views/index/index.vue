@@ -31,7 +31,8 @@ export default {
 <style lang="scss" scoped>
 .bond-index-wrapper {
     min-height: 100%;
-    padding-bottom: 77px;
+    padding: 10px 0 77px;
+    background-color: $text-color8;
     .banner {
         width: 375px;
         height: 150px;
