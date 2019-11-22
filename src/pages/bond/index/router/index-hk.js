@@ -40,7 +40,7 @@ let routerList = [
         path: '/risk-assessment',
         meta: { title: '风险测评' },
         component: () =>
-            import(`@/pages/bond/index/views/risk-assessment/index-hk.vue`)
+            import(`@/pages/bond/index/views/risk-assessment/index.vue`)
     },
     {
         name: 'hk-risk-appropriate-result',
