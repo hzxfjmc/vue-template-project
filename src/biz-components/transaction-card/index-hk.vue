@@ -1,10 +1,12 @@
 <template lang="pug">
-    yx-container-better
+    .transaction-box
         van-pull-refresh(
-            slot="main"
             v-model="isLoading"
             @refresh="onRefresh"
-            success-text="刷新成功"
+            :pulling-text="$t('pullingText')"
+            :loosing-text="$t('loosingText')"
+            :loading-text="$t('loadingText')"
+            :success-text="$t('successText')"
         )
             .transaction-card
                 //- 债券信息
@@ -18,20 +20,20 @@
                         span {{ direction === 1 ? $t('buyPrice') : $t('sellPrice') }}
                     template(slot="default")
                         span {{ buyOrSellPrice }}
-                        i {{ currencyShortSymbol }}
+                        i {{ i18nCurrencyName }}
 
                 //- 交易数量
                 van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
                     template(slot="default")
                         van-stepper(v-model="transactionNum" integer min="1" max="9999999")
-                .van-cell__default-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencyName }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
+                .van-cell__default-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('transaction_contracts') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('bondPrice') }}
 
 
                 //- 交易金额
                 van-cell.no-line.amount-money(:title="$t('amountMoney')")
                     template(slot="default")
                         span {{ tradeMoney | thousand-spilt }}
-                        i {{ currencyShortSymbol }}
+                        i {{ i18nCurrencyName }}
 
                 //- 应付、应得利息
                 van-cell.no-line.interest
@@ -44,28 +46,28 @@
                 //- 手续费
                 van-cell.service-charge(:title="$t('serviceCharge')")
                     template(slot="default")
-                        span {{ direction === 1 ? '-' : '+' }}{{ serviceCharge | thousand-spilt }}
+                        span {{ direction === 1 ? '+' : '-' }}{{ serviceCharge | thousand-spilt }}
 
                 //- 当次交易总额
                 van-cell.no-line.total-money(:title="$t('totalMoney')")
                     template(slot="default")
                         span {{ totalTradeMoney | thousand-spilt }}
-                        i {{ currencyShortSymbol }}
+                        i {{ i18nCurrencyName }}
                 .van-cell__total-tips
-                    i.iconfont.icon-wenhao(@click="showTips('total')")
+                    i.iconfont.icon-wenhao(@click="showTips('total')" v-if="direction === 1")
                     span {{direction === 1 ? $t('availableMoney') : $t('positionsCanBeSold')}}
-                    strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}{{ currencyShortSymbol }}
+                    strong(v-if="direction === 1")  {{ marketValue | thousand-spilt }} {{ i18nCurrencyName }}
                     strong(v-if="direction === 2") {{ marketValue }}
 
-        van-button(
-            type="info"
-            slot="bottom"
-            class="foot-button"
-            :disabled="btnDisabled"
-            :class="{ sell: direction === 2 }"
-            :text="btnText"
-            @click="handleTradeToken"
-        )
+        .operate-btn-box
+            van-button(
+                type="info"
+                class="foot-button"
+                :disabled="btnDisabled"
+                :class="{ sell: direction === 2 }"
+                :text="btnText"
+                @click="handleTradeToken"
+            )
 </template>
 
 <script>
@@ -80,16 +82,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.yx-container {
-    overflow: hidden;
-    background: #fff !important;
-}
-.van-pull-refresh {
+.transaction-box {
     height: 100%;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
+    .van-pull-refresh {
+        height: 100%;
+    }
 }
 .transaction-card {
-    padding: 22px $hk-global-padding 68px;
+    padding: 22px $hk-global-padding 70px;
     background-color: #fff;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
     border-radius: 4px;
     .card-header {
         margin-bottom: 25px;
@@ -129,10 +134,33 @@ export default {
         color: $hk-text-color4;
         font-size: 15px;
     }
+    .hack-input {
+        position: absolute;
+        top: 0;
+        width: 56px;
+        right: 23px;
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        z-index: 1;
+    }
 }
-.foot-button.sell {
-    background: #ffbf32;
-    border-color: #ffbf32;
+.operate-btn-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    .foot-button {
+        height: 48px;
+        margin: 0;
+        margin-bottom: constant(safe-area-inset-bottom);
+        margin-bottom: env(safe-area-inset-bottom);
+        &.sell {
+            background: #ffbf32;
+            border-color: #ffbf32;
+        }
+    }
 }
 </style>
 <style lang="scss">
@@ -163,6 +191,7 @@ export default {
             line-height: 22px;
         }
         .van-cell__value {
+            position: relative;
             font-size: 24px;
             line-height: 30px;
             i {
@@ -206,11 +235,13 @@ export default {
         }
     }
     .van-stepper {
+        text-align: right;
         .van-stepper__minus,
         .van-stepper__plus {
             width: 22px;
             height: 22px;
-            &:before {
+            &:before,
+            &:after {
                 display: none;
             }
         }

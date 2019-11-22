@@ -1,21 +1,20 @@
 <template lang="pug">
     .detail-bond-info-wrapper
-        .bond-info-header
+        .bond-info-header(:class="{ en: $i18n.lang === 'en'}")
             a.pdf(
                 v-if="productOverview"
                 target="_blank"
-                :href="productOverview"
+                @click="jumpPdf(productOverview)"
             )
                 i.icon
-                span 產品概覽書
+                span {{ $t('bondOverview') }}
             a.pdf(
                 v-if="raiseManual"
                 target="_blank"
-                :href="raiseManual"
+                @click="jumpPdf(raiseManual)"
             )
                 i.icon
-                span 募集說明書
-        .bond-tips 此債券面值為{{ minFaceValue | thousand-spilt }}{{ currencyName }}/份，買賣金額為{{ buyPerPrice | thousand-spilt }}
+                span {{ $t('prospectus') }}
         .con(@click="toggleShowMoreMsg")
             col-msg.hd-col(:colData="colData")
             .more-msg(v-show="showMore")
@@ -50,38 +49,6 @@ export default {
                 ',',
                 true
             )
-        },
-        // 最小面额
-        minFaceValue() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.minFaceValue &&
-                    this.bondUneditableInfo.minFaceValue - 0) ||
-                0
-            )
-        },
-        // 货币单位
-        currencyName() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.name) ||
-                ''
-            )
-        },
-        // 购买价格
-        buyPrice() {
-            return (
-                (this.currentPrice &&
-                    this.currentPrice.buyPrice &&
-                    this.currentPrice.buyPrice - 0) ||
-                0
-            )
-        },
-        // 每份购买金额
-        buyPerPrice() {
-            let t = this.minFaceValue * this.buyPrice
-            return (t && t.toFixed(4)) || ''
         }
     }
 }
@@ -94,6 +61,14 @@ export default {
         top: 14px;
         right: 14px;
         display: flex;
+        &.en {
+            .pdf {
+                padding: 0;
+                &:first-child {
+                    margin-right: 0;
+                }
+            }
+        }
         .pdf {
             display: flex;
             align-items: center;
@@ -119,13 +94,6 @@ export default {
             }
         }
     }
-    .bond-tips {
-        margin-top: -1px;
-        padding: 0 14px 5px;
-        color: rgba($color: $hk-text-color, $alpha: 0.6);
-        font-size: 0.24rem;
-        line-height: 20px;
-    }
     .col-column {
         padding-bottom: 20px;
         &:nth-child(1) {
@@ -138,6 +106,7 @@ export default {
             position: absolute;
             left: 50%;
             bottom: 0;
+            color: $hk-text-color5;
             transform: translate(-50%);
         }
     }

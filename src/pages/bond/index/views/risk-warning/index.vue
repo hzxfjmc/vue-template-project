@@ -10,6 +10,7 @@
                 .signature-input
                     input.signature-input__inner(
                         v-model="signName"
+                        @blur="handleBlur"
                         :placeholder="signNamePlaceholder"
                     )
             .statement
@@ -20,9 +21,9 @@
                         :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                     )
                 .text
-                    span 我已阅读并知晓债券相关风险。本人已阅读
+                    span 我已阅读并知晓债券购买风险提示，及
                     a(:href="agreementData && agreementData.protocolUrl") 《{{ agreementData && agreementData.protocolName }}》
-                    span ；本人电子签名代表对上述说明的同意，与本人手写签名具有相同的法律效力
+                    span 中有关债券交易、场外交易、及在香港以外地方收取或持有的客户资产的相关条款及风险；本人电子签名代表对上述说明的同意，与本人手写签名具有相同的法律效力
         van-button(
             type="info"
             slot="bottom"
@@ -55,7 +56,7 @@ export default {
     }
     .van-cell__title {
         color: #2e2e3c !important;
-        font-size: 0.36rem;
+        font-size: 18px;
         line-height: 22px;
     }
     // 风险提示文本
@@ -68,7 +69,7 @@ export default {
         box-sizing: border-box;
         p {
             color: $text-color5;
-            font-size: 0.28rem;
+            font-size: 14px;
             line-height: 24px;
         }
     }
@@ -81,11 +82,11 @@ export default {
         .signature-input__inner {
             width: 100%;
             height: 100%;
-            padding-left: 14px;
+            padding: 14px 0 13px 14px;
             border: 1px solid rgba($color: $text-color, $alpha: 0.05);
             color: #2e2e3c;
-            font-size: 0.28rem;
-            line-height: 48px;
+            font-size: 14px;
+            line-height: 24px;
             border-radius: 4px;
             appearance: none;
             &::placeholder {
@@ -101,24 +102,23 @@ export default {
             margin-right: 6px;
             .icon-selected,
             .icon-unchecked {
-                font-size: 0.32rem;
+                font-size: 16px;
                 vertical-align: middle;
             }
             .icon-selected {
-                color: #2f79ff;
+                color: $primary-color-line;
             }
         }
         .text {
             flex: 1;
             color: $text-color3;
             span {
-                font-size: 0.24rem;
+                font-size: 12px;
                 line-height: 18px;
-                opacity: 0.4;
             }
             a {
                 color: $primary-color-line;
-                font-size: 0.24rem;
+                font-size: 12px;
                 line-height: 20px;
             }
         }
