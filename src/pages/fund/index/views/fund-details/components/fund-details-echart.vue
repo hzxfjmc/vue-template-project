@@ -195,13 +195,7 @@ export default {
             canvaStyle.transform = 'translateX(-3%)'
             this.draw(this.chartId)
             this.chart.render()
-            this.active = this.step
             this.tabShow()
-        },
-        $route(to, from) {
-            if (from.path == '/') {
-                this.active = this.step
-            }
         }
     },
     mounted() {
