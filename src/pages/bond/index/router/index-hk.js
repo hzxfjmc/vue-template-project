@@ -40,7 +40,7 @@ let routerList = [
         path: '/risk-assessment',
         meta: { title: '风险测评' },
         component: () =>
-            import(`@/pages/bond/index/views/risk-assessment/index-hk.vue`)
+            import(`@/pages/bond/index/views/risk-assessment/index.vue`)
     },
     {
         name: 'hk-risk-appropriate-result',
@@ -50,16 +50,16 @@ let routerList = [
             import(
                 `@/pages/bond/index/views/risk-appropriate-result/index-hk.vue`
             )
-    },
-    {
-        name: 'hk-risk-assessment-result',
-        path: '/risk-assessment-result',
-        meta: { title: '测评结果' },
-        component: () =>
-            import(
-                `@/pages/bond/index/views/risk-assessment-result/index-hk.vue`
-            )
     }
+    // {
+    //     name: 'hk-risk-assessment-result',
+    //     path: '/risk-assessment-result',
+    //     meta: { title: '测评结果' },
+    //     component: () =>
+    //         import(
+    //             `@/pages/bond/index/views/risk-assessment-result/index-hk.vue`
+    //         )
+    // }
 ]
 
 routerList.forEach(routerItem => {

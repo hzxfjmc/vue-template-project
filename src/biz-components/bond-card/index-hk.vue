@@ -14,7 +14,8 @@
                 .text(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
                 .card-tips {{ $t('yieldToMaturity') }}
             div
-                .text {{ subscriptionAmount | thousand-spilt }}
+                .text.subscription-amount
+                    span {{ subscriptionAmount | thousand-spilt }}
                 .card-tips {{ $t('refAmountContract') }}
             div
                 .text.interest-num
@@ -153,7 +154,8 @@ export default {
                 color: $text-color;
             }
         }
-        .interest-num {
+        .interest-num,
+        .subscription-amount {
             height: 20px;
             font-size: 16px;
             span {

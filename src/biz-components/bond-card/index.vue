@@ -44,7 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 .bond-card {
-    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 15px 12px 22px;
     background-color: $background-color;
     border-radius: 4px;

@@ -145,35 +145,39 @@ export default {
     },
     methods: {
         draw() {
+            // F2 的坑，第一次 resolveData数据为空，第二次有数据之后渲染，这时候在图表上
+            // 进行手势滑动，会造成图表闪烁，这里进行拦截，有数据才进行渲染
+            if (this.resolveData.length === 0) return
+
             let chart = new F2.Chart({
                 id: 'mountNode',
                 pixelRatio: window.devicePixelRatio
                 // padding: [0, 0, 0, 0]
             })
-            chart.source(this.resolveData)
-            // 有个巨坑的地方，F2渲染图表，如果类型值一样，会进行值的叠加
-            // 比如 scale 为 date， date 中的数值 作为 key 来渲染占位
-            // 如果 date 数据为： [ { date: 12, x: 1}, { date: 12, x: 2 }], 此时
-            // 在图表中，这两个对象的数据会进行叠加，在一条竖线上标志数据，而不是两条线
-            chart.scale('date', {
-                tickCount: 5,
-                type: 'cat',
-                formatter: function(x) {
-                    return x.slice(5)
-                }
-            })
-            chart.scale('value', {
-                tickCount: 3,
-                formatter: function(x) {
-                    return x.toFixed(4)
+
+            chart.source(this.resolveData, {
+                // 有个巨坑的地方，F2渲染图表，如果类型值一样，会进行值的叠加
+                // 比如 scale 为 date， date 中的数值 作为 key 来渲染占位
+                // 如果 date 数据为： [ { date: 12, x: 1}, { date: 12, x: 2 }], 此时
+                // 在图表中，这两个对象的数据会进行叠加，在一条竖线上标志数据，而不是两条线
+                date: {
+                    tickCount: 3,
+                    type: 'cat',
+                    formatter: function(x) {
+                        return x.slice(5)
+                    }
+                },
+                value: {
+                    tickCount: 3,
+                    formatter: function(x) {
+                        return x.toFixed(4)
+                    }
                 }
             })
             chart.tooltip({
                 custom: true, // 自定义 tooltip 内容框
                 onChange: obj => {
-                    // var legend = chart.get('legendController').legends.top[0]
                     // console.log('obj', obj)
-                    // transNumToThousandMark
                     let buyPriceTitle =
                         (obj.items[0].value &&
                             (obj.items[0].value - 0).toFixed(4)) ||
@@ -220,10 +224,15 @@ export default {
             chart.legend('type', {
                 position: 'bottom',
                 align: 'center',
-                itemWidth: '0.84rem'
+                itemWidth: '0.84rem',
+                clickable: false
             })
             chart
                 .line()
+                .shape('smooth')
+                .style({
+                    lineWidth: 1.5
+                })
                 .position('date*value')
                 .color('type', value => {
                     if (value === this.$t('buyPrice')) {

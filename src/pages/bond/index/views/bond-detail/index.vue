@@ -64,8 +64,7 @@ export default {
 <style lang="scss" scoped>
 .bond-detail-wrapper {
     padding: 10px 10px 96px;
-    background-color: $text-color8;
-    color: #393939;
+    background-color: $background-bottom-color;
     font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
     font-weight: 400;
     // 常见问题

@@ -95,6 +95,7 @@ module.exports = {
                     minRatio: 0.8
                 })
             )
+            config.optimization.minimizer[0].options.terserOptions.compress.drop_console = true
         }
     },
     devServer: {
