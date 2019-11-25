@@ -580,15 +580,5 @@ export default {
                 confirmButtonText: this.$t('ok')
             })
         }
-    },
-    watch: {
-        transactionNum() {
-            if (this.transactionNum >= 9999999) {
-                // let inputEle = document.querySelector('.van-stepper__input')
-                this.transactionNum = 9999999
-                // inputEle.value = 999
-                // console.log('inputEle :', inputEle.value)
-            }
-        }
     }
 }
