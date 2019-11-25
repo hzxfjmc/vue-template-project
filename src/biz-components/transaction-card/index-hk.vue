@@ -25,7 +25,13 @@
                 //- 交易数量
                 van-cell(:title="$t('transactionNum')" style="margin-top:0.3rem")
                     template(slot="default")
-                        van-stepper(v-model="transactionNum" integer min="1" max="9999999")
+                        van-stepper(
+                            ref="vantstepper"
+                            type="number",
+                            :min="1"
+                            :max="9999999"
+                            v-model="transactionNum"
+                        )
                 .van-cell__default-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('transaction_contracts') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('bondPrice') }}
 
 
@@ -186,6 +192,7 @@ export default {
         }
         .van-cell__title {
             display: flex;
+            flex: none;
             align-items: center;
             font-size: 16px;
             line-height: 22px;
@@ -200,6 +207,7 @@ export default {
                 font-style: normal;
                 font-weight: normal;
                 line-height: 20px;
+                white-space: nowrap;
             }
         }
         &.amount-money,

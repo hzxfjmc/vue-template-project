@@ -2,6 +2,8 @@ import { Row, Col } from 'vant'
 import { handleSelectProtocolInfo } from '@/pages/bond/index/tools'
 import { calcCountDownDay, dateFormat } from '@/utils/tools.js'
 import ColMsg from '@/biz-components/col-msg/index.vue'
+import { isYouxinAndroid } from '@/utils/html-utils'
+import jsBridge from '@/utils/js-bridge'
 export default {
     name: 'BondInfo',
     i18n: {
@@ -248,7 +250,13 @@ export default {
     methods: {
         // 跳转pdf ios 部分使用原生 href 跳转不了
         jumpPdf(url) {
-            window.location.href = url
+            // 安卓不能新开 webview，会跳出 webview下载pdf，导致新开的 webview 页面空白
+            if (isYouxinAndroid) {
+                window.location.href = url
+            } else {
+                // ios 可以直接打开 pdf，但是会影响 查看股票按钮的逻辑显示，所以要新开
+                jsBridge.gotoNewWebview(url)
+            }
         },
         toggleShowMoreMsg() {
             this.showMore = !this.showMore

@@ -73,16 +73,16 @@ export default new Router({
                         import(
                             `@/pages/bond/index/views/risk-appropriate-result/index.vue`
                         )
-                },
-                {
-                    name: 'risk-assessment-result',
-                    path: '/risk-assessment-result',
-                    meta: { title: '测评结果' },
-                    component: () =>
-                        import(
-                            `@/pages/bond/index/views/risk-assessment-result/index.vue`
-                        )
                 }
+                // {
+                //     name: 'risk-assessment-result',
+                //     path: '/risk-assessment-result',
+                //     meta: { title: '测评结果' },
+                //     component: () =>
+                //         import(
+                //             `@/pages/bond/index/views/risk-assessment-result/index.vue`
+                //         )
+                // }
             ]
         },
         {

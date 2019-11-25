@@ -216,7 +216,7 @@ export default {
                 }
             } catch (e) {
                 if (e.msg) {
-                    this.$toast(e.msg)
+                    await this.$toast(e.msg)
                 }
                 console.log('openBondFeePackage:error:>>> ', e)
             } finally {

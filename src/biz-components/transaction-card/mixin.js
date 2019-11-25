@@ -155,6 +155,19 @@ export default {
                     this.transactionNum = 9999999
                 }
             })
+            // 因为 vant stepper 没有提供限制 input value的方法，所以我们
+            // 这里重写了 vant-stepper组件的 format 方法，进行拦截
+            this.$refs.vantstepper.format = function(value) {
+                value = String(value).replace(/[^0-9.-]/g, '')
+                if (value >= 9999999) {
+                    value = 9999999
+                }
+                return value === ''
+                    ? 0
+                    : this.integer
+                    ? Math.floor(value)
+                    : +value
+            }
         }, 500)
     },
     data() {
@@ -566,16 +579,6 @@ export default {
                 messageAlign: 'left',
                 confirmButtonText: this.$t('ok')
             })
-        }
-    },
-    watch: {
-        transactionNum() {
-            if (this.transactionNum >= 999) {
-                let inputEle = document.querySelector('.van-stepper__input')
-                this.transactionNum = 999
-                inputEle.value = 999
-                console.log('inputEle :', inputEle.value)
-            }
         }
     }
 }

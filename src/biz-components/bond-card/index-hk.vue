@@ -14,7 +14,8 @@
                 .text(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
                 .card-tips {{ $t('yieldToMaturity') }}
             div
-                .text {{ subscriptionAmount | thousand-spilt }}
+                .text.subscription-amount
+                    span {{ subscriptionAmount | thousand-spilt }}
                 .card-tips {{ $t('refAmountContract') }}
             div
                 .text.interest-num
@@ -29,12 +30,12 @@ export default {
         zhCHS: {
             yieldToMaturity: '到期年化收益率',
             refAmountContract: '参考认购金额/份',
-            annualInterestContract: '年税后派息/份'
+            annualInterestContract: '年派息/份'
         },
         zhCHT: {
             yieldToMaturity: '到期年化收益率',
             refAmountContract: '參考認購金額/份',
-            annualInterestContract: '年稅後派息/份'
+            annualInterestContract: '年派息/份'
         },
         en: {
             yieldToMaturity: 'Yield-to-Maturity',
@@ -153,7 +154,8 @@ export default {
                 color: $text-color;
             }
         }
-        .interest-num {
+        .interest-num,
+        .subscription-amount {
             height: 20px;
             font-size: 16px;
             span {
