@@ -177,7 +177,7 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.holdInitState = res
-                this.positionStatus = res.positionStatus //
+                this.positionStatus = res.positionStatus
                 this.btnShow1 = false
                 this.btnShow = false
                 if (
@@ -225,13 +225,17 @@ export default {
                     this.step = 4
                     this.initEchartList = []
                     for (let i = 0; i < count; i++) {
-                        this.initEchartList.push(
-                            this.copyinitEchartList[i * 22]
-                        )
+                        this.initEchartList.push(this.copyinitEchartList[i * 5])
                     }
                     break
                 case 6:
                     this.step = 5
+                    this.initEchartList = []
+                    for (let i = 0; i < count; i++) {
+                        this.initEchartList.push(
+                            this.copyinitEchartList[i * 22]
+                        )
+                    }
                     this.initEchartList = this.copyinitEchartList
                     break
                 default:
@@ -246,7 +250,6 @@ export default {
                     fundId: this.$route.query.id,
                     fundNetPriceDateType: time || 5
                 })
-                console.log(res)
                 this.copyinitEchartList = res
                 this.initEchartList = res
                 if (
@@ -272,10 +275,8 @@ export default {
                 } else {
                     this.step = 5
                 }
+                this.initEchartList = this.initEchartList.slice(0, 22)
                 this.initEchartList.map(item => {
-                    // item.netPrice = (
-                    //     Math.floor(Number(item.netPrice) * 100) / 100
-                    // ).toFixed(4)
                     item.netPrice = Number(item.netPrice)
                 })
             } catch (e) {
