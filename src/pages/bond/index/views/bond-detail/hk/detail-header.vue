@@ -1,6 +1,7 @@
 <template lang="pug">
     .detail-header
         media-box.bond-info(
+            :class="{ bindstock: hasBindStock }"
             :title="headerTitle"
             :desc="headerDesc"
         )
@@ -236,6 +237,12 @@ export default {
 .detail-header {
     .media-box.bond-info {
         padding: 20px 14px 18px;
+        &.bindstock {
+            padding-right: 70px;
+            .media-box__title {
+                white-space: normal;
+            }
+        }
         .media-box__content {
             .media-box__title {
                 font-size: 0.5rem;
