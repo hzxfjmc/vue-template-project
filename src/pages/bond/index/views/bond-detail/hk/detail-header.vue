@@ -39,7 +39,7 @@ export default {
                 '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。\n\n' +
                 '注：展示数值为已加入预估佣金、平台使用费之后的到期收益率。',
             refAmountContract: '参考认购金额/份',
-            annualInterestContract: '年税后派息/份',
+            annualInterestContract: '年派息/份',
             viewStocks: '查看股票',
             ok: '我知道了'
         },
@@ -50,7 +50,7 @@ export default {
                 '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參考要素。\n\n' +
                 '注：展示數值為已加入預估佣金、平台使用費之後的到期收益率。',
             refAmountContract: '參考認購金額/份',
-            annualInterestContract: '年稅後派息/份',
+            annualInterestContract: '年派息/份',
             ok: '我知道了',
             viewStocks: '查看股票'
         },
