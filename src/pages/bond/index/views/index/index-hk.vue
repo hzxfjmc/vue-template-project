@@ -1,5 +1,5 @@
 <template lang="pug">
-    .bond-index-wrapper
+    .bond-index-wrapper(ref="bondIndexWrapper")
         van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
             van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
                 a(:href="bannerItem.jump_url || 'javascript:void(0)'" title="")
@@ -30,8 +30,10 @@ export default {
 
 <style lang="scss" scoped>
 .bond-index-wrapper {
-    min-height: 100%;
-    padding: 8px 0 77px;
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 8px 0 48px;
     .banner {
         height: 100px;
         margin: 0 $hk-global-padding;
