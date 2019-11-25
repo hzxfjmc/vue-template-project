@@ -30,12 +30,12 @@ export default {
         zhCHS: {
             yieldToMaturity: '到期年化收益率',
             refAmountContract: '参考认购金额/份',
-            annualInterestContract: '年税后派息/份'
+            annualInterestContract: '年派息/份'
         },
         zhCHT: {
             yieldToMaturity: '到期年化收益率',
             refAmountContract: '參考認購金額/份',
-            annualInterestContract: '年稅後派息/份'
+            annualInterestContract: '年派息/份'
         },
         en: {
             yieldToMaturity: 'Yield-to-Maturity',
