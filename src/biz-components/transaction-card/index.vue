@@ -79,7 +79,7 @@ export default {
     font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
     font-weight: 400;
     .van-pull-refresh {
-        height: 100%;
+        min-height: 100%;
     }
 }
 .transaction-card {
@@ -187,9 +187,6 @@ export default {
 }
 </style>
 <style lang="scss">
-.van-pull-refresh .van-pull-refresh__track {
-    height: 100%;
-}
 .transaction-card {
     // 组件库微调
     .transaction-header {
