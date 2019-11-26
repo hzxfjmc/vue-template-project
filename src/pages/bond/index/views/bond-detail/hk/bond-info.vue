@@ -96,6 +96,9 @@ export default {
     }
     .col-column {
         padding-bottom: 20px;
+        /deep/ .van-col__title {
+            font-family: DINPro-Medium, DINPro, PingFangHK-Medium, PingFangHK;
+        }
         &:nth-child(1) {
             padding-top: 0;
         }
@@ -118,6 +121,7 @@ export default {
         .title-class {
             color: $hk-text-color;
             font-size: 0.36rem;
+            font-family: DINPro-Medium, DINPro, PingFangHK-Medium, PingFangHK;
         }
         .desc-class {
             margin-top: 1px;

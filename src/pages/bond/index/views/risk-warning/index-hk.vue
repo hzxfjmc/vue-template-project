@@ -4,7 +4,7 @@
             van-panel.risk-tips(:title="$t('riskWarning')")
                 .risk-tips__text-box
                     p(v-for="(textItem, index) in $t('riskTipsList')")
-                        span {{ index + 1 }}、
+                        span {{ index + 1 }})
                         span {{ textItem }}
             van-panel.sign-box(:title="$t('signature')")
                 van-field(
@@ -79,6 +79,7 @@ export default {
                 span {
                     &:nth-child(2) {
                         flex: 1;
+                        margin-left: 10px;
                     }
                 }
             }
