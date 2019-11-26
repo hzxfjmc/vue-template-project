@@ -159,6 +159,7 @@ export default {
             p {
                 margin-top: 5px;
                 color: $hk-primary-color;
+                font-family: PingFangHK-Regular, PingFangHK;
             }
         }
         &:last-child {
