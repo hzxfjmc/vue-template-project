@@ -47,7 +47,7 @@ export default {
         }
     }
     .bond-list {
-        padding: 0 $hk-global-padding;
+        padding: 20px $hk-global-padding 0;
     }
     .no-data {
         padding: 10px 0 7px;
