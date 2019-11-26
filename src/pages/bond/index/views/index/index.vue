@@ -33,7 +33,7 @@ export default {
     height: 100%;
     overflow: auto;
     -webkit-overflow-scrolling: touch;
-    padding: 10px 0 48px;
+    padding: 0px 0 48px;
     background-color: $background-bottom-color;
     .banner {
         width: 375px;
@@ -48,7 +48,7 @@ export default {
         }
     }
     .bond-list {
-        padding: 0 10px;
+        padding: 10px 10px 0;
     }
     .no-data {
         padding: 10px 0 7px;
