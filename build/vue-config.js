@@ -224,16 +224,17 @@ module.exports = {
                 target: 'http://admin-sit.yxzq.com',
                 changeOrigin: true
             },
-            // 债券交易
+            // 基金交易
             '/finance-server': {
                 target: jyApi,
                 changeOrigin: true
             },
-            // 债券信息
+            // 基金信息
             '/finance-info-server': {
                 target: jyApi,
                 changeOrigin: true
             },
+
 
             //     // onProxyRes: function(proxyRes, req, res) {
             //     //     let resHttp = proxyRes.client._httpMessage

@@ -13,14 +13,28 @@
                 title=""
             )
                 bond-card-hk(:bondInfo="item")
-            .no-data(v-show="!hasData") 沒有更多債券
+            .no-data(v-show="!hasData") {{ $t('noMoreBonds') }}
         .no-bond-box(v-if="bondList.length === 0 && isShowPage")
-            .no-bond 暫無債券
+            .no-bond {{ $t('noBonds') }}
 </template>
 <script>
 import indexMixin from './mixins.js'
 import BondCardHk from '@/biz-components/bond-card/index-hk'
 export default {
+    i18n: {
+        zhCHS: {
+            noMoreBonds: '没有更多债券',
+            noBonds: '暂无债券'
+        },
+        zhCHT: {
+            noMoreBonds: '沒有更多債券',
+            noBonds: '暫無債券'
+        },
+        en: {
+            noMoreBonds: 'No more bonds',
+            noBonds: 'No bonds'
+        }
+    },
     mixins: [indexMixin],
     components: {
         BondCardHk
