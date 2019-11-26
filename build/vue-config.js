@@ -193,6 +193,11 @@ module.exports = {
                 target: webappApi,
                 changOrigin: true
             },
+            // 代理其他项目的图片
+            '^/wealth': {
+                target: webappApi,
+                changOrigin: true
+            },
             // '^/': {
             //     target: 'http://10.55.4.87:3000',
             //     changOrigin: true,

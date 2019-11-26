@@ -11,7 +11,10 @@ export default {
         this.handleSetupResult()
 
         // 滑动到底触发更新数据
-        window.addEventListener('scroll', this.pullRequest)
+        // window.addEventListener('scroll', this.pullRequest)
+    },
+    mounted() {
+        this.$refs.bondIndexWrapper.addEventListener('scroll', this.pullRequest)
     },
     data() {
         return {
@@ -76,9 +79,13 @@ export default {
         pullRequest() {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
-                let htmlEle = document.querySelector('html')
-                let winHeight = window.innerHeight
-                let winScrollTop = window.scrollY
+                // let htmlEle = document.querySelector('html')
+                let htmlEle = this.$refs.bondIndexWrapper
+                let winHeight = this.$refs.bondIndexWrapper.clientHeight
+                let winScrollTop = this.$refs.bondIndexWrapper.scrollTop
+                // console.log('winHeight :', winHeight)
+                // console.log('winScrollTop :', winScrollTop)
+                // console.log('htmlEle.scrollHeight :', htmlEle.scrollHeight)
                 if (winScrollTop + winHeight >= htmlEle.scrollHeight - 100) {
                     console.log('到底了 :')
                     this.pageNum++
@@ -89,6 +96,11 @@ export default {
     },
     beforeDestroy() {
         // 滑动到底触发更新数据
-        window.removeEventListener('scroll', this.pullRequest)
+        this.$refs.bondIndexWrapper.removeEventListener(
+            'scroll',
+            this.pullRequest
+        )
+
+        // window.removeEventListener('scroll', this.pullRequest)
     }
 }

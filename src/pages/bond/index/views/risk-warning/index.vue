@@ -1,11 +1,11 @@
 <template lang="pug">
-    yx-container-better
+    yx-container
         .risk-warning-wrapper(slot="main")
             van-panel(title="债券购买风险提示")
                 .risk-text-box
-                    p 1、由于企业违约等XXXXXXX可能，债券可能违约，损失部分或全部本金和利息。XXXXXX
-                    p 2、债券市场流动性差，友信提供流动性XXXXXXXXXX，价格点差XXXX。友信尽力撮合订单，但不保证订单一定能够成交。
-                    p 3、成交价格公司可能有损益。
+                    p(v-for="(textItem, index) in $t('riskTipsList')")
+                        span {{ index + 1 }}、
+                        span {{ textItem }}
             van-panel(title="确认签名" style="margin-top: -0.28rem")
                 .signature-input
                     input.signature-input__inner(
@@ -68,9 +68,15 @@ export default {
         background: rgba(47, 121, 255, 0.0261);
         box-sizing: border-box;
         p {
+            display: flex;
             color: $text-color5;
             font-size: 14px;
             line-height: 24px;
+            span {
+                &:nth-child(2) {
+                    flex: 1;
+                }
+            }
         }
     }
     // 签名

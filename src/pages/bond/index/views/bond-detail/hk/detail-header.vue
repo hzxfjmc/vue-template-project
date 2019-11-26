@@ -77,6 +77,7 @@ export default {
             titleStyle: {
                 color: '#fff',
                 'font-size': '20px',
+                'font-family': 'DINPro-Medium,DINPro',
                 'line-height': '0.4rem'
             },
             descStyle: {
@@ -247,6 +248,7 @@ export default {
             .media-box__title {
                 font-size: 0.5rem;
                 font-weight: 500;
+                font-family: PingFangHK-Medium, PingFangHK;
                 line-height: 36px;
             }
             .media-box__desc {
@@ -277,6 +279,7 @@ export default {
             .media-box__title {
                 font-size: 0.32rem;
                 line-height: 22px;
+                font-family: PingFangHK-Medium, PingFangHK;
             }
         }
     }

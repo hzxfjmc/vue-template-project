@@ -143,6 +143,7 @@ export default {
             color: $hk-text-color;
             font-size: 20px;
             font-weight: 500;
+            font-family: DINPro-Medium, DINPro, PingFangHK-Medium, PingFangHK;
             margin-bottom: 6px;
             &.red {
                 color: #ea3d3d;

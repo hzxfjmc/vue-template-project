@@ -1,9 +1,11 @@
 <template lang="pug">
-    yx-container-better
+    yx-container
         .risk-warning-wrapper(slot="main")
             van-panel.risk-tips(:title="$t('riskWarning')")
                 .risk-tips__text-box
-                    p(v-for="(textItem, index) in $t('riskTipsList')") {{ textItem }}
+                    p(v-for="(textItem, index) in $t('riskTipsList')")
+                        span {{ index + 1 }})
+                        span {{ textItem }}
             van-panel.sign-box(:title="$t('signature')")
                 van-field(
                     v-model="signName"
@@ -66,12 +68,19 @@ export default {
             background: rgba($hk-primary-color, 0.05);
             box-shadow: 0px 2px 4px 0px rgba($hk-text-color, 0.1);
             p {
+                display: flex;
                 margin-bottom: 10px;
                 color: $hk-text-color;
                 font-size: 14px;
                 line-height: 20px;
                 &:last-child {
                     margin-bottom: 0;
+                }
+                span {
+                    &:nth-child(2) {
+                        flex: 1;
+                        margin-left: 10px;
+                    }
                 }
             }
         }
