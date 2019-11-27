@@ -14,7 +14,7 @@ export default {
                 '友信证券在债券买卖中担任客户的代理',
                 '债券买卖为场外交易，友信证券并不保证此等交易之结算',
                 '客户进行场外交易须承受交易对手的信用及违约风险，并承担其违约所招致的损失及开支',
-                '场外交易的债券一般在香港以外地方收取或持有，所受的监管和保障也可能与在香港收取或持有的客户资产不同',
+                '场外交易的债券的流通性可能比交易所交易的产品低，一般在香港以外地方收取或持有，所受的监管和保障也可能与在香港收取或持有的客户资产不同',
                 '场外交易不获投资者赔偿基金保障',
                 '其他买卖债券的风险包括发行商失责、利率风险、汇率风险、流通量风险、再投资风险等'
             ],
@@ -31,7 +31,7 @@ export default {
                 '友信證券在債券買賣中擔任客戶的代理',
                 '債券買賣為場外交易，友信證券並不保證此等交易之結算',
                 '客戶進行場外交易須承受交易對手的信用及違約風險，並承擔其違約所招致的損失及開支',
-                '場外交易的債券一般在香港以外地方收取或持有，所受的監管和保障也可能與在香港收取或持有的客戶資產不同',
+                '場外交易的債券的流通性可能比交易所交易的產品低，一般在香港以外地方收取或持有，所受的監管和保障也可能與在香港收取或持有的客戶資產不同',
                 '場外交易不獲投資者賠償基金保障',
                 '其他買賣債券的風險包括發行商失責、利率風險、匯率風險、流通量風險、再投資風險等'
             ],
@@ -48,7 +48,7 @@ export default {
                 'uSmart Securities Limited (“USL”) is acting as agent for the client in trading bonds',
                 'Trading bonds are over-the-counter (“OTC”) transactions, and USL does not guarantee the settlement of such OTC transactions',
                 'The client who conduct OTC transactions shall be subject to the credit and default risks of counterparties, and bear its own losses and expenses resulting from their defaults',
-                'OTC traded bonds will usually be received or held outside Hong Kong, and the applicable regulation and protection may also be different from that conferred on the Client’s Assets received or held in Hong Kong',
+                'OTC traded bonds may have a liquidity lower than exchange-traded products, and will usually be received or held outside Hong Kong, and the applicable regulation and protections may also be different from that conferred on the Client’s Assets received or held in Hong Kong',
                 'OTC transactions are not covered by the Investor Compensation Fund',
                 'Other risks of trading bonds include issuer default risk, interest rate risk, foreign exchange risk, liquidity risk, reinvestment risk, etc'
             ],
