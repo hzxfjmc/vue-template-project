@@ -76,6 +76,7 @@ export default {
             if (!this.submitBtnDisabled && this.canSubmit) return
             this.canSubmit = true
             try {
+                this.$loading()
                 // 构造提交数据
                 let serializeData = this.subject.map(subjectItem => {
                     if (subjectItem.subject) {
@@ -116,9 +117,11 @@ export default {
             } catch (e) {
                 this.canSubmit = false
                 if (e.msg) {
-                    this.$toast(e.msg)
+                    await this.$toast(e.msg)
                 }
                 console.log('riskAssessAnswer:error:>>>', e)
+            } finally {
+                this.$close()
             }
         },
         // 跳转
