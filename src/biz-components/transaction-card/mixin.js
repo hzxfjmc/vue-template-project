@@ -473,6 +473,7 @@ export default {
         async handleBondOrder(tradeToken = '') {
             console.log('requestToken :', tradeToken)
             try {
+                this.$loading()
                 let data = await bondOrder({
                     bondId: this.id,
                     direction: this.direction,
@@ -481,7 +482,9 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: tradeToken
                 })
-                await this.$toast(this.$t('submitSuccess'))
+                await this.$toast(this.$t('submitSuccess'), 'bottom', {
+                    forbidClick: true
+                })
 
                 // 交易完成，挑战订单页，关闭当前 Webview ，防止返回按钮回到交易页
                 setTimeout(() => {
@@ -556,6 +559,8 @@ export default {
                 } else {
                     this.$toast(this.$t('submitFail'))
                 }
+            } finally {
+                this.$close()
             }
         },
         // handleChange(value) {
