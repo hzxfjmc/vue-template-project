@@ -18,13 +18,14 @@
             :positionStatus = "positionStatus"
             :fondCode = "fondCode"
             :scroll = "scroll"
+            :showPositionInfo="showPositionInfo"
             :fundHeaderInfoVO = "fundHeaderInfoVO" 
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-    .fund-footer-content(@click="handleBuyOrSell" v-if="btnShow1")
+    .fund-footer-content(@click="handleBuyOrSell" v-else)
         van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
     
     
@@ -44,6 +45,7 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
+import { mapGetters } from 'vuex'
 
 export default {
     i18n: {
@@ -71,6 +73,13 @@ export default {
         fundDetailsList,
         Button,
         Dialog
+    },
+    computed: {
+        ...mapGetters(['isLogin', 'openedAccount']),
+        showPositionInfo() {
+            // 登陆且已开户才展示持仓信息
+            return this.isLogin && this.openedAccount
+        }
     },
     data() {
         return {
@@ -172,6 +181,7 @@ export default {
         },
         //获取持仓数据
         async getFundPositionV2() {
+            if (!this.showPositionInfo) return false
             try {
                 const res = await getFundPositionV2({
                     fundId: this.$route.query.id

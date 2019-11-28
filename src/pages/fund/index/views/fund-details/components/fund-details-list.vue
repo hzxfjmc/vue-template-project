@@ -68,11 +68,15 @@ export default {
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
+        },
+        showPositionInfo: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         return {
-            list: JSON.parse(JSON.stringify(itemList))
+            list: []
         }
     },
     methods: {
@@ -138,6 +142,9 @@ export default {
         }
     },
     mounted() {
+        let list = JSON.parse(JSON.stringify(itemList))
+        list.trade.itemShow = this.showPositionInfo
+        this.list = list
         this.InitI18nState()
     }
 }
