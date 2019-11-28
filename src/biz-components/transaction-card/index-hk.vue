@@ -47,12 +47,12 @@
                         span {{ direction === 1 ? $t('payableInterest') : $t('accruedInterest') }}
                         i.iconfont.icon-wenhao(@click="showTips('interest')")
                     template(slot="default")
-                        span +{{ calcInterest | thousand-spilt }}
+                        span {{ calcInterest | thousand-spilt }}
 
                 //- 手续费
                 van-cell.service-charge(:title="$t('serviceCharge')")
                     template(slot="default")
-                        span {{ direction === 1 ? '+' : '-' }}{{ serviceCharge | thousand-spilt }}
+                        span {{ serviceCharge | thousand-spilt }}
 
                 //- 当次交易总额
                 van-cell.no-line.total-money(:title="$t('totalMoney')")

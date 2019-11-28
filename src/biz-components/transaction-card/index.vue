@@ -33,11 +33,11 @@
                     .yx-cell__header {{ direction === 1 ? '应付利息' : '应得利息' }}
                         .yx-cell__header-tip
                             i.iconfont.icon-wenhao(@click="showTips('interest')")
-                    .yx-cell__primary +{{ calcInterest | thousand-spilt }}
+                    .yx-cell__primary {{ calcInterest | thousand-spilt }}
 
                 .yx-cell.sp(style="padding-top:0.2rem")
                     .yx-cell__header 手续费(预估)
-                    .yx-cell__primary {{direction === 1 ? '+' : '-'}}{{ serviceCharge }}
+                    .yx-cell__primary {{ serviceCharge }}
 
                 .divider-line
 
