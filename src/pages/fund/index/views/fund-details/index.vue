@@ -118,7 +118,7 @@ export default {
                 this.$router.push({
                     path: routerPath,
                     query: {
-                        id: this.$route.query.id,
+                        id: this.$route.query.id || this.id,
                         currencyType: this.fundTradeInfoVO.currency.type
                     }
                 })
@@ -130,7 +130,7 @@ export default {
                 this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: this.$route.query.displayLocation || 1,
-                    fundId: this.$route.query.id,
+                    fundId: this.$route.query.id || this.id,
                     isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
@@ -324,7 +324,7 @@ export default {
                 return this.$router.push({
                     path: '/risk-assessment',
                     query: {
-                        id: this.$route.query.id,
+                        id: this.$route.query.id || this.id,
                         extendStatusBit: this.userInfo.extendStatusBit,
                         fundRiskType: this.fundRiskType,
                         currencyType: this.fundTradeInfoVO.currency.type
@@ -338,13 +338,13 @@ export default {
                     return this.$router.push({
                         path: '/risk-appropriate-result',
                         query: {
-                            id: this.$route.query.id
+                            id: this.$route.query.id || this.id
                         }
                     })
                 }
                 let data = {
                     query: {
-                        id: this.$route.query.id,
+                        id: this.$route.query.id || this.id,
                         assessResult: this.userInfo.assessResult,
                         currencyType: this.fundTradeInfoVO.currency.type,
                         fundCode: this.fundCode
