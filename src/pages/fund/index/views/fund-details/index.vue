@@ -46,7 +46,7 @@ import { getFundPositionV2 } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 import { mapGetters } from 'vuex'
-
+import { debounce } from '@/utils/tools.js'
 export default {
     i18n: {
         zhCHS: {
@@ -381,12 +381,32 @@ export default {
                         : '/open-permissions'
                 this.$router.push(data)
             }
+        },
+        async appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            console.log('appVisible方法执行了')
+            await this.$store.dispatch('initAction')
+            this.getCurrentUser()
         }
     },
     mounted() {
         this.getCurrentUser()
 
         this.getFundDetail()
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.appVisibleHandle, 100)
     }
 }
 </script>
