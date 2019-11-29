@@ -52,17 +52,23 @@ export default {
         zhCHS: {
             buy: '申购',
             redeem: '赎回',
-            append: '追加'
+            append: '追加',
+            login: '请登陆后进行操作 ',
+            openAccount: '请开户后进行操作'
         },
         zhCHT: {
             buy: '申購',
             redeem: '贖回',
-            append: '續投'
+            append: '續投',
+            login: '請登陸後進行操作 ',
+            openAccount: '請開戶後進行操作'
         },
         en: {
             buy: 'Subscription',
             redeem: 'Redemption',
-            append: 'Incremental'
+            append: 'Incremental',
+            login: 'Please login in  ',
+            openAccount: 'Please open your account'
         }
     },
     // keepalive: true,
@@ -308,7 +314,7 @@ export default {
             // 未登录或未开户
             if (!this.userInfo) {
                 await this.$dialog.alert({
-                    message: '用户信息丢失，请登陆'
+                    message: this.$t('login')
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
@@ -316,7 +322,7 @@ export default {
             if (!this.userInfo.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
-                    message: '未开户，请先去开户'
+                    message: this.$t('openAccount')
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
