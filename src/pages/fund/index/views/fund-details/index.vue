@@ -53,22 +53,28 @@ export default {
             buy: '申购',
             redeem: '赎回',
             append: '追加',
-            login: '请登陆后进行操作 ',
-            openAccount: '请开户后进行操作'
+            login: '请登录后进行操作 ',
+            loginBtn: '立即登录',
+            openAccountBtn: '立即开户',
+            openAccount: '您尚未开户，开户成功即可交易'
         },
         zhCHT: {
             buy: '申購',
             redeem: '贖回',
             append: '續投',
             login: '請登陸後進行操作 ',
-            openAccount: '請開戶後進行操作'
+            loginBtn: '立即登錄',
+            openAccountBtn: '立即開戶',
+            openAccount: '您尚未開戶，開戶成功即可交易'
         },
         en: {
             buy: 'Subscription',
             redeem: 'Redemption',
             append: 'Incremental',
-            login: 'Please login in  ',
-            openAccount: 'Please open your account'
+            login: 'Please login in',
+            loginBtn: 'Login',
+            openAccountBtn: 'Open account',
+            openAccount: 'Please open your account to continue the trade'
         }
     },
     // keepalive: true,
@@ -314,7 +320,8 @@ export default {
             // 未登录或未开户
             if (!this.userInfo) {
                 await this.$dialog.alert({
-                    message: this.$t('login')
+                    message: this.$t('login'),
+                    confirmButtonText: this.$t('loginBtn')
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
@@ -322,7 +329,8 @@ export default {
             if (!this.userInfo.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
-                    message: this.$t('openAccount')
+                    message: this.$t('openAccount'),
+                    confirmButtonText: this.$t('openAccountBtn')
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
