@@ -21,7 +21,7 @@
                         i.iconfont(:class="item.icon")
                         span {{item.assetTypeName}}
                 
-                .header-content-number(@click="toFundAccount")
+                .header-content-number(@click="toFundAccount" v-if="showPositionInfo")
                     .header-content-top
                         span {{$t('AllTotalMarketPostion')}} ({{this.currency === 2 ? 'HKD':'USD'}})
                         i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click.stop="hideNumber")
@@ -97,6 +97,10 @@ export default {
         lists: {
             type: Array,
             default: () => {}
+        },
+        showPositionInfo: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
