@@ -44,7 +44,7 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
-
+import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 export default {
     i18n: {
         zhCHS: {
@@ -165,6 +165,11 @@ export default {
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                browseFundDetails(
+                    'fund_detail',
+                    res.fundHeaderInfoVO.fundId,
+                    res.fundHeaderInfoVO.fundName
+                )
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
@@ -242,6 +247,20 @@ export default {
                     this.step = 6
                     break
             }
+            let month = {
+                1: '1个月',
+                2: '3个月',
+                3: '6个月',
+                4: '1年'
+            }
+            if (time <= 4) {
+                clickFundDetails(
+                    'fund_detail',
+                    month[time],
+                    this.fundHeaderInfoVO.fundId,
+                    this.fundHeaderInfoVO.fundName
+                )
+            }
         },
         //echart图的数据获取
         async getFundNetPrice(time) {
@@ -294,6 +313,12 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell() {
+            clickFundDetails(
+                'fund_detail',
+                '申购',
+                this.fundHeaderInfoVO.fundId,
+                this.fundHeaderInfoVO.fundName
+            )
             if (!this.flag2) return this.$toast(this.forbidPrompt)
             // 未登录或未开户
             if (!this.userInfo) {
