@@ -16,7 +16,7 @@
             :fundCorrelationFileList="fundCorrelationFileList"
             :fundTradeInfoVO = "fundTradeInfoVO"
             :positionStatus = "positionStatus"
-            :fondCode = "fondCode"
+            :fundCode = "fundCode"
             :scroll = "scroll"
             :showPositionInfo="showPositionInfo"
             :fundHeaderInfoVO = "fundHeaderInfoVO" 
@@ -99,6 +99,7 @@ export default {
                 apy: 0.0,
                 netPrice: 0.0
             },
+            id: '',
             fundOverviewInfoVO: {},
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},
@@ -117,7 +118,7 @@ export default {
             holdDetailsShow: false,
             btnShow: false,
             btnShow1: false,
-            fondCode: '',
+            fundCode: '',
             userInfo: null,
             scroll: 0,
             fundRiskType: '',
@@ -150,11 +151,13 @@ export default {
                 this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: this.$route.query.displayLocation || 1,
-                    fundId: this.$route.query.id
+                    fundId: this.$route.query.id,
+                    isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
-                this.fondCode = this.fundHeaderInfoVO.fondCode
+                this.fundCode = this.fundHeaderInfoVO.fundCode
                 let flag = this.fundHeaderInfoVO.apy < 0
                 this.fundHeaderInfoVO.apy = (
                     Math.floor(Math.abs(this.fundHeaderInfoVO.apy) * 10000) /
@@ -180,6 +183,8 @@ export default {
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
+                this.getFundNetPrice()
+                this.getFundPositionV2()
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
                 this.flag1 =
@@ -196,7 +201,7 @@ export default {
             if (!this.showPositionInfo) return false
             try {
                 const res = await getFundPositionV2({
-                    fundId: this.$route.query.id
+                    fundId: this.id
                 })
                 this.holdInitState = res
                 this.positionStatus = res.positionStatus
@@ -269,7 +274,7 @@ export default {
         async getFundNetPrice(time) {
             try {
                 const res = await getFundNetPrice({
-                    fundId: this.$route.query.id,
+                    fundId: this.id,
                     fundNetPriceDateType: time || 5
                 })
                 this.copyinitEchartList = res
@@ -380,9 +385,8 @@ export default {
     },
     mounted() {
         this.getCurrentUser()
-        this.getFundNetPrice()
+
         this.getFundDetail()
-        this.getFundPositionV2()
     }
 }
 </script>
