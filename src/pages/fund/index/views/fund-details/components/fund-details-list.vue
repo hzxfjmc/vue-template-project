@@ -84,7 +84,7 @@ export default {
             LS.put('scrollFlag', 2)
             if (item.routerPath == '/fund-introduce')
                 data.query = {
-                    id: this.$route.query.id
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
                 }
             if (item.routerPath == '/fund-files') {
                 let filesData = this.fundCorrelationFileList
@@ -96,12 +96,12 @@ export default {
                 item.routerPath == '/fund-historical'
             ) {
                 data.query = {
-                    id: this.$route.query.id
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
                 }
             }
             if (item.routerPath == '/order-record') {
                 data.query = {
-                    id: this.$route.query.id,
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId,
                     currencyType: this.fundTradeInfoVO.currency.type
                 }
             }
