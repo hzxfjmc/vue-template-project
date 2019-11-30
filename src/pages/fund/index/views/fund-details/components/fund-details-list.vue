@@ -58,7 +58,7 @@ export default {
             type: Object,
             default: () => {}
         },
-        fondCode: {
+        fundCode: {
             type: String,
             default: ''
         },
