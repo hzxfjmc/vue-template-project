@@ -111,7 +111,7 @@ export default {
             }
             if (item.routerPath == '/generator') {
                 this.openWebView(
-                    `${window.location.origin}/webapp/market/generator.html?key=${this.fondCode}`
+                    `${window.location.origin}/webapp/market/generator.html?key=${this.fundCode}`
                 )
             } else {
                 let routerQuery = ''
