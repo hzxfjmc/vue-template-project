@@ -12,7 +12,7 @@ import { isYouxinApp } from '@/utils/html-utils.js'
 // 开发环境使用，打包前注意要注释
 import proxyValid from '@/mock/utils/api-proxy.js'
 let token = {
-    Authorization: LS.get('userToken')
+    Authorization: LS.get('userToken') || ''
 }
 
 export const setToken = (userToken = '') => {

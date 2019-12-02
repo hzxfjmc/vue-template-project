@@ -16,15 +16,16 @@
             :fundCorrelationFileList="fundCorrelationFileList"
             :fundTradeInfoVO = "fundTradeInfoVO"
             :positionStatus = "positionStatus"
-            :fondCode = "fondCode"
+            :fundCode = "fundCode"
             :scroll = "scroll"
+            :showPositionInfo="showPositionInfo"
             :fundHeaderInfoVO = "fundHeaderInfoVO" 
             :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-    .fund-footer-content(@click="handleBuyOrSell" v-if="btnShow1")
+    .fund-footer-content(@click="handleBuyOrSell" v-else)
         van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
     
     
@@ -45,22 +46,36 @@ import { getFundPositionV2 } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
+import { mapGetters } from 'vuex'
+import { debounce } from '@/utils/tools.js'
 export default {
     i18n: {
         zhCHS: {
             buy: '申购',
             redeem: '赎回',
-            append: '追加'
+            append: '追加',
+            login: '请登录后进行操作 ',
+            loginBtn: '立即登录',
+            openAccountBtn: '立即开户',
+            openAccount: '您尚未开户，开户成功即可交易'
         },
         zhCHT: {
             buy: '申購',
             redeem: '贖回',
-            append: '續投'
+            append: '續投',
+            login: '請登陸後進行操作 ',
+            loginBtn: '立即登錄',
+            openAccountBtn: '立即開戶',
+            openAccount: '您尚未開戶，開戶成功即可交易'
         },
         en: {
             buy: 'Subscription',
             redeem: 'Redemption',
-            append: 'Incremental'
+            append: 'Incremental',
+            login: 'Please login in',
+            loginBtn: 'Login',
+            openAccountBtn: 'Open account',
+            openAccount: 'Please open your account to continue the trade'
         }
     },
     // keepalive: true,
@@ -72,12 +87,20 @@ export default {
         Button,
         Dialog
     },
+    computed: {
+        ...mapGetters(['isLogin', 'openedAccount']),
+        showPositionInfo() {
+            // 登陆且已开户才展示持仓信息
+            return this.isLogin && this.openedAccount
+        }
+    },
     data() {
         return {
             fundHeaderInfoVO: {
                 apy: 0.0,
                 netPrice: 0.0
             },
+            id: '',
             fundOverviewInfoVO: {},
             fundCorrelationFileList: [],
             fundTradeInfoVO: {},
@@ -96,7 +119,7 @@ export default {
             holdDetailsShow: false,
             btnShow: false,
             btnShow1: false,
-            fondCode: '',
+            fundCode: '',
             userInfo: null,
             scroll: 0,
             fundRiskType: '',
@@ -117,7 +140,7 @@ export default {
                 this.$router.push({
                     path: routerPath,
                     query: {
-                        id: this.$route.query.id,
+                        id: this.$route.query.id || this.id,
                         currencyType: this.fundTradeInfoVO.currency.type
                     }
                 })
@@ -129,11 +152,13 @@ export default {
                 this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: this.$route.query.displayLocation || 1,
-                    fundId: this.$route.query.id
+                    fundId: this.$route.query.id || this.id,
+                    isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
-                this.fondCode = this.fundHeaderInfoVO.fondCode
+                this.fundCode = this.fundHeaderInfoVO.fundCode
                 let flag = this.fundHeaderInfoVO.apy < 0
                 this.fundHeaderInfoVO.apy = (
                     Math.floor(Math.abs(this.fundHeaderInfoVO.apy) * 10000) /
@@ -159,6 +184,8 @@ export default {
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
+                this.getFundNetPrice()
+                this.getFundPositionV2()
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
                 this.flag1 =
@@ -177,9 +204,10 @@ export default {
         },
         //获取持仓数据
         async getFundPositionV2() {
+            if (!this.showPositionInfo) return false
             try {
                 const res = await getFundPositionV2({
-                    fundId: this.$route.query.id
+                    fundId: this.id
                 })
                 this.holdInitState = res
                 this.positionStatus = res.positionStatus
@@ -266,7 +294,7 @@ export default {
         async getFundNetPrice(time) {
             try {
                 const res = await getFundNetPrice({
-                    fundId: this.$route.query.id,
+                    fundId: this.id,
                     fundNetPriceDateType: time || 5
                 })
                 this.copyinitEchartList = res
@@ -323,7 +351,8 @@ export default {
             // 未登录或未开户
             if (!this.userInfo) {
                 await this.$dialog.alert({
-                    message: '用户信息丢失，请登陆'
+                    message: this.$t('login'),
+                    confirmButtonText: this.$t('loginBtn')
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
@@ -331,7 +360,8 @@ export default {
             if (!this.userInfo.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
-                    message: '未开户，请先去开户'
+                    message: this.$t('openAccount'),
+                    confirmButtonText: this.$t('openAccountBtn')
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
@@ -344,7 +374,7 @@ export default {
                 return this.$router.push({
                     path: '/risk-assessment',
                     query: {
-                        id: this.$route.query.id,
+                        id: this.$route.query.id || this.id,
                         extendStatusBit: this.userInfo.extendStatusBit,
                         fundRiskType: this.fundRiskType,
                         currencyType: this.fundTradeInfoVO.currency.type
@@ -358,13 +388,13 @@ export default {
                     return this.$router.push({
                         path: '/risk-appropriate-result',
                         query: {
-                            id: this.$route.query.id
+                            id: this.$route.query.id || this.id
                         }
                     })
                 }
                 let data = {
                     query: {
-                        id: this.$route.query.id,
+                        id: this.$route.query.id || this.id,
                         assessResult: this.userInfo.assessResult,
                         currencyType: this.fundTradeInfoVO.currency.type,
                         fundCode: this.fundCode
@@ -377,13 +407,32 @@ export default {
                         : '/open-permissions'
                 this.$router.push(data)
             }
+        },
+        async appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            console.log('appVisible方法执行了')
+            await this.$store.dispatch('initAction')
+            this.getCurrentUser()
         }
     },
     mounted() {
         this.getCurrentUser()
-        this.getFundNetPrice()
+
         this.getFundDetail()
-        this.getFundPositionV2()
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.appVisibleHandle, 100)
     }
 }
 </script>

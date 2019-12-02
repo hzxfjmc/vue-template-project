@@ -59,7 +59,7 @@ export default {
             type: Object,
             default: () => {}
         },
-        fondCode: {
+        fundCode: {
             type: String,
             default: ''
         },
@@ -69,11 +69,15 @@ export default {
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
+        },
+        showPositionInfo: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         return {
-            list: JSON.parse(JSON.stringify(itemList))
+            list: []
         }
     },
     methods: {
@@ -91,7 +95,7 @@ export default {
             LS.put('scrollFlag', 2)
             if (item.routerPath == '/fund-introduce')
                 data.query = {
-                    id: this.$route.query.id
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
                 }
             if (item.routerPath == '/fund-files') {
                 let filesData = this.fundCorrelationFileList
@@ -103,18 +107,18 @@ export default {
                 item.routerPath == '/fund-historical'
             ) {
                 data.query = {
-                    id: this.$route.query.id
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
                 }
             }
             if (item.routerPath == '/order-record') {
                 data.query = {
-                    id: this.$route.query.id,
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId,
                     currencyType: this.fundTradeInfoVO.currency.type
                 }
             }
             if (item.routerPath == '/generator') {
                 this.openWebView(
-                    `${window.location.origin}/webapp/market/generator.html?key=${this.fondCode}`
+                    `${window.location.origin}/webapp/market/generator.html?key=${this.fundCode}`
                 )
             } else {
                 let routerQuery = ''
@@ -145,6 +149,9 @@ export default {
         }
     },
     mounted() {
+        let list = JSON.parse(JSON.stringify(itemList))
+        list.trade.itemShow = this.showPositionInfo
+        this.list = list
         this.InitI18nState()
     }
 }
