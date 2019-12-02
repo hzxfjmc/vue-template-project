@@ -423,7 +423,6 @@ export default {
     },
     mounted() {
         this.getCurrentUser()
-
         this.getFundDetail()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
