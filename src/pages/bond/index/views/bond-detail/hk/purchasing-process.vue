@@ -4,7 +4,7 @@
             van-step
                 <h3>{{ $t('purchased') }}</h3>
             van-step
-                <h3>{{ enumDelivery }}{{ $t('startEarningInterest') }}</h3>
+                <h3>T{{ $t('startEarningInterest') }}</h3>
             van-step
                 <h3>{{ paymentDate }}{{ $t('interestPaymentDate') }}</h3>
                 <p>・{{ $t('receiveInterest') }}</p>
