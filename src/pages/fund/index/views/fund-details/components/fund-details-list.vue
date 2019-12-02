@@ -9,6 +9,7 @@
 import { itemList } from './fund-list'
 import LS from '@/utils/local-storage'
 import jsBridge from '@/utils/js-bridge'
+import { clickFundDetails } from '@/utils/burying-point'
 export default {
     i18n: {
         zhCHS: {
@@ -84,6 +85,12 @@ export default {
             let data = {
                 path: item.routerPath
             }
+            clickFundDetails(
+                'fund_detail',
+                item.label,
+                this.fundHeaderInfoVO.fundId,
+                this.fundHeaderInfoVO.fundName
+            )
             LS.put('scroll', this.scroll)
             LS.put('scrollFlag', 2)
             if (item.routerPath == '/fund-introduce')
