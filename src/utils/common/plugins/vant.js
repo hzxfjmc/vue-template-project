@@ -54,7 +54,7 @@ Vue.prototype.$confirm = arg => {
     }
     return Dialog.confirm(arg)
 }
-Vue.prototype.$alert = arg => {
+export const alertModule = arg => {
     if (typeof arg === 'string') {
         arg = {
             message: arg,
@@ -67,6 +67,7 @@ Vue.prototype.$alert = arg => {
     }
     return Dialog.alert(arg)
 }
+Vue.prototype.$alert = alertModule
 
 Vue.prototype.$toast = (msg, direction = 'bottom', options) => {
     return new Promise((resolve, reject) => {
