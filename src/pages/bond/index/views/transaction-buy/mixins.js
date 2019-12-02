@@ -2,6 +2,7 @@ import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import { feePackageCurr, feePackageAgent } from '@/service/product-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
 import { getBondInterestCalculate } from '@/service/finance-server.js'
+import { getBondPosition } from '@/service/finance-server.js'
 import { PullRefresh } from 'vant'
 export default {
     name: 'TransactionBuy',
@@ -58,10 +59,14 @@ export default {
         // this.handleHsAccountInfo()
         // this.onRefresh()
         this.handleFeePackageCurr()
+
+        this.handleGetBondPosition()
     },
     data() {
         return {
             isLoading: false, // 下拉刷新
+
+            positionData: {}, // 当前用户债券持仓
 
             bondEditableInfo: {},
             bondUneditableInfo: {},
@@ -172,6 +177,23 @@ export default {
                 console.log('hsAccountInfo:data:>>>', data)
             } catch (error) {
                 console.log('hsAccountInfo:error:>>>', error)
+            }
+        },
+        // 获取当前用户债券持仓
+        async handleGetBondPosition() {
+            try {
+                let { bondPositionList } = await getBondPosition(2)
+                let tempPositionData =
+                    (bondPositionList &&
+                        bondPositionList.filter(
+                            positionItem =>
+                                positionItem.bondId === this.$route.query.id - 0
+                        )) ||
+                    []
+                this.positionData = tempPositionData[0] || {}
+                console.log('getBondPosition:data:>>> ', bondPositionList)
+            } catch (error) {
+                console.log('getBondPosition:error:>>> ', error)
             }
         }
     }
