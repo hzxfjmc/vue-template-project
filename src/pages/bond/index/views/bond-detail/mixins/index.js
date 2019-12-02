@@ -12,11 +12,22 @@ export default {
         [PullRefresh.name]: PullRefresh,
         YxContainerBetter
     },
+    beforeRouteEnter(to, from, next) {
+        // 获取债券详情，在 dom 渲染之前获取数据，防止页面数据从空到有
+        // 造成页面加载时间变长，但是这是产品要求的
+        getBondDetail(to.query.id - 0)
+            .then(res => {
+                console.log('beforeRouterEnter>>>then :', res)
+                next(vm => {
+                    vm.setBondDetail(res, vm)
+                })
+            })
+            .catch(e => {
+                console.log('beforeRouterEnter>>>error :', e)
+            })
+    },
     created() {
         this.id = this.$route.query.id - 0
-
-        // 获取债券详情
-        this.handleGetBondDetail()
 
         // 获取用户信息--主要拿签名状态
         this.handleGetCurrentUser()
@@ -76,39 +87,38 @@ export default {
         // 获取债券详情
         async handleGetBondDetail() {
             try {
-                let {
-                    bondEditableInfo,
-                    bondUneditableInfo,
-                    currentPrice,
-                    paymentInfo,
-                    prices
-                } = await getBondDetail(this.id)
-
-                this.bondEditableInfo = bondEditableInfo || {}
-                this.bondUneditableInfo = bondUneditableInfo || {}
-                this.currentPrice = currentPrice || {}
-                this.paymentInfo = paymentInfo || {}
-                this.paymentAfterTaxPerYear =
-                    this.paymentInfo.paymentAfterTaxPerYear || ''
-                this.prices = prices || []
-                this.bondName =
-                    (this.bondEditableInfo.issuer &&
-                        this.bondEditableInfo.issuer.name) ||
-                    '--'
-
-                // 是否有绑定股票，有则右上角展示查看股票
-                this.bindStock =
-                    (bondEditableInfo && bondEditableInfo.bindStock) || {}
-                console.log(
-                    'getBondDetail:data:>>> ',
-                    bondEditableInfo,
-                    bondUneditableInfo,
-                    currentPrice,
-                    prices
-                )
+                let res = await getBondDetail(this.id)
+                this.setBondDetail(res, this)
+                console.log('getBondDetail:data:>>> ', res)
             } catch (e) {
                 console.log('getBondDetail:error:>>>', e)
             }
+        },
+        // 提取设置债券数据操作
+        setBondDetail(res, context) {
+            res = res ? res : {}
+            let {
+                bondEditableInfo,
+                bondUneditableInfo,
+                currentPrice,
+                paymentInfo,
+                prices
+            } = res
+            context.bondEditableInfo = bondEditableInfo || {}
+            context.bondUneditableInfo = bondUneditableInfo || {}
+            context.currentPrice = currentPrice || {}
+            context.paymentInfo = paymentInfo || {}
+            context.paymentAfterTaxPerYear =
+                context.paymentInfo.paymentAfterTaxPerYear || ''
+            context.prices = prices || []
+            context.bondName =
+                (context.bondEditableInfo.issuer &&
+                    context.bondEditableInfo.issuer.name) ||
+                '--'
+
+            // 是否有绑定股票，有则右上角展示查看股票
+            context.bindStock =
+                (bondEditableInfo && bondEditableInfo.bindStock) || {}
         },
         // 获取用户信息--主要拿签名状态
         async handleGetCurrentUser() {
