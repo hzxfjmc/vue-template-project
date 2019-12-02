@@ -25,7 +25,7 @@
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-    .fund-footer-content(@click="handleBuyOrSell" v-else)
+    .fund-footer-content(@click="handleBuyOrSell" v-if="isShowBtn")
         van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
     
     
@@ -92,6 +92,15 @@ export default {
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
+        },
+        isShowBtn() {
+            // 未登录或者登录后灰度名单下才展示申购/赎回按钮 grayStatusBit 1000 代表在白名单内
+            return (
+                !this.isLogin ||
+                (this.isLogin &&
+                    this.userInfo &&
+                    this.userInfo.grayStatusBit & (1 << 3)) !== 0
+            )
         }
     },
     data() {
