@@ -111,7 +111,7 @@ export function browseFundDetails(page, id, name) {
 
 //点击基金详情
 export function clickFundDetails(page, propViewName, id, name) {
-    sensors.track('yxstock_web_view_screen', {
+    sensors.track('yxstock_web_view_click', {
         prop_view_page: page,
         prop_view_name: propViewName,
         prop_fund_id: id,
