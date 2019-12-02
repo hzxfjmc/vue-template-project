@@ -102,7 +102,7 @@ export function webAdClick(page, id, type) {
 
 //基金详情页浏览
 export function browseFundDetails(page, id, name) {
-    sensors.track('yxstock_app_view_screen', {
+    sensors.track('yxstock_web_view_screen', {
         prop_view_page: page,
         prop_fund_id: id,
         prop_fund_name: name
@@ -111,7 +111,7 @@ export function browseFundDetails(page, id, name) {
 
 //点击基金详情
 export function clickFundDetails(page, propViewName, id, name) {
-    sensors.track('yxstock_app_view_screen', {
+    sensors.track('yxstock_web_view_screen', {
         prop_view_page: page,
         prop_view_name: propViewName,
         prop_fund_id: id,
