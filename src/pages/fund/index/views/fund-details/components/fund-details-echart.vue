@@ -13,7 +13,6 @@
         div.date-item(
             v-for="(item,index) of list" 
             :key="index"
-            v-if="item.show"
             @click="chooseMonth(item,index)"
             :class="[index == active ? 'active' :'']") {{item.date}}
 </template>
@@ -102,49 +101,49 @@ export default {
         },
         draw(data) {
             let arr = []
-            let timer = false
             for (let item of this.initEchartList) {
                 arr.push(item.netPrice)
             }
             this.chart = new F2.Chart({
                 id: data,
+                padding: [20, 0, 35, 45],
                 pixelRatio: window.devicePixelRatio
             })
+            if (this.initEchartList.length === 0) return
             this.chart.source(this.initEchartList, {
                 netPrice: {
                     alias: '今日净值',
-                    tickCount: 5,
+                    tickCount: 8,
                     min: Math.min.apply(null, arr) * 0.9,
                     max: Math.max.apply(null, arr) * 1.1,
-                    // min: 0,
                     formatter: function formatter(val) {
-                        return Number(val).toFixed(4)
+                        return Number(val).toFixed(2) + '%'
                     }
                 },
                 belongDay: {
                     type: 'timeCat',
-                    range: [0, 1],
-                    tickCount: 2,
+                    tickCount: 3,
                     formatter: function formatter(val) {
-                        return dayjs(val).format('MM-DD')
+                        return dayjs(val).format('YYYY-MM-DD')
                     }
                 }
             })
             this.chart.axis('netPrice', {
-                labelOffset: 20, // 坐标轴文本距离轴线的距离
-                label: function label(text, index, total) {
-                    var textCfg = {}
-                    if (index === 0) {
-                        textCfg.textBaseline = 'bottom'
-                    } else if (index === total - 1) {
-                        textCfg.textBaseline = 'top'
-                    }
-                    return textCfg
-                }
+                labelOffset: 5 // 坐标轴文本距离轴线的距离
             })
             this.chart.axis('belongDay', {
                 line: null,
-                labelOffset: 15 // 坐标轴文本距离轴线的距离
+                labelOffset: 15, // 坐标轴文本距离轴线的距离
+                label: function label(text, index, total) {
+                    // 只显示每一年的第一天
+                    const textCfg = {}
+                    if (index === 0) {
+                        textCfg.textAlign = 'left'
+                    } else if (index === total - 1) {
+                        textCfg.textAlign = 'right'
+                    }
+                    return textCfg
+                }
             })
             this.chart.tooltip({
                 showCrosshairs: true,
@@ -158,16 +157,18 @@ export default {
                     this.flag = true
                 },
                 onHide: () => {
-                    clearTimeout(timer) // 清除未执行的代码，重置回初始化状态
-                    timer = setTimeout(() => {
-                        this.masterShow = false
-                    }, 3000)
+                    this.masterShow = false
                 }
             })
             this.chart
                 .line()
                 .position('belongDay*netPrice')
                 .color('#518DFE')
+                .animate({
+                    update: {
+                        animation: 'lineUpdate'
+                    }
+                })
             this.chart.render()
         },
         initI18nState() {
@@ -175,12 +176,12 @@ export default {
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
             }
-        },
-        tabShow() {
-            for (let i = 0; i <= this.step; i++) {
-                this.list[i].show = true
-            }
         }
+        // tabShow() {
+        //     for (let i = 0; i <= this.step; i++) {
+        //         this.list[i].show = true
+        //     }
+        // }
     },
     watch: {
         initEchartList() {
@@ -195,7 +196,7 @@ export default {
             canvaStyle.transform = 'translateX(-3%)'
             this.draw(this.chartId)
             this.chart.render()
-            this.tabShow()
+            // this.tabShow()
         }
     },
     mounted() {
