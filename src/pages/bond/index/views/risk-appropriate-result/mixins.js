@@ -187,7 +187,8 @@ export default {
                         this.$router.push({
                             path: `${this.prev}${path}`,
                             query: {
-                                id: this.$route.query.id
+                                id: this.$route.query.id,
+                                direction
                             }
                         })
                         return
@@ -203,7 +204,8 @@ export default {
                     this.$router.push({
                         path: `${this.prev}${path}`,
                         query: {
-                            id: this.$route.query.id
+                            id: this.$route.query.id,
+                            direction
                         }
                     })
                 }
