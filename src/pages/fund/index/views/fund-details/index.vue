@@ -186,10 +186,13 @@ export default {
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.getFundNetPrice()
                 this.getFundPositionV2()
+                //赎回按钮是否置灰
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
+                //追加按钮是否置灰
                 this.flag1 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                //申购按钮是否置灰
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 browseFundDetails(
@@ -211,8 +214,8 @@ export default {
                 })
                 this.holdInitState = res
                 this.positionStatus = res.positionStatus
-                this.btnShow1 = false
-                this.btnShow = false
+                this.btnShow1 = false //申购按钮显示
+                this.btnShow = false //追加赎回按钮显示
                 if (
                     this.positionStatus.type === 1 &&
                     this.holdInitState.availableShare > 0
@@ -221,6 +224,7 @@ export default {
                 } else {
                     this.btnShow1 = true
                 }
+                //持仓显示
                 if (
                     this.positionStatus.type != 0 &&
                     this.positionStatus.type != -1
@@ -299,29 +303,29 @@ export default {
                 })
                 this.copyinitEchartList = res
                 this.initEchartList = res
-                if (
-                    this.initEchartList.length > 0 &&
-                    this.initEchartList.length <= 22
-                ) {
-                    this.step = 0
-                } else if (
-                    this.initEchartList.length > 22 &&
-                    this.initEchartList.length <= 66
-                ) {
-                    this.step = 1
-                } else if (
-                    this.initEchartList.length > 66 &&
-                    this.initEchartList.length <= 132
-                ) {
-                    this.step = 2
-                } else if (
-                    this.initEchartList.length > 132 &&
-                    this.initEchartList.length <= 245
-                ) {
-                    this.step = 3
-                } else {
-                    this.step = 5
-                }
+                // if (
+                //     this.initEchartList.length > 0 &&
+                //     this.initEchartList.length <= 22
+                // ) {
+                //     this.step = 0
+                // } else if (
+                //     this.initEchartList.length > 22 &&
+                //     this.initEchartList.length <= 66
+                // ) {
+                //     this.step = 1
+                // } else if (
+                //     this.initEchartList.length > 66 &&
+                //     this.initEchartList.length <= 132
+                // ) {
+                //     this.step = 2
+                // } else if (
+                //     this.initEchartList.length > 132 &&
+                //     this.initEchartList.length <= 245
+                // ) {
+                //     this.step = 3
+                // } else {
+                //     this.step = 5
+                // }
                 this.initEchartList = this.initEchartList.slice(0, 22)
                 this.initEchartList.map(item => {
                     item.netPrice = Number(item.netPrice)
