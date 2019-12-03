@@ -132,3 +132,14 @@ body {
         background: #2f79ff;
     }
 }
+
+.block__fund_index_swiper{
+      .van-swipe__indicators {
+        bottom: 198px !important;
+    }
+    .van-swipe__indicator{
+        width:15px;
+        height:5px;
+        border-radius:2px;
+    }
+}

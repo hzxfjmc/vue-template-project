@@ -144,6 +144,13 @@ export default new Router({
             meta: { title: 'fundHistorical', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-historical/index.vue`)
+        },
+        {
+            name: 'fund-index',
+            path: '/fund-index',
+            meta: { title: 'fundIndex', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
         }
     ]
 })
