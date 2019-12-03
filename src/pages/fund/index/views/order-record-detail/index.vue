@@ -60,7 +60,7 @@
 import { fundOrderDetail, cancelFundOrder } from '@/service/finance-server.js'
 // import { getTradePasswordToken } from '@/service/user-server.js'
 import orderStatusAbout from './components/order-status-about'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { transNumToThousandMark, sliceDecimal } from '@/utils/tools.js'
 import { isYouxinApp } from '@/utils/html-utils.js'
 import jsBridge from '@/utils/js-bridge'
 import dayjs from 'dayjs'
@@ -174,7 +174,7 @@ export default {
                     this.orderShare = this.$t('beConfirmed')
                 } else {
                     this.orderShare = transNumToThousandMark(
-                        (res.orderShare * 1).toFixed(3)
+                        sliceDecimal(res.orderShare, 4)
                     )
                 }
                 if (
