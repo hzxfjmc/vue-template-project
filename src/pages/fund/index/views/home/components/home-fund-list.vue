@@ -120,7 +120,7 @@ export default {
     width: 100%;
     .list-item {
         width: 96%;
-        margin: 10px 2% 0 2%;
+        margin: 6px 2% 0 2%;
         padding: 20px 15px;
         background: #fff;
         border-radius: 4px;

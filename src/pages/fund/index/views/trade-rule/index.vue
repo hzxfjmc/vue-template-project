@@ -166,11 +166,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-redeem {
-    margin: 10px 0 0 0;
+    margin: 6px 0 0 0;
 }
 .fund-management-list {
     padding: 0 10px;
-    margin: 10px 0 0 0;
+    margin: 6px 0 0 0;
     background: #fff;
     .fund-management-title {
         line-height: 50px;

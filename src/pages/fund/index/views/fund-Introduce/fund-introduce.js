@@ -30,24 +30,12 @@ export const Introducelit = {
     fundSize: {
         label: '基金规模',
         value: ''
-    },
-    companyProfile: {
-        label: '基金公司简介',
-        value: '',
-        refs: 'intd',
-        flag: 0
-    },
-    investObjective: {
-        label: '投资目标',
-        value: '',
-        refs: 'target',
-        flag: 0
     }
 }
 
 export const i18nIntroducelist = {
     zhCHS: {
-        fundIntroduceTitle: '基金介绍',
+        fundIntroduceTitle: '基金概况',
         zk: '展开',
         zq: '折起',
         list: {
@@ -84,7 +72,7 @@ export const i18nIntroducelist = {
         }
     },
     zhCHT: {
-        fundIntroduceTitle: '基金介紹',
+        fundIntroduceTitle: '基金概況',
         zk: '更多',
         zq: '收起',
         list: {
@@ -121,7 +109,7 @@ export const i18nIntroducelist = {
         }
     },
     en: {
-        fundIntroduceTitle: 'Fund Introduction',
+        fundIntroduceTitle: 'Fund General Situation',
         zk: 'More',
         zq: 'Less',
         list: {
@@ -156,5 +144,16 @@ export const i18nIntroducelist = {
                 label: 'Investment Objective'
             }
         }
+    }
+}
+
+export const otherList = {
+    investObjective: {
+        label: '投资目标',
+        value: ''
+    },
+    companyProfile: {
+        label: '基金公司简介',
+        value: ''
     }
 }

@@ -86,7 +86,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .hold-fund-details {
-    margin: 10px 0 0 0;
+    margin: 6px 0 0 0;
     background: $background-color;
     padding: 10px;
     // height: 160px;
@@ -96,6 +96,7 @@ export default {
         margin: 10px 0 0 0;
         .holdSubtitle {
             font-size: 0.24rem;
+            color: rgba($text-color, 0.5);
         }
         .holdNumber {
             font-size: 0.36rem;

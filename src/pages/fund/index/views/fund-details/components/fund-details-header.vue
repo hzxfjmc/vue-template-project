@@ -2,7 +2,19 @@
 .funds-details-header
     .fund-details-header-top.border-bottom
         h3 {{fundHeaderInfoVO.fundName}}
-        p.funds-details-subtitle ISIN：{{fundHeaderInfoVO.isin}}
+        .funds-details-subtitle 
+            span ISIN：{{fundHeaderInfoVO.isin}}
+            .block-left
+                .fund-tag
+                    van-tag(
+                        color="#2177FF"
+                        plain
+                        ) {{ fundHeaderInfoVO.assetTypeName }}
+                .fund-tag
+                    van-tag(
+                        color="#2177FF"
+                        plain
+                        ) {{ fundHeaderInfoVO.fundRisk }}
         .funds-details-number
             .header-left
                 span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
@@ -10,22 +22,9 @@
                 p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
                 p(v-else) {{fundHeaderInfoVO.apy}}%
             .header-right
-                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
-                p.number-black {{fundHeaderInfoVO.currencyType}}{{fundHeaderInfoVO.netPrice}}
+                span {{$t('fundPrice')}}（{{fundHeaderInfoVO.currencyType==='HKD'?'港元':'美元'}}）
+                p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
-        .block-left
-            .fund-tag
-                van-tag(
-                    color="#2177FF"
-                    plain
-                    ) {{ fundHeaderInfoVO.assetTypeName }}
-            .fund-tag
-                van-tag(
-                    color="#2177FF"
-                    plain
-                    ) {{ fundHeaderInfoVO.fundRisk }}
-        .block-right
-            p {{$t('minInvestment')}} {{fundHeaderInfoVO.currencyType}} {{fundHeaderInfoVO.initialInvestAmount}}
         .block-bottom {{fundHeaderInfoVO.feature}}
 </template>
 <script>
@@ -106,8 +105,12 @@ export default {
     .funds-details-subtitle {
         color: $text-color3;
         width: 100%;
-        float: left;
+        display: flex;
         font-size: 0.24rem;
+    }
+    .block-left {
+        display: flex;
+        margin-left: 14px;
     }
     .funds-details-number {
         width: 100%;
@@ -144,10 +147,6 @@ export default {
         float: left;
         margin: 10px 0;
         padding: 0 10px;
-        .block-left {
-            width: 50%;
-            float: left;
-        }
         .block-right {
             display: flex;
             width: 50%;

@@ -182,7 +182,7 @@ export default {
     .fund-introduce {
         padding: 15px 12px;
         background-color: $background-color;
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         .fund-name {
             font-size: 16px;
             line-height: 22px;
