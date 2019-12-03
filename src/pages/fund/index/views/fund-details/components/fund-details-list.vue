@@ -158,7 +158,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-details-list {
-    margin: 10px 0 10px 0;
+    margin: 6px 0 10px 0;
     background: $background-color;
     width: 100%;
     float: left;
