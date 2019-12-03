@@ -42,24 +42,4 @@ export default {
     padding-top: 10px;
     background-color: $background-bottom-color;
 }
-.van-pull-refresh {
-    min-height: 100%;
-}
-.operate-btn-box {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #fff;
-    .foot-button {
-        height: 48px;
-        margin: 0;
-        margin-bottom: constant(safe-area-inset-bottom);
-        margin-bottom: env(safe-area-inset-bottom);
-        &.sell {
-            background: #ffbf32;
-            border-color: #ffbf32;
-        }
-    }
-}
 </style>
