@@ -7,7 +7,6 @@
         )
             transaction-card(
                 ref="transactionCard"
-                btnText="确认买入"
                 :direction="1"
                 :accountInfo="accountInfo"
                 :bondEditableInfo="bondEditableInfo"

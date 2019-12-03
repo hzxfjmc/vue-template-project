@@ -8,6 +8,11 @@ import jsBridge from '@/utils/js-bridge.js'
 import { Stepper } from 'vant'
 import { caclFinalFee } from './calc-fee'
 import { mapGetters } from 'vuex'
+// 交易类型
+const TRADE_TYPE = {
+    BUY: 1,
+    SELL: 2
+}
 export default {
     name: 'TransactionCard',
     i18n: {
@@ -105,7 +110,7 @@ export default {
         // 交易方向
         direction: {
             type: Number,
-            default: 1
+            default: TRADE_TYPE.BUY
         },
         // 用户当前债券持仓
         positionData: {
@@ -232,7 +237,7 @@ export default {
         },
         // 当前债券售卖单价/交易单价
         buyOrSellPrice() {
-            if (this.direction === 1) {
+            if (this.direction === TRADE_TYPE.BUY) {
                 return (
                     (this.currentPrice.buyPrice &&
                         (this.currentPrice.buyPrice - 0).toFixed(4)) ||
@@ -275,14 +280,7 @@ export default {
             // 买入： 手续费 = 佣金 + 平台服务费
             // 卖出： 手续费 = 佣金 + 平台服务费 + 活动费
 
-            // 佣金 = 交易额（最小交易额 * 交易数量） * 百分比， 佣金有最低金额(minFeeAmount)，无最高金额(maxFeeAmount)
-            // 平台服务费 = feeAmount
-            // 活动费 = feeAmount * 交易额（最小交易额 * 交易数量），有最高金额（maxFeeAmount），卖出时收取
-
             // feeMethod表示收费计算方式，佣金是1，平台服务费是2，活动费是7
-            // 1 交易额 * feePercent
-            // 2 直接取 feeAmount
-            // 7 feeAmount * 交易额（最小交易额 * 交易数量）
             let yongjin = {},
                 pingtai = {}
 
@@ -329,7 +327,7 @@ export default {
             console.log('pingtaifei :>>>>>>>', pingtaifei)
             console.log('huodongfei :>>>>>>>', huodongfei, '\n\n')
             let res
-            if (this.direction === 1) {
+            if (this.direction === TRADE_TYPE.BUY) {
                 // 买入
                 res = yongjinfei + pingtaifei
             } else {
@@ -343,14 +341,14 @@ export default {
             // 卖出= 交易额 + 应得利息 - 手续费
             let prevPrice = this.tradeMoney - 0 + (this.calcInterest - 0)
             let totalMoney =
-                this.direction === 1
+                this.direction === TRADE_TYPE.BUY
                     ? prevPrice + (this.serviceCharge - 0)
                     : prevPrice - (this.serviceCharge - 0)
             return totalMoney ? totalMoney.toFixed(2) : 0
         },
         // 卖：债券持仓可用数量 / 买：可用资金
         marketValue() {
-            if (this.direction === 1) {
+            if (this.direction === TRADE_TYPE.BUY) {
                 return (
                     (this.accountInfo.withdrawBalance &&
                         (this.accountInfo.withdrawBalance - 0).toFixed(2)) ||
@@ -461,7 +459,7 @@ export default {
                                 confirmButtonText: this.$t('confirm')
                             })
                             .then(async () => {
-                                this.direction === 1
+                                this.direction === TRADE_TYPE.BUY
                                     ? (this.currentPrice.buyPrice = e.data)
                                     : (this.currentPrice.sellPrice = e.data)
                                 this.handleBondOrder(tradeToken)

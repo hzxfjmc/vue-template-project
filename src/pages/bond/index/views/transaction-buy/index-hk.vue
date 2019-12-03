@@ -9,7 +9,7 @@
             :success-text="$t('successText')"
         )
             transaction-card(
-                :btnText="$t('buy')"
+                ref="transactionCard"
                 :direction="1"
                 :accountInfo="accountInfo"
                 :bondEditableInfo="bondEditableInfo"

@@ -3,10 +3,14 @@
         van-pull-refresh(
             v-model="isLoading"
             @refresh="onRefresh"
-            success-text="刷新成功"
+            :pulling-text="$t('pullingText')"
+            :loosing-text="$t('loosingText')"
+            :loading-text="$t('loadingText')"
+            :success-text="$t('successText')"
         )
             transaction-card(
-                :accountInfo="accountInfo"
+                ref="transactionCard"
+                :direction="2"
                 :positionData="positionData"
                 :bondEditableInfo="bondEditableInfo"
                 :bondUneditableInfo="bondUneditableInfo"

@@ -4,51 +4,77 @@ import { getBondDetail } from '@/service/finance-info-server.js'
 import { getBondInterestCalculate } from '@/service/finance-server.js'
 import { getBondPosition } from '@/service/finance-server.js'
 import { PullRefresh } from 'vant'
+// 交易类型
+const TRADE_TYPE = {
+    BUY: 1,
+    SELL: 2
+}
 export default {
     name: 'TransactionBuy',
     components: {
         [PullRefresh.name]: PullRefresh
     },
     beforeRouteEnter(to, from, next) {
-        // 获取s数据，在 dom 渲染之前获取数据，防止页面数据从空到有
+        // 获取数据，在 dom 渲染之前获取数据，防止页面数据从空到有
         // 造成页面加载时间变长，但是这是产品要求的
-        Promise.all([
+        let pArr = [
             getBondDetail(to.query.id),
             getBondInterestCalculate(to.query.id),
-            // feePackageCurr({
-            //     stockBusinessType: 6,
-            //     userId: this.$store.state.user.userId - 0
-            // })
             feePackageAgent({
                 feeType: 8,
-                marketType: 6
-            }),
-            hsAccountInfo(1)
-        ])
-            .then(res => {
-                console.log('beforeRouterEnter>>>then :', res)
+                marketType: 6 // 表示债券市场
+            })
+        ]
+        if (to.query.direction - 0 === TRADE_TYPE.BUY) {
+            // 获取用户恒生资金账户信息
+            pArr.push(hsAccountInfo(1))
+        } else {
+            // 获取当前用户债券持仓
+            pArr.push(getBondPosition(2))
+        }
+        Promise.all(pArr)
+            .then(resArray => {
+                console.log('beforeRouterEnter>>>then :', resArray)
                 next(vm => {
-                    // vm.setBondDetail(res, vm)
                     let [
-                        bondData,
-                        getBondInterestCalculateData,
-                        feePackageAgentData,
-                        hsAccountInfoData
-                    ] = res
+                        bondObject,
+                        getBondInterestCalculateObject,
+                        feePackageAgentArray,
+                        hsAccountInfo_Or_BondPositionObject
+                    ] = resArray
 
                     let {
                         bondEditableInfo,
                         bondUneditableInfo,
                         currentPrice
-                    } = bondData
-                    let { interestDays } = getBondInterestCalculateData
+                    } = bondObject
 
-                    vm.bondEditableInfo = bondEditableInfo
-                    vm.bondUneditableInfo = bondUneditableInfo
-                    vm.currentPrice = currentPrice
-                    vm.interestDays = interestDays
-                    vm.activityFee = feePackageAgentData
-                    vm.accountInfo = hsAccountInfoData
+                    let { interestDays } = getBondInterestCalculateObject
+
+                    vm.bondEditableInfo = bondEditableInfo || {}
+                    vm.bondUneditableInfo = bondUneditableInfo || {}
+                    vm.currentPrice = currentPrice || {}
+                    vm.interestDays = interestDays || 0
+                    vm.activityFee = feePackageAgentArray || []
+
+                    if (to.query.direction - 0 === TRADE_TYPE.BUY) {
+                        // 设置用户恒生资金账户信息
+                        vm.accountInfo =
+                            hsAccountInfo_Or_BondPositionObject || {}
+                    } else {
+                        // 设置当前用户债券持仓
+                        let {
+                            bondPositionList
+                        } = hsAccountInfo_Or_BondPositionObject
+                        let tempPositionData =
+                            (bondPositionList &&
+                                bondPositionList.filter(
+                                    positionItem =>
+                                        positionItem.bondId === to.query.id - 0
+                                )) ||
+                            []
+                        vm.positionData = tempPositionData[0] || {}
+                    }
                 })
             })
             .catch(e => {
@@ -56,11 +82,7 @@ export default {
             })
     },
     created() {
-        // this.handleHsAccountInfo()
-        // this.onRefresh()
         this.handleFeePackageCurr()
-
-        this.handleGetBondPosition()
     },
     data() {
         return {
@@ -91,12 +113,19 @@ export default {
         },
         // 下拉刷新
         onRefresh() {
-            Promise.all([
+            let direction = this.$route.query.direction - 0
+            let pArr = [
                 this.handleGetBondDetail(),
                 this.handleGetBondInterestCalculate(),
                 this.handleFeePackageCurr(),
                 this.handleFeePackageAgent()
-            ])
+            ]
+            if (direction === TRADE_TYPE.BUY) {
+                pArr.push(this.handleHsAccountInfo())
+            } else {
+                pArr.push(this.handleGetBondPosition())
+            }
+            Promise.all(pArr)
                 .then(() => {
                     this.isLoading = false
                 })

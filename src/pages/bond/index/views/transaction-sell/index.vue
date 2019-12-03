@@ -6,7 +6,8 @@
             success-text="刷新成功"
         )
             transaction-card(
-                :accountInfo="accountInfo"
+                ref="transactionCard"
+                :direction="2"
                 :positionData="positionData"
                 :bondEditableInfo="bondEditableInfo"
                 :bondUneditableInfo="bondUneditableInfo"
