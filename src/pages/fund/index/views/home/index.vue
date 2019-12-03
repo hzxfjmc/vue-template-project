@@ -4,6 +4,7 @@
         @handlerCurrency="handlerCurrency"
         @toFundList = "toFundList"
         :lists="list"
+        :showPositionInfo="showPositionInfo"
         :holdData="holdData"
         )
         .home-banner(slot="banner" v-if="bannerUrl!=''" @click="goBanner")
@@ -21,6 +22,7 @@ import { getCosUrl } from '@/utils/cos-utils'
 import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { enumCurrency } from '@/pages/fund/index/map'
+import { mapGetters } from 'vuex'
 
 export default {
     components: {
@@ -103,6 +105,7 @@ export default {
             this.getFundListV2()
         },
         async getFundPositionList() {
+            if (!this.showPositionInfo) return false
             try {
                 const {
                     positionAmount,
@@ -140,6 +143,13 @@ export default {
                     break
             }
             return currency
+        }
+    },
+    computed: {
+        ...mapGetters(['isLogin', 'openedAccount']),
+        showPositionInfo() {
+            // 登陆且已开户才展示持仓信息
+            return this.isLogin && this.openedAccount
         }
     },
     created() {

@@ -118,7 +118,7 @@ export default {
                     max: Math.max.apply(null, arr) * 1.1,
                     // min: 0,
                     formatter: function formatter(val) {
-                        return val.toFixed(4)
+                        return Number(val).toFixed(4)
                     }
                 },
                 belongDay: {

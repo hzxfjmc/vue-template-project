@@ -108,12 +108,13 @@ export default modules =>
                         userToken && (await store.dispatch('getUserInfoAction'))
                     }
                 } catch (e) {
-                    // LS.remove('userToken')
+                    //LS.remove('userToken')
                     store.commit('getUserInfoMutation', {
                         phoneNumber: '',
                         userId: '',
                         userToken: '',
-                        userName: ''
+                        userName: '',
+                        openedAccount: false
                     })
                     throw e
                 }
@@ -127,6 +128,7 @@ export default modules =>
             isYouxinAndroid: () => isYouxinAndroid,
             isYouxinApp: () => isYouxinApp,
             appType: () => appType,
-            lang: () => lang // ['1', 'zhCHS'](简体), ['2', 'zhCHT']（繁体）, ['3', 'en']
+            lang: () => lang, // ['1', 'zhCHS'](简体), ['2', 'zhCHT']（繁体）, ['3', 'en']
+            openedAccount: state => state.user.openedAccount // 是否已开户 true-已开户 false-未开户
         }
     })
