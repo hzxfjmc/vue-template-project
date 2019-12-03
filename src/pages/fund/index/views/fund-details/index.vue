@@ -103,9 +103,8 @@ export default {
                         this.userInfo &&
                         (this.userInfo.grayStatusBit & (1 << 3)) === 8
                     )
-                } else {
-                    return true
                 }
+                return true
             }
         }
     },
