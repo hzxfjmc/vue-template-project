@@ -25,7 +25,7 @@
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-    .fund-footer-content(@click="handleBuyOrSell" v-if="isShowBtn")
+    .fund-footer-content(@click="handleBuyOrSell" v-if="!btnShow && isShowBtn")
         van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
     
     
