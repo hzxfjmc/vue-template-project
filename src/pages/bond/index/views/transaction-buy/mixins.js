@@ -82,10 +82,13 @@ export default {
             })
     },
     created() {
+        this.id = this.$route.query.id - 0 || 0
+
         this.handleFeePackageCurr()
     },
     data() {
         return {
+            id: 0, // 债券id
             isLoading: false, // 下拉刷新
 
             positionData: {}, // 当前用户债券持仓

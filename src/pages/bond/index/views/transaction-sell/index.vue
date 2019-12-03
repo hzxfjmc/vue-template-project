@@ -39,5 +39,7 @@ export default {
 <style lang="scss" scoped>
 .transaction-wrapper {
     height: 100%;
+    padding-top: 10px;
+    background-color: $background-bottom-color;
 }
 </style>
