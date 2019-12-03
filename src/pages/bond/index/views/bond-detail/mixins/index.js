@@ -4,6 +4,7 @@ import { getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
 import { Panel, PullRefresh } from 'vant'
 import { mapState, mapGetters } from 'vuex'
+import { loadingModule, closeModule } from '@/utils/common/plugins/vant'
 import { enumMarketName } from '@/utils/common/global-enum'
 export default {
     name: 'BondList',
@@ -15,6 +16,7 @@ export default {
     beforeRouteEnter(to, from, next) {
         // 获取债券详情，在 dom 渲染之前获取数据，防止页面数据从空到有
         // 造成页面加载时间变长，但是这是产品要求的
+        loadingModule()
         getBondDetail(to.query.id - 0)
             .then(res => {
                 console.log('beforeRouterEnter>>>then :', res)
@@ -24,6 +26,9 @@ export default {
             })
             .catch(e => {
                 console.log('beforeRouterEnter>>>error :', e)
+            })
+            .finally(() => {
+                closeModule()
             })
     },
     created() {

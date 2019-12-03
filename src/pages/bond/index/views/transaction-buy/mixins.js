@@ -4,6 +4,7 @@ import { getBondDetail } from '@/service/finance-info-server.js'
 import { getBondInterestCalculate } from '@/service/finance-server.js'
 import { getBondPosition } from '@/service/finance-server.js'
 import { PullRefresh } from 'vant'
+import { loadingModule, closeModule } from '@/utils/common/plugins/vant'
 // 交易类型
 const TRADE_TYPE = {
     BUY: 1,
@@ -32,6 +33,7 @@ export default {
             // 获取当前用户债券持仓
             pArr.push(getBondPosition(2))
         }
+        loadingModule()
         Promise.all(pArr)
             .then(resArray => {
                 console.log('beforeRouterEnter>>>then :', resArray)
@@ -79,6 +81,9 @@ export default {
             })
             .catch(e => {
                 console.log('beforeRouterEnter>>>error :', e)
+            })
+            .finally(() => {
+                closeModule()
             })
     },
     created() {

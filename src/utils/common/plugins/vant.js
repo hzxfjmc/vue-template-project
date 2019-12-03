@@ -34,10 +34,12 @@ const langMap = {
 }
 
 Vue.use(Dialog)
-Vue.prototype.$close = () => {
+export const closeModule = () => {
     Toast.clear()
 }
-Vue.prototype.$loading = msg => {
+Vue.prototype.$close = closeModule
+
+export const loadingModule = msg => {
     Toast.loading({
         mask: true,
         message: msg || langMap[lang]['loading'],
@@ -45,6 +47,8 @@ Vue.prototype.$loading = msg => {
         position: 'center'
     })
 }
+Vue.prototype.$loading = loadingModule
+
 Vue.prototype.$confirm = arg => {
     arg = {
         confirmButtonText: langMap[lang]['confirmButtonText'],
