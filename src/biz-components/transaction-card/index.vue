@@ -31,7 +31,7 @@
 
         .yx-cell.sp(style="padding-top:0.2rem")
             .yx-cell__header 手续费(预估)
-            .yx-cell__primary {{ serviceCharge }}
+            .yx-cell__primary {{ serviceCharge | thousand-spilt }}
 
         .divider-line
 
@@ -47,7 +47,7 @@
             )
             span {{direction === 1 ? '债券可用资金' : '持仓可卖'}}
             strong(v-if="direction === 1") {{ marketValue | thousand-spilt }}
-            strong(v-if="direction === 2") {{ marketValue }}
+            strong(v-if="direction === 2") {{ marketValue | thousand-spilt }}
 </template>
 
 <script>
