@@ -1,39 +1,39 @@
 <template lang="pug">
 .fund-account-header
-    van-tabs(
-        v-model="active" 
-        background="#2f79ff" 
-        color="#fff" 
-        :line-width="width"
-        :swipeable="swipeable"
-        title-inactive-color="rgba(255,255,255,0.6)" 
-        @change="handlerCurrency"
-        title-active-color="#fff")
-        van-tab(:title="$t('myHkdAccount')" :name="2")
-        van-tab(:title="$t('myUsdAccount')" :name="1")
-        .block-account-header
-            .header-content
-                .header-content-left
-                    span.title 
-                        em(v-if="holdData.currency == 2") {{$t('myHkdAccount')}}
-                        em(v-if="holdData.currency == 1") {{$t('myUsdAccount')}}
-                        i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
-                    .number-price(v-if="showPsd") {{firstPositionAmount || '--'}}.
-                        em(v-if="showPsd") {{secondPositionAmount || '--'}}
-                    .number-price(v-if="!showPsd") ******
-                
-                .header-content-right
-                    span {{$t('profitPosition')}}
-                        em(v-if="showPsd") {{holdData.positionAmountFlag}}{{holdData.positionEarnings || '--'}}
-                        em(v-else) ****
-                    span {{$t('SevenDayIncome')}}
-                        em(v-if="showPsd") {{holdData.positionEarningsFlag}}{{holdData.weekEarnings || '--'}}
-                        em(v-else) ****
+    //- van-tabs(
+    //-     v-model="active" 
+    //-     background="#2f79ff" 
+    //-     color="#fff" 
+    //-     :line-width="width"
+    //-     :swipeable="swipeable"
+    //-     title-inactive-color="rgba(255,255,255,0.6)" 
+    //-     @change="handlerCurrency"
+    //-     title-active-color="#fff")
+    //-     van-tab(:title="$t('myHkdAccount')" :name="2")
+    //-     van-tab(:title="$t('myUsdAccount')" :name="1")
+    .block-account-header
+        .header-content
+            .header-content-left
+                span.title 
+                    em(v-if="holdData.currency == 2") {{$t('myHkdAccount')}}
+                    em(v-if="holdData.currency == 1") {{$t('myUsdAccount')}}
+                    i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
+                .number-price(v-if="showPsd") {{firstPositionAmount || '--'}}.
+                    em(v-if="showPsd") {{secondPositionAmount || '--'}}
+                .number-price(v-if="!showPsd") ******
             
-            .header-footer-tab(class="border-bottom-active")
-                span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
-                span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
-        slot(name="fundList")
+            .header-content-right
+                span {{$t('profitPosition')}}
+                    em(v-if="showPsd") {{holdData.positionAmountFlag}}{{holdData.positionEarnings || '--'}}
+                    em(v-else) ****
+                span {{$t('SevenDayIncome')}}
+                    em(v-if="showPsd") {{holdData.positionEarningsFlag}}{{holdData.weekEarnings || '--'}}
+                    em(v-else) ****
+        
+        .header-footer-tab(class="border-bottom-active")
+            span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
+            span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
+    slot(name="fundList")
 </template>
 <script>
 import { Tab, Tabs } from 'vant'

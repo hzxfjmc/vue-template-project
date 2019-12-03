@@ -22,7 +22,7 @@ import dayjs from 'dayjs'
 export default {
     i18n: {
         zhCHS: {
-            fundTrade: '基金净值走势',
+            fundTrade: '基金业绩走势',
             nav: '今日净值',
             time: '日期',
             list: {
@@ -176,6 +176,7 @@ export default {
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
             }
+            console.log(this.active)
         }
         // tabShow() {
         //     for (let i = 0; i <= this.step; i++) {
@@ -214,13 +215,13 @@ export default {
     left: 0;
     top: 0;
     float: left;
-    height: 50px;
-    line-height: 50px;
+    height: 40px;
+    font-size: 12px;
+    line-height: 40px;
     position: absolute;
     .header-left,
     .header-right {
         width: 50%;
-        // line-height: 40px;
         float: left;
     }
     .header-right {
@@ -233,8 +234,9 @@ export default {
             float: right;
         }
         .number {
-            line-height: 50px;
+            line-height: 40px;
             float: right;
+            color: #ea3d3d;
         }
     }
 }
