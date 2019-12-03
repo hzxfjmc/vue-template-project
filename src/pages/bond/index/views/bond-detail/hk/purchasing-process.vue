@@ -4,7 +4,7 @@
             van-step
                 <h3>{{ $t('purchased') }}</h3>
             van-step
-                <h3>{{ enumDelivery }}{{ $t('startEarningInterest') }}</h3>
+                <h3>T{{ $t('startEarningInterest') }}</h3>
             van-step
                 <h3>{{ paymentDate }}{{ $t('interestPaymentDate') }}</h3>
                 <p>・{{ $t('receiveInterest') }}</p>
@@ -23,7 +23,7 @@ export default {
     i18n: {
         zhCHS: {
             purchased: '成功买入',
-            startEarningInterest: '日计息',
+            startEarningInterest: '日开始计息',
             interestPaymentDate: '付息日为',
             receiveInterest: '派息日派息，持有中途可卖出',
             remainingInterest1: '到期前剩余派息次数为',
@@ -38,7 +38,7 @@ export default {
         },
         zhCHT: {
             purchased: '成功買入',
-            startEarningInterest: '日計息',
+            startEarningInterest: '日開始計息',
             interestPaymentDate: '付息日為',
             receiveInterest: '派息日派息，持有中途可賣出',
             remainingInterest1: '到期前剩餘派息次數為',

@@ -1,18 +1,18 @@
 import MediaBox from '@/biz-components/media-box/index.vue'
 import YxContainerBetter from '@/components/yx-container-better'
-import { feePackageCurr, feePackageAgent } from '@/service/product-server.js'
-import { getBondDetail } from '@/service/finance-info-server.js'
 // import { bondOrderCalculate } from '@/service/finance-server.js'
-import {
-    bondOrder,
-    getBondInterestCalculate
-} from '@/service/finance-server.js'
+import { bondOrder } from '@/service/finance-server.js'
 import { generateUUID, debounce } from '@/utils/tools.js'
 import { LongPress } from '@/utils/long-press'
 import jsBridge from '@/utils/js-bridge.js'
-import { Stepper, PullRefresh } from 'vant'
+import { Stepper } from 'vant'
 import { caclFinalFee } from './calc-fee'
 import { mapGetters } from 'vuex'
+// 交易类型
+const TRADE_TYPE = {
+    BUY: 1,
+    SELL: 2
+}
 export default {
     name: 'TransactionCard',
     i18n: {
@@ -56,10 +56,10 @@ export default {
             payableInterest: '應付利息',
             interestDesc:
                 '應計利率為債券自上一次付息後至債券交收時之間的過渡未付利息，由買方向支付支付，即對於指明是“應對”，對於可以是“應得”。\n\n' +
-                '對於預算，多持有人的這段時間的利息，會在交易時得到補償，即應計利息。\n\n' +
-                '對於某些，應計利息並不會額外增加成本，會在付息日或賣出時得到補償。',
+                '對於賣方，多持有人的這段時間的利息，會在交易時得到補償，即應計利息。\n\n' +
+                '對於買方，應計利息並不會額外增加成本，會在付息日或賣出時得到補償。',
             accruedInterest: '應得利息',
-            serviceCharge: '手續費（預估）',
+            serviceCharge: '手續費(預估)',
             totalMoney: '總額',
             availableMoney: '債券可用資金',
             availableMoneyDesc:
@@ -99,7 +99,6 @@ export default {
     },
     components: {
         [Stepper.name]: Stepper,
-        [PullRefresh.name]: PullRefresh,
         MediaBox,
         YxContainerBetter
     },
@@ -111,7 +110,7 @@ export default {
         // 交易方向
         direction: {
             type: Number,
-            default: 1
+            default: TRADE_TYPE.BUY
         },
         // 用户当前债券持仓
         positionData: {
@@ -122,21 +121,38 @@ export default {
         accountInfo: {
             type: Object,
             default: () => {}
+        },
+        bondEditableInfo: {
+            type: Object,
+            default: () => {}
+        },
+        bondUneditableInfo: {
+            type: Object,
+            default: () => {}
+        },
+        // 当前价格
+        currentPrice: {
+            type: Object,
+            default: () => {}
+        },
+        // 应计利息天数
+        interestDays: {
+            type: Number,
+            default: 0
+        },
+        // 活动费用
+        activityFee: {
+            type: Array,
+            default: () => []
+        },
+        // 当前用户套餐费用
+        feeData: {
+            type: Array,
+            default: () => []
         }
     },
     created() {
         this.id = this.$route.query.id - 0 || 0
-
-        // 获取债券信息
-        this.handleGetBondDetail()
-
-        // 获取债券应计利息计算天数
-        this.handleGetBondInterestCalculate()
-
-        // 获取套餐费用
-        this.handleFeePackageCurr()
-        // 获取活动费用
-        this.handleFeePackageAgent()
 
         this.debounceTradeToken = debounce(this.getTradeToken, 350)
     },
@@ -173,14 +189,9 @@ export default {
     data() {
         return {
             transactionNum: 1, // 交易份数
-            bondEditableInfo: {},
-            bondUneditableInfo: {},
             id: 0, // 债券id
             debounceTradeToken: () => {}, // 交易防抖函数
-            interestDays: 0, // 应计利息天数
-            currentPrice: {}, // 当前价格
-            feeData: [], // 当前用户套餐费用
-            activityFee: [], // 活动费用
+            // feeData: [], // 当前用户套餐费用
 
             isLoading: false // 下拉刷新
         }
@@ -226,7 +237,7 @@ export default {
         },
         // 当前债券售卖单价/交易单价
         buyOrSellPrice() {
-            if (this.direction === 1) {
+            if (this.direction === TRADE_TYPE.BUY) {
                 return (
                     (this.currentPrice.buyPrice &&
                         (this.currentPrice.buyPrice - 0).toFixed(4)) ||
@@ -269,14 +280,7 @@ export default {
             // 买入： 手续费 = 佣金 + 平台服务费
             // 卖出： 手续费 = 佣金 + 平台服务费 + 活动费
 
-            // 佣金 = 交易额（最小交易额 * 交易数量） * 百分比， 佣金有最低金额(minFeeAmount)，无最高金额(maxFeeAmount)
-            // 平台服务费 = feeAmount
-            // 活动费 = feeAmount * 交易额（最小交易额 * 交易数量），有最高金额（maxFeeAmount），卖出时收取
-
             // feeMethod表示收费计算方式，佣金是1，平台服务费是2，活动费是7
-            // 1 交易额 * feePercent
-            // 2 直接取 feeAmount
-            // 7 feeAmount * 交易额（最小交易额 * 交易数量）
             let yongjin = {},
                 pingtai = {}
 
@@ -323,7 +327,7 @@ export default {
             console.log('pingtaifei :>>>>>>>', pingtaifei)
             console.log('huodongfei :>>>>>>>', huodongfei, '\n\n')
             let res
-            if (this.direction === 1) {
+            if (this.direction === TRADE_TYPE.BUY) {
                 // 买入
                 res = yongjinfei + pingtaifei
             } else {
@@ -337,14 +341,14 @@ export default {
             // 卖出= 交易额 + 应得利息 - 手续费
             let prevPrice = this.tradeMoney - 0 + (this.calcInterest - 0)
             let totalMoney =
-                this.direction === 1
+                this.direction === TRADE_TYPE.BUY
                     ? prevPrice + (this.serviceCharge - 0)
                     : prevPrice - (this.serviceCharge - 0)
             return totalMoney ? totalMoney.toFixed(2) : 0
         },
         // 卖：债券持仓可用数量 / 买：可用资金
         marketValue() {
-            if (this.direction === 1) {
+            if (this.direction === TRADE_TYPE.BUY) {
                 return (
                     (this.accountInfo.withdrawBalance &&
                         (this.accountInfo.withdrawBalance - 0).toFixed(2)) ||
@@ -360,91 +364,12 @@ export default {
             return mv === '0.00'
                 ? '0'
                 : mv + '(' + count + this.$t('transaction_contract') + ')'
-        },
-        btnDisabled() {
-            return this.transactionNum <= 0 ? true : false
         }
+        // btnDisabled() {
+        //     return this.transactionNum <= 0 ? true : false
+        // }
     },
     methods: {
-        // 下拉刷新
-        onRefresh() {
-            Promise.all([
-                this.handleGetBondDetail(),
-                this.handleGetBondInterestCalculate(),
-                this.handleFeePackageCurr()
-            ])
-                .then(() => {
-                    this.isLoading = false
-                })
-                .finally(() => {
-                    this.isLoading = false
-                })
-        },
-        // 获取债券信息
-        async handleGetBondDetail() {
-            try {
-                let {
-                    bondEditableInfo,
-                    bondUneditableInfo,
-                    currentPrice
-                } = await getBondDetail(this.id)
-                this.bondEditableInfo = bondEditableInfo || {}
-                this.bondUneditableInfo = bondUneditableInfo || {}
-                this.currentPrice = currentPrice || {}
-                console.log(
-                    'getBondDetail:data:>>> ',
-                    bondEditableInfo,
-                    bondUneditableInfo
-                )
-            } catch (error) {
-                console.log('getBondDetail:error:>>> ', error)
-            }
-        },
-        // 获取债券应计利息计算天数
-        async handleGetBondInterestCalculate() {
-            try {
-                let { interestDays } = await getBondInterestCalculate(this.id)
-                this.interestDays = interestDays || 0
-                console.log('getBondInterestCalculate:data:>>> ', interestDays)
-            } catch (error) {
-                console.log('getBondInterestCalculate:error:>>> ', error)
-            }
-        },
-        // 获取套餐费用
-        async handleFeePackageCurr() {
-            try {
-                let feeData = await feePackageCurr({
-                    stockBusinessType: 6,
-                    userId: this.$store.state.user.userId - 0
-                })
-                console.log('feePackageCurr:data:>>> ', feeData)
-                // 当前为手机委托，过滤除手机委托外的其他套餐数据
-                this.feeData =
-                    (feeData &&
-                        feeData.filter(feeItem => feeItem.entrustType === 2)) ||
-                    {}
-            } catch (error) {
-                console.log('feePackageCurr:error:>>> ', error)
-            }
-        },
-        // 获取活动费用
-        async handleFeePackageAgent() {
-            try {
-                let activityFee = await feePackageAgent({
-                    feeType: 8,
-                    marketType: 6
-                })
-                this.activityFee = activityFee
-                console.log('feePackageAgent:data:>>> ', activityFee)
-                // 当前为手机委托，过滤除手机委托外的其他套餐数据
-                // this.feeData =
-                //     (feeData &&
-                //         feeData.filter(feeItem => feeItem.entrustType === 2)) ||
-                //     {}
-            } catch (error) {
-                console.log('feePackageAgent:error:>>> ', error)
-            }
-        },
         // 执行交易防抖函数
         handleTradeToken() {
             // bondOrderCalculate({
@@ -473,6 +398,7 @@ export default {
         async handleBondOrder(tradeToken = '') {
             console.log('requestToken :', tradeToken)
             try {
+                this.$loading()
                 let data = await bondOrder({
                     bondId: this.id,
                     direction: this.direction,
@@ -481,7 +407,9 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: tradeToken
                 })
-                await this.$toast(this.$t('submitSuccess'))
+                await this.$toast(this.$t('submitSuccess'), 'bottom', {
+                    forbidClick: true
+                })
 
                 // 交易完成，挑战订单页，关闭当前 Webview ，防止返回按钮回到交易页
                 setTimeout(() => {
@@ -531,7 +459,7 @@ export default {
                                 confirmButtonText: this.$t('confirm')
                             })
                             .then(async () => {
-                                this.direction === 1
+                                this.direction === TRADE_TYPE.BUY
                                     ? (this.currentPrice.buyPrice = e.data)
                                     : (this.currentPrice.sellPrice = e.data)
                                 this.handleBondOrder(tradeToken)
@@ -556,14 +484,10 @@ export default {
                 } else {
                     this.$toast(this.$t('submitFail'))
                 }
+            } finally {
+                this.$close()
             }
         },
-        // handleChange(value) {
-        //     console.log('value :', value)
-        //     if (value > 9999999) {
-        //         this.transactionNum = 9999999
-        //     }
-        // },
         // 提示弹窗
         showTips(tipsType) {
             let tipText = ''
