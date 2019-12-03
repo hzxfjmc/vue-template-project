@@ -176,7 +176,7 @@ export default {
             try {
                 let feeData = await feePackageCurr({
                     stockBusinessType: 6,
-                    userId: this.$store.state.user.userId - 0
+                    userId: this.$store.state.user.userId
                 })
                 console.log('feePackageCurr:data:>>> ', feeData)
                 // 当前为手机委托，过滤除手机委托外的其他套餐数据
