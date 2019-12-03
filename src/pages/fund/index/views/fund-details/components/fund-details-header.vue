@@ -22,7 +22,7 @@
                 p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
                 p(v-else) {{fundHeaderInfoVO.apy}}%
             .header-right
-                span {{$t('fundPrice')}}（{{fundHeaderInfoVO.currencyType==='HKD'?'港元':'美元'}}）
+                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}（{{fundHeaderInfoVO.currencyType==='HKD'?'港元':'美元'}}）
                 p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
         .block-bottom {{fundHeaderInfoVO.feature}}
@@ -82,19 +82,15 @@ export default {
     float: left;
     width: 100%;
     min-height: 174px;
-    // padding: 10px;
     .fund-details-header-top {
-        // border-bottom: 1px solid red;
         width: 100%;
         padding: 10px;
-        // display: flex;
         float: left;
     }
     h3 {
         font-size: 0.32rem;
         color: $text-color;
         margin: 10px 0 3px 0;
-        // height:50px;
         float: left;
         overflow: hidden;
         text-overflow: ellipsis;
