@@ -10,6 +10,9 @@
                     .order-item.flex(v-if="![1,2].includes(orderStatus)")
                         span.itemName {{$t('orderStatus')}}
                         span(:class='differenceColor') {{orderStatusValue}}
+                    .order-item.flex(v-if="orderStatus===4")
+                        span.itemName {{$t('failedRemark')}}
+                        span {{failedRemarkValue}}
                     .order-item.flex
                         span.itemName {{$t('orderTime')}}
                         span {{orderTimeValue}}
@@ -119,7 +122,8 @@ export default {
             title: '订单',
             isShowBackout: false,
             orderFee: '',
-            tradeType: ''
+            tradeType: '',
+            failedRemarkValue: ''
         }
     },
     created() {
@@ -143,6 +147,7 @@ export default {
                 this.differenceColor = differColor(res.externalStatus)
                 this.orderStatusValue = res.externalName
                 this.orderStatus = res.externalStatus
+                this.failedRemarkValue = res.rejectReason
                 this.allowRevoke = res.allowRevoke
                 if (
                     res.orderFee === null ||
@@ -321,7 +326,7 @@ export default {
             width: 100%;
             content: '';
             display: block;
-            height: 10px;
+            height: 6px;
             background-color: $background-bottom-color;
         }
         .fund-name {

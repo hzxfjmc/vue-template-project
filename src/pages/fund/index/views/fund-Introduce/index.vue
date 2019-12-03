@@ -1,9 +1,16 @@
 <template lang="pug">
 .fund-introduce
-    .fund-introduce-header(class="border-bottom")
-        span.title {{ $t('fundIntroduceTitle')}}
-    
-    .fund-introduce-content
+    .fund-introduce-header
+        van-tabs(
+            v-model="active" 
+            color="#2F79FF" 
+            :swipeable="swipeable"
+            :line-width="width"
+            title-inactive-color="rgba(25,25,25,0.5)"
+            title-active-color="#2F79FF")
+                van-tab(title="基金介绍" :name="0")
+                van-tab(title="派息详情" :name="1")
+    .fund-introduce-content(v-if="active===0")
         .fund-introduce-list(
             v-for="(item,index) of list"
             :class="[item.flag == 2 ? 'activelist':'']"
@@ -14,16 +21,26 @@
                     v-show="item.flag == 1 || item.flag == 2" 
                     @click="foldItem(index)" 
                     :class="[item.flag == 2 ? 'activeShow':'']") {{item.flag == 1 ? $t('zk') : $t('zq')}}
+    .fund-introduce-other(v-if="active===0")
+        .fund-introduce-objective(v-for="item in otherList")
+            .title {{item.label}}
+            .content {{item.value}}
 </template>
 <script>
-import { Introducelit, i18nIntroducelist } from './fund-introduce'
+import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 export default {
     i18n: i18nIntroducelist,
     data() {
         return {
-            list: JSON.parse(JSON.stringify(Introducelit))
+            list: JSON.parse(JSON.stringify(Introducelit)),
+            width: 30,
+            showMoney: true,
+            swipeable: true, //开启手势滑动
+            currency: null,
+            active: 0,
+            otherList: JSON.parse(JSON.stringify(otherList))
         }
     },
     methods: {
@@ -57,9 +74,9 @@ export default {
                         this.list[key].value = fundHeaderInfoVO.fundName
                     }
                 }
-                setTimeout(() => {
-                    this.initOffsetHeight()
-                }, 100)
+                for (let key in this.otherList) {
+                    this.otherList[key].value = fundOverviewInfoVO[key]
+                }
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -68,13 +85,8 @@ export default {
             for (let key in this.list) {
                 this.list[key].label = this.$t('list')[key].label
             }
-        },
-        initOffsetHeight() {
-            if (this.$refs.intd[0].offsetHeight > 120) {
-                this.list.companyProfile.flag = 1
-            }
-            if (this.$refs.target[0].offsetHeight > 120) {
-                this.list.investObjective.flag = 1
+            for (let key in this.otherList) {
+                this.otherList[key].label = this.$t('list')[key].label
             }
         }
     },
@@ -86,41 +98,35 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-introduce {
-    background: #fff;
+    background: $background-bottom-color;
     width: 100%;
     height: 100%;
     position: fixed;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 .fund-introduce-header {
-    padding: 10px;
-    .title {
-        font-size: 0.32rem;
-    }
+    border-bottom: 1px solid $text-color8;
 }
 .fund-introduce-content {
-    margin: 5px 0 0 0;
+    padding: 20px 0;
+    background: #fff;
 }
 .fund-introduce-list {
     padding: 5px 10px;
-    float: left;
+    display: flex;
     span {
         display: inline;
         font-size: 0.28rem;
     }
     .left {
-        width: 150px;
+        width: 100px;
         color: $text-color5;
-        float: left;
     }
     .right {
-        float: right;
-        text-align: right;
-        width: 200px;
+        flex: 1;
         line-height: 24px;
-        display: block;
-        position: relative;
-        // overflow: hidden;
         word-break: break-all;
         .active {
             position: absolute;
@@ -130,7 +136,7 @@ export default {
             display: inline-block;
             width: 40px;
             right: 0;
-            text-align: right;
+            text-align: left;
             line-height: 24px;
             height: 24px;
         }
@@ -138,10 +144,9 @@ export default {
             bottom: -24px;
         }
     }
-
     .hiddenClass,
     .showClass {
-        text-align: right;
+        text-align: left;
     }
     .hiddenClass {
         display: -webkit-box;
@@ -153,6 +158,16 @@ export default {
     .intd,
     .target {
         text-align: left;
+    }
+}
+.fund-introduce-objective {
+    padding: 20px 10px;
+    margin-top: 6px;
+    background-color: #fff;
+    // flex: 1;
+    .title {
+        color: $text-color5;
+        margin-bottom: 10px;
     }
 }
 .activelist {

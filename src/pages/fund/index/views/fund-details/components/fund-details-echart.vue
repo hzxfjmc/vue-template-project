@@ -239,7 +239,7 @@ export default {
     }
 }
 .fund-details-echart {
-    margin: 10px 0 0 0;
+    margin: 6px 0 0 0;
     width: 100%;
     float: left;
     position: relative;
