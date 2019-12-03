@@ -141,6 +141,7 @@ export default {
             display: flex;
             flex: none;
             align-items: center;
+            min-width: 90px;
             font-size: 16px;
             line-height: 22px;
         }
