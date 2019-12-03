@@ -21,11 +21,11 @@
             :showPositionInfo="showPositionInfo"
             :fundHeaderInfoVO = "fundHeaderInfoVO" 
             :fundOverviewInfoVO="fundOverviewInfoVO") 
-    .fund-footer-content(v-if="btnShow")
+    .fund-footer-content(v-if="btnShow && isGrayAuthority")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-    .fund-footer-content(@click="handleBuyOrSell" v-if="!btnShow && isShowBtn")
+    .fund-footer-content(@click="handleBuyOrSell" v-if="!btnShow && isGrayAuthority")
         van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
     
     
@@ -93,12 +93,12 @@ export default {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
         },
-        isShowBtn() {
+        isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
             if (!this.isLogin) {
                 return true
             } else {
-                if (this.fundHeaderInfoVO.isin === 'HK0000447968') {
+                if (this.fundHeaderInfoVO.isin === 'LU0171284937') {
                     return (
                         this.userInfo &&
                         (this.userInfo.grayStatusBit & (1 << 3)) === 8
