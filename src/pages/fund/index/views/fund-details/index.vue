@@ -94,13 +94,19 @@ export default {
             return this.isLogin && this.openedAccount
         },
         isShowBtn() {
-            // 未登录或者登录后灰度名单下才展示申购/赎回按钮 grayStatusBit 1000 代表在白名单内
-            return (
-                !this.isLogin ||
-                (this.isLogin &&
-                    this.userInfo &&
-                    this.userInfo.grayStatusBit & (1 << 3)) !== 0
-            )
+            // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
+            if (!this.isLogin) {
+                return true
+            } else {
+                if (this.fundHeaderInfoVO.isin === 'LU0171284937') {
+                    return (
+                        this.userInfo &&
+                        (this.userInfo.grayStatusBit & (1 << 3)) === 8
+                    )
+                } else {
+                    return true
+                }
+            }
         }
     },
     data() {
