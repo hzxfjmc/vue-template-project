@@ -25,7 +25,7 @@
 
 <script>
 import dayjs from 'dayjs'
-import { transNumToThousandMark, sliceDecimal } from '@/utils/tools.js'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import Vue from 'vue'
 import { List } from 'vant'
 Vue.use(List)
@@ -130,9 +130,7 @@ export default {
                             '--',
                         color: differColor(item.externalStatus),
                         orderNo: item.orderNo,
-                        orderShare: transNumToThousandMark(
-                            sliceDecimal(item.orderShare, 4)
-                        ),
+                        orderShare: transNumToThousandMark(item.orderShare, 4),
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })
