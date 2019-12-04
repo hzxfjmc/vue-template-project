@@ -7,6 +7,15 @@
         :holdData="holdData")
         fundList(
             slot="fundList"
+            bgColor="#0091FF"
+            title = '港幣基金'
+            :eyeTab="eyeTab"
+            :noMoreShow="noMoreShow"        
+            :fundList="fundList")
+        fundList(
+            slot="fundList"
+            bgColor="#FFBA00"
+            title = '美元基金'
             :eyeTab="eyeTab"
             :noMoreShow="noMoreShow"        
             :fundList="fundList")

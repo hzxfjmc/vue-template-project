@@ -8,3 +8,9 @@ export const enumCurrency = {
     KRW: 5,
     JPY: 6
 }
+
+export const CURRENCY_NAME = {
+    0: '人民币',
+    1: '美元',
+    2: '港币'
+}

@@ -137,7 +137,13 @@ export default {
 .block-account-header {
     width: 100%;
     padding: 20px 0 0 0;
-    background: #2f79ff;
+    height: 150px;
+    background: linear-gradient(
+        162deg,
+        rgba(13, 126, 204, 1) 0%,
+        rgba(43, 79, 128, 1) 100%
+    );
+    box-shadow: 0px 2px 4px 0px rgba(57, 57, 57, 0.2);
 }
 .border-bottom-active {
     position: relative;
@@ -214,7 +220,8 @@ export default {
 }
 .header-footer-tab {
     width: 100%;
-    padding: 0 3%;
+    margin: 10px 0 0 0;
+    padding: 0 3% 0 3%;
     height: 40px;
     line-height: 40px;
     display: flex;

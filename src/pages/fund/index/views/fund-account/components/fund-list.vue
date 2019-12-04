@@ -1,28 +1,43 @@
 <template lang="pug">
 .block-fund-list-content
-    .list-item-content(v-for="(item,index) in fundList" :key="index" @click="toFundDetails(item)")
+    .block__fund-title.border-bottom(@click="hanlderSwitch") 
+        span(:style="{background:bgColor}")
+        p {{title}}
+        em(class="iconfont icon-icon-bottom")
+    .list-item-content.border-bottom(
+        v-for="(item,index) in fundList" 
+        v-if="listShow"
+        :key="index" 
+        @click="toFundDetails(item)")
         .fund-name {{item.fundName}}
         .fund-list-num
             .fund-row
-                span {{$t('amountMoney')}}
-                .block-element-number(v-if="eyeTab") {{item.positionAmount}}
-                .block-element-number(v-else) ****
+                .fund__row--list
+                    .block-element-number(v-if="eyeTab") {{item.positionAmount}}
+                    .block-element-number(v-else) ****
+                    span {{$t('amountMoney')}}
+                .fund__row--list
+                    .block-element-number(
+                        v-if="eyeTab && item.flag == 0" 
+                        :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings}}
+                    .block-element-number(
+                        v-if="eyeTab && item.flag == 1" 
+                        :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
+                    .block-element-number(
+                        v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
+                    .block-element-number(v-if="!eyeTab") ****
+                    span {{$t('profitPostion')}}
             .fund-row
-                span {{$t('profitPostion')}}
-                .block-element-number(v-if="eyeTab && item.flag == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
-                .block-element-number(v-if="!eyeTab") ****
-            .fund-row
-                span {{$t('SevenDayIncome')}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
-                .block-element-number(v-if="!eyeTab") ****
-            .fund-row
-                span {{$t('share')}}
-                .block-element-number(v-if="eyeTab") {{item.positionShare}}
-                .block-element-number(v-else) ****
+                .fund__row--list
+                    .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
+                    .block-element-number(v-if="!eyeTab") ****
+                    span {{$t('SevenDayIncome')}}
+                .fund__row--list
+                    .block-element-number(v-if="eyeTab") {{item.positionShare}}
+                    .block-element-number(v-else) ****
+                    span {{$t('share')}}
         .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.0000' || item.inTransitAmount !== '0.00'")
             .o-item(v-if="item.redeemDeliveryShare !== '0.0000'")
                 .footer-left-l {{$t('Redemption')}}
@@ -46,6 +61,14 @@ import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     props: {
+        bgColor: {
+            type: String,
+            default: ''
+        },
+        title: {
+            type: String,
+            default: ''
+        },
         fundList: {
             type: Array,
             default: () => {}
@@ -60,7 +83,9 @@ export default {
         }
     },
     data() {
-        return {}
+        return {
+            listShow: true
+        }
     },
     i18n: {
         zhCHS: {
@@ -97,6 +122,9 @@ export default {
         }
     },
     methods: {
+        hanlderSwitch() {
+            this.listShow = !this.listShow
+        },
         toFundDetails(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             gotoNewWebView(url)
@@ -109,28 +137,53 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block-fund-list-content {
-    width: 96%;
-    margin: 0 2%;
+    width: 90%;
+    margin: 20px 5% 0 5%;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 4px 0px rgba(57, 57, 57, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
     color: #000;
+    .block__fund-title {
+        display: flex;
+        flex-direction: row;
+        height: 44px;
+        line-height: 44px;
+        span {
+            display: block;
+            width: 4px;
+            height: 16px;
+            margin: 14px 0;
+        }
+        p {
+            width: 85%;
+            font-size: 16px;
+            margin: 0 0 0 18px;
+        }
+    }
     .list-item-content {
         width: 100%;
-        border-radius: 4px;
-        // height: 110px;
-        margin: 10px 0 0 0;
-        padding: 10px 2% 14px 2%;
+        padding: 10px 5% 14px 5%;
         background: #fff;
         .fund-name {
             font-size: 0.32rem;
-            line-height: 22px;
+            line-height: 20px;
             margin: 10px 0 5px 0;
         }
         .fund-list-num {
             display: flex;
             margin: 14px 0 0 0;
-            flex-direction: row;
+            flex-direction: column;
             .fund-row {
-                width: 25%;
+                width: 100%;
                 text-align: right;
+                display: flex;
+                flex-direction: row;
+                .fund__row--list {
+                    width: 50%;
+                    margin: 6px 0 0 0;
+                    text-align: left;
+                }
                 span {
                     font-size: 0.24rem;
                     color: rgba(25, 25, 25, 0.5);
@@ -179,6 +232,9 @@ export default {
             }
         }
     }
+}
+.block-fund-list-content:last-child {
+    margin: 20px 5%;
 }
 .block-element-nomore {
     width: 100%;
