@@ -127,6 +127,8 @@ export default {
         // 跳转
         jumpToResult() {
             let id = this.$route.query.id,
+                strategyId = this.$route.query.strategyId,
+                versionId = this.$route.query.versionId,
                 direction = this.$route.query.direction, // 只有债券才有这个参数
                 path = '/risk-appropriate-result',
                 query = {
@@ -164,6 +166,12 @@ export default {
                     path,
                     query
                 })
+            } else if (versionId && strategyId) {
+                // 策略跟投
+                let url =
+                    window.location.origin +
+                    `/webapp/stock-king/portfolio.html#/create/${strategyId}/${versionId}`
+                window.location.replace(url)
             } else {
                 // 如果不存在 id 参数，说明是直接从测评结果页跳转的，测试完成，直接跳转出去
                 this.$router.replace({
