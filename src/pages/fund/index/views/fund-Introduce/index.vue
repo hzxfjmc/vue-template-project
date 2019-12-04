@@ -21,15 +21,32 @@
                     v-show="item.flag == 1 || item.flag == 2" 
                     @click="foldItem(index)" 
                     :class="[item.flag == 2 ? 'activeShow':'']") {{item.flag == 1 ? $t('zk') : $t('zq')}}
+    
     .fund-introduce-other(v-if="active===0")
         .fund-introduce-objective(v-for="item in otherList")
             .title {{item.label}}
             .content {{item.value}}
+
+
+    .dividend-detail-container(v-if="active===1")
+        van-list.dividend-record-list(v-model="loading" :finished="finished" :finished-text="$t('noMore')" @load="onLoad")
+            van-cell(v-for="(item,index) in dividendDetailList" :key="index" class="van-cell-item" )
+                template(slot-scope='scope')
+                    .dividend-item.flex
+                        span(class="left-title") {{$t('list')['dividendDate'].label}}
+                        span(class="right-value") {{item.dividendDate}}
+                    .dividend-item.flex
+                        span(class="left-title") {{$t('list')['dividendRecord'].label}}
+                        span(class="right-value") {{item.dividendRecord}}
+
 </template>
 <script>
 import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
+import Vue from 'vue'
+import { List } from 'vant'
+Vue.use(List)
 export default {
     i18n: i18nIntroducelist,
     data() {
@@ -40,7 +57,14 @@ export default {
             swipeable: true, //开启手势滑动
             currency: null,
             active: 0,
-            otherList: JSON.parse(JSON.stringify(otherList))
+            otherList: JSON.parse(JSON.stringify(otherList)),
+            dividendDetailList: [
+                { dividendDate: '2019-2-1', dividendRecord: '1.00' },
+                { dividendDate: '2019-2-1', dividendRecord: '1.00' },
+                { dividendDate: '2019-2-1', dividendRecord: '1.00' }
+            ],
+            loading: false,
+            finished: true
         }
     },
     methods: {
@@ -58,20 +82,25 @@ export default {
                 })
                 for (let key in this.list) {
                     this.list[key].value =
-                        key == 'fundSize'
+                        key === 'fundSize'
                             ? `${
                                   fundOverviewInfoVO.currency.name
                               } ${transNumToThousandMark(
                                   fundOverviewInfoVO[key]
                               )}`
                             : fundOverviewInfoVO[key]
-                    if (key == 'fundRisk') {
+                    if (key === 'fundRisk') {
                         this.list[
                             key
                         ].value = `A${fundHeaderInfoVO.fundRiskType} ${fundOverviewInfoVO[key]}`
                     }
-                    if (key == 'fundNameCn') {
+                    if (key === 'fundNameCn') {
                         this.list[key].value = fundHeaderInfoVO.fundName
+                    }
+                    if (key === 'initialInvestAmount') {
+                        this.list[key].value = `${
+                            fundOverviewInfoVO.currency.name
+                        } ${transNumToThousandMark(fundHeaderInfoVO[key])}`
                     }
                 }
                 for (let key in this.otherList) {
@@ -88,7 +117,8 @@ export default {
             for (let key in this.otherList) {
                 this.otherList[key].label = this.$t('list')[key].label
             }
-        }
+        },
+        onLoad() {}
     },
     mounted() {
         this.initState()
@@ -172,5 +202,11 @@ export default {
 }
 .activelist {
     margin: 0 0 20px 0;
+}
+.dividend-detail-container {
+    .left-title {
+        color: rgba($text-color, 0.5);
+        margin-bottom: 5px;
+    }
 }
 </style>

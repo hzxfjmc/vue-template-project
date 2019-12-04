@@ -338,9 +338,10 @@ export default {
         },
         // 失焦后添加逗号
         addComma(val) {
-            return (this.subscribeObj.buyMoney.value = transNumToThousandMark(
+            debugger
+            this.subscribeObj.buyMoney.value = transNumToThousandMark(
                 Number(val).toFixed(2)
-            ))
+            )
         }
     },
     i18n: {
