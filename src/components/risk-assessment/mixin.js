@@ -110,7 +110,6 @@ export default {
                 this.assessDefinition = res.assessDefinition
                 if (res.damagedStatus === 1) {
                     this.showEasyCustomer = true
-                    console.log(this.showEasyCustomer)
                 } else {
                     this.jumpToResult()
                 }
