@@ -8,26 +8,44 @@
                     :key="index"
                     color="#2177FF"
                     plain
-                ) {{ tagItem }}
+                ) {{ tagItem && tagItem.slice(0, 8) }}
         .bond-card__content
             div
-                .text {{ buyYtm }}
-                .card-tips 到期年化收益率
+                .text(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
+                .card-tips {{ $t('yieldToMaturity') }}
             div
-                .text {{ subscriptionAmount | thousand-spilt }}
-                .card-tips 參攷認購金額/份
+                .text.subscription-amount
+                    span {{ subscriptionAmount | thousand-spilt }}
+                .card-tips {{ $t('refAmountContract') }}
             div
                 .text.interest-num
                     span {{ paymentAfterTaxPerYear | thousand-spilt }}
-                .card-tips 年稅後派息/份
+                .card-tips {{ $t('annualInterestContract') }}
 </template>
 
 <script>
 import mixin from './mixin'
 export default {
+    i18n: {
+        zhCHS: {
+            yieldToMaturity: '到期年化收益率',
+            refAmountContract: '参考认购金额/份',
+            annualInterestContract: '年派息/份'
+        },
+        zhCHT: {
+            yieldToMaturity: '到期年化收益率',
+            refAmountContract: '參考認購金額/份',
+            annualInterestContract: '年派息/份'
+        },
+        en: {
+            yieldToMaturity: 'Yield-to-Maturity',
+            refAmountContract: 'Ref. Amount / Contract',
+            annualInterestContract: 'Annual Interest / Contract'
+        }
+    },
     mixins: [mixin],
     computed: {
-        // 參攷認購金額
+        // 參考認購金額
         subscriptionAmount() {
             return (
                 (this.minFaceValue * this.buyPrice &&
@@ -90,21 +108,22 @@ export default {
         justify-content: space-between;
         h2 {
             overflow: hidden;
-            margin-right: 20px;
-            font-size: 0.4rem;
+            margin-right: 10px;
+            font-size: 20px;
+            line-height: 24px;
             color: $hk-text-color;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
         .tag-box {
-            margin-right: 8px;
+            margin-right: 0px;
             .van-tag--plain {
                 overflow: hidden;
                 min-width: 45px;
-                max-width: 115px;
-                padding: 4px 7px;
-                margin-right: 5px;
-                font-size: 0.2rem;
+                max-width: 100px;
+                padding: 4px 6px;
+                margin-right: 0px;
+                font-size: 10px;
                 text-align: center;
                 line-height: 18px;
                 text-overflow: ellipsis;
@@ -118,24 +137,35 @@ export default {
     }
     .bond-card__content {
         display: flex;
-        margin-top: 25px;
+        margin-top: 24px;
         justify-content: space-between;
         .text {
             color: $hk-text-color;
-            font-size: 0.4rem;
+            font-size: 20px;
             font-weight: 500;
+            font-family: DINPro-Medium, DINPro, PingFangHK-Medium, PingFangHK;
             margin-bottom: 6px;
+            &.red {
+                color: #ea3d3d;
+            }
+            &.green {
+                color: $green-text-color;
+            }
+            &.empty {
+                color: $text-color;
+            }
         }
-        .interest-num {
-            height: 0.4rem;
-            font-size: 0.32rem;
+        .interest-num,
+        .subscription-amount {
+            height: 20px;
+            font-size: 16px;
             span {
                 vertical-align: sub;
             }
         }
         .card-tips {
             color: rgba($color: $hk-text-color, $alpha: 0.4);
-            font-size: 0.24rem;
+            font-size: 12px;
             line-height: 20px;
         }
     }

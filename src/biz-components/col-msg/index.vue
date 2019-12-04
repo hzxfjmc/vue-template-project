@@ -66,17 +66,17 @@ export default {
     }
     .van-col__title {
         color: $text-color;
-        font-size: 0.28rem;
+        font-size: 14px;
         line-height: 20px;
     }
     .van-col__desc {
         margin-top: 2px;
         color: $text-color5;
-        font-size: 0.24rem;
+        font-size: 12px;
         line-height: 17px;
         .iconfont {
-            margin-left: 6px;
-            font-size: 0.26rem;
+            margin-left: 4px;
+            font-size: 13px;
             vertical-align: middle;
         }
     }

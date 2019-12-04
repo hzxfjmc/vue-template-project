@@ -86,6 +86,9 @@ html {
 .en-font-size input {
   font-size: 16px;
 }
+.icon-wenhao {
+    color: #8c8c8c;
+}
 .yx-company-provide {
   padding: 10px $global-padding;
   font-size: 12px;
@@ -99,11 +102,31 @@ html {
     height: 48px;
     color: #fff;
     font-size: 0.32rem;
-    line-height: 48px;
+    line-height: 47px;
     text-align: center;
     border-radius: 0!important;
     background-color: $primary-color;
     &[disabled='disabled'] {
         background-color: $disabled-color!important;
+    }
+}
+.van-pull-refresh {
+    min-height: 100%;
+}
+.operate-btn-box {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #fff;
+    .foot-button {
+        height: 48px;
+        margin: 0;
+        margin-bottom: constant(safe-area-inset-bottom);
+        margin-bottom: env(safe-area-inset-bottom);
+        &.sell {
+            background: #ffbf32;
+            border-color: #ffbf32;
+        }
     }
 }

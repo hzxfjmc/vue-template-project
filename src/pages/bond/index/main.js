@@ -10,19 +10,18 @@ import LS from '@/utils/local-storage.js'
 
 import storeMethod from '@/store/index.js'
 import bondIndex from '@/store/modules/bond-index'
+import { lang } from '@/utils/html-utils'
 const store = storeMethod({ bondIndex })
 setTimeout(() => {
     console.log('main.js:>>>store:>>>', store.state)
 }, 1000)
 
 import i18n from '@/utils/common/plugins/yx-i18n/index.js'
+import bondI18n from '@/utils/i18n-message/bond/index.js'
 Vue.use(i18n, {
-    lang: store.getters.lang,
-    messages: {
-        zhCHS: {},
-        zhCHT: {},
-        en: {}
-    }
+    lang,
+    // lang: 'en',
+    messages: bondI18n
 })
 
 import '@/utils/common'

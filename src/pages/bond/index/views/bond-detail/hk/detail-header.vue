@@ -1,9 +1,15 @@
 <template lang="pug">
     .detail-header
         media-box.bond-info(
+            :class="{ bindstock: hasBindStock }"
             :title="headerTitle"
             :desc="headerDesc"
         )
+        .check-stock(
+            v-if="hasBindStock"
+            @click="jumpToStock"
+            :class="{ en: $i18n.lang === 'en' }"
+        ) {{ $t('viewStocks') }}
         col-msg.header-column(
             :col-data="colData"
             :wrapperStyle="wrapperStyle"
@@ -21,8 +27,41 @@
 </template>
 <script>
 import detailHeaderMixin from '../mixins/detail-header.js'
+import jsBridge from '@/utils/js-bridge'
+import { enumMarketName } from '@/utils/common/global-enum'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
+    i18n: {
+        zhCHS: {
+            yieldToMaturity: '到期年化收益率',
+            yieldToMaturityTips:
+                '到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n\n' +
+                '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。',
+            refAmountContract: '参考认购金额/份',
+            annualInterestContract: '年派息/份',
+            viewStocks: '查看股票',
+            ok: '我知道了'
+        },
+        zhCHT: {
+            yieldToMaturity: '到期年化收益率',
+            yieldToMaturityTips:
+                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
+                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參考要素。',
+            refAmountContract: '參考認購金額/份',
+            annualInterestContract: '年派息/份',
+            ok: '我知道了',
+            viewStocks: '查看股票'
+        },
+        en: {
+            yieldToMaturity: 'Yield-to-Maturity',
+            yieldToMaturityTips:
+                'Yield to Maturity is the estimated annual average rate of return investors can expect to set aside to make this bond investment at the current market price (or the target price you entered). ',
+            refAmountContract: 'Ref. Amount / Contract',
+            annualInterestContract: 'Annual Interest / Contract',
+            ok: 'OK',
+            viewStocks: 'View Stocks'
+        }
+    },
     mixins: [detailHeaderMixin],
     data() {
         return {
@@ -35,38 +74,41 @@ export default {
             ],
             titleStyle: {
                 color: '#fff',
-                'font-size': '0.4rem',
+                'font-size': '20px',
+                'font-family': 'DINPro-Medium,DINPro',
                 'line-height': '0.4rem'
             },
             descStyle: {
                 'margin-top': '0.12rem',
                 color: 'rgba(255, 255, 255, 0.6)',
-                'font-size': '0.24rem',
+                'font-size': '12px',
                 'line-height': '0.4rem'
-            }
+            },
+            hasBindStock: false
         }
     },
     props: {
         paymentAfterTaxPerYear: {
             type: String,
             default: ''
+        },
+        bindStock: {
+            type: Object,
+            default: () => {}
         }
     },
     computed: {
-        // 到期年化利率/參攷認購金額/年稅後派息
+        // 到期年化利率/參考認購金額/年稅後派息
         colData() {
             let obj = [
                 {
                     title: this.buyYtm,
-                    desc: '到期年化收益率',
+                    desc: this.$t('yieldToMaturity'),
                     click: () => {
                         this.$dialog.alert({
-                            message:
-                                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
-                                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參攷要素。\n\n' +
-                                '注：展示數值為已加入預估傭金、平臺使用費之後的到期收益率。',
+                            message: this.$t('yieldToMaturityTips'),
                             messageAlign: 'left',
-                            confirmButtonText: '我知道了'
+                            confirmButtonText: this.$t('ok')
                         })
                     },
                     class: 'icon-wenhao'
@@ -76,19 +118,19 @@ export default {
                         this.subscriptionAmount.toString(),
                         3
                     ),
-                    desc: '參攷認購金額/份'
+                    desc: this.$t('refAmountContract')
                 },
                 {
                     title: transNumToThousandMark(
                         this.solvePaymentAfterTaxPerYear.toString(),
                         3
                     ),
-                    desc: '年稅後派息/份'
+                    desc: this.$t('annualInterestContract')
                 }
             ]
             return obj
         },
-        // 參攷認購金額
+        // 參考認購金額
         subscriptionAmount() {
             return (
                 (this.minFaceValue * this.buyPrice &&
@@ -130,19 +172,61 @@ export default {
                 ''
             )
         }
+    },
+    methods: {
+        jumpToStock() {
+            jsBridge.gotoNativeModule(
+                `yxzq_goto://stock_quote?market=${
+                    enumMarketName[this.bindStock.stockMarket.type]
+                }&code=${this.bindStock.stockCode}`
+            )
+        }
+    },
+    watch: {
+        bindStock() {
+            if (
+                this.bindStock.stockCode &&
+                this.bindStock.stockMarket &&
+                this.bindStock.stockMarket.type
+            ) {
+                this.hasBindStock = true
+            } else {
+                this.hasBindStock = false
+            }
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
 .detail-header {
+    position: relative;
     background-color: rgba($color: #0055ff, $alpha: 0.6);
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
     border-radius: 10px;
-    font-family: DINPro-Regular, DINPro;
     .header-column {
         padding: 0 10px 20px 14px;
         border-bottom: 1px solid #e6e6e6;
         >>> .van-col {
             flex-grow: 0;
+        }
+    }
+    .check-stock {
+        position: absolute;
+        top: 21px;
+        right: -1px;
+        width: 70px;
+        height: 30px;
+        border: 1px solid #fff;
+        padding-left: 10px;
+        color: #fff;
+        font-size: 13px;
+        line-height: 29px;
+        border-radius: 15px 0 0 15px;
+        box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.1);
+        &.en {
+            padding-left: 6px;
+            font-size: 10px;
         }
     }
 }
@@ -152,10 +236,17 @@ export default {
 .detail-header {
     .media-box.bond-info {
         padding: 20px 14px 18px;
+        &.bindstock {
+            padding-right: 70px;
+            .media-box__title {
+                white-space: normal;
+            }
+        }
         .media-box__content {
             .media-box__title {
                 font-size: 0.5rem;
                 font-weight: 500;
+                font-family: PingFangHK-Medium, PingFangHK;
                 line-height: 36px;
             }
             .media-box__desc {
@@ -165,6 +256,9 @@ export default {
                 line-height: 20px;
             }
         }
+    }
+    .icon-wenhao {
+        color: #fff;
     }
 }
 .header-features {
@@ -183,6 +277,7 @@ export default {
             .media-box__title {
                 font-size: 0.32rem;
                 line-height: 22px;
+                font-family: PingFangHK-Medium, PingFangHK;
             }
         }
     }

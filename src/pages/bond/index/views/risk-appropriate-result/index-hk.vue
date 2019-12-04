@@ -41,8 +41,8 @@
                         :class="props.checked ? 'icon-xuanzhong2' : 'icon-noconfirm'"
                     )
                 p
-                    span 我已阅读并知晓债券相关风险，我已阅读产品资料
-                    a(:href="productUrl") 《产品概览书》
+                    span {{ $t('hadRead') }}
+                    a(:href="productUrl") 《{{ $t('productOverview') }}》
             .van-bottom-btn
                 van-button.btn(type="info" round size="large"
                     :disabled="isDisabled"

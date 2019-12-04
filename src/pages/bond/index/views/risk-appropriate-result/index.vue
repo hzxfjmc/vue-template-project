@@ -59,6 +59,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.yx-container {
+    background-color: $background-bottom-color;
+}
 .risk-appropriate-result-wrapper {
     padding-bottom: 48px;
     .risk-result__header {
@@ -95,6 +98,7 @@ export default {
         }
     }
     .risk-result__content {
+        overflow: hidden;
         margin: 14px;
         padding: 20px 0;
         background: rgba(255, 255, 255, 1);
@@ -178,9 +182,6 @@ export default {
             color: $text-color5;
             font-size: 0.24rem;
             line-height: 20px;
-            span {
-                opacity: 0.4;
-            }
             a {
                 color: $primary-color-line;
                 font-size: 0.24rem;

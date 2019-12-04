@@ -118,7 +118,7 @@ export default {
                     max: Math.max.apply(null, arr) * 1.1,
                     // min: 0,
                     formatter: function formatter(val) {
-                        return val.toFixed(4)
+                        return Number(val).toFixed(4)
                     }
                 },
                 belongDay: {
@@ -195,13 +195,7 @@ export default {
             canvaStyle.transform = 'translateX(-3%)'
             this.draw(this.chartId)
             this.chart.render()
-            this.active = this.step
             this.tabShow()
-        },
-        $route(to, from) {
-            if (from.path == '/') {
-                this.active = this.step
-            }
         }
     },
     mounted() {

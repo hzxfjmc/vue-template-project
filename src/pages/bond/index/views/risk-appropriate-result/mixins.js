@@ -1,8 +1,11 @@
 import { Checkbox, Button } from 'vant'
+import { handleSelectProtocolInfo } from '@/pages/bond/index/tools'
 import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
+import { checkMarketFeePackage } from '@/service/product-server.js'
 import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
+import { openBondFeePackage } from '@/service/finance-server'
 import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
@@ -101,18 +104,20 @@ export default {
         // 拉取风险测评结果
         async handleRiskAssessResult() {
             try {
-                let res = await riskAssessResult()
+                let res = (await riskAssessResult()) || {}
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
-                this.assessResultName = res.assessResultName
+                this.assessResultName =
+                    res.assessResultName || this.$t('riskTypeList')[0]
                 this.number = res.validCount
                 // this.number = 1
                 this.resetTime = res.resetTime
-                // this.validTime = '2010-1-5 12:00:00'
-                this.validTime = res.validTime
+                this.validTime =
+                    res.validTime && res.validTime.replace(/-/g, '/') // ios 中短横线日期格式使用 Date 处理无效
+                // this.validTime = '2010-1-5 12:00:00'.replace(/-/g, '/')
                 this.damagedStatus = res.damagedStatus
-
                 if (new Date().getTime() > new Date(this.validTime).getTime()) {
                     this.userRiskLevel = '-1'
+                    this.assessResultName = this.$t('riskTypeList')['-1']
                 }
                 console.log(this.damagedStatus, 'this.damagedStatus')
             } catch (e) {
@@ -128,8 +133,15 @@ export default {
                 let { bondEditableInfo } = await getBondDetail(
                     this.$route.query.id - 0
                 )
-                this.productUrl =
-                    bondEditableInfo && bondEditableInfo.productOverview // 产品资料url
+                // 获取 产品资料url
+                if (bondEditableInfo && bondEditableInfo.productOverview) {
+                    handleSelectProtocolInfo(
+                        bondEditableInfo.productOverview,
+                        res => {
+                            this.productUrl = (res && res.protocolUrl) || ''
+                        }
+                    )
+                }
                 this.bondRiskLevel =
                     (bondEditableInfo && bondEditableInfo.riskLevelType) || 100 // 债券风险等级
                 console.log('getBondDetail:data:>>> ', bondEditableInfo)
@@ -138,23 +150,23 @@ export default {
             }
         },
         // 操作按钮
-        handleAction() {
+        async handleAction() {
             if (this.isDisabled) return
-            if (this.userRiskLevel === 0) {
-                // 尚未风评，跳转到风险测评
-                this.$router.push({
-                    path: this.prev + '/risk-assessment',
-                    query: {
-                        id: this.$route.query.id,
-                        fundRiskType: this.$route.query.fundRiskType
-                    }
-                })
-            } else if (this.userRiskLevel < this.bondRiskLevel) {
-                // 风险等级不够 弹出剩余次数提示
-                this.showRemainingNum = true
-            } else {
-                // 风评级别够了，可以购买，跳转到下单界面
-                if (this.$route.query.direction) {
+            this.$loading()
+            try {
+                if (this.userRiskLevel === 0) {
+                    // 尚未风评，跳转到风险测评
+                    this.$router.push({
+                        path: this.prev + '/risk-assessment',
+                        query: {
+                            id: this.$route.query.id,
+                            direction: this.$route.query.direction
+                        }
+                    })
+                } else if (this.userRiskLevel < this.bondRiskLevel) {
+                    // 风险等级不够 弹出剩余次数提示
+                    this.showRemainingNum = true
+                } else {
                     let direction =
                         (this.$route.query.direction &&
                             this.$route.query.direction) ||
@@ -163,13 +175,47 @@ export default {
                         direction == 2
                             ? '/transaction-sell'
                             : '/transaction-buy'
+
+                    // 获取用户套餐
+                    let feeData = await checkMarketFeePackage({
+                        stockBusinessType: 6,
+                        userId: this.$store.state.user.userId - 0
+                    })
+                    console.log('checkMarketFeePackage:data:>>> ', feeData)
+                    // 如果用户已经拥有套餐，直接跳转
+                    if (feeData) {
+                        this.$router.push({
+                            path: `${this.prev}${path}`,
+                            query: {
+                                id: this.$route.query.id,
+                                direction
+                            }
+                        })
+                        return
+                    }
+                    // 没有开通套餐，静默开通用户债券费用套餐
+                    let openData = await openBondFeePackage()
+                    console.log('openBondFeePackage:data:>>> ', openData)
+
+                    if (!openData) return
+
+                    // 风评级别够了，可以购买，跳转到下单界面
+
                     this.$router.push({
                         path: `${this.prev}${path}`,
                         query: {
-                            id: this.$route.query.id
+                            id: this.$route.query.id,
+                            direction
                         }
                     })
                 }
+            } catch (e) {
+                if (e.msg) {
+                    await this.$toast(e.msg)
+                }
+                console.log('openBondFeePackage:error:>>> ', e)
+            } finally {
+                this.$close()
             }
         },
         // 开始测评或拨打客服电话
@@ -182,7 +228,7 @@ export default {
                     path: this.prev + '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
-                        fundRiskType: this.$route.query.fundRiskType
+                        direction: this.$route.query.direction
                     }
                 })
             }

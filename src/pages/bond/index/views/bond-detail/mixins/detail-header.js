@@ -26,7 +26,7 @@ export default {
     data() {
         return {
             wrapperStyle: {
-                flex: '0 0 auto'
+                flex: this.$i18n.lang === 'en' ? 'unset' : '0 0 auto'
             }
         }
     },

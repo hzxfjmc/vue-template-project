@@ -7,7 +7,7 @@
                 :key="index"
                 color="#2177FF"
                 plain
-            ) {{ tagItem }}
+            ) {{ tagItem && tagItem.slice(0, 8) }}
         .bond-card__content
             .flex-fixed-container
                 .rate-num(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
@@ -20,30 +20,10 @@
 <script>
 import mixin from './mixin'
 import { calcPaymentDates } from '@/pages/bond/index/tools.js'
-import { getStockColorType } from '@/utils/html-utils'
-const stockColorType = getStockColorType()
-// 1 表示 红涨绿跌， 2 表示 绿涨红跌
-const stockColorClass = {
-    1: {
-        up: 'red',
-        down: 'green'
-    },
-    2: {
-        up: 'green',
-        down: 'red'
-    }
-}
+
 export default {
     mixins: [mixin],
     computed: {
-        // 股票上涨类名
-        up() {
-            return stockColorClass[stockColorType].up
-        },
-        // 股票下跌类名
-        down() {
-            return stockColorClass[stockColorType].down
-        },
         // 付息频率
         paymentFrequency() {
             return (
@@ -64,7 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 .bond-card {
-    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 15px 12px 22px;
     background-color: $background-color;
     border-radius: 4px;
@@ -74,7 +54,7 @@ export default {
         h2 {
             overflow: hidden;
             margin-right: 6px;
-            font-size: 0.36rem;
+            font-size: 18px;
             color: $title-color;
             line-height: 25px;
             text-overflow: ellipsis;
@@ -83,10 +63,10 @@ export default {
         .van-tag--plain {
             overflow: hidden;
             min-width: 36px;
-            max-width: 115px;
-            padding: 4px 7px;
-            margin-right: 6px;
-            font-size: 0.2rem;
+            max-width: 110px;
+            padding: 4px 6px;
+            margin-right: 4px;
+            font-size: 10px;
             text-align: center;
             line-height: 14px;
             text-overflow: ellipsis;
@@ -102,7 +82,7 @@ export default {
         padding: 0 2px;
         .rate-num {
             margin-bottom: 4px;
-            font-size: 0.48rem;
+            font-size: 24px;
             line-height: 31px;
             &.red {
                 color: #ea3d3d;
@@ -118,12 +98,12 @@ export default {
             margin-top: 3px;
             margin-bottom: 7px;
             color: $text-color;
-            font-size: 0.34rem;
+            font-size: 17px;
             line-height: 25px;
         }
         .card-tips {
             color: $text-color5;
-            font-size: 0.24rem;
+            font-size: 12px;
             line-height: 17px;
         }
     }

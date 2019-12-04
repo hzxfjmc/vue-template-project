@@ -1,45 +1,59 @@
 import { Row, Col } from 'vant'
-import { selectProtocolInfo } from '@/service/config-manager.js'
+import { handleSelectProtocolInfo } from '@/pages/bond/index/tools'
 import { calcCountDownDay, dateFormat } from '@/utils/tools.js'
 import ColMsg from '@/biz-components/col-msg/index.vue'
+import { isYouxinAndroid } from '@/utils/html-utils'
+import jsBridge from '@/utils/js-bridge'
 export default {
     name: 'BondInfo',
     i18n: {
         zhCHS: {
+            bondOverview: '产品概览书',
+            prospectus: '募集说明书',
             issuerName: '债券发行人',
             couponRate: '票面利率',
             paymentDate: '付息日',
-            issueTime: '债券发行时间',
+            issueTime: '首次付息日',
             dueTime: '到期时间',
             dueDay: '剩余期限',
+            infoYear: '年',
+            infoDay: '天',
             paymentTypeName: '付息类型',
             paymentFrequencyName: '付息频率',
-            creditRatingAgency: '债券评级',
-            issuerRankAgency: '发行人评级'
+            creditRatingAgency: '债券评级(标普)',
+            issuerRankAgency: '发行人评级(标普)'
         },
         zhCHT: {
+            bondOverview: '產品概覽書',
+            prospectus: '募集說明書',
             issuerName: '債券發行人',
             couponRate: '票面利率',
             paymentDate: '付息日',
-            issueTime: '債券發行時間',
+            issueTime: '首次付息日',
             dueTime: '到期時間',
             dueDay: '剩余期限',
+            infoYear: '年',
+            infoDay: '天',
             paymentTypeName: '付息類型',
             paymentFrequencyName: '付息頻率',
-            creditRatingAgency: ' 債券評級',
-            issuerRankAgency: '發行人評級'
+            creditRatingAgency: ' 債券評級(標普)',
+            issuerRankAgency: '發行人評級(標普)'
         },
         en: {
-            issuerName: '债券发行人',
-            couponRate: '票面利率',
-            paymentDate: '付息日',
-            issueTime: '债券发行时间',
-            dueTime: '到期时间',
-            dueDay: '剩余期限',
-            paymentTypeName: '付息类型',
-            paymentFrequencyName: '付息频率',
-            creditRatingAgency: '债券评级',
-            issuerRankAgency: '发行人评级'
+            bondOverview: 'Overview',
+            prospectus: 'Prospectus',
+            issuerName: 'Bond Issuer',
+            couponRate: 'Annual Coupon Rate',
+            paymentDate: 'Interest Payment Date',
+            issueTime: 'start Payment Date',
+            dueTime: 'Maturity Date',
+            dueDay: 'Time to Maturity',
+            infoYear: 'Y ',
+            infoDay: 'D',
+            paymentTypeName: 'Coupon Type',
+            paymentFrequencyName: 'Coupon Frequency',
+            creditRatingAgency: 'Credit Rating(S&P)',
+            issuerRankAgency: 'Bond Issuer Rating(S&P)'
         }
     },
     components: {
@@ -56,9 +70,6 @@ export default {
             type: Object,
             default: () => {}
         }
-    },
-    created() {
-        this.handleSelectProtocolInfo()
     },
     data() {
         return {
@@ -118,17 +129,13 @@ export default {
             if (this.issuerRank) {
                 obj[1].push({
                     title: this.issuerRank,
-                    desc: `${this.$t('issuerRankAgency')}${
-                        this.issuerRankAgency
-                    }`
+                    desc: `${this.$t('issuerRankAgency')}`
                 })
                 if (this.creditRatingRank) {
                     obj[2] = [
                         {
                             title: this.creditRatingRank,
-                            desc: `${this.$t('creditRatingAgency')}${
-                                this.creditRatingAgency
-                            }`
+                            desc: `${this.$t('creditRatingAgency')}`
                         },
                         {
                             title: '',
@@ -144,9 +151,7 @@ export default {
                 if (this.creditRatingRank) {
                     obj[1].push({
                         title: this.creditRatingRank,
-                        desc: `${this.$t('creditRatingAgency')}${
-                            this.creditRatingAgency
-                        }`
+                        desc: `${this.$t('creditRatingAgency')}`
                     })
                 } else {
                     obj[1].push({
@@ -203,6 +208,8 @@ export default {
             return calcCountDownDay(
                 this.bondUneditableInfo && this.bondUneditableInfo.dueTime
             )
+                .replace(/年/g, this.$t('infoYear'))
+                .replace(/天/g, this.$t('infoDay'))
         },
         // 付息类型
         paymentTypeName() {
@@ -230,16 +237,6 @@ export default {
                 ''
             )
         },
-        // 发行人评级类型
-        issuerRankAgency() {
-            return (
-                (this.bondEditableInfo &&
-                    this.bondEditableInfo.issuer &&
-                    this.bondEditableInfo.issuer.rankInfo &&
-                    `（${this.bondEditableInfo.issuer.rankInfo.agency}）`) ||
-                ''
-            )
-        },
         // 债券评级
         creditRatingRank() {
             return (
@@ -248,33 +245,17 @@ export default {
                     this.bondEditableInfo.creditRating.rank) ||
                 ''
             )
-        },
-        // 债券评级类型
-        creditRatingAgency() {
-            return (
-                (this.bondEditableInfo &&
-                    this.bondEditableInfo.creditRating &&
-                    `（${this.bondEditableInfo.creditRating.agency}）`) ||
-                ''
-            )
         }
     },
     methods: {
-        // 获取 产品概览、募集说明书
-        async handleSelectProtocolInfo(key, pdfType) {
-            try {
-                let { protocolUrl } = await selectProtocolInfo(key)
-                if (pdfType === 'product') {
-                    this.productOverview = protocolUrl
-                } else {
-                    this.raiseManual = protocolUrl
-                }
-                console.log(
-                    'handleSelectProtocolInfo:pdfType>>>data :',
-                    protocolUrl
-                )
-            } catch (e) {
-                console.log('handleSelectProtocolInfo:pdfType>>>error :', e)
+        // 跳转pdf ios 部分使用原生 href 跳转不了
+        jumpPdf(url) {
+            // 安卓不能新开 webview，会跳出 webview下载pdf，导致新开的 webview 页面空白
+            if (isYouxinAndroid) {
+                window.location.href = url
+            } else {
+                // ios 可以直接打开 pdf，但是会影响 查看股票按钮的逻辑显示，所以要新开
+                jsBridge.gotoNewWebview(url)
             }
         },
         toggleShowMoreMsg() {
@@ -282,17 +263,22 @@ export default {
         }
     },
     watch: {
+        // 获取 产品概览、募集说明书
         bondEditableInfo() {
             if (this.bondEditableInfo.productOverview) {
-                this.handleSelectProtocolInfo(
+                handleSelectProtocolInfo(
                     this.bondEditableInfo.productOverview,
-                    'product'
+                    res => {
+                        this.productOverview = (res && res.protocolUrl) || ''
+                    }
                 )
             }
             if (this.bondEditableInfo.raiseManual) {
-                this.handleSelectProtocolInfo(
+                handleSelectProtocolInfo(
                     this.bondEditableInfo.raiseManual,
-                    'raise'
+                    res => {
+                        this.raiseManual = (res && res.protocolUrl) || ''
+                    }
                 )
             }
         }

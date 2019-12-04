@@ -28,7 +28,7 @@ export default {
                     console.log(userInfo.assessResult)
                     window.location.replace(
                         location.origin +
-                            '/wealth/bond/index.html#/risk-assessment-result'
+                            '/wealth/fund/index.html#/risk-assessment-result'
                     )
                 } else {
                     vm.isriskAssessment = true

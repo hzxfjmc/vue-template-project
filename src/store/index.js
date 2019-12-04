@@ -11,7 +11,7 @@ import {
     appType,
     lang
 } from '@/utils/html-utils'
-
+// import { alertModule } from '@/utils/common/plugins/vant'
 Vue.use(Vuex)
 
 export default modules =>
@@ -27,6 +27,24 @@ export default modules =>
             }
         },
         actions: {
+            // 需要登录绑定手机号以及开户
+            async openAccountAction({ dispatch, state }) {
+                try {
+                    await dispatch('loginCommonAction')
+                    // 未开户，请先去开户
+                    if (!state.user.openedAccount) {
+                        // 跳转到开户页面
+                        // await alertModule({
+                        //     message: '未开户，请先去开户'
+                        // })
+                        jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                        throw ''
+                    }
+                } catch (e) {
+                    throw e
+                }
+            },
+            // 点击需要登录，绑定手机号的时候，且需要初始化数据
             async loginCommonAction(store) {
                 try {
                     let user
@@ -64,6 +82,7 @@ export default modules =>
                     throw e
                 }
             },
+            // 页面初始化
             async initAction(store) {
                 try {
                     let userToken = LS.get('userToken')
@@ -89,12 +108,13 @@ export default modules =>
                         userToken && (await store.dispatch('getUserInfoAction'))
                     }
                 } catch (e) {
-                    // LS.remove('userToken')
+                    //LS.remove('userToken')
                     store.commit('getUserInfoMutation', {
                         phoneNumber: '',
                         userId: '',
                         userToken: '',
-                        userName: ''
+                        userName: '',
+                        openedAccount: false
                     })
                     throw e
                 }
@@ -108,6 +128,7 @@ export default modules =>
             isYouxinAndroid: () => isYouxinAndroid,
             isYouxinApp: () => isYouxinApp,
             appType: () => appType,
-            lang: () => lang // ['1', 'zhCHS'](简体), ['2', 'zhCHT']（繁体）, ['3', 'en']
+            lang: () => lang, // ['1', 'zhCHS'](简体), ['2', 'zhCHT']（繁体）, ['3', 'en']
+            openedAccount: state => state.user.openedAccount // 是否已开户 true-已开户 false-未开户
         }
     })

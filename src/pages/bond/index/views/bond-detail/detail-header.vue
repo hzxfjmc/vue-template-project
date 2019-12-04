@@ -1,6 +1,6 @@
 <template lang="pug">
     .detail-header
-        media-box(
+        media-box.sp(
             :title="headerTitle"
             :desc="headerDesc"
         )
@@ -38,13 +38,13 @@ export default {
             featureThumbMoney: require('@/assets/img/bond/icon-money.png'),
             titleStyle: {
                 color: '#fff',
-                'font-size': '0.4rem',
+                'font-size': '20px',
                 'line-height': '0.52rem'
             },
             descStyle: {
                 'margin-top': '0.04rem',
                 color: 'rgba(255, 255, 255, 0.6)',
-                'font-size': '0.24rem',
+                'font-size': '12px',
                 'line-height': '0.34rem'
             }
         }
@@ -60,12 +60,12 @@ export default {
                         this.$dialog.alert({
                             message:
                                 '到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n\n' +
-                                '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。\n\n' +
-                                '注：展示数值为已加入预估佣金、平台使用费之后的到期收益率。',
+                                '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。',
                             messageAlign: 'left',
                             confirmButtonText: '我知道了'
                         })
-                    }
+                    },
+                    class: 'icon-wenhao'
                 },
                 {
                     title: this.dueDay,
@@ -97,9 +97,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .detail-header {
-    background-color: #2f79ff;
+    overflow: hidden;
+    background-color: $primary-color-line;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
     border-radius: 4px;
-    font-family: DINPro-Regular, DINPro;
     .header-column {
         padding: 0 10px 14px 14px;
         >>> .van-col {
@@ -109,6 +110,20 @@ export default {
 }
 </style>
 <style lang="scss">
+.detail-header {
+    .icon-wenhao {
+        color: rgba($color: #fff, $alpha: 0.6);
+    }
+}
+.detail-header {
+    .media-box.sp {
+        .media-box__content {
+            .media-box__desc {
+                margin-top: 2px;
+            }
+        }
+    }
+}
 // 微调 media-box 样式
 .header-features {
     background: rgba(0, 0, 0, 0.06);
@@ -125,7 +140,7 @@ export default {
         }
         .media-box__content {
             .media-box__title {
-                font-size: 0.28rem;
+                font-size: 14px;
                 line-height: 20px;
             }
         }

@@ -1,13 +1,18 @@
 <template lang="pug">
-    yx-container-better
+    yx-container
         .risk-warning-wrapper(slot="main")
-            van-panel.risk-tips(title="債劵購買風險提示")
+            van-panel.risk-tips(:title="$t('riskWarning')")
                 .risk-tips__text-box
-                    p 1) 由於企業違約等XXXXXXX可能，債券可能違約，損失部分或全部本金和利息.XXXXXX
-                    p 2) 債券市場流動性差，友信提供流動性XXXXXXXX，價格點差XXXX。友信盡力撮合訂單，但不保證訂單一定能夠成交。
-                    p 3) 成交價格公司可能有損益。
-            van-panel.sign-box(title="確認簽名")
-                van-field(v-model="signName" :placeholder="signNamePlaceholder" class="sign-box__input" )
+                    p(v-for="(textItem, index) in $t('riskTipsList')")
+                        span {{ index + 1 }})
+                        span {{ textItem }}
+            van-panel.sign-box(:title="$t('signature')")
+                van-field(
+                    v-model="signName"
+                    @blur="handleBlur"
+                    :placeholder="signNamePlaceholder"
+                    class="sign-box__input"
+                )
             .statement
                 van-checkbox(v-model="isReadBondInfo")
                     i.iconfont(
@@ -16,14 +21,14 @@
                         :class="props.checked ? 'icon-xuanzhong2' : 'icon-noconfirm'"
                     )
                 .statement-text
-                    span 我已閱讀並知曉債券相關風險本人已閱讀
+                    span {{ $t('bondRisk1') }}
                     a(:href="agreementData && agreementData.protocolUrl") 《{{ agreementData && agreementData.protocolName }}》
-                    span ；本人電子簽名代表對上述說明的同意，與本人手寫簽名具有相同的法律效力
+                    span {{ $t('bondRisk2') }}
         van-button(
             type="info"
             slot="bottom"
             class="foot-button"
-            text="確定"
+            :text="$t('confirm')"
             :disabled="submitBtnDisabled"
             @click="handleSubmitAutograph"
         )
@@ -63,12 +68,19 @@ export default {
             background: rgba($hk-primary-color, 0.05);
             box-shadow: 0px 2px 4px 0px rgba($hk-text-color, 0.1);
             p {
+                display: flex;
                 margin-bottom: 10px;
                 color: $hk-text-color;
                 font-size: 14px;
                 line-height: 20px;
                 &:last-child {
                     margin-bottom: 0;
+                }
+                span {
+                    &:nth-child(2) {
+                        flex: 1;
+                        margin-left: 10px;
+                    }
                 }
             }
         }

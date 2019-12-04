@@ -130,15 +130,15 @@ export default {
                     fundTradeInfoVO['continueInvestAmount']
                 )
 
-                this.tradeList['redemptionFee'].value = `${Math.floor(
-                    Number(fundTradeInfoVO['redemptionFee'] * 10000)
+                this.tradeList['subscriptionFee'].value = `${Math.floor(
+                    Number(fundTradeInfoVO['subscriptionFee'] * 10000)
                 ) / 100}%`
                 this.redeemList.minPositionShare.value = transNumToThousandMark(
                     fundTradeInfoVO.minPositionShare,
                     4
                 )
-                this.redeemList.subscriptionFee.value = `${Math.floor(
-                    Number(fundTradeInfoVO.subscriptionFee * 10000)
+                this.redeemList.redemptionFee.value = `${Math.floor(
+                    Number(fundTradeInfoVO.redemptionFee * 10000)
                 ) / 100}%`
                 this.buySubmit.value = fundTradeInfoVO.buySubmit
                 this.buyConfirm.value = fundTradeInfoVO.buyConfirm

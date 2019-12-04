@@ -8,12 +8,12 @@
                         i.process-step__circle
                     .process-step__line
                 .process-step
-                    .process-step__title {{ enumDelivery }}日计息
+                    .process-step__title T日开始计息
                     .process-step__circle-container
                         i.process-step__circle
                     .process-step__line
                 .process-step
-                    .process-step__title {{ paymentDate }}为付息日
+                    .process-step__title.sp 每次收息{{ paymentPerTime }}{{ currency }}/份
                     .process-step__circle-container
                         span.process-step__text 付息日支付利息，持有中途可卖出
                     .process-step__line
@@ -27,7 +27,18 @@
 <script>
 import purchasingProcessMixin from './mixins/purchasing-process.js'
 export default {
-    mixins: [purchasingProcessMixin]
+    mixins: [purchasingProcessMixin],
+    props: {
+        paymentInfo: {
+            type: Object,
+            default: () => {}
+        }
+    },
+    computed: {
+        paymentPerTime() {
+            return this.paymentInfo.paymentPerTime || 0
+        }
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -70,17 +81,20 @@ export default {
         }
         .process-step__circle-container {
             left: auto;
-            right: 3px;
+            right: 0;
         }
     }
     .process-step__title {
         position: relative;
         display: inline-block;
-        margin-left: 3px;
         color: $text-color;
         font-size: 0.24rem;
         line-height: 20px;
         transform: translate3d(-50%, 0, 0);
+        &.sp {
+            margin-left: -12px;
+            white-space: nowrap;
+        }
         .process-step__title-tips {
             position: absolute;
             right: 0;
@@ -108,7 +122,7 @@ export default {
             padding: 3px 4px;
             background: rgba(235, 235, 235, 1);
             color: $text-color5;
-            font-size: 0.2rem;
+            font-size: 10px;
             line-height: 14px;
             white-space: nowrap;
             transform: translate3d(-50%, -50%, 0);
@@ -119,7 +133,7 @@ export default {
         top: 8px;
         left: 0;
         width: 100%;
-        height: 2px;
+        height: 1px;
         background-color: #ebebeb;
     }
 }

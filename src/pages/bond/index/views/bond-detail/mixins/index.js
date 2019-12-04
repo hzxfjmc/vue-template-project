@@ -1,9 +1,10 @@
 import YxContainerBetter from '@/components/yx-container-better'
 import { getBondDetail } from '@/service/finance-info-server.js'
-import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
+import { getCurrentUser } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge'
 import { Panel, PullRefresh } from 'vant'
 import { mapState, mapGetters } from 'vuex'
+import { loadingModule, closeModule } from '@/utils/common/plugins/vant'
 import { enumMarketName } from '@/utils/common/global-enum'
 export default {
     name: 'BondList',
@@ -12,11 +13,26 @@ export default {
         [PullRefresh.name]: PullRefresh,
         YxContainerBetter
     },
+    beforeRouteEnter(to, from, next) {
+        // 获取债券详情，在 dom 渲染之前获取数据，防止页面数据从空到有
+        // 造成页面加载时间变长，但是这是产品要求的
+        loadingModule()
+        getBondDetail(to.query.id - 0)
+            .then(res => {
+                console.log('beforeRouterEnter>>>then :', res)
+                next(vm => {
+                    vm.setBondDetail(res, vm)
+                })
+            })
+            .catch(e => {
+                console.log('beforeRouterEnter>>>error :', e)
+            })
+            .finally(() => {
+                closeModule()
+            })
+    },
     created() {
         this.id = this.$route.query.id - 0
-
-        // 获取债券详情
-        this.handleGetBondDetail()
 
         // 获取用户信息--主要拿签名状态
         this.handleGetCurrentUser()
@@ -76,39 +92,38 @@ export default {
         // 获取债券详情
         async handleGetBondDetail() {
             try {
-                let {
-                    bondEditableInfo,
-                    bondUneditableInfo,
-                    currentPrice,
-                    paymentAfterTaxPerYear,
-                    paymentInfo,
-                    prices
-                } = await getBondDetail(this.id)
-
-                this.bondEditableInfo = bondEditableInfo || {}
-                this.bondUneditableInfo = bondUneditableInfo || {}
-                this.currentPrice = currentPrice || {}
-                this.paymentAfterTaxPerYear = paymentAfterTaxPerYear || ''
-                this.paymentInfo = paymentInfo || {}
-                this.prices = prices || []
-                this.bondName =
-                    (this.bondEditableInfo.issuer &&
-                        this.bondEditableInfo.issuer.name) ||
-                    '--'
-
-                // 是否有绑定股票，有则右上角展示查看股票
-                this.bindStock =
-                    (bondEditableInfo && bondEditableInfo.bindStock) || {}
-                console.log(
-                    'getBondDetail:data:>>> ',
-                    bondEditableInfo,
-                    bondUneditableInfo,
-                    currentPrice,
-                    prices
-                )
+                let res = await getBondDetail(this.id)
+                this.setBondDetail(res, this)
+                console.log('getBondDetail:data:>>> ', res)
             } catch (e) {
                 console.log('getBondDetail:error:>>>', e)
             }
+        },
+        // 提取设置债券数据操作
+        setBondDetail(res, context) {
+            res = res ? res : {}
+            let {
+                bondEditableInfo,
+                bondUneditableInfo,
+                currentPrice,
+                paymentInfo,
+                prices
+            } = res
+            context.bondEditableInfo = bondEditableInfo || {}
+            context.bondUneditableInfo = bondUneditableInfo || {}
+            context.currentPrice = currentPrice || {}
+            context.paymentInfo = paymentInfo || {}
+            context.paymentAfterTaxPerYear =
+                context.paymentInfo.paymentAfterTaxPerYear || ''
+            context.prices = prices || []
+            context.bondName =
+                (context.bondEditableInfo.issuer &&
+                    context.bondEditableInfo.issuer.name) ||
+                '--'
+
+            // 是否有绑定股票，有则右上角展示查看股票
+            context.bindStock =
+                (bondEditableInfo && bondEditableInfo.bindStock) || {}
         },
         // 获取用户信息--主要拿签名状态
         async handleGetCurrentUser() {
@@ -163,25 +178,6 @@ export default {
                 })
                 return
             }
-            try {
-                let { validTime } = await riskAssessResult()
-                if (new Date().getTime() > new Date(validTime).getTime()) {
-                    await this.$confirm({
-                        title: '提示',
-                        message:
-                            '您的风险测评已过期，如果要继续操作，请先去测评！'
-                    })
-                    this.$router.push({
-                        path: prev + '/risk-assessment',
-                        query: {
-                            id: this.id
-                        }
-                    })
-                }
-                console.log('riskAssessResult :', validTime)
-            } catch (e) {
-                console.log('riskAssessResult>>>error :', e)
-            }
 
             this.$router.push({
                 path,
@@ -190,6 +186,21 @@ export default {
                     bondName: this.bondName,
                     direction
                 }
+            })
+        },
+        // 跳转债券常见问题
+        jumpFaq() {
+            this.setAppRightBar()
+
+            window.location.href =
+                window.location.origin +
+                '/webapp/market/generator.html?key=bond01'
+        },
+        // 设置 app 右上角侧边栏为空
+        setAppRightBar() {
+            jsBridge.callApp('command_set_titlebar_button', {
+                position: 2, //position取值1、2
+                type: 'hide' //text、icon、custom_icon、hide
             })
         }
     },
@@ -201,6 +212,7 @@ export default {
                 this.bindStock.stockMarket.type
             ) {
                 try {
+                    if (this.appType.Hk) return
                     jsBridge.callApp('command_set_titlebar_button', {
                         position: 2, //position取值1、2
                         clickCallback: 'goToStockDetails',
@@ -222,10 +234,7 @@ export default {
         }
     },
     beforeDestroy() {
-        jsBridge.callApp('command_set_titlebar_button', {
-            position: 2, //position取值1、2
-            type: 'hide' //text、icon、custom_icon、hide
-        })
+        this.setAppRightBar()
         clearInterval(this.updateTimer)
     }
 }

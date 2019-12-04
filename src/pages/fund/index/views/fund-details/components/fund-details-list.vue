@@ -9,6 +9,7 @@
 import { itemList } from './fund-list'
 import LS from '@/utils/local-storage'
 import jsBridge from '@/utils/js-bridge'
+import { clickFundDetails } from '@/utils/burying-point'
 export default {
     i18n: {
         zhCHS: {
@@ -58,7 +59,7 @@ export default {
             type: Object,
             default: () => {}
         },
-        fondCode: {
+        fundCode: {
             type: String,
             default: ''
         },
@@ -68,11 +69,15 @@ export default {
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
+        },
+        showPositionInfo: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         return {
-            list: JSON.parse(JSON.stringify(itemList))
+            list: []
         }
     },
     methods: {
@@ -80,11 +85,17 @@ export default {
             let data = {
                 path: item.routerPath
             }
+            clickFundDetails(
+                'fund_detail',
+                item.label,
+                this.fundHeaderInfoVO.fundId,
+                this.fundHeaderInfoVO.fundName
+            )
             LS.put('scroll', this.scroll)
             LS.put('scrollFlag', 2)
             if (item.routerPath == '/fund-introduce')
                 data.query = {
-                    id: this.$route.query.id
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
                 }
             if (item.routerPath == '/fund-files') {
                 let filesData = this.fundCorrelationFileList
@@ -96,18 +107,18 @@ export default {
                 item.routerPath == '/fund-historical'
             ) {
                 data.query = {
-                    id: this.$route.query.id
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
                 }
             }
             if (item.routerPath == '/order-record') {
                 data.query = {
-                    id: this.$route.query.id,
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId,
                     currencyType: this.fundTradeInfoVO.currency.type
                 }
             }
             if (item.routerPath == '/generator') {
                 this.openWebView(
-                    `${window.location.origin}/webapp/market/generator.html?key=${this.fondCode}`
+                    `${window.location.origin}/webapp/market/generator.html?key=${this.fundCode}`
                 )
             } else {
                 let routerQuery = ''
@@ -138,6 +149,9 @@ export default {
         }
     },
     mounted() {
+        let list = JSON.parse(JSON.stringify(itemList))
+        list.trade.itemShow = this.showPositionInfo
+        this.list = list
         this.InitI18nState()
     }
 }
