@@ -1,9 +1,14 @@
 <template lang="pug">
     .bond-index-wrapper
-        van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
-            van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
-                a(:href="bannerItem.jump_url" title="")
-                    img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
+        FundHeaderTitle
+        .fund__banner
+            img(:src="require('@/assets/img/fund/img/2.png')")
+        .fund__banner2
+            img(:src="require('@/assets/img/fund/img/3.png')")
+        //- van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
+        //-     van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
+        //-         a(:href="bannerItem.jump_url" title="")
+        //-             img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
         .bond-list
             div(
                 v-for="(item, index) in list"
@@ -18,6 +23,7 @@
 import { Swipe, SwipeItem } from 'vant'
 import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
+import FundHeaderTitle from './components/fund-header-title/index.vue'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 export default {
     i18n: {
@@ -36,7 +42,8 @@ export default {
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
-        Card
+        Card,
+        FundHeaderTitle
     },
     created() {
         this.getFundListV2()
@@ -134,6 +141,19 @@ export default {
             text-align: center;
             box-sizing: border-box;
         }
+    }
+}
+.fund__banner {
+    width: 100%;
+    img {
+        width: 100%;
+    }
+}
+.fund__banner2 {
+    width: 90%;
+    margin: 17px 5%;
+    img {
+        width: 100%;
     }
 }
 </style>

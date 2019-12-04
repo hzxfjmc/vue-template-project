@@ -1,26 +1,23 @@
 <template lang="pug">
 .fund-account-header
-    //- van-tabs(
-    //-     v-model="active" 
-    //-     background="#2f79ff" 
-    //-     color="#fff" 
-    //-     :line-width="width"
-    //-     :swipeable="swipeable"
-    //-     title-inactive-color="rgba(255,255,255,0.6)" 
-    //-     @change="handlerCurrency"
-    //-     title-active-color="#fff")
-    //-     van-tab(:title="$t('myHkdAccount')" :name="2")
-    //-     van-tab(:title="$t('myUsdAccount')" :name="1")
     .block-account-header
         .header-content
             .header-content-left
                 span.title 
-                    em(v-if="holdData.currency == 2") {{$t('myHkdAccount')}}
-                    em(v-if="holdData.currency == 1") {{$t('myUsdAccount')}}
+                    em 基金总资产
                     i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
-                .number-price(v-if="showPsd") {{firstPositionAmount || '--'}}.
-                    em(v-if="showPsd") {{secondPositionAmount || '--'}}
-                .number-price(v-if="!showPsd") ******
+                .fund__content
+                    .number-price(v-if="showPsd") {{firstPositionAmount || '--'}}.
+                        em(v-if="showPsd") {{secondPositionAmount || '--'}}
+                    .number-price(v-if="!showPsd") ******
+                    .number-price-active 
+                        span 港币
+                        em(class="iconfont icon-icon-bottom") 
+                        .number__price--subcontent
+                            span 港币
+                            span 美元
+                    //- van-dropdown-menu
+                    //-     van-dropdown-item( v-model="value1" :options="option1") 
             
             .header-content-right
                 span {{$t('profitPosition')}}
@@ -37,6 +34,7 @@
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
+// import { DropdownMenu, DropdownItem } from 'vant-fork'
 import LS from '@/utils/local-storage'
 import { enumCurrency } from '@/pages/fund/index/map'
 export default {
@@ -78,7 +76,13 @@ export default {
             active: 0,
             swipeable: true,
             showPsd: true,
-            currency: null
+            currency: null,
+            value1: 0,
+            option1: [
+                { text: '全部商品', value: 0 },
+                { text: '新款商品', value: 1 },
+                { text: '活动商品', value: 2 }
+            ]
         }
     },
     components: {
@@ -143,6 +147,7 @@ export default {
         rgba(13, 126, 204, 1) 0%,
         rgba(43, 79, 128, 1) 100%
     );
+    // background: #2f79ff;
     box-shadow: 0px 2px 4px 0px rgba(57, 57, 57, 0.2);
 }
 .border-bottom-active {
@@ -169,10 +174,9 @@ export default {
     display: flex;
     padding: 0 3% 10px 3%;
     flex-direction: row;
-    // margin: 20px 0 10px 0;
     .header-content-left {
         flex: 1;
-        width: 52%;
+        width: 60%;
         .title {
             color: rgba(255, 255, 255, 0.6);
             line-height: 20px;
@@ -187,17 +191,45 @@ export default {
                 margin: 0 0 0 10px;
             }
         }
-        .number-price {
-            font-size: 0.7rem;
-            font-family: 'yxFontDINPro-Medium';
-            em {
-                font-size: 0.4rem;
+        .fund__content {
+            display: flex;
+            height: 40px;
+            width: 100%;
+            flex-direction: row;
+            .number-price {
+                font-size: 0.7rem;
+                // flex: 10;
+                font-family: 'yxFontDINPro-Medium';
+                em {
+                    font-size: 0.4rem;
+                }
+            }
+            .number-price-active {
+                width: 50px;
+                height: 40px;
+                line-height: 55px;
+                text-align: right;
+                height: 100%;
+                position: relative;
+                // flex: 5;
+                em {
+                    margin: 0 5px 0 0;
+                }
+                .number__price--subcontent {
+                    position: absolute;
+                    width: 100px;
+                    top: 40px;
+                    left: -40px;
+                    height: 80px;
+                    z-index: 9999;
+                    background: #fff;
+                }
             }
         }
     }
     .header-content-right {
         flex: 1;
-        width: 43%;
+        width: 40%;
         margin: 28px 0 0 0;
         span {
             display: inline-block;

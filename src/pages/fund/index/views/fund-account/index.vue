@@ -9,16 +9,19 @@
             slot="fundList"
             bgColor="#0091FF"
             title = '港幣基金'
-            :eyeTab="eyeTab"
-            :noMoreShow="noMoreShow"        
+            v-if="!noMoreShow"
+            :eyeTab="eyeTab"       
             :fundList="fundList")
         fundList(
             slot="fundList"
             bgColor="#FFBA00"
             title = '美元基金'
-            :eyeTab="eyeTab"
-            :noMoreShow="noMoreShow"        
+            v-if="!noMoreShow"
+            :eyeTab="eyeTab"    
             :fundList="fundList")
+    .block-element-nomore(v-if="noMoreShow")
+        img.img(src="@/assets/img/fund/empty.png") 
+        .no-record-box {{$t('nomore')}}
 
 </template>
 <script>
@@ -37,6 +40,17 @@ export default {
             currency: 2,
             noMoreShow: false,
             eyeTab: LS.get('showMoney')
+        }
+    },
+    i18n: {
+        zhCHS: {
+            nomore: '暂无持仓'
+        },
+        zhCHT: {
+            nomore: '暫無持倉'
+        },
+        en: {
+            nomore: 'No Position'
         }
     },
     components: {
@@ -115,6 +129,7 @@ export default {
                 }
             })
             this.noMoreShow = this.fundList.length == 0
+            console.log(this.noMoreShow)
         }
     },
     mounted() {
@@ -124,4 +139,17 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.block-element-nomore {
+    width: 100%;
+    text-align: center;
+    margin: 100px 0 0 0;
+    img {
+        width: 130px;
+    }
+    .no-record-box {
+        color: rgba(25, 25, 25, 0.5);
+        margin: 10px 0 0 0;
+    }
+}
+</style>

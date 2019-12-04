@@ -51,9 +51,7 @@
                     span {{item.currency == 2 ? 'HKD':'USD'}}
                     span.price-number(v-if="eyeTab") {{item.inTransitAmount}}
                     span.price-number(v-else) ****
-    .block-element-nomore(v-if="noMoreShow")
-        img.img(src="@/assets/img/fund/empty.png") 
-        .no-record-box {{$t('nomore')}}
+   
 </template>
 <script>
 import localStorage from '@/utils/local-storage'
@@ -235,17 +233,5 @@ export default {
 }
 .block-fund-list-content:last-child {
     margin: 20px 5%;
-}
-.block-element-nomore {
-    width: 100%;
-    text-align: center;
-    margin: 100px 0 0 0;
-    img {
-        width: 130px;
-    }
-    .no-record-box {
-        color: rgba(25, 25, 25, 0.5);
-        margin: 10px 0 0 0;
-    }
 }
 </style>

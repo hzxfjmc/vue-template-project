@@ -12,5 +12,14 @@ module.exports = {
       },
       "vant"
     ],
+    [
+      "import",
+      {
+        libraryName: 'vant-fork',
+        libraryDirectory: 'src',
+         style: name => `${name}/index.less`,
+      },
+      "vant-fork"
+    ],
   ]
 }

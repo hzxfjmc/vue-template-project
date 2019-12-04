@@ -157,7 +157,9 @@ export default {
                     this.flag = true
                 },
                 onHide: () => {
-                    this.masterShow = false
+                    setTimeout(() => {
+                        this.masterShow = false
+                    }, 2000)
                 }
             })
             this.chart

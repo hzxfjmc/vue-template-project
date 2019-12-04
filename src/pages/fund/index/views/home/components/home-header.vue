@@ -206,7 +206,7 @@ export default {
 <style lang="scss" scoped>
 .block-home-content {
     background: #2f79ff;
-    padding: 0 0 10px 0;
+    padding: 0px 0 10px 0;
 }
 .home-header-container {
     width: 100%;

@@ -52,6 +52,7 @@
     "vue-virtual-scroller": "1.0.0-rc.2",
     "vuex": "3.0.1",
     "weixin-js-sdk": "^1.4.0-test",
+    "vant-fork":"git+https://github.com/youzan/vant.git#2.2.16",
     "yx-base-h5": "git+http://szgitlab.youxin.com/web/yx-base-h5.git#1.0.1"
   },
   "devDependencies": {
