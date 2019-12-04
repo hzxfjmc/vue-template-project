@@ -110,7 +110,6 @@ export default {
                 this.assessDefinition = res.assessDefinition
                 if (res.damagedStatus === 1) {
                     this.showEasyCustomer = true
-                    console.log(this.showEasyCustomer)
                 } else {
                     this.jumpToResult()
                 }
@@ -127,8 +126,8 @@ export default {
         // 跳转
         jumpToResult() {
             let id = this.$route.query.id,
-                strategyId = this.$route.query.strategyId,
-                versionId = this.$route.query.versionId,
+                strategyId = this.$route.query.strategyId, //策略跟投参数
+                versionId = this.$route.query.versionId, //策略跟投参数
                 direction = this.$route.query.direction, // 只有债券才有这个参数
                 path = '/risk-appropriate-result',
                 query = {
