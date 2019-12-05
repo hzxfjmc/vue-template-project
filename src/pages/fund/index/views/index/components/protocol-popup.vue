@@ -8,7 +8,7 @@
             .protocol-list__body
                 .protocol-list__text.border-bottom(@click="openProtocol(item.filePath)" 
                 v-for="item in protocolFileList" 
-                :key="item.createTime") 《{{item.fileName}}》
+                :key="item.createTime") {{item.fileName}}
             .protocol-list__footer
                 .protocol-list__button(@click="hidePopup") {{$t('cancel')}}
 </template>

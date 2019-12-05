@@ -8,9 +8,13 @@
         .block__left
             .block__left--label 
                 span 基金总资产
-                em(class="iconfont icon-icon-eye")
+                em(
+                    class="iconfont" 
+                    @click="moneyShow=!moneyShow"
+                    :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
             .block__left--number
-                .block--element--number 10000
+                .block--element--number(v-if="moneyShow") {{positionAmount}}
+                .block--element--number.close--eye(v-else) ******
                 .block--element--select 
                     span(@click="handlerCurrency") {{currency===0?'港币':'美元'}}
                     em(class="iconfont icon-iconxiala" @click="handlerCurrency")
@@ -24,7 +28,7 @@
                             @click="chooseCurrency(1)"
                             :class="[currency === 1 ? 'active' :'']") 美元
         .block__right
-            .block--hold  
+            .block--hold(@click="toRouterAccount")  
                 span 基金持仓
                 em(class="iconfont icon-iconEBgengduoCopy")
     .block__tab
@@ -58,7 +62,9 @@ import { Swipe, SwipeItem } from 'vant'
 import FundList from './fund-list'
 import FundListItem from './fund-list-item'
 import { getFundHomepageInfo } from '@/service/finance-info-server'
+import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
 export default {
@@ -71,6 +77,7 @@ export default {
     data() {
         return {
             currency: 0,
+            moneyShow: true,
             barnnarList: [],
             chooseCurrencyShow: false,
             choiceFundListShow: false,
@@ -97,12 +104,34 @@ export default {
             choiceFundList: {}, //精选基金
             blueChipFundList: {}, //绩优基金
             robustFundList: {}, //稳健基金
+            hkSummary: {},
+            usSummary: {},
+            positionAmount: 0,
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: [{}, {}]
         }
     },
     methods: {
+        toRouterAccount() {
+            this.$router.push({
+                path: '/fund-account'
+            })
+        },
+        //获取持仓
+        async getFundPositionListV3() {
+            try {
+                const { usSummary, hkSummary } = await getFundPositionListV3()
+                this.hkSummary = hkSummary
+                this.usSummary = usSummary
+                this.positionAmount = transNumToThousandMark(
+                    hkSummary.positionAmount,
+                    2
+                )
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         handlerCurrency() {
             this.chooseCurrencyShow = true
             document.body.style.overflow = 'hidden'
@@ -116,6 +145,10 @@ export default {
         },
         chooseCurrency(data) {
             this.currency = data
+            this.positionAmount =
+                data === 0
+                    ? transNumToThousandMark(this.hkSummary.positionAmount, 2)
+                    : transNumToThousandMark(this.usSummary.positionAmount, 2)
             this.chooseCurrencyShow = false
             document.body.style.overflow = '' //出现滚动条
             document.removeEventListener(
@@ -229,6 +262,7 @@ export default {
     mounted() {
         this.$refs.renderEchart.innerHTML = ''
         this.getFundHomepageInfo()
+        this.getFundPositionListV3()
     }
 }
 </script>
@@ -254,7 +288,7 @@ export default {
     display: flex;
     flex-direction: row;
     .block__left {
-        width: 60%;
+        width: 100%;
         height: 100%;
         .block__left--label {
             font-size: 14px;
@@ -277,6 +311,9 @@ export default {
                 font-weight: bold;
                 font-family: yxFontDINPro-Bold;
                 color: rgba(0, 145, 255, 1);
+            }
+            .close--eye {
+                line-height: 68px;
             }
             .block--element--select {
                 line-height: 60px;

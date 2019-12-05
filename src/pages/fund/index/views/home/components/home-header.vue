@@ -223,7 +223,7 @@ export default {
 .header-content-item {
     width: 100%;
     display: flex;
-    padding: 50px 0 5px 0;
+    padding: 10px 0 5px 0;
     // height: 78px;
     // background: #2f79ff;
     flex-direction: row;

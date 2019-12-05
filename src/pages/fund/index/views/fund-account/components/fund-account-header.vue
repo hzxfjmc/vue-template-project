@@ -9,7 +9,7 @@
                 .fund__content
                     .number-price(v-if="showPsd") {{firstPositionAmount || '--'}}.
                         em(v-if="showPsd") {{secondPositionAmount || '--'}}
-                    .number-price(v-if="!showPsd") ******
+                    .number-price.close-eye(v-if="!showPsd") ******
                     .number-price-active 
                         span(@click="handlerCurrencyName") {{currencyNum===0?'港币':'美元'}}
                         em(class="iconfont icon-icon-bottom" @click="handlerCurrencyName") 
@@ -231,10 +231,14 @@ export default {
                     font-size: 0.4rem;
                 }
             }
+            .close-eye {
+                line-height: 64px;
+            }
             .number-price-active {
                 width: 50px;
                 height: 40px;
                 line-height: 55px;
+                margin: 0 0 0 5px;
                 text-align: right;
                 height: 100%;
                 position: relative;
