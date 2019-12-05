@@ -12,25 +12,26 @@
                     class="iconfont" 
                     @click="moneyShow=!moneyShow"
                     :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
-            .block__left--number
-                .block--element--number(v-if="moneyShow") {{positionAmount}}
-                .block--element--number.close--eye(v-else) ******
-                .block--element--select 
-                    span(@click="handlerCurrency") {{currency===0?'港币':'美元'}}
-                    em(class="iconfont icon-iconxiala" @click="handlerCurrency")
-                    em(class="iconfont icon-icon_fund_index_2")
-                    .block--master(v-if="chooseCurrencyShow")
-                    .block__currey(v-if="chooseCurrencyShow")
-                        span.border-bottom(
-                            @click="chooseCurrency(0)"
-                            :class="[currency === 0 ? 'active' :'']") 港币
-                        span(
-                            @click="chooseCurrency(1)"
-                            :class="[currency === 1 ? 'active' :'']") 美元
-        .block__right
-            .block--hold(@click="toRouterAccount")  
-                span 基金持仓
-                em(class="iconfont icon-iconEBgengduoCopy")
+            .block__right
+                .block--hold(@click="toRouterAccount")  
+                    span 基金持仓
+                    em(class="iconfont icon-iconEBgengduoCopy")
+        .block__left--number
+            .block--element--number(v-if="moneyShow") {{positionAmount}}
+            .block--element--number.close--eye(v-else) ******
+            .block--element--select 
+                span(@click="handlerCurrency") {{currency===0?'港币':'美元'}}
+                em(class="iconfont icon-iconxiala" @click="handlerCurrency")
+                em(class="iconfont icon-icon_fund_index_2")
+                .block--master(v-if="chooseCurrencyShow")
+                .block__currey(v-if="chooseCurrencyShow")
+                    span.border-bottom(
+                        @click="chooseCurrency(0)"
+                        :class="[currency === 0 ? 'active' :'']") 港币
+                    span(
+                        @click="chooseCurrency(1)"
+                        :class="[currency === 1 ? 'active' :'']") 美元
+        
     .block__tab
         .block__tab--list
             .block__tab--Item(v-for="(item,index) in tabList" :key="index") 
@@ -278,7 +279,7 @@ export default {
 .block__assets {
     width: 90%;
     height: 96px;
-    padding: 15px;
+    padding: 0 15px;
     position: relative;
     z-index: 99999;
     margin: -48px 5% 0 5%;
@@ -286,14 +287,17 @@ export default {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     .block__left {
         width: 100%;
-        height: 100%;
+        display: flex;
+        flex-direction: row;
+        height: 40px;
         .block__left--label {
             font-size: 14px;
-            width: 100%;
+            width: 60%;
             display: flex;
+            margin: 10px 0 0 0;
             align-items: center;
             flex-direction: row;
             line-height: 20px;
@@ -302,111 +306,115 @@ export default {
                 margin: 0px 0 0 5px;
             }
         }
-        .block__left--number {
-            display: flex;
-            flex-direction: row;
-            .block--element--number {
-                font-size: 28px;
-                line-height: 60px;
-                font-weight: bold;
-                font-family: yxFontDINPro-Bold;
+        .block__right {
+            text-align: right;
+            width: 40%;
+            height: 40px;
+            margin: 15px 0 0 0;
+            .block--hold {
+                width: 90px;
+                // height: 25px;
+                border-radius: 15px;
+                text-align: center;
+                float: right;
+                font-weight: 400;
                 color: rgba(0, 145, 255, 1);
+                line-height: 25px;
+                margin: 0 0 10px 0;
+                border: 1px solid rgba(0, 145, 255, 1);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                em {
+                    font-size: 20px;
+                }
             }
-            .close--eye {
-                line-height: 68px;
-            }
-            .block--element--select {
-                line-height: 60px;
+            .block--label--list {
+                text-align: right;
+                display: flex;
                 font-size: 14px;
-                font-weight: 600;
-                color: rgba(0, 145, 255, 1);
-                margin: 0 0 0 5px;
-                position: relative;
-                .icon-iconxiala {
-                    margin: 0 0 0 5px;
-                    color: rgba(25, 25, 25, 0.65);
-                }
-                .icon-icon_fund_index_2 {
-                    color: rgba(25, 25, 25, 0.65);
-                    margin: 0 0 0 10px;
-                }
-                .block--master {
-                    position: fixed;
-                    width: 100%;
-                    top: 0;
-                    left: 0;
-                    z-index: 99999;
-                    height: 100%;
-                    background: rgba(0, 0, 0, 0.5);
-                }
-                .block__currey {
-                    width: 120px;
-                    position: absolute;
-                    height: 100px;
-                    z-index: 9999999;
-                    border-radius: 10px;
-                    left: 0px;
-                    top: 55px;
-                    background: #fff;
-                    display: flex;
-                    justify-content: center;
-                    flex-direction: column;
-                    span {
-                        color: #000;
-                        width: 100px;
-                        height: 50px;
-                        line-height: 50px;
-                        display: block;
-                        margin: 0 10px;
-                    }
-                    .active {
-                        color: #0091ff;
-                    }
-                }
-                .block__currey:before {
-                    content: '';
-                    width: 0px;
-                    height: 0px;
-                    top: -10px;
-                    left: 20px;
-                    border-left: 10px solid transparent;
-                    border-right: 10px solid transparent;
-                    border-bottom: 10px solid #fff;
-                    position: absolute;
+                line-height: 18px;
+                width: 100%;
+                flex-direction: column;
+                span {
+                    color: $text-color6;
                 }
             }
         }
     }
-    .block__right {
-        text-align: right;
-        width: 40%;
-        .block--hold {
-            width: 90px;
-            // height: 25px;
-            border-radius: 15px;
-            text-align: center;
-            float: right;
-            font-weight: 400;
+    .block__left--number {
+        display: flex;
+        flex-direction: row;
+        height: 40px;
+        width: 100%;
+        .block--element--number {
+            font-size: 28px;
+            line-height: 50px;
+            font-weight: bold;
+            font-family: yxFontDINPro-Bold;
             color: rgba(0, 145, 255, 1);
-            line-height: 25px;
-            margin: 0 0 10px 0;
-            border: 1px solid rgba(0, 145, 255, 1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            em {
-                font-size: 20px;
-            }
         }
-        .block--label--list {
-            text-align: right;
-            display: flex;
+        .close--eye {
+            line-height: 60px;
+        }
+        .block--element--select {
+            line-height: 52px;
             font-size: 14px;
-            line-height: 18px;
-            width: 100%;
-            flex-direction: column;
-            span {
-                color: $text-color6;
+            font-weight: 600;
+            color: rgba(0, 145, 255, 1);
+            margin: 0 0 0 5px;
+            position: relative;
+            .icon-iconxiala {
+                margin: 0 0 0 5px;
+                color: rgba(25, 25, 25, 0.65);
+            }
+            .icon-icon_fund_index_2 {
+                color: rgba(25, 25, 25, 0.65);
+                margin: 0 0 0 10px;
+            }
+            .block--master {
+                position: fixed;
+                width: 100%;
+                top: 0;
+                left: 0;
+                z-index: 99999;
+                height: 100%;
+                background: rgba(0, 0, 0, 0.5);
+            }
+            .block__currey {
+                width: 120px;
+                position: absolute;
+                height: 100px;
+                z-index: 9999999;
+                border-radius: 10px;
+                left: 0px;
+                top: 55px;
+                background: #fff;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+                span {
+                    color: #000;
+                    width: 100px;
+                    height: 50px;
+                    line-height: 50px;
+                    display: block;
+                    margin: 0 10px;
+                }
+                .active {
+                    color: #0091ff;
+                }
+            }
+            .block__currey:before {
+                content: '';
+                width: 0px;
+                height: 0px;
+                top: -10px;
+                left: 20px;
+                border-left: 10px solid transparent;
+                border-right: 10px solid transparent;
+                border-bottom: 10px solid #fff;
+                position: absolute;
             }
         }
     }
