@@ -1,35 +1,44 @@
 <template lang="pug">
 .fund__header--nav
-    .fund__header--title
-        .fund__header--back(class='iconfont icon-back')
-        .fund__header--subtitle
-            span 全部
-            span 港币基金
-            span 美元基金
-    .fund__header--subnav
-        .fund__nav--item(
-            v-for="(item,index) in navList" 
-            @click="handerTab(item,index)"
-            :class="[active===index ? 'active':'']"
-            :key="index") {{item.label}}
-    .fund__header--subnav
-        .fund__nav--subitem(
-            v-for="(item,index) in navList" 
-            @click="handerTab(item,index)"
-            :class="[active===index ? 'active1':'']"
-            :key="index") {{item.label}}
+    .fund__header--subnav(v-if="navShow")
+        .fund__nav--scroll(ref="navTransform")
+            .fund__nav--item(
+                v-for="(item,index) in navList" 
+                @click="handerTab(item,index)"
+                :class="[active===index ? 'active':'']"
+                :key="index") {{item.label}}
+            .fund__nav--fixed 
+                img(:src="require('@/assets/img/fund/icon_qiu.png')")
+                p 基金货币
+    .fund__header--subnav(v-else)
+        .fund__nav--scroll
+            .fund__nav--subitem(
+                v-for="(item,index) in navList" 
+                @click="handerTab(item,index)"
+                :class="[active===index ? 'active1':'']"
+                :key="index") {{item.label}}
+    protocol-popup(
+        v-model="protocolVisible"
+        class="protocolVisible"
+        :protocolFileList="sellProtocolFileList"
+        )
 
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
+import protocolPopup from '../protocol-popup'
 export default {
     components: {
         [Tab.name]: Tab,
-        [Tabs.name]: Tabs
+        [Tabs.name]: Tabs,
+        protocolPopup
     },
     data() {
         return {
             active: 0,
+            protocolVisible: true,
+            sellProtocolFileList: [],
+            navShow: true,
             navList: [
                 {
                     label: '全部'
@@ -51,50 +60,59 @@ export default {
     },
     methods: {
         handerTab(item, index) {
-            console.log(item)
+            this.$refs.navTransform.style.left = index < 2 ? '0px' : '-30px'
             this.active = index
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-.fund__header--title {
-    padding: 20px 0 0 0;
-    background: #2b4f80;
-    .fund__header--back {
-        left: 15px;
-        width: 20px;
-        position: fixed;
-        height: 44px;
-        line-height: 44px;
-        color: #fff;
-        // float: left;
-    }
-    .fund__header--subtitle {
-        width: 100%;
-        height: 44px;
-        color: #fff;
-        background: #2b4f80;
+.fund__header--subnav {
+    width: 100%;
+    margin: 0 0;
+    overflow: auto;
+    background: rgba(255, 255, 255, 1);
+    height: 42px;
+    line-height: 42px;
+    .fund__nav--scroll {
+        width: 400px;
+        height: 30px;
         display: flex;
-        justify-content: center;
-        line-height: 44px;
-        span {
-            margin: 0 10px;
-            font-size: 14px;
+        margin: 6px 0;
+        padding: 0 50px 0 0;
+        flex-direction: row;
+        right: 0;
+        position: relative;
+        .fund__nav--fixed {
+            position: fixed;
+            right: 0;
+            top: 0;
+            width: 55px;
+            height: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: rgba(255, 255, 255, 1);
+            box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+            img {
+                width: 20px;
+                height: 20px;
+                margin: 0 17px;
+                text-align: center;
+            }
+            p {
+                font-size: 10px;
+                display: inline;
+                line-height: 16px;
+            }
         }
     }
-}
-.fund__header--subnav {
-    width: 96%;
-    margin: 10px 2%;
-    display: flex;
-    flex-direction: row;
-    height: 30px;
-    line-height: 30px;
     .fund__nav--item {
-        width: 25%;
+        width: 110px;
         font-size: 16px;
         height: 30px;
+        margin: 0 5px;
         line-height: 30px;
         text-align: center;
     }

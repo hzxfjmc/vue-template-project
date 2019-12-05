@@ -206,7 +206,7 @@ export default {
 <style lang="scss" scoped>
 .block-home-content {
     background: #2f79ff;
-    padding: 0px 0 10px 0;
+    padding: 0 0 10px 0;
 }
 .home-header-container {
     width: 100%;
@@ -223,8 +223,8 @@ export default {
 .header-content-item {
     width: 100%;
     display: flex;
-    padding: 20px 0 10px 0;
-    height: 78px;
+    padding: 50px 0 5px 0;
+    // height: 78px;
     // background: #2f79ff;
     flex-direction: row;
     color: #fff;
@@ -248,7 +248,7 @@ export default {
     background: #2f79ff;
     background: #fff;
     padding: 0 0 10px 0;
-    height: 130px;
+    // height: 130px;
     // height: 133px;
     border-radius: 4px;
     .header-content-top {

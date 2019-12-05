@@ -11,13 +11,16 @@
                         em(v-if="showPsd") {{secondPositionAmount || '--'}}
                     .number-price(v-if="!showPsd") ******
                     .number-price-active 
-                        span 港币
-                        em(class="iconfont icon-icon-bottom") 
-                        .number__price--subcontent
-                            span 港币
-                            span 美元
-                    //- van-dropdown-menu
-                    //-     van-dropdown-item( v-model="value1" :options="option1") 
+                        span(@click="handlerCurrencyName") {{currencyNum===0?'港币':'美元'}}
+                        em(class="iconfont icon-icon-bottom" @click="handlerCurrencyName") 
+                        .block--master(v-if="chooseCurrencyShow")
+                        .block__currey(v-if="chooseCurrencyShow")
+                            span.border-bottom(
+                                @click="chooseCurrency(0)"
+                                :class="[currencyNum === 0 ? 'active' :'']") 港币
+                            span(
+                                @click="chooseCurrency(1)"
+                                :class="[currencyNum === 1 ? 'active' :'']") 美元
             
             .header-content-right
                 span {{$t('profitPosition')}}
@@ -72,6 +75,8 @@ export default {
     },
     data() {
         return {
+            chooseCurrencyShow: false,
+            currencyNum: 0,
             width: 30,
             active: 0,
             swipeable: true,
@@ -100,6 +105,29 @@ export default {
         }
     },
     methods: {
+        handlerCurrencyName() {
+            this.chooseCurrencyShow = true
+            document.body.style.overflow = 'hidden'
+            document.addEventListener(
+                'touchmove',
+                e => {
+                    e.preventDefault()
+                },
+                false
+            ) //禁止页面滑动
+        },
+        chooseCurrency(data) {
+            this.currencyNum = data
+            this.chooseCurrencyShow = false
+            document.body.style.overflow = '' //出现滚动条
+            document.removeEventListener(
+                'touchmove',
+                e => {
+                    e.preventDefault()
+                },
+                false
+            )
+        },
         //跳转路由
         toRouterPath(path) {
             this.$emit('toRouterPath', path)
@@ -126,7 +154,6 @@ export default {
 .fund-account-header {
     // background: #2f79ff;
     color: #fff;
-    overflow: hidden;
     width: 100%;
 }
 .header-tab {
@@ -211,7 +238,51 @@ export default {
                 text-align: right;
                 height: 100%;
                 position: relative;
-                // flex: 5;
+                .block--master {
+                    position: fixed;
+                    width: 100%;
+                    top: 0;
+                    left: 0;
+                    z-index: 99999;
+                    height: 100%;
+                    background: rgba(0, 0, 0, 0.5);
+                }
+                .block__currey {
+                    width: 120px;
+                    position: absolute;
+                    height: 100px;
+                    z-index: 9999999;
+                    text-align: left;
+                    border-radius: 10px;
+                    left: 0px;
+                    top: 55px;
+                    background: #fff;
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: column;
+                    span {
+                        color: #000;
+                        width: 100px;
+                        height: 50px;
+                        line-height: 50px;
+                        display: block;
+                        margin: 0 10px;
+                    }
+                    .active {
+                        color: #0091ff;
+                    }
+                }
+                .block__currey:before {
+                    content: '';
+                    width: 0px;
+                    height: 0px;
+                    top: -10px;
+                    left: 20px;
+                    border-left: 10px solid transparent;
+                    border-right: 10px solid transparent;
+                    border-bottom: 10px solid #fff;
+                    position: absolute;
+                }
                 em {
                     margin: 0 5px 0 0;
                 }
