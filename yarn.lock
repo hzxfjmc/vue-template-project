@@ -10424,9 +10424,9 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
-"vant-fork@git+https://github.com/youzan/vant.git#2.2.16":
-  version "2.2.15"
-  resolved "git+https://github.com/youzan/vant.git#b042082322c99f1d51ada6d6ba9d0237c274a5eb"
+"vant-fork@git+ssh://git@szgitlab.youxin.com:222/web/vant-fork.git":
+  version "2.2.16"
+  resolved "git+ssh://git@szgitlab.youxin.com:222/web/vant-fork.git#ce9f01ee1c649a042dbe4d61df9b851b8a78f6a0"
   dependencies:
     "@babel/runtime" "7.x"
     "@vant/icons" "1.1.15"
