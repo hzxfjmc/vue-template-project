@@ -98,7 +98,7 @@ export default {
             if (!this.isLogin) {
                 return true
             } else {
-                if (this.fundHeaderInfoVO.isin === 'HK0000447968') {
+                if (this.fundHeaderInfoVO.isin === 'HK0000478930') {
                     return (
                         this.userInfo &&
                         (this.userInfo.grayStatusBit & (1 << 3)) === 8
