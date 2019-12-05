@@ -38,7 +38,7 @@ import fundDetailsList from './components/fund-details-list'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
-    getFundNetPrice
+    getFundApyPointV1
 } from '@/service/finance-info-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
@@ -184,7 +184,7 @@ export default {
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
-                this.getFundNetPrice()
+                this.getFundApyPointV1()
                 this.getFundPositionV2()
                 //赎回按钮是否置灰
                 this.flag =
@@ -295,20 +295,20 @@ export default {
             }
         },
         //echart图的数据获取
-        async getFundNetPrice(time) {
+        async getFundApyPointV1(time) {
             try {
-                const res = await getFundNetPrice({
+                const res = await getFundApyPointV1({
                     fundId: this.id,
-                    fundNetPriceDateType: time || 5
+                    apyType: time || 5
                 })
                 this.copyinitEchartList = res
                 this.initEchartList = res
                 this.initEchartList = this.initEchartList.slice(0, 22)
                 this.initEchartList.map(item => {
-                    item.netPrice = Number(item.netPrice)
+                    item.pointData = Number(Number(item.pointData).toFixed(4))
                 })
             } catch (e) {
-                console.log('getFundNetPrice:error:>>>', e)
+                console.log('getFundApyPointV1:error:>>>', e)
             }
         },
         //获取用户信息

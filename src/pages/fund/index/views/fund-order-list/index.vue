@@ -109,8 +109,7 @@ export default {
             try {
                 const { list, pageSize, pageNum, total } = await fundOrderList({
                     pageNum: this.pageNum,
-                    pageSize: this.pageSize,
-                    currency: this.$route.query.currency
+                    pageSize: this.pageSize
                 })
                 this.pageNum = pageNum
                 this.total = total

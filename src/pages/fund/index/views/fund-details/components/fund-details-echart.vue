@@ -5,7 +5,7 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
             .header-right
-                span.number {{Number(masterData.netPrice)| sliceFixedTwo(4)}}
+                span.number {{Number(masterData.pointData)| sliceFixedTwo(4)}}
                 p.day {{$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
@@ -89,7 +89,7 @@ export default {
             masterShow: false,
             masterData: {
                 belongDay: '-',
-                netPrice: '-'
+                pointData: '-'
             },
             flag: true
         }
@@ -100,10 +100,6 @@ export default {
             this.$emit('chooseTime', item.key)
         },
         draw(data) {
-            let arr = []
-            for (let item of this.initEchartList) {
-                arr.push(item.netPrice)
-            }
             this.chart = new F2.Chart({
                 id: data,
                 padding: [20, 0, 35, 45],
@@ -111,13 +107,11 @@ export default {
             })
             if (this.initEchartList.length === 0) return
             this.chart.source(this.initEchartList, {
-                netPrice: {
+                pointData: {
                     alias: '今日净值',
-                    tickCount: 8,
-                    min: Math.min.apply(null, arr) * 0.9,
-                    max: Math.max.apply(null, arr) * 1.1,
+                    tickCount: 5,
                     formatter: function formatter(val) {
-                        return Number(val).toFixed(2) + '%'
+                        return Number(val).toFixed(4) + '%'
                     }
                 },
                 belongDay: {
@@ -128,7 +122,7 @@ export default {
                     }
                 }
             })
-            this.chart.axis('netPrice', {
+            this.chart.axis('pointData', {
                 labelOffset: 5 // 坐标轴文本距离轴线的距离
             })
             this.chart.axis('belongDay', {
@@ -164,7 +158,7 @@ export default {
             })
             this.chart
                 .line()
-                .position('belongDay*netPrice')
+                .position('belongDay*pointData')
                 .color('#518DFE')
                 .animate({
                     update: {
@@ -178,13 +172,7 @@ export default {
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
             }
-            console.log(this.active)
         }
-        // tabShow() {
-        //     for (let i = 0; i <= this.step; i++) {
-        //         this.list[i].show = true
-        //     }
-        // }
     },
     watch: {
         initEchartList() {
@@ -199,7 +187,6 @@ export default {
             canvaStyle.transform = 'translateX(-3%)'
             this.draw(this.chartId)
             this.chart.render()
-            // this.tabShow()
         }
     },
     mounted() {

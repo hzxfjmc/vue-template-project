@@ -98,3 +98,8 @@ export const getFundHomepageInfo = params => {
         params
     )
 }
+
+//基金收益率描点查询接口
+export const getFundApyPointV1 = params => {
+    return axios.post(`/finance-info-server/api/get-fund-apy-point/v1`, params)
+}
