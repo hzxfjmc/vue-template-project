@@ -81,3 +81,11 @@ export const getFundNetPriceHistoryV1 = params => {
         params
     )
 }
+
+// 获取基金分红列表
+export const getFundDividendList = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-dividend-list/v1`,
+        params
+    )
+}

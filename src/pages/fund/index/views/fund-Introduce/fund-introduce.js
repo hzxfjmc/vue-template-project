@@ -82,7 +82,9 @@ export const i18nIntroducelist = {
             dividendRecord: {
                 label: '派息记录'
             },
-            noMore: '没有更多了'
+            noMore: {
+                label: '没有更多了'
+            }
         }
     },
     zhCHT: {
@@ -129,7 +131,9 @@ export const i18nIntroducelist = {
             dividendRecord: {
                 label: '派息記錄'
             },
-            noMore: '沒有更多了'
+            noMore: {
+                label: '沒有更多了'
+            }
         }
     },
     en: {
@@ -176,7 +180,9 @@ export const i18nIntroducelist = {
             dividendRecord: {
                 label: 'Dividend Records'
             },
-            noMore: 'No More'
+            noMore: {
+                label: 'No More'
+            }
         }
     }
 }
