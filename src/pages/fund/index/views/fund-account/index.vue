@@ -27,7 +27,7 @@
 <script>
 import fundAccountHeader from './components/fund-account-header'
 import fundList from './components/fund-list'
-import { getFundPositionList } from '@/service/finance-server.js'
+import { getFundPositionListV3 } from '@/service/finance-server'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
@@ -68,17 +68,15 @@ export default {
         //切换货币
         handlerCurrency(currency) {
             this.currency = currency
-            this.getFundPositionList()
+            this.getFundPositionListV3()
         },
-        async getFundPositionList() {
+        async getFundPositionListV3() {
             const {
                 positionAmount,
                 positionEarnings,
                 weekEarnings,
                 positionList
-            } = await getFundPositionList({
-                currency: this.currency
-            })
+            } = await getFundPositionListV3()
             let positionAmountFlag =
                 positionEarnings > 0 ? '+' : positionEarnings < 0 ? '-' : ''
             let positionEarningsFlag =
@@ -135,7 +133,7 @@ export default {
     mounted() {
         this.currency =
             LS.get('activeTab') === 0 ? enumCurrency.HKD : enumCurrency.USD
-        this.getFundPositionList()
+        this.getFundPositionListV3()
     }
 }
 </script>
