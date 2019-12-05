@@ -24,10 +24,10 @@
             
             .header-content-right
                 span {{$t('profitPosition')}}
-                    em(v-if="showPsd") {{holdData.positionAmountFlag}}{{holdData.positionEarnings || '--'}}
+                    em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '-' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
                     em(v-else) ****
                 span {{$t('SevenDayIncome')}}
-                    em(v-if="showPsd") {{holdData.positionEarningsFlag}}{{holdData.weekEarnings || '--'}}
+                    em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '-' :''}} {{positionDation.weekEarnings|transNumToThousandMark}}
                     em(v-else) ****
         
         .header-footer-tab(class="border-bottom-active")
@@ -39,6 +39,7 @@
 import { Tab, Tabs } from 'vant'
 // import { DropdownMenu, DropdownItem } from 'vant-fork'
 import LS from '@/utils/local-storage'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import { enumCurrency } from '@/pages/fund/index/map'
 export default {
     props: {
@@ -46,6 +47,9 @@ export default {
             type: Object,
             default: () => {}
         }
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
     },
     i18n: {
         zhCHS: {
@@ -82,7 +86,12 @@ export default {
             swipeable: true,
             showPsd: true,
             currency: null,
+            hkSummary: {},
+            usSummary: {},
+            positionDation: {},
             value1: 0,
+            firstPositionAmount: '',
+            secondPositionAmount: '',
             option1: [
                 { text: '全部商品', value: 0 },
                 { text: '新款商品', value: 1 },
@@ -94,17 +103,32 @@ export default {
         [Tab.name]: Tab,
         [Tabs.name]: Tabs
     },
-    computed: {
-        firstPositionAmount() {
-            if (!this.holdData.positionAmount) return null
-            return this.holdData.positionAmount.split('.')[0]
-        },
-        secondPositionAmount() {
-            if (!this.holdData.positionAmount) return null
-            return this.holdData.positionAmount.split('.')[1]
+    watch: {
+        holdData() {
+            this.hkSummary = this.holdData.hkSummary
+            this.holdData.hkSummary.positionAmount = transNumToThousandMark(
+                this.holdData.hkSummary.positionAmount
+            )
+            this.holdData.usSummary.positionAmount = transNumToThousandMark(
+                this.holdData.usSummary.positionAmount
+            )
+
+            this.usSummary = this.holdData.usSummary
+            this.positionDation = this.holdData.hkSummary
+            this.Conversion()
         }
     },
     methods: {
+        Conversion() {
+            if (this.positionDation.positionAmount) {
+                this.firstPositionAmount = this.positionDation.positionAmount.split(
+                    '.'
+                )[0]
+                this.secondPositionAmount = this.positionDation.positionAmount.split(
+                    '.'
+                )[1]
+            }
+        },
         handlerCurrencyName() {
             this.chooseCurrencyShow = true
             document.body.style.overflow = 'hidden'
@@ -118,6 +142,9 @@ export default {
         },
         chooseCurrency(data) {
             this.currencyNum = data
+            this.positionDation =
+                data === 0 ? this.holdData.hkSummary : this.holdData.usSummary
+            this.Conversion(data)
             this.chooseCurrencyShow = false
             document.body.style.overflow = '' //出现滚动条
             document.removeEventListener(

@@ -11,14 +11,14 @@
             title = '港幣基金'
             v-if="!noMoreShow"
             :eyeTab="eyeTab"       
-            :fundList="fundList")
+            :fundList="hkPositionList")
         fundList(
             slot="fundList"
             bgColor="#FFBA00"
             title = '美元基金'
             v-if="!noMoreShow"
             :eyeTab="eyeTab"    
-            :fundList="fundList")
+            :fundList="usPositionList")
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/empty.png") 
         .no-record-box {{$t('nomore')}}
@@ -39,6 +39,8 @@ export default {
             fundList: [],
             currency: 2,
             noMoreShow: false,
+            hkPositionList: [],
+            usPositionList: [],
             eyeTab: LS.get('showMoney')
         }
     },
@@ -72,28 +74,35 @@ export default {
         },
         async getFundPositionListV3() {
             const {
-                positionAmount,
-                positionEarnings,
-                weekEarnings,
-                positionList
+                hkPositionList,
+                hkSummary,
+                usPositionList,
+                usSummary
             } = await getFundPositionListV3()
-            let positionAmountFlag =
-                positionEarnings > 0 ? '+' : positionEarnings < 0 ? '-' : ''
-            let positionEarningsFlag =
-                weekEarnings > 0 ? '+' : weekEarnings < 0 ? '-' : ''
+            this.hkPositionList = hkPositionList
+            this.usPositionList = usPositionList
             this.holdData = {
-                positionAmount: transNumToThousandMark(positionAmount),
-                positionEarnings: transNumToThousandMark(
-                    Math.abs(positionEarnings)
-                ),
-                weekEarnings: transNumToThousandMark(Math.abs(weekEarnings)),
-                currency: this.currency,
-                positionAmountFlag: positionAmountFlag,
-                positionEarningsFlag: positionEarningsFlag
+                hkSummary: hkSummary,
+                usSummary: usSummary
             }
-            positionList.map(item => {
+            // let positionAmountFlag =
+            //     positionEarnings > 0 ? '+' : positionEarnings < 0 ? '-' : ''
+            // let positionEarningsFlag =
+            //     weekEarnings > 0 ? '+' : weekEarnings < 0 ? '-' : ''
+            // this.holdData = {
+            //     positionAmount: transNumToThousandMark(positionAmount),
+            //     positionEarnings: transNumToThousandMark(
+            //         Math.abs(positionEarnings)
+            //     ),
+            //     weekEarnings: transNumToThousandMark(Math.abs(weekEarnings)),
+            //     currency: this.currency,
+            //     positionAmountFlag: positionAmountFlag,
+            //     positionEarningsFlag: positionEarningsFlag
+            // }
+            this.usPositionList.map(item => {
                 for (let key in item) {
                     if (key != 'fundId' && key != 'fundName') {
+                        item[key] = transNumToThousandMark(item[key], 4)
                         item.flag =
                             item['positionEarnings'] > 0
                                 ? 0
@@ -108,26 +117,26 @@ export default {
                                 : 2
                     }
                 }
-                item.currency = this.currency
             })
-            this.fundList = positionList
-
-            this.fundList.map(item => {
+            this.hkPositionList.map(item => {
                 for (let key in item) {
                     if (key != 'fundId' && key != 'fundName') {
-                        if (
-                            key === 'positionShare' ||
-                            key === 'redeemDeliveryShare'
-                        ) {
-                            item[key] = transNumToThousandMark(item[key], 4)
-                        } else {
-                            item[key] = transNumToThousandMark(item[key])
-                        }
+                        item[key] = transNumToThousandMark(item[key], 4)
+                        item.flag =
+                            item['positionEarnings'] > 0
+                                ? 0
+                                : item['positionEarnings'] < 0
+                                ? 1
+                                : 2
+                        item.flag1 =
+                            item['weekEarnings'] > 0
+                                ? 0
+                                : item['weekEarnings'] < 0
+                                ? 1
+                                : 2
                     }
                 }
             })
-            this.noMoreShow = this.fundList.length == 0
-            console.log(this.noMoreShow)
         }
     },
     mounted() {
