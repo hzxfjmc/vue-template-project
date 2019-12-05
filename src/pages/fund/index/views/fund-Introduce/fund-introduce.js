@@ -15,6 +15,10 @@ export const Introducelit = {
         label: 'ISIN',
         value: ''
     },
+    initialInvestAmount: {
+        label: '起投金额',
+        value: ''
+    },
     fundRisk: {
         label: '风险等级',
         value: ''
@@ -51,6 +55,9 @@ export const i18nIntroducelist = {
             isin: {
                 label: 'ISIN'
             },
+            initialInvestAmount: {
+                label: '起投金额'
+            },
             fundRisk: {
                 label: '风险等级'
             },
@@ -68,6 +75,15 @@ export const i18nIntroducelist = {
             },
             investObjective: {
                 label: '投资目标'
+            },
+            dividendDate: {
+                label: '派息日期'
+            },
+            dividendRecord: {
+                label: '派息记录'
+            },
+            noMore: {
+                label: '没有更多了'
             }
         }
     },
@@ -88,6 +104,9 @@ export const i18nIntroducelist = {
             isin: {
                 label: 'ISIN'
             },
+            initialInvestAmount: {
+                label: '起投金額'
+            },
             fundRisk: {
                 label: '風險等級'
             },
@@ -105,6 +124,15 @@ export const i18nIntroducelist = {
             },
             investObjective: {
                 label: '投資目標'
+            },
+            dividendDate: {
+                label: '派息日期'
+            },
+            dividendRecord: {
+                label: '派息記錄'
+            },
+            noMore: {
+                label: '沒有更多了'
             }
         }
     },
@@ -125,6 +153,9 @@ export const i18nIntroducelist = {
             isin: {
                 label: 'ISIN'
             },
+            initialInvestAmount: {
+                label: 'Min. Initial Investment'
+            },
             fundRisk: {
                 label: 'Risk Level'
             },
@@ -142,6 +173,15 @@ export const i18nIntroducelist = {
             },
             investObjective: {
                 label: 'Investment Objective'
+            },
+            dividendDate: {
+                label: 'Dividend Date'
+            },
+            dividendRecord: {
+                label: 'Dividend Records'
+            },
+            noMore: {
+                label: 'No More'
             }
         }
     }

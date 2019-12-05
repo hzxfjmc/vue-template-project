@@ -16,7 +16,7 @@
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value}}%)
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
-                                input(v-model="item.value" :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?'港币' : '美元'}${$t('buyMoneyPlaceHolder')} `" type="number" @blur="addComma(item.value)")
+                                input(v-model="item.value" :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?'港币' : '美元'}${$t('buyMoneyPlaceHolder')} `"  @blur="addComma(item.value)")
                             .right-item-other(v-else)
                                 span {{item.value}}
                 FundSteps(
@@ -53,7 +53,7 @@
                     .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ orderTotalAmount | sliceFixedTwo | formatCurrency }}
                 .buy-row
                     .left.line-height-8 {{$t('buyMoney')}}
-                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="goNext(orderNo, $route.query.currencyType)") {{ $t('done') }}
         protocol-popup(
@@ -135,11 +135,11 @@ export default {
     watch: {
         'subscribeObj.buyMoney.value'(val) {
             let numberInt
-            if (this.subscribeObj.buyMoney.value.indexOf(',') > -1) {
-                let arr = this.subscribeObj.buyMoney.value.split(',')
+            if (val.indexOf(',') > -1) {
+                let arr = val.split(',')
                 numberInt = arr.join('')
             } else {
-                numberInt = this.subscribeObj.buyMoney.value
+                numberInt = val
             }
             this.subscribeObj.totalOrderAmount.value =
                 Number(numberInt) +
@@ -152,8 +152,6 @@ export default {
                 (numberInt * this.subscribeObj.subscriptionFee.value) / 100
             if (numberInt > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
-            } else {
-                this.subscribeObj.buyMoney.value = val
             }
         }
     },
@@ -314,7 +312,12 @@ export default {
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
-                        purchaseAmount: this.subscribeObj.buyMoney.value,
+                        purchaseAmount:
+                            this.subscribeObj.buyMoney.value.indexOf(',') > -1
+                                ? this.subscribeObj.buyMoney.value
+                                      .split(',')
+                                      .join('')
+                                : this.subscribeObj.buyMoney.value,
                         requestId: generateUUID(),
                         tradeToken: token
                     })
@@ -338,9 +341,11 @@ export default {
         },
         // 失焦后添加逗号
         addComma(val) {
-            return (this.subscribeObj.buyMoney.value = transNumToThousandMark(
-                Number(val).toFixed(2)
-            ))
+            if (val) {
+                this.subscribeObj.buyMoney.value = transNumToThousandMark(
+                    Number(val).toFixed(2)
+                )
+            }
         }
     },
     i18n: {

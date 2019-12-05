@@ -25,13 +25,25 @@
         .fund-introduce-objective(v-for="item in otherList")
             .title {{item.label}}
             .content {{item.value}}
+    .dividend-detail-container(v-if="active===1")
+        dividend-detail
+
+    
+
 </template>
 <script>
 import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
+import dividendDetail from './dividend-detail'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
+import Vue from 'vue'
+import { List } from 'vant'
+Vue.use(List)
 export default {
     i18n: i18nIntroducelist,
+    components: {
+        dividendDetail
+    },
     data() {
         return {
             list: JSON.parse(JSON.stringify(Introducelit)),
@@ -58,20 +70,25 @@ export default {
                 })
                 for (let key in this.list) {
                     this.list[key].value =
-                        key == 'fundSize'
+                        key === 'fundSize'
                             ? `${
                                   fundOverviewInfoVO.currency.name
                               } ${transNumToThousandMark(
                                   fundOverviewInfoVO[key]
                               )}`
                             : fundOverviewInfoVO[key]
-                    if (key == 'fundRisk') {
+                    if (key === 'fundRisk') {
                         this.list[
                             key
                         ].value = `A${fundHeaderInfoVO.fundRiskType} ${fundOverviewInfoVO[key]}`
                     }
-                    if (key == 'fundNameCn') {
+                    if (key === 'fundNameCn') {
                         this.list[key].value = fundHeaderInfoVO.fundName
+                    }
+                    if (key === 'initialInvestAmount') {
+                        this.list[key].value = `${
+                            fundOverviewInfoVO.currency.name
+                        } ${transNumToThousandMark(fundHeaderInfoVO[key])}`
                     }
                 }
                 for (let key in this.otherList) {
