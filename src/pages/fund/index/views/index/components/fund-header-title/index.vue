@@ -7,9 +7,9 @@
                 @click="handerTab(item,index)"
                 :class="[active===index ? 'active':'']"
                 :key="index") {{item.label}}
-            .fund__nav--fixed 
-                img(:src="require('@/assets/img/fund/icon_qiu.png')")
-                p 基金货币
+        .fund__nav--fixed 
+            img(:src="require('@/assets/img/fund/icon_qiu.png')")
+            p 基金货币
     .fund__header--subnav(v-else)
         .fund__nav--scroll
             .fund__nav--subitem(
@@ -81,10 +81,11 @@ export default {
         margin: 6px 0;
         padding: 0 50px 0 0;
         flex-direction: row;
+        position: relative;
         right: 0;
         position: relative;
         .fund__nav--fixed {
-            position: fixed;
+            position: absolute;
             right: 0;
             top: 0;
             width: 55px;
@@ -106,6 +107,30 @@ export default {
                 display: inline;
                 line-height: 16px;
             }
+        }
+    }
+    .fund__nav--fixed {
+        position: absolute;
+        right: 0;
+        top: 0;
+        width: 55px;
+        height: 40px;
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: rgba(255, 255, 255, 1);
+        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+        img {
+            width: 20px;
+            height: 20px;
+            margin: 0 17px;
+            text-align: center;
+        }
+        p {
+            font-size: 10px;
+            display: inline;
+            line-height: 16px;
         }
     }
     .fund__nav--item {
