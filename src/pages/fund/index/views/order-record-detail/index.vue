@@ -173,9 +173,7 @@ export default {
                 ) {
                     this.orderShare = this.$t('beConfirmed')
                 } else {
-                    this.orderShare = transNumToThousandMark(
-                        (res.orderShare * 1).toFixed(3)
-                    )
+                    this.orderShare = transNumToThousandMark(res.orderShare, 4)
                 }
                 if (
                     res.netPrice === null ||
