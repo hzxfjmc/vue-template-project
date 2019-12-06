@@ -5,12 +5,8 @@
         )
         .fund__banner
             img(:src="require('@/assets/img/fund/img/2.png')")
-        .fund__banner2
+        .fund__banner2(v-if="bannerShow")
             img(:src="require('@/assets/img/fund/img/3.png')")
-        //- van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
-        //-     van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
-        //-         a(:href="bannerItem.jump_url" title="")
-        //-             img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
         .bond-list
             div(
                 v-for="(item, index) in list"
@@ -55,6 +51,7 @@ export default {
     data() {
         return {
             load: false,
+            bannerShow: false,
             bannerUrl: [],
             list: [],
             pageNum: 1,
@@ -68,6 +65,7 @@ export default {
         handlerCuenrry(data) {
             this.currency = data.currency
             this.assetType = data.assetType
+            this.bannerShow = data.assetType === '4' || data.assetType === '2'
             this.getFundListV2()
         },
         // 获取基金列表
