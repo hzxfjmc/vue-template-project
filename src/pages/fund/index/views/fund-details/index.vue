@@ -243,11 +243,11 @@ export default {
             try {
                 const res = await getFundApyPointV1({
                     fundId: this.id,
-                    apyType: time || 5
+                    apyType: time || 1
                 })
                 this.copyinitEchartList = res
                 this.initEchartList = res
-                this.initEchartList = this.initEchartList.slice(0, 22)
+                // this.initEchartList = this.initEchartList.slice(0, 22)
                 this.initEchartList.map(item => {
                     item.pointData = Number(Number(item.pointData).toFixed(4))
                 })
