@@ -10,18 +10,26 @@
         .fund__nav--fixed(@click="handlerNavItem") 
             img(:src="IconPath")
             p {{fundTitle}}
+        protocol-popup(
+            v-model="protocolVisible"
+            @chooseFilePath="chooseFilePath"
+            :protocolFileList="sellProtocolFileList"
+            )
     .fund__header--subnav(v-else)
-        .fund__nav--scroll
+        .fund__nav--scroll.fund__nav--scroll-d(ref="navTransform")
             .fund__nav--subitem(
                 v-for="(item,index) in navList" 
                 @click="handerTab(item,index)"
                 :class="[active===index ? 'active1':'']"
                 :key="index") {{item.label}}
-    protocol-popup(
-        v-model="protocolVisible"
-        @chooseFilePath="chooseFilePath"
-        :protocolFileList="sellProtocolFileList"
-        )
+        .fund__nav--fixed.fund__nav--fixed-d
+            p(@click="handlerNavItem") {{fundTitle}}
+            .block--master(v-if="chooseCurrencyShow1" @click="chooseCurrencyShow1 = false")
+            .block__currey(v-if="chooseCurrencyShow1")
+                span.border-bottom(
+                    v-for="(item,index) in sellProtocolFileList"
+                    @click="chooseFilePath(item)") {{item.fileName}}
+   
 
 </template>
 <script>
@@ -36,55 +44,93 @@ export default {
     data() {
         return {
             active: 0,
+            chooseCurrencyShow1: false,
+            navShow: false,
             protocolVisible: false,
             fundTitle: '全部',
             IconPath: require('@/assets/img/fund/icon_qiu.png'),
+            state: {
+                currency: '',
+                assetType: ''
+            },
             sellProtocolFileList: [
                 {
                     fileName: '全部',
-                    iconPath: require('@/assets/img/fund/icon_qiu.png')
+                    iconPath: require('@/assets/img/fund/icon_qiu.png'),
+                    value: ''
                 },
                 {
                     fileName: '港币基金',
-                    iconPath: require('@/assets/img/fund/icon_hkd.png')
+                    iconPath: require('@/assets/img/fund/icon_hkd.png'),
+                    value: '2'
                 },
                 {
                     fileName: '美元基金',
-                    iconPath: require('@/assets/img/fund/icon_usd.png')
+                    iconPath: require('@/assets/img/fund/icon_usd.png'),
+                    value: '1'
                 }
             ],
-            navShow: true,
             navList: [
                 {
-                    label: '全部'
+                    label: '全部',
+                    value: ''
                 },
                 {
-                    label: '货币型'
+                    label: '货币型',
+                    value: '4'
                 },
                 {
-                    label: '债券型'
+                    label: '债券型',
+                    value: '2'
                 },
                 {
-                    label: '混合型'
+                    label: '混合型',
+                    value: '3'
                 },
                 {
-                    label: '股票型'
+                    label: '股票型',
+                    value: '1'
                 }
             ]
         }
     },
     methods: {
         chooseFilePath(data) {
-            console.log(data)
             this.IconPath = data.iconPath
             this.fundTitle = data.fileName
+            this.state.currency = data.value
+            document.body.style.overflow = '' //出现滚动条
+            document.removeEventListener(
+                'touchmove',
+                e => {
+                    e.preventDefault()
+                },
+                false
+            )
+            this.protocolVisible = false
+            this.chooseCurrencyShow1 = false
+            this.$emit('handlerCuenrry', this.state)
         },
         handlerNavItem() {
-            this.protocolVisible = true
+            if (this.navShow) {
+                this.protocolVisible = true
+            } else {
+                document.body.style.overflow = 'hidden'
+                document.addEventListener(
+                    'touchmove',
+                    e => {
+                        e.preventDefault()
+                    },
+                    false
+                ) //禁止页面滑动
+                this.chooseCurrencyShow1 = true
+            }
         },
         handerTab(item, index) {
             this.$refs.navTransform.style.left = index < 2 ? '0px' : '-30px'
+            this.state.assetType = item.value
             this.active = index
+            this.$emit('handlerCuenrry', this.state)
         }
     }
 }
@@ -107,30 +153,9 @@ export default {
         position: relative;
         right: 0;
         position: relative;
-        .fund__nav--fixed {
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 55px;
-            height: 40px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
-            img {
-                width: 20px;
-                height: 20px;
-                margin: 0 17px;
-                text-align: center;
-            }
-            p {
-                font-size: 10px;
-                display: inline;
-                line-height: 16px;
-            }
-        }
+    }
+    .fund__nav--scroll-d {
+        padding: 0 70px 0 0;
     }
     .fund__nav--fixed {
         position: absolute;
@@ -155,6 +180,9 @@ export default {
             display: inline;
             line-height: 16px;
         }
+    }
+    .fund__nav--fixed-d {
+        width: 72px;
     }
     .fund__nav--item {
         width: 110px;
@@ -198,5 +226,49 @@ export default {
             }
         }
     }
+}
+.block--master {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+}
+.block__currey {
+    width: 103px;
+    position: absolute;
+    height: 122px;
+    z-index: 9999999;
+    border-radius: 10px;
+    right: 12px;
+    top: 55px;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    span {
+        color: rgba(25, 25, 25, 0.65);
+        width: 100px;
+        height: 40px;
+        line-height: 40px;
+        display: block;
+        // margin: 0 10px;
+    }
+    .active {
+        color: #191919;
+    }
+}
+.block__currey:before {
+    content: '';
+    width: 0px;
+    height: 0px;
+    top: -10px;
+    left: 40px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #fff;
+    position: absolute;
 }
 </style>

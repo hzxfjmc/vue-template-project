@@ -1,6 +1,8 @@
 <template lang="pug">
     .bond-index-wrapper
-        FundHeaderTitle
+        FundHeaderTitle(
+            @handlerCuenrry="handlerCuenrry"
+        )
         .fund__banner
             img(:src="require('@/assets/img/fund/img/2.png')")
         .fund__banner2
@@ -58,11 +60,16 @@ export default {
             pageNum: 1,
             pageSize: 20,
             total: 0,
-            currency: 2,
+            currency: '',
             assetType: ''
         }
     },
     methods: {
+        handlerCuenrry(data) {
+            this.currency = data.currency
+            this.assetType = data.assetType
+            this.getFundListV2()
+        },
         // 获取基金列表
         async getFundListV2() {
             try {
@@ -71,8 +78,8 @@ export default {
                     displayLocation: 1,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    assetType: this.$route.query.type,
-                    currency: this.$route.query.currency
+                    assetType: this.assetType,
+                    currency: this.currency
                 })
                 this.list = list
                 this.load = this.list.length == 0
