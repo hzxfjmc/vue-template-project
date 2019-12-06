@@ -15,6 +15,11 @@
                         color="#2177FF"
                         plain
                         ) {{ fundHeaderInfoVO.fundRisk }}
+                .fund-tag(v-if="$route.query.tip")
+                    van-tag(
+                            color="#2177FF"
+                            plain
+                            ) {{$route.query.tip}}
         .funds-details-number
             .header-left
                 span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
