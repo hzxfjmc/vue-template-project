@@ -81,7 +81,7 @@ export default {
     methods: {
         toFundDetails(item) {
             gotoNewWebView(
-                `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
+                `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}&tip=${item.earningsTypeName}`
             )
         }
     },

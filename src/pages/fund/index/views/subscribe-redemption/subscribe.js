@@ -11,14 +11,6 @@ export const subscribeObj = {
         label: '最大可买',
         value: ''
     },
-    initialInvestAmount: {
-        label: '最小买入',
-        value: ''
-    },
-    continueInvestAmount: {
-        label: '买入单位',
-        value: ''
-    },
     buyMoney: {
         label: '购买金额',
         value: null
@@ -38,8 +30,6 @@ export const subscribeObji18n = {
         zhCHS: {
             withdrawBalance: '可用余额',
             withdrawBalanceNetPrice: '最大可买(份额)',
-            initialInvestAmount: '最小买入',
-            continueInvestAmount: '买入单位',
             buyMoney: '购买金额',
             subscriptionFee: '申购费（预计）',
             totalOrderAmount: '订单总金额',
@@ -48,8 +38,6 @@ export const subscribeObji18n = {
         zhCHT: {
             withdrawBalance: '可用餘額',
             withdrawBalanceNetPrice: '最大可買(份額)',
-            initialInvestAmount: '最小買入',
-            continueInvestAmount: '買入單位',
             buyMoney: '購買金額',
             subscriptionFee: '申購費（預計）',
             totalOrderAmount: '訂單總金額',
@@ -58,8 +46,6 @@ export const subscribeObji18n = {
         en: {
             withdrawBalance: 'Available Balance',
             withdrawBalanceNetPrice: 'Max Purchase(unit)',
-            initialInvestAmount: 'Min Purchase',
-            continueInvestAmount: 'Purchase Unit',
             buyMoney: 'Amount of Purchasing',
             subscriptionFee: 'Subscription Fee (Expected)',
             totalOrderAmount: 'Total Amount of Orders',

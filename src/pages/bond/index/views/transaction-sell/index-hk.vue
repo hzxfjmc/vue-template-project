@@ -1,14 +1,35 @@
 <template lang="pug">
     .transaction-wrapper
-        transaction-card(
-            :btnText="$t('sell')"
-            :direction="2"
-            :positionData="positionData"
+        van-pull-refresh(
+            v-model="isLoading"
+            @refresh="onRefresh"
+            :pulling-text="$t('pullingText')"
+            :loosing-text="$t('loosingText')"
+            :loading-text="$t('loadingText')"
+            :success-text="$t('successText')"
         )
+            transaction-card(
+                ref="transactionCard"
+                :direction="2"
+                :positionData="positionData"
+                :bondEditableInfo="bondEditableInfo"
+                :bondUneditableInfo="bondUneditableInfo"
+                :currentPrice="currentPrice"
+                :interestDays="interestDays"
+                :activityFee="activityFee"
+                :feeData="feeData"
+            )
+        .operate-btn-box
+            van-button(
+                type="info"
+                class="foot-button sell"
+                :text="$t('sell')"
+                @click="handleTradeToken"
+            )
 </template>
 
 <script>
-import transactionSellMixin from './mixins.js'
+import transactionSellMixin from '../transaction-buy/mixins.js'
 import TransactionCard from '@/biz-components/transaction-card/index-hk.vue'
 export default {
     i18n: {

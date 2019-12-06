@@ -130,9 +130,7 @@ export default {
                             '--',
                         color: differColor(item.externalStatus),
                         orderNo: item.orderNo,
-                        orderShare: transNumToThousandMark(
-                            (item.orderShare * 1).toFixed(2)
-                        ),
+                        orderShare: transNumToThousandMark(item.orderShare, 4),
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })

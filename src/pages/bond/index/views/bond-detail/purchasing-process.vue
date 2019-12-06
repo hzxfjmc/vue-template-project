@@ -8,7 +8,7 @@
                         i.process-step__circle
                     .process-step__line
                 .process-step
-                    .process-step__title {{ enumDelivery }}日计息
+                    .process-step__title T日开始计息
                     .process-step__circle-container
                         i.process-step__circle
                     .process-step__line
