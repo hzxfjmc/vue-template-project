@@ -12,6 +12,16 @@ export const feePackageCurr = data => {
 }
 
 /**
+ * 判断用户是否已经开通套餐
+ * @param {Number} data 请求参数
+ *  {Number} stockBusinessType 0 -股票，1- 债券
+ *  {Number} userId 用户id
+ */
+export const checkMarketFeePackage = data => {
+    return axios.post('/product-server/api/check_market_fee_package/v1', data)
+}
+
+/**
  * 获取活动费用
  * @param {Number} data 请求参数
  *   @param {String} feeType 费用类别 8:活动费

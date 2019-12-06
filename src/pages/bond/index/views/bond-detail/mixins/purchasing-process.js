@@ -20,14 +20,14 @@ export default {
             )
         },
         // 计息日
-        enumDelivery() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumDelivery &&
-                    this.bondUneditableInfo.enumDelivery.name) ||
-                '--'
-            )
-        },
+        // enumDelivery() {
+        //     return (
+        //         (this.bondUneditableInfo &&
+        //             this.bondUneditableInfo.enumDelivery &&
+        //             this.bondUneditableInfo.enumDelivery.name) ||
+        //         '--'
+        //     )
+        // },
         // 货币单位
         currency() {
             return (

@@ -3,7 +3,7 @@ import { handleSelectProtocolInfo } from '@/pages/bond/index/tools'
 import YxContainerBetter from '@/components/yx-container-better'
 import { riskAssessResult } from '@/service/user-server.js'
 import { getBondDetail } from '@/service/finance-info-server.js'
-import { feePackageCurr } from '@/service/product-server.js'
+import { checkMarketFeePackage } from '@/service/product-server.js'
 import { i18nAppropriateData } from './risk-appropriate-result-i18n.js'
 import { openBondFeePackage } from '@/service/finance-server'
 import dayjs from 'dayjs'
@@ -177,24 +177,18 @@ export default {
                             : '/transaction-buy'
 
                     // 获取用户套餐
-                    let feeData = await feePackageCurr({
+                    let feeData = await checkMarketFeePackage({
                         stockBusinessType: 6,
                         userId: this.$store.state.user.userId - 0
                     })
-                    console.log('feePackageCurr:data:>>> ', feeData)
-                    // 当前为手机委托，过滤除手机委托外的其他套餐数据
-                    feeData =
-                        (feeData &&
-                            feeData.filter(
-                                feeItem => feeItem.entrustType === 2
-                            )) ||
-                        []
+                    console.log('checkMarketFeePackage:data:>>> ', feeData)
                     // 如果用户已经拥有套餐，直接跳转
-                    if (feeData.length !== 0) {
+                    if (feeData) {
                         this.$router.push({
                             path: `${this.prev}${path}`,
                             query: {
-                                id: this.$route.query.id
+                                id: this.$route.query.id,
+                                direction
                             }
                         })
                         return
@@ -210,7 +204,8 @@ export default {
                     this.$router.push({
                         path: `${this.prev}${path}`,
                         query: {
-                            id: this.$route.query.id
+                            id: this.$route.query.id,
+                            direction
                         }
                     })
                 }

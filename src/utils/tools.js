@@ -228,3 +228,14 @@ export function jumpUrl(jump_type, jump_url) {
         jsBridge.gotoNativeModule(jump_url)
     }
 }
+
+// 小数位处理
+export const sliceDecimal = function(str, length = 0) {
+    str = str + ''
+    if (str.indexOf('.') !== -1) {
+        let decimal = str.split('.')[1].slice(0, length)
+        return str.split('.')[0] + '.' + decimal
+    } else {
+        return str
+    }
+}
