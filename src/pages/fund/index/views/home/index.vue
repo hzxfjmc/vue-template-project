@@ -24,9 +24,11 @@ import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { enumCurrency } from '@/pages/fund/index/map'
 import { mapGetters } from 'vuex'
-
+import { Swipe, SwipeItem } from 'vant'
 export default {
     components: {
+        [Swipe.name]: Swipe,
+        [SwipeItem.name]: SwipeItem,
         HomeHeader,
         HomeFundList
     },
