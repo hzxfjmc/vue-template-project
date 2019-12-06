@@ -65,7 +65,7 @@
 import NP from 'number-precision'
 import { getCosUrl } from '@/utils/cos-utils'
 // import { getTradePasswordToken } from '@/service/user-server.js'
-import { fundPurchase } from '@/service/finance-server.js'
+import { fundPurchase, getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
@@ -108,10 +108,12 @@ export default {
             sellProtocolFileList: [],
             protocolVisible: false,
             isCheckedProtocol: true,
-            orderTotalAmount: ''
+            orderTotalAmount: '',
+            positionStatus: '' //持仓状态
         }
     },
     async created() {
+        this.getFundPositionV2Fun()
         this.getWithdrawBalance()
     },
     computed: {
@@ -209,15 +211,20 @@ export default {
                 }
                 this.subscribeObj.currency.value =
                     fundDetail.fundTradeInfoVO.currency.name
-                this.subscribeObj.initialInvestAmount.value = transNumToThousandMark(
-                    fundDetail.fundTradeInfoVO.initialInvestAmount
-                )
-                this.initialInvestAmount = Number(
-                    fundDetail.fundTradeInfoVO.initialInvestAmount
-                ).toFixed(2)
-                this.subscribeObj.continueInvestAmount.value = transNumToThousandMark(
-                    fundDetail.fundTradeInfoVO.continueInvestAmount
-                )
+
+                if (this.positionStatus !== 1) {
+                    this.initialInvestAmount = transNumToThousandMark(
+                        Number(
+                            fundDetail.fundTradeInfoVO.initialInvestAmount
+                        ).toFixed(2)
+                    )
+                } else {
+                    this.initialInvestAmount = transNumToThousandMark(
+                        Number(
+                            fundDetail.fundTradeInfoVO.continueInvestAmount
+                        ).toFixed(2)
+                    )
+                }
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 let num =
@@ -225,6 +232,12 @@ export default {
                 this.subscribeObj.withdrawBalanceNetPrice.value = transNumToThousandMark(
                     num
                 )
+                console.log(
+                    this.withdrawBalance,
+                    fundDetail.fundHeaderInfoVO.netPrice,
+                    num
+                )
+
                 this.setCosUrl(
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
@@ -346,6 +359,13 @@ export default {
                     Number(val).toFixed(2)
                 )
             }
+        },
+        // 获取当前客户单个基金持仓数据
+        async getFundPositionV2Fun() {
+            let res = await getFundPositionV2({
+                fundId: this.$route.query.id
+            })
+            this.positionStatus = res.positionStatus.type
         }
     },
     i18n: {
@@ -375,7 +395,7 @@ export default {
             iKnow: '我知道了',
             subscribeObj: subscribeObji18n.i18n.zhCHS,
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
-            buyMoneyPlaceHolder: '起投',
+            buyMoneyPlaceHolder: '起',
             orderAmount: '订单金额'
         },
         zhCHT: {
@@ -404,7 +424,7 @@ export default {
             iKnow: '我知道了',
             subscribeObj: subscribeObji18n.i18n.zhCHT,
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
-            buyMoneyPlaceHolder: '起投',
+            buyMoneyPlaceHolder: '起',
             orderAmount: '訂單金額'
         },
         en: {
