@@ -107,8 +107,8 @@ export default {
             }
         }
         .element--right {
-            width: 80px;
-            height: 70px;
+            width: 70px;
+            height: 65px;
             img {
                 width: 100%;
                 height: 100%;
