@@ -15,6 +15,11 @@
                         color="#2177FF"
                         plain
                         ) {{ fundHeaderInfoVO.fundRisk }}
+                .fund-tag
+                    van-tag(
+                        color="#2177FF"
+                        plain
+                        ) {{ fundHeaderInfoVO.dividendType }}
         .funds-details-number
             .header-left
                 span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
