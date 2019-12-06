@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund__header--nav
-    .fund__header--subnav(v-if="navShow")
+    .fund__header--subnav(v-if="appType.hk")
         .fund__nav--scroll(ref="navTransform")
             .fund__nav--item(
                 v-for="(item,index) in navList" 
@@ -36,17 +36,20 @@
 <script>
 import { Tab, Tabs } from 'vant'
 import protocolPopup from '../protocol-popup'
+import { mapGetters } from 'vuex'
 export default {
     components: {
         [Tab.name]: Tab,
         [Tabs.name]: Tabs,
         protocolPopup
     },
+    computed: {
+        ...mapGetters(['appType'])
+    },
     data() {
         return {
             active: 0,
             chooseCurrencyShow1: false,
-            navShow: false,
             protocolVisible: false,
             fundTitle: '全部',
             IconPath: require('@/assets/img/fund/icon_qiu.png'),
@@ -113,7 +116,7 @@ export default {
             this.$emit('handlerCuenrry', this.state)
         },
         handlerNavItem() {
-            if (this.navShow) {
+            if (this.appType.hk) {
                 this.protocolVisible = true
             } else {
                 document.body.style.overflow = 'hidden'
