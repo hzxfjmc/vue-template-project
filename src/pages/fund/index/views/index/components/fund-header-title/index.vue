@@ -7,9 +7,9 @@
                 @click="handerTab(item,index)"
                 :class="[active===index ? 'active':'']"
                 :key="index") {{item.label}}
-        .fund__nav--fixed 
-            img(:src="require('@/assets/img/fund/icon_qiu.png')")
-            p 基金货币
+        .fund__nav--fixed(@click="handlerNavItem") 
+            img(:src="IconPath")
+            p {{fundTitle}}
     .fund__header--subnav(v-else)
         .fund__nav--scroll
             .fund__nav--subitem(
@@ -19,7 +19,7 @@
                 :key="index") {{item.label}}
     protocol-popup(
         v-model="protocolVisible"
-        class="protocolVisible"
+        @chooseFilePath="chooseFilePath"
         :protocolFileList="sellProtocolFileList"
         )
 
@@ -36,8 +36,23 @@ export default {
     data() {
         return {
             active: 0,
-            protocolVisible: true,
-            sellProtocolFileList: [],
+            protocolVisible: false,
+            fundTitle: '全部',
+            IconPath: require('@/assets/img/fund/icon_qiu.png'),
+            sellProtocolFileList: [
+                {
+                    fileName: '全部',
+                    iconPath: require('@/assets/img/fund/icon_qiu.png')
+                },
+                {
+                    fileName: '港币基金',
+                    iconPath: require('@/assets/img/fund/icon_hkd.png')
+                },
+                {
+                    fileName: '美元基金',
+                    iconPath: require('@/assets/img/fund/icon_usd.png')
+                }
+            ],
             navShow: true,
             navList: [
                 {
@@ -59,6 +74,14 @@ export default {
         }
     },
     methods: {
+        chooseFilePath(data) {
+            console.log(data)
+            this.IconPath = data.iconPath
+            this.fundTitle = data.fileName
+        },
+        handlerNavItem() {
+            this.protocolVisible = true
+        },
         handerTab(item, index) {
             this.$refs.navTransform.style.left = index < 2 ? '0px' : '-30px'
             this.active = index

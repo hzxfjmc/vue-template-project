@@ -5,8 +5,9 @@
         class="protocol-popup"
     )
         .protocol-list
+            .protocol__title.border-bottom 基金货币选择
             .protocol-list__body
-                .protocol-list__text.border-bottom(@click="openProtocol(item.filePath)" 
+                .protocol-list__text.border-bottom(@click="chooseFilePath(item)" 
                 v-for="item in protocolFileList" 
                 :key="item.createTime") {{item.fileName}}
             .protocol-list__footer
@@ -14,8 +15,6 @@
 </template>
 
 <script>
-import jsBridge from '@/utils/js-bridge.js'
-import { getCosUrl } from '@/utils/cos-utils'
 export default {
     name: 'protocol-popup',
     i18n: {
@@ -50,13 +49,9 @@ export default {
         }
     },
     methods: {
-        async openProtocol(url) {
-            url = await getCosUrl(url)
-            if (jsBridge.isYouxinApp) {
-                jsBridge.gotoNewWebview(url)
-            } else {
-                location.href = url
-            }
+        async chooseFilePath(item) {
+            this.$emit('chooseFilePath', item)
+            this.popupVisible = false
         },
         hidePopup() {
             this.popupVisible = false
@@ -76,6 +71,11 @@ export default {
     }
 }
 .protocol-list {
+    .protocol__title {
+        background: #fff;
+        line-height: 30px;
+        text-align: center;
+    }
     background: $background-bottom-color;
     .protocol-list__body {
         .protocol-list__text {
@@ -83,6 +83,7 @@ export default {
             line-height: 36px;
             padding: 7px 0;
             text-align: center;
+            color: #0091ff;
             background: #fff;
             &:last-child {
                 border-bottom: none;

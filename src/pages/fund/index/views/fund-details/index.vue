@@ -4,7 +4,7 @@
         fundDetailsHeader(:fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
-          @chooseTime = "getSwitchFundNetPrice"
+          @chooseTime = "getFundApyPointV1"
           :step="step"
           :initEchartList="initEchartList")
 
@@ -238,62 +238,6 @@ export default {
                 console.log('getFundPositionV2:error:>>>', e)
             }
         },
-        getSwitchFundNetPrice(time) {
-            this.initEchartList = []
-            let count = Math.ceil(this.copyinitEchartList.length / 22)
-            switch (time) {
-                case 1:
-                    this.step = 0
-                    this.initEchartList = this.copyinitEchartList.slice(0, 22)
-                    break
-                case 2:
-                    this.step = 1
-                    this.initEchartList = this.copyinitEchartList.slice(0, 66)
-                    break
-                case 3:
-                    this.step = 2
-                    this.initEchartList = this.copyinitEchartList.slice(0, 132)
-                    break
-                case 4:
-                    this.step = 3
-                    this.initEchartList = this.copyinitEchartList.slice(0, 245)
-                    break
-                case 5:
-                    this.step = 4
-                    this.initEchartList = []
-                    for (let i = 0; i < count; i++) {
-                        this.initEchartList.push(this.copyinitEchartList[i * 5])
-                    }
-                    break
-                case 6:
-                    this.step = 5
-                    this.initEchartList = []
-                    for (let i = 0; i < count; i++) {
-                        this.initEchartList.push(
-                            this.copyinitEchartList[i * 22]
-                        )
-                    }
-                    this.initEchartList = this.copyinitEchartList
-                    break
-                default:
-                    this.step = 6
-                    break
-            }
-            let month = {
-                1: '1个月',
-                2: '3个月',
-                3: '6个月',
-                4: '1年'
-            }
-            if (time <= 4) {
-                clickFundDetails(
-                    'fund_detail',
-                    month[time],
-                    this.fundHeaderInfoVO.fundId,
-                    this.fundHeaderInfoVO.fundName
-                )
-            }
-        },
         //echart图的数据获取
         async getFundApyPointV1(time) {
             try {
@@ -307,6 +251,20 @@ export default {
                 this.initEchartList.map(item => {
                     item.pointData = Number(Number(item.pointData).toFixed(4))
                 })
+                let month = {
+                    1: '1个月',
+                    2: '3个月',
+                    3: '6个月',
+                    4: '1年'
+                }
+                if (time <= 4) {
+                    clickFundDetails(
+                        'fund_detail',
+                        month[time],
+                        this.fundHeaderInfoVO.fundId,
+                        this.fundHeaderInfoVO.fundName
+                    )
+                }
             } catch (e) {
                 console.log('getFundApyPointV1:error:>>>', e)
             }
