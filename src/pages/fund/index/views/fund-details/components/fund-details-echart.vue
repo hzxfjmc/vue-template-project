@@ -102,7 +102,7 @@ export default {
         draw(data) {
             this.chart = new F2.Chart({
                 id: data,
-                padding: [20, 0, 35, 45],
+                padding: [20, 0, 33, 45],
                 pixelRatio: window.devicePixelRatio
             })
             if (this.initEchartList.length === 0) return
@@ -111,7 +111,7 @@ export default {
                     alias: '今日净值',
                     tickCount: 5,
                     formatter: function formatter(val) {
-                        return Number(val).toFixed(4) + '%'
+                        return Number(val) + '%'
                     }
                 },
                 belongDay: {
@@ -182,9 +182,6 @@ export default {
             this.$refs.renderEchart.appendChild(cavas)
             let canvaStyle = document.querySelector('#myChart')
             canvaStyle.style.width = '100%'
-            canvaStyle.style.height = '200px'
-            canvaStyle.margin = '-20px 0 0 0'
-            canvaStyle.transform = 'translateX(-3%)'
             this.draw(this.chartId)
             this.chart.render()
         }
@@ -244,9 +241,6 @@ export default {
     .fund-echart-content {
         #myChart {
             width: 100% !important;
-            height: 200px !important;
-            margin: -20px 0 0 0;
-            transform: translateX(-3%);
         }
     }
     .fund-date-list {

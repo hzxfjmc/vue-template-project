@@ -1,5 +1,5 @@
 <template lang="pug">
-.block-fund-list-content
+.block-fund-list-content(:class="[appType.hk ? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
     .block__fund-title.border-bottom(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}
@@ -57,6 +57,7 @@
 import localStorage from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { mapGetters } from 'vuex'
 export default {
     props: {
         bgColor: {
@@ -115,6 +116,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['appType']),
         stockColorType() {
             return +getStockColorType()
         }
@@ -135,8 +137,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block-fund-list-content {
-    width: 90%;
-    margin: 20px 5% 0 5%;
     background: rgba(255, 255, 255, 1);
     box-shadow: 0px 0px 4px 0px rgba(57, 57, 57, 0.1);
     border-radius: 10px;
@@ -231,7 +231,12 @@ export default {
         }
     }
 }
-.block-fund-list-content:last-child {
-    margin: 20px 5%;
+.block-fund-list-content-hk {
+    width: 90%;
+    margin: 20px 5% 0 5%;
+}
+.block-fund-list-content-ch {
+    width: 96%;
+    margin: 20px 2% 0 2%;
 }
 </style>

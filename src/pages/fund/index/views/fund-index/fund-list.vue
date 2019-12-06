@@ -1,10 +1,14 @@
 <template lang="pug">
-    .block__fund
-        .block__fund-title {{fundlist.masterTitle}}
-        .block__fund--list(v-for="(item,index) in fundlist.data" :key="index")
+    .block__fund(
+        :class="[appType.hk ? 'block__fund-hk' : 'block__fund-ch']")
+        .block__fund-title.ellipse {{fundlist.masterTitle}}
+        .block__fund--list(
+            @click="goNext(item)"
+            v-for="(item,index) in fundlist.data" 
+            :key="index")
                 img(class="element--left--img" :src="item.iconUrl")
                 .element--fund--content
-                    span.title {{item.title}}
+                    span.title.ellipse {{item.title}}
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0") + {{(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.apy)<0") - {{Math.abs(item.apy*100).toFixed(2)}}%
@@ -18,6 +22,8 @@
                     img(:src="item.imgUrl")
 </template>
 <script>
+import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { mapGetters } from 'vuex'
 export default {
     props: {
         fundlist: {
@@ -25,9 +31,18 @@ export default {
             default: () => {}
         }
     },
+    computed: {
+        ...mapGetters(['appType'])
+    },
     watch: {
         fundlist() {
             console.log(this.fundlist)
+        }
+    },
+    methods: {
+        goNext(item) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
+            gotoNewWebView(url)
         }
     }
 }
@@ -36,7 +51,7 @@ export default {
 .block__fund {
     width: 100%;
     margin: 20px 0 0 0;
-    padding: 10px 5%;
+
     background: #fff;
     .block__fund-title {
         font-size: 20px;
@@ -55,10 +70,11 @@ export default {
         .element--fund--content {
             display: flex;
             flex-direction: column;
-            width: 90%;
+            width: 70%;
             padding: 0 0 0 10px;
             .title {
                 font-size: 16px;
+                width: 100%;
             }
             .element--content-sub-content {
                 display: flex;
@@ -99,5 +115,11 @@ export default {
             }
         }
     }
+}
+.block__fund-hk {
+    padding: 10px 5%;
+}
+.block__fund-ch {
+    padding: 10px 2%;
 }
 </style>

@@ -249,7 +249,7 @@ export default {
                 this.initEchartList = res
                 // this.initEchartList = this.initEchartList.slice(0, 22)
                 this.initEchartList.map(item => {
-                    item.pointData = Number(Number(item.pointData).toFixed(4))
+                    item.pointData = Number(item.pointData * 100)
                 })
                 let month = {
                     1: '1个月',
@@ -355,7 +355,6 @@ export default {
             if (re.data.status !== 'visible') {
                 return
             }
-            console.log('appVisible方法执行了')
             await this.$store.dispatch('initAction')
             this.getCurrentUser()
         }

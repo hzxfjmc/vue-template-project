@@ -2,8 +2,8 @@
 .block-fund-index
     .block__swiper.block__fund_index_swiper
         van-swipe(:autoplay="3000") 
-            van-swipe-item(v-for="(item, index) in barnnarList" :key="index") 
-                img(:src="item.bannerUrl") 
+            van-swipe-item(v-for="(item, index) in barnnarHkList" :key="index") 
+                img(:src="item.picture_url") 
     .block__assets
         .block__left
             .block__left--label 
@@ -59,8 +59,8 @@
 
         .block-bannar-sub
             van-swipe(:autoplay="3000") 
-                van-swipe-item(v-for="(item, index) in barnnarList" :key="index") 
-                    img(:src="item.bannerUrl") 
+                van-swipe-item(v-for="(item, index) in barnnarUsList" :key="index") 
+                    img(:src="item.picture_url") 
     .fund-echart-render(ref="renderEchart")
 </template>
 <script>
@@ -71,8 +71,10 @@ import { getFundHomepageInfo } from '@/service/finance-info-server'
 import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { bannerAdvertisement } from '@/service/news-configserver.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
+import { mapGetters } from 'vuex'
 export default {
     components: {
         [Swipe.name]: Swipe,
@@ -80,11 +82,16 @@ export default {
         FundList,
         FundListItem
     },
+    computed: {
+        ...mapGetters(['appType'])
+    },
     data() {
         return {
             currency: 0,
             moneyShow: true,
             barnnarList: [],
+            barnnarUsList: [],
+            barnnarHkList: [],
             chooseCurrencyShow: false,
             choiceFundListShow: false,
             blueChipFundListShow: false,
@@ -123,6 +130,17 @@ export default {
             this.$router.push({
                 path: '/fund-account'
             })
+        },
+        //获取轮播
+        async bannerAdvertisement() {
+            try {
+                const res = await bannerAdvertisement(26)
+                const res1 = await bannerAdvertisement(27)
+                this.barnnarHkList = res.banner_list
+                this.barnnarUsList = res1.banner_list
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         },
         //获取持仓
         async getFundPositionListV3() {
@@ -175,7 +193,7 @@ export default {
                 } = await getFundHomepageInfo({
                     moduleBitmap: 15
                 })
-                this.barnnarList = fundHomepageTwo
+                this.barnnarList = fundHomepageTwo.data
                 this.choiceFundList = fundHomepageOne
                 this.blueChipFundList = fundHomepageFour
                 this.robustFundList = fundHomepageThree
@@ -270,6 +288,7 @@ export default {
     mounted() {
         this.$refs.renderEchart.innerHTML = ''
         this.getFundHomepageInfo()
+        this.bannerAdvertisement()
         this.getFundPositionListV3()
     }
 }

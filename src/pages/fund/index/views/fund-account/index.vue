@@ -85,20 +85,6 @@ export default {
                 hkSummary: hkSummary,
                 usSummary: usSummary
             }
-            // let positionAmountFlag =
-            //     positionEarnings > 0 ? '+' : positionEarnings < 0 ? '-' : ''
-            // let positionEarningsFlag =
-            //     weekEarnings > 0 ? '+' : weekEarnings < 0 ? '-' : ''
-            // this.holdData = {
-            //     positionAmount: transNumToThousandMark(positionAmount),
-            //     positionEarnings: transNumToThousandMark(
-            //         Math.abs(positionEarnings)
-            //     ),
-            //     weekEarnings: transNumToThousandMark(Math.abs(weekEarnings)),
-            //     currency: this.currency,
-            //     positionAmountFlag: positionAmountFlag,
-            //     positionEarningsFlag: positionEarningsFlag
-            // }
             this.usPositionList.map(item => {
                 for (let key in item) {
                     if (key != 'fundId' && key != 'fundName') {
@@ -147,6 +133,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.fund-account-container {
+    padding: 0 0 20px 0;
+}
 .block-element-nomore {
     width: 100%;
     text-align: center;

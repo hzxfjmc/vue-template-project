@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-account-header
-    .block-account-header
+    .block-account-header(:class="[appType.hk ? 'bg-hk' : 'bg-ch']")
         .header-content
             .header-content-left
                 span.title 
@@ -41,12 +41,16 @@ import { Tab, Tabs } from 'vant'
 import LS from '@/utils/local-storage'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { enumCurrency } from '@/pages/fund/index/map'
+import { mapGetters } from 'vuex'
 export default {
     props: {
         holdData: {
             type: Object,
             default: () => {}
         }
+    },
+    computed: {
+        ...mapGetters(['appType'])
     },
     filters: {
         transNumToThousandMark: transNumToThousandMark
@@ -91,12 +95,7 @@ export default {
             positionDation: {},
             value1: 0,
             firstPositionAmount: '',
-            secondPositionAmount: '',
-            option1: [
-                { text: '全部商品', value: 0 },
-                { text: '新款商品', value: 1 },
-                { text: '活动商品', value: 2 }
-            ]
+            secondPositionAmount: ''
         }
     },
     components: {
@@ -196,13 +195,17 @@ export default {
     width: 100%;
     padding: 20px 0 0 0;
     height: 150px;
+}
+.bg-hk {
     background: linear-gradient(
         162deg,
         rgba(13, 126, 204, 1) 0%,
         rgba(43, 79, 128, 1) 100%
     );
-    // background: #2f79ff;
     box-shadow: 0px 2px 4px 0px rgba(57, 57, 57, 0.2);
+}
+.bg-ch {
+    background: #2f79ff;
 }
 .border-bottom-active {
     position: relative;

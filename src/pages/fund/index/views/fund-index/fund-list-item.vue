@@ -1,9 +1,13 @@
 <template lang="pug">
-    .block__fund
-        .block__fund-title(:style="{background:bgColor}") {{title}}
-        .block__fund--list.border-bottom(v-for="(item,index) in fundlist.data" :key="index")
+    .block__fund(
+        :class="[appType.hk ? 'block__fund-hk' : 'block__fund-ch']")
+        .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
+        .block__fund--list.border-bottom(
+            @click="goNext(item)"
+            v-for="(item,index) in fundlist.data" 
+            :key="index")
                 .element--fund--content
-                    span.title {{item.title}}
+                    span.title.ellipse {{item.title}}
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0") + {{(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.apy)<0") - {{Math.abs(item.apy*100).toFixed(2)}}%
@@ -17,7 +21,12 @@
                     img(:src="item.imgUrl")
 </template>
 <script>
+import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { mapGetters } from 'vuex'
 export default {
+    computed: {
+        ...mapGetters(['appType'])
+    },
     props: {
         bgColor: {
             type: String,
@@ -32,19 +41,18 @@ export default {
             default: () => {}
         }
     },
-    data() {
-        return {
-            imgUrl: 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg'
+    methods: {
+        goNext(item) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
+            gotoNewWebView(url)
         }
     }
 }
 </script>
 <style lang="scss" scoped>
 .block__fund {
-    width: 90%;
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
-    margin: 20px 5% 0 5%;
     .block__fund-title {
         width: 100%;
         height: 57px;
@@ -64,9 +72,10 @@ export default {
         .element--fund--content {
             display: flex;
             flex-direction: column;
-            width: 90%;
+            width: 75%;
             .title {
                 font-size: 16px;
+                width: 100%;
             }
             .element--content-sub-content {
                 display: flex;
@@ -107,5 +116,13 @@ export default {
             }
         }
     }
+}
+.block__fund-hk {
+    width: 90%;
+    margin: 20px 5% 0 5%;
+}
+.block__fund-ch {
+    width: 96%;
+    margin: 20px 2% 0 2%;
 }
 </style>

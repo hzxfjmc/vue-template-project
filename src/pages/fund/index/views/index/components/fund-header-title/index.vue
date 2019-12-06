@@ -24,6 +24,7 @@
                 :key="index") {{item.label}}
         .fund__nav--fixed.fund__nav--fixed-d
             p(@click="handlerNavItem") {{fundTitle}}
+                em(class="iconfont icon-icon-bottom")
             .block--master(v-if="chooseCurrencyShow1" @click="chooseCurrencyShow1 = false")
             .block__currey(v-if="chooseCurrencyShow1")
                 span.border-bottom(
@@ -156,6 +157,10 @@ export default {
     }
     .fund__nav--scroll-d {
         padding: 0 70px 0 0;
+
+        .fund__nav--subitem {
+            font-size: 14px;
+        }
     }
     .fund__nav--fixed {
         position: absolute;
@@ -183,6 +188,12 @@ export default {
     }
     .fund__nav--fixed-d {
         width: 72px;
+        p {
+            em {
+                // display: block;
+                padding: 0 0 0 5px;
+            }
+        }
     }
     .fund__nav--item {
         width: 110px;
@@ -209,6 +220,7 @@ export default {
     }
     .active1 {
         position: relative;
+        color: #2f79ff;
         &::after {
             position: absolute;
             box-sizing: border-box;
@@ -216,8 +228,9 @@ export default {
             pointer-events: none;
             right: 0;
             bottom: 0;
-            left: 0;
-            border-bottom: 2px solid red;
+            width: 30px;
+            left: 10px;
+            border-bottom: 2px solid #2f79ff;
 
             @media only screen and (min-resolution: 2dppx) {
                 // 非标准的

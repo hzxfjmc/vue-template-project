@@ -97,6 +97,7 @@ export default {
     margin: 0 0 20px 0;
     float: left;
     width: 100%;
+    padding: 0 0 20px 0;
 }
 .fund-title-name {
     width: 96%;

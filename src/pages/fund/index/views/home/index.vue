@@ -7,8 +7,10 @@
         :showPositionInfo="showPositionInfo"
         :holdData="holdData"
         )
-        .home-banner(slot="banner" v-if="bannerUrl!=''" @click="goBanner")
-            img(:src="bannerUrl")
+        .home-banner(slot="banner" v-if="bannerList.length!=0")
+            van-swipe(:autoplay="3000") 
+                van-swipe-item(v-for="(item, index) in bannerList" :key="index" @click="goBanner(item)") 
+                    img(:src="item.picture_url") 
         HomeFundList(:fundList="fundList" slot="fundList")
 </template>
 <script>
@@ -18,7 +20,6 @@ import { getFundPositionList } from '@/service/finance-server.js'
 import { getFundListV2 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
-import { getCosUrl } from '@/utils/cos-utils'
 import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { enumCurrency } from '@/pages/fund/index/map'
@@ -35,7 +36,7 @@ export default {
             currency: enumCurrency.HKD,
             fundList: [],
             list: [],
-            bannerUrl: '',
+            bannerList: [],
             showPage: 27,
             market: '',
             active: 0,
@@ -44,10 +45,8 @@ export default {
         }
     },
     methods: {
-        goBanner() {
-            if (this.jumpUrl) {
-                jumpUrl(this.jumpType, this.jumpUrl)
-            }
+        goBanner(item) {
+            jumpUrl(item.jumpType, item.jumpUrl)
         },
         //跳转基金
         toFundList(data) {
@@ -63,14 +62,7 @@ export default {
             try {
                 this.showPage = this.currency == enumCurrency.HKD ? 26 : 27
                 const { banner_list } = await bannerAdvertisement(this.showPage)
-                if (banner_list[0]) {
-                    const res = await getCosUrl(banner_list[0].picture_url)
-                    this.bannerUrl = res
-                    this.jumpType = banner_list[0].news_jump_type
-                    this.jumpUrl = banner_list[0].jump_url
-                } else {
-                    this.bannerUrl = ''
-                }
+                this.bannerList = banner_list
             } catch (e) {
                 this.$toast(e.msg)
             }
