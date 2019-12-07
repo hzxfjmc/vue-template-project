@@ -86,6 +86,44 @@ export default {
         FundList,
         FundListItem
     },
+    i18n: {
+        zhCHS: {
+            accountTotal: '基金总资产',
+            fundHold: '基金持仓',
+            hkd: '港币',
+            usd: '美元',
+            fundTitle: '穩健精選',
+            fundTitle1: '績優精選',
+            fundCurrency: '货币型',
+            fundBond: '债券型',
+            fundBlend: '混合型',
+            fundShares: '股票型'
+        },
+        zhCHT: {
+            accountTotal: '基金总资产',
+            fundHold: '基金持仓',
+            hkd: '港币',
+            usd: '美元',
+            fundTitle: '穩健精選',
+            fundTitle1: '績優精選',
+            fundCurrency: '货币型',
+            fundBond: '债券型',
+            fundBlend: '混合型',
+            fundShares: '股票型'
+        },
+        en: {
+            accountTotal: '基金总资产',
+            fundHold: '基金持仓',
+            hkd: '港币',
+            usd: '美元',
+            fundTitle: '穩健精選',
+            fundTitle1: '績優精選',
+            fundCurrency: '货币型',
+            fundBond: '债券型',
+            fundBlend: '混合型',
+            fundShares: '股票型'
+        }
+    },
     computed: {
         stockColorType() {
             return +getStockColorType()

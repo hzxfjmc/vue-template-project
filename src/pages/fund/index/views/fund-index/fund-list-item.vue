@@ -35,6 +35,20 @@ export default {
     components: {
         'fund-tag': fundTag
     },
+    i18n: {
+        zhCHS: {
+            described: '起购',
+            unit: '亿'
+        },
+        zhCHT: {
+            described: '起购',
+            unit: '亿'
+        },
+        en: {
+            described: '起购',
+            unit: '亿'
+        }
+    },
     props: {
         bgColor: {
             type: String,

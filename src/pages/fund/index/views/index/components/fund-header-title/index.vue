@@ -44,6 +44,42 @@ export default {
             defalut: ''
         }
     },
+    i18n: {
+        zhCHS: {
+            fundHkdType: '港币基金',
+            fundUsdType: '美元基金',
+            fundAllType: '全部基金',
+            fundAll: '全部',
+            fundCurrency: '货币型',
+            fundBond: '债券型',
+            fundBlend: '混合型',
+            fundShares: '股票型'
+        },
+        zhCHT: {
+            accountTotal: '基金总资产',
+            fundHold: '基金持仓',
+            hkd: '港币',
+            usd: '美元',
+            fundTitle: '穩健精選',
+            fundTitle1: '績優精選',
+            fundCurrency: '货币型',
+            fundBond: '债券型',
+            fundBlend: '混合型',
+            fundShares: '股票型'
+        },
+        en: {
+            accountTotal: '基金总资产',
+            fundHold: '基金持仓',
+            hkd: '港币',
+            usd: '美元',
+            fundTitle: '穩健精選',
+            fundTitle1: '績優精選',
+            fundCurrency: '货币型',
+            fundBond: '债券型',
+            fundBlend: '混合型',
+            fundShares: '股票型'
+        }
+    },
     components: {
         [Tab.name]: Tab,
         [Tabs.name]: Tabs,
@@ -70,7 +106,7 @@ export default {
             active: 0,
             chooseCurrencyShow1: false,
             protocolVisible: false,
-            fundTitle: '全部',
+            fundTitle: '全部基金',
             IconPath: require('@/assets/img/fund/icon_qiu.png'),
             state: {
                 currency: '',
@@ -78,7 +114,7 @@ export default {
             },
             sellProtocolFileList: [
                 {
-                    fileName: '全部',
+                    fileName: '全部基金',
                     iconPath: require('@/assets/img/fund/icon_qiu.png'),
                     value: ''
                 },

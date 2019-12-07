@@ -38,6 +38,20 @@ export default {
             default: () => {}
         }
     },
+    i18n: {
+        zhCHS: {
+            described: '起购',
+            unit: '亿'
+        },
+        zhCHT: {
+            described: '起购',
+            unit: '亿'
+        },
+        en: {
+            described: '起购',
+            unit: '亿'
+        }
+    },
     components: {
         'fund-tag': fundTag
     },
