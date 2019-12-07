@@ -34,7 +34,10 @@
         
     .block__tab
         .block__tab--list
-            .block__tab--Item(v-for="(item,index) in tabList" :key="index") 
+            .block__tab--Item(
+                @click="handlerNavItem(item)"
+                v-for="(item,index) in tabList" 
+                :key="index") 
                 img(:src="item.imgUrl") 
                 span {{item.label}}
     .block__container
@@ -72,6 +75,7 @@ import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
 import { mapGetters } from 'vuex'
@@ -83,6 +87,9 @@ export default {
         FundListItem
     },
     computed: {
+        stockColorType() {
+            return +getStockColorType()
+        },
         ...mapGetters(['appType'])
     },
     data() {
@@ -99,19 +106,23 @@ export default {
             tabList: [
                 {
                     imgUrl: require('@/assets/img/fund/icon_money.png'),
-                    label: '貨幣型'
+                    label: '貨幣型',
+                    value: '4'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
-                    label: '債劵型'
+                    label: '債劵型',
+                    value: '2'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
-                    label: '混合型'
+                    label: '混合型',
+                    value: '3'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
-                    label: '股票型'
+                    label: '股票型',
+                    value: '1'
                 }
             ],
             choiceFundList: {}, //精选基金
@@ -126,6 +137,13 @@ export default {
         }
     },
     methods: {
+        //跳转
+        handlerNavItem(item) {
+            this.$router.push({
+                path: '/index',
+                query: { type: item.value }
+            })
+        },
         toRouterAccount() {
             this.$router.push({
                 path: '/fund-account'
@@ -275,7 +293,11 @@ export default {
                 }
             })
             chart.axis(false)
-            chart.line().position('belongDay*pointData')
+            chart
+                .line()
+                .position('belongDay*pointData')
+                .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
+
             chart.render()
             setTimeout(() => {
                 let imgUrl = document

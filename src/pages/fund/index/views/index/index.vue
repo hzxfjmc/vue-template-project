@@ -1,6 +1,7 @@
 <template lang="pug">
     .bond-index-wrapper
         FundHeaderTitle(
+            :assetType="assetType"
             @handlerCuenrry="handlerCuenrry"
         )
         .fund__banner
@@ -44,9 +45,9 @@ export default {
         FundHeaderTitle
     },
     created() {
-        this.getFundListV2()
         this.assetType = this.$route.query.type
         this.currency = this.$route.query.currency
+        this.getFundListV2()
     },
     data() {
         return {
@@ -93,7 +94,9 @@ export default {
     },
     watch: {
         $route(to, from) {
-            if (from.path === '/home') {
+            if (from.path === '/home' || from.path === '/fund-index') {
+                this.assetType = this.$route.query.type
+                this.currency = this.$route.query.currency
                 this.getFundListV2()
             }
         }

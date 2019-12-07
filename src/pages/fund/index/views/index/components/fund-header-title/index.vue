@@ -38,6 +38,12 @@ import { Tab, Tabs } from 'vant'
 import protocolPopup from '../protocol-popup'
 import { mapGetters } from 'vuex'
 export default {
+    props: {
+        assetType: {
+            type: String,
+            defalut: ''
+        }
+    },
     components: {
         [Tab.name]: Tab,
         [Tabs.name]: Tabs,
@@ -45,6 +51,19 @@ export default {
     },
     computed: {
         ...mapGetters(['appType'])
+    },
+    watch: {
+        assetType(val) {
+            let obj = {
+                1: 4,
+                2: 2,
+                3: 3,
+                4: 1
+            }
+            this.active = obj[val]
+            this.$refs.navTransform.style.left =
+                this.active < 2 ? '0px' : '-30px'
+        }
     },
     data() {
         return {

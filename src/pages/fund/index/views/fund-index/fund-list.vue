@@ -2,28 +2,35 @@
     .block__fund(
         :class="[appType.hk ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse {{fundlist.masterTitle}}
-        .block__fund--list(
+        .block__fund--list.border-bottom(
             @click="goNext(item)"
             v-for="(item,index) in fundlist.data" 
             :key="index")
-                img(class="element--left--img" :src="item.iconUrl")
                 .element--fund--content
-                    span.title.ellipse {{item.title}}
+                    //- span.title.ellipse {{item.title}}
+                    .element--right
+                        img(:src="item.imgUrl")
                     .element--content-sub-content
-                        .number(v-if="Number(item.apy)>0") + {{(item.apy*100).toFixed(2)}}%
-                        .number(v-if="Number(item.apy)<0") - {{Math.abs(item.apy*100).toFixed(2)}}%
+                        .number(v-if="Number(item.apy)>0" :class="stockColorType === 1 ? 'color-red' : 'color-green'") + {{(item.apy*100).toFixed(2)}}%
+                        .number(v-if="Number(item.apy)<0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}
                     .element--content-bottom
-                        span 债券型
-                        span {{item.initialInvestAmount}}{{item.tradeCurrency}}起購 
-                        span {{item.fundSize}}億{{item.fundSizeCurrency}}
-                .element--right
-                    img(:src="item.imgUrl")
+                        .tag-title 
+                            span.title.ellipse {{item.title}}
+                        .tag-list
+                            fund-tag(:title="item.assetTypeName")
+                            fund-tag(
+                                :title="`${item.initialInvestAmount}${item.tradeCurrency}起購`")
+                            fund-tag(
+                                :title="`${item.fundSize}億${item.fundSizeCurrency}`")
+                
 </template>
 <script>
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
+import fundTag from '@/biz-components/fund-tag/index.vue'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     props: {
         fundlist: {
@@ -31,7 +38,13 @@ export default {
             default: () => {}
         }
     },
+    components: {
+        'fund-tag': fundTag
+    },
     computed: {
+        stockColorType() {
+            return +getStockColorType()
+        },
         ...mapGetters(['appType'])
     },
     watch: {
@@ -48,6 +61,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.color-green {
+    color: #04ba60;
+}
+.color-red {
+    color: #ea3d3d;
+}
 .block__fund {
     width: 100%;
     margin: 20px 0 0 0;
@@ -58,9 +77,9 @@ export default {
     }
     .block__fund--list {
         width: 100%;
-        height: 70px;
+        height: 80px;
         display: flex;
-        margin: 20px 0 0 0;
+        padding: 20px 0 20px 0;
         flex-direction: row;
         .element--left--img {
             width: 20px;
@@ -69,8 +88,8 @@ export default {
         }
         .element--fund--content {
             display: flex;
-            flex-direction: column;
-            width: 70%;
+            flex-direction: row;
+            width: 100%;
             padding: 0 0 0 10px;
             .title {
                 font-size: 16px;
@@ -78,40 +97,49 @@ export default {
             }
             .element--content-sub-content {
                 display: flex;
-                flex-direction: row;
+                height: 100%;
+                flex-direction: column;
+                width: 100px;
+                margin: 0 0 0 10px;
                 .number {
-                    font-size: 18px;
-                    color: rgba(0, 197, 141, 1);
+                    font-size: 20px;
                     line-height: 23px;
+                    // margin: 15px 0 0 0;
+                    font-family: yxFontDINPro-Medium;
                 }
                 .tag {
-                    font-size: 10px;
+                    font-size: 12px;
                     line-height: 25px;
-                    padding: 0 0 0 10px;
+                    // padding: 0 0 0 10px;
                     color: $text-color5; // 次标题颜色
                 }
             }
             .element--content-bottom {
-                span {
-                    padding: 0 3px 0 3px;
-                    font-size: 10px;
-                    color: $text-color6;
-                    border-right: 1px solid #e1e1e1;
+                width: 56%;
+                .tag-title {
+                    span {
+                        width: 100%;
+                        height: 22px;
+                        // margin: 10px 0 0 0;
+                        display: inline-block;
+                        line-height: 22px;
+                        font-size: 16px;
+                    }
                 }
-                span:first-child {
-                    padding: 0 3px 0 0;
-                }
-                span:last-child {
-                    border: none;
+                .tag-list {
+                    display: flex;
+                    flex-direction: row;
                 }
             }
         }
         .element--right {
-            width: 70px;
-            height: 65px;
+            width: 40px;
+            height: 40px;
+            // margin: 15px 0;
             img {
-                width: 100%;
-                height: 100%;
+                width: 40px;
+
+                height: 40px;
             }
         }
     }

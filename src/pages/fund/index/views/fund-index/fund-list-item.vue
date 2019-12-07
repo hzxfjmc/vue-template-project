@@ -6,7 +6,10 @@
             @click="goNext(item)"
             v-for="(item,index) in fundlist.data" 
             :key="index")
+                .element--right
+                    img(:src="item.imgUrl")
                 .element--fund--content
+                   
                     span.title.ellipse {{item.title}}
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0") + {{(item.apy*100).toFixed(2)}}%
@@ -14,18 +17,23 @@
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}
                     .element--content-bottom
-                        span 债券型
-                        span {{item.initialInvestAmount}}{{item.tradeCurrency}}起購 
-                        span {{item.fundSize}}億{{item.fundSizeCurrency}}
-                .element--right
-                    img(:src="item.imgUrl")
+                        fund-tag(:title="item.assetTypeName")
+                        fund-tag(
+                            :title="`${item.initialInvestAmount}${item.tradeCurrency}起購`")
+                        fund-tag(
+                            :title="`${item.fundSize}億${item.fundSizeCurrency}`")
+                
 </template>
 <script>
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
+import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
     computed: {
         ...mapGetters(['appType'])
+    },
+    components: {
+        'fund-tag': fundTag
     },
     props: {
         bgColor: {
@@ -72,6 +80,7 @@ export default {
         .element--fund--content {
             display: flex;
             flex-direction: column;
+            margin: 0 0 0 30px;
             width: 75%;
             .title {
                 font-size: 16px;
@@ -93,6 +102,8 @@ export default {
                 }
             }
             .element--content-bottom {
+                display: flex;
+                flex-direction: row;
                 span {
                     padding: 0 3px 0 3px;
                     font-size: 10px;
