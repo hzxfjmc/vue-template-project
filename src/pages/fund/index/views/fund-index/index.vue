@@ -25,7 +25,7 @@
             .block--element--select 
                 span(@click="handlerCurrency") {{currency===0?$t('hkd'):$t('usd')}}
                 em(class="iconfont icon-iconxiala" @click="handlerCurrency")
-                em(class="iconfont icon-icon_fund_index_2")
+                em(class="iconfont icon-icon_fund_index_2" @click="handlerDialog")
                 .block--master(v-if="chooseCurrencyShow")
                 .block__currey(v-if="chooseCurrencyShow")
                     span.border-bottom(
@@ -105,7 +105,10 @@ export default {
             fundCurrency: '货币型',
             fundBond: '债券型',
             fundBlend: '混合型',
-            fundShares: '股票型'
+            fundShares: '股票型',
+            confirm: '确认',
+            msg:
+                '1. 你可选择港币或美元作为基金总资产基础货币。\n2. uSMART会将你所有基金市值按照基础货币来显示和计算。例子: 当你的基础货币为港币时，你的基金总资产 = 港币基金市值 + 美元基金市值(按汇率转换成港币)\n3. 基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。'
         },
         zhCHT: {
             fundHold: '基金持倉',
@@ -115,7 +118,10 @@ export default {
             fundCurrency: '貨幣型',
             fundBond: '債券型',
             fundBlend: '混合型',
-            fundShares: '股票型'
+            fundShares: '股票型',
+            confirm: '確認',
+            msg:
+                '1. 你可選擇港幣或美元作為基金總資產基礎貨幣。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。'
         },
         en: {
             fundHold: 'Fund Position',
@@ -125,7 +131,10 @@ export default {
             fundCurrency: 'Money Market',
             fundBond: 'Bond',
             fundBlend: 'Balanced',
-            fundShares: 'Equity'
+            fundShares: 'Equity',
+            confirm: 'Confirm',
+            msg:
+                '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)'
         }
     },
 
@@ -184,6 +193,14 @@ export default {
         }
     },
     methods: {
+        handlerDialog() {
+            this.$dialog.alert({
+                title: this.$t('accountTotal'),
+                message: this.$t('msg'),
+                messageAlign: 'left',
+                confirmButtonText: this.$t('confirm')
+            })
+        },
         hideNumber() {
             this.moneyShow = !this.moneyShow
             LS.put('showMoney', this.moneyShow)
