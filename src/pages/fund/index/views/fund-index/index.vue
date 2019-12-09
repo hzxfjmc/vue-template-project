@@ -303,7 +303,7 @@ export default {
             }
             arr_[type].data.map(item => {
                 // item.initialInvestAmount = Math.floor(item.initialInvestAmount)
-                if (!this.appType.hk && this.lang === 'zhCHS') {
+                if (!this.appType.Hk && this.lang === 'zhCHS') {
                     item.fundSize = item.fundSize / 10000000
                 } else {
                     item.fundSize = item.fundSize / 100000000

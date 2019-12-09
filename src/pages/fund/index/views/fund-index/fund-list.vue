@@ -1,6 +1,6 @@
 <template lang="pug">
     .block__fund(
-        :class="[appType.hk ? 'block__fund-hk' : 'block__fund-ch']")
+        :class="[appType.Hk ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse {{fundlist.masterTitle}}
         .block__fund--list.border-bottom(
             @click="goNext(item)"
@@ -18,7 +18,7 @@
                     .element--content-bottom
                         .tag-title 
                             span.title.ellipse {{item.title}}
-                        .tag-list--element(v-if="appType.hk")
+                        .tag-list--element(v-if="appType.Hk")
                             span {{item.assetTypeName}}
                             span {{item.initialInvestAmount}} {{item.tradeCurrency}}起購
                             span {{item.fundSize}}億{{item.fundSizeCurrency}}

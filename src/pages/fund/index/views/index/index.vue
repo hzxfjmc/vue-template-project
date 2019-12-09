@@ -70,6 +70,7 @@ export default {
         }
     },
     mounted() {
+        console.log(this.appType)
         this.assetTypetab = this.$route.query.type
         this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
     },

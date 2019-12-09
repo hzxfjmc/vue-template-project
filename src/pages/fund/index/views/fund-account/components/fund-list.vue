@@ -1,5 +1,5 @@
 <template lang="pug">
-.block-fund-list-content(:class="[appType.hk ? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
+.block-fund-list-content(:class="[appType.Hk ? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
     .block__fund-title.border-bottom(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}

@@ -1,11 +1,11 @@
 <template lang="pug">
 .fund__header--nav
-    .fund__header--subnav(v-if="appType.hk")
+    .fund__header--subnav(v-if="appType.Hk")
         .fund__nav--scroll(ref="navTransform")
             .fund__nav--item(
                 v-for="(item,index) in navList" 
                 @click="handerTab(item,index)"
-                :class="[active===index ? 'active':'']"
+                :class="[activeTab===index ? 'active':'']"
                 :key="index") {{item.label}}
         .fund__nav--fixed(@click="handlerNavItem") 
             img(:src="IconPath")
@@ -92,6 +92,7 @@ export default {
                 3: 3,
                 4: 1
             }
+            console.log(this.appType)
             this.activeTab = obj[val]
             this.$refs.navTransform.style.left =
                 this.activeTab < 2 ? '0px' : '-30px'
@@ -183,7 +184,7 @@ export default {
             this.$emit('handlerCuenrry', this.state)
         },
         handlerNavItem() {
-            if (this.appType.hk) {
+            if (this.appType.Hk) {
                 this.protocolVisible = true
             } else {
                 document.body.style.overflow = 'hidden'

@@ -1,6 +1,6 @@
 <template lang="pug">
     .block__fund(
-        :class="[appType.hk ? 'block__fund-hk' : 'block__fund-ch']")
+        :class="[appType.Hk ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
         .block__fund--list.border-bottom(
             @click="goNext(item)"
@@ -17,9 +17,9 @@
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}
                     .element--content-bottom
-                        span(v-if="appType.hk") {{item.assetTypeName}}
-                        span(v-if="appType.hk") {{item.initialInvestAmount}}{{item.tradeCurrency}}起购
-                        span(v-if="appType.hk") {{item.fundSize}}亿{{item.fundSizeCurrency}}
+                        span(v-if="appType.Hk") {{item.assetTypeName}}
+                        span(v-if="appType.Hk") {{item.initialInvestAmount}}{{item.tradeCurrency}}起购
+                        span(v-if="appType.Hk") {{item.fundSize}}亿{{item.fundSizeCurrency}}
                         fund-tag(:title="item.assetTypeName")
                         fund-tag(
                             :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described'):''}`")
