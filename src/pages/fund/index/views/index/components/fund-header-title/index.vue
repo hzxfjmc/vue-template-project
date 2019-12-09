@@ -46,9 +46,9 @@ export default {
     },
     i18n: {
         zhCHS: {
+            fundAllType: '全部基金',
             fundHkdType: '港币基金',
             fundUsdType: '美元基金',
-            fundAllType: '全部基金',
             fundAll: '全部',
             fundCurrency: '货币型',
             fundBond: '债券型',
@@ -56,26 +56,22 @@ export default {
             fundShares: '股票型'
         },
         zhCHT: {
-            accountTotal: '基金总资产',
-            fundHold: '基金持仓',
-            hkd: '港币',
-            usd: '美元',
-            fundTitle: '穩健精選',
-            fundTitle1: '績優精選',
-            fundCurrency: '货币型',
-            fundBond: '债券型',
+            fundAllType: '全部基金',
+            fundHkdType: '港幣基金',
+            fundUsdType: '美元基金',
+            fundAll: '全部',
+            fundCurrency: '貨幣型',
+            fundBond: '債券型',
             fundBlend: '混合型',
             fundShares: '股票型'
         },
         en: {
-            accountTotal: '基金总资产',
-            fundHold: '基金持仓',
-            hkd: '港币',
-            usd: '美元',
-            fundTitle: '穩健精選',
-            fundTitle1: '績優精選',
-            fundCurrency: '货币型',
-            fundBond: '债券型',
+            fundAllType: 'All Funds',
+            fundHkdType: 'HKD Funds',
+            fundUsdType: 'USD Funds',
+            fundAll: 'All',
+            fundCurrency: '貨幣型',
+            fundBond: '債券型',
             fundBlend: '混合型',
             fundShares: '股票型'
         }
@@ -106,7 +102,7 @@ export default {
             active: 0,
             chooseCurrencyShow1: false,
             protocolVisible: false,
-            fundTitle: '全部基金',
+            fundTitle: '全部',
             IconPath: require('@/assets/img/fund/icon_qiu.png'),
             state: {
                 currency: '',
@@ -116,15 +112,18 @@ export default {
                 {
                     fileName: '全部基金',
                     iconPath: require('@/assets/img/fund/icon_qiu.png'),
+                    key: 'fundAllType',
                     value: ''
                 },
                 {
                     fileName: '港币基金',
                     iconPath: require('@/assets/img/fund/icon_hkd.png'),
+                    key: 'fundHkdType',
                     value: '2'
                 },
                 {
                     fileName: '美元基金',
+                    key: 'fundUsdType',
                     iconPath: require('@/assets/img/fund/icon_usd.png'),
                     value: '1'
                 }
@@ -132,28 +131,41 @@ export default {
             navList: [
                 {
                     label: '全部',
+                    key: 'fundAll',
                     value: ''
                 },
                 {
                     label: '货币型',
+                    key: 'fundCurrency',
                     value: '4'
                 },
                 {
                     label: '债券型',
+                    key: 'fundBond',
                     value: '2'
                 },
                 {
                     label: '混合型',
+                    key: 'fundBlend',
                     value: '3'
                 },
                 {
                     label: '股票型',
+                    key: 'fundShares',
                     value: '1'
                 }
             ]
         }
     },
     methods: {
+        initI18n() {
+            this.navList.map(item => {
+                item.label = this.$t(item.key)
+            })
+            this.sellProtocolFileList.map(item => {
+                item.label = this.$t(item.key)
+            })
+        },
         chooseFilePath(data) {
             this.IconPath = data.iconPath
             this.fundTitle = data.fileName

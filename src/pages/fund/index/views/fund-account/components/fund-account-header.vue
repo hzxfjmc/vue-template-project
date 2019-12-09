@@ -4,23 +4,23 @@
         .header-content
             .header-content-left
                 span.title 
-                    em 基金总资产
+                    em {{$t('accountTotal')}}
                     i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
                 .fund__content
                     .number-price(v-if="showPsd") {{firstPositionAmount || '--'}}.
                         em(v-if="showPsd") {{secondPositionAmount || '--'}}
                     .number-price.close-eye(v-if="!showPsd") ******
                     .number-price-active 
-                        span(@click="handlerCurrencyName") {{currencyNum===0?'港币':'美元'}}
+                        span(@click="handlerCurrencyName") {{currencyNum===0?$t('hkd'):$t('usd')}}
                         em(class="iconfont icon-icon-bottom" @click="handlerCurrencyName") 
                         .block--master(v-if="chooseCurrencyShow")
                         .block__currey(v-if="chooseCurrencyShow")
                             span.border-bottom(
                                 @click="chooseCurrency(0)"
-                                :class="[currencyNum === 0 ? 'active' :'']") 港币
+                                :class="[currencyNum === 0 ? 'active' :'']") {{$t('hkd')}}
                             span(
                                 @click="chooseCurrency(1)"
-                                :class="[currencyNum === 1 ? 'active' :'']") 美元
+                                :class="[currencyNum === 1 ? 'active' :'']") {{$t('usd')}}
             
             .header-content-right
                 span {{$t('profitPosition')}}
@@ -57,6 +57,9 @@ export default {
     },
     i18n: {
         zhCHS: {
+            accountTotal: '基金总资产',
+            hkd: '港币',
+            usd: '美元',
             myHkdAccount: '港币资产',
             myUsdAccount: '美元资产',
             profitPosition: '持有收益',
@@ -65,6 +68,10 @@ export default {
             OrderRecord: '订单记录'
         },
         zhCHT: {
+            accountTotal: '基金總資產',
+            hkd: '港币',
+            usd: '美元',
+
             myHkdAccount: '港幣資產',
             myUsdAccount: '美元資產',
             profitPosition: '持倉收益',
@@ -73,6 +80,9 @@ export default {
             OrderRecord: '訂單記錄'
         },
         en: {
+            accountTotal: 'Total Fund Assets',
+            hkd: '港幣',
+            usd: '美元',
             myHkdAccount: 'HKD',
             myUsdAccount: 'USD',
             profitPosition: 'Total Return',

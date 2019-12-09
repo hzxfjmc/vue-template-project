@@ -17,11 +17,14 @@
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}
                     .element--content-bottom
+                        span(v-if="appType.hk") {{item.assetTypeName}}
+                        span(v-if="appType.hk") {{item.initialInvestAmount}}{{item.tradeCurrency}}起购
+                        span(v-if="appType.hk") {{item.fundSize}}亿{{item.fundSizeCurrency}}
                         fund-tag(:title="item.assetTypeName")
                         fund-tag(
-                            :title="`${item.initialInvestAmount}${item.tradeCurrency}起購`")
+                            :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described'):''}`")
                         fund-tag(
-                            :title="`${item.fundSize}億${item.fundSizeCurrency}`")
+                            :title="`${item.fundSize}${$t('unit')}${item.fundSizeCurrency}`")
                 
 </template>
 <script>
@@ -30,7 +33,7 @@ import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
     computed: {
-        ...mapGetters(['appType'])
+        ...mapGetters(['appType', 'lang'])
     },
     components: {
         'fund-tag': fundTag
@@ -41,12 +44,12 @@ export default {
             unit: '亿'
         },
         zhCHT: {
-            described: '起购',
+            described: '起購',
             unit: '亿'
         },
         en: {
-            described: '起购',
-            unit: '亿'
+            described: 'Initial Subs.',
+            unit: 'B'
         }
     },
     props: {

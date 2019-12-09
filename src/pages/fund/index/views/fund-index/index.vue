@@ -7,30 +7,30 @@
     .block__assets
         .block__left
             .block__left--label 
-                span 基金总资产
+                span {{$t('accountTotal')}}
                 em(
                     class="iconfont" 
                     @click="moneyShow=!moneyShow"
                     :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
             .block__right
                 .block--hold(@click="toRouterAccount")  
-                    span 基金持仓
+                    span {{$t('fundHold')}}
                     em(class="iconfont icon-iconEBgengduoCopy")
         .block__left--number
             .block--element--number(v-if="moneyShow") {{positionAmount}}
             .block--element--number.close--eye(v-else) ******
             .block--element--select 
-                span(@click="handlerCurrency") {{currency===0?'港币':'美元'}}
+                span(@click="handlerCurrency") {{currency===0?$t('hkd'):$t('usd')}}
                 em(class="iconfont icon-iconxiala" @click="handlerCurrency")
                 em(class="iconfont icon-icon_fund_index_2")
                 .block--master(v-if="chooseCurrencyShow")
                 .block__currey(v-if="chooseCurrencyShow")
                     span.border-bottom(
                         @click="chooseCurrency(0)"
-                        :class="[currency === 0 ? 'active' :'']") 港币
+                        :class="[currency === 0 ? 'active' :'']") {{$t('hkd')}}
                     span(
                         @click="chooseCurrency(1)"
-                        :class="[currency === 1 ? 'active' :'']") 美元
+                        :class="[currency === 1 ? 'active' :'']") {{$t('usd')}}
         
     .block__tab
         .block__tab--list
@@ -51,12 +51,12 @@
             //- img(:src="require('@/assets/img/fund/img/1.png')")
         FundListItem(
             bgColor="#2B4F80"
-            title="穩健精選"
+            :title="robustFundList.masterTitle"
             v-if="robustFundListShow"
             :fundlist="robustFundList")
         FundListItem(
             :fundlist="blueChipFundList"
-            title="績優精選"
+            :title="blueChipFundList.masterTitle"
             v-if="blueChipFundListShow"
             bgColor="#F1B92D")
 
@@ -88,47 +88,42 @@ export default {
     },
     i18n: {
         zhCHS: {
-            accountTotal: '基金总资产',
             fundHold: '基金持仓',
             hkd: '港币',
             usd: '美元',
-            fundTitle: '穩健精選',
-            fundTitle1: '績優精選',
+            accountTotal: '基金总资产',
             fundCurrency: '货币型',
             fundBond: '债券型',
             fundBlend: '混合型',
             fundShares: '股票型'
         },
         zhCHT: {
-            accountTotal: '基金总资产',
-            fundHold: '基金持仓',
-            hkd: '港币',
+            fundHold: '基金持倉',
+            hkd: '港幣',
             usd: '美元',
-            fundTitle: '穩健精選',
-            fundTitle1: '績優精選',
-            fundCurrency: '货币型',
-            fundBond: '债券型',
+            accountTotal: '基金總資產',
+            fundCurrency: '貨幣型',
+            fundBond: '債券型',
             fundBlend: '混合型',
             fundShares: '股票型'
         },
         en: {
-            accountTotal: '基金总资产',
-            fundHold: '基金持仓',
-            hkd: '港币',
-            usd: '美元',
-            fundTitle: '穩健精選',
-            fundTitle1: '績優精選',
-            fundCurrency: '货币型',
-            fundBond: '债券型',
-            fundBlend: '混合型',
-            fundShares: '股票型'
+            fundHold: 'Fund Position',
+            hkd: 'HKD',
+            usd: 'USD',
+            accountTotal: 'Total Fund Assets',
+            fundCurrency: 'Money Market',
+            fundBond: 'Bond',
+            fundBlend: 'Balanced',
+            fundShares: 'Equity'
         }
     },
+
     computed: {
         stockColorType() {
             return +getStockColorType()
         },
-        ...mapGetters(['appType'])
+        ...mapGetters(['appType', 'lang'])
     },
     data() {
         return {
@@ -145,21 +140,25 @@ export default {
                 {
                     imgUrl: require('@/assets/img/fund/icon_money.png'),
                     label: '貨幣型',
+                    key: 'fundCurrency',
                     value: '4'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
                     label: '債劵型',
+                    key: 'fundBond',
                     value: '2'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
                     label: '混合型',
+                    key: 'fundBlend',
                     value: '3'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
                     label: '股票型',
+                    key: 'fundShares',
                     value: '1'
                 }
             ],
@@ -253,6 +252,11 @@ export default {
                 this.choiceFundList = fundHomepageOne
                 this.blueChipFundList = fundHomepageFour
                 this.robustFundList = fundHomepageThree
+                if (!this.appType.hk && this.lang === 'zhCHS') {
+                    this.choiceFundList.data.map(item => {
+                        item.fundSize = item.fundSize / 100000000
+                    })
+                }
                 this.factoryMap_('choiceFundList')
                 this.factoryMap_('blueChipFundList')
                 this.factoryMap_('robustFundList')
@@ -343,10 +347,16 @@ export default {
                     .toDataURL('image/png')
                 callback(imgUrl)
             }, 500)
+        },
+        initI18n() {
+            this.tabList.map(item => {
+                item.label = this.$t(item.key)
+            })
         }
     },
     mounted() {
         this.$refs.renderEchart.innerHTML = ''
+        this.initI18n()
         this.getFundHomepageInfo()
         this.bannerAdvertisement()
         this.getFundPositionListV3()

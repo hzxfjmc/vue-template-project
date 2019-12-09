@@ -18,12 +18,16 @@
                     .element--content-bottom
                         .tag-title 
                             span.title.ellipse {{item.title}}
-                        .tag-list
+                        .tag-list--element(v-if="appType.hk")
+                            span {{item.assetTypeName}}
+                            span {{item.initialInvestAmount}} {{item.tradeCurrency}}起購
+                            span {{item.fundSize}}億{{item.fundSizeCurrency}}
+                        .tag-list(v-else)
                             fund-tag(:title="item.assetTypeName")
                             fund-tag(
-                                :title="`${item.initialInvestAmount}${item.tradeCurrency}起購`")
+                                :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described'):''}`")
                             fund-tag(
-                                :title="`${item.fundSize}億${item.fundSizeCurrency}`")
+                                :title="`${item.fundSize}${$t('unit')}${item.fundSizeCurrency}`")
                 
 </template>
 <script>
@@ -44,12 +48,12 @@ export default {
             unit: '亿'
         },
         zhCHT: {
-            described: '起购',
+            described: '起購',
             unit: '亿'
         },
         en: {
-            described: '起购',
-            unit: '亿'
+            described: 'Initial Subs.',
+            unit: 'B'
         }
     },
     components: {
@@ -59,12 +63,7 @@ export default {
         stockColorType() {
             return +getStockColorType()
         },
-        ...mapGetters(['appType'])
-    },
-    watch: {
-        fundlist() {
-            console.log(this.fundlist)
-        }
+        ...mapGetters(['appType', 'lang'])
     },
     methods: {
         goNext(item) {
@@ -143,6 +142,20 @@ export default {
                 .tag-list {
                     display: flex;
                     flex-direction: row;
+                }
+                .tag-list--element {
+                    span {
+                        padding: 0 3px 0 3px;
+                        font-size: 10px;
+                        color: $text-color6;
+                        border-right: 1px solid #e1e1e1;
+                    }
+                    span:first-child {
+                        padding: 0 3px 0 0;
+                    }
+                    span:last-child {
+                        border: none;
+                    }
                 }
             }
         }
