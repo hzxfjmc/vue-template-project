@@ -48,7 +48,7 @@
             .o-item(v-if="item.inTransitAmount !== '0.00'")
                 .footer-left-l {{$t('subscribe')}}
                 .footer-right
-                    span {{item.currency == 2 ? 'HKD':'USD'}}
+                    span {{item.currency}}
                     span.price-number(v-if="eyeTab") {{item.inTransitAmount}}
                     span.price-number(v-else) ****
    

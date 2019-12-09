@@ -95,8 +95,13 @@ export default {
                 usSummary: usSummary
             }
             this.usPositionList.map(item => {
+                item.currency = item.currency.shortSymbol
                 for (let key in item) {
-                    if (key != 'fundId' && key != 'fundName') {
+                    if (
+                        key != 'fundId' &&
+                        key != 'fundName' &&
+                        key != 'currency'
+                    ) {
                         item[key] = transNumToThousandMark(item[key], 4)
                         item.flag =
                             item['positionEarnings'] > 0
@@ -114,8 +119,13 @@ export default {
                 }
             })
             this.hkPositionList.map(item => {
+                item.currency = item.currency.shortSymbol
                 for (let key in item) {
-                    if (key != 'fundId' && key != 'fundName') {
+                    if (
+                        key != 'fundId' &&
+                        key != 'fundName' &&
+                        key != 'currency'
+                    ) {
                         item[key] = transNumToThousandMark(item[key], 4)
                         item.flag =
                             item['positionEarnings'] > 0
