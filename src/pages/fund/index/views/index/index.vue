@@ -5,9 +5,9 @@
             @handlerCuenrry="handlerCuenrry"
         )
         .fund__banner
-            img(:src="require('@/assets/img/fund/img/2.png')")
+            img(:src="bannarTitleUrl")
         .fund__banner2(v-if="bannerShow")
-            img(:src="require('@/assets/img/fund/img/3.png')")
+            img(:src="barnnarUrl")
         .bond-list
             div(
                 v-for="(item, index) in list"
@@ -24,6 +24,7 @@ import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { mapGetters } from 'vuex'
 export default {
     i18n: {
         zhCHS: {
@@ -35,6 +36,9 @@ export default {
         en: {
             noFund: 'No Data'
         }
+    },
+    computed: {
+        ...mapGetters(['appType', 'lang'])
     },
     keepalive: true,
     name: 'index',
@@ -51,6 +55,7 @@ export default {
     },
     data() {
         return {
+            barnnarUrl: require('@/assets/img/fund/img/3.png'),
             load: false,
             bannerShow: false,
             bannerUrl: [],
@@ -59,14 +64,19 @@ export default {
             pageSize: 20,
             total: 0,
             currency: '',
-            assetType: ''
+            assetType: '',
+            bannarTitleUrl: null
         }
+    },
+    mounted() {
+        this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
     },
     methods: {
         handlerCuenrry(data) {
             this.currency = data.currency
             this.assetType = data.assetType
             this.bannerShow = data.assetType === '4' || data.assetType === '2'
+            this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
             this.getFundListV2()
         },
         // 获取基金列表

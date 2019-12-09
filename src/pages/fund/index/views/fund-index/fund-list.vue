@@ -53,7 +53,7 @@ export default {
         },
         en: {
             described: 'Initial Subs.',
-            unit: 'B'
+            unit: 'M'
         }
     },
     components: {

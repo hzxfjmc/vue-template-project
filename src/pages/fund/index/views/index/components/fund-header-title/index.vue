@@ -20,7 +20,7 @@
             .fund__nav--subitem(
                 v-for="(item,index) in navList" 
                 @click="handerTab(item,index)"
-                :class="[active===index ? 'active1':'']"
+                :class="[activeTab==index ? 'active1':'']"
                 :key="index") {{item.label}}
         .fund__nav--fixed.fund__nav--fixed-d
             p(@click="handlerNavItem") {{fundTitle}}
@@ -99,7 +99,7 @@ export default {
     },
     data() {
         return {
-            active: 0,
+            activeTab: 0,
             chooseCurrencyShow1: false,
             protocolVisible: false,
             fundTitle: '全部',
@@ -198,9 +198,10 @@ export default {
             }
         },
         handerTab(item, index) {
-            this.$refs.navTransform.style.left = index < 2 ? '0px' : '-30px'
+            this.$refs.navTransform.style.left = index == 0 ? '0' : '-30px'
             this.state.assetType = item.value
-            this.active = index
+            this.state.key = item.key
+            this.activeTab = index
             this.$emit('handlerCuenrry', this.state)
         }
     }
@@ -222,8 +223,7 @@ export default {
         padding: 0 50px 0 0;
         flex-direction: row;
         position: relative;
-        right: 0;
-        position: relative;
+        // right: 0;
     }
     .fund__nav--scroll-d {
         padding: 0 70px 0 0;

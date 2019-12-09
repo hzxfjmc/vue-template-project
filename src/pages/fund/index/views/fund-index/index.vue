@@ -170,7 +170,7 @@ export default {
             positionAmount: 0,
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
-            fundlist: [{}, {}]
+            fundlist: []
         }
     },
     methods: {
@@ -252,11 +252,18 @@ export default {
                 this.choiceFundList = fundHomepageOne
                 this.blueChipFundList = fundHomepageFour
                 this.robustFundList = fundHomepageThree
-                if (!this.appType.hk && this.lang === 'zhCHS') {
-                    this.choiceFundList.data.map(item => {
+                this.choiceFundList.data.map(item => {
+                    if (!this.appType.hk && this.lang === 'zhCHS') {
+                        item.fundSize = item.fundSize / 10000000
+                    } else {
                         item.fundSize = item.fundSize / 100000000
-                    })
-                }
+                    }
+                    item.initialInvestAmount = transNumToThousandMark(
+                        Number(item.initialInvestAmount).toFixed(0),
+                        0
+                    )
+                })
+
                 this.factoryMap_('choiceFundList')
                 this.factoryMap_('blueChipFundList')
                 this.factoryMap_('robustFundList')
@@ -272,7 +279,7 @@ export default {
                 robustFundList: this.robustFundList
             }
             arr_[type].data.map(item => {
-                item.initialInvestAmount = Math.floor(item.initialInvestAmount)
+                // item.initialInvestAmount = Math.floor(item.initialInvestAmount)
                 item.fundSize = Math.floor(item.fundSize)
                 item.tradeCurrency = CURRENCY_NAME['zhCHS'][item.tradeCurrency]
                 item.fundSizeCurrency =
