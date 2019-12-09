@@ -165,6 +165,7 @@ export default {
                         animation: 'lineUpdate'
                     }
                 })
+            console.log('我已经画完了')
             this.chart.render()
         },
         initI18nState() {
