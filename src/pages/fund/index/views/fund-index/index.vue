@@ -327,10 +327,10 @@ export default {
                     item.fundHomepagePointList,
                     res => {
                         item.imgUrl = res
-                        if (type === 'choiceFundList') {
-                            this.choiceFundList.data[0].iconUrl = require('@/assets/img/fund/icon_star1.png')
-                            this.choiceFundList.data[1].iconUrl = require('@/assets/img/fund/icon_star.png')
-                        }
+                        // if (type === 'choiceFundList') {
+                        //     this.choiceFundList.data[0].iconUrl = require('@/assets/img/fund/icon_star1.png')
+                        //     this.choiceFundList.data[1].iconUrl = require('@/assets/img/fund/icon_star.png')
+                        // }
                         setTimeout(() => {
                             this.choiceFundListShow = true
                             this.blueChipFundListShow = true

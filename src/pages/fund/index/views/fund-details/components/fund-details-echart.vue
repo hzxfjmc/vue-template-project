@@ -111,7 +111,7 @@ export default {
                     alias: '今日净值',
                     tickCount: 5,
                     formatter: function formatter(val) {
-                        return Number(val) + '%'
+                        return Number(val).toFixed(2) + '%'
                     }
                 },
                 belongDay: {

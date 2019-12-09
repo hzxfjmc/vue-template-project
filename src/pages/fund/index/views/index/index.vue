@@ -70,6 +70,7 @@ export default {
         }
     },
     mounted() {
+        this.assetTypetab = this.$route.query.type
         this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
     },
     methods: {
@@ -77,7 +78,9 @@ export default {
             this.currency = data.currency
             this.assetType = data.assetType
             this.bannerShow = data.assetType === '4' || data.assetType === '2'
-            this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
+            if (data.key) {
+                this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
+            }
             this.getFundListV2()
         },
         // 获取基金列表
@@ -109,6 +112,8 @@ export default {
                 this.assetType = this.$route.query.type
                 this.currency = this.$route.query.currency
                 this.assetTypetab = this.$route.query.type
+                console.log(123)
+                console.log(this.assetTypetab)
                 this.getFundListV2()
             }
         }
