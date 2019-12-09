@@ -84,6 +84,12 @@ export const i18nIntroducelist = {
             },
             noMore: {
                 label: '没有更多了'
+            },
+            fundIntroduce: {
+                label: '基金介绍'
+            },
+            dividendDeatail: {
+                label: '派息详情'
             }
         }
     },
@@ -133,6 +139,12 @@ export const i18nIntroducelist = {
             },
             noMore: {
                 label: '沒有更多了'
+            },
+            fundIntroduce: {
+                label: '基金介紹'
+            },
+            dividendDeatail: {
+                label: '派息詳情'
             }
         }
     },
@@ -178,10 +190,16 @@ export const i18nIntroducelist = {
                 label: 'Dividend Date'
             },
             dividendRecord: {
-                label: 'Dividend Records'
+                label: 'Dividend Recorde'
             },
             noMore: {
                 label: 'No More'
+            },
+            fundIntroduce: {
+                label: 'Fund Company Introduction'
+            },
+            dividendDeatail: {
+                label: 'Dividend Details'
             }
         }
     }
