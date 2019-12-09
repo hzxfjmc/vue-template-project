@@ -2,7 +2,10 @@
 .block-fund-index
     .block__swiper.block__fund_index_swiper
         van-swipe(:autoplay="3000") 
-            van-swipe-item(v-for="(item, index) in barnnarHkList" :key="index") 
+            van-swipe-item(
+                v-for="(item, index) in barnnarHkList" 
+                :key="index"  
+                @click="goBanner(item)") 
                 img(:src="item.picture_url") 
     .block__assets
         .block__left
@@ -46,7 +49,10 @@
             :fundlist="choiceFundList")
         .block-bannar-sub
             van-swipe(:autoplay="3000") 
-                van-swipe-item(v-for="(item, index) in barnnarList" :key="index") 
+                van-swipe-item(
+                    v-for="(item, index) in barnnarList" 
+                    :key="index"  
+                    @click="goBanner(item)") 
                     img(:src="item.bannerUrl") 
             //- img(:src="require('@/assets/img/fund/img/1.png')")
         FundListItem(
@@ -62,7 +68,10 @@
 
         .block-bannar-sub
             van-swipe(:autoplay="3000") 
-                van-swipe-item(v-for="(item, index) in barnnarUsList" :key="index") 
+                van-swipe-item(
+                    v-for="(item, index) in barnnarUsList" 
+                    :key="index"  
+                    @click="goBanner(item)") 
                     img(:src="item.picture_url") 
     .fund-echart-render(ref="renderEchart")
 </template>
@@ -73,7 +82,7 @@ import FundListItem from './fund-list-item'
 import { getFundHomepageInfo } from '@/service/finance-info-server'
 import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
@@ -174,6 +183,9 @@ export default {
         }
     },
     methods: {
+        goBanner(item) {
+            jumpUrl(item.jumpType, item.jumpUrl)
+        },
         //跳转
         handlerNavItem(item) {
             this.$router.push({
@@ -252,17 +264,6 @@ export default {
                 this.choiceFundList = fundHomepageOne
                 this.blueChipFundList = fundHomepageFour
                 this.robustFundList = fundHomepageThree
-                this.choiceFundList.data.map(item => {
-                    if (!this.appType.hk && this.lang === 'zhCHS') {
-                        item.fundSize = item.fundSize / 10000000
-                    } else {
-                        item.fundSize = item.fundSize / 100000000
-                    }
-                    item.initialInvestAmount = transNumToThousandMark(
-                        Number(item.initialInvestAmount).toFixed(0),
-                        0
-                    )
-                })
 
                 this.factoryMap_('choiceFundList')
                 this.factoryMap_('blueChipFundList')
@@ -280,6 +281,15 @@ export default {
             }
             arr_[type].data.map(item => {
                 // item.initialInvestAmount = Math.floor(item.initialInvestAmount)
+                if (!this.appType.hk && this.lang === 'zhCHS') {
+                    item.fundSize = item.fundSize / 10000000
+                } else {
+                    item.fundSize = item.fundSize / 100000000
+                }
+                item.initialInvestAmount = transNumToThousandMark(
+                    Number(item.initialInvestAmount).toFixed(0),
+                    0
+                )
                 item.fundSize = Math.floor(item.fundSize)
                 item.tradeCurrency = CURRENCY_NAME['zhCHS'][item.tradeCurrency]
                 item.fundSizeCurrency =
