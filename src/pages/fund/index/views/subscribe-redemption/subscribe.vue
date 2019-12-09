@@ -454,7 +454,7 @@ export default {
             subscribeObj: subscribeObji18n.i18n.en,
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
-            buyMoneyPlaceHolder: 'Invest',
+            buyMoneyPlaceHolder: 'Initial Subs',
             orderAmount: 'Amount of Orders'
         }
     }

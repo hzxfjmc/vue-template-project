@@ -8,8 +8,8 @@
             :line-width="width"
             title-inactive-color="rgba(25,25,25,0.5)"
             title-active-color="#2F79FF")
-                van-tab(title="基金介绍" :name="0")
-                van-tab(title="派息详情" :name="1")
+                van-tab(:title="$t('list')['fundIntroduce'].label" :name="0")
+                van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
     .fund-introduce-content(v-if="active===0")
         .fund-introduce-list(
             v-for="(item,index) of list"

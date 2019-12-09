@@ -51,6 +51,6 @@ export const i18nOrderStatusData = {
         backoutBtnText: 'Cancel',
         orderFree: 'Cost',
         beConfirmed: 'To Be Confirmed',
-        failedRemark: 'Failure Reasons For Order '
+        failedRemark: 'Reason'
     }
 }
