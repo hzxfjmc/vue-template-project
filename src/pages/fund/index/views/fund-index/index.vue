@@ -13,7 +13,7 @@
                 span {{$t('accountTotal')}}
                 em(
                     class="iconfont" 
-                    @click="moneyShow=!moneyShow"
+                    @click="hideNumber"
                     :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
             .block__right
                 .block--hold(@click="toRouterAccount")  
@@ -87,6 +87,7 @@ import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
+import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
 export default {
     components: {
@@ -183,6 +184,10 @@ export default {
         }
     },
     methods: {
+        hideNumber() {
+            this.moneyShow = !this.moneyShow
+            LS.put('showMoney', this.moneyShow)
+        },
         goBanner(item) {
             jumpUrl(item.jumpType, item.jumpUrl)
         },
@@ -373,6 +378,7 @@ export default {
     },
     mounted() {
         this.$refs.renderEchart.innerHTML = ''
+        this.showPsd = LS.get('showMoney')
         this.initI18n()
         this.getFundHomepageInfo()
         this.bannerAdvertisement()
