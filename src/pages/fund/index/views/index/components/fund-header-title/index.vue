@@ -92,9 +92,9 @@ export default {
                 3: 3,
                 4: 1
             }
-            this.active = obj[val]
+            this.activeTab = obj[val]
             this.$refs.navTransform.style.left =
-                this.active < 2 ? '0px' : '-30px'
+                this.activeTab < 2 ? '0px' : '-30px'
         }
     },
     data() {

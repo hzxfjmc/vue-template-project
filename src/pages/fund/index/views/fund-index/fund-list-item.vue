@@ -91,8 +91,8 @@ export default {
     .block__fund--list {
         width: 100%;
         display: flex;
-        margin: 20px 0 0 0;
-        padding: 0 14px 10px 14px;
+        // margin: 20px 0 0 0;
+        padding: 16px 14px;
         flex-direction: row;
         .element--fund--content {
             display: flex;

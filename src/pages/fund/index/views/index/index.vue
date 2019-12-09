@@ -1,7 +1,7 @@
 <template lang="pug">
     .bond-index-wrapper
         FundHeaderTitle(
-            :assetType="assetType"
+            :assetType="assetTypetab"
             @handlerCuenrry="handlerCuenrry"
         )
         .fund__banner
@@ -65,6 +65,7 @@ export default {
             total: 0,
             currency: '',
             assetType: '',
+            assetTypetab: '',
             bannarTitleUrl: null
         }
     },
@@ -107,6 +108,7 @@ export default {
             if (from.path === '/home' || from.path === '/fund-index') {
                 this.assetType = this.$route.query.type
                 this.currency = this.$route.query.currency
+                this.assetTypetab = this.$route.query.type
                 this.getFundListV2()
             }
         }
