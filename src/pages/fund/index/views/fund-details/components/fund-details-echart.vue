@@ -85,7 +85,7 @@ export default {
             initChooseList: [],
             initList: [],
             chart: null,
-            chartId: 'myChart',
+            chartId: 'myChart_master',
             masterShow: false,
             masterData: {
                 belongDay: '-',
@@ -178,13 +178,15 @@ export default {
     },
     watch: {
         initEchartList() {
-            console.log(2)
             let cavas = document.createElement('canvas')
             this.$refs.renderEchart.innerHTML = ''
-            cavas.id = this.chartId + Math.floor(Math.random(2) * 10000000)
+            cavas.id = this.chartId
             this.$refs.renderEchart.appendChild(cavas)
             let canvaStyle = document.querySelector('#myChart')
             canvaStyle.style.width = '100%'
+            canvaStyle.style.height = '200px'
+            canvaStyle.margin = '-20px 0 0 0'
+            canvaStyle.transform = 'translateX(-3%)'
             this.draw(this.chartId)
             this.chart.render()
         }
