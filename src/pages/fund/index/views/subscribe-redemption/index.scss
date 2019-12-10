@@ -260,7 +260,8 @@
 .protocol{
   display: flex;
   justify-content: space-around;
-  padding-bottom: 14px;
+  padding: 14px 0;
+  background-color: #fff;
     .protocol__button{
         padding: 0 3px;
     }
