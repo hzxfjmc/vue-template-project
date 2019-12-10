@@ -46,7 +46,7 @@ export default {
     },
     i18n: {
         zhCHS: {
-            fundAllType: '全部基金',
+            fundAllType: '全部货币',
             fundHkdType: '港币基金',
             fundUsdType: '美元基金',
             fundAll: '全部',
@@ -56,7 +56,7 @@ export default {
             fundShares: '股票型'
         },
         zhCHT: {
-            fundAllType: '全部基金',
+            fundAllType: '全部貨幣',
             fundHkdType: '港幣基金',
             fundUsdType: '美元基金',
             fundAll: '全部',
@@ -66,14 +66,14 @@ export default {
             fundShares: '股票型'
         },
         en: {
-            fundAllType: 'All Funds',
+            fundAllType: 'All Currencies',
             fundHkdType: 'HKD Funds',
             fundUsdType: 'USD Funds',
             fundAll: 'All',
-            fundCurrency: '貨幣型',
-            fundBond: '債券型',
-            fundBlend: '混合型',
-            fundShares: '股票型'
+            fundCurrency: 'Money Market',
+            fundBond: 'Bond',
+            fundBlend: 'Balanced',
+            fundShares: 'Equity'
         }
     },
     components: {
@@ -95,6 +95,7 @@ export default {
             this.activeTab = obj[val]
             this.$refs.navTransform.style.left =
                 this.activeTab < 2 ? '0px' : '-30px'
+            this.initI18n()
         }
     },
     data() {
@@ -102,7 +103,7 @@ export default {
             activeTab: 0,
             chooseCurrencyShow1: false,
             protocolVisible: false,
-            fundTitle: '全部',
+            fundTitle: '全部货币',
             IconPath: require('@/assets/img/fund/icon_qiu.png'),
             state: {
                 currency: '',
@@ -130,7 +131,7 @@ export default {
             ],
             navList: [
                 {
-                    label: '全部',
+                    label: '全部货币',
                     key: 'fundAll',
                     value: ''
                 },
@@ -165,10 +166,12 @@ export default {
             this.sellProtocolFileList.map(item => {
                 item.label = this.$t(item.key)
             })
+            this.fundTitle = this.$t('fundAllType')
         },
         chooseFilePath(data) {
             this.IconPath = data.iconPath
-            this.fundTitle = data.fileName
+            this.fundTitle =
+                data.fileName === 'All Currencies' ? 'Currency' : data.fileName
             this.state.currency = data.value
             document.body.style.overflow = '' //出现滚动条
             document.removeEventListener(

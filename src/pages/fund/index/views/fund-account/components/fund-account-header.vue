@@ -128,9 +128,6 @@ export default {
     methods: {
         Conversion() {
             if (this.positionDation.positionAmount) {
-                // this.positionDation.positionAmount = Number(
-                //     this.positionDation.positionAmount
-                // ).toFixed(2)
                 this.firstPositionAmount = this.positionDation.positionAmount.split(
                     '.'
                 )[0]

@@ -12,8 +12,12 @@
                    
                     span.title.ellipse {{item.title}}
                     .element--content-sub-content
-                        .number(v-if="Number(item.apy)>0") + {{(item.apy*100).toFixed(2)}}%
-                        .number(v-if="Number(item.apy)<0") - {{Math.abs(item.apy*100).toFixed(2)}}%
+                        .number(
+                            v-if="Number(item.apy)>0" 
+                            :class="stockColorType === 1 ? 'color-red' : 'color-green'") + {{(item.apy*100).toFixed(2)}}%
+                        .number(
+                            v-if="Number(item.apy)<0" 
+                            :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}
                     .element--content-bottom
@@ -35,8 +39,12 @@
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     computed: {
+        stockColorType() {
+            return +getStockColorType()
+        },
         ...mapGetters(['appType', 'lang'])
     },
     components: {

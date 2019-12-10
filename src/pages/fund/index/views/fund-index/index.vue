@@ -57,7 +57,6 @@
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.bannerUrl") 
-            //- img(:src="require('@/assets/img/fund/img/1.png')")
         FundListItem(
             bgColor="#2B4F80"
             :title="robustFundList.masterTitle"
@@ -368,18 +367,17 @@ export default {
                 robustFundList: this.robustFundList
             }
             arr_[type].data.map(item => {
-                // item.initialInvestAmount = Math.floor(item.initialInvestAmount)
                 if (!this.appType.Hk && this.lang === 'zhCHS') {
                     item.fundSize = item.fundSize / 10000000
                 } else {
                     item.fundSize = item.fundSize / 100000000
                 }
-                // item.fundSizeCurrency = CURRENCY_NUM_ENUM[item.fundSizeCurrency]
+
+                item.fundSize = transNumToThousandMark(item.fundSize, 2)
                 item.initialInvestAmount = transNumToThousandMark(
                     Number(item.initialInvestAmount).toFixed(0),
                     0
                 )
-                item.fundSize = Math.floor(item.fundSize)
                 item.tradeCurrency =
                     CURRENCY_NAME[this.lang][item.tradeCurrency]
                 item.fundSizeCurrency =
