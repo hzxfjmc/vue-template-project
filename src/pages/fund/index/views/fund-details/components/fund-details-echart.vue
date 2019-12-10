@@ -183,8 +183,8 @@ export default {
             this.$refs.renderEchart.innerHTML = ''
             cavas.id = this.chartId
             this.$refs.renderEchart.appendChild(cavas)
-            // let canvaStyle = document.querySelector(`#${cavas.id}`)
-            // canvaStyle.style.width = '100%'
+            let canvaStyle = document.querySelector(`#${this.chartId}`)
+            canvaStyle.style.width = '100%'
             // canvaStyle.style.height = '200px'
             // canvaStyle.margin = '-20px 0 0 0'
             // canvaStyle.transform = 'translateX(-3%)'
