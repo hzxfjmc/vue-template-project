@@ -73,7 +73,7 @@
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-    .fund-echart-render(ref="renderEchart")
+    .fund-echart-render(ref="renderEchartlist")
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -137,7 +137,9 @@ export default {
                 '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)'
         }
     },
-
+    destroyed() {
+        this.$refs.renderEchartlist.innerHTML = ''
+    },
     computed: {
         stockColorType() {
             return +getStockColorType()
@@ -321,7 +323,7 @@ export default {
                 cavas.style.top = '0'
                 cavas.style.opacity = 0
                 cavas.id = `chartId${item.fundId}`
-                this.$refs.renderEchart.appendChild(cavas)
+                this.$refs.renderEchartlist.appendChild(cavas)
                 this.draw(
                     `chartId${item.fundId}`,
                     item.fundHomepagePointList,
@@ -394,7 +396,7 @@ export default {
         }
     },
     mounted() {
-        this.$refs.renderEchart.innerHTML = ''
+        this.$refs.renderEchartlist.innerHTML = ''
         this.showPsd = LS.get('showMoney')
         this.initI18n()
         this.getFundHomepageInfo()
