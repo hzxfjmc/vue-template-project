@@ -177,18 +177,17 @@ export default {
         }
     },
     watch: {
-        initEchartList() {
+        initEchartList(val) {
+            console.log(val)
             let cavas = document.createElement('canvas')
             this.$refs.renderEchart.innerHTML = ''
-            cavas.id = `${this.chartId}${Math.floor(
-                Math.random(1) * 100000000
-            )}`
+            cavas.id = this.chartId
             this.$refs.renderEchart.appendChild(cavas)
-            let canvaStyle = document.querySelector('#myChart')
-            canvaStyle.style.width = '100%'
-            canvaStyle.style.height = '200px'
-            canvaStyle.margin = '-20px 0 0 0'
-            canvaStyle.transform = 'translateX(-3%)'
+            // let canvaStyle = document.querySelector(`#${cavas.id}`)
+            // canvaStyle.style.width = '100%'
+            // canvaStyle.style.height = '200px'
+            // canvaStyle.margin = '-20px 0 0 0'
+            // canvaStyle.transform = 'translateX(-3%)'
             this.draw(this.chartId)
             this.chart.render()
         }
