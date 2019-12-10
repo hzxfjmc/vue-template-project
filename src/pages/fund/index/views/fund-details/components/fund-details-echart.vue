@@ -124,7 +124,6 @@ export default {
                     }
                 }
             })
-            console.log(2222222222222222222222)
             this.chart.axis('pointData', {
                 labelOffset: 5 // 坐标轴文本距离轴线的距离
             })
@@ -142,7 +141,6 @@ export default {
                     return textCfg
                 }
             })
-            console.log(111111111111111111)
             this.chart.tooltip({
                 showCrosshairs: true,
                 custom: true, // 自定义 tooltip 内容框
@@ -169,7 +167,6 @@ export default {
                         animation: 'lineUpdate'
                     }
                 })
-            console.log('我已经画完了')
             // this.chart.render()
         },
         initI18nState() {
@@ -184,7 +181,7 @@ export default {
             console.log(2)
             let cavas = document.createElement('canvas')
             this.$refs.renderEchart.innerHTML = ''
-            cavas.id = this.chartId
+            cavas.id = this.chartId + Math.floor(Math.random(2) * 10000000)
             this.$refs.renderEchart.appendChild(cavas)
             let canvaStyle = document.querySelector('#myChart')
             canvaStyle.style.width = '100%'
