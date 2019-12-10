@@ -55,7 +55,7 @@ export default {
     },
     data() {
         return {
-            barnnarUrl: require('@/assets/img/fund/img/3.png'),
+            barnnarUrl: require('@/assets/img/fund/icon_huobi.png'),
             load: false,
             bannerShow: false,
             bannerUrl: [],
@@ -81,6 +81,10 @@ export default {
             this.currency = data.currency
             this.assetType = data.assetType
             this.bannerShow = data.assetType === '4' || data.assetType === '2'
+            this.barnnarUrl =
+                data.assetType === '4'
+                    ? require('@/assets/img/fund/icon_huobi.png')
+                    : require('@/assets/img/fund/icon_zhaiquan.png')
             if (data.key) {
                 this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
             }
@@ -118,6 +122,11 @@ export default {
             this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${
                 this.lang
             }/${bannarEmun[this.$route.query.type]}.png`)
+            this.bannerShow = this.assetType === '4' || this.assetType === '2'
+            this.barnnarUrl =
+                this.assetType === '4'
+                    ? require('@/assets/img/fund/icon_huobi.png')
+                    : require('@/assets/img/fund/icon_zhaiquan.png')
         }
     },
     watch: {

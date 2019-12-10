@@ -6,6 +6,7 @@
         fundDetailsEchart(
           @chooseTime = "getFundApyPointV1"
           :step="step"
+          :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
         HoldfundDetails(

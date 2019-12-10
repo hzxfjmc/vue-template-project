@@ -5,7 +5,7 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
             .header-right
-                span.number {{Number(masterData.pointData)| sliceFixedTwo(4)}}
+                span.number {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
                 p.day {{$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
@@ -23,27 +23,27 @@ export default {
     i18n: {
         zhCHS: {
             fundTrade: '基金业绩走势',
-            nav: '今日净值',
+            nav: '涨幅',
             time: '日期',
             list: {
-                0: { date: '1个月' },
-                1: { date: '3个月' },
-                2: { date: '6个月' },
-                3: { date: '1年' },
-                4: { date: '3年' },
+                0: { date: '近1月' },
+                1: { date: '近3月' },
+                2: { date: '近6月' },
+                3: { date: '近1年' },
+                4: { date: '近3年' },
                 5: { date: '全部' }
             }
         },
         zhCHT: {
-            fundTrade: '基金淨值走勢',
-            nav: '今日淨值',
+            fundTrade: '基金業績走勢',
+            nav: '漲幅',
             time: '日期',
             list: {
-                0: { date: '1個月' },
-                1: { date: '3個月' },
-                2: { date: '6個月' },
-                3: { date: '1年' },
-                4: { date: '3年' },
+                0: { date: '近1月' },
+                1: { date: '近3月' },
+                2: { date: '近6月' },
+                3: { date: '近1年' },
+                4: { date: '近3年' },
                 5: { date: '全部' }
             }
         },
@@ -62,6 +62,10 @@ export default {
         }
     },
     props: {
+        fundHeaderInfoVO: {
+            type: Object,
+            default: () => {}
+        },
         initEchartList: {
             type: Array,
             default: () => {}
@@ -100,20 +104,27 @@ export default {
             this.$emit('chooseTime', item.key)
         },
         draw(data) {
-            console.log(3)
-            this.chart = new F2.Chart({
+            let params = {
                 id: data,
                 padding: [20, 0, 33, 45],
                 pixelRatio: window.devicePixelRatio
-            })
+            }
+            params.padding =
+                this.fundHeaderInfoVO.assetType === 4
+                    ? [20, 0, 33, 52]
+                    : [20, 0, 33, 45]
+            this.chart = new F2.Chart(params)
             if (this.initEchartList.length === 0) return
-            console.log(4)
             this.chart.source(this.initEchartList, {
                 pointData: {
                     alias: '今日净值',
                     tickCount: 5,
-                    formatter: function formatter(val) {
-                        return Number(val).toFixed(2) + '%'
+                    formatter: val => {
+                        if (this.fundHeaderInfoVO.assetType === 4) {
+                            return Number(val).toFixed(4) + '%'
+                        } else {
+                            return Number(val).toFixed(2) + '%'
+                        }
                     }
                 },
                 belongDay: {
@@ -167,7 +178,6 @@ export default {
                         animation: 'lineUpdate'
                     }
                 })
-            // this.chart.render()
         },
         initI18nState() {
             this.active = 0
@@ -177,17 +187,13 @@ export default {
         }
     },
     watch: {
-        initEchartList(val) {
-            console.log(val)
+        initEchartList() {
             let cavas = document.createElement('canvas')
             this.$refs.renderEchart.innerHTML = ''
             cavas.id = this.chartId
             this.$refs.renderEchart.appendChild(cavas)
             let canvaStyle = document.querySelector(`#${this.chartId}`)
             canvaStyle.style.width = '100%'
-            // canvaStyle.style.height = '200px'
-            // canvaStyle.margin = '-20px 0 0 0'
-            // canvaStyle.transform = 'translateX(-3%)'
             this.draw(this.chartId)
             this.chart.render()
         }

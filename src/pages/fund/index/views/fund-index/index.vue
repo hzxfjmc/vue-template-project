@@ -87,6 +87,7 @@ import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { getCurrentUser } from '@/service/user-server.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
@@ -112,6 +113,10 @@ export default {
             fundBlend: '混合型',
             fundShares: '股票型',
             confirm: '确认',
+            login: '请登录后进行操作 ',
+            loginBtn: '立即登录',
+            openAccountBtn: '立即开户',
+            openAccount: '您尚未开户，开户成功即可交易',
             msg:
                 '1. 你可选择港币或美元作为基金总资产基础货币。\n2. uSMART会将你所有基金市值按照基础货币来显示和计算。例子: 当你的基础货币为港币时，你的基金总资产 = 港币基金市值 + 美元基金市值(按汇率转换成港币)\n3. 基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。'
         },
@@ -126,6 +131,10 @@ export default {
             fundBlend: '混合型',
             fundShares: '股票型',
             confirm: '確認',
+            login: '請登陸後進行操作 ',
+            loginBtn: '立即登錄',
+            openAccountBtn: '立即開戶',
+            openAccount: '您尚未開戶，開戶成功即可交易',
             msg:
                 '1. 你可選擇港幣或美元作為基金總資產基礎貨幣。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。'
         },
@@ -139,6 +148,10 @@ export default {
             fundBond: 'Bond',
             fundBlend: 'Balanced',
             fundShares: 'Equity',
+            login: 'Please login in',
+            loginBtn: 'Login',
+            openAccountBtn: 'Open account',
+            openAccount: 'Please open your account to continue the trade',
             confirm: 'Confirm',
             msg:
                 '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)'
@@ -192,14 +205,24 @@ export default {
             robustFundList: {}, //稳健基金
             hkSummary: {},
             usSummary: {},
-            positionAmount: 0,
-            weekEarnings: 0,
+            positionAmount: '0.00',
+            weekEarnings: '0.00',
+            userInfo: null,
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: []
         }
     },
     methods: {
+        //获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.userInfo = res
+            } catch (e) {
+                console.log('getCurrentUser:error:>>>', e)
+            }
+        },
         handlerDialog() {
             this.$dialog.alert({
                 title: this.$t('accountTotal'),
@@ -229,7 +252,25 @@ export default {
                 location.href = url
             }
         },
-        toRouterAccount() {
+        async toRouterAccount() {
+            // 未登录或未开户
+            if (!this.userInfo) {
+                await this.$dialog.alert({
+                    message: this.$t('login'),
+                    confirmButtonText: this.$t('loginBtn')
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+                return
+            }
+            if (!this.userInfo.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: this.$t('openAccount'),
+                    confirmButtonText: this.$t('openAccountBtn')
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
             this.openWebView(
                 `${window.location.origin}/wealth/fund/index.html#/fund-account`
             )
