@@ -410,7 +410,7 @@ export default {
     },
     mounted() {
         this.$refs.renderEchartlist.innerHTML = ''
-        this.showPsd = LS.get('showMoney')
+        this.moneyShow = LS.get('showMoney')
         this.currency = LS.get('activeTab')
         this.initI18n()
         this.getFundHomepageInfo()

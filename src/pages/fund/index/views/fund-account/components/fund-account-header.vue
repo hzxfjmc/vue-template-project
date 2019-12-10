@@ -167,19 +167,14 @@ export default {
         toRouterPath(path) {
             this.$emit('toRouterPath', path)
         },
-        //修改货币
-        // handlerCurrency(name) {
-        //     this.currency = name === 0 ? enumCurrency.HKD : enumCurrency.USD
-        //     this.$emit('handlerCurrency', this.currency, name)
-        // },
         hideNumber() {
             this.showPsd = !this.showPsd
+            console.log(12)
             LS.put('showMoney', this.showPsd)
             this.$emit('changeEyeTab', this.showPsd)
         }
     },
     mounted() {
-        // this.active = LS.get('activeTab')
         this.currencyNum = LS.get('activeTab')
         this.showPsd = LS.get('showMoney')
     }

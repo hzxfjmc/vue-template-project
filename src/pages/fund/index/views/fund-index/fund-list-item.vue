@@ -18,17 +18,17 @@
                         .tag {{item.apyTypeName}}
                     .element--content-bottom
                         span(v-if="appType.Hk") {{item.assetTypeName}}
-                        span(v-if="appType.Hk") {{item.initialInvestAmount}}{{item.tradeCurrency}}起购
-                        span(v-if="appType.Hk") {{item.fundSize}}亿{{item.fundSizeCurrency}}
+                        span(v-if="appType.Hk") {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
+                        span(v-if="appType.Hk") {{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
                         fund-tag(
                             v-if="!appType.Hk"
                             :title="item.assetTypeName")
                         fund-tag(
                             v-if="!appType.Hk"
-                            :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described'):''}`")
+                            :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
                         fund-tag(
                             v-if="!appType.Hk"
-                            :title="`${item.fundSize}${$t('unit')}${item.fundSizeCurrency}`")
+                            :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
                 
 </template>
 <script>
@@ -143,8 +143,8 @@ export default {
             width: 70px;
             height: 65px;
             img {
-                width: 100%;
-                height: 100%;
+                width: 70px;
+                height: 65px;
             }
         }
     }
