@@ -350,9 +350,9 @@ export default {
                     moduleBitmap: 15
                 })
                 this.barnnarList = fundHomepageTwo.data
-                this.choiceFundList = fundHomepageOne
-                this.blueChipFundList = fundHomepageFour
-                this.robustFundList = fundHomepageThree
+                this.choiceFundList = fundHomepageOne || {}
+                this.blueChipFundList = fundHomepageFour || {}
+                this.robustFundList = fundHomepageThree || {}
                 this.factoryMap_('choiceFundList')
                 this.factoryMap_('blueChipFundList')
                 this.factoryMap_('robustFundList')
@@ -461,6 +461,7 @@ export default {
     },
     mounted() {
         enablePullRefresh(true)
+        this.getCurrentUser()
         this.$refs.renderEchartlist.innerHTML = ''
         this.moneyShow = LS.get('showMoney')
         this.currency = LS.get('activeTab')

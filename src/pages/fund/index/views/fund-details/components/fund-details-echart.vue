@@ -5,7 +5,12 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
             .header-right
-                span.number {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
+                span.number.number-red(v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType === 4") +{{Number(masterData.pointData)| sliceFixedTwo(4)}}%
+                span.number.number-red(v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType !== 4") +{{Number(masterData.pointData)| sliceFixedTwo(2)}}%
+                span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
+                span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(3)}}%
+                span.number(v-if="masterData.pointData==0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
+                span.number(v-if="masterData.pointData===0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(3)}}%
                 p.day {{$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
@@ -234,7 +239,12 @@ export default {
         .number {
             line-height: 40px;
             float: right;
+        }
+        .number-red {
             color: #ea3d3d;
+        }
+        .number-green {
+            color: #04ba60;
         }
     }
 }
