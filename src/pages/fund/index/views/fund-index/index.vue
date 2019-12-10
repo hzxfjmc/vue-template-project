@@ -137,9 +137,11 @@ export default {
                 '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)'
         }
     },
-    destroyed() {
-        this.$refs.renderEchartlist.innerHTML = ''
-    },
+    // destroyed() {
+    //     if (this.$refs.renderEchartlist) {
+    //         this.$refs.renderEchartlist.innerHTML = ''
+    //     }
+    // },
     computed: {
         stockColorType() {
             return +getStockColorType()

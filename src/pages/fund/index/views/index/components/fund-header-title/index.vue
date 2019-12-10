@@ -199,7 +199,7 @@ export default {
             }
         },
         handerTab(item, index) {
-            this.$refs.navTransform.style.left = index == 0 ? '0' : '-30px'
+            this.$refs.navTransform.style.left = index < 2 ? '0' : '-30px'
             this.state.assetType = item.value
             this.state.key = item.key
             this.activeTab = index
