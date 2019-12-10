@@ -8,10 +8,11 @@ export default new Router({
     },
     routes: [
         {
-            name: 'home',
+            name: 'fund-index',
             path: '/',
             meta: { title: 'home', auth: true, cs: true },
-            component: () => import(`@/pages/fund/index/views/home/index.vue`)
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
         {
             name: 'index',
