@@ -92,7 +92,6 @@ export default {
                 3: 3,
                 4: 1
             }
-            console.log(this.appType)
             this.activeTab = obj[val]
             this.$refs.navTransform.style.left =
                 this.activeTab < 2 ? '0px' : '-30px'

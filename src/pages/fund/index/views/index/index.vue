@@ -70,7 +70,6 @@ export default {
         }
     },
     mounted() {
-        console.log(this.appType)
         this.assetTypetab = this.$route.query.type
         this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
     },
@@ -105,6 +104,17 @@ export default {
         goNext(fundId) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
             gotoNewWebView(url)
+        },
+        changeBannarTitle() {
+            let bannarEmun = {
+                1: 'fundShares',
+                2: 'fundBond',
+                3: 'fundBlend',
+                4: 'fundCurrency'
+            }
+            this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${
+                this.lang
+            }/${bannarEmun[this.$route.query.type]}.png`)
         }
     },
     watch: {
@@ -113,9 +123,8 @@ export default {
                 this.assetType = this.$route.query.type
                 this.currency = this.$route.query.currency
                 this.assetTypetab = this.$route.query.type
-                console.log(123)
-                console.log(this.assetTypetab)
                 this.getFundListV2()
+                this.changeBannarTitle()
             }
         }
     },

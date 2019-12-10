@@ -24,7 +24,9 @@
                 .header-content-number(@click="toFundAccount" v-if="showPositionInfo")
                     .header-content-top
                         span {{$t('AllTotalMarketPostion')}} ({{this.currency === 2 ? 'HKD':'USD'}})
-                        i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click.stop="hideNumber")
+                        i.iconfont(
+                            :class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" 
+                            @click.stop="hideNumber")
                     .header-content()
                         span(v-if="showMoney") {{firstPositionAmount || '--'}}
                         em(v-if="showMoney") .{{secondPositionAmount || '--'}}

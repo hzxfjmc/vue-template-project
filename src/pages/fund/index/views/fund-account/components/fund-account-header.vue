@@ -40,7 +40,7 @@ import { Tab, Tabs } from 'vant'
 // import { DropdownMenu, DropdownItem } from 'vant-fork'
 import LS from '@/utils/local-storage'
 import { transNumToThousandMark } from '@/utils/tools.js'
-import { enumCurrency } from '@/pages/fund/index/map'
+// import { enumCurrency } from '@/pages/fund/index/map'
 import { mapGetters } from 'vuex'
 export default {
     props: {
@@ -100,8 +100,6 @@ export default {
             swipeable: true,
             showPsd: true,
             currency: null,
-            hkSummary: {},
-            usSummary: {},
             positionDation: {},
             value1: 0,
             firstPositionAmount: '',
@@ -114,16 +112,16 @@ export default {
     },
     watch: {
         holdData() {
-            this.hkSummary = this.holdData.hkSummary
             this.holdData.hkSummary.positionAmount = transNumToThousandMark(
                 this.holdData.hkSummary.positionAmount
             )
             this.holdData.usSummary.positionAmount = transNumToThousandMark(
                 this.holdData.usSummary.positionAmount
             )
-
-            this.usSummary = this.holdData.usSummary
-            this.positionDation = this.holdData.hkSummary
+            this.positionDation =
+                this.currencyNum === 0
+                    ? this.holdData.hkSummary
+                    : this.holdData.usSummary
             this.Conversion()
         }
     },
@@ -151,6 +149,7 @@ export default {
         },
         chooseCurrency(data) {
             this.currencyNum = data
+            LS.put('activeTab', data)
             this.positionDation =
                 data === 0 ? this.holdData.hkSummary : this.holdData.usSummary
             this.Conversion(data)
@@ -169,10 +168,10 @@ export default {
             this.$emit('toRouterPath', path)
         },
         //修改货币
-        handlerCurrency(name) {
-            this.currency = name === 0 ? enumCurrency.HKD : enumCurrency.USD
-            this.$emit('handlerCurrency', this.currency, name)
-        },
+        // handlerCurrency(name) {
+        //     this.currency = name === 0 ? enumCurrency.HKD : enumCurrency.USD
+        //     this.$emit('handlerCurrency', this.currency, name)
+        // },
         hideNumber() {
             this.showPsd = !this.showPsd
             LS.put('showMoney', this.showPsd)
@@ -180,7 +179,8 @@ export default {
         }
     },
     mounted() {
-        this.active = LS.get('activeTab')
+        // this.active = LS.get('activeTab')
+        this.currencyNum = LS.get('activeTab')
         this.showPsd = LS.get('showMoney')
     }
 }

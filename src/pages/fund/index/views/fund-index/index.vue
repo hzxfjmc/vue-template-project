@@ -35,6 +35,8 @@
                         @click="chooseCurrency(1)"
                         :class="[currency === 1 ? 'active' :'']") {{$t('usd')}}
         
+        .block__left__bottom
+            span {{weekEarnings}} {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
     .block__tab
         .block__tab--list
             .block__tab--Item(
@@ -99,6 +101,7 @@ export default {
     i18n: {
         zhCHS: {
             fundHold: '基金持仓',
+            SevenDayIncome: '近七日收益',
             hkd: '港币',
             usd: '美元',
             accountTotal: '基金总资产',
@@ -112,6 +115,7 @@ export default {
         },
         zhCHT: {
             fundHold: '基金持倉',
+            SevenDayIncome: '近七日收益',
             hkd: '港幣',
             usd: '美元',
             accountTotal: '基金總資產',
@@ -125,6 +129,7 @@ export default {
         },
         en: {
             fundHold: 'Fund Position',
+            SevenDayIncome: 'RTN 7d',
             hkd: 'HKD',
             usd: 'USD',
             accountTotal: 'Total Fund Assets',
@@ -137,11 +142,6 @@ export default {
                 '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)'
         }
     },
-    // destroyed() {
-    //     if (this.$refs.renderEchartlist) {
-    //         this.$refs.renderEchartlist.innerHTML = ''
-    //     }
-    // },
     computed: {
         stockColorType() {
             return +getStockColorType()
@@ -191,6 +191,7 @@ export default {
             hkSummary: {},
             usSummary: {},
             positionAmount: 0,
+            weekEarnings: 0,
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: []
@@ -241,10 +242,16 @@ export default {
                 const { usSummary, hkSummary } = await getFundPositionListV3()
                 this.hkSummary = hkSummary
                 this.usSummary = usSummary
-                this.positionAmount = transNumToThousandMark(
-                    hkSummary.positionAmount,
-                    2
-                )
+                let positionAmout =
+                    this.currency === 0
+                        ? hkSummary.positionAmount
+                        : usSummary.positionAmount
+                let weekEarnings =
+                    this.currency === 0
+                        ? hkSummary.weekEarnings
+                        : usSummary.weekEarnings
+                this.positionAmount = transNumToThousandMark(positionAmout, 2)
+                this.weekEarnings = transNumToThousandMark(weekEarnings, 2)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -262,10 +269,15 @@ export default {
         },
         chooseCurrency(data) {
             this.currency = data
+            LS.put('activeTab', data)
             this.positionAmount =
                 data === 0
                     ? transNumToThousandMark(this.hkSummary.positionAmount, 2)
                     : transNumToThousandMark(this.usSummary.positionAmount, 2)
+            this.weekEarnings =
+                data === 0
+                    ? transNumToThousandMark(this.hkSummary.weekEarnings, 2)
+                    : transNumToThousandMark(this.usSummary.weekEarnings, 2)
             this.chooseCurrencyShow = false
             document.body.style.overflow = '' //出现滚动条
             document.removeEventListener(
@@ -290,7 +302,6 @@ export default {
                 this.choiceFundList = fundHomepageOne
                 this.blueChipFundList = fundHomepageFour
                 this.robustFundList = fundHomepageThree
-
                 this.factoryMap_('choiceFundList')
                 this.factoryMap_('blueChipFundList')
                 this.factoryMap_('robustFundList')
@@ -400,6 +411,7 @@ export default {
     mounted() {
         this.$refs.renderEchartlist.innerHTML = ''
         this.showPsd = LS.get('showMoney')
+        this.currency = LS.get('activeTab')
         this.initI18n()
         this.getFundHomepageInfo()
         this.bannerAdvertisement()
