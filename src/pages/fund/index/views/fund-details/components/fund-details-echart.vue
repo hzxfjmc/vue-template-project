@@ -100,12 +100,14 @@ export default {
             this.$emit('chooseTime', item.key)
         },
         draw(data) {
+            console.log(3)
             this.chart = new F2.Chart({
                 id: data,
                 padding: [20, 0, 33, 45],
                 pixelRatio: window.devicePixelRatio
             })
             if (this.initEchartList.length === 0) return
+            console.log(4)
             this.chart.source(this.initEchartList, {
                 pointData: {
                     alias: '今日净值',
@@ -168,7 +170,7 @@ export default {
                     }
                 })
             console.log('我已经画完了')
-            this.chart.render()
+            // this.chart.render()
         },
         initI18nState() {
             this.active = 0
@@ -179,6 +181,7 @@ export default {
     },
     watch: {
         initEchartList() {
+            console.log(2)
             let cavas = document.createElement('canvas')
             this.$refs.renderEchart.innerHTML = ''
             cavas.id = this.chartId

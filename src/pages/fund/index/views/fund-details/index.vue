@@ -263,7 +263,6 @@ export default {
                 })
                 this.copyinitEchartList = res
                 this.initEchartList = res
-                // this.initEchartList = this.initEchartList.slice(0, 22)
                 this.initEchartList.map(item => {
                     item.pointData = Number(item.pointData * 100)
                 })
@@ -281,6 +280,7 @@ export default {
                         this.fundHeaderInfoVO.fundName
                     )
                 }
+                console.log('1')
             } catch (e) {
                 console.log('getFundApyPointV1:error:>>>', e)
             }
