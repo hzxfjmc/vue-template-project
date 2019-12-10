@@ -20,10 +20,14 @@
                         span(v-if="appType.Hk") {{item.assetTypeName}}
                         span(v-if="appType.Hk") {{item.initialInvestAmount}}{{item.tradeCurrency}}起购
                         span(v-if="appType.Hk") {{item.fundSize}}亿{{item.fundSizeCurrency}}
-                        fund-tag(:title="item.assetTypeName")
                         fund-tag(
+                            v-if="!appType.Hk"
+                            :title="item.assetTypeName")
+                        fund-tag(
+                            v-if="!appType.Hk"
                             :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described'):''}`")
                         fund-tag(
+                            v-if="!appType.Hk"
                             :title="`${item.fundSize}${$t('unit')}${item.fundSizeCurrency}`")
                 
 </template>

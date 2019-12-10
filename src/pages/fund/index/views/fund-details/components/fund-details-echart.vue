@@ -122,6 +122,7 @@ export default {
                     }
                 }
             })
+            console.log(2222222222222222222222)
             this.chart.axis('pointData', {
                 labelOffset: 5 // 坐标轴文本距离轴线的距离
             })
@@ -139,6 +140,7 @@ export default {
                     return textCfg
                 }
             })
+            console.log(111111111111111111)
             this.chart.tooltip({
                 showCrosshairs: true,
                 custom: true, // 自定义 tooltip 内容框
