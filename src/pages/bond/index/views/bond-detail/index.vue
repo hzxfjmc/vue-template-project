@@ -8,6 +8,7 @@
             detail-header(
                 :bondEditableInfo="bondEditableInfo"
                 :bondUneditableInfo="bondUneditableInfo",
+                :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
                 :currentPrice="currentPrice"
             )
             van-panel(title="购买流程")
