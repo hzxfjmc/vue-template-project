@@ -4,6 +4,7 @@
         col-msg(
             :colData="colData"
         )
+        .bond-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('spBondPrice') }}
         .chart-wrapper
             canvas#mountNode
 </template>
@@ -20,12 +21,17 @@ export default {
 <style lang="scss" scoped>
 .detail-bond-price-wrapper {
     user-select: none;
+    .bond-tips {
+        padding: 10px $global-padding 0;
+        color: $text-color2;
+        font-size: 12px;
+        line-height: 17px;
+    }
     .col-column {
-        padding: 0 12px;
+        padding: 0 $global-padding;
         margin-top: -2px;
     }
     .chart-wrapper {
-        margin-top: 14px;
         #mountNode {
             position: relative;
             height: 226px;

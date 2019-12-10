@@ -1,12 +1,12 @@
 <template lang="pug">
     .detail-bond-price-wrapper
         mask-header(v-show="isShowMask" :maskData="maskData")
-        .bond-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('spBondPrice') }}
         col-msg(
             :colData="colData"
             titleClass="title-class"
             descClass="desc-class"
         )
+        .bond-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('spBondPrice') }}
         .chart-wrapper
             canvas#mountNode
 </template>
@@ -17,35 +17,6 @@ export default {
     mixins: [bondPriceMixin],
     components: {
         MaskHeader
-    },
-    props: {
-        bondUneditableInfo: {
-            type: Object,
-            default: () => {}
-        }
-    },
-    computed: {
-        // 最小面额
-        minFaceValue() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.minFaceValue &&
-                    this.bondUneditableInfo.minFaceValue - 0) ||
-                0
-            )
-        },
-        i18nCurrencyName() {
-            return this.$t(this.currencyName)
-        },
-        // 货币单位
-        currencyName() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.name) ||
-                ''
-            )
-        }
     }
 }
 </script>
@@ -53,14 +24,12 @@ export default {
 .detail-bond-price-wrapper {
     user-select: none;
     .bond-tips {
-        margin-top: -1px;
-        padding: 0 14px 5px;
-        color: rgba($color: $hk-text-color, $alpha: 0.6);
-        font-size: 0.24rem;
+        padding: 9px 14px 0;
+        color: $hk-text-color7;
+        font-size: 12px;
         line-height: 20px;
     }
     .chart-wrapper {
-        margin-top: 20px;
         padding-bottom: 5px;
         #mountNode {
             position: relative;
@@ -73,8 +42,7 @@ export default {
 <style lang="scss">
 .detail-bond-price-wrapper {
     .col-column {
-        padding: 0 14px;
-        margin-top: 13px;
+        padding: 6px 14px 0;
         .title-class {
             color: $hk-text-color;
             font-size: 0.36rem;

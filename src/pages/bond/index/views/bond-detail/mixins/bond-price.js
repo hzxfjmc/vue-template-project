@@ -49,6 +49,10 @@ export default {
         ColMsg
     },
     props: {
+        bondUneditableInfo: {
+            type: Object,
+            default: () => {}
+        },
         chartData: {
             type: Array,
             default: () => []
@@ -140,6 +144,27 @@ export default {
                 (this.currentPrice.buyYtm &&
                     (this.currentPrice.buyYtm - 0).toFixed(3) + '%') ||
                 '--'
+            )
+        },
+        // 最小面额
+        minFaceValue() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.minFaceValue &&
+                    this.bondUneditableInfo.minFaceValue - 0) ||
+                0
+            )
+        },
+        i18nCurrencyName() {
+            return this.$t(this.currencyName)
+        },
+        // 货币单位
+        currencyName() {
+            return (
+                (this.bondUneditableInfo &&
+                    this.bondUneditableInfo.enumCurrency &&
+                    this.bondUneditableInfo.enumCurrency.name) ||
+                ''
             )
         }
     },

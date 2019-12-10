@@ -16,8 +16,12 @@
                     :bondUneditableInfo="bondUneditableInfo"
                     :paymentInfo="paymentInfo"
                 )
-            van-panel(title="债券价格" style="position:relative")
-                BondPrice(:chartData="prices" :currentPrice="currentPrice")
+            van-panel(title="债券价格" desc="（每份）" style="position:relative")
+                BondPrice(
+                    :chartData="prices"
+                    :currentPrice="currentPrice"
+                    :bondUneditableInfo="bondUneditableInfo"
+                )
             van-panel(title="债券资料")
                 BondInfo(
                     :bondEditableInfo="bondEditableInfo"
@@ -121,6 +125,12 @@ export default {
         .van-cell__title {
             font-size: 14px;
             line-height: 20px;
+            .van-cell__label {
+                display: inline-block;
+                margin-top: 0;
+                color: rgba($color: $text-color, $alpha: 0.4);
+                font-size: 12px;
+            }
         }
     }
 }
