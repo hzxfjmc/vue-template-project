@@ -72,6 +72,9 @@ export default {
     mounted() {
         this.assetTypetab = this.$route.query.type
         this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
+        if (this.$route.query.type) {
+            this.changeBannarTitle()
+        }
     },
     methods: {
         handlerCuenrry(data) {
@@ -124,14 +127,17 @@ export default {
                 this.currency = this.$route.query.currency
                 this.assetTypetab = this.$route.query.type
                 this.getFundListV2()
-                this.changeBannarTitle()
+                if (this.$route.query.type) {
+                    this.changeBannarTitle()
+                }
             }
         }
-    },
-    beforeRouteEnter(to, from, next) {
-        to.meta.title = to.query.assetTypeName
-        next()
     }
+    // beforeRouteEnter(to, from, next) {
+    //     console.log(to)
+    //     // to.meta.title = to.query.assetTypeName
+    //     next()
+    // }
 }
 </script>
 <style lang="scss" scoped>

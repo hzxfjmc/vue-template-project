@@ -90,6 +90,7 @@ import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
+import jsBridge from '@/utils/js-bridge'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
 export default {
@@ -216,15 +217,22 @@ export default {
         },
         //跳转
         handlerNavItem(item) {
-            this.$router.push({
-                path: '/index',
-                query: { type: item.value }
-            })
+            this.openWebView(
+                `${window.location.origin}/wealth/fund/index.html#/index?type=${item.value}`
+            )
+        },
+        //App页面跳转
+        async openWebView(url) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
         },
         toRouterAccount() {
-            this.$router.push({
-                path: '/fund-account'
-            })
+            this.openWebView(
+                `${window.location.origin}/wealth/fund/index.html#/fund-account`
+            )
         },
         //获取轮播
         async bannerAdvertisement() {

@@ -1,6 +1,6 @@
 export const zhCHS = {
     fundDetails: '基金详情',
-    fundList: '精品基金',
+    fundList: '基金列表',
     fundIntroduce: '基金介绍',
     tradeRule: '交易规则',
     fundFiles: '相关文件',
