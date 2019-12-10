@@ -16,7 +16,11 @@
                 i.icon
                 span {{ $t('prospectus') }}
         .con(@click="toggleShowMoreMsg")
-            col-msg.hd-col(:colData="colData")
+            col-msg.hd-col(
+                :colData="colData"
+                titleClass="title-class"
+                descClass="desc-class"
+            )
             .more-msg(v-show="showMore")
                 col-msg(
                     v-for="(msgItem, index) in moreBondMsg"
@@ -89,7 +93,7 @@ export default {
             }
             span {
                 color: rgba($color: $hk-text-color, $alpha: 0.6);
-                font-size: 0.24rem;
+                font-size: 12px;
                 line-height: 17px;
             }
         }
@@ -120,7 +124,7 @@ export default {
     .col-column {
         .title-class {
             color: $hk-text-color;
-            font-size: 0.36rem;
+            font-size: 18px;
             font-family: DINPro-Medium, DINPro, PingFangHK-Medium, PingFangHK;
         }
         .desc-class {
