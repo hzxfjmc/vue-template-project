@@ -46,6 +46,7 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
+import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
@@ -377,6 +378,7 @@ export default {
         }
     },
     mounted() {
+        enablePullRefresh(true)
         this.getCurrentUser()
         this.getFundDetail()
         jsBridge.callAppNoPromise(

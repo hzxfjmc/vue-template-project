@@ -48,9 +48,9 @@ export default {
             }
         },
         en: {
-            fundTrade: 'Fund NAV Performance',
+            fundTrade: 'Trend Charts',
             time: 'Time',
-            nav: 'NAV',
+            nav: '%Chg',
             list: {
                 0: { date: '1 Month' },
                 1: { date: '3 Months' },
