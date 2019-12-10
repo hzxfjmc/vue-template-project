@@ -57,7 +57,6 @@ export default {
             align-items: center;
             height: 22px;
             padding: 0 6px;
-            border: 1px solid #ebebeb;
             color: #393939;
             border-radius: 1px;
             &:first-child {
