@@ -3,6 +3,7 @@
         mask-header(v-show="isShowMask" :maskData="maskData")
         col-msg(
             :colData="colData"
+            :wrapperStyle="wrapperStyle"
             titleClass="title-class"
             descClass="desc-class"
         )

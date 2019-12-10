@@ -3,6 +3,7 @@
         mask-header(v-show="isShowMask" :maskData="maskData")
         col-msg(
             :colData="colData"
+            :wrapperStyle="wrapperStyle"
         )
         .bond-tips {{ $t('bondValue') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('contract') }}，{{ $t('tradingAmount') }}{{ minFaceValue | thousand-spilt }}{{ i18nCurrencyName }}{{ $t('spBondPrice') }}
         .chart-wrapper

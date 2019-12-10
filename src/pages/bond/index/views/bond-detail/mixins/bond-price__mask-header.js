@@ -12,6 +12,13 @@ export default {
             defatult: () => {}
         }
     },
+    data() {
+        return {
+            wrapperStyle: {
+                flex: 'auto 0 0'
+            }
+        }
+    },
     computed: {
         title() {
             return this.maskData && this.maskData.title

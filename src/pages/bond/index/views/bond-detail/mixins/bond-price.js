@@ -68,6 +68,9 @@ export default {
     data() {
         return {
             isShowMask: false,
+            wrapperStyle: {
+                flex: 'auto 0 0'
+            },
             maskData: {}, // 蒙版数据
             count: 0, // 计数使用
             xlabelLimitNum: 0 // x轴标签数量 0表示自动展示
