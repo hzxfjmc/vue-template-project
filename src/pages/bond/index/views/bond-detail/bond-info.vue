@@ -27,21 +27,9 @@
 
 </template>
 <script>
-import { calcPaymentDates } from '@/pages/bond/index/tools.js'
 import bondInfoMixin from './mixins/bond-info.js'
 export default {
-    mixins: [bondInfoMixin],
-    computed: {
-        // 付息日
-        paymentDate() {
-            return calcPaymentDates(
-                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate,
-                true,
-                '.',
-                '、'
-            )
-        }
-    }
+    mixins: [bondInfoMixin]
 }
 </script>
 <style lang="scss" scoped>
