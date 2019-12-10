@@ -374,14 +374,16 @@ export default {
                 } else {
                     item.fundSize = item.fundSize / 100000000
                 }
+                // item.fundSizeCurrency = CURRENCY_NUM_ENUM[item.fundSizeCurrency]
                 item.initialInvestAmount = transNumToThousandMark(
                     Number(item.initialInvestAmount).toFixed(0),
                     0
                 )
                 item.fundSize = Math.floor(item.fundSize)
-                item.tradeCurrency = CURRENCY_NAME['zhCHS'][item.tradeCurrency]
+                item.tradeCurrency =
+                    CURRENCY_NAME[this.lang][item.tradeCurrency]
                 item.fundSizeCurrency =
-                    CURRENCY_NAME['zhCHS'][item.fundSizeCurrency]
+                    CURRENCY_NAME[this.lang][item.fundSizeCurrency]
                 let cavas = document.createElement('canvas')
                 cavas.style.position = 'fixed'
                 cavas.style.top = '0'

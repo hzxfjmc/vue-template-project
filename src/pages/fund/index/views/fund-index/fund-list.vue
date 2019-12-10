@@ -45,15 +45,33 @@ export default {
     i18n: {
         zhCHS: {
             described: '起购',
-            unit: '亿'
+            unit: '亿',
+            USD: '美元',
+            CNY: '人民币',
+            HKD: '港币',
+            AUS: '澳元',
+            KRW: '韩元',
+            JPY: '日元'
         },
         zhCHT: {
             described: '起購',
-            unit: '亿'
+            unit: '亿',
+            USD: '美元',
+            CNY: '人民币',
+            HKD: '港币',
+            AUS: '澳元',
+            KRW: '韩元',
+            JPY: '日元'
         },
         en: {
             described: 'Initial Subs.',
-            unit: 'M'
+            unit: 'M',
+            USD: '美元',
+            CNY: '人民币',
+            HKD: '港币',
+            AUS: '澳元',
+            KRW: '韩元',
+            JPY: '日元'
         }
     },
     components: {
