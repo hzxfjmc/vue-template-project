@@ -120,10 +120,11 @@ export default new Router({
                 import(`@/pages/fund/index/views/income-details/index.vue`)
         },
         {
-            name: 'home',
+            name: 'fundIndex',
             path: '/home',
             meta: { title: 'home', auth: true, cs: true },
-            component: () => import(`@/pages/fund/index/views/home/index.vue`)
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
         {
             name: 'fund-order-list',
