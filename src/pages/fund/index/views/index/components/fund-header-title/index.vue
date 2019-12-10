@@ -93,8 +93,8 @@ export default {
                 4: 1
             }
             this.activeTab = obj[val]
-            this.$refs.navTransform.style.left =
-                this.activeTab < 2 ? '0px' : '-30px'
+            // this.$refs.navTransform.style.left =
+            //     this.activeTab < 2 ? '0px' : '-30px'
             this.initI18n()
         }
     },
@@ -111,7 +111,7 @@ export default {
             },
             sellProtocolFileList: [
                 {
-                    fileName: '全部基金',
+                    fileName: '全部货币',
                     iconPath: require('@/assets/img/fund/icon_qiu.png'),
                     key: 'fundAllType',
                     value: ''
@@ -131,7 +131,7 @@ export default {
             ],
             navList: [
                 {
-                    label: '全部货币',
+                    label: '全部',
                     key: 'fundAll',
                     value: ''
                 },
@@ -164,7 +164,7 @@ export default {
                 item.label = this.$t(item.key)
             })
             this.sellProtocolFileList.map(item => {
-                item.label = this.$t(item.key)
+                item.fileName = this.$t(item.key)
             })
             this.fundTitle = this.$t('fundAllType')
         },
@@ -201,7 +201,7 @@ export default {
             }
         },
         handerTab(item, index) {
-            this.$refs.navTransform.style.left = index < 2 ? '0' : '-30px'
+            // this.$refs.navTransform.style.left = index < 2 ? '0' : '-30px'
             this.state.assetType = item.value
             this.state.key = item.key
             this.activeTab = index
