@@ -1,6 +1,6 @@
 export const en = {
     fundDetails: 'Fund Detail',
-    fundList: 'Featured Funds',
+    fundList: 'Fund List',
     fundIntroduce: 'Fund Overview',
     tradeRule: 'Trade Rules',
     fundFiles: 'Related Documents',
