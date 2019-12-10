@@ -180,7 +180,9 @@ export default {
         initEchartList() {
             let cavas = document.createElement('canvas')
             this.$refs.renderEchart.innerHTML = ''
-            cavas.id = this.chartId
+            cavas.id = `${this.chartId}${Math.floor(
+                Math.random(1) * 100000000
+            )}`
             this.$refs.renderEchart.appendChild(cavas)
             let canvaStyle = document.querySelector('#myChart')
             canvaStyle.style.width = '100%'
