@@ -36,7 +36,8 @@
                         :class="[currency === 1 ? 'active' :'']") {{$t('usd')}}
         
         .block__left__bottom
-            span {{weekEarnings}} {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+            span(v-if="moneyShow") {{weekEarnings}} {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+            span(v-else) **** {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
     .block__tab
         .block__tab--list
             .block__tab--Item(

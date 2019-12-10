@@ -169,7 +169,6 @@ export default {
         },
         hideNumber() {
             this.showPsd = !this.showPsd
-            console.log(12)
             LS.put('showMoney', this.showPsd)
             this.$emit('changeEyeTab', this.showPsd)
         }
