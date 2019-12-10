@@ -412,6 +412,9 @@ export default {
                 id: canvasId,
                 pixelRatio: window.devicePixelRatio
             })
+            data.map(item => {
+                item.pointData = Number(item.pointData)
+            })
             chart.source(data, {
                 pointData: {
                     tickCount: 5,
