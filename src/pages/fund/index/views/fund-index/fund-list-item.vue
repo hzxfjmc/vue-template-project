@@ -1,7 +1,7 @@
 <template lang="pug">
     .block__fund(
         v-if="fundlist.masterTitle"
-        :class="[appType.Hk ? 'block__fund-hk' : 'block__fund-ch']")
+        :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
         .block__fund--list.border-bottom(
             @click="goNext(item)"
@@ -12,26 +12,22 @@
                 .element--fund--content
                     span.title.ellipse {{item.title}}
                     .element--content-sub-content
-                        .number(
-                            v-if="Number(item.apy)>0" 
-                            :class="stockColorType === 1 ? 'color-red' : 'color-green'") + {{(item.apy*100).toFixed(2)}}%
-                        .number(
-                            v-if="Number(item.apy)<0" 
-                            :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}%
+                        .number(v-if="Number(item.apy)>0" :class="stockColorType === 1 ? 'color-red' : 'color-green'") + {{(item.apy*100).toFixed(2)}}%
+                        .number(v-if="Number(item.apy)<0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}% 
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom
-                        span(v-if="appType.Hk") {{item.assetTypeName}}
-                        span(v-if="appType.Hk") {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                        span(v-if="appType.Hk") {{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
+                        span(v-if="code != 1") {{item.assetTypeName}} 
+                        span(v-if="code != 1") {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
+                        span(v-if="code != 1") {{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
                         fund-tag(
-                            v-if="!appType.Hk"
+                            v-if="code === 1"
                             :title="item.assetTypeName")
                         fund-tag(
-                            v-if="!appType.Hk"
+                            v-if="code === 1"
                             :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
                         fund-tag(
-                            v-if="!appType.Hk"
+                            v-if="code === 1"
                             :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
                 
 </template>
@@ -79,6 +75,9 @@ export default {
         fundlist: {
             type: Object,
             default: () => {}
+        },
+        code: {
+            type: Number
         }
     },
     methods: {
@@ -90,6 +89,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.color-green {
+    color: #04ba60;
+}
+.color-red {
+    color: #ea3d3d;
+}
 .block__fund {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -123,7 +128,6 @@ export default {
                 flex-direction: row;
                 .number {
                     font-size: 18px;
-                    color: rgba(0, 197, 141, 1);
                     line-height: 23px;
                 }
                 .tag {

@@ -19,7 +19,7 @@
                     van-tag(
                         color="#2177FF"
                         plain
-                        ) {{ fundHeaderInfoVO.dividendType }}
+                        ) {{ fundHeaderInfoVO.earningsTypeName }}
         .funds-details-number
             .header-left
                 span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}

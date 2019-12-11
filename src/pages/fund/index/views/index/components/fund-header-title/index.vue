@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund__header--nav
-    .fund__header--subnav(v-if="appType.Hk")
+    .fund__header--subnav(v-if="code != 1")
         .fund__nav--scroll(ref="navTransform")
             .fund__nav--item(
                 v-for="(item,index) in navList" 
@@ -36,7 +36,7 @@
 <script>
 import { Tab, Tabs } from 'vant'
 import protocolPopup from '../protocol-popup'
-import { mapGetters } from 'vuex'
+import { getSource } from '@/service/customer-relationship-server'
 export default {
     props: {
         assetType: {
@@ -80,9 +80,6 @@ export default {
         [Tab.name]: Tab,
         [Tabs.name]: Tabs,
         protocolPopup
-    },
-    computed: {
-        ...mapGetters(['appType'])
     },
     watch: {
         assetType(val) {
@@ -155,7 +152,8 @@ export default {
                     key: 'fundShares',
                     value: '1'
                 }
-            ]
+            ],
+            code: 0
         }
     },
     methods: {
@@ -186,7 +184,7 @@ export default {
             this.$emit('handlerCuenrry', this.state)
         },
         handlerNavItem() {
-            if (this.appType.Hk) {
+            if (this.code != 1) {
                 this.protocolVisible = true
             } else {
                 document.body.style.overflow = 'hidden'
@@ -206,7 +204,19 @@ export default {
             this.state.key = item.key
             this.activeTab = index
             this.$emit('handlerCuenrry', this.state)
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
+    },
+    mounted() {
+        this.getSource()
     }
 }
 </script>

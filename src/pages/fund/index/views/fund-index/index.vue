@@ -35,11 +35,13 @@
                         @click="chooseCurrency(1)"
                         :class="[currency === 1 ? 'active' :'']") {{$t('usd')}}
         
-        .block__left__bottom.border-bottom
+        .block__left__bottom
             span(v-if="moneyShow") {{weekEarnings}} {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
             span(v-else) **** {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-        .block__bottom--num(@click="toOrderList")
-            span {{$t('fundmsg')}}
+        .block__bottom--num.border-top(
+            v-if="inTransitOrder !== '0'"
+            @click="toOrderList")
+            span {{inTransitOrder}}{{$t('fundmsg')}}
             em(class="iconfont icon-previewright")
     .block__tab
         .block__tab--list
@@ -51,6 +53,7 @@
                 span {{item.label}}
     .block__container
         FundList(
+            :code = "code"
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
         .block-bannar-sub(v-if="barnnarList.length !== 0")
@@ -60,11 +63,13 @@
                     :key="index") 
                     img(:src="item.bannerUrl") 
         FundListItem(
+            :code = "code"
             bgColor="#2B4F80"
             :title="robustFundList.masterTitle"
             v-if="robustFundListShow"
             :fundlist="robustFundList")
         FundListItem(
+            :code = "code"
             :fundlist="blueChipFundList"
             :title="blueChipFundList.masterTitle"
             v-if="blueChipFundListShow"
@@ -96,6 +101,7 @@ import { enablePullRefresh } from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
+import { getSource } from '@/service/customer-relationship-server'
 export default {
     components: {
         [Swipe.name]: Swipe,
@@ -212,6 +218,8 @@ export default {
             usSummary: {},
             positionAmount: '0.00',
             weekEarnings: '0.00',
+            code: null,
+            inTransitOrder: '0',
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: []
@@ -306,7 +314,11 @@ export default {
         //获取持仓
         async getFundPositionListV3() {
             try {
-                const { usSummary, hkSummary } = await getFundPositionListV3()
+                const {
+                    usSummary,
+                    hkSummary,
+                    inTransitOrder
+                } = await getFundPositionListV3()
                 this.hkSummary = hkSummary
                 this.usSummary = usSummary
                 let positionAmout =
@@ -317,6 +329,7 @@ export default {
                     this.currency === 0
                         ? hkSummary.weekEarnings
                         : usSummary.weekEarnings
+                this.inTransitOrder = inTransitOrder
                 this.positionAmount = transNumToThousandMark(positionAmout, 2)
                 this.weekEarnings = transNumToThousandMark(weekEarnings, 2)
             } catch (e) {
@@ -364,7 +377,6 @@ export default {
                 } = await getFundHomepageInfo({
                     moduleBitmap: 15
                 })
-                // this.barnnarList = fundHomepageTwo.data
                 this.choiceFundList = fundHomepageOne || {}
                 this.blueChipFundList = fundHomepageFour || {}
                 this.robustFundList = fundHomepageThree || {}
@@ -383,12 +395,11 @@ export default {
                 robustFundList: this.robustFundList
             }
             arr_[type].data.map(item => {
-                if (!this.appType.Hk && this.lang === 'zhCHS') {
+                if (this.code !== 1 && this.lang === 'en') {
                     item.fundSize = item.fundSize / 10000000
                 } else {
                     item.fundSize = item.fundSize / 100000000
                 }
-
                 item.fundSize = transNumToThousandMark(item.fundSize, 2)
                 item.initialInvestAmount = transNumToThousandMark(
                     Number(item.initialInvestAmount).toFixed(0),
@@ -483,6 +494,15 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     mounted() {
@@ -501,9 +521,13 @@ export default {
         )
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
+        this.getSource()
         if (this.isLogin) {
             this.getFundPositionListV3()
+        } else {
+            this.code = this.appType.Hk ? 2 : 1
         }
+        console.log(this.code)
     }
 }
 </script>

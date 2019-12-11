@@ -292,7 +292,6 @@ export default {
                         this.fundHeaderInfoVO.fundName
                     )
                 }
-                console.log('1')
             } catch (e) {
                 console.log('getFundApyPointV1:error:>>>', e)
             }
@@ -380,7 +379,9 @@ export default {
     mounted() {
         enablePullRefresh(true)
         this.getFundDetail()
-        this.getCurrentUser()
+        if (this.isLogin) {
+            this.getCurrentUser()
+        }
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},

@@ -4,12 +4,14 @@
         @toRouterPath = "toRouterPath"
         @changeEyeTab = "changeEyeTab"
         @handlerCurrency="handlerCurrency"
+        :inTransitOrder="inTransitOrder"
         :holdData="holdData")
         fundList(
             slot="fundList"
             bgColor="#0091FF"
             title = '港幣基金'
             v-if="!noMoreShow"
+            :code = "code"
             :eyeTab="eyeTab"       
             :fundList="hkPositionList")
         fundList(
@@ -17,6 +19,7 @@
             bgColor="#FFBA00"
             title = '美元基金'
             v-if="!noMoreShow"
+            :code = "code"
             :eyeTab="eyeTab"    
             :fundList="usPositionList")
     .block-element-nomore(v-if="noMoreShow")
@@ -32,6 +35,7 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { enumCurrency } from '@/pages/fund/index/map'
+import { getSource } from '@/service/customer-relationship-server'
 export default {
     data() {
         return {
@@ -39,8 +43,10 @@ export default {
             fundList: [],
             currency: 2,
             noMoreShow: false,
+            code: 0,
             hkPositionList: [],
             usPositionList: [],
+            inTransitOrder: '',
             eyeTab: LS.get('showMoney')
         }
     },
@@ -86,10 +92,12 @@ export default {
                 hkPositionList,
                 hkSummary,
                 usPositionList,
-                usSummary
+                usSummary,
+                inTransitOrder
             } = await getFundPositionListV3()
             this.hkPositionList = hkPositionList
             this.usPositionList = usPositionList
+            this.inTransitOrder = inTransitOrder
             this.holdData = {
                 hkSummary: hkSummary,
                 usSummary: usSummary
@@ -167,12 +175,22 @@ export default {
                     }
                 }
             })
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     mounted() {
         this.currency =
             LS.get('activeTab') === 0 ? enumCurrency.HKD : enumCurrency.USD
         this.getFundPositionListV3()
+        this.getSource()
     }
 }
 </script>

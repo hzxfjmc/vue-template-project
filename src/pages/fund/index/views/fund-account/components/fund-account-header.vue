@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-account-header
-    .block-account-header(:class="[appType.Hk ? 'bg-hk' : 'bg-ch']")
+    .block-account-header(:class="[code != 1 ? 'bg-hk' : 'bg-ch']")
         .header-content
             .header-content-left
                 span.title 
@@ -33,7 +33,9 @@
         .header-footer-tab.border-top(class="border-bottom-active")
             span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
             span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
-        .block__footer--hold.border-top(@click="toRouterPath('/fund-order-list')")
+        .block__footer--hold.border-top(
+            v-if="inTransitOrder!=='0'"
+            @click="toRouterPath('/fund-order-list')")
             span {{$t('fundmsg')}}
             em(class="iconfont icon-previewright")
     slot(name="fundList")
@@ -50,6 +52,13 @@ export default {
         holdData: {
             type: Object,
             default: () => {}
+        },
+        inTransitOrder: {
+            type: String,
+            default: ''
+        },
+        code: {
+            type: Number
         }
     },
     computed: {

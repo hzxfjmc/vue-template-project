@@ -1,7 +1,7 @@
 <template lang="pug">
     .block__fund(
         v-if="fundlist.masterTitle"
-        :class="[appType.Hk ? 'block__fund-hk' : 'block__fund-ch']")
+        :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse {{fundlist.masterTitle}}
         .block__fund--list.border-bottom(
             @click="goNext(item)"
@@ -12,17 +12,17 @@
                     .element--right
                         img(:src="item.imgUrl")
                     .element--content-sub-content
-                        .number(v-if="Number(item.apy)>0" :class="stockColorType === 1 ? 'color-red' : 'color-green'") + {{(item.apy*100).toFixed(2)}}%
-                        .number(v-if="Number(item.apy)<0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}%
+                        .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") + {{(item.apy*100).toFixed(2)}}%
+                        .number(v-if="Number(item.apy)<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom
                         .tag-title 
                             span.title.ellipse {{item.title}}
-                        .tag-list--element(v-if="appType.Hk")
+                        .tag-list--element(v-if="code !== 1")
                             span {{item.assetTypeName}}
-                            span {{item.initialInvestAmount}} {{item.tradeCurrency}}起購
-                            span {{item.fundSize}}億{{item.fundSizeCurrency}}
+                            span {{item.initialInvestAmount}} {{item.tradeCurrency}}起购
+                            span {{item.fundSize}}亿{{item.fundSizeCurrency}}
                         .tag-list(v-else)
                             fund-tag(:title="item.assetTypeName")
                             fund-tag(
@@ -41,6 +41,9 @@ export default {
         fundlist: {
             type: Object,
             default: () => {}
+        },
+        code: {
+            type: Number
         }
     },
     i18n: {
@@ -83,6 +86,7 @@ export default {
     },
     computed: {
         stockColorType() {
+            console.log(getStockColorType())
             return +getStockColorType()
         },
         ...mapGetters(['appType', 'lang'])

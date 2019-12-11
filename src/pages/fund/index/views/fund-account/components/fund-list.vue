@@ -1,5 +1,5 @@
 <template lang="pug">
-.block-fund-list-content(:class="[appType.Hk ? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
+.block-fund-list-content(:class="[code!=1? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
     .block__fund-title.border-bottom(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}
@@ -83,6 +83,9 @@ export default {
         eyeTab: {
             type: Boolean,
             default: localStorage.get('showMoney')
+        },
+        code: {
+            type: Number
         }
     },
     data() {
