@@ -120,7 +120,7 @@ export default new Router({
                 import(`@/pages/fund/index/views/income-details/index.vue`)
         },
         {
-            name: 'fundIndex',
+            name: 'home',
             path: '/home',
             meta: { title: 'home', auth: true, cs: true },
             component: () =>
@@ -150,7 +150,7 @@ export default new Router({
         {
             name: 'fund-index',
             path: '/fund-index',
-            meta: { title: 'fundIndex', auth: true, cs: true },
+            meta: { title: 'home', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-index/index.vue`)
         }

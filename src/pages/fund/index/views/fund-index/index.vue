@@ -329,7 +329,7 @@ export default {
                     this.currency === 0
                         ? hkSummary.weekEarnings
                         : usSummary.weekEarnings
-                this.inTransitOrder = inTransitOrder
+                this.inTransitOrder = inTransitOrder || '0'
                 this.positionAmount = transNumToThousandMark(positionAmout, 2)
                 this.weekEarnings = transNumToThousandMark(weekEarnings, 2)
             } catch (e) {
