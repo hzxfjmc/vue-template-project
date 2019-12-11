@@ -279,6 +279,7 @@ export default {
             try {
                 const res = await bannerAdvertisement(26)
                 const res1 = await bannerAdvertisement(27)
+                const res2 = await bannerAdvertisement(100)
                 this.barnnarHkList = res.banner_list
                 if (res.banner_list.length === 0) {
                     this.barnnarHkList.push({
@@ -286,6 +287,7 @@ export default {
                     })
                 }
                 this.barnnarUsList = res1.banner_list
+                this.barnnarList = res2.banner_list
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -345,14 +347,13 @@ export default {
         async getFundHomepageInfo() {
             try {
                 const {
-                    fundHomepageTwo,
                     fundHomepageThree,
                     fundHomepageOne,
                     fundHomepageFour
                 } = await getFundHomepageInfo({
                     moduleBitmap: 15
                 })
-                this.barnnarList = fundHomepageTwo.data
+                // this.barnnarList = fundHomepageTwo.data
                 this.choiceFundList = fundHomepageOne || {}
                 this.blueChipFundList = fundHomepageFour || {}
                 this.robustFundList = fundHomepageThree || {}

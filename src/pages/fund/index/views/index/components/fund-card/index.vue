@@ -9,6 +9,7 @@
             h2(:style="h2Style") {{ fundName }}
             .labels 
                 fund-tag(:title="info.fundRisk")
+                fund-tag(:title="info.currency.shortSymbol")
             .feature {{ info.feature }}
 </template>
 

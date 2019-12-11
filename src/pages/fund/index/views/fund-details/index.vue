@@ -43,6 +43,7 @@ import {
 } from '@/service/finance-info-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
+import { getCurrentUser } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 import { enablePullRefresh } from '@/utils/js-bridge.js'
@@ -146,6 +147,16 @@ export default {
         }
     },
     methods: {
+        //获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.userInfo = res
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getCurrentUser:error:>>>', e)
+            }
+        },
         //跳转
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
@@ -369,6 +380,7 @@ export default {
     mounted() {
         enablePullRefresh(true)
         this.getFundDetail()
+        this.getCurrentUser()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
