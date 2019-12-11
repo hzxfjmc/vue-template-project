@@ -1,7 +1,7 @@
 <template lang="pug">
 .block-fund-index
     .block__swiper.block__fund_index_swiper
-        van-swipe(:autoplay="3000") 
+        van-swipe(:autoplay="10000") 
             van-swipe-item(
                 v-for="(item, index) in barnnarHkList" 
                 :key="index"  
@@ -68,7 +68,7 @@
             bgColor="#F1B92D")
 
         .block-bannar-sub(v-if="barnnarUsList.length !== 0")
-            van-swipe(:autoplay="3000") 
+            van-swipe(:autoplay="10000") 
                 van-swipe-item(
                     v-for="(item, index) in barnnarUsList" 
                     :key="index"  

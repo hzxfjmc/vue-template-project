@@ -1,5 +1,6 @@
 <template lang="pug">
     .block__fund(
+        v-if="fundlist.masterTitle && fundlist.data"
         :class="[appType.Hk ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
         .block__fund--list.border-bottom(
@@ -9,7 +10,6 @@
                 .element--right
                     img(:src="item.imgUrl")
                 .element--fund--content
-                   
                     span.title.ellipse {{item.title}}
                     .element--content-sub-content
                         .number(
