@@ -217,7 +217,6 @@ export function parseThousands(priceVal) {
  * @params ${jump_type:跳转方式,jump_url:跳转链接}
  */
 export function jumpUrl(jump_type, jump_url) {
-    console.log(jump_url)
     if (jump_type != 5) {
         if (jsBridge.isYouxinApp) {
             jsBridge.gotoNewWebview(jump_url)

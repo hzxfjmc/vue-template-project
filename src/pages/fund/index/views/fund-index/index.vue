@@ -50,12 +50,11 @@
         FundList(
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
-        .block-bannar-sub
-            van-swipe(:autoplay="3000") 
+        .block-bannar-sub(v-if="barnnarList.length === 0")
+            van-swipe 
                 van-swipe-item(
                     v-for="(item, index) in barnnarList" 
-                    :key="index"  
-                    @click="goBanner(item)") 
+                    :key="index") 
                     img(:src="item.bannerUrl") 
         FundListItem(
             bgColor="#2B4F80"
@@ -68,7 +67,7 @@
             v-if="blueChipFundListShow"
             bgColor="#F1B92D")
 
-        .block-bannar-sub
+        .block-bannar-sub(v-if="barnnarUsList.length === 0")
             van-swipe(:autoplay="3000") 
                 van-swipe-item(
                     v-for="(item, index) in barnnarUsList" 
@@ -236,7 +235,7 @@ export default {
             LS.put('showMoney', this.moneyShow)
         },
         goBanner(item) {
-            jumpUrl(item.jumpType, item.jumpUrl)
+            jumpUrl(item.news_jump_type, item.jump_url)
         },
         //跳转
         handlerNavItem(item) {
