@@ -8,10 +8,10 @@
                 span.number.number-red(v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType === 4") +{{Number(masterData.pointData)| sliceFixedTwo(4)}}%
                 span.number.number-red(v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType !== 4") +{{Number(masterData.pointData)| sliceFixedTwo(2)}}%
                 span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(3)}}%
+                span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
                 span.number(v-if="masterData.pointData==0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number(v-if="masterData.pointData===0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(3)}}%
-                p.day {{$t('nav')}}：
+                span.number(v-if="masterData.pointData===0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
+                p.day {{fundHeaderInfoVO.assetType === 4 ? $t('yieldInLast7d'):$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
     .fund-date-list
@@ -30,6 +30,7 @@ export default {
             fundTrade: '基金业绩走势',
             nav: '涨幅',
             time: '日期',
+            yieldInLast7d: '近七日年化',
             list: {
                 0: { date: '近1月' },
                 1: { date: '近3月' },
@@ -43,6 +44,7 @@ export default {
             fundTrade: '基金業績走勢',
             nav: '漲幅',
             time: '日期',
+            yieldInLast7d: '近七日年化',
             list: {
                 0: { date: '近1月' },
                 1: { date: '近3月' },
@@ -56,6 +58,7 @@ export default {
             fundTrade: 'Trend Charts',
             time: 'Time',
             nav: '%Chg',
+            yieldInLast7d: 'Yield in Last 7d',
             list: {
                 0: { date: '1 Month' },
                 1: { date: '3 Months' },
