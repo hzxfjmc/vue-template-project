@@ -1,6 +1,5 @@
 <template lang="pug">
     .block__fund(
-        v-if="fundlist.masterTitle"
         :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
         .block__fund--list.border-bottom(

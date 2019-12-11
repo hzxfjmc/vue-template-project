@@ -3,7 +3,7 @@
     .block__fund-title.border-bottom(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}
-        em(class="iconfont icon-icon-bottom")
+        em(:class="listShow ? 'iconfont icon-icon-bottom' : 'icon-iconxiala'")
     .list-item-content.border-bottom(
         v-for="(item,index) in fundList" 
         v-if="listShow"
@@ -45,12 +45,12 @@
                     span {{$t('share')}}
                     span.price-number(v-if="eyeTab") {{item.redeemDeliveryShare}}
                     span.price-number(v-else) ****
-            .o-item(v-if="item.inTransitAmount !== '0.00'")
-                .footer-left-l {{$t('subscribe')}}
-                .footer-right
-                    span {{item.currency}}
-                    span.price-number(v-if="eyeTab") {{item.inTransitAmount}}
-                    span.price-number(v-else) ****
+            //- .o-item(v-if="item.inTransitAmount !== '0.00'")
+            //-     .footer-left-l {{$t('subscribe')}}
+            //-     .footer-right
+            //-         span {{item.currency}}
+            //-         span.price-number(v-if="eyeTab") {{item.inTransitAmount}}
+            //-         span.price-number(v-else) ****
    
 </template>
 <script>

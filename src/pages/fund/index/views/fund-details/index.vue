@@ -71,7 +71,7 @@ export default {
             openAccount: '您尚未開戶，開戶成功即可交易'
         },
         en: {
-            buy: 'Subscription',
+            buy: 'Subscribe',
             redeem: 'Redemption',
             append: 'Incremental',
             login: 'Please login in',

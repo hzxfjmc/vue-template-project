@@ -32,6 +32,8 @@ export const subscribeObji18n = {
             withdrawBalanceNetPrice: '最大可买(份额)',
             buyMoney: '购买金额',
             subscriptionFee: '申购费（预计）',
+            hkd: '港币',
+            usd: '美元',
             totalOrderAmount: '订单总金额',
             readyXieyi: '已阅读并同意服务协议及风险提示，并查阅相关信息'
         },
@@ -39,6 +41,8 @@ export const subscribeObji18n = {
             withdrawBalance: '可用餘額',
             withdrawBalanceNetPrice: '最大可買(份額)',
             buyMoney: '購買金額',
+            hkd: '港幣',
+            usd: '美元',
             subscriptionFee: '申購費（預計）',
             totalOrderAmount: '訂單總金額',
             readyXieyi: '已閱讀並同意服務協議及風險提示，並查閱相關信息'
@@ -47,8 +51,10 @@ export const subscribeObji18n = {
             withdrawBalance: 'Available Balance',
             withdrawBalanceNetPrice: 'Max Purchase(unit)',
             buyMoney: 'Amount of Purchasing',
-            subscriptionFee: 'Subscription Fee (Expected)',
-            totalOrderAmount: 'Total Amount of Orders',
+            hkd: 'HKD',
+            usd: 'USD',
+            subscriptionFee: 'Subscription Fee (Estimated)',
+            totalOrderAmount: 'Total Amount of Order',
             readyXieyi:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information'
         }

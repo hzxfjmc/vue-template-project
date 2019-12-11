@@ -149,8 +149,8 @@ export default {
                 '1. 你可選擇港幣或美元作為基金總資產基礎貨幣。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。'
         },
         en: {
-            fundHold: 'Fund Position',
-            SevenDayIncome: 'RTN 7d',
+            fundHold: 'Position',
+            SevenDayIncome: '7 Days',
             hkd: 'HKD',
             usd: 'USD',
             accountTotal: 'Total Fund Assets',
@@ -165,7 +165,7 @@ export default {
             confirm: 'Confirm',
             fundmsg: 'Processing Order',
             msg:
-                '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)'
+                '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currency is only used as a display of uSMART fund asset calculations. Does not affect the fund currency of each fund.'
         }
     },
     computed: {
@@ -377,18 +377,23 @@ export default {
                 } = await getFundHomepageInfo({
                     moduleBitmap: 15
                 })
-                this.choiceFundList = fundHomepageOne || {}
-                this.blueChipFundList = fundHomepageFour || {}
-                this.robustFundList = fundHomepageThree || {}
-                this.factoryMap_('choiceFundList')
-                this.factoryMap_('blueChipFundList')
-                this.factoryMap_('robustFundList')
+                let obj = {
+                    flag: !fundHomepageOne,
+                    flag1: !fundHomepageThree,
+                    flag2: !fundHomepageFour
+                }
+                this.choiceFundList = fundHomepageOne || { data: [] }
+                this.blueChipFundList = fundHomepageFour || { data: [] }
+                this.robustFundList = fundHomepageThree || { data: [] }
+                this.factoryMap_('choiceFundList', obj)
+                this.factoryMap_('blueChipFundList', obj)
+                this.factoryMap_('robustFundList', obj)
             } catch (e) {
                 this.$toast(e.msg)
             }
         },
         //工厂模式批量生成图片并插入数组中
-        factoryMap_(type) {
+        factoryMap_(type, obj) {
             let arr_ = {
                 choiceFundList: this.choiceFundList,
                 blueChipFundList: this.blueChipFundList,
@@ -422,9 +427,12 @@ export default {
                     res => {
                         item.imgUrl = res
                         setTimeout(() => {
-                            this.choiceFundListShow = true
-                            this.blueChipFundListShow = true
-                            this.robustFundListShow = true
+                            // if(obj.flag){
+                            this.choiceFundListShow = !obj.flag
+                            // }
+
+                            this.blueChipFundListShow = !obj.flag2
+                            this.robustFundListShow = !obj.flag1
                         }, 200)
                     }
                 )

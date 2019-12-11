@@ -1,6 +1,5 @@
 <template lang="pug">
     .block__fund(
-        v-if="fundlist.masterTitle"
         :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse {{fundlist.masterTitle}}
         .block__fund--list.border-bottom(
@@ -21,14 +20,14 @@
                             span.title.ellipse {{item.title}}
                         .tag-list--element(v-if="code !== 1")
                             span {{item.assetTypeName}}
-                            span {{item.initialInvestAmount}} {{item.tradeCurrency}}起购
-                            span {{item.fundSize}}亿{{item.fundSizeCurrency}}
+                            span {{lang === 'en' ? $t('described') : ''}}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
+                            span {{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
                         .tag-list(v-else)
                             fund-tag(:title="item.assetTypeName")
                             fund-tag(
-                                :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described'):''}`")
+                                :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
                             fund-tag(
-                                :title="`${item.fundSize}${$t('unit')}${item.fundSizeCurrency}`")
+                                :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
                 
 </template>
 <script>
