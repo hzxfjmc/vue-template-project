@@ -26,7 +26,9 @@
                 span(@click="handlerCurrency") {{currency===0?$t('hkd'):$t('usd')}}
                 em(class="iconfont icon-iconxiala" @click="handlerCurrency")
                 em(class="iconfont icon-icon_fund_index_2" @click="handlerDialog")
-                .block--master(v-if="chooseCurrencyShow")
+                .block--master(
+                    v-if="chooseCurrencyShow" 
+                    @click="chooseCurrencyShow = !chooseCurrencyShow")
                 .block__currey(v-if="chooseCurrencyShow")
                     span.border-bottom(
                         @click="chooseCurrency(0)"

@@ -212,7 +212,6 @@ export default {
 .block-account-header {
     width: 100%;
     padding: 20px 0 0 0;
-    height: 190px;
 }
 .bg-hk {
     background: linear-gradient(

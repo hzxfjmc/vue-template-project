@@ -6,7 +6,7 @@
             .rate-num(v-else) {{ apy }}%
             .annualized-returns {{ isMonetaryFund ? $t('yieldInLast7d') : $t('annualRateOfReturn') }}
         .right
-            h2(:style="h2Style") {{ fundName }}
+            h2(:style="h2Style") {{ info.fundName }}
             .labels 
                 fund-tag(:title="info.fundRisk")
                 fund-tag(:title="info.currency.shortSymbol")
@@ -63,11 +63,11 @@ export default {
                 (func((this.info.apy - 0) * 10000) / 100).toFixed(2)
             )
         },
-        fundName() {
-            return this.info.fundName.length > 12
-                ? this.info.fundName.slice(0, 12) + '...'
-                : this.info.fundName
-        },
+        // fundName() {
+        //     return this.info.fundName.length > 12
+        //         ? this.info.fundName.slice(0, 12) + '...'
+        //         : this.info.fundName
+        // },
         h2Style() {
             // 名称字体变化策略
             let fundName = this.info.fundName || ''
@@ -123,7 +123,10 @@ export default {
         h2 {
             overflow: hidden;
             margin-bottom: 6px;
+            width: 100%;
             color: $title-color;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .feature {
             color: $text-color5;

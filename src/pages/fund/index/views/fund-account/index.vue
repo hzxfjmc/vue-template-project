@@ -4,6 +4,7 @@
         @toRouterPath = "toRouterPath"
         @changeEyeTab = "changeEyeTab"
         @handlerCurrency="handlerCurrency"
+        :code ="code"
         :inTransitOrder="inTransitOrder"
         :holdData="holdData")
         fundList(
@@ -97,7 +98,7 @@ export default {
             } = await getFundPositionListV3()
             this.hkPositionList = hkPositionList
             this.usPositionList = usPositionList
-            this.inTransitOrder = inTransitOrder
+            this.inTransitOrder = inTransitOrder || '0'
             this.holdData = {
                 hkSummary: hkSummary,
                 usSummary: usSummary

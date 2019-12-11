@@ -3,8 +3,8 @@
     .block__fund-title.border-bottom(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}
-        em(:class="listShow ? 'iconfont icon-icon-bottom' : 'icon-iconxiala'")
-    .list-item-content.border-bottom(
+        em(:class="listShow ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
+    .list-item-content(
         v-for="(item,index) in fundList" 
         v-if="listShow"
         :key="index" 
@@ -88,9 +88,14 @@ export default {
             type: Number
         }
     },
+    // watch: {
+    //     fundList() {
+    //         this.listShow = this.fundList.length === 0
+    //     }
+    // },
     data() {
         return {
-            listShow: true
+            listShow: false
         }
     },
     i18n: {
