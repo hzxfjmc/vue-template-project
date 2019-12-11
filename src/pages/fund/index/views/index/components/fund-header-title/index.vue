@@ -70,7 +70,7 @@ export default {
             fundHkdType: 'HKD Funds',
             fundUsdType: 'USD Funds',
             fundAll: 'All',
-            fundCurrency: 'Money Market',
+            fundCurrency: 'Money',
             fundBond: 'Bond',
             fundBlend: 'Balanced',
             fundShares: 'Equity'
@@ -164,10 +164,14 @@ export default {
             this.sellProtocolFileList.map(item => {
                 item.fileName = this.$t(item.key)
             })
-            this.fundTitle = this.$t('fundAllType')
+            this.fundTitle =
+                this.$t('fundAllType') === 'All Currencies'
+                    ? 'Currency'
+                    : this.$t('fundAllType')
         },
         chooseFilePath(data) {
             this.IconPath = data.iconPath
+            console.log(data)
             this.fundTitle =
                 data.fileName === 'All Currencies' ? 'Currency' : data.fileName
             this.state.currency = data.value
@@ -322,6 +326,9 @@ export default {
             }
         }
     }
+}
+.inner-container::-webkit-scrollbar {
+    display: none;
 }
 .block--master {
     position: fixed;
