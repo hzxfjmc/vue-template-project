@@ -41,7 +41,6 @@ import {
     getFundDetail,
     getFundApyPointV1
 } from '@/service/finance-info-server.js'
-import { getCurrentUser } from '@/service/user-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { Button, Dialog } from 'vant'
@@ -287,15 +286,6 @@ export default {
                 console.log('getFundApyPointV1:error:>>>', e)
             }
         },
-        //获取用户信息
-        async getCurrentUser() {
-            try {
-                const res = await getCurrentUser()
-                this.userInfo = res
-            } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
-            }
-        },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell() {
             clickFundDetails(
@@ -306,7 +296,7 @@ export default {
             )
             if (!this.flag2) return this.$toast(this.forbidPrompt)
             // 未登录或未开户
-            if (!this.userInfo) {
+            if (!this.isLogin) {
                 await this.$dialog.alert({
                     message: this.$t('login'),
                     confirmButtonText: this.$t('loginBtn')
@@ -314,7 +304,7 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
-            if (!this.userInfo.openedAccount) {
+            if (!this.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
                     message: this.$t('openAccount'),
@@ -374,12 +364,10 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            this.getCurrentUser()
         }
     },
     mounted() {
         enablePullRefresh(true)
-        this.getCurrentUser()
         this.getFundDetail()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',

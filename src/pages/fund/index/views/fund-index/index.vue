@@ -50,7 +50,7 @@
         FundList(
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
-        .block-bannar-sub(v-if="barnnarList.length === 0")
+        .block-bannar-sub(v-if="barnnarList.length !== 0")
             van-swipe 
                 van-swipe-item(
                     v-for="(item, index) in barnnarList" 
@@ -67,7 +67,7 @@
             v-if="blueChipFundListShow"
             bgColor="#F1B92D")
 
-        .block-bannar-sub(v-if="barnnarUsList.length === 0")
+        .block-bannar-sub(v-if="barnnarUsList.length !== 0")
             van-swipe(:autoplay="3000") 
                 van-swipe-item(
                     v-for="(item, index) in barnnarUsList" 
@@ -85,7 +85,6 @@ import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
-import { getCurrentUser } from '@/service/user-server.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
@@ -160,7 +159,7 @@ export default {
         stockColorType() {
             return +getStockColorType()
         },
-        ...mapGetters(['appType', 'lang'])
+        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount'])
     },
     data() {
         return {
@@ -206,22 +205,12 @@ export default {
             usSummary: {},
             positionAmount: '0.00',
             weekEarnings: '0.00',
-            userInfo: null,
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: []
         }
     },
     methods: {
-        //获取用户信息
-        async getCurrentUser() {
-            try {
-                const res = await getCurrentUser()
-                this.userInfo = res
-            } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
-            }
-        },
         handlerDialog() {
             this.$dialog.alert({
                 title: this.$t('accountTotal'),
@@ -251,23 +240,33 @@ export default {
                 location.href = url
             }
         },
-        async toRouterAccount() {
+        toRouterAccount() {
             // 未登录或未开户
-            if (!this.userInfo) {
-                await this.$dialog.alert({
-                    message: this.$t('login'),
-                    confirmButtonText: this.$t('loginBtn')
-                })
-                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+            if (!this.isLogin) {
+                this.$dialog
+                    .alert({
+                        message: this.$t('login'),
+                        closeOnClickOverlay: true,
+                        overlay: true,
+
+                        confirmButtonText: this.$t('loginBtn')
+                    })
+                    .then(() => {
+                        jsBridge.gotoNativeModule('yxzq_goto://user_login')
+                    })
                 return
             }
-            if (!this.userInfo.openedAccount) {
-                // 跳转到开户页面
-                await this.$dialog.alert({
-                    message: this.$t('openAccount'),
-                    confirmButtonText: this.$t('openAccountBtn')
-                })
-                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+            if (!this.openedAccount) {
+                this.$dialog
+                    .alert({
+                        message: this.$t('openAccount'),
+                        closeOnClickOverlay: true,
+                        confirmButtonText: this.$t('openAccountBtn')
+                    })
+                    .then(() => {
+                        jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                        // on confirm
+                    })
                 return
             }
             this.openWebView(
@@ -384,6 +383,7 @@ export default {
                 let cavas = document.createElement('canvas')
                 cavas.style.position = 'fixed'
                 cavas.style.top = '0'
+                cavas.style.zIndex = '-1'
                 cavas.style.opacity = 0
                 cavas.id = `chartId${item.fundId}`
                 this.$refs.renderEchartlist.appendChild(cavas)
@@ -392,10 +392,6 @@ export default {
                     item.fundHomepagePointList,
                     res => {
                         item.imgUrl = res
-                        // if (type === 'choiceFundList') {
-                        //     this.choiceFundList.data[0].iconUrl = require('@/assets/img/fund/icon_star1.png')
-                        //     this.choiceFundList.data[1].iconUrl = require('@/assets/img/fund/icon_star.png')
-                        // }
                         setTimeout(() => {
                             this.choiceFundListShow = true
                             this.blueChipFundListShow = true
@@ -463,7 +459,6 @@ export default {
     },
     mounted() {
         enablePullRefresh(true)
-        this.getCurrentUser()
         this.$refs.renderEchartlist.innerHTML = ''
         this.moneyShow = LS.get('showMoney')
         this.currency = LS.get('activeTab')

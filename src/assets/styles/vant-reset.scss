@@ -132,10 +132,15 @@ body {
         background: #2f79ff;
     }
 }
-
+.block-fund-index{
+    .van-swipe{
+        width:100%;
+        height:100%;
+    }
+}
 .block__fund_index_swiper{
       .van-swipe__indicators {
-        bottom: 125px !important;
+        bottom: 60px !important;
     }
     .van-swipe__indicator{
         width:15px;
