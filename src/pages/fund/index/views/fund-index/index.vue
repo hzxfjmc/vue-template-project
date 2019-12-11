@@ -257,6 +257,7 @@ export default {
                     })
                 return
             }
+            this.getFundPositionListV3()
             if (!this.openedAccount) {
                 this.$dialog
                     .alert({
@@ -472,7 +473,6 @@ export default {
         this.initI18n()
         this.getFundHomepageInfo()
         this.bannerAdvertisement()
-        this.getFundPositionListV3()
     }
 }
 </script>
