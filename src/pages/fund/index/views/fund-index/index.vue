@@ -35,9 +35,12 @@
                         @click="chooseCurrency(1)"
                         :class="[currency === 1 ? 'active' :'']") {{$t('usd')}}
         
-        .block__left__bottom
+        .block__left__bottom.border-bottom
             span(v-if="moneyShow") {{weekEarnings}} {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
             span(v-else) **** {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+        .block__bottom--num(@click="toOrderList")
+            span {{$t('fundmsg')}}
+            em(class="iconfont icon-previewright")
     .block__tab
         .block__tab--list
             .block__tab--Item(
@@ -92,6 +95,7 @@ import jsBridge from '@/utils/js-bridge'
 import { enablePullRefresh } from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
+import { debounce } from '@/utils/tools.js'
 export default {
     components: {
         [Swipe.name]: Swipe,
@@ -114,6 +118,7 @@ export default {
             login: '请登录后进行操作 ',
             loginBtn: '立即登录',
             openAccountBtn: '立即开户',
+            fundmsg: '笔交易确认中',
             openAccount: '您尚未开户，开户成功即可交易',
             msg:
                 '1. 你可选择港币或美元作为基金总资产基础货币。\n2. uSMART会将你所有基金市值按照基础货币来显示和计算。例子: 当你的基础货币为港币时，你的基金总资产 = 港币基金市值 + 美元基金市值(按汇率转换成港币)\n3. 基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。'
@@ -131,6 +136,7 @@ export default {
             confirm: '確認',
             login: '請登陸後進行操作 ',
             loginBtn: '立即登錄',
+            fundmsg: '筆交易確認中',
             openAccountBtn: '立即開戶',
             openAccount: '您尚未開戶，開戶成功即可交易',
             msg:
@@ -151,6 +157,7 @@ export default {
             openAccountBtn: 'Open account',
             openAccount: 'Please open your account to continue the trade',
             confirm: 'Confirm',
+            fundmsg: 'Processing Order',
             msg:
                 '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)'
         }
@@ -211,6 +218,11 @@ export default {
         }
     },
     methods: {
+        toOrderList() {
+            this.openWebView(
+                `${window.location.origin}/wealth/fund/index.html#/fund-order-list`
+            )
+        },
         handlerDialog() {
             this.$dialog.alert({
                 title: this.$t('accountTotal'),
@@ -257,7 +269,6 @@ export default {
                     })
                 return
             }
-            this.getFundPositionListV3()
             if (!this.openedAccount) {
                 this.$dialog
                     .alert({
@@ -267,7 +278,6 @@ export default {
                     })
                     .then(() => {
                         jsBridge.gotoNativeModule('yxzq_goto://main_trade')
-                        // on confirm
                     })
                 return
             }
@@ -463,6 +473,16 @@ export default {
             this.tabList.map(item => {
                 item.label = this.$t(item.key)
             })
+        },
+        async appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            await this.$store.dispatch('initAction')
         }
     },
     mounted() {
@@ -473,6 +493,17 @@ export default {
         this.initI18n()
         this.getFundHomepageInfo()
         this.bannerAdvertisement()
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.appVisibleHandle, 100)
+        if (this.isLogin) {
+            this.getFundPositionListV3()
+        }
     }
 }
 </script>

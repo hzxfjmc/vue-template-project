@@ -102,7 +102,43 @@ export default {
                         key != 'fundName' &&
                         key != 'currency'
                     ) {
+                        item.flag =
+                            item['positionEarnings'] > 0
+                                ? 0
+                                : item['positionEarnings'] < 0
+                                ? 1
+                                : 2
+                        item.flag1 =
+                            item['weekEarnings'] > 0
+                                ? 0
+                                : item['weekEarnings'] < 0
+                                ? 1
+                                : 2
+                    }
+                }
+            })
+            this.usPositionList.map(item => {
+                for (let key in item) {
+                    if (
+                        key != 'fundId' &&
+                        key != 'fundName' &&
+                        key != 'currency' &&
+                        key != 'flag' &&
+                        key != 'flag1'
+                    ) {
                         item[key] = transNumToThousandMark(item[key], 4)
+                    }
+                }
+            })
+            this.hkPositionList.map(item => {
+                item.currency = item.currency.shortSymbol
+                for (let key in item) {
+                    if (
+                        key != 'fundId' &&
+                        key != 'fundName' &&
+                        key != 'currency'
+                    ) {
+                        // item[key] = transNumToThousandMark(item[key], 4)
                         item.flag =
                             item['positionEarnings'] > 0
                                 ? 0
@@ -119,26 +155,15 @@ export default {
                 }
             })
             this.hkPositionList.map(item => {
-                item.currency = item.currency.shortSymbol
                 for (let key in item) {
                     if (
                         key != 'fundId' &&
                         key != 'fundName' &&
-                        key != 'currency'
+                        key != 'currency' &&
+                        key != 'flag' &&
+                        key != 'flag1'
                     ) {
                         item[key] = transNumToThousandMark(item[key], 4)
-                        item.flag =
-                            item['positionEarnings'] > 0
-                                ? 0
-                                : item['positionEarnings'] < 0
-                                ? 1
-                                : 2
-                        item.flag1 =
-                            item['weekEarnings'] > 0
-                                ? 0
-                                : item['weekEarnings'] < 0
-                                ? 1
-                                : 2
                     }
                 }
             })

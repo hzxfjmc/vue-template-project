@@ -15,7 +15,7 @@
                         .number(v-if="Number(item.apy)>0" :class="stockColorType === 1 ? 'color-red' : 'color-green'") + {{(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.apy)<0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
-                        .tag {{item.apyTypeName}}
+                        .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom
                         .tag-title 
                             span.title.ellipse {{item.title}}
@@ -52,7 +52,8 @@ export default {
             HKD: '港币',
             AUS: '澳元',
             KRW: '韩元',
-            JPY: '日元'
+            JPY: '日元',
+            day: '收益率'
         },
         zhCHT: {
             described: '起購',
@@ -62,7 +63,8 @@ export default {
             HKD: '港币',
             AUS: '澳元',
             KRW: '韩元',
-            JPY: '日元'
+            JPY: '日元',
+            day: '表现'
         },
         en: {
             described: 'Initial Subs.',
@@ -72,7 +74,8 @@ export default {
             HKD: '港币',
             AUS: '澳元',
             KRW: '韩元',
-            JPY: '日元'
+            JPY: '日元',
+            day: ''
         }
     },
     components: {

@@ -15,7 +15,7 @@
                         em(class="iconfont icon-icon-bottom" @click="handlerCurrencyName") 
                         .block--master(v-if="chooseCurrencyShow")
                         .block__currey(v-if="chooseCurrencyShow")
-                            span.border-bottom(
+                            span(
                                 @click="chooseCurrency(0)"
                                 :class="[currencyNum === 0 ? 'active' :'']") {{$t('hkd')}}
                             span(
@@ -24,15 +24,18 @@
             
             .header-content-right
                 span {{$t('profitPosition')}}
-                    em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '-' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
+                    em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
                     em(v-else) ****
                 span {{$t('SevenDayIncome')}}
-                    em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '-' :''}} {{positionDation.weekEarnings|transNumToThousandMark}}
+                    em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
                     em(v-else) ****
         
-        .header-footer-tab(class="border-bottom-active")
+        .header-footer-tab.border-top(class="border-bottom-active")
             span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
             span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
+        .block__footer--hold.border-top(@click="toRouterPath('/fund-order-list')")
+            span {{$t('fundmsg')}}
+            em(class="iconfont icon-previewright")
     slot(name="fundList")
 </template>
 <script>
@@ -65,13 +68,14 @@ export default {
             profitPosition: '持有收益',
             SevenDayIncome: '近七日收益',
             IncomeDetails: '收益明细',
-            OrderRecord: '订单记录'
+            OrderRecord: '订单记录',
+            fundmsg: '笔交易确认中'
         },
         zhCHT: {
             accountTotal: '基金總資產',
             hkd: '港币',
             usd: '美元',
-
+            fundmsg: '筆交易確認中',
             myHkdAccount: '港幣資產',
             myUsdAccount: '美元資產',
             profitPosition: '持倉收益',
@@ -87,6 +91,7 @@ export default {
             myUsdAccount: 'USD',
             profitPosition: 'Total Return',
             SevenDayIncome: 'RTN 7d ',
+            fundmsg: 'Processing Order',
             IncomeDetails: 'Revenue Detail',
             OrderRecord: 'Order History'
         }
@@ -198,7 +203,7 @@ export default {
 .block-account-header {
     width: 100%;
     padding: 20px 0 0 0;
-    height: 150px;
+    height: 190px;
 }
 .bg-hk {
     background: linear-gradient(
@@ -233,7 +238,9 @@ export default {
 .header-content {
     width: 100%;
     display: flex;
-    padding: 0 3% 10px 3%;
+    padding: 0 3% 20px 3%;
+    float: left;
+    // border: 1px solid red;
     flex-direction: row;
     .header-content-left {
         flex: 1;
@@ -361,15 +368,18 @@ export default {
 }
 .header-footer-tab {
     width: 100%;
-    margin: 10px 0 0 0;
     padding: 0 3% 0 3%;
     height: 40px;
+    // border: 1px solid red;
+    margin: 30px 0 0 0;
     line-height: 40px;
     display: flex;
     font-size: 0.28rem;
     span {
         display: inline-block;
         width: 50%;
+        height: 40px;
+        line-height: 40px;
         text-align: center;
     }
     .header-footer-left {
@@ -382,6 +392,21 @@ export default {
         top: 10px;
         border-right: 1px solid rgba(255, 255, 255, 0.2);
         right: 0;
+    }
+}
+.block__footer--hold {
+    line-height: 40px;
+    display: flex;
+    justify-content: center;
+    span {
+        font-size: 14px;
+        color: rgba(255, 255, 255, 1);
+    }
+    em {
+        font-size: 20px;
+        color: rgba(255, 255, 255, 1);
+        line-height: 40px;
+        margin: 1px 0 0 5px;
     }
 }
 </style>

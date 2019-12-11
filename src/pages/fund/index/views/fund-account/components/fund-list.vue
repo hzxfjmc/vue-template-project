@@ -19,7 +19,7 @@
                 .fund__row--list
                     .block-element-number(
                         v-if="eyeTab && item.flag == 0" 
-                        :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings}}
+                        :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings|filterThousand}}
                     .block-element-number(
                         v-if="eyeTab && item.flag == 1" 
                         :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
@@ -58,7 +58,11 @@ import localStorage from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { mapGetters } from 'vuex'
+import { parseThousands } from '@/utils/tools.js'
 export default {
+    filters: {
+        filterThousand: parseThousands
+    },
     props: {
         bgColor: {
             type: String,

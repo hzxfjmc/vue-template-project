@@ -13,8 +13,8 @@
 }
 .block__assets {
     width: 90%;
-    height: 115px;
-    padding: 0 15px;
+    height: 150px;
+    // padding: 0 15px;
     position: relative;
     z-index: 999;
     margin: -48px 5% 0 5%;
@@ -23,11 +23,30 @@
     border-radius: 8px;
     display: flex;
     flex-direction: column;
+    .block__bottom--num{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        line-height: 40px;
+        span{
+            font-size:14px;
+            color:$text-color5;
+        }
+        em{
+            font-size:20px;
+            color:$text-color5;
+            line-height: 40px;
+            margin:1px 0 0 5px;
+        }
+    }
     .block__left__bottom{
+        width:100%;
+        padding:0px 15px 10px 15px;
+        // border:1px solid red;
             span{
                 line-height:20px;
                 font-size:14px;
-                margin:0 0 0 4px;
+                padding:0 0 0 4px;
                 color:$text-color5;
             }
         }
@@ -35,6 +54,7 @@
         width: 100%;
         display: flex;
         flex-direction: row;
+        padding:0 15px;
         height: 40px;
         .block__left--label {
             font-size: 14px;
@@ -57,7 +77,7 @@
             height: 40px;
             margin: 15px 0 0 0;
             .block--hold {
-                width: 90px;
+                width: 110px;
                 // height: 25px;
                 border-radius: 15px;
                 text-align: center;
@@ -70,8 +90,11 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                span{
+                    margin:0 0 0 6px;
+                }
                 em {
-                    font-size: 20px;
+                    font-size: 18px;
                 }
             }
             .block--label--list {
@@ -91,6 +114,7 @@
     .block__left--number {
         display: flex;
         flex-direction: row;
+        padding:0 15px;
         height: 40px;
         width: 100%;
         .block--element--number {

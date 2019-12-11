@@ -19,7 +19,7 @@
                             v-if="Number(item.apy)<0" 
                             :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
-                        .tag {{item.apyTypeName}}
+                        .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom
                         span(v-if="appType.Hk") {{item.assetTypeName}}
                         span(v-if="appType.Hk") {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
@@ -53,15 +53,18 @@ export default {
     i18n: {
         zhCHS: {
             described: '起购',
-            unit: '亿'
+            unit: '亿',
+            day: '收益率'
         },
         zhCHT: {
             described: '起購',
-            unit: '亿'
+            unit: '亿',
+            day: '表现'
         },
         en: {
             described: 'Initial Subs.',
-            unit: 'M'
+            unit: 'M',
+            day: ''
         }
     },
     props: {

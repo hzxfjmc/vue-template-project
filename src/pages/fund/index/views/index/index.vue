@@ -125,8 +125,8 @@ export default {
             this.bannerShow = this.assetType === '4' || this.assetType === '2'
             this.barnnarUrl =
                 this.assetType === '4'
-                    ? require('@/assets/img/fund/icon_huobi.png')
-                    : require('@/assets/img/fund/icon_zhaiquan.png')
+                    ? require(`@/assets/img/fund/fundImg/${this.lang}/huobi.png`)
+                    : require(`@/assets/img/fund/fundImg/${this.lang}/zhaiquan.png`)
         }
     },
     watch: {
