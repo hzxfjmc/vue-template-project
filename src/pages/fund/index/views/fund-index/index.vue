@@ -20,9 +20,9 @@
                     span {{$t('fundHold')}}
                     em(class="iconfont icon-iconEBgengduoCopy")
         .block__left--number
-            .block--element--number(v-if="moneyShow") {{positionAmount}}
+            .block--element--number(:class="code != 1? 'color-blue':'color-black'" v-if="moneyShow") {{positionAmount}}
             .block--element--number.close--eye(v-else) ******
-            .block--element--select 
+            .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
                 span(@click="handlerCurrency") {{currency===0?$t('hkd'):$t('usd')}}
                 em(class="iconfont icon-iconxiala" @click="handlerCurrency")
                 em(class="iconfont icon-icon_fund_index_2" @click="handlerDialog")
@@ -49,7 +49,7 @@
                 @click="handlerNavItem(item)"
                 v-for="(item,index) in tabList" 
                 :key="index") 
-                img(:src="item.imgUrl") 
+                img(:src="code !=1 ? item.imgUrl:item.imgUrl1") 
                 span {{item.label}}
     .block__container
         FundList(
@@ -64,7 +64,7 @@
                     img(:src="item.bannerUrl") 
         FundListItem(
             :code = "code"
-            bgColor="#2B4F80"
+            :bgColor="code !=1 ? '#2B4F80':'#2F79FF'"
             :title="robustFundList.masterTitle"
             v-if="robustFundListShow"
             :fundlist="robustFundList")
@@ -73,7 +73,7 @@
             :fundlist="blueChipFundList"
             :title="blueChipFundList.masterTitle"
             v-if="blueChipFundListShow"
-            bgColor="#F1B92D")
+            :bgColor="code != 1 ? '#F1B92D':'#FFBF32'")
 
         .block-bannar-sub(v-if="barnnarUsList.length !== 0")
             van-swipe(:autoplay="10000") 
@@ -188,24 +188,28 @@ export default {
             tabList: [
                 {
                     imgUrl: require('@/assets/img/fund/icon_money.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
                     label: '貨幣型',
                     key: 'fundCurrency',
                     value: '4'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_xunzhang1.png'),
                     label: '債劵型',
                     key: 'fundBond',
                     value: '2'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_fenpei1.png'),
                     label: '混合型',
                     key: 'fundBlend',
                     value: '3'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
                     label: '股票型',
                     key: 'fundShares',
                     value: '1'

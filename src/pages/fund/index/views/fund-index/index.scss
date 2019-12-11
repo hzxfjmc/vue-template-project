@@ -120,7 +120,13 @@
             line-height: 40px;
             font-weight: bold;
             font-family: yxFontDINPro-Bold;
-            color: rgba(0, 145, 255, 1);
+           
+        }
+        .color-blue{
+                color: rgba(0, 145, 255, 1);
+        }
+        .color-black{
+            color:#191919;
         }
         .close--eye {
             line-height: 50px;
@@ -129,7 +135,6 @@
             line-height: 42px;
             font-size: 14px;
             font-weight: 600;
-            color: rgba(0, 145, 255, 1);
             margin: 0 0 0 5px;
             position: relative;
             .icon-iconxiala {
@@ -205,6 +210,7 @@
                 height: 40px;
             }
             span {
+                margin:5px 0 0 0;
                 color: $text-color6;
             }
         }

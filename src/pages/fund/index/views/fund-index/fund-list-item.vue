@@ -128,6 +128,7 @@ export default {
                 .number {
                     font-size: 18px;
                     line-height: 23px;
+                    font-family: yxFontDINPro-Medium;
                 }
                 .tag {
                     font-size: 10px;

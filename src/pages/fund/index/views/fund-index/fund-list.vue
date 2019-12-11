@@ -142,13 +142,11 @@ export default {
                 .number {
                     font-size: 20px;
                     line-height: 23px;
-                    // margin: 15px 0 0 0;
                     font-family: yxFontDINPro-Medium;
                 }
                 .tag {
                     font-size: 12px;
                     line-height: 25px;
-                    // padding: 0 0 0 10px;
                     color: $text-color5; // 次标题颜色
                 }
             }
