@@ -224,6 +224,7 @@ export default {
             LS.put('showMoney', this.moneyShow)
         },
         goBanner(item) {
+            if (!item.news_jump_type && !item.jump_url) return
             jumpUrl(item.news_jump_type, item.jump_url)
         },
         //跳转
@@ -279,6 +280,11 @@ export default {
                 const res = await bannerAdvertisement(26)
                 const res1 = await bannerAdvertisement(27)
                 this.barnnarHkList = res.banner_list
+                if (res.banner_list.length === 0) {
+                    this.barnnarHkList.push({
+                        picture_url: require(`@/assets/img/fund/fundImg/${this.lang}/barnner.png`)
+                    })
+                }
                 this.barnnarUsList = res1.banner_list
             } catch (e) {
                 this.$toast(e.msg)

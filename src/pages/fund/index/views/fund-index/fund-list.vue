@@ -1,6 +1,6 @@
 <template lang="pug">
     .block__fund(
-        v-if="fundlist.masterTitle && fundlist.data"
+        v-if="fundlist.masterTitle"
         :class="[appType.Hk ? 'block__fund-hk' : 'block__fund-ch']")
         .block__fund-title.ellipse {{fundlist.masterTitle}}
         .block__fund--list.border-bottom(
