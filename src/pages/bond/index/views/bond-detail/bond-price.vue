@@ -24,7 +24,7 @@ export default {
     user-select: none;
     .bond-tips {
         padding: 10px $global-padding 0;
-        color: $text-color2;
+        color: $text-color5;
         font-size: 12px;
         line-height: 17px;
     }
