@@ -10,7 +10,7 @@
         fundList(
             slot="fundList"
             bgColor="#0091FF"
-            title = '港幣基金'
+            :title = "$t('fundHkdType')"
             v-if="!noMoreShow"
             :code = "code"
             :eyeTab="eyeTab"       
@@ -18,7 +18,7 @@
         fundList(
             slot="fundList"
             bgColor="#FFBA00"
-            title = '美元基金'
+            :title = "$t('fundUsdType')"
             v-if="!noMoreShow"
             :code = "code"
             :eyeTab="eyeTab"    
@@ -59,14 +59,14 @@ export default {
             nomore: '暂无持仓'
         },
         zhCHT: {
-            fundHkdType: '港币基金',
+            fundHkdType: '港幣基金',
             fundUsdType: '美元基金',
 
             nomore: '暫無持倉'
         },
         en: {
-            fundHkdType: '港币基金',
-            fundUsdType: '美元基金',
+            fundHkdType: 'HKD Fund',
+            fundUsdType: 'USD Fund',
 
             nomore: 'No Position'
         }

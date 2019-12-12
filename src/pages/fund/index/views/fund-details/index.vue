@@ -136,7 +136,7 @@ export default {
             btnShow: false,
             btnShow1: false,
             fundCode: '',
-            userInfo: null,
+            userInfo: {},
             scroll: 0,
             fundRiskType: '',
             flag: true, //赎回

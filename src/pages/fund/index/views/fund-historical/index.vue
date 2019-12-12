@@ -8,8 +8,8 @@
             .block-list(class="border-bottom" v-for="(item,index) in list")
                 .block-left {{item.belongDay}}
                 .block-content {{item.netPrice}}
-                .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price |transNumToThousandMark(assetType == 4 ?4:2)}}%
-                .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price|transNumToThousandMark(assetType == 4 ?4:2)}}%
+                .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price }}%
+                .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price}}%
                 .block-right(v-else) {{item.price|transNumToThousandMark(assetType == 4 ?4:2)}}%
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
@@ -108,7 +108,10 @@ export default {
                 this.total = total
                 this.list.forEach((item, index) => {
                     item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
-                    item.netPrice = this.sliceDeci(item.netPrice, 6)
+                    item.netPrice =
+                        this.assetType != 4
+                            ? this.sliceDeci(item.netPrice, 2)
+                            : this.sliceDeci(item.netPrice, 4)
                     if (index === this.list.length - 1) {
                         this.list[this.list.length - 1].price = '0.00' // 最后一项涨跌幅无法则算为0
                     } else {
@@ -118,6 +121,10 @@ export default {
                                     this.list[index + 1].netPrice) /
                                     this.list[index + 1].netPrice) *
                                 100
+                            item.price =
+                                this.assetType != 4
+                                    ? item.price.toFixed(2)
+                                    : item.price.toFixed(4)
                         } else {
                             item.price = '0.00'
                         }

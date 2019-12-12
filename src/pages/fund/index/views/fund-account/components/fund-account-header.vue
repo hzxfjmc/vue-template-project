@@ -84,7 +84,7 @@ export default {
         },
         zhCHT: {
             accountTotal: '基金總資產',
-            hkd: '港币',
+            hkd: '港幣',
             usd: '美元',
             fundmsg: '筆交易確認中',
             myHkdAccount: '港幣資產',
@@ -96,8 +96,8 @@ export default {
         },
         en: {
             accountTotal: 'Total Fund Assets',
-            hkd: '港幣',
-            usd: '美元',
+            hkd: 'HKD',
+            usd: 'USD',
             myHkdAccount: 'HKD',
             myUsdAccount: 'USD',
             profitPosition: 'Total Return',
@@ -293,7 +293,7 @@ export default {
                 line-height: 64px;
             }
             .number-price-active {
-                width: 50px;
+                width: 55px;
                 height: 40px;
                 line-height: 55px;
                 margin: 0 0 0 5px;
