@@ -188,10 +188,18 @@ export default {
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fundCode = this.fundHeaderInfoVO.fundCode
                 let flag = this.fundHeaderInfoVO.apy < 0
-                this.fundHeaderInfoVO.apy = (
-                    Math.floor(Math.abs(this.fundHeaderInfoVO.apy) * 10000) /
-                    100
-                ).toFixed(2)
+                this.fundHeaderInfoVO.apy =
+                    this.fundHeaderInfoVO.assetType === 4
+                        ? (
+                              Math.floor(
+                                  Math.abs(this.fundHeaderInfoVO.apy) * 1000000
+                              ) / 10000
+                          ).toFixed(4)
+                        : (
+                              Math.floor(
+                                  Math.abs(this.fundHeaderInfoVO.apy) * 10000
+                              ) / 100
+                          ).toFixed(2)
                 this.fundHeaderInfoVO.apy = flag
                     ? -this.fundHeaderInfoVO.apy
                     : this.fundHeaderInfoVO.apy

@@ -58,10 +58,11 @@ export default {
         },
         apy() {
             const func = this.info && this.info.apy > 0 ? Math.floor : Math.ceil
-            return (
-                this.info &&
-                (func((this.info.apy - 0) * 10000) / 100).toFixed(2)
-            )
+            let apyNum =
+                this.info.assetType === 4
+                    ? (func((this.info.apy - 0) * 1000000) / 10000).toFixed(4)
+                    : (func((this.info.apy - 0) * 10000) / 100).toFixed(2)
+            return this.info && apyNum
         },
         // fundName() {
         //     return this.info.fundName.length > 12
