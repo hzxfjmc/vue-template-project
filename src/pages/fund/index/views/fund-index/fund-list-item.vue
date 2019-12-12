@@ -15,18 +15,17 @@
                         .number(v-if="Number(item.apy)<0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}% 
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}{{$t('day')}}
-                    .element--content-bottom
-                        span(v-if="code != 1") {{item.assetTypeName}} 
-                        span(v-if="code != 1") {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                        span(v-if="code != 1") {{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
+                    .element--content-bottom(v-if="code != 1")
+                        span {{item.assetTypeName}} 
+                        span {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
+                        span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}} {{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
+                    .element--content-bottom-ch(v-else)
                         fund-tag(
-                            v-if="code === 1"
                             :title="item.assetTypeName")
                         fund-tag(
-                            v-if="code === 1"
                             :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
                         fund-tag(
-                            v-if="code === 1"
+                            v-if="item.fundSize != 0"
                             :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
                 
 </template>
@@ -49,16 +48,19 @@ export default {
         zhCHS: {
             described: '起购',
             unit: '亿',
+            fundSizeIndex: '规模',
             day: '收益率'
         },
         zhCHT: {
             described: '起購',
             unit: '亿',
+            fundSizeIndex: '規模',
             day: '表现'
         },
         en: {
-            described: 'Initial Subs.',
-            unit: 'M',
+            described: 'Min. ',
+            unit: ' M',
+            fundSizeIndex: 'AUM',
             day: ''
         }
     },
@@ -138,8 +140,6 @@ export default {
                 }
             }
             .element--content-bottom {
-                display: flex;
-                flex-direction: row;
                 span {
                     padding: 0 3px 0 3px;
                     font-size: 10px;
@@ -152,6 +152,10 @@ export default {
                 span:last-child {
                     border: none;
                 }
+            }
+            .element--content-bottom-ch {
+                display: flex;
+                flex-direction: row;
             }
         }
         .element--right {

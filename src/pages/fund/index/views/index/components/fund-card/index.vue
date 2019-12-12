@@ -9,7 +9,7 @@
             h2(:style="h2Style") {{ info.fundName }}
             .labels 
                 fund-tag(:title="info.fundRisk")
-                fund-tag(:title="info.currency.shortSymbol")
+                fund-tag(:title="$t(info.currency.name)")
             .feature {{ info.feature }}
 </template>
 
@@ -20,15 +20,21 @@ export default {
     i18n: {
         zhCHS: {
             annualRateOfReturn: '近一年收益率',
-            yieldInLast7d: '近七日年化'
+            yieldInLast7d: '近七日年化',
+            HKD: '港币',
+            USD: '美元'
         },
         zhCHT: {
             annualRateOfReturn: '近一年表現',
-            yieldInLast7d: '近七日年化'
+            yieldInLast7d: '近七日年化',
+            HKD: '港币',
+            USD: '美元'
         },
         en: {
             annualRateOfReturn: 'Past Year',
-            yieldInLast7d: 'Yield in Last 7d'
+            yieldInLast7d: 'Yield in Last 7d',
+            HKD: 'HKD',
+            USD: 'USD'
         }
     },
     name: 'BondCard',

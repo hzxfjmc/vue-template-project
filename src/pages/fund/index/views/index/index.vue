@@ -98,8 +98,8 @@ export default {
             this.bannerShow = data.assetType === '4' || data.assetType === '2'
             this.barnnarUrl =
                 data.assetType === '4'
-                    ? require('@/assets/img/fund/icon_huobi.png')
-                    : require('@/assets/img/fund/icon_zhaiquan.png')
+                    ? require(`@/assets/img/fund/fundImg/${this.lang}/huobi.png`)
+                    : require(`@/assets/img/fund/fundImg/${this.lang}/zhaiquan.png`)
             if (data.key) {
                 this.bannarTitleUrl =
                     this.code != 1

@@ -19,14 +19,15 @@
                         .tag-title 
                             span.title.ellipse {{item.title}}
                         .tag-list--element(v-if="code !== 1")
-                            span {{item.assetTypeName}}
+                            span(v-if="lang != en") {{item.assetTypeName}}
                             span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                            span {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
+                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                         .tag-list(v-else)
                             fund-tag(:title="item.assetTypeName")
                             fund-tag(
                                 :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
                             fund-tag(
+                                v-if="item.fundSize != 0"
                                 :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
                 
 </template>
@@ -71,7 +72,7 @@ export default {
             day: '表现'
         },
         en: {
-            described: 'Initial Subs.',
+            described: 'Min. ',
             fundSizeIndex: 'AUM',
             unit: ' M',
             USD: '美元',
@@ -118,9 +119,10 @@ export default {
     }
     .block__fund--list {
         width: 100%;
-        height: 80px;
+        // height: 80px;
         display: flex;
-        padding: 20px 0 20px 0;
+        // border: 1px solid red;
+        padding: 20px 0 10px 0;
         flex-direction: row;
         .element--left--img {
             width: 20px;
@@ -131,7 +133,7 @@ export default {
             display: flex;
             flex-direction: row;
             width: 100%;
-            padding: 0 0 0 10px;
+            // padding: 0 0 0 10px;
             .title {
                 font-size: 16px;
                 width: 100%;
@@ -198,7 +200,7 @@ export default {
     }
 }
 .block__fund-hk {
-    padding: 10px 5%;
+    padding: 10px 0;
 }
 .block__fund-ch {
     padding: 10px 2%;
