@@ -173,18 +173,9 @@ export default {
         },
         chooseFilePath(data) {
             this.IconPath = data.iconPath
-            console.log(data)
             this.fundTitle =
                 data.fileName === 'All Currencies' ? 'Currency' : data.fileName
             this.state.currency = data.value
-            document.body.style.overflow = '' //出现滚动条
-            document.removeEventListener(
-                'touchmove',
-                e => {
-                    e.preventDefault()
-                },
-                false
-            )
             this.protocolVisible = false
             this.chooseCurrencyShow1 = false
             this.$emit('handlerCuenrry', this.state)
@@ -193,14 +184,6 @@ export default {
             if (this.code != 1) {
                 this.protocolVisible = true
             } else {
-                document.body.style.overflow = 'hidden'
-                document.addEventListener(
-                    'touchmove',
-                    e => {
-                        e.preventDefault()
-                    },
-                    false
-                ) //禁止页面滑动
                 this.chooseCurrencyShow1 = true
             }
         },

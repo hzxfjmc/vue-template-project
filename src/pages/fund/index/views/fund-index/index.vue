@@ -347,13 +347,6 @@ export default {
         handlerCurrency() {
             this.chooseCurrencyShow = true
             document.body.style.overflow = 'hidden'
-            document.addEventListener(
-                'touchmove',
-                e => {
-                    e.preventDefault()
-                },
-                false
-            ) //禁止页面滑动
         },
         chooseCurrency(data) {
             this.currency = data
@@ -367,14 +360,6 @@ export default {
                     ? transNumToThousandMark(this.hkSummary.weekEarnings, 2)
                     : transNumToThousandMark(this.usSummary.weekEarnings, 2)
             this.chooseCurrencyShow = false
-            document.body.style.overflow = '' //出现滚动条
-            document.removeEventListener(
-                'touchmove',
-                e => {
-                    e.preventDefault()
-                },
-                false
-            )
         },
         async getFundHomepageInfo() {
             try {
