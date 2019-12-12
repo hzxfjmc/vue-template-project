@@ -46,7 +46,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['appType'])
+        ...mapGetters(['appType', 'isLogin'])
     },
     i18n: {
         zhCHS: {
