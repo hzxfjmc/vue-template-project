@@ -74,7 +74,6 @@ export default {
     mounted() {
         this.assetTypetab = this.$route.query.type
         this.getSource()
-        this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
         if (this.$route.query.type) {
             this.changeBannarTitle()
         }
@@ -85,6 +84,10 @@ export default {
             try {
                 const { code } = await getSource()
                 this.code = code
+                this.bannarTitleUrl =
+                    this.code != 1
+                        ? require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
+                        : require(`@/assets/img/fund/fundImg/${this.lang}/fundAll1.png`)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -98,7 +101,10 @@ export default {
                     ? require('@/assets/img/fund/icon_huobi.png')
                     : require('@/assets/img/fund/icon_zhaiquan.png')
             if (data.key) {
-                this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
+                this.bannarTitleUrl =
+                    this.code != 1
+                        ? require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
+                        : require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}1.png`)
             }
             this.getFundListV2()
         },
