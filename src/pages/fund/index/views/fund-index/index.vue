@@ -63,7 +63,7 @@
                 van-swipe-item(
                     v-for="(item, index) in barnnarList" 
                     :key="index") 
-                    img(:src="item.bannerUrl") 
+                    img(:src="item.picture_url") 
         FundListItem(
             :code = "code"
             :bgColor="code !=1 ? '#2B4F80':'#2F79FF'"
