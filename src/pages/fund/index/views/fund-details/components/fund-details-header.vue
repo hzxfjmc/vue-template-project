@@ -27,7 +27,7 @@
                 p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
                 p(v-else) {{fundHeaderInfoVO.apy}}%
             .header-right
-                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}（{{fundHeaderInfoVO.currencyType==='HKD'?'港元':'美元'}}）
+                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$('usd')}}）
                 p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
         .block-bottom {{fundHeaderInfoVO.feature}}
@@ -45,18 +45,24 @@ export default {
             fundPrice: '基金价格',
             minInvestment: '起投金额',
             oneYearShow: '近一年收益率',
-            yieldInLast7d: '近七日年化'
+            yieldInLast7d: '近七日年化',
+            hkd: '港币',
+            usd: '美元'
         },
         zhCHT: {
             fundPrice: '基金價格',
             minInvestment: '起投金額',
             oneYearShow: '近一年表現',
-            yieldInLast7d: '近七日年化'
+            yieldInLast7d: '近七日年化',
+            hkd: '港幣',
+            usd: '美元'
         },
         en: {
             fundPrice: 'Price',
             minInvestment: 'Min. Initial Investment',
             oneYearShow: 'Past Year',
+            hkd: 'HKD',
+            usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d'
         }
     },

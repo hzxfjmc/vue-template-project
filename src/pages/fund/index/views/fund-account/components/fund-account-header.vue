@@ -27,7 +27,7 @@
                     em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
                     em(v-else) ****
                 span {{$t('SevenDayIncome')}}
-                    em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
+                    em(v-if="showPsd") {{positionDation.weekEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
                     em(v-else) ****
         
         .header-footer-tab.border-top(class="border-bottom-active")

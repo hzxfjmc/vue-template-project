@@ -5,7 +5,7 @@
         class="protocol-popup"
     )
         .protocol-list
-            .protocol__title.border-bottom 基金货币选择
+            .protocol__title.border-bottom {{$t('fundName')}}
             .protocol-list__body
                 .protocol-list__text.border-bottom(@click="chooseFilePath(item)" 
                 v-for="item in protocolFileList" 
@@ -19,13 +19,16 @@ export default {
     name: 'protocol-popup',
     i18n: {
         zhCHS: {
-            cancel: '取消'
+            cancel: '取消',
+            fundName: '基金货币选择'
         },
         zhCHT: {
-            cancel: '取消'
+            cancel: '取消',
+            fundName: '基金貨幣選擇'
         },
         en: {
-            cancel: 'Cancel'
+            cancel: 'Cancel',
+            fundName: 'Fund Currency'
         }
     },
     props: {

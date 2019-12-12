@@ -57,7 +57,7 @@ export default {
         en: {
             fundTrade: 'Trend Charts',
             time: 'Time',
-            nav: '%Chg',
+            nav: 'Chg%',
             yieldInLast7d: 'Yield in Last 7d',
             list: {
                 0: { date: '1 Month' },

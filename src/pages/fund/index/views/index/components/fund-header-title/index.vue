@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund__header--nav
-    .fund__header--subnav(v-if="code != 1")
+    .fund__header--subnav(v-if="hkShow")
         .fund__nav--scroll(ref="navTransform")
             .fund__nav--item(
                 v-for="(item,index) in navList" 
@@ -15,7 +15,7 @@
             @chooseFilePath="chooseFilePath"
             :protocolFileList="sellProtocolFileList"
             )
-    .fund__header--subnav(v-else)
+    .fund__header--subnav(v-if="chShow")
         .fund__nav--scroll.fund__nav--scroll-d(ref="navTransform")
             .fund__nav--subitem(
                 v-for="(item,index) in navList" 
@@ -98,6 +98,8 @@ export default {
     data() {
         return {
             activeTab: 0,
+            hkShow: false,
+            chShow: false,
             chooseCurrencyShow1: false,
             protocolVisible: false,
             fundTitle: '全部货币',
@@ -214,6 +216,8 @@ export default {
             try {
                 const { code } = await getSource()
                 this.code = code
+                this.hkShow = this.code != 1
+                this.chShow = this.code === 1
             } catch (e) {
                 this.$toast(e.msg)
             }

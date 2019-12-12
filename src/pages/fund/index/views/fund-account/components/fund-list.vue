@@ -3,7 +3,7 @@
     .block__fund-title.border-bottom(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}
-        em(:class="listShow ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
+        em(:class="listShow && fundList.length != 0 ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
     .list-item-content(
         v-for="(item,index) in fundList" 
         v-if="listShow"
@@ -38,7 +38,7 @@
                     .block-element-number(v-if="eyeTab") {{item.positionShare}}
                     .block-element-number(v-else) ****
                     span {{$t('share')}}
-        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.0000' || item.inTransitAmount !== '0.00'")
+        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.0000'")
             .o-item(v-if="item.redeemDeliveryShare !== '0.0000'")
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
@@ -95,7 +95,7 @@ export default {
     // },
     data() {
         return {
-            listShow: false
+            listShow: true
         }
     },
     i18n: {

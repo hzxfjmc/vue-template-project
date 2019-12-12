@@ -6,7 +6,7 @@
         )
         .fund__banner
             img(:src="bannarTitleUrl")
-        .fund__banner2(v-if="bannerShow")
+        .fund__banner2(v-if="code != 1 && bannerShow")
             img(:src="barnnarUrl")
         .bond-list
             div(
@@ -25,6 +25,7 @@ import Card from './components/fund-card/index.vue'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
+import { getSource } from '@/service/customer-relationship-server'
 export default {
     i18n: {
         zhCHS: {
@@ -65,18 +66,29 @@ export default {
             total: 0,
             currency: '',
             assetType: '',
+            code: 0,
             assetTypetab: '',
             bannarTitleUrl: null
         }
     },
     mounted() {
         this.assetTypetab = this.$route.query.type
+        this.getSource()
         this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
         if (this.$route.query.type) {
             this.changeBannarTitle()
         }
     },
     methods: {
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         handlerCuenrry(data) {
             this.currency = data.currency
             this.assetType = data.assetType
@@ -136,6 +148,7 @@ export default {
                 this.currency = this.$route.query.currency
                 this.assetTypetab = this.$route.query.type
                 this.getFundListV2()
+                this.getSource()
                 if (this.$route.query.type) {
                     this.changeBannarTitle()
                 }

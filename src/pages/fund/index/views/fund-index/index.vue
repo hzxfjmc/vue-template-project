@@ -58,7 +58,7 @@
             :code = "code"
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
-        .block-bannar-sub(v-if="barnnarList.length !== 0")
+        .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
             van-swipe 
                 van-swipe-item(
                     v-for="(item, index) in barnnarList" 
@@ -77,7 +77,9 @@
             v-if="blueChipFundListShow"
             :bgColor="code != 1 ? '#F1B92D':'#FFBF32'")
 
-        .block-bannar-sub(v-if="barnnarUsList.length !== 0")
+        .block-bannar-sub(
+            :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']"
+            v-if="barnnarUsList.length !== 0")
             van-swipe(:autoplay="10000") 
                 van-swipe-item(
                     v-for="(item, index) in barnnarUsList" 
@@ -541,7 +543,6 @@ export default {
         } else {
             this.code = this.appType.Hk ? 2 : 1
         }
-        console.log(this.code)
     }
 }
 </script>

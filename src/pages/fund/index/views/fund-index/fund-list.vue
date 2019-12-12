@@ -21,7 +21,7 @@
                         .tag-list--element(v-if="code !== 1")
                             span {{item.assetTypeName}}
                             span {{lang === 'en' ? $t('described') : ''}}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                            span {{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
+                            span {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                         .tag-list(v-else)
                             fund-tag(:title="item.assetTypeName")
                             fund-tag(
@@ -48,6 +48,7 @@ export default {
     i18n: {
         zhCHS: {
             described: '起购',
+            fundSizeIndex: '规模',
             unit: '亿',
             USD: '美元',
             CNY: '人民币',
@@ -59,6 +60,7 @@ export default {
         },
         zhCHT: {
             described: '起購',
+            fundSizeIndex: '規模',
             unit: '亿',
             USD: '美元',
             CNY: '人民币',
@@ -70,7 +72,8 @@ export default {
         },
         en: {
             described: 'Initial Subs.',
-            unit: 'M',
+            fundSizeIndex: 'AUM',
+            unit: ' M',
             USD: '美元',
             CNY: '人民币',
             HKD: '港币',
