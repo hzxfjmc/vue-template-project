@@ -278,6 +278,7 @@ export default {
         .fund__content {
             display: flex;
             height: 40px;
+            margin: 9px 0 0 0;
             width: 100%;
             flex-direction: row;
             .number-price {

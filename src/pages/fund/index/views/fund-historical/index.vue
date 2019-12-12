@@ -8,9 +8,9 @@
             .block-list(class="border-bottom" v-for="(item,index) in list")
                 .block-left {{item.belongDay}}
                 .block-content {{item.netPrice}}
-                .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price |transNumToThousandMark}}%
-                .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price|transNumToThousandMark}}%
-                .block-right(v-else) {{item.price|transNumToThousandMark}}%
+                .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price |transNumToThousandMark(assetType == 4 ?4:2)}}%
+                .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price|transNumToThousandMark(assetType == 4 ?4:2)}}%
+                .block-right(v-else) {{item.price|transNumToThousandMark(assetType == 4 ?4:2)}}%
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
             .no-record-box {{$t('finishedText')}}
@@ -54,6 +54,7 @@ export default {
             fundId: 1,
             pageNum: 1,
             pageSize: 20,
+            assetType: this.$route.query.assetType,
             total: 0,
             finishedText: '无更多内容'
         }
@@ -107,7 +108,7 @@ export default {
                 this.total = total
                 this.list.forEach((item, index) => {
                     item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
-                    item.netPrice = this.sliceDeci(item.netPrice, 4)
+                    item.netPrice = this.sliceDeci(item.netPrice, 6)
                     if (index === this.list.length - 1) {
                         this.list[this.list.length - 1].price = '0.00' // 最后一项涨跌幅无法则算为0
                     } else {

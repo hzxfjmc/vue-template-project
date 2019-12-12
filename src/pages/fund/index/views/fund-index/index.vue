@@ -501,6 +501,11 @@ export default {
             try {
                 const { code } = await getSource()
                 this.code = code
+                if (this.isLogin) {
+                    this.getFundPositionListV3()
+                } else {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -523,11 +528,6 @@ export default {
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
         this.getSource()
-        if (this.isLogin) {
-            this.getFundPositionListV3()
-        } else {
-            this.code = this.appType.Hk ? 2 : 1
-        }
     }
 }
 </script>

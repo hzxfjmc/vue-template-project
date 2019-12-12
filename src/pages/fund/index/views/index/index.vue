@@ -83,7 +83,11 @@ export default {
         async getSource() {
             try {
                 const { code } = await getSource()
-                this.code = code
+                if (this.isLogin) {
+                    this.code = code
+                } else {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
                 this.bannarTitleUrl =
                     this.code != 1
                         ? require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)

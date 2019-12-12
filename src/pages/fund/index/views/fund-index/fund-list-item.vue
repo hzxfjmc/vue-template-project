@@ -16,9 +16,9 @@
                         .number(v-if="Number(item.pay) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom(v-if="code != 1")
-                        span {{item.assetTypeName}} 
-                        span {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                        span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}} {{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
+                        span(v-if="lang != 'en'") {{item.assetTypeName}} 
+                        span {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
+                        span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}} {{item.fundSize}}{{$t('unit')}} {{item.fundSizeCurrency}}
                     .element--content-bottom-ch(v-else)
                         fund-tag(
                             :title="item.assetTypeName")

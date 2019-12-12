@@ -107,7 +107,8 @@ export default {
                 item.routerPath == '/fund-historical'
             ) {
                 data.query = {
-                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId,
+                    assetType: this.fundHeaderInfoVO.assetType
                 }
             }
             if (item.routerPath == '/order-record') {

@@ -29,7 +29,7 @@
             .block__currey(v-if="chooseCurrencyShow1")
                 span.border-bottom(
                     v-for="(item,index) in sellProtocolFileList"
-                    @click="chooseFilePath(item)") {{item.fileName}}
+                    @click="chooseFilePath(item)") {{item.fileName1}}
    
 
 </template>
@@ -37,12 +37,16 @@
 import { Tab, Tabs } from 'vant'
 import protocolPopup from '../protocol-popup'
 import { getSource } from '@/service/customer-relationship-server'
+import { mapGetters } from 'vuex'
 export default {
     props: {
         assetType: {
             type: String,
             defalut: ''
         }
+    },
+    computed: {
+        ...mapGetters(['appType'])
     },
     i18n: {
         zhCHS: {
@@ -111,18 +115,21 @@ export default {
             sellProtocolFileList: [
                 {
                     fileName: '全部货币',
+                    fileName1: '全部',
                     iconPath: require('@/assets/img/fund/icon_qiu.png'),
                     key: 'fundAllType',
                     value: ''
                 },
                 {
                     fileName: '港币基金',
+                    fileName1: '港币',
                     iconPath: require('@/assets/img/fund/icon_hkd.png'),
                     key: 'fundHkdType',
                     value: '2'
                 },
                 {
                     fileName: '美元基金',
+                    fileName1: '美元',
                     key: 'fundUsdType',
                     iconPath: require('@/assets/img/fund/icon_usd.png'),
                     value: '1'
@@ -169,12 +176,18 @@ export default {
             this.fundTitle =
                 this.$t('fundAllType') === 'All Currencies'
                     ? 'Currency'
-                    : this.$t('fundAllType')
+                    : this.code != 1
+                    ? this.$t('fundAllType')
+                    : '全部'
         },
         chooseFilePath(data) {
             this.IconPath = data.iconPath
             this.fundTitle =
-                data.fileName === 'All Currencies' ? 'Currency' : data.fileName
+                data.fileName === 'All Currencies'
+                    ? 'Currency'
+                    : this.code != 1
+                    ? data.fileName
+                    : data.fileName1
             this.state.currency = data.value
             this.protocolVisible = false
             this.chooseCurrencyShow1 = false
@@ -199,8 +212,14 @@ export default {
             try {
                 const { code } = await getSource()
                 this.code = code
+                if (this.isLogin) {
+                    this.code = code
+                } else {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
                 this.hkShow = this.code != 1
                 this.chShow = this.code === 1
+                this.initI18n()
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -263,6 +282,7 @@ export default {
     .fund__nav--fixed-d {
         width: 72px;
         p {
+            font-size: 14px;
             em {
                 // display: block;
                 padding: 0 0 0 5px;
@@ -295,16 +315,17 @@ export default {
     .active1 {
         position: relative;
         color: #2f79ff;
+        font-weight: bolder;
         &::after {
             position: absolute;
             box-sizing: border-box;
             content: ' ';
             pointer-events: none;
             right: 0;
-            bottom: 0;
+            bottom: -6px;
             width: 30px;
             left: 10px;
-            border-bottom: 2px solid #2f79ff;
+            border-bottom: 4px solid #2f79ff;
 
             @media only screen and (min-resolution: 2dppx) {
                 // 非标准的

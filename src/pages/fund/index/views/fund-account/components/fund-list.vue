@@ -256,6 +256,6 @@ export default {
 }
 .block-fund-list-content-ch {
     width: 96%;
-    margin: 20px 2% 0 2%;
+    margin: 14px 2% 0 2%;
 }
 </style>

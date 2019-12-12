@@ -19,16 +19,19 @@
                         .tag-title 
                             span.title.ellipse {{item.title}}
                         .tag-list--element(v-if="code !== 1")
-                            span(v-if="lang != en") {{item.assetTypeName}}
+                            span(v-if="lang != 'en'") {{item.assetTypeName}}
                             span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
-                        .tag-list(v-else)
-                            fund-tag(:title="item.assetTypeName")
-                            fund-tag(
-                                :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
-                            fund-tag(
-                                v-if="item.fundSize != 0"
-                                :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
+                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
+                        .tag-list--element(v-else)
+                            span {{item.assetTypeName}}
+                            span {{`${item.initialInvestAmount}${item.tradeCurrency}起购`}}
+                            span {{`${item.fundSize}亿${item.fundSizeCurrency}`}}
+                            //- fund-tag(:title="item.assetTypeName")
+                            //- fund-tag(
+                            //-     :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
+                            //- fund-tag(
+                            //-     v-if="item.fundSize != 0"
+                            //-     :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
                 
 </template>
 <script>
