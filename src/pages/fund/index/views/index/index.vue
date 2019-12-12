@@ -39,7 +39,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['appType', 'lang'])
+        ...mapGetters(['appType', 'lang', 'isLogin'])
     },
     keepalive: true,
     name: 'index',
@@ -111,6 +111,7 @@ export default {
                     this.code != 1
                         ? require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
                         : require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}1.png`)
+                alert(this.code)
             }
             this.getFundListV2()
         },
