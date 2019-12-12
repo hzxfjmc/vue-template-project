@@ -7,7 +7,9 @@
                     em {{$t('accountTotal')}}
                     i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
                 .fund__content
-                    .number-price(v-if="showPsd") {{firstPositionAmount || '--'}}.
+                    .number-price(
+                        :style="{ fontSize: fontSize + 'px',lineHeight:lineheight+'px' }"
+                        v-if="showPsd") {{firstPositionAmount || '--'}}.
                         em(v-if="showPsd") {{secondPositionAmount || '--'}}
                     .number-price.close-eye(v-if="!showPsd") ******
                     .number-price-active 
@@ -23,12 +25,14 @@
                                 :class="[currencyNum === 1 ? 'active' :'']") {{$t('usd')}}
             
             .header-content-right
-                span {{$t('profitPosition')}}
-                    em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
-                    em(v-else) ****
-                span {{$t('SevenDayIncome')}}
-                    em(v-if="showPsd") {{positionDation.weekEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
-                    em(v-else) ****
+                span(v-if="showPsd") {{$t('profitPosition')}} {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
+                span(v-else) {{$t('profitPosition')}} ****
+                    //- em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
+                    //- em(v-else) ****
+                span(v-if="showPsd") {{$t('SevenDayIncome')}} {{positionDation.weekEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
+                span(v-else) {{$t('SevenDayIncome')}} ****
+                    //- em(v-if="showPsd") {{positionDation.weekEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
+                    //- em(v-else) ****
         
         .header-footer-tab.border-top(class="border-bottom-active")
             span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
@@ -36,16 +40,14 @@
         .block__footer--hold.border-top(
             v-if="inTransitOrder!=='0'"
             @click="toRouterPath('/fund-order-list')")
-            span {{$t('fundmsg')}}
+            span {{inTransitOrder}}{{$t('fundmsg')}}
             em(class="iconfont icon-previewright")
     slot(name="fundList")
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
-// import { DropdownMenu, DropdownItem } from 'vant-fork'
 import LS from '@/utils/local-storage'
 import { transNumToThousandMark } from '@/utils/tools.js'
-// import { enumCurrency } from '@/pages/fund/index/map'
 import { mapGetters } from 'vuex'
 export default {
     props: {
@@ -99,7 +101,7 @@ export default {
             myHkdAccount: 'HKD',
             myUsdAccount: 'USD',
             profitPosition: 'Total Return',
-            SevenDayIncome: 'RTN 7d ',
+            SevenDayIncome: '7 Days',
             fundmsg: 'Processing Order',
             IncomeDetails: 'Revenue Detail',
             OrderRecord: 'Order History'
@@ -114,6 +116,8 @@ export default {
             swipeable: true,
             showPsd: true,
             currency: null,
+            fontSize: '35',
+            lineheight: '40',
             positionDation: {},
             value1: 0,
             firstPositionAmount: '',
@@ -145,6 +149,10 @@ export default {
                 this.firstPositionAmount = this.positionDation.positionAmount.split(
                     '.'
                 )[0]
+                if (this.firstPositionAmount.length > 6) {
+                    this.fontSize = '24'
+                    this.lineheight = '50'
+                }
                 this.secondPositionAmount = this.positionDation.positionAmount.split(
                     '.'
                 )[1]

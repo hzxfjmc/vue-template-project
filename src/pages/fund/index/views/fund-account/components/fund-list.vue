@@ -51,6 +51,9 @@
             //-         span {{item.currency}}
             //-         span.price-number(v-if="eyeTab") {{item.inTransitAmount}}
             //-         span.price-number(v-else) ****
+    .list-item-content-sub(v-if="fundList.length === 0")
+        span 暫無持倉
+
    
 </template>
 <script>
@@ -241,6 +244,10 @@ export default {
                 }
             }
         }
+    }
+    .list-item-content-sub {
+        text-align: center;
+        line-height: 40px;
     }
 }
 .block-fund-list-content-hk {

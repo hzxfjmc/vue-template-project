@@ -15,6 +15,6 @@ export const en = {
     incomeDetails: 'Revenue Detail',
     home: 'Smart Fund',
     fundOrderList: 'Order Records',
-    fundAccount: 'My Fund',
+    fundAccount: 'My Funds',
     fundHistorical: 'NAV History'
 }

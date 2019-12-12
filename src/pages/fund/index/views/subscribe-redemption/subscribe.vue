@@ -251,7 +251,11 @@ export default {
                     .split('/')
                     .pop()
 
-                this.buyProtocolFileList = fundDetail.buyProtocolFileList
+                this.buyProtocolFileList =
+                    this.step === 1
+                        ? fundDetail.buyProtocolFileList
+                        : fundDetail.sellProtocolFileList
+
                 this.buyProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })

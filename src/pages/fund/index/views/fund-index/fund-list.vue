@@ -20,7 +20,7 @@
                             span.title.ellipse {{item.title}}
                         .tag-list--element(v-if="code !== 1")
                             span {{item.assetTypeName}}
-                            span {{lang === 'en' ? $t('described') : ''}}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
+                            span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
                             span {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                         .tag-list(v-else)
                             fund-tag(:title="item.assetTypeName")

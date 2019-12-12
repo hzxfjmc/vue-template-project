@@ -15,6 +15,6 @@ export const zhCHS = {
     incomeDetails: '收益明细',
     home: '智选基金',
     fundOrderList: '订单记录',
-    fundAccount: '我的持仓',
+    fundAccount: '基金持仓',
     fundHistorical: '净值历史'
 }
