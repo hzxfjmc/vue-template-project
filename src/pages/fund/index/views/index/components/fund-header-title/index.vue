@@ -71,8 +71,8 @@ export default {
         },
         en: {
             fundAllType: 'All Currencies',
-            fundHkdType: 'HKD Funds',
-            fundUsdType: 'USD Funds',
+            fundHkdType: 'HKD Fund',
+            fundUsdType: 'USD Fund',
             fundAll: 'All',
             fundCurrency: 'Money',
             fundBond: 'Bond',

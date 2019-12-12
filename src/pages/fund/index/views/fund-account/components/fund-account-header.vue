@@ -102,7 +102,7 @@ export default {
             myUsdAccount: 'USD',
             profitPosition: 'Total Return',
             SevenDayIncome: '7 Days',
-            fundmsg: 'Processing Order',
+            fundmsg: ' Processing Order',
             IncomeDetails: 'Revenue Detail',
             OrderRecord: 'Order History'
         }

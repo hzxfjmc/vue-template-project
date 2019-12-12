@@ -167,7 +167,7 @@ export default {
             openAccountBtn: 'Open account',
             openAccount: 'Please open your account to continue the trade',
             confirm: 'Confirm',
-            fundmsg: 'Processing Order',
+            fundmsg: ' Processing Order',
             msg:
                 '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currency is only used as a display of uSMART fund asset calculations. Does not affect the fund currency of each fund.'
         }
