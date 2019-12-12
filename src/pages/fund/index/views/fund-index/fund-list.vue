@@ -177,7 +177,7 @@ export default {
                 .tag-list--element {
                     span {
                         padding: 0 3px 0 3px;
-                        font-size: 10px;
+                        font-size: 12px;
                         color: $text-color6;
                         border-right: 1px solid #e1e1e1;
                     }

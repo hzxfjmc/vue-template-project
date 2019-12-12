@@ -85,10 +85,12 @@ export default {
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
                 }
+                console.log(this.code)
                 this.bannarTitleUrl =
                     this.code != 1
                         ? require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
                         : require(`@/assets/img/fund/fundImg/${this.lang}/fundAll1.png`)
+                console.log(this.bannarTitleUrl)
                 if (this.$route.query.type) {
                     this.changeBannarTitle()
                 }
@@ -141,9 +143,14 @@ export default {
                 3: 'fundBlend',
                 4: 'fundCurrency'
             }
-            this.bannarTitleUrl = require(`@/assets/img/fund/fundImg/${
-                this.lang
-            }/${bannarEmun[this.$route.query.type]}.png`)
+            this.bannarTitleUrl =
+                this.code != 1
+                    ? require(`@/assets/img/fund/fundImg/${this.lang}/${
+                          bannarEmun[this.$route.query.type]
+                      }.png`)
+                    : require(`@/assets/img/fund/fundImg/${this.lang}/${
+                          bannarEmun[this.$route.query.type]
+                      }1.png`)
             this.bannerShow = this.assetType === '4' || this.assetType === '2'
             this.barnnarUrl =
                 this.assetType === '4'

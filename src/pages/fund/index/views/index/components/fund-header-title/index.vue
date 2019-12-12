@@ -281,7 +281,7 @@ export default {
     }
     .fund__nav--fixed-d {
         background: url('~@/assets/img/fund/box-show.png');
-
+        background-size: 100% 100%;
         width: 72px;
         p {
             font-size: 14px;

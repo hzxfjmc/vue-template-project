@@ -270,19 +270,17 @@ export default {
     }
     .fund-date-list {
         width: 100%;
-        margin: 0 0 10px 0;
+        margin: 10px 0 10px 0;
         display: flex;
         justify-content: center;
         border-right: none;
         .date-item {
             border: 1px solid rgba(235, 235, 235, 1);
             border-left: none;
-            // display: inline-block;
             width: 16.65%;
             text-align: center;
             line-height: 30px;
             height: 30px;
-            // border-radius: 2px;
             font-size: 0.24rem;
             color: $text-color;
             margin: 0;

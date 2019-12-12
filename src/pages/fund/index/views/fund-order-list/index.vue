@@ -67,7 +67,7 @@ export default {
         return {
             list: [],
             noMoreShow: false,
-            pageSize: 10,
+            pageSize: 20,
             pageNum: 1,
             total: 0,
             loading: false,
@@ -91,18 +91,18 @@ export default {
         //上拉加载更多
         onLoad() {
             // 异步更新数据
-            setTimeout(() => {
-                if (this.list.length < this.total) {
-                    this.pageNum = this.pageNum + 1
-                    this.fundOrderList()
-                }
-                // 加载状态结束
-                this.loading = false
-                // 数据全部加载完成
-                if (this.list.length >= this.total) {
-                    this.finished = true
-                }
-            }, 500)
+            // setTimeout(() => {
+            if (this.list.length < this.total) {
+                this.pageNum = this.pageNum + 1
+                this.fundOrderList()
+            }
+            // 加载状态结束
+
+            // 数据全部加载完成
+            if (this.list.length >= this.total) {
+                this.finished = true
+            }
+            // }, 500)
         },
         async fundOrderList() {
             try {
@@ -113,6 +113,7 @@ export default {
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
+                this.loading = false
                 list.map(item => {
                     item.orderAmount = transNumToThousandMark(item.orderAmount)
                     item.orderTime = dayjs(item.orderTime).format(
