@@ -17,7 +17,7 @@
                         .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom(v-if="code != 1")
                         span(v-if="lang != 'en'") {{item.assetTypeName}} 
-                        span {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
+                        span {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
                         span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                     .element--content-bottom-ch(v-else)
                         fund-tag(
@@ -55,7 +55,7 @@ export default {
             described: '起購',
             unit: '億',
             fundSizeIndex: '規模',
-            day: '表现'
+            day: '表現'
         },
         en: {
             described: 'Min. ',

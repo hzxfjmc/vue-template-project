@@ -20,7 +20,7 @@
                             span.title.ellipse {{item.title}}
                         .tag-list--element(v-if="code !== 1")
                             span(v-if="lang != 'en'") {{item.assetTypeName}}
-                            span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
+                            span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
                             span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                         .tag-list--element(v-else)
                             span {{item.assetTypeName}}
@@ -72,7 +72,7 @@ export default {
             AUS: '澳元',
             KRW: '韩元',
             JPY: '日元',
-            day: '表现'
+            day: '表現'
         },
         en: {
             described: 'Min. ',
