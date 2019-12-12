@@ -46,13 +46,13 @@ export default {
     },
     i18n: {
         zhCHS: {
-            described: '起购',
+            described: '起',
             unit: '亿',
             fundSizeIndex: '规模',
             day: '收益率'
         },
         zhCHT: {
-            described: '起購',
+            described: '起',
             unit: '億',
             fundSizeIndex: '規模',
             day: '表現'
