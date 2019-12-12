@@ -30,7 +30,6 @@ import Vue from 'vue'
 import { List } from 'vant'
 Vue.use(List)
 import { fundOrderList } from '@/service/finance-server.js'
-import { setTimeout } from 'timers'
 import { differColor } from './differColor.js'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 
@@ -134,6 +133,10 @@ export default {
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })
+                    this.loading = false
+                    if (this.orderRecordList.length >= this.total) {
+                        this.finished = true
+                    }
                     this.assetType =
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
                     this.fundRisk = item.fundBaseInfoVO.fundRisk
@@ -146,16 +149,10 @@ export default {
             }
         },
         onLoad() {
-            setTimeout(() => {
-                if (this.orderRecordList.length < this.total) {
-                    this.pageNum++
-                    this.fundOrderListFun()
-                }
-                this.loading = false
-                if (this.orderRecordList.length >= this.total) {
-                    this.finished = true
-                }
-            }, 300)
+            if (this.orderRecordList.length < this.total) {
+                this.pageNum++
+                this.fundOrderListFun()
+            }
         },
         // 跳转到详情
         toDetailHandle(orderNo, orderStatus) {

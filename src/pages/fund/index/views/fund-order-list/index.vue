@@ -90,19 +90,10 @@ export default {
         },
         //上拉加载更多
         onLoad() {
-            // 异步更新数据
-            // setTimeout(() => {
             if (this.list.length < this.total) {
                 this.pageNum = this.pageNum + 1
                 this.fundOrderList()
             }
-            // 加载状态结束
-
-            // 数据全部加载完成
-            if (this.list.length >= this.total) {
-                this.finished = true
-            }
-            // }, 500)
         },
         async fundOrderList() {
             try {
@@ -113,7 +104,6 @@ export default {
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
-                this.loading = false
                 list.map(item => {
                     item.orderAmount = transNumToThousandMark(item.orderAmount)
                     item.orderTime = dayjs(item.orderTime).format(
@@ -122,6 +112,10 @@ export default {
                 })
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
+                this.loading = false
+                if (this.list.length >= this.total) {
+                    this.finished = true
+                }
                 this.finishedText = this.$t('nomore1')
                 this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {

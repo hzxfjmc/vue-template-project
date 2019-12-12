@@ -70,20 +70,10 @@ export default {
     methods: {
         //上拉加载更多
         onLoad() {
-            // 异步更新数据
-            setTimeout(() => {
-                if (this.list.length < this.total) {
-                    this.pageNum = this.pageNum + 1
-                    this.getFundPositionEarningsListV1()
-                }
-                // 加载状态结束
-                this.loading = false
-
-                // 数据全部加载完成
-                if (this.list.length >= this.total) {
-                    this.finished = true
-                }
-            }, 500)
+            if (this.list.length < this.total) {
+                this.pageNum = this.pageNum + 1
+                this.getFundPositionEarningsListV1()
+            }
         },
         async getFundPositionEarningsListV1() {
             try {
@@ -114,6 +104,12 @@ export default {
                 this.total = total
                 // this.total = 0
                 this.noMoreShow = this.total == 0
+                // 加载状态结束
+                this.loading = false
+                // 数据全部加载完成
+                if (this.list.length >= this.total) {
+                    this.finished = true
+                }
                 this.finishedText = this.$t('nomore1')
                 this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
