@@ -74,9 +74,6 @@ export default {
     mounted() {
         this.assetTypetab = this.$route.query.type
         this.getSource()
-        if (this.$route.query.type) {
-            this.changeBannarTitle()
-        }
     },
     methods: {
         //获取用户归属 1大陆 2香港
@@ -92,6 +89,9 @@ export default {
                     this.code != 1
                         ? require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
                         : require(`@/assets/img/fund/fundImg/${this.lang}/fundAll1.png`)
+                if (this.$route.query.type) {
+                    this.changeBannarTitle()
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -153,7 +153,11 @@ export default {
     },
     watch: {
         $route(to, from) {
-            if (from.path === '/home' || from.path === '/fund-index') {
+            if (
+                from.path === '/home' ||
+                from.path === '/fund-index' ||
+                from.path === '/'
+            ) {
                 this.assetType = this.$route.query.type
                 this.currency = this.$route.query.currency
                 this.assetTypetab = this.$route.query.type
