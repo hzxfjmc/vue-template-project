@@ -177,6 +177,7 @@ export default {
     .list-item-content {
         width: 100%;
         padding: 10px 5% 14px 5%;
+        border-bottom: 1px solid #e1e1e1;
         background: #fff;
         .fund-name {
             font-size: 0.32rem;
@@ -244,6 +245,9 @@ export default {
                 }
             }
         }
+    }
+    .list-item-content:last-child {
+        border: none;
     }
     .list-item-content-sub {
         text-align: center;

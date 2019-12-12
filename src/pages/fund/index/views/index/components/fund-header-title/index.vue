@@ -265,8 +265,8 @@ export default {
         display: flex;
         flex-direction: column;
         justify-content: center;
-        background: rgba(255, 255, 255, 1);
-        box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.5);
+        background: url('~@/assets/img/fund/fix-box.png');
+        background-size: 100% 100%;
         img {
             width: 20px;
             height: 20px;
@@ -280,6 +280,8 @@ export default {
         }
     }
     .fund__nav--fixed-d {
+        background: url('~@/assets/img/fund/box-show.png');
+
         width: 72px;
         p {
             font-size: 14px;

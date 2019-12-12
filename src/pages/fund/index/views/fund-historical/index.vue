@@ -10,7 +10,7 @@
                 .block-content {{item.netPrice}}
                 .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price }}%
                 .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price}}%
-                .block-right(v-else) {{item.price)}}%
+                .block-right(v-else) {{item.price}}%
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
             .no-record-box {{$t('finishedText')}}

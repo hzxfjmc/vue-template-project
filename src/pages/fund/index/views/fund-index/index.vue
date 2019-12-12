@@ -394,7 +394,7 @@ export default {
             }
             arr_[type].data.map(item => {
                 if (this.code !== 1 && this.lang === 'en') {
-                    item.fundSize = item.fundSize / 10000000
+                    item.fundSize = item.fundSize / 1000000000
                 } else {
                     item.fundSize = item.fundSize / 100000000
                 }
