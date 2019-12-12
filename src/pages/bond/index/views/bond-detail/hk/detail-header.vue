@@ -29,39 +29,7 @@
 import detailHeaderMixin from '../mixins/detail-header.js'
 import jsBridge from '@/utils/js-bridge'
 import { enumMarketName } from '@/utils/common/global-enum'
-import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
-    i18n: {
-        zhCHS: {
-            yieldToMaturity: '到期年化收益率',
-            yieldToMaturityTips:
-                '到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n\n' +
-                '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。',
-            refAmountContract: '参考认购金额/份',
-            annualInterestContract: '年派息/份',
-            viewStocks: '查看股票',
-            ok: '我知道了'
-        },
-        zhCHT: {
-            yieldToMaturity: '到期年化收益率',
-            yieldToMaturityTips:
-                '到期收益率指按買入價格買入債券並持有到期，獲得的全部利息和本金計算而來的年平均收益率。\n\n' +
-                '到期收益率綜合考慮了購買價格、持有期限、票面利率等因素，是非常重要的參考要素。',
-            refAmountContract: '參考認購金額/份',
-            annualInterestContract: '年派息/份',
-            ok: '我知道了',
-            viewStocks: '查看股票'
-        },
-        en: {
-            yieldToMaturity: 'Yield-to-Maturity',
-            yieldToMaturityTips:
-                'Yield to Maturity is the estimated annual average rate of return investors can expect to set aside to make this bond investment at the current market price (or the target price you entered). ',
-            refAmountContract: 'Ref. Amount / Contract',
-            annualInterestContract: 'Annual Interest / Contract',
-            ok: 'OK',
-            viewStocks: 'View Stocks'
-        }
-    },
     mixins: [detailHeaderMixin],
     data() {
         return {
@@ -88,89 +56,9 @@ export default {
         }
     },
     props: {
-        paymentAfterTaxPerYear: {
-            type: String,
-            default: ''
-        },
         bindStock: {
             type: Object,
             default: () => {}
-        }
-    },
-    computed: {
-        // 到期年化利率/參考認購金額/年稅後派息
-        colData() {
-            let obj = [
-                {
-                    title: this.buyYtm,
-                    desc: this.$t('yieldToMaturity'),
-                    click: () => {
-                        this.$dialog.alert({
-                            message: this.$t('yieldToMaturityTips'),
-                            messageAlign: 'left',
-                            confirmButtonText: this.$t('ok')
-                        })
-                    },
-                    class: 'icon-wenhao'
-                },
-                {
-                    title: transNumToThousandMark(
-                        this.subscriptionAmount.toString(),
-                        3
-                    ),
-                    desc: this.$t('refAmountContract')
-                },
-                {
-                    title: transNumToThousandMark(
-                        this.solvePaymentAfterTaxPerYear.toString(),
-                        3
-                    ),
-                    desc: this.$t('annualInterestContract')
-                }
-            ]
-            return obj
-        },
-        // 參考認購金額
-        subscriptionAmount() {
-            return (
-                (this.minFaceValue * this.buyPrice &&
-                    `${(this.minFaceValue * this.buyPrice).toFixed(3)}`) ||
-                ''
-            )
-        },
-        // 最小面额
-        minFaceValue() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.minFaceValue - 0) ||
-                0
-            )
-        },
-        // 购买价格
-        buyPrice() {
-            return (
-                (this.currentPrice &&
-                    this.currentPrice.buyPrice &&
-                    this.currentPrice.buyPrice - 0) ||
-                0
-            )
-        },
-        // // 货币单位
-        // currencySymbol() {
-        //     return (
-        //         (this.bondUneditableInfo &&
-        //             this.bondUneditableInfo.enumCurrency &&
-        //             this.bondUneditableInfo.enumCurrency.symbol) ||
-        //         ''
-        //     )
-        // },
-        // 年稅後派息
-        solvePaymentAfterTaxPerYear() {
-            return (
-                (this.paymentAfterTaxPerYear &&
-                    `${(this.paymentAfterTaxPerYear - 0).toFixed(3)}`) ||
-                ''
-            )
         }
     },
     methods: {

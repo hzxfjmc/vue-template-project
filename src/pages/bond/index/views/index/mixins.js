@@ -35,6 +35,11 @@ export default {
                 this.handleGetBondList()
             ])
             this.isShowPage = true
+
+            // 回显浏览器滚动距离
+            document.querySelector(
+                '.bond-index-wrapper'
+            ).scrollTop = this.$LS.get('bond-index-scrollTop')
         },
         // 拉取债券banner
         async handleGetBondBanner() {
@@ -79,6 +84,12 @@ export default {
         pullRequest() {
             clearTimeout(this.timer)
             this.timer = setTimeout(() => {
+                // 存储页面滚动距离，用于回显滚动距离
+                this.$LS.put(
+                    'bond-index-scrollTop',
+                    document.querySelector('.bond-index-wrapper').scrollTop
+                )
+
                 // let htmlEle = document.querySelector('html')
                 let htmlEle = this.$refs.bondIndexWrapper
                 let winHeight = this.$refs.bondIndexWrapper.clientHeight

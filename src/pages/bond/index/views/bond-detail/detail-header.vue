@@ -22,7 +22,6 @@
 </template>
 <script>
 import detailHeaderMixin from './mixins/detail-header.js'
-import { calcCountDownDay } from '@/utils/tools.js'
 export default {
     mixins: [detailHeaderMixin],
     data() {
@@ -47,50 +46,6 @@ export default {
                 'font-size': '12px',
                 'line-height': '0.34rem'
             }
-        }
-    },
-    computed: {
-        // 到期年化利率/剩余期限/起购金额
-        colData() {
-            return [
-                {
-                    title: this.buyYtm,
-                    desc: '到期年化收益率',
-                    click: () => {
-                        this.$dialog.alert({
-                            message:
-                                '到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n\n' +
-                                '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。',
-                            messageAlign: 'left',
-                            confirmButtonText: '我知道了'
-                        })
-                    },
-                    class: 'icon-wenhao'
-                },
-                {
-                    title: this.dueDay,
-                    desc: '剩余期限'
-                },
-                {
-                    title: this.minFaceValue,
-                    desc: `起购金额(${this.currencyShortSymbol}/份)`
-                }
-            ]
-        },
-        // 剩余期限
-        dueDay() {
-            return calcCountDownDay(
-                this.bondUneditableInfo && this.bondUneditableInfo.dueTime
-            )
-        },
-        // 货币单位
-        currencyShortSymbol() {
-            return (
-                (this.bondUneditableInfo &&
-                    this.bondUneditableInfo.enumCurrency &&
-                    this.bondUneditableInfo.enumCurrency.shortSymbol) ||
-                ''
-            )
         }
     }
 }

@@ -2,6 +2,7 @@
     van-panel.mask-header(:title="title")
         col-msg(
             :colData="colData"
+            :wrapperStyle="wrapperStyle"
         )
 </template>
 

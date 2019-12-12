@@ -13,6 +13,23 @@ const stockColorClass = {
     }
 }
 export default {
+    i18n: {
+        zhCHS: {
+            yieldToMaturity: '到期年化收益率',
+            refAmountContract: '参考认购金额/份',
+            annualInterestContract: '年派息/份'
+        },
+        zhCHT: {
+            yieldToMaturity: '到期年化收益率',
+            refAmountContract: '參考認購金額/份',
+            annualInterestContract: '年派息/份'
+        },
+        en: {
+            yieldToMaturity: 'Yield-to-Maturity',
+            refAmountContract: 'Ref. Amount / Contract',
+            annualInterestContract: 'Annual Interest / Contract'
+        }
+    },
     name: 'BondCard',
     components: {
         [Tag.name]: Tag
@@ -80,6 +97,50 @@ export default {
                     this.bondInfo.price &&
                     this.bondInfo.price.buyYtm &&
                     (this.bondInfo.price.buyYtm - 0).toFixed(3) + '%') ||
+                '--'
+            )
+        },
+        // 參考認購金額
+        subscriptionAmount() {
+            return (
+                (this.minFaceValue * this.buyPrice &&
+                    `${this.currency}${(
+                        this.minFaceValue * this.buyPrice
+                    ).toFixed(2)}`) ||
+                '--'
+            )
+        },
+        // 最小面额
+        minFaceValue() {
+            return (this.bondInfo && this.bondInfo.minFaceValue - 0) || 0
+        },
+        // 购买价格
+        buyPrice() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.price &&
+                    this.bondInfo.price.buyPrice &&
+                    this.bondInfo.price.buyPrice - 0) ||
+                0
+            )
+        },
+        // 货币单位
+        currency() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.enumCurrency &&
+                    this.bondInfo.enumCurrency.symbol) ||
+                ''
+            )
+        },
+        // 年稅後派息
+        paymentAfterTaxPerYear() {
+            return (
+                (this.bondInfo &&
+                    this.bondInfo.paymentAfterTaxPerYear &&
+                    `${this.currency}${(
+                        this.bondInfo.paymentAfterTaxPerYear - 0
+                    ).toFixed(2)}`) ||
                 '--'
             )
         }

@@ -9,36 +9,21 @@
                 plain
             ) {{ tagItem && tagItem.slice(0, 8) }}
         .bond-card__content
-            .flex-fixed-container
-                .rate-num(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
-                .card-tips 到期年化收益率
-            .flex-fixed-container
-                .interest-num {{ paymentDates }}
-                .card-tips {{ paymentFrequency }}
+            div
+                .bond-card__text(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
+                .bond-card__tips 到期年化收益率
+            div
+                .bond-card__text.sp {{ subscriptionAmount | thousand-spilt }}
+                .bond-card__tips 参考认购金额/份
+            div
+                .bond-card__text.sp {{ paymentAfterTaxPerYear | thousand-spilt }}
+                .bond-card__tips 年派息/份
 </template>
 
 <script>
 import mixin from './mixin'
-import { calcPaymentDates } from '@/pages/bond/index/tools.js'
-
 export default {
-    mixins: [mixin],
-    computed: {
-        // 付息频率
-        paymentFrequency() {
-            return (
-                (this.bondInfo &&
-                    this.bondInfo.paymentFrequency &&
-                    this.bondInfo.paymentFrequency.name &&
-                    this.bondInfo.paymentFrequency.name + '付息') ||
-                '--'
-            )
-        },
-        // 付息日
-        paymentDates() {
-            return calcPaymentDates(this.bondInfo && this.bondInfo.paymentDates)
-        }
-    }
+    mixins: [mixin]
 }
 </script>
 
@@ -78,12 +63,20 @@ export default {
     }
     .bond-card__content {
         display: flex;
+        justify-content: space-between;
         margin-top: 9px;
         padding: 0 2px;
-        .rate-num {
+        .bond-card__text {
             margin-bottom: 4px;
             font-size: 24px;
             line-height: 31px;
+            &.sp {
+                margin-top: 3px;
+                margin-bottom: 7px;
+                color: $text-color;
+                font-size: 17px;
+                line-height: 25px;
+            }
             &.red {
                 color: #ea3d3d;
             }
@@ -94,14 +87,7 @@ export default {
                 color: $text-color;
             }
         }
-        .interest-num {
-            margin-top: 3px;
-            margin-bottom: 7px;
-            color: $text-color;
-            font-size: 17px;
-            line-height: 25px;
-        }
-        .card-tips {
+        .bond-card__tips {
             color: $text-color5;
             font-size: 12px;
             line-height: 17px;

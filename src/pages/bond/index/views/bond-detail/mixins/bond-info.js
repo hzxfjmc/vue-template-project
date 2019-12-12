@@ -3,6 +3,7 @@ import { handleSelectProtocolInfo } from '@/pages/bond/index/tools'
 import { calcCountDownDay, dateFormat } from '@/utils/tools.js'
 import ColMsg from '@/biz-components/col-msg/index.vue'
 import { isYouxinAndroid } from '@/utils/html-utils'
+import { calcPaymentDates } from '@/pages/bond/index/tools.js'
 import jsBridge from '@/utils/js-bridge'
 export default {
     name: 'BondInfo',
@@ -179,6 +180,15 @@ export default {
                     (this.bondUneditableInfo.couponRate * 100).toFixed(2) +
                         '%') ||
                 '--'
+            )
+        },
+        // 付息日
+        paymentDate() {
+            return calcPaymentDates(
+                this.bondUneditableInfo && this.bondUneditableInfo.paymentDate,
+                true,
+                '.',
+                '、'
             )
         },
         // 债券发行时间
