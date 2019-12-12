@@ -21,7 +21,7 @@
                         .tag-list--element(v-if="code !== 1")
                             span(v-if="lang != 'en'") {{item.assetTypeName}}
                             span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}} {{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
+                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}} {{item.fundSize}} {{$t('unit')}} {{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                         .tag-list--element(v-else)
                             span {{item.assetTypeName}}
                             span {{`${item.initialInvestAmount}${item.tradeCurrency}起购`}}

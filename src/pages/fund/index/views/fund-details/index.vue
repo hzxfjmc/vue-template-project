@@ -26,7 +26,7 @@
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-    .fund-footer-content(@click="handleBuyOrSell" v-if="!btnShow && isGrayAuthority")
+    .fund-footer-content(@click="handleBuyOrSell" v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag")
         van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
     
     
@@ -46,7 +46,7 @@ import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
-import { enablePullRefresh } from '@/utils/js-bridge.js'
+// import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
@@ -385,7 +385,7 @@ export default {
         }
     },
     mounted() {
-        enablePullRefresh(true)
+        // enablePullRefresh(true)
         this.getFundDetail()
         if (this.isLogin) {
             this.getCurrentUser()
