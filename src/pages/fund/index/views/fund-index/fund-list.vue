@@ -22,7 +22,7 @@
                             span(v-if="lang != 'en'") {{item.assetTypeName}}
                             span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
                             span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
-                        .tag-list(v-else)
+                        .tag-list--element(v-else)
                             span {{item.assetTypeName}}
                             span {{`${item.initialInvestAmount}${item.tradeCurrency}起`}}
                             span {{`${item.fundSize}亿${item.fundSizeCurrency}`}}
