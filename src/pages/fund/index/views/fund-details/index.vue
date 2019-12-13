@@ -4,8 +4,9 @@
         fundDetailsHeader(:fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
-          @chooseTime = "getSwitchFundNetPrice"
+          @chooseTime = "getFundApyPointV1"
           :step="step"
+          :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
         HoldfundDetails(
@@ -25,8 +26,11 @@
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-    .fund-footer-content(@click="handleBuyOrSell" v-if="!btnShow && isGrayAuthority")
-        van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag")
+        van-button(
+            class="fund-footer btn button-width"
+            @click="handleBuyOrSell" 
+            :disabled="disabled") {{$t('buy')}}
     
     
 </template>
@@ -38,13 +42,14 @@ import fundDetailsList from './components/fund-details-list'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
-    getFundNetPrice
+    getFundApyPointV1
 } from '@/service/finance-info-server.js'
-import { getCurrentUser } from '@/service/user-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
+import { getCurrentUser } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
+// import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
@@ -69,7 +74,7 @@ export default {
             openAccount: '您尚未開戶，開戶成功即可交易'
         },
         en: {
-            buy: 'Subscription',
+            buy: 'Subscribe',
             redeem: 'Redemption',
             append: 'Incremental',
             login: 'Please login in',
@@ -78,7 +83,7 @@ export default {
             openAccount: 'Please open your account to continue the trade'
         }
     },
-    // keepalive: true,
+    keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
@@ -92,6 +97,18 @@ export default {
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
+        },
+        disabled() {
+            if (!this.isLogin) {
+                return false
+            }
+            if (this.isLogin && this.userInfo.grayStatusBit) {
+                return false
+            }
+            if (this.fundOverviewInfoVO.tradeAuth) {
+                return false
+            }
+            return true
         },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
@@ -134,7 +151,7 @@ export default {
             btnShow: false,
             btnShow1: false,
             fundCode: '',
-            userInfo: null,
+            userInfo: {},
             scroll: 0,
             fundRiskType: '',
             flag: true, //赎回
@@ -145,6 +162,16 @@ export default {
         }
     },
     methods: {
+        //获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.userInfo = res
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getCurrentUser:error:>>>', e)
+            }
+        },
         //跳转
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
@@ -170,14 +197,24 @@ export default {
                     isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.fundHeaderInfoVO.dividendType =
+                    res.fundTradeInfoVO.dividendType.name
                 this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fundCode = this.fundHeaderInfoVO.fundCode
                 let flag = this.fundHeaderInfoVO.apy < 0
-                this.fundHeaderInfoVO.apy = (
-                    Math.floor(Math.abs(this.fundHeaderInfoVO.apy) * 10000) /
-                    100
-                ).toFixed(2)
+                this.fundHeaderInfoVO.apy =
+                    this.fundHeaderInfoVO.assetType === 4
+                        ? (
+                              Math.floor(
+                                  Math.abs(this.fundHeaderInfoVO.apy) * 1000000
+                              ) / 10000
+                          ).toFixed(4)
+                        : (
+                              Math.floor(
+                                  Math.abs(this.fundHeaderInfoVO.apy) * 10000
+                              ) / 100
+                          ).toFixed(2)
                 this.fundHeaderInfoVO.apy = flag
                     ? -this.fundHeaderInfoVO.apy
                     : this.fundHeaderInfoVO.apy
@@ -198,12 +235,15 @@ export default {
                 this.fundCorrelationFileList = res.fundCorrelationFileList
                 this.fundTradeInfoVO = res.fundTradeInfoVO
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
-                this.getFundNetPrice()
+                this.getFundApyPointV1()
                 this.getFundPositionV2()
+                //赎回按钮是否置灰
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
+                //追加按钮是否置灰
                 this.flag1 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                //申购按钮是否置灰
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 browseFundDetails(
@@ -225,8 +265,8 @@ export default {
                 })
                 this.holdInitState = res
                 this.positionStatus = res.positionStatus
-                this.btnShow1 = false
-                this.btnShow = false
+                this.btnShow1 = false //申购按钮显示
+                this.btnShow = false //追加赎回按钮显示
                 if (
                     this.positionStatus.type === 1 &&
                     this.holdInitState.availableShare > 0
@@ -235,6 +275,7 @@ export default {
                 } else {
                     this.btnShow1 = true
                 }
+                //持仓显示
                 if (
                     this.positionStatus.type != 0 &&
                     this.positionStatus.type != -1
@@ -248,109 +289,34 @@ export default {
                 console.log('getFundPositionV2:error:>>>', e)
             }
         },
-        getSwitchFundNetPrice(time) {
-            this.initEchartList = []
-            let count = Math.ceil(this.copyinitEchartList.length / 22)
-            switch (time) {
-                case 1:
-                    this.step = 0
-                    this.initEchartList = this.copyinitEchartList.slice(0, 22)
-                    break
-                case 2:
-                    this.step = 1
-                    this.initEchartList = this.copyinitEchartList.slice(0, 66)
-                    break
-                case 3:
-                    this.step = 2
-                    this.initEchartList = this.copyinitEchartList.slice(0, 132)
-                    break
-                case 4:
-                    this.step = 3
-                    this.initEchartList = this.copyinitEchartList.slice(0, 245)
-                    break
-                case 5:
-                    this.step = 4
-                    this.initEchartList = []
-                    for (let i = 0; i < count; i++) {
-                        this.initEchartList.push(this.copyinitEchartList[i * 5])
-                    }
-                    break
-                case 6:
-                    this.step = 5
-                    this.initEchartList = []
-                    for (let i = 0; i < count; i++) {
-                        this.initEchartList.push(
-                            this.copyinitEchartList[i * 22]
-                        )
-                    }
-                    this.initEchartList = this.copyinitEchartList
-                    break
-                default:
-                    this.step = 6
-                    break
-            }
-            let month = {
-                1: '1个月',
-                2: '3个月',
-                3: '6个月',
-                4: '1年'
-            }
-            if (time <= 4) {
-                clickFundDetails(
-                    'fund_detail',
-                    month[time],
-                    this.fundHeaderInfoVO.fundId,
-                    this.fundHeaderInfoVO.fundName
-                )
-            }
-        },
         //echart图的数据获取
-        async getFundNetPrice(time) {
+        async getFundApyPointV1(time) {
             try {
-                const res = await getFundNetPrice({
+                const res = await getFundApyPointV1({
                     fundId: this.id,
-                    fundNetPriceDateType: time || 5
+                    apyType: time || 1
                 })
                 this.copyinitEchartList = res
                 this.initEchartList = res
-                if (
-                    this.initEchartList.length > 0 &&
-                    this.initEchartList.length <= 22
-                ) {
-                    this.step = 0
-                } else if (
-                    this.initEchartList.length > 22 &&
-                    this.initEchartList.length <= 66
-                ) {
-                    this.step = 1
-                } else if (
-                    this.initEchartList.length > 66 &&
-                    this.initEchartList.length <= 132
-                ) {
-                    this.step = 2
-                } else if (
-                    this.initEchartList.length > 132 &&
-                    this.initEchartList.length <= 245
-                ) {
-                    this.step = 3
-                } else {
-                    this.step = 5
-                }
-                this.initEchartList = this.initEchartList.slice(0, 22)
                 this.initEchartList.map(item => {
-                    item.netPrice = Number(item.netPrice)
+                    item.pointData = Number(item.pointData * 100)
                 })
+                let month = {
+                    1: '1个月',
+                    2: '3个月',
+                    3: '6个月',
+                    4: '1年'
+                }
+                if (time <= 4) {
+                    clickFundDetails(
+                        'fund_detail',
+                        month[time],
+                        this.fundHeaderInfoVO.fundId,
+                        this.fundHeaderInfoVO.fundName
+                    )
+                }
             } catch (e) {
-                console.log('getFundNetPrice:error:>>>', e)
-            }
-        },
-        //获取用户信息
-        async getCurrentUser() {
-            try {
-                const res = await getCurrentUser()
-                this.userInfo = res
-            } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
+                console.log('getFundApyPointV1:error:>>>', e)
             }
         },
         //用户是否能申购或者是否需要测评
@@ -363,7 +329,7 @@ export default {
             )
             if (!this.flag2) return this.$toast(this.forbidPrompt)
             // 未登录或未开户
-            if (!this.userInfo) {
+            if (!this.isLogin) {
                 await this.$dialog.alert({
                     message: this.$t('login'),
                     confirmButtonText: this.$t('loginBtn')
@@ -371,7 +337,7 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
-            if (!this.userInfo.openedAccount) {
+            if (!this.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
                     message: this.$t('openAccount'),
@@ -430,14 +396,16 @@ export default {
             if (re.data.status !== 'visible') {
                 return
             }
-            console.log('appVisible方法执行了')
             await this.$store.dispatch('initAction')
-            this.getCurrentUser()
         }
     },
-    mounted() {
-        this.getCurrentUser()
-        this.getFundDetail()
+    async created() {
+        // enablePullRefresh(true)
+        console.log('最新代码')
+        await this.getFundDetail()
+        if (this.isLogin) {
+            this.getCurrentUser()
+        }
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},

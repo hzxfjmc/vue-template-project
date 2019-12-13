@@ -14,12 +14,13 @@ export const i18nOrderStatusData = {
         confirmButtonText: '确认',
         backoutBtnText: '撤销',
         orderFree: '费用',
-        beConfirmed: '待确认'
+        beConfirmed: '待确认',
+        failedRemark: '订单失败原因'
     },
     zhCHT: {
         amount: '金額',
         againBuy: '再買一筆',
-        dialogMsg: '您是否要撤销當前訂單?',
+        dialogMsg: '您是否要撤銷當前訂單?',
         orderTime: '訂單生成時間',
         orderNum: '訂單號',
         orderName: '訂單',
@@ -29,9 +30,10 @@ export const i18nOrderStatusData = {
         orderShares: '份額',
         cancelButtonText: '取消',
         confirmButtonText: '確認',
-        backoutBtnText: '撤销',
+        backoutBtnText: '撤銷',
         orderFree: '費用',
-        beConfirmed: '待確認'
+        beConfirmed: '待確認',
+        failedRemark: '訂單失敗原因'
     },
     en: {
         amount: 'Amount',
@@ -48,6 +50,7 @@ export const i18nOrderStatusData = {
         confirmButtonText: 'Confirm',
         backoutBtnText: 'Cancel',
         orderFree: 'Cost',
-        beConfirmed: 'To Be Confirmed'
+        beConfirmed: 'To Be Confirmed',
+        failedRemark: 'Reason'
     }
 }

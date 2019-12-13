@@ -81,7 +81,7 @@ export default {
     methods: {
         toFundDetails(item) {
             gotoNewWebView(
-                `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
+                `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}&tip=${item.earningsTypeName}`
             )
         }
     },
@@ -97,6 +97,7 @@ export default {
     margin: 0 0 20px 0;
     float: left;
     width: 100%;
+    padding: 0 0 20px 0;
 }
 .fund-title-name {
     width: 96%;
@@ -120,7 +121,7 @@ export default {
     width: 100%;
     .list-item {
         width: 96%;
-        margin: 10px 2% 0 2%;
+        margin: 6px 2% 0 2%;
         padding: 20px 15px;
         background: #fff;
         border-radius: 4px;

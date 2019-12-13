@@ -1,7 +1,7 @@
 export const zhCHT = {
     fundDetails: '基金詳情',
-    fundList: '精選基金',
-    fundIntroduce: '基金介绍',
+    fundList: '基金列表',
+    fundIntroduce: '基金概况',
     tradeRule: '交易規則',
     fundFiles: '相關文件',
     riskAssessment: '風險評估',
@@ -15,6 +15,6 @@ export const zhCHT = {
     incomeDetails: '收益明細',
     home: '智選基金',
     fundOrderList: '訂單記錄',
-    fundAccount: '我的持倉',
+    fundAccount: '基金持倉',
     fundHistorical: '淨值歷史'
 }

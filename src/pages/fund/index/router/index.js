@@ -8,10 +8,11 @@ export default new Router({
     },
     routes: [
         {
-            name: 'home',
+            name: 'fund-index',
             path: '/',
             meta: { title: 'home', auth: true, cs: true },
-            component: () => import(`@/pages/fund/index/views/home/index.vue`)
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
         {
             name: 'index',
@@ -122,7 +123,8 @@ export default new Router({
             name: 'home',
             path: '/home',
             meta: { title: 'home', auth: true, cs: true },
-            component: () => import(`@/pages/fund/index/views/home/index.vue`)
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
         {
             name: 'fund-order-list',
@@ -144,6 +146,13 @@ export default new Router({
             meta: { title: 'fundHistorical', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-historical/index.vue`)
+        },
+        {
+            name: 'fund-index',
+            path: '/fund-index',
+            meta: { title: 'home', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
         }
     ]
 })

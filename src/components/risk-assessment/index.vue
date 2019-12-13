@@ -192,7 +192,7 @@ This assessment is important to know about your investment risk profile for choo
     .risk-assessment-form {
         flex: 1;
         .van-panel {
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             padding-bottom: 10px;
         }
         .van-cell {

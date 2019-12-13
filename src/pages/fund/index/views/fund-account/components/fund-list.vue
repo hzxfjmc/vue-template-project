@@ -1,51 +1,82 @@
 <template lang="pug">
-.block-fund-list-content
-    .list-item-content(v-for="(item,index) in fundList" :key="index" @click="toFundDetails(item)")
+.block-fund-list-content(:class="[code!=1? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
+    .block__fund-title.border-bottom(@click="hanlderSwitch") 
+        span(:style="{background:bgColor}")
+        p {{title}}
+        em(:class="listShow && fundList.length != 0 ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
+    .list-item-content(
+        v-for="(item,index) in fundList" 
+        v-if="listShow"
+        :key="index" 
+        @click="toFundDetails(item)")
         .fund-name {{item.fundName}}
         .fund-list-num
             .fund-row
-                span {{$t('amountMoney')}}
-                .block-element-number(v-if="eyeTab") {{item.positionAmount}}
-                .block-element-number(v-else) ****
+                .fund__row--list
+                    .block-element-number(v-if="eyeTab") {{item.positionAmount}}
+                    .block-element-number(v-else) ****
+                    span {{$t('amountMoney')}}
+                .fund__row--list
+                    .block-element-number(
+                        v-if="eyeTab && item.flag == 0" 
+                        :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings|filterThousand}}
+                    .block-element-number(
+                        v-if="eyeTab && item.flag == 1" 
+                        :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
+                    .block-element-number(
+                        v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
+                    .block-element-number(v-if="!eyeTab") ****
+                    span {{$t('profitPostion')}}
             .fund-row
-                span {{$t('profitPostion')}}
-                .block-element-number(v-if="eyeTab && item.flag == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
-                .block-element-number(v-if="!eyeTab") ****
-            .fund-row
-                span {{$t('SevenDayIncome')}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
-                .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
-                .block-element-number(v-if="!eyeTab") ****
-            .fund-row
-                span {{$t('share')}}
-                .block-element-number(v-if="eyeTab") {{item.positionShare}}
-                .block-element-number(v-else) ****
-        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.0000' || item.inTransitAmount !== '0.00'")
-            .o-item(v-if="item.redeemDeliveryShare !== '0.0000'")
+                .fund__row--list
+                    .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
+                    .block-element-number(v-if="!eyeTab") ****
+                    span {{$t('SevenDayIncome')}}
+                .fund__row--list
+                    .block-element-number(v-if="eyeTab") {{item.positionShare}}
+                    .block-element-number(v-else) ****
+                    span {{$t('share')}}
+        .fund-list-other(
+            class="border-top" 
+            v-if="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0")
+            .o-item(v-if="item.redeemDeliveryShare != 0")
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
                     span {{$t('share')}}
                     span.price-number(v-if="eyeTab") {{item.redeemDeliveryShare}}
                     span.price-number(v-else) ****
-            .o-item(v-if="item.inTransitAmount !== '0.00'")
+            .o-item(v-if="item.inTransitAmount != 0")
                 .footer-left-l {{$t('subscribe')}}
                 .footer-right
-                    span {{item.currency == 2 ? 'HKD':'USD'}}
-                    span.price-number(v-if="eyeTab") {{item.inTransitAmount}}
+                    span {{item.currency}}
+                    span.price-number(v-if="eyeTab") {{item.inTransitAmount|parseThousands(2)}}
                     span.price-number(v-else) ****
-    .block-element-nomore(v-if="noMoreShow")
-        img.img(src="@/assets/img/fund/empty.png") 
-        .no-record-box {{$t('nomore')}}
+    .list-item-content-sub(v-if="fundList.length === 0")
+        span {{$t('nomore')}}
+
+   
 </template>
 <script>
 import localStorage from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { mapGetters } from 'vuex'
+import { parseThousands } from '@/utils/tools.js'
 export default {
+    filters: {
+        filterThousand: parseThousands
+    },
     props: {
+        bgColor: {
+            type: String,
+            default: ''
+        },
+        title: {
+            type: String,
+            default: ''
+        },
         fundList: {
             type: Array,
             default: () => {}
@@ -57,10 +88,20 @@ export default {
         eyeTab: {
             type: Boolean,
             default: localStorage.get('showMoney')
+        },
+        code: {
+            type: Number
         }
     },
+    // watch: {
+    //     fundList() {
+    //         this.listShow = this.fundList.length === 0
+    //     }
+    // },
     data() {
-        return {}
+        return {
+            listShow: true
+        }
     },
     i18n: {
         zhCHS: {
@@ -85,18 +126,22 @@ export default {
             amountMoney: 'Amount',
             share: 'Unit',
             profitPostion: 'Total Return',
-            SevenDayIncome: 'RTN 7d',
+            SevenDayIncome: '7 Days',
             Redemption: 'Redeming',
             subscribe: 'Purchasing',
             nomore: 'No Position'
         }
     },
     computed: {
+        ...mapGetters(['appType']),
         stockColorType() {
             return +getStockColorType()
         }
     },
     methods: {
+        hanlderSwitch() {
+            this.listShow = !this.listShow
+        },
         toFundDetails(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             gotoNewWebView(url)
@@ -109,28 +154,52 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block-fund-list-content {
-    width: 96%;
-    margin: 0 2%;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 4px 0px rgba(57, 57, 57, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
     color: #000;
+    .block__fund-title {
+        display: flex;
+        flex-direction: row;
+        height: 44px;
+        line-height: 44px;
+        span {
+            display: block;
+            width: 4px;
+            height: 16px;
+            margin: 14px 0;
+        }
+        p {
+            width: 85%;
+            font-size: 16px;
+            margin: 0 0 0 18px;
+        }
+    }
     .list-item-content {
         width: 100%;
-        border-radius: 4px;
-        // height: 110px;
-        margin: 10px 0 0 0;
-        padding: 10px 2% 14px 2%;
+        padding: 10px 5% 14px 5%;
+        border-bottom: 1px solid #e1e1e1;
         background: #fff;
         .fund-name {
             font-size: 0.32rem;
-            line-height: 22px;
+            line-height: 20px;
             margin: 10px 0 5px 0;
         }
         .fund-list-num {
             display: flex;
             margin: 14px 0 0 0;
-            flex-direction: row;
+            flex-direction: column;
             .fund-row {
-                width: 25%;
+                width: 100%;
                 text-align: right;
+                display: flex;
+                flex-direction: row;
+                .fund__row--list {
+                    width: 50%;
+                    margin: 6px 0 0 0;
+                    text-align: left;
+                }
                 span {
                     font-size: 0.24rem;
                     color: rgba(25, 25, 25, 0.5);
@@ -179,17 +248,20 @@ export default {
             }
         }
     }
+    .list-item-content:last-child {
+        border: none;
+    }
+    .list-item-content-sub {
+        text-align: center;
+        line-height: 40px;
+    }
 }
-.block-element-nomore {
-    width: 100%;
-    text-align: center;
-    margin: 100px 0 0 0;
-    img {
-        width: 130px;
-    }
-    .no-record-box {
-        color: rgba(25, 25, 25, 0.5);
-        margin: 10px 0 0 0;
-    }
+.block-fund-list-content-hk {
+    width: 90%;
+    margin: 20px 5% 0 5%;
+}
+.block-fund-list-content-ch {
+    width: 96%;
+    margin: 14px 2% 0 2%;
 }
 </style>

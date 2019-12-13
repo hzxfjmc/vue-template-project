@@ -114,3 +114,8 @@ export const openBondFeePackage = () => {
 // export const bondOrderCalculate = params => {
 //     return axios.post(`/finance-server/api/bond-order-calculate/v1`, params)
 // }
+
+//获取当前客户基金持仓列表V3
+export const getFundPositionListV3 = () => {
+    return axios.post(`/finance-server/api/get-fund-position-list/v3`)
+}

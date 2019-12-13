@@ -6,10 +6,10 @@
             .rate-num(v-else) {{ apy }}%
             .annualized-returns {{ isMonetaryFund ? $t('yieldInLast7d') : $t('annualRateOfReturn') }}
         .right
-            h2(:style="h2Style") {{ fundName }}
+            h2(:style="h2Style") {{ info.fundName }}
             .labels 
-                //- fund-tag(:title="info.assetType")
                 fund-tag(:title="info.fundRisk")
+                fund-tag(:title="$t(info.currency.name)")
             .feature {{ info.feature }}
 </template>
 
@@ -20,15 +20,21 @@ export default {
     i18n: {
         zhCHS: {
             annualRateOfReturn: '近一年收益率',
-            yieldInLast7d: '近七日年化'
+            yieldInLast7d: '近七日年化',
+            HKD: '港币',
+            USD: '美元'
         },
         zhCHT: {
             annualRateOfReturn: '近一年表現',
-            yieldInLast7d: '近七日年化'
+            yieldInLast7d: '近七日年化',
+            HKD: '港幣',
+            USD: '美元'
         },
         en: {
             annualRateOfReturn: 'Past Year',
-            yieldInLast7d: 'Yield in Last 7d'
+            yieldInLast7d: 'Yield in Last 7d',
+            HKD: 'HKD',
+            USD: 'USD'
         }
     },
     name: 'BondCard',
@@ -58,16 +64,17 @@ export default {
         },
         apy() {
             const func = this.info && this.info.apy > 0 ? Math.floor : Math.ceil
-            return (
-                this.info &&
-                (func((this.info.apy - 0) * 10000) / 100).toFixed(2)
-            )
+            let apyNum =
+                this.info.assetType === 4
+                    ? (func((this.info.apy - 0) * 1000000) / 10000).toFixed(4)
+                    : (func((this.info.apy - 0) * 10000) / 100).toFixed(2)
+            return this.info && apyNum
         },
-        fundName() {
-            return this.info.fundName.length > 12
-                ? this.info.fundName.slice(0, 12) + '...'
-                : this.info.fundName
-        },
+        // fundName() {
+        //     return this.info.fundName.length > 12
+        //         ? this.info.fundName.slice(0, 12) + '...'
+        //         : this.info.fundName
+        // },
         h2Style() {
             // 名称字体变化策略
             let fundName = this.info.fundName || ''
@@ -118,12 +125,15 @@ export default {
     }
     .right {
         display: flex;
-        width: 65%;
+        width: 60%;
         flex-direction: column;
         h2 {
             overflow: hidden;
             margin-bottom: 6px;
+            width: 100%;
             color: $title-color;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
         .feature {
             color: $text-color5;

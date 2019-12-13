@@ -220,6 +220,9 @@ export default {
                     .split('/')
                     .pop()
                 this.sellProtocolFileList = fundDetail.sellProtocolFileList
+                this.sellProtocolFileList.map(item => {
+                    item.fileName = item.fileName.split('.')[0]
+                })
             } catch (e) {
                 console.log('赎回页面-getFundDetailInfo:error:>>>', e)
             }

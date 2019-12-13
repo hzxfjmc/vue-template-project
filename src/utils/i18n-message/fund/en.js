@@ -1,6 +1,6 @@
 export const en = {
     fundDetails: 'Fund Detail',
-    fundList: 'Featured Funds',
+    fundList: 'Fund List',
     fundIntroduce: 'Fund Overview',
     tradeRule: 'Trade Rules',
     fundFiles: 'Related Documents',
@@ -15,6 +15,6 @@ export const en = {
     incomeDetails: 'Revenue Detail',
     home: 'Smart Fund',
     fundOrderList: 'Order Records',
-    fundAccount: 'My Fund',
+    fundAccount: 'My Funds',
     fundHistorical: 'NAV History'
 }

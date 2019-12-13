@@ -16,7 +16,7 @@
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value}}%)
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
-                                input(v-model="item.value" :placeHolder="$t('buyMoneyPlaceHolder')" type="number")
+                                input(v-model="item.value" :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `"  @blur="addComma(item.value)")
                             .right-item-other(v-else)
                                 span {{item.value}}
                 FundSteps(
@@ -53,7 +53,7 @@
                     .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ orderTotalAmount | sliceFixedTwo | formatCurrency }}
                 .buy-row
                     .left.line-height-8 {{$t('buyMoney')}}
-                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value | formatCurrency }}
+                    .right.buy-money.line-height-8(style="text-align: right;") {{$route.query.currencyType == 2?'HKD' : 'USD'}} {{ subscribeObj['buyMoney'].value }}
             .fond-buy(style="margin-top: 0")
                 a.submit(style="margin: 41px 0 28px 0" @click="goNext(orderNo, $route.query.currencyType)") {{ $t('done') }}
         protocol-popup(
@@ -65,7 +65,7 @@
 import NP from 'number-precision'
 import { getCosUrl } from '@/utils/cos-utils'
 // import { getTradePasswordToken } from '@/service/user-server.js'
-import { fundPurchase } from '@/service/finance-server.js'
+import { fundPurchase, getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
@@ -108,10 +108,12 @@ export default {
             sellProtocolFileList: [],
             protocolVisible: false,
             isCheckedProtocol: true,
-            orderTotalAmount: ''
+            orderTotalAmount: '',
+            positionStatus: '' //持仓状态
         }
     },
     async created() {
+        this.getFundPositionV2Fun()
         this.getWithdrawBalance()
     },
     computed: {
@@ -134,20 +136,23 @@ export default {
     },
     watch: {
         'subscribeObj.buyMoney.value'(val) {
+            let numberInt
+            if (val.indexOf(',') > -1) {
+                let arr = val.split(',')
+                numberInt = arr.join('')
+            } else {
+                numberInt = val
+            }
             this.subscribeObj.totalOrderAmount.value =
-                Number(this.subscribeObj.buyMoney.value) +
-                    (this.subscribeObj.buyMoney.value *
-                        this.subscribeObj.subscriptionFee.value) /
+                Number(numberInt) +
+                    (numberInt * this.subscribeObj.subscriptionFee.value) /
                         100 || '0.00'
             this.subscribeObj.totalOrderAmount.value = parseThousands(
                 Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
             )
-
             this.subscriptionFee =
-                (this.subscribeObj.buyMoney.value *
-                    this.subscribeObj.subscriptionFee.value) /
-                100
-            if (val > +this.withdrawBalance) {
+                (numberInt * this.subscribeObj.subscriptionFee.value) / 100
+            if (numberInt > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
             }
         }
@@ -206,12 +211,20 @@ export default {
                 }
                 this.subscribeObj.currency.value =
                     fundDetail.fundTradeInfoVO.currency.name
-                this.subscribeObj.initialInvestAmount.value = transNumToThousandMark(
-                    fundDetail.fundTradeInfoVO.initialInvestAmount
-                )
-                this.subscribeObj.continueInvestAmount.value = transNumToThousandMark(
-                    fundDetail.fundTradeInfoVO.continueInvestAmount
-                )
+
+                if (this.positionStatus !== 1) {
+                    this.initialInvestAmount = transNumToThousandMark(
+                        Number(
+                            fundDetail.fundTradeInfoVO.initialInvestAmount
+                        ).toFixed(2)
+                    )
+                } else {
+                    this.initialInvestAmount = transNumToThousandMark(
+                        Number(
+                            fundDetail.fundTradeInfoVO.continueInvestAmount
+                        ).toFixed(2)
+                    )
+                }
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 let num =
@@ -219,6 +232,12 @@ export default {
                 this.subscribeObj.withdrawBalanceNetPrice.value = transNumToThousandMark(
                     num
                 )
+                console.log(
+                    this.withdrawBalance,
+                    fundDetail.fundHeaderInfoVO.netPrice,
+                    num
+                )
+
                 this.setCosUrl(
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
@@ -233,6 +252,9 @@ export default {
                     .pop()
 
                 this.buyProtocolFileList = fundDetail.buyProtocolFileList
+                this.buyProtocolFileList.map(item => {
+                    item.fileName = item.fileName.split('.')[0]
+                })
             } catch (e) {
                 console.log('申购页面-getFundDetail:error:>>>', e)
             }
@@ -303,7 +325,12 @@ export default {
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
-                        purchaseAmount: this.subscribeObj.buyMoney.value,
+                        purchaseAmount:
+                            this.subscribeObj.buyMoney.value.indexOf(',') > -1
+                                ? this.subscribeObj.buyMoney.value
+                                      .split(',')
+                                      .join('')
+                                : this.subscribeObj.buyMoney.value,
                         requestId: generateUUID(),
                         tradeToken: token
                     })
@@ -324,6 +351,21 @@ export default {
             if (submitStep === 2) {
                 this.step = 2
             }
+        },
+        // 失焦后添加逗号
+        addComma(val) {
+            if (val) {
+                this.subscribeObj.buyMoney.value = transNumToThousandMark(
+                    Number(val).toFixed(2)
+                )
+            }
+        },
+        // 获取当前客户单个基金持仓数据
+        async getFundPositionV2Fun() {
+            let res = await getFundPositionV2({
+                fundId: this.$route.query.id
+            })
+            this.positionStatus = res.positionStatus.type
         }
     },
     i18n: {
@@ -353,7 +395,7 @@ export default {
             iKnow: '我知道了',
             subscribeObj: subscribeObji18n.i18n.zhCHS,
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
-            buyMoneyPlaceHolder: '最小买入+买入单位*N',
+            buyMoneyPlaceHolder: '起',
             orderAmount: '订单金额'
         },
         zhCHT: {
@@ -382,7 +424,7 @@ export default {
             iKnow: '我知道了',
             subscribeObj: subscribeObji18n.i18n.zhCHT,
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
-            buyMoneyPlaceHolder: '最小買入+買入單位*N',
+            buyMoneyPlaceHolder: '起',
             orderAmount: '訂單金額'
         },
         en: {
@@ -412,7 +454,7 @@ export default {
             subscribeObj: subscribeObji18n.i18n.en,
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
-            buyMoneyPlaceHolder: 'Min. Purchase+Purchase Unit*N',
+            buyMoneyPlaceHolder: 'Initial Subs',
             orderAmount: 'Amount of Orders'
         }
     }

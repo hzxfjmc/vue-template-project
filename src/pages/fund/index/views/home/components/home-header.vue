@@ -24,7 +24,9 @@
                 .header-content-number(@click="toFundAccount" v-if="showPositionInfo")
                     .header-content-top
                         span {{$t('AllTotalMarketPostion')}} ({{this.currency === 2 ? 'HKD':'USD'}})
-                        i.iconfont(:class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" @click.stop="hideNumber")
+                        i.iconfont(
+                            :class="showMoney ? 'icon-icon-eye' :'icon-icon-eye-hide'" 
+                            @click.stop="hideNumber")
                     .header-content()
                         span(v-if="showMoney") {{firstPositionAmount || '--'}}
                         em(v-if="showMoney") .{{secondPositionAmount || '--'}}
@@ -223,8 +225,8 @@ export default {
 .header-content-item {
     width: 100%;
     display: flex;
-    padding: 20px 0 10px 0;
-    height: 78px;
+    padding: 10px 0 5px 0;
+    // height: 78px;
     // background: #2f79ff;
     flex-direction: row;
     color: #fff;
@@ -248,7 +250,7 @@ export default {
     background: #2f79ff;
     background: #fff;
     padding: 0 0 10px 0;
-    height: 130px;
+    // height: 130px;
     // height: 133px;
     border-radius: 4px;
     .header-content-top {

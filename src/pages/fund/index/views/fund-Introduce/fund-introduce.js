@@ -15,6 +15,10 @@ export const Introducelit = {
         label: 'ISIN',
         value: ''
     },
+    initialInvestAmount: {
+        label: '起投金额',
+        value: ''
+    },
     fundRisk: {
         label: '风险等级',
         value: ''
@@ -30,24 +34,12 @@ export const Introducelit = {
     fundSize: {
         label: '基金规模',
         value: ''
-    },
-    companyProfile: {
-        label: '基金公司简介',
-        value: '',
-        refs: 'intd',
-        flag: 0
-    },
-    investObjective: {
-        label: '投资目标',
-        value: '',
-        refs: 'target',
-        flag: 0
     }
 }
 
 export const i18nIntroducelist = {
     zhCHS: {
-        fundIntroduceTitle: '基金介绍',
+        fundIntroduceTitle: '基金概况',
         zk: '展开',
         zq: '折起',
         list: {
@@ -62,6 +54,9 @@ export const i18nIntroducelist = {
             },
             isin: {
                 label: 'ISIN'
+            },
+            initialInvestAmount: {
+                label: '起投金额'
             },
             fundRisk: {
                 label: '风险等级'
@@ -80,11 +75,26 @@ export const i18nIntroducelist = {
             },
             investObjective: {
                 label: '投资目标'
+            },
+            dividendDate: {
+                label: '派息日期'
+            },
+            dividendRecord: {
+                label: '派息记录'
+            },
+            noMore: {
+                label: '没有更多了'
+            },
+            fundIntroduce: {
+                label: '基金介绍'
+            },
+            dividendDeatail: {
+                label: '派息详情'
             }
         }
     },
     zhCHT: {
-        fundIntroduceTitle: '基金介紹',
+        fundIntroduceTitle: '基金概況',
         zk: '更多',
         zq: '收起',
         list: {
@@ -99,6 +109,9 @@ export const i18nIntroducelist = {
             },
             isin: {
                 label: 'ISIN'
+            },
+            initialInvestAmount: {
+                label: '起投金額'
             },
             fundRisk: {
                 label: '風險等級'
@@ -117,11 +130,26 @@ export const i18nIntroducelist = {
             },
             investObjective: {
                 label: '投資目標'
+            },
+            dividendDate: {
+                label: '派息日期'
+            },
+            dividendRecord: {
+                label: '派息記錄'
+            },
+            noMore: {
+                label: '沒有更多了'
+            },
+            fundIntroduce: {
+                label: '基金介紹'
+            },
+            dividendDeatail: {
+                label: '派息詳情'
             }
         }
     },
     en: {
-        fundIntroduceTitle: 'Fund Introduction',
+        fundIntroduceTitle: 'Fund General Situation',
         zk: 'More',
         zq: 'Less',
         list: {
@@ -136,6 +164,9 @@ export const i18nIntroducelist = {
             },
             isin: {
                 label: 'ISIN'
+            },
+            initialInvestAmount: {
+                label: 'Min. Initial Investment'
             },
             fundRisk: {
                 label: 'Risk Level'
@@ -154,7 +185,33 @@ export const i18nIntroducelist = {
             },
             investObjective: {
                 label: 'Investment Objective'
+            },
+            dividendDate: {
+                label: 'Dividend Date'
+            },
+            dividendRecord: {
+                label: 'Dividend Recorde'
+            },
+            noMore: {
+                label: 'No More'
+            },
+            fundIntroduce: {
+                label: 'Fund Company Introduction'
+            },
+            dividendDeatail: {
+                label: 'Dividend Details'
             }
         }
+    }
+}
+
+export const otherList = {
+    investObjective: {
+        label: '投资目标',
+        value: ''
+    },
+    companyProfile: {
+        label: '基金公司简介',
+        value: ''
     }
 }

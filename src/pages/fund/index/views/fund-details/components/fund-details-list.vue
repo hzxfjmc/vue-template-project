@@ -107,7 +107,8 @@ export default {
                 item.routerPath == '/fund-historical'
             ) {
                 data.query = {
-                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId,
+                    assetType: this.fundHeaderInfoVO.assetType
                 }
             }
             if (item.routerPath == '/order-record') {
@@ -158,7 +159,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-details-list {
-    margin: 10px 0 10px 0;
+    margin: 6px 0 10px 0;
     background: $background-color;
     width: 100%;
     float: left;

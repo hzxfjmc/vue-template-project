@@ -8,9 +8,9 @@
             .block-list(class="border-bottom" v-for="(item,index) in list")
                 .block-left {{item.belongDay}}
                 .block-content {{item.netPrice}}
-                .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price |transNumToThousandMark}}%
-                .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price|transNumToThousandMark}}%
-                .block-right(v-else) {{item.price|transNumToThousandMark}}%
+                .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price }}%
+                .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price}}%
+                .block-right(v-else) {{item.price}}%
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
             .no-record-box {{$t('finishedText')}}
@@ -54,6 +54,7 @@ export default {
             fundId: 1,
             pageNum: 1,
             pageSize: 20,
+            assetType: this.$route.query.assetType,
             total: 0,
             finishedText: '无更多内容'
         }
@@ -74,19 +75,13 @@ export default {
         //上拉加载更多
         onLoad() {
             // 异步更新数据
-            setTimeout(() => {
-                if (this.list.length < this.total) {
-                    this.pageNum = this.pageNum + 1
-                    this.getFundNetPriceHistoryV1()
-                }
-                // 加载状态结束
-                this.loading = false
+            // setTimeout(() => {
+            if (this.list.length < this.total) {
+                this.pageNum = this.pageNum + 1
+                this.getFundNetPriceHistoryV1()
+            }
 
-                // 数据全部加载完成
-                if (this.list.length >= this.total) {
-                    this.finished = true
-                }
-            }, 500)
+            // }, 500)
         },
         //基金净值历史查询接口
         async getFundNetPriceHistoryV1() {
@@ -117,11 +112,21 @@ export default {
                                     this.list[index + 1].netPrice) /
                                     this.list[index + 1].netPrice) *
                                 100
+                            item.price =
+                                this.assetType != 4
+                                    ? item.price.toFixed(2)
+                                    : item.price.toFixed(4)
                         } else {
                             item.price = '0.00'
                         }
                     }
                 })
+                // 加载状态结束
+                this.loading = false
+                // 数据全部加载完成
+                if (this.list.length >= this.total) {
+                    this.finished = true
+                }
                 this.noMoreShow = this.total == 0
                 this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {

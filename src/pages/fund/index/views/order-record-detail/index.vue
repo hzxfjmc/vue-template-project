@@ -10,6 +10,9 @@
                     .order-item.flex(v-if="![1,2].includes(orderStatus)")
                         span.itemName {{$t('orderStatus')}}
                         span(:class='differenceColor') {{orderStatusValue}}
+                    .order-item.flex(v-if="orderStatus===4")
+                        span.itemName {{$t('failedRemark')}}
+                        span {{failedRemarkValue}}
                     .order-item.flex
                         span.itemName {{$t('orderTime')}}
                         span {{orderTimeValue}}
@@ -95,7 +98,7 @@ export default {
         return {
             fundIntro: '',
             fundName: '',
-            fondId: '',
+            fundId: '',
             fundDetail: '',
             orderAboutList: [
                 { name: '订单生成时间', value: '2019-07-12 15:06:44' },
@@ -119,7 +122,8 @@ export default {
             title: '订单',
             isShowBackout: false,
             orderFee: '',
-            tradeType: ''
+            tradeType: '',
+            failedRemarkValue: ''
         }
     },
     created() {
@@ -138,11 +142,12 @@ export default {
                     orderNo: this.$route.query.orderNo
                 }
                 let res = await fundOrderDetail(params)
-                this.fondId = res.fundBaseInfoVO.fondId
+                this.fundId = res.fundBaseInfoVO.fundId
                 this.orderResult = res
                 this.differenceColor = differColor(res.externalStatus)
                 this.orderStatusValue = res.externalName
                 this.orderStatus = res.externalStatus
+                this.failedRemarkValue = res.rejectReason
                 this.allowRevoke = res.allowRevoke
                 if (
                     res.orderFee === null ||
@@ -223,7 +228,7 @@ export default {
             this.$router.push({
                 path: '/fund-subscribe',
                 query: {
-                    id: this.fondId,
+                    id: this.fundId,
                     currencyType: this.$route.query.currencyType
                 }
             })
@@ -260,7 +265,7 @@ export default {
                             name: 'order-record',
                             query: {
                                 isRefresh: true,
-                                id: this.fondId
+                                id: this.fundId
                             }
                         })
                         submitStep = 2
@@ -319,7 +324,7 @@ export default {
             width: 100%;
             content: '';
             display: block;
-            height: 10px;
+            height: 6px;
             background-color: $background-bottom-color;
         }
         .fund-name {

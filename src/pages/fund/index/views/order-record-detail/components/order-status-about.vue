@@ -48,13 +48,13 @@ export default {
             orderStatus: '订单状态',
             estimate: '预计',
             surePosition: '日确认份额',
-            checkProfit: '日查收收益'
+            checkProfit: '日查看收益'
         },
         zhCHT: {
             orderStatus: '訂單狀態',
             estimate: '預計',
             surePosition: '日確認份額',
-            checkProfit: '日查收收益'
+            checkProfit: '日查看收益'
         },
         en: {
             orderStatus: 'Order Status',
@@ -80,8 +80,8 @@ export default {
         },
         sureNetWorthEndTime() {
             return {
-                zhCHS: `${this.endTime}日查收收益 `,
-                zhCHT: `${this.endTime}日查收收益`,
+                zhCHS: `${this.endTime}日查看收益 `,
+                zhCHT: `${this.endTime}日查看收益`,
                 en: `Check Earnings in ${this.endTime} Days `
             }[this.$i18n.lang]
         },
