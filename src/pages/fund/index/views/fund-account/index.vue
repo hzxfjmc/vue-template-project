@@ -129,11 +129,16 @@ export default {
             this.usPositionList.map(item => {
                 for (let key in item) {
                     if (
-                        key != 'fundId' &&
-                        key != 'fundName' &&
-                        key != 'currency' &&
-                        key != 'flag' &&
-                        key != 'flag1'
+                        key === 'inTransitAmount' ||
+                        key === 'positionAmount' ||
+                        key === 'weekEarnings' ||
+                        key === 'positionEarnings'
+                    ) {
+                        item[key] = transNumToThousandMark(item[key], 2)
+                    }
+                    if (
+                        key === 'redeemDeliveryShare' ||
+                        key === 'positionShare'
                     ) {
                         item[key] = transNumToThousandMark(item[key], 4)
                     }
@@ -166,11 +171,16 @@ export default {
             this.hkPositionList.map(item => {
                 for (let key in item) {
                     if (
-                        key != 'fundId' &&
-                        key != 'fundName' &&
-                        key != 'currency' &&
-                        key != 'flag' &&
-                        key != 'flag1'
+                        key === 'inTransitAmount' ||
+                        key === 'positionAmount' ||
+                        key === 'weekEarnings' ||
+                        key === 'positionEarnings'
+                    ) {
+                        item[key] = transNumToThousandMark(item[key], 2)
+                    }
+                    if (
+                        key === 'redeemDeliveryShare' ||
+                        key === 'positionShare'
                     ) {
                         item[key] = transNumToThousandMark(item[key], 4)
                     }
