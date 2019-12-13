@@ -38,14 +38,16 @@
                     .block-element-number(v-if="eyeTab") {{item.positionShare}}
                     .block-element-number(v-else) ****
                     span {{$t('share')}}
-        .fund-list-other(class="border-top" v-if="item.redeemDeliveryShare !== '0.0000'")
-            .o-item(v-if="item.redeemDeliveryShare !== '0.0000'")
+        .fund-list-other(
+            class="border-top" 
+            v-if="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0")
+            .o-item(v-if="item.redeemDeliveryShare != 0")
                 .footer-left-l {{$t('Redemption')}}
                 .footer-right
                     span {{$t('share')}}
                     span.price-number(v-if="eyeTab") {{item.redeemDeliveryShare}}
                     span.price-number(v-else) ****
-            .o-item(v-if="item.inTransitAmount !== '0.00'")
+            .o-item(v-if="item.inTransitAmount != 0")
                 .footer-left-l {{$t('subscribe')}}
                 .footer-right
                     span {{item.currency}}
