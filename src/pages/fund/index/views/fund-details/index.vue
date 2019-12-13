@@ -26,8 +26,11 @@
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-    .fund-footer-content(@click="handleBuyOrSell" v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag")
-        van-button(:class="[flag2?'fund-footer':'fund-no','btn','button-width']") {{$t('buy')}}
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag")
+        van-button(
+            class="fund-footer btn button-width"
+            @click="handleBuyOrSell" 
+            :disabled="disabled") {{$t('buy')}}
     
     
 </template>
@@ -94,6 +97,19 @@ export default {
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
+        },
+        disabled() {
+            if ((this.fundOverviewInfoVO.tradeAuth & 1) > 0) {
+                return false
+            }
+            if (!this.isLogin) {
+                return false
+            }
+            if (this.isLogin && this.userInfo.grayStatusBit) {
+                return false
+            }
+
+            return true
         },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
@@ -229,8 +245,8 @@ export default {
                 this.flag1 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 //申购按钮是否置灰
-                this.flag2 =
-                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                // this.flag2 =
+                //     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 browseFundDetails(
                     'fund_detail',
                     res.fundHeaderInfoVO.fundId,
@@ -384,9 +400,9 @@ export default {
             await this.$store.dispatch('initAction')
         }
     },
-    mounted() {
+    async created() {
         // enablePullRefresh(true)
-        this.getFundDetail()
+        await this.getFundDetail()
         if (this.isLogin) {
             this.getCurrentUser()
         }
