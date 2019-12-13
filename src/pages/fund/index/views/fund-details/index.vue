@@ -83,7 +83,7 @@ export default {
             openAccount: 'Please open your account to continue the trade'
         }
     },
-    // keepalive: true,
+    keepalive: true,
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
@@ -99,16 +99,15 @@ export default {
             return this.isLogin && this.openedAccount
         },
         disabled() {
-            if ((this.fundOverviewInfoVO.tradeAuth & 1) > 0) {
-                return false
-            }
             if (!this.isLogin) {
                 return false
             }
             if (this.isLogin && this.userInfo.grayStatusBit) {
                 return false
             }
-
+            if (this.fundOverviewInfoVO.tradeAuth) {
+                return false
+            }
             return true
         },
         isGrayAuthority() {
@@ -245,8 +244,8 @@ export default {
                 this.flag1 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 //申购按钮是否置灰
-                // this.flag2 =
-                //     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                this.flag2 =
+                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 browseFundDetails(
                     'fund_detail',
                     res.fundHeaderInfoVO.fundId,
@@ -402,6 +401,7 @@ export default {
     },
     async created() {
         // enablePullRefresh(true)
+        console.log('最新代码')
         await this.getFundDetail()
         if (this.isLogin) {
             this.getCurrentUser()
