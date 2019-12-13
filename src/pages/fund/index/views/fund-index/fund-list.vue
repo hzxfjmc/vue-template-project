@@ -23,15 +23,15 @@
                             span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
                             span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                         .tag-list(v-else)
-                            //- span {{item.assetTypeName}}
-                            //- span {{`${item.initialInvestAmount}${item.tradeCurrency}起购`}}
-                            //- span {{`${item.fundSize}亿${item.fundSizeCurrency}`}}
+                            span {{item.assetTypeName}}
+                            span {{`${item.initialInvestAmount}${item.tradeCurrency}起`}}
+                            span {{`${item.fundSize}亿${item.fundSizeCurrency}`}}
                             //- fund-tag(:title="item.assetTypeName")
-                            fund-tag(
-                                :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
-                            fund-tag(
-                                v-if="item.fundSize != 0"
-                                :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
+                            //- fund-tag(
+                            //-     :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
+                            //- fund-tag(
+                            //-     v-if="item.fundSize != 0"
+                            //-     :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
                 
 </template>
 <script>
