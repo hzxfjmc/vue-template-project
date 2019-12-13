@@ -64,7 +64,7 @@ export default {
             bondPrice: '债券价格',
             perContract: '（每份）',
             bondInformation: '债券资料',
-            tradingRules: '交易規則',
+            tradingRules: '交易规则',
             buy: '买入',
             sell: '卖出',
             bondFAQ: '债券常见问题',
