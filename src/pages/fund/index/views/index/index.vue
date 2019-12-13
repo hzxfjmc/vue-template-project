@@ -5,7 +5,7 @@
             @handlerCuenrry="handlerCuenrry"
         )
         .fund__banner
-            img(:src="bannarTitleUrl")
+            img(:src="bannarTitleUrl" @click="goBarnner")
         .fund__banner2(v-if="code != 1 && bannerShow")
             img(:src="barnnarUrl")
         .bond-list
@@ -23,7 +23,8 @@ import { Swipe, SwipeItem } from 'vant'
 import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
-import { gotoNewWebView } from '@/utils/js-bridge.js'
+// import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { jumpUrl } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import { getSource } from '@/service/customer-relationship-server'
 export default {
@@ -76,6 +77,21 @@ export default {
         this.getSource()
     },
     methods: {
+        goBarnner() {
+            let jump_url = [
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=equity#/`,
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=equity#/`,
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=bond#/`,
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=balanced#/`,
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=moneyMarket#/`
+            ]
+            if (this.assetType) {
+                // console.log(jump_url[this.assetType])
+                jumpUrl(3, jump_url[this.assetType])
+            } else {
+                jumpUrl(3, jump_url[0])
+            }
+        },
         //获取用户归属 1大陆 2香港
         async getSource() {
             try {
@@ -85,12 +101,10 @@ export default {
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
                 }
-                console.log(this.code)
                 this.bannarTitleUrl =
                     this.code != 1
                         ? require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
                         : require(`@/assets/img/fund/fundImg/${this.lang}/fundAll1.png`)
-                console.log(this.bannarTitleUrl)
                 if (this.$route.query.type) {
                     this.changeBannarTitle()
                 }
@@ -111,7 +125,6 @@ export default {
                     this.code != 1
                         ? require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
                         : require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}1.png`)
-                alert(this.code)
             }
             this.getFundListV2()
         },
@@ -135,7 +148,7 @@ export default {
         },
         goNext(fundId) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
-            gotoNewWebView(url)
+            jumpUrl(3, url)
         },
         changeBannarTitle() {
             let bannarEmun = {

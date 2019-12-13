@@ -53,6 +53,12 @@ export default {
                         dividendRecord: item.dividendPerShare
                     })
                 })
+                // 加载状态结束
+                this.loading = false
+                // 数据全部加载完成
+                if (this.dividendDetailList.length >= this.total) {
+                    this.finished = true
+                }
             } catch (e) {
                 if (e.msg) {
                     this.$alert(e.msg)
@@ -63,16 +69,8 @@ export default {
         },
         // 加载
         onLoad() {
-            const _this = this
-            setTimeout(() => {
-                if (_this.dividendDetailList.length < _this.total) {
-                    _this.pageNum++
-                    _this.getFundDividendListFun()
-                } else {
-                    _this.loading = false
-                    _this.finished = true
-                }
-            }, 300)
+            this.pageNum++
+            this.getFundDividendListFun()
         }
     }
 }

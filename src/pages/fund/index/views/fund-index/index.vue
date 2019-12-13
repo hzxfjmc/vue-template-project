@@ -309,8 +309,12 @@ export default {
                 const res2 = await bannerAdvertisement(100)
                 this.barnnarHkList = res.banner_list
                 if (res.banner_list.length === 0) {
+                    let imgUrl =
+                        this.code != 1
+                            ? require(`@/assets/img/fund/fundImg/${this.lang}/barnner.png`)
+                            : ''
                     this.barnnarHkList.push({
-                        picture_url: require(`@/assets/img/fund/fundImg/${this.lang}/barnner.png`)
+                        picture_url: imgUrl
                     })
                 }
                 this.barnnarUsList = res1.banner_list
@@ -419,11 +423,9 @@ export default {
                     item.fundHomepagePointList,
                     res => {
                         item.imgUrl = res
+                        //设置异步队列进行canvas绘制
                         setTimeout(() => {
-                            // if(obj.flag){
                             this.choiceFundListShow = !obj.flag
-                            // }
-
                             this.blueChipFundListShow = !obj.flag2
                             this.robustFundListShow = !obj.flag1
                         }, 200)
@@ -474,6 +476,7 @@ export default {
                 .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
 
             chart.render()
+            //异步执行canvas回调图片等待canvas绘制完成
             setTimeout(() => {
                 let imgUrl = document
                     .getElementById(canvasId)
@@ -506,6 +509,7 @@ export default {
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
                 }
+                this.bannerAdvertisement()
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -518,7 +522,7 @@ export default {
         this.currency = LS.get('activeTab')
         this.initI18n()
         this.getFundHomepageInfo()
-        this.bannerAdvertisement()
+
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},

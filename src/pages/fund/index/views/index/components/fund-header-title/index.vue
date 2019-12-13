@@ -325,7 +325,7 @@ export default {
             pointer-events: none;
             right: 0;
             bottom: -6px;
-            width: 30px;
+            width: 31px;
             left: 10px;
             border-bottom: 4px solid #2f79ff;
 

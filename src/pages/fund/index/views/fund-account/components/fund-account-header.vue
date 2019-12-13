@@ -39,6 +39,7 @@
             span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
         .block__footer--hold.border-top(
             v-if="inTransitOrder!=='0'"
+            class="border-bottom-active"
             @click="toRouterPath('/fund-order-list')")
             span {{inTransitOrder}}{{$t('fundmsg')}}
             em(class="iconfont icon-previewright")
