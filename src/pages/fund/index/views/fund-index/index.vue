@@ -498,6 +498,7 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
+            this.getSource()
         },
         //获取用户归属 1大陆 2香港
         async getSource() {
