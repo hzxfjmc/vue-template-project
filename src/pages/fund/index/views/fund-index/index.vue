@@ -62,6 +62,7 @@
             van-swipe 
                 van-swipe-item(
                     v-for="(item, index) in barnnarList" 
+                    @click="goBanner(item)"
                     :key="index") 
                     img(:src="item.picture_url") 
         FundListItem(
@@ -312,13 +313,14 @@ export default {
                     let imgUrl =
                         this.code != 1
                             ? require(`@/assets/img/fund/fundImg/${this.lang}/barnner.png`)
-                            : ''
+                            : require(`@/assets/img/fund/banner1.jpg`)
                     this.barnnarHkList.push({
                         picture_url: imgUrl
                     })
                 }
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
+                console.log(document.querySelectorAll('.van-swipe__indicators'))
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -350,7 +352,6 @@ export default {
         },
         handlerCurrency() {
             this.chooseCurrencyShow = true
-            document.body.style.overflow = 'hidden'
         },
         chooseCurrency(data) {
             this.currency = data

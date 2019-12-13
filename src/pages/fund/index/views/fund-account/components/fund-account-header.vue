@@ -15,7 +15,7 @@
                     .number-price-active 
                         span(@click="handlerCurrencyName") {{currencyNum===0?$t('hkd'):$t('usd')}}
                         em(class="iconfont icon-icon-bottom" @click="handlerCurrencyName") 
-                        .block--master(v-if="chooseCurrencyShow")
+                        .block--master(v-if="chooseCurrencyShow" @click="chooseCurrencyShow = !chooseCurrencyShow")
                         .block__currey(v-if="chooseCurrencyShow")
                             span(
                                 @click="chooseCurrency(0)"
@@ -161,14 +161,6 @@ export default {
         },
         handlerCurrencyName() {
             this.chooseCurrencyShow = true
-            document.body.style.overflow = 'hidden'
-            document.addEventListener(
-                'touchmove',
-                e => {
-                    e.preventDefault()
-                },
-                false
-            ) //禁止页面滑动
         },
         chooseCurrency(data) {
             this.currencyNum = data
@@ -177,14 +169,6 @@ export default {
                 data === 0 ? this.holdData.hkSummary : this.holdData.usSummary
             this.Conversion(data)
             this.chooseCurrencyShow = false
-            document.body.style.overflow = '' //出现滚动条
-            document.removeEventListener(
-                'touchmove',
-                e => {
-                    e.preventDefault()
-                },
-                false
-            )
         },
         //跳转路由
         toRouterPath(path) {

@@ -190,11 +190,6 @@ export default {
             }
         }
     }
-    // beforeRouteEnter(to, from, next) {
-    //     console.log(to)
-    //     // to.meta.title = to.query.assetTypeName
-    //     next()
-    // }
 }
 </script>
 <style lang="scss" scoped>
