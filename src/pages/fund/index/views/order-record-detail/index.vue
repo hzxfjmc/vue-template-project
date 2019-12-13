@@ -98,7 +98,7 @@ export default {
         return {
             fundIntro: '',
             fundName: '',
-            fondId: '',
+            fundId: '',
             fundDetail: '',
             orderAboutList: [
                 { name: '订单生成时间', value: '2019-07-12 15:06:44' },
@@ -142,7 +142,7 @@ export default {
                     orderNo: this.$route.query.orderNo
                 }
                 let res = await fundOrderDetail(params)
-                this.fondId = res.fundBaseInfoVO.fondId
+                this.fundId = res.fundBaseInfoVO.fundId
                 this.orderResult = res
                 this.differenceColor = differColor(res.externalStatus)
                 this.orderStatusValue = res.externalName
@@ -228,7 +228,7 @@ export default {
             this.$router.push({
                 path: '/fund-subscribe',
                 query: {
-                    id: this.fondId,
+                    id: this.fundId,
                     currencyType: this.$route.query.currencyType
                 }
             })
@@ -265,7 +265,7 @@ export default {
                             name: 'order-record',
                             query: {
                                 isRefresh: true,
-                                id: this.fondId
+                                id: this.fundId
                             }
                         })
                         submitStep = 2
