@@ -18,7 +18,7 @@
                 span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
                 span.element-time.fund-name {{item.fundBaseInfoVO.fundName}}
                 template(v-if="item.tradeType === 1")
-                    span.element-price {{currency == 2 ?'HKD':'USD'}} {{item.orderAmount}}
+                    span.element-price {{item.currency && item.currency.name}} {{item.orderAmount}}
                 template(v-else)
                     span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                 span.element-time {{item.orderTime}}

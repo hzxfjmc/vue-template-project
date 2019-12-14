@@ -63,7 +63,7 @@ export default {
             bannerUrl: [],
             list: [],
             pageNum: 1,
-            pageSize: 20,
+            pageSize: 100,
             total: 0,
             currency: '',
             assetType: '',
@@ -78,6 +78,10 @@ export default {
     },
     methods: {
         goBarnner() {
+            //大陆版本banner不跳转
+            if (this.code === 1) {
+                return
+            }
             let jump_url = [
                 `${window.location.origin}/marketing/smart-fund/index.html?tabsName=equity#/`,
                 `${window.location.origin}/marketing/smart-fund/index.html?tabsName=equity#/`,
