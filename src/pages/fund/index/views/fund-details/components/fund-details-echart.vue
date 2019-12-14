@@ -37,7 +37,7 @@ export default {
                 2: { date: '近6月' },
                 3: { date: '近1年' },
                 4: { date: '近3年' },
-                5: { date: '全部' }
+                9: { date: '全部' }
             }
         },
         zhCHT: {
@@ -51,7 +51,7 @@ export default {
                 2: { date: '近6月' },
                 3: { date: '近1年' },
                 4: { date: '近3年' },
-                5: { date: '全部' }
+                9: { date: '全部' }
             }
         },
         en: {
@@ -65,7 +65,7 @@ export default {
                 2: { date: '6 Months' },
                 3: { date: '1 Year' },
                 4: { date: '3 Years' },
-                5: { date: 'All' }
+                9: { date: 'All' }
             }
         }
     },
