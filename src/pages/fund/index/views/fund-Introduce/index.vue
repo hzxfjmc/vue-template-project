@@ -63,7 +63,8 @@ export default {
             try {
                 const {
                     fundHeaderInfoVO,
-                    fundOverviewInfoVO
+                    fundOverviewInfoVO,
+                    fundTradeInfoVO
                 } = await getFundDetail({
                     displayLocation: 1,
                     fundId: this.$route.query.id
@@ -87,7 +88,7 @@ export default {
                     }
                     if (key === 'initialInvestAmount') {
                         this.list[key].value = `${
-                            fundOverviewInfoVO.currency.name
+                            fundTradeInfoVO.currency.name
                         } ${transNumToThousandMark(fundHeaderInfoVO[key])}`
                     }
                 }
