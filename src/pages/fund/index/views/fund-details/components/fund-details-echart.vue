@@ -92,7 +92,7 @@ export default {
                 2: { date: '6个月', key: 3, show: false },
                 3: { date: '1年', key: 4, show: false },
                 4: { date: '3年', key: 5, show: false },
-                5: { date: '全部', key: 6, show: false }
+                9: { date: '全部', key: 9, show: false }
             },
             initChooseList: [],
             initList: [],
