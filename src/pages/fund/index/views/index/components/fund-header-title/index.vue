@@ -190,7 +190,7 @@ export default {
                     : data.fileName1
             this.state.currency = data.value
             this.protocolVisible = false
-            //切换语言
+            //切换货币
             this.state.flag = '0'
             this.chooseCurrencyShow1 = false
             this.$emit('handlerCuenrry', this.state)
@@ -207,7 +207,7 @@ export default {
             this.state.assetType = item.value
             this.state.key = item.key
             this.activeTab = index
-            //tab点击
+            //tab切换
             this.state.flag = '1'
             this.$emit('handlerCuenrry', this.state)
         },

@@ -118,10 +118,8 @@ export default {
         },
         handlerCuenrry(data) {
             this.currency = data.currency
-            console.log(data)
-            console.log(data.flag !== '0')
+            // 0：tab切换 1：货币切换
             if (data.flag !== '0') {
-                console.log(12)
                 this.assetType = data.assetType
             }
             this.bannerShow = data.assetType === '4' || data.assetType === '2'
