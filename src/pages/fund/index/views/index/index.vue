@@ -118,7 +118,10 @@ export default {
         },
         handlerCuenrry(data) {
             this.currency = data.currency
-            this.assetType = data.assetType
+            // 0：tab切换 1：货币切换
+            if (data.flag !== '0') {
+                this.assetType = data.assetType
+            }
             this.bannerShow = data.assetType === '4' || data.assetType === '2'
             this.barnnarUrl =
                 data.assetType === '4'
