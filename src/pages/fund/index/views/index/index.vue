@@ -118,7 +118,12 @@ export default {
         },
         handlerCuenrry(data) {
             this.currency = data.currency
-            // this.assetType = data.assetType
+            console.log(data)
+            console.log(data.flag !== '0')
+            if (data.flag !== '0') {
+                console.log(12)
+                this.assetType = data.assetType
+            }
             this.bannerShow = data.assetType === '4' || data.assetType === '2'
             this.barnnarUrl =
                 data.assetType === '4'

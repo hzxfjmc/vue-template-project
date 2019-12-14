@@ -190,6 +190,8 @@ export default {
                     : data.fileName1
             this.state.currency = data.value
             this.protocolVisible = false
+            //切换语言
+            this.state.flag = '0'
             this.chooseCurrencyShow1 = false
             this.$emit('handlerCuenrry', this.state)
         },
@@ -205,6 +207,8 @@ export default {
             this.state.assetType = item.value
             this.state.key = item.key
             this.activeTab = index
+            //tab点击
+            this.state.flag = '1'
             this.$emit('handlerCuenrry', this.state)
         },
         //获取用户归属 1大陆 2香港
