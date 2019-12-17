@@ -6,53 +6,47 @@
                 .fund-detail(v-if="fundDetail") ISIN: {{fundDetail}}
             order-status-about(:orderStatus='orderStatus' :orderStatusValue='orderStatusValue' :beginTime='beginTime' :endTime='endTime' :tradeType='tradeType' v-if="[1,2].includes(orderStatus)")
             van-cell-group(class="order-group")
-                van-cell(class="order-time" )
+                van-cell(class="order-time")
                     .order-item.flex(v-if="![1,2].includes(orderStatus)")
                         span.itemName {{$t('orderStatus')}}
                         span(:class='differenceColor') {{orderStatusValue}}
                     .order-item.flex(v-if="orderStatus===4")
                         span.itemName {{$t('failedRemark')}}
-                        span {{failedRemarkValue}}
+                        span.block-right {{failedRemarkValue}}
                     .order-item.flex
                         span.itemName {{$t('orderTime')}}
-                        span {{orderTimeValue}}
+                        span.block-right {{orderTimeValue}}
                     .order-item.flex(v-if="![1,2].includes(orderStatus)")
                         span.itemName {{$t('orderFinish')}}
                         span {{orderFinishValue}}
+                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                        span.itemName {{$t('orderNum')}}
+                        span {{orderNumValue}}
+                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                            span.itemName {{$t('orderName')}}
+                            span.type {{orderType}}
+                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                        span.itemName {{$t('orderShares')}}
+                        span {{orderShare}} 
+                van-cell(class="order-time" v-if="![1,2].includes(orderStatus)")
                     .order-item.flex
                         span.itemName {{$t('orderNum')}}
                         span {{orderNumValue}}
-                    .order-item.flex(v-if="orderStatus===2")
-                        span.itemName {{$t('orderNetWorth')}}
-                        span {{netPrice}}
-                    .order-item.flex(v-if="orderStatus===2")
+                    .order-item.flex()
+                            span.itemName {{$t('orderName')}}
+                            span.type {{orderType}}
+                    .order-item.flex()
                         span.itemName {{$t('orderShares')}}
                         span {{orderShare}} 
-                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
-                            span.itemName {{$t('amount')}}
-                            span.type-text {{moneyNum}}
-                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
-                            span.itemName {{$t('orderName')}}
-                            span.type {{orderType}}
-                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
-                            span.itemName {{$t('orderFree')}}
-                            span.type {{orderFee}}
-                van-cell(class="order-time" v-if="![1,2].includes(orderStatus)")
-                    .order-item.flex
+                    .order-item.flex(v-if="netPrice")
                         span.itemName {{$t('orderNetWorth')}}
                         span {{netPrice}}
-                    .order-item.flex
-                        span.itemName {{$t('orderShares')}}
-                        span {{orderShare}}
-                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="moneyNum != 0")
                             span.itemName {{$t('amount')}}
-                            span.type-text {{moneyNum}}
-                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
-                            span.itemName {{$t('orderName')}}
-                            span.type {{orderType}}
-                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
+                            span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
+                    .order-item.flex(v-if="orderFee")
                             span.itemName {{$t('orderFree')}}
-                            span.type {{orderFee}}
+                            span.type {{orderFee|transNumToThousandMark}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('confirmButtonText')" @confirm='confirmBackoutHandle')
@@ -114,17 +108,21 @@ export default {
             netPrice: '',
             orderShare: '',
             allowRevoke: false,
-            beginTime: '07.01日',
-            endTime: '07.19日',
-            moneyNum: '2,000.000.00',
+            beginTime: '',
+            endTime: '',
+            moneyNum: '',
             differenceColor: '',
             detailMsg: {},
             title: '订单',
             isShowBackout: false,
             orderFee: '',
             tradeType: '',
-            failedRemarkValue: ''
+            failedRemarkValue: '',
+            currency: ''
         }
+    },
+    filters: {
+        transNumToThousandMark
     },
     created() {
         if (this.$route.query.orderNo) {
@@ -147,19 +145,9 @@ export default {
                 this.differenceColor = differColor(res.externalStatus)
                 this.orderStatusValue = res.externalName
                 this.orderStatus = res.externalStatus
-                this.failedRemarkValue = res.rejectReason
+                this.failedRemarkValue = res.rejectReason || '--'
                 this.allowRevoke = res.allowRevoke
-                if (
-                    res.orderFee === null ||
-                    ([1, 2].includes(res.externalStatus) &&
-                        res.orderFee * 1 === 0)
-                ) {
-                    this.orderFee = this.$t('beConfirmed')
-                } else {
-                    this.orderFee = transNumToThousandMark(
-                        (res.orderFee * 1).toFixed(2)
-                    )
-                }
+                this.orderFee = res.orderFee
                 if (this.orderStatus === 1 && this.allowRevoke) {
                     this.setTitleBarBOButton()
                 }
@@ -180,17 +168,7 @@ export default {
                 } else {
                     this.orderShare = transNumToThousandMark(res.orderShare, 4)
                 }
-                if (
-                    res.netPrice === null ||
-                    ([1, 2].includes(res.externalStatus) &&
-                        res.netPrice * 1 === 0)
-                ) {
-                    this.netPrice = this.$t('beConfirmed')
-                } else {
-                    this.netPrice = transNumToThousandMark(
-                        (res.netPrice * 1).toFixed(2)
-                    )
-                }
+                this.netPrice = res.newPrice
                 this.orderFinishValue =
                     (res.finishTime &&
                         dayjs(res.finishTime).format('YYYY-MM-DD HH:mm:ss')) ||
@@ -204,17 +182,8 @@ export default {
                 this.orderNumValue = res.orderNo
                 this.tradeType = res.tradeType
                 this.orderType = res.tradeTypeName
-                if (
-                    res.orderAmount === null ||
-                    ([1, 2].includes(res.externalStatus) &&
-                        res.orderAmount * 1 === 0)
-                ) {
-                    this.moneyNum = this.$t('beConfirmed')
-                } else {
-                    this.moneyNum =
-                        res.currency.name +
-                        transNumToThousandMark((res.orderAmount * 1).toFixed(2))
-                }
+                this.currency = res.currency.name
+                this.moneyNum = res.orderAmount
             } catch (e) {
                 if (e.msg) {
                     this.$alert({
@@ -346,6 +315,15 @@ export default {
             .itemName {
                 color: $text-color5;
                 margin-bottom: 10px;
+                text-align: left;
+            }
+            .block-right {
+                width: 70%;
+                text-align: right;
+            }
+            .hr {
+                margin: 20px 0;
+                display: block;
             }
         }
         .order-money-cell {
