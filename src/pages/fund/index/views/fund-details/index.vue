@@ -401,7 +401,6 @@ export default {
     },
     async created() {
         // enablePullRefresh(true)
-        console.log('最新代码')
         await this.getFundDetail()
         if (this.isLogin) {
             this.getCurrentUser()
