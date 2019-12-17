@@ -499,10 +499,10 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            this.getSource()
+            this.getSource(true)
         },
         //获取用户归属 1大陆 2香港
-        async getSource() {
+        async getSource(flag) {
             try {
                 const { code } = await getSource()
                 this.code = code
@@ -513,6 +513,10 @@ export default {
                 }
                 this.bannerAdvertisement()
             } catch (e) {
+                //解决ios上出现网络开小差的问题
+                if (flag) {
+                    return
+                }
                 this.$toast(e.msg)
             }
         }
@@ -532,8 +536,8 @@ export default {
             'appInvisible'
         )
         // 解决ios系统快速切换tab后，报网络开小差的情况
-        window.appVisible = debounce(this.appVisibleHandle, 100)
-        this.getSource()
+        window.appVisible = debounce(this.appVisibleHandle, 800)
+        this.getSource(false)
     }
 }
 </script>
