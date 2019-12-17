@@ -536,7 +536,7 @@ export default {
             'appInvisible'
         )
         // 解决ios系统快速切换tab后，报网络开小差的情况
-        window.appVisible = debounce(this.appVisibleHandle, 100)
+        window.appVisible = debounce(this.appVisibleHandle, 800)
         this.getSource(false)
     }
 }
