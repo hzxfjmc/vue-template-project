@@ -340,12 +340,7 @@ export default {
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
-                        purchaseAmount:
-                            this.subscribeObj.buyMoney.value.indexOf(',') > -1
-                                ? this.subscribeObj.buyMoney.value
-                                      .split(',')
-                                      .join('')
-                                : this.subscribeObj.buyMoney.value,
+                        purchaseAmount: this.subscribeObj.buyMoney.value,
                         requestId: generateUUID(),
                         tradeToken: token
                     })
@@ -355,6 +350,7 @@ export default {
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
+                    console.log(error)
                     this.$alert({
                         message: error.msg,
                         confirmButtonText: this.$t('iKnow')
