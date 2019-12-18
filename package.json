@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "serve": "node build/dev.js",
-    "build": "node build/build.js",
+    "build": "yarn test && node build/build.js",
     "build-zip": "node build/build-zip.js",
     "lint": "vue-cli-service lint",
     "lint:staged": "lint-staged",

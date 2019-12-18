@@ -140,9 +140,10 @@ describe('utils-tools', () => {
 
     // 对钱进行处理，设置千分位以及截取小数位
     it('transNumToThousandMark', () => {
-        expect(transNumToThousandMark('123')).toBe('123')
-        expect(transNumToThousandMark('1234')).toBe('1,234')
+        expect(transNumToThousandMark('123')).toBe('123.00')
+        expect(transNumToThousandMark('1234')).toBe('1,234.00')
         expect(transNumToThousandMark('1234.123')).toBe('1,234.12')
         expect(transNumToThousandMark('1234.1235', 3)).toBe('1,234.123')
+        expect(transNumToThousandMark('1234.1235', 4)).toBe('1,234.1235')
     })
 })
