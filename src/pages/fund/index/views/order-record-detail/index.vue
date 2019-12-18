@@ -19,28 +19,31 @@
                     .order-item.flex(v-if="![1,2].includes(orderStatus)")
                         span.itemName {{$t('orderFinish')}}
                         span {{orderFinishValue}}
-                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
-                        span.itemName {{$t('orderNum')}}
-                        span {{orderNumValue}}
-                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
-                            span.itemName {{$t('orderName')}}
-                            span.type {{orderType}}
-                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
-                        span.itemName {{$t('orderShares')}}
-                        span {{orderShare}} 
-                van-cell(class="order-time" v-if="![1,2].includes(orderStatus)")
                     .order-item.flex
                         span.itemName {{$t('orderNum')}}
                         span {{orderNumValue}}
-                    .order-item.flex()
+                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
                             span.itemName {{$t('orderName')}}
                             span.type {{orderType}}
+                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                        span.itemName {{$t('orderShares')}}
+                        span {{orderShare}} 
+                    .order-item.flex(v-if="netPrice == 0 && [1,2].includes(orderStatus)")
+                        span.itemName {{$t('orderNetWorth')}}
+                        span {{netPrice|transNumToThousandMark}}
+                    .order-item.flex(v-if="moneyNum == 0 && [1,2].includes(orderStatus)")
+                            span.itemName {{$t('amount')}}
+                            span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
+                van-cell(class="order-time" v-if="![1,2].includes(orderStatus)")
+                    .order-item.flex()
+                        span.itemName {{$t('orderName')}}
+                        span.type {{orderType}}
+                    .order-item.flex(v-if="netPrice")
+                        span.itemName {{$t('orderNetWorth')}}
+                        span {{netPrice|transNumToThousandMark}}
                     .order-item.flex()
                         span.itemName {{$t('orderShares')}}
                         span {{orderShare}} 
-                    .order-item.flex(v-if="netPrice")
-                        span.itemName {{$t('orderNetWorth')}}
-                        span {{netPrice}}
                     .order-item.flex(v-if="moneyNum != 0")
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
@@ -168,7 +171,7 @@ export default {
                 } else {
                     this.orderShare = transNumToThousandMark(res.orderShare, 4)
                 }
-                this.netPrice = res.newPrice
+                this.netPrice = res.netPrice
                 this.orderFinishValue =
                     (res.finishTime &&
                         dayjs(res.finishTime).format('YYYY-MM-DD HH:mm:ss')) ||
