@@ -38,13 +38,13 @@
                     .order-item.flex()
                         span.itemName {{$t('orderName')}}
                         span.type {{orderType}}
-                    .order-item.flex(v-if="netPrice")
-                        span.itemName {{$t('orderNetWorth')}}
-                        span {{netPrice|transNumToThousandMark}}
                     .order-item.flex()
                         span.itemName {{$t('orderShares')}}
                         span {{orderShare|transNumToThousandMark}} 
-                    .order-item.flex
+                    .order-item.flex(v-if="netPrice")
+                        span.itemName {{$t('orderNetWorth')}}
+                        span {{netPrice|transNumToThousandMark}}
+                    .order-item.flex(v-if="moneyNum != 0")
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
                     .order-item.flex(v-if="orderFee")
