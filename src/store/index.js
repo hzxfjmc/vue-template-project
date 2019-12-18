@@ -4,7 +4,6 @@ import jsBridge from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage.js'
 import { setToken } from '@/utils/http-request'
 import userService from '@/service/user-server.js'
-
 import {
     isYouxinIos,
     isYouxinAndroid,
