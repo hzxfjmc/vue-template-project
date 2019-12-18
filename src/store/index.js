@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import jsBridge from '@/utils/js-bridge'
+import jsBridge from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage.js'
 import { setToken } from '@/utils/http-request'
 import userService from '@/service/user-server.js'
