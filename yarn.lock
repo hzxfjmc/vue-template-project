@@ -794,9 +794,23 @@
     core-js "^2.6.5"
     regenerator-runtime "^0.13.2"
 
-"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.4.3", "@babel/runtime@^7.4.5":
+"@babel/runtime@7.x", "@babel/runtime@^7.4.3":
+  version "7.7.4"
+  resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.7.4.tgz#b23a856751e4bf099262f867767889c0e3fe175b"
+  integrity sha1-sjqFZ1HkvwmSYvhndniJwOP+F1s=
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
+"@babel/runtime@^7.0.0", "@babel/runtime@^7.1.2", "@babel/runtime@^7.4.5":
   version "7.4.5"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.4.5.tgz#582bb531f5f9dc67d2fcb682979894f75e253f12"
+  dependencies:
+    regenerator-runtime "^0.13.2"
+
+"@babel/runtime@^7.6.2":
+  version "7.6.2"
+  resolved "https://registry.npm.taobao.org/@babel/runtime/download/@babel/runtime-7.6.2.tgz#c3d6e41b304ef10dcf13777a33e7694ec4a9a6dd"
+  integrity sha1-w9bkGzBO8Q3PE3d6M+dpTsSppt0=
   dependencies:
     regenerator-runtime "^0.13.2"
 
@@ -1048,6 +1062,10 @@
     "@types/istanbul-lib-coverage" "^2.0.0"
     "@types/istanbul-reports" "^1.1.1"
     "@types/yargs" "^13.0.0"
+"@jsmini/type@0.4.0":
+  version "0.4.0"
+  resolved "https://registry.npm.taobao.org/@jsmini/type/download/@jsmini/type-0.4.0.tgz#777e3d7b7aa25607b29d2e6d114af21c3a41f225"
+  integrity sha1-d349e3qiVgeynS5tEUryHDpB8iU=
 
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
@@ -1313,13 +1331,20 @@
   version "0.8.0"
   resolved "https://registry.yarnpkg.com/@types/zen-observable/-/zen-observable-0.8.0.tgz#8b63ab7f1aa5321248aad5ac890a485656dcea4d"
 
+"@vant/icons@1.1.15":
+  version "1.1.15"
+  resolved "https://registry.npm.taobao.org/@vant/icons/download/@vant/icons-1.1.15.tgz#53c51ace21e9992bfeeb2e1ad9094fbf6506d116"
+  integrity sha1-U8UaziHpmSv+6y4a2QlPv2UG0RY=
+
 "@vant/icons@1.1.6":
   version "1.1.6"
-  resolved "https://registry.yarnpkg.com/@vant/icons/-/icons-1.1.6.tgz#6714656ca69d303936020a6b483e1ebaf5f0b1e8"
+  resolved "https://registry.npm.taobao.org/@vant/icons/download/@vant/icons-1.1.6.tgz#6714656ca69d303936020a6b483e1ebaf5f0b1e8"
+  integrity sha1-ZxRlbKadMDk2AgprSD4euvXwseg=
 
 "@vue/babel-helper-vue-jsx-merge-props@^1.0.0", "@vue/babel-helper-vue-jsx-merge-props@^1.0.0-beta.3":
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/@vue/babel-helper-vue-jsx-merge-props/-/babel-helper-vue-jsx-merge-props-1.0.0.tgz#048fe579958da408fb7a8b2a3ec050b50a661040"
+  resolved "https://registry.npm.taobao.org/@vue/babel-helper-vue-jsx-merge-props/download/@vue/babel-helper-vue-jsx-merge-props-1.0.0.tgz#048fe579958da408fb7a8b2a3ec050b50a661040"
+  integrity sha1-BI/leZWNpAj7eosqPsBQtQpmEEA=
 
 "@vue/babel-plugin-transform-vue-jsx@^1.0.0":
   version "1.0.0"
@@ -2894,6 +2919,16 @@ babel-preset-jest@^24.9.0:
     babel-plugin-jest-hoist "^24.9.0"
 
 babel-runtime@^6.0.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0:
+babel-polyfill@^6.26.0:
+  version "6.26.0"
+  resolved "https://registry.npm.taobao.org/babel-polyfill/download/babel-polyfill-6.26.0.tgz#379937abc67d7895970adc621f284cd966cf2153"
+  integrity sha1-N5k3q8Z9eJWXCtxiHyhM2WbPIVM=
+  dependencies:
+    babel-runtime "^6.26.0"
+    core-js "^2.5.0"
+    regenerator-runtime "^0.10.5"
+
+babel-runtime@^6.0.0, babel-runtime@^6.23.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -4089,7 +4124,7 @@ core-js-pure@3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/core-js-pure/-/core-js-pure-3.1.3.tgz#4c90752d5b9471f641514f3728f51c1e0783d0b5"
 
-core-js@^2.4.0, core-js@^2.6.5:
+core-js@^2.4.0, core-js@^2.5.0, core-js@^2.6.5:
   version "2.6.9"
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.9.tgz#6b4b214620c834152e179323727fc19741b084f2"
 
@@ -10255,13 +10290,19 @@ regenerate@^1.2.1, regenerate@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/regenerate/-/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
 
+regenerator-runtime@^0.10.5:
+  version "0.10.5"
+  resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.10.5.tgz#336c3efc1220adcedda2c9fab67b5a7955a33658"
+  integrity sha1-M2w+/BIgrc7dosn6tntaeVWjNlg=
+
 regenerator-runtime@^0.11.0:
   version "0.11.1"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
 
 regenerator-runtime@^0.13.2:
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.13.2.tgz#32e59c9a6fb9b1a4aff09b4930ca2d4477343447"
+  version "0.13.3"
+  resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.13.3.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fregenerator-runtime%2Fdownload%2Fregenerator-runtime-0.13.3.tgz#7cf6a77d8f5c6f60eb73c5fc1955b2ceb01e6bf5"
+  integrity sha1-fPanfY9cb2Drc8X8GVWyzrAea/U=
 
 regenerator-transform@^0.10.0:
   version "0.10.1"
@@ -12101,9 +12142,19 @@ validate-npm-package-name@^3.0.0:
   dependencies:
     builtins "^1.0.3"
 
+"vant-fork@git+ssh://git@szgitlab.youxin.com:222/web/vant-fork.git":
+  version "2.2.16"
+  resolved "git+ssh://git@szgitlab.youxin.com:222/web/vant-fork.git#ce9f01ee1c649a042dbe4d61df9b851b8a78f6a0"
+  dependencies:
+    "@babel/runtime" "7.x"
+    "@vant/icons" "1.1.15"
+    "@vue/babel-helper-vue-jsx-merge-props" "^1.0.0"
+    vue-lazyload "1.2.3"
+
 vant@1.6.16:
   version "1.6.16"
-  resolved "https://registry.yarnpkg.com/vant/-/vant-1.6.16.tgz#66ecc8e430fc475d8b3770ee9ec4c442b3e8a5d0"
+  resolved "https://registry.npm.taobao.org/vant/download/vant-1.6.16.tgz?cache=0&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvant%2Fdownload%2Fvant-1.6.16.tgz#66ecc8e430fc475d8b3770ee9ec4c442b3e8a5d0"
+  integrity sha1-ZuzI5DD8R12LN3DunsTEQrPopdA=
   dependencies:
     "@babel/runtime" "^7.4.3"
     "@vant/icons" "1.1.6"
@@ -12211,7 +12262,8 @@ vue-jest@^3.0.5:
 
 vue-lazyload@1.2.3:
   version "1.2.3"
-  resolved "https://registry.yarnpkg.com/vue-lazyload/-/vue-lazyload-1.2.3.tgz#901f9ec15c7e6ca78781a2bae4a343686bdedb2c"
+  resolved "https://registry.npm.taobao.org/vue-lazyload/download/vue-lazyload-1.2.3.tgz?cache=0&sync_timestamp=1568801961628&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fvue-lazyload%2Fdownload%2Fvue-lazyload-1.2.3.tgz#901f9ec15c7e6ca78781a2bae4a343686bdedb2c"
+  integrity sha1-kB+ewVx+bKeHgaK65KNDaGve2yw=
 
 vue-loader@^15.7.0:
   version "15.7.0"
@@ -12818,6 +12870,14 @@ yup@^0.27.0:
     property-expr "^1.5.0"
     synchronous-promise "^2.0.6"
     toposort "^2.0.2"
+
+"yx-base-h5@git+ssh://git@szgitlab.youxin.com:222/web/yx-base-h5.git#1.0.1":
+  version "0.1.0"
+  resolved "git+ssh://git@szgitlab.youxin.com:222/web/yx-base-h5.git#2b77a5db1bc34f6215285a1ba254c7b92efb9cbc"
+  dependencies:
+    "@babel/runtime" "^7.6.2"
+    "@jsmini/type" "0.4.0"
+    babel-polyfill "^6.26.0"
 
 zen-observable-ts@^0.8.19:
   version "0.8.19"

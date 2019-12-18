@@ -45,7 +45,7 @@ export default {
         .media-box__title {
             overflow: hidden;
             color: #fff;
-            font-size: 0.32rem;
+            font-size: 16px;
             line-height: 22px;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -57,7 +57,7 @@ export default {
             overflow: hidden;
             display: -webkit-box;
             color: rgba(255, 255, 255, 0.6);
-            font-size: 0.24rem;
+            font-size: 12px;
             line-height: 17px;
             text-overflow: ellipsis;
             -webkit-box-orient: vertical;

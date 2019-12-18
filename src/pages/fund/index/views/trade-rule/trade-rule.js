@@ -18,19 +18,18 @@ export const tradeList = {
         value: '',
         cname: 'HKD'
     },
-    redemptionFee: {
+    subscriptionFee: {
         label: '申购费',
         value: ''
     }
 }
 
 export const redeemList = {
-    lowestInvestAmount: {
-        label: '最低持有金额',
-        value: '',
-        cname: 'HKD'
+    minPositionShare: {
+        label: '最低持有份额',
+        value: ''
     },
-    subscriptionFee: {
+    redemptionFee: {
         label: '赎回费',
         value: ''
     }
@@ -70,15 +69,15 @@ export const i18nTrudeRuleData = {
             continueInvestAmount: {
                 label: '续投金额'
             },
-            redemptionFee: {
+            subscriptionFee: {
                 label: '申购费'
             }
         },
         redeemList: {
-            lowestInvestAmount: {
-                label: '最低持有金额'
+            minPositionShare: {
+                label: '最低持有份额'
             },
-            subscriptionFee: {
+            redemptionFee: {
                 label: '赎回费'
             }
         },
@@ -94,7 +93,7 @@ export const i18nTrudeRuleData = {
             label: '提交赎回申请'
         },
         sellConfirm: {
-            label: '确认份额'
+            label: '确认净值'
         },
         sellProfitLoss: {
             label: '资金到账'
@@ -105,7 +104,7 @@ export const i18nTrudeRuleData = {
         managermentLabel: '管理費',
         tradeSubTitle: '申購流程',
         redeemTitle: '贖回',
-        redeemSubtitle: '贖回规则',
+        redeemSubtitle: '贖回規則',
         buySubmit: { label: '買入提交' },
         buyConfirm: { label: '確認份額' },
         buyProfitLoss: { label: '查看盈虧' },
@@ -113,7 +112,7 @@ export const i18nTrudeRuleData = {
             label: '提交贖回申請'
         },
         sellConfirm: {
-            label: '確認份額'
+            label: '確認凈值'
         },
         sellProfitLoss: {
             label: '資金到賬'
@@ -131,15 +130,15 @@ export const i18nTrudeRuleData = {
             continueInvestAmount: {
                 label: '續投金額'
             },
-            redemptionFee: {
+            subscriptionFee: {
                 label: '申購費'
             }
         },
         redeemList: {
-            lowestInvestAmount: {
-                label: '最低持有金額'
+            minPositionShare: {
+                label: '最低持有份額'
             },
-            subscriptionFee: {
+            redemptionFee: {
                 label: '贖回費'
             }
         },
@@ -165,7 +164,7 @@ export const i18nTrudeRuleData = {
             label: 'Submit Redemption Application'
         },
         sellConfirm: {
-            label: 'Allocate Fund Units'
+            label: 'CFMD NAV'
         },
         sellProfitLoss: {
             label: 'Deposit'
@@ -183,15 +182,15 @@ export const i18nTrudeRuleData = {
             continueInvestAmount: {
                 label: 'Incremental Amount'
             },
-            redemptionFee: {
+            subscriptionFee: {
                 label: 'Subscription Fee'
             }
         },
         redeemList: {
-            lowestInvestAmount: {
-                label: 'Min. Holding Value'
+            minPositionShare: {
+                label: 'Min. Holding Unit'
             },
-            subscriptionFee: {
+            redemptionFee: {
                 label: 'Redemption Fee'
             }
         },

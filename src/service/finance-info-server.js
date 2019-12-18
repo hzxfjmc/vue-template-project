@@ -60,3 +60,46 @@ export const getFundDetail = params => {
 export const getFundNetPrice = params => {
     return axios.post(`/finance-info-server/api/get-fund-net-price/v1`, params)
 }
+
+//获取基金列表V2
+export const getFundListV2 = params => {
+    return axios.post(`/finance-info-server/api/get-fund-list/v2`, params)
+}
+
+//获取已发布的基金底层分类
+export const getReleaseFundAssetType = params => {
+    return axios.post(
+        `/finance-info-server/api/get-release-fund-asset-type/v1`,
+        params
+    )
+}
+
+//基金净值历史查询接口
+export const getFundNetPriceHistoryV1 = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-net-price-history/v1`,
+        params
+    )
+}
+
+//获取基金分红列表
+// 获取基金分红列表
+export const getFundDividendList = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-dividend-list/v1`,
+        params
+    )
+}
+
+//获取基金首页信息
+export const getFundHomepageInfo = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-homepage-info/v1`,
+        params
+    )
+}
+
+//基金收益率描点查询接口
+export const getFundApyPointV1 = params => {
+    return axios.post(`/finance-info-server/api/get-fund-apy-point/v1`, params)
+}

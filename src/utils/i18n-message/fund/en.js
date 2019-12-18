@@ -1,15 +1,20 @@
 export const en = {
     fundDetails: 'Fund Detail',
-    fundList: 'Featured Funds',
-    fundIntroduce: 'Fund Info',
+    fundList: 'Fund List',
+    fundIntroduce: 'Fund Overview',
     tradeRule: 'Trade Rules',
-    fundFiles: 'Documents',
+    fundFiles: 'Related Documents',
     riskAssessment: 'Risk Assessment',
     riskAsessmentResult: 'Assessment Result',
     riskAppropriateResult: 'Product Matching',
     openPermissions: 'Open A Fund Account',
-    orderRecord: 'Order Records',
+    orderRecord: 'Transaction Records',
     fundSubscribe: 'Subscription',
     fundRedemption: 'Redemption',
-    orderRecordDetail: 'Order Records'
+    orderRecordDetail: 'Order Records',
+    incomeDetails: 'Revenue Detail',
+    home: 'Smart Fund',
+    fundOrderList: 'Order Records',
+    fundAccount: 'My Funds',
+    fundHistorical: 'NAV History'
 }

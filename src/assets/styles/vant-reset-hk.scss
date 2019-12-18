@@ -1,3 +1,11 @@
+#app {
+    .van-cell__title {
+        color: $hk-text-color;
+    }
+    .van-cell__value {
+        color: $hk-text-color;
+    }
+}
 body {
   $disabled: #DADADA;
   .van-dialog {
@@ -21,12 +29,12 @@ body {
     top: 0;
   }
   .van-cell__title {
-      color: $hk-text-color6;
+    color: $hk-text-color6;
   }
   .van-cell__value {
-      color: $text-color;
+    color: $text-color;
   }
   .van-dialog__confirm {
-      color: $hk-primary-color;
+    color: $hk-primary-color;
   }
 }

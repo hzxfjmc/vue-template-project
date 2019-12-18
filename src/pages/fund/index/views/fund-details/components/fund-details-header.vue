@@ -1,30 +1,36 @@
 <template lang="pug">
 .funds-details-header
+    .fund-details-header-top.border-bottom
         h3 {{fundHeaderInfoVO.fundName}}
-        p.funds-details-subtitle ISIN：{{fundHeaderInfoVO.isin}}
+        .funds-details-subtitle 
+            span ISIN：{{fundHeaderInfoVO.isin}}
+            .block-left
+                .fund-tag
+                    van-tag(
+                        color="#2177FF"
+                        plain
+                        ) {{ fundHeaderInfoVO.assetTypeName }}
+                .fund-tag
+                    van-tag(
+                        color="#2177FF"
+                        plain
+                        ) {{ fundHeaderInfoVO.fundRisk }}
+                .fund-tag
+                    van-tag(
+                        color="#2177FF"
+                        plain
+                        ) {{ fundHeaderInfoVO.earningsTypeName }}
         .funds-details-number
             .header-left
-                span {{$t('oneYearShow')}}
+                span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
                 p(v-if="fundHeaderInfoVO.apy >0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
                 p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
                 p(v-else) {{fundHeaderInfoVO.apy}}%
             .header-right
-                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}
-                p.number-black {{fundHeaderInfoVO.currencyType}}{{fundHeaderInfoVO.netPrice}}
-        .funds-details-footer
-            p {{$t('minInvestment')}} {{fundHeaderInfoVO.currencyType}} {{fundHeaderInfoVO.initialInvestAmount}}
-            .fund-tag
-                van-tag(
-                    color="#2177FF"
-                    plain
-                    ) {{ fundHeaderInfoVO.assetType }}
-            .fund-tag
-                van-tag(
-                    color="#2177FF"
-                    plain
-                    ) {{ fundHeaderInfoVO.fundRisk }}
-            //- span {{fundHeaderInfoVO.assetType}}
-            //- span {{fundHeaderInfoVO.fundRisk}}
+                span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
+                p.number-black {{fundHeaderInfoVO.netPrice}}
+    .funds-details-footer
+        .block-bottom {{fundHeaderInfoVO.feature}}
 </template>
 <script>
 import dayjs from 'dayjs'
@@ -38,17 +44,26 @@ export default {
         zhCHS: {
             fundPrice: '基金价格',
             minInvestment: '起投金额',
-            oneYearShow: '近一年收益率'
+            oneYearShow: '近一年收益率',
+            yieldInLast7d: '近七日年化',
+            hkd: '港币',
+            usd: '美元'
         },
         zhCHT: {
             fundPrice: '基金價格',
             minInvestment: '起投金額',
-            oneYearShow: '近一年表現'
+            oneYearShow: '近一年表現',
+            yieldInLast7d: '近七日年化',
+            hkd: '港幣',
+            usd: '美元'
         },
         en: {
             fundPrice: 'Price',
             minInvestment: 'Min. Initial Investment',
-            oneYearShow: 'Past Year'
+            oneYearShow: 'Past Year',
+            hkd: 'HKD',
+            usd: 'USD',
+            yieldInLast7d: 'Yield in Last 7d'
         }
     },
     props: {
@@ -65,6 +80,9 @@ export default {
     computed: {
         stockColorType() {
             return +getStockColorType()
+        },
+        isMonetaryFund() {
+            return Number(this.fundHeaderInfoVO.assetType) === 4 // 货币型基金
         }
     }
 }
@@ -75,12 +93,15 @@ export default {
     float: left;
     width: 100%;
     min-height: 174px;
-    padding: 10px;
+    .fund-details-header-top {
+        width: 100%;
+        padding: 10px;
+        float: left;
+    }
     h3 {
         font-size: 0.32rem;
         color: $text-color;
         margin: 10px 0 3px 0;
-        // height:50px;
         float: left;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -91,8 +112,12 @@ export default {
     .funds-details-subtitle {
         color: $text-color3;
         width: 100%;
-        float: left;
+        display: flex;
         font-size: 0.24rem;
+    }
+    .block-left {
+        display: flex;
+        margin-left: 14px;
     }
     .funds-details-number {
         width: 100%;
@@ -104,7 +129,6 @@ export default {
             p {
                 font-size: 0.56rem;
                 font-weight: 500;
-                // font-family: DINPro;
                 font-family: yxFontDINPro-Medium;
             }
             .number-red {
@@ -128,28 +152,30 @@ export default {
     .funds-details-footer {
         width: 100%;
         float: left;
-        // border: 1px solid red;
         margin: 10px 0;
+        padding: 0 10px;
+        .block-right {
+            display: flex;
+            width: 50%;
+        }
         p {
             color: $text-color5;
-            float: left;
+            text-align: right;
+            width: 100%;
             font-size: 0.24rem;
-            margin: 0 20px 0 0;
             line-height: 28px;
         }
         .fund-tag {
+            padding: 3px 0 3px 3px;
             float: left;
-            // border: 1px solid red;
-            padding: 3px;
         }
-        // span {
-        //     float: left;
-        //     font-size: 0.2rem;
-        //     border: 1px solid rgba(33, 119, 255, 1);
-        //     margin: 0 3px;
-        //     padding: 0 5px;
-        //     color: rgba(33, 119, 255, 1);
-        // }
+        .block-bottom {
+            width: 100%;
+            font-size: 12px;
+            text-align: left;
+            padding: 0 0 0 5px;
+            color: $text-color5;
+        }
     }
 }
 </style>

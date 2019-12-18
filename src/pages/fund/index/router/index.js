@@ -8,10 +8,11 @@ export default new Router({
     },
     routes: [
         {
-            name: 'index',
+            name: 'fund-index',
             path: '/',
-            meta: { title: 'fundList', auth: true, cs: true },
-            component: () => import(`@/pages/fund/index/views/index/index.vue`)
+            meta: { title: 'home', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
         {
             name: 'index',
@@ -110,6 +111,48 @@ export default new Router({
             meta: { title: 'orderRecordDetail', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/order-record-detail/index.vue`)
+        },
+        {
+            name: 'income-details',
+            path: '/income-details',
+            meta: { title: 'incomeDetails', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/income-details/index.vue`)
+        },
+        {
+            name: 'home',
+            path: '/home',
+            meta: { title: 'home', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
+        },
+        {
+            name: 'fund-order-list',
+            path: '/fund-order-list',
+            meta: { title: 'fundOrderList', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-order-list/index.vue`)
+        },
+        {
+            name: 'fund-account',
+            path: '/fund-account',
+            meta: { title: 'fundAccount', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-account/index.vue`)
+        },
+        {
+            name: 'fund-historical',
+            path: '/fund-historical',
+            meta: { title: 'fundHistorical', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-historical/index.vue`)
+        },
+        {
+            name: 'fund-index',
+            path: '/fund-index',
+            meta: { title: 'home', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-index/index.vue`)
         }
     ]
 })

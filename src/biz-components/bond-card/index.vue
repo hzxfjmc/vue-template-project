@@ -7,106 +7,29 @@
                 :key="index"
                 color="#2177FF"
                 plain
-            ) {{ tagItem.name && tagItem.name.zhCn }}
+            ) {{ tagItem && tagItem.slice(0, 8) }}
         .bond-card__content
-            .flex-fixed-container
-                .rate-num {{ buyYtm }}
-                .card-tips 到期年化收益率
-            .flex-fixed-container
-                .interest-num {{ paymentDates }}
-                .card-tips {{ paymentFrequency }}
+            div
+                .bond-card__text(:class="[ buyYtm === '--' ? 'empty' : '', buyYtm.replace(/%/, '') > 0 ? up : down ]") {{ buyYtm }}
+                .bond-card__tips 到期年化收益率
+            div
+                .bond-card__text.sp {{ subscriptionAmount | thousand-spilt }}
+                .bond-card__tips 参考认购金额/份
+            div
+                .bond-card__text.sp {{ paymentAfterTaxPerYear | thousand-spilt }}
+                .bond-card__tips 年派息/份
 </template>
 
 <script>
-import { Tag } from 'vant'
+import mixin from './mixin'
 export default {
-    name: 'BondCard',
-    components: {
-        [Tag.name]: Tag
-    },
-    props: {
-        bondInfo: {
-            type: Object,
-            default: () => {}
-        }
-    },
-    computed: {
-        // 发行人
-        issuerName() {
-            // 发行人名称长度最长展示18个字符
-            return (
-                (this.bondInfo &&
-                    this.bondInfo.issuerName &&
-                    this.bondInfo.issuerName.zhCn &&
-                    this.bondInfo.issuerName.zhCn.slice(0, 18)) ||
-                '--'
-            )
-        },
-        h2Style() {
-            // 发行人名称字体变化策略
-            let issuerName = this.issuerName || ''
-            let tags = (this.bondInfo && this.bondInfo.tags) || []
-            let tagLen = 0
-            tags.forEach(tag => {
-                tagLen += ((tag.name && tag.name.zhCn) || '').length
-            })
-            // 极限条件 issuerName 发行人名称超过 13 个字符
-            // 标签有三个，每个三个字符，共 9 个字符
-            // 此时按设计稿看，刚好充满一个整行
-            // 这里统一设置一个模糊边界策略，只要大于 13 + 9 = 22 就缩小字体
-            if (issuerName.length + tagLen > 22) {
-                return {
-                    flex: 1,
-                    fontSize: '0.32rem',
-                    lineHeight: '0.44rem'
-                }
-            }
-            return {}
-        },
-        // 标签
-        limitTags() {
-            // 最多只取三个标签
-            let filterTag =
-                (this.bondInfo &&
-                    this.bondInfo.tags &&
-                    this.bondInfo.tags.slice(0, 3)) ||
-                []
-            return filterTag
-        },
-        // 到期年化收益率
-        buyYtm() {
-            return (
-                (this.bondInfo &&
-                    this.bondInfo.price &&
-                    this.bondInfo.price.buyYtm &&
-                    (this.bondInfo.price.buyYtm - 0).toFixed(3) + '%') ||
-                '--'
-            )
-        },
-        // 付息频率
-        paymentFrequency() {
-            return (
-                (this.bondInfo &&
-                    this.bondInfo.paymentFrequency &&
-                    this.bondInfo.paymentFrequency.name &&
-                    this.bondInfo.paymentFrequency.name + '付息') ||
-                '--'
-            )
-        },
-        // 付息日
-        paymentDates() {
-            let d = this.bondInfo && this.bondInfo.paymentDates
-            d = d ? d.split('|') : ''
-            let suffix = d.length > 2 ? '等' : ''
-            return d ? d.slice(0, 2).join('、') + suffix : '--'
-        }
-    }
+    mixins: [mixin]
 }
 </script>
 
 <style lang="scss" scoped>
 .bond-card {
-    margin-top: 10px;
+    margin-bottom: 10px;
     padding: 15px 12px 22px;
     background-color: $background-color;
     border-radius: 4px;
@@ -116,7 +39,7 @@ export default {
         h2 {
             overflow: hidden;
             margin-right: 6px;
-            font-size: 0.36rem;
+            font-size: 18px;
             color: $title-color;
             line-height: 25px;
             text-overflow: ellipsis;
@@ -125,10 +48,10 @@ export default {
         .van-tag--plain {
             overflow: hidden;
             min-width: 36px;
-            max-width: 89px;
-            padding: 1px 4px 1px 5px;
-            margin-right: 6px;
-            font-size: 0.2rem;
+            max-width: 110px;
+            padding: 4px 6px;
+            margin-right: 4px;
+            font-size: 10px;
             text-align: center;
             line-height: 14px;
             text-overflow: ellipsis;
@@ -140,24 +63,33 @@ export default {
     }
     .bond-card__content {
         display: flex;
+        justify-content: space-between;
         margin-top: 9px;
         padding: 0 2px;
-        .rate-num {
+        .bond-card__text {
             margin-bottom: 4px;
-            color: #ea3d3d;
-            font-size: 0.48rem;
+            font-size: 24px;
             line-height: 31px;
+            &.sp {
+                margin-top: 3px;
+                margin-bottom: 7px;
+                color: $text-color;
+                font-size: 17px;
+                line-height: 25px;
+            }
+            &.red {
+                color: #ea3d3d;
+            }
+            &.green {
+                color: $green-text-color;
+            }
+            &.empty {
+                color: $text-color;
+            }
         }
-        .interest-num {
-            margin-top: 3px;
-            margin-bottom: 7px;
-            color: $text-color;
-            font-size: 0.34rem;
-            line-height: 25px;
-        }
-        .card-tips {
+        .bond-card__tips {
             color: $text-color5;
-            font-size: 0.24rem;
+            font-size: 12px;
             line-height: 17px;
         }
     }

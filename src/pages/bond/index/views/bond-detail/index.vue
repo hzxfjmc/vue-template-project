@@ -1,36 +1,60 @@
 <template lang="pug">
     .bond-detail-wrapper
-        detail-header(
-            :bondEditableInfo="bondEditableInfo"
-            :bondUneditableInfo="bondUneditableInfo",
-            :currentPrice="currentPrice"
+        van-pull-refresh(
+            v-model="isLoading"
+            @refresh="onRefresh"
+            success-text="刷新成功"
         )
-        van-panel(title="购买流程")
-            purchasing-process(:bondUneditableInfo="bondUneditableInfo")
-        van-panel(title="债券价格" style="position:relative")
-            BondPrice(:chartData="prices" :currentPrice="currentPrice")
-        van-panel(title="债券资料")
-            BondInfo(
+            detail-header(
                 :bondEditableInfo="bondEditableInfo"
-                :bondUneditableInfo="bondUneditableInfo"
+                :bondUneditableInfo="bondUneditableInfo",
+                :paymentAfterTaxPerYear="paymentAfterTaxPerYear"
+                :currentPrice="currentPrice"
             )
-        van-panel(title="交易规则")
-            TransactionRules
-        .faq
-            a(href="/webapp/market/generator.html?key=bond01" title="债券常见问题") 债券常见问题
+            van-panel(title="购买流程")
+                purchasing-process(
+                    :bondUneditableInfo="bondUneditableInfo"
+                    :paymentInfo="paymentInfo"
+                )
+            van-panel(title="债券价格" desc="（每份）" style="position:relative")
+                BondPrice(
+                    :chartData="prices"
+                    :currentPrice="currentPrice"
+                    :bondUneditableInfo="bondUneditableInfo"
+                )
+            van-panel(title="债券资料")
+                BondInfo(
+                    :bondEditableInfo="bondEditableInfo"
+                    :bondUneditableInfo="bondUneditableInfo"
+                )
+            van-panel(title="交易规则")
+                TransactionRules
+            .faq
+                a(
+                    @click="jumpFaq"
+                    title="债券常见问题"
+                ) 债券常见问题
         .operate-btn-box
-            div(@click="handleBuyOrSell('buy')") 买入
-            div(@click="handleBuyOrSell('sell')") 卖出
+            van-button(
+                type="info"
+                text="买入"
+                @click="handleBuyOrSell('buy')"
+            )
+            van-button(
+                type="info"
+                text="卖出"
+                @click="handleBuyOrSell('sell')"
+            )
 
 </template>
 <script>
-import DetailHeader from './components/detail-header/index.vue'
-import PurchasingProcess from './components/purchasing-process/index.vue'
-import BondPrice from './components/bond-price/index.vue'
-import BondInfo from './components/bond-info/index.vue'
-import TransactionRules from './components/transaction-rules/index.vue'
+import DetailHeader from './detail-header.vue'
+import PurchasingProcess from './purchasing-process.vue'
+import BondPrice from './bond-price.vue'
+import BondInfo from './bond-info.vue'
+import TransactionRules from './transaction-rules.vue'
 
-import bondDetailMixin from '@/mixins/bond/bond-detail/index.js'
+import bondDetailMixin from './mixins'
 export default {
     mixins: [bondDetailMixin],
     components: {
@@ -44,15 +68,17 @@ export default {
 </script>
 <style lang="scss" scoped>
 .bond-detail-wrapper {
-    padding: 10px 10px 48px;
-    color: #393939;
+    padding: 10px 10px 96px;
+    background-color: $background-bottom-color;
+    font-family: DINPro-Regular, DINPro, PingFangSC-Regular, PingFang SC;
+    font-weight: 400;
     // 常见问题
     .faq {
         text-align: center;
         margin: 10px auto 12px;
         a {
             color: $primary-color-line;
-            font-size: 0.24rem;
+            font-size: 12px;
             line-height: 17px;
         }
     }
@@ -62,38 +88,50 @@ export default {
         bottom: 0;
         left: 0;
         right: 0;
-        height: 48px;
+        background: #fff;
         display: flex;
-        div {
+        .van-button {
             display: flex;
             align-items: center;
             justify-content: center;
             flex: 1;
-            height: 100%;
+            height: 48px;
+            margin: 0;
+            margin-bottom: constant(safe-area-inset-bottom);
+            margin-bottom: env(safe-area-inset-bottom);
+            border-color: transparent;
             background-color: $primary-color-line;
             color: #fff;
-            font-size: 0.32rem;
+            font-size: 16px;
+            border-radius: 0 !important;
             &:last-child {
                 background-color: $sell-color;
             }
         }
     }
-}
-// 微调 vant panel 样式
-.van-panel {
-    margin-top: 10px;
-    border-radius: 4px;
-    .van-panel__header {
-        padding: 14px 12px;
-        font-size: 0.28rem;
-        line-height: 20px;
-        &:after {
-            display: none;
+    // 微调 vant panel 样式
+    .van-panel {
+        overflow: hidden;
+        margin-top: 10px;
+        border-radius: 4px;
+        .van-panel__header {
+            padding: 14px 12px;
+            font-size: 14px;
+            line-height: 20px;
+            &:after {
+                display: none;
+            }
         }
-    }
-    .van-cell__title {
-        font-size: 0.28rem;
-        line-height: 20px;
+        .van-cell__title {
+            font-size: 14px;
+            line-height: 20px;
+            .van-cell__label {
+                display: inline-block;
+                margin-top: 0;
+                color: rgba($color: $text-color, $alpha: 0.4);
+                font-size: 12px;
+            }
+        }
     }
 }
 </style>

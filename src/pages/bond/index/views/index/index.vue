@@ -1,9 +1,10 @@
 <template lang="pug">
-    .bond-index-wrapper(v-show="isShowPage")
+    .bond-index-wrapper(ref="bondIndexWrapper")
         van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
             van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
-                a(:href="bannerItem.jump_url" title="")
+                a(:href="bannerItem.jump_url ||'javascript:void(0)'" title="")
                     img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
+                    //- img(:src="require('@/assets/img/bond/banner-demo.png')" :alt="bannerItem.banner_title")
         .bond-list
             router-link(
                 v-for="(item, index) in bondList"
@@ -13,20 +14,27 @@
             )
                 bond-card(:bondInfo="item")
             .no-data(v-show="!hasData") 没有更多债券
-        .no-bond-box(v-if="bondList.length === 0")
+        .no-bond-box(v-if="bondList.length === 0 && isShowPage")
             .no-bond 暂无债券
 </template>
 <script>
-import indexMixin from '@/mixins/bond/index/index.js'
+import indexMixin from './mixins.js'
+import BondCard from '@/biz-components/bond-card/index'
 export default {
-    mixins: [indexMixin]
+    mixins: [indexMixin],
+    components: {
+        BondCard
+    }
 }
 </script>
 
 <style lang="scss" scoped>
 .bond-index-wrapper {
-    min-height: 100%;
-    padding-bottom: 77px;
+    height: 100%;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 0px 0 48px;
+    background-color: $background-bottom-color;
     .banner {
         width: 375px;
         height: 150px;
@@ -40,7 +48,7 @@ export default {
         }
     }
     .bond-list {
-        padding: 0 10px;
+        padding: 10px 10px 0;
     }
     .no-data {
         padding: 10px 0 7px;

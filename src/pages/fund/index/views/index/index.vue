@@ -1,68 +1,199 @@
 <template lang="pug">
     .bond-index-wrapper
-        van-swipe.banner(v-show="bannerUrl.length !== 0" :autoplay="10000" :show-indicators="bannerUrl.length !== 1")
-            van-swipe-item(v-for="(bannerItem, index) in bannerUrl" :key="index")
-                a(:href="bannerItem.jump_url" title="")
-                    img(:src="bannerItem.picture_url" :alt="bannerItem.banner_title")
+        FundHeaderTitle(
+            :assetType="assetTypetab"
+            @handlerCuenrry="handlerCuenrry"
+        )
+        .fund__banner
+            img(:src="bannarTitleUrl" @click="goBarnner")
+        .fund__banner2(v-if="code != 1 && bannerShow")
+            img(:src="barnnarUrl")
         .bond-list
-            router-link(
+            div(
                 v-for="(item, index) in list"
                 :key="index"
-                :to="{ name: 'fund-details', query: { id: `${item.fondId}` }}"
-                title=""
             )
-                Card(:info="item")
+                Card(:info="item" :assetType="assetType" :currency="currency" @click.native="goNext(item.fundId)")
             //- .no-data(v-if="list.length !== 0") 没有更多基金
-        .no-bond-box(v-if="load && list.length === 0")
-            .no-bond {{ $t('noBond') }}
+        .no-bond-box(v-if="load")
+            .no-bond {{ $t('noFund') }}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { getFundList } from '@/service/finance-info-server.js'
-// import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
+import FundHeaderTitle from './components/fund-header-title/index.vue'
+// import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { jumpUrl } from '@/utils/tools.js'
+import { mapGetters } from 'vuex'
+import { getSource } from '@/service/customer-relationship-server'
 export default {
     i18n: {
         zhCHS: {
-            noBond: '暂无基金'
+            noFund: '暂无基金'
+        },
+        zhCHT: {
+            noFund: '暫無基金'
+        },
+        en: {
+            noFund: 'No Data'
         }
+    },
+    computed: {
+        ...mapGetters(['appType', 'lang', 'isLogin'])
     },
     keepalive: true,
     name: 'index',
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
-        Card
+        Card,
+        FundHeaderTitle
     },
     created() {
-        // this.handleGetFundBanner()
-        this.getListFundInfo()
+        this.assetType = this.$route.query.type
+        this.currency = this.$route.query.currency
+        this.getFundListV2()
     },
     data() {
         return {
+            barnnarUrl: require('@/assets/img/fund/icon_huobi.png'),
             load: false,
+            bannerShow: false,
             bannerUrl: [],
-            list: []
+            list: [],
+            pageNum: 1,
+            pageSize: 100,
+            total: 0,
+            currency: '',
+            assetType: '',
+            code: 0,
+            assetTypetab: '',
+            bannarTitleUrl: null
         }
     },
+    mounted() {
+        this.assetTypetab = this.$route.query.type
+        this.getSource()
+    },
     methods: {
-        // // 拉取债券banner
-        // async handleGetFundBanner() {
-        //     try {
-        //         // 基金暂时没有
-        //         let data = await bannerAdvertisement(21)
-        //         this.bannerUrl = (data && data.banner_list) || []
-        //     } catch (error) {
-        //         console.log('getBondBanner:error:>>>', error)
-        //     }
-        // },
-        // 获取基金列表
-        async getListFundInfo() {
+        goBarnner() {
+            //大陆版本banner不跳转
+            if (this.code === 1) {
+                return
+            }
+            let jump_url = [
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=equity#/`,
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=equity#/`,
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=bond#/`,
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=balanced#/`,
+                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=moneyMarket#/`
+            ]
+            if (this.assetType) {
+                // console.log(jump_url[this.assetType])
+                jumpUrl(3, jump_url[this.assetType])
+            } else {
+                jumpUrl(3, jump_url[0])
+            }
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
             try {
-                this.list = await getFundList()
-                this.load = true
+                const { code } = await getSource()
+                if (this.isLogin) {
+                    this.code = code
+                } else {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
+                this.bannarTitleUrl =
+                    this.code != 1
+                        ? require(`@/assets/img/fund/fundImg/${this.lang}/fundAll.png`)
+                        : require(`@/assets/img/fund/fundImg/${this.lang}/fundAll1.png`)
+                if (this.$route.query.type) {
+                    this.changeBannarTitle()
+                }
             } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
+        handlerCuenrry(data) {
+            this.currency = data.currency
+            // 0：tab切换 1：货币切换
+            if (data.flag !== '0') {
+                this.assetType = data.assetType
+            }
+            this.bannerShow = data.assetType === '4' || data.assetType === '2'
+            this.barnnarUrl =
+                data.assetType === '4'
+                    ? require(`@/assets/img/fund/fundImg/${this.lang}/huobi.png`)
+                    : require(`@/assets/img/fund/fundImg/${this.lang}/zhaiquan.png`)
+            if (data.key) {
+                this.bannarTitleUrl =
+                    this.code != 1
+                        ? require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
+                        : require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}1.png`)
+            }
+            this.getFundListV2()
+        },
+        // 获取基金列表
+        async getFundListV2() {
+            try {
+                this.list = []
+                const { list } = await getFundListV2({
+                    displayLocation: 1,
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    assetType: this.assetType,
+                    currency: this.currency
+                })
+                this.list = list
+                this.load = this.list.length == 0
+            } catch (e) {
+                this.$toast(e.msg)
                 console.log('getListFundInfo:error:>>>', e)
+            }
+        },
+        goNext(fundId) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+            jumpUrl(3, url)
+        },
+        changeBannarTitle() {
+            let bannarEmun = {
+                1: 'fundShares',
+                2: 'fundBond',
+                3: 'fundBlend',
+                4: 'fundCurrency'
+            }
+            this.bannarTitleUrl =
+                this.code != 1
+                    ? require(`@/assets/img/fund/fundImg/${this.lang}/${
+                          bannarEmun[this.$route.query.type]
+                      }.png`)
+                    : require(`@/assets/img/fund/fundImg/${this.lang}/${
+                          bannarEmun[this.$route.query.type]
+                      }1.png`)
+            this.bannerShow = this.assetType === '4' || this.assetType === '2'
+            this.barnnarUrl =
+                this.assetType === '4'
+                    ? require(`@/assets/img/fund/fundImg/${this.lang}/huobi.png`)
+                    : require(`@/assets/img/fund/fundImg/${this.lang}/zhaiquan.png`)
+        }
+    },
+    watch: {
+        $route(to, from) {
+            if (
+                from.path === '/home' ||
+                from.path === '/fund-index' ||
+                from.path === '/'
+            ) {
+                this.assetType = this.$route.query.type
+                this.currency = this.$route.query.currency
+                this.assetTypetab = this.$route.query.type
+                this.getFundListV2()
+                this.getSource()
+                if (this.$route.query.type) {
+                    this.changeBannarTitle()
+                }
             }
         }
     }
@@ -110,6 +241,19 @@ export default {
             text-align: center;
             box-sizing: border-box;
         }
+    }
+}
+.fund__banner {
+    width: 100%;
+    img {
+        width: 100%;
+    }
+}
+.fund__banner2 {
+    width: 90%;
+    margin: 17px 5%;
+    img {
+        width: 100%;
     }
 }
 </style>

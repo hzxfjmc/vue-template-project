@@ -30,7 +30,6 @@ import Vue from 'vue'
 import { List } from 'vant'
 Vue.use(List)
 import { fundOrderList } from '@/service/finance-server.js'
-import { setTimeout } from 'timers'
 import { differColor } from './differColor.js'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 
@@ -52,7 +51,7 @@ export default {
         },
         en: {
             amount: 'Order Amount',
-            share: 'Share',
+            share: 'Unit',
             time: 'Time',
             noOrder: 'Not Records',
             noMore: 'No More'
@@ -130,12 +129,14 @@ export default {
                             '--',
                         color: differColor(item.externalStatus),
                         orderNo: item.orderNo,
-                        orderShare: transNumToThousandMark(
-                            (item.orderShare * 1).toFixed(2)
-                        ),
+                        orderShare: transNumToThousandMark(item.orderShare, 4),
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })
+                    this.loading = false
+                    if (this.orderRecordList.length >= this.total) {
+                        this.finished = true
+                    }
                     this.assetType =
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
                     this.fundRisk = item.fundBaseInfoVO.fundRisk
@@ -148,16 +149,10 @@ export default {
             }
         },
         onLoad() {
-            setTimeout(() => {
-                if (this.orderRecordList.length < this.total) {
-                    this.pageNum++
-                    this.fundOrderListFun()
-                }
-                this.loading = false
-                if (this.orderRecordList.length >= this.total) {
-                    this.finished = true
-                }
-            }, 300)
+            if (this.orderRecordList.length < this.total) {
+                this.pageNum++
+                this.fundOrderListFun()
+            }
         },
         // 跳转到详情
         toDetailHandle(orderNo, orderStatus) {
@@ -182,7 +177,7 @@ export default {
     .fund-introduce {
         padding: 15px 12px;
         background-color: $background-color;
-        margin-bottom: 10px;
+        margin-bottom: 6px;
         .fund-name {
             font-size: 16px;
             line-height: 22px;

@@ -6,8 +6,9 @@
             :style="wrapperStyle"
             @click.native="emitHandle(index)"
         )
-            .van-col__title(:style="titleStyle") {{ colItem.title }}
-            .van-col__desc(:style="descStyle") {{ colItem.desc }}
+            .van-col__title(:style="titleStyle" :class="titleClass") {{ colItem.title }}
+            .van-col__desc(:style="descStyle" :class="descClass") {{ colItem.desc }}
+                i(v-if="colItem.class" class="iconfont" :class="colItem.class")
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -30,9 +31,17 @@ export default {
             type: Object,
             default: () => {}
         },
+        titleClass: {
+            type: String,
+            default: ''
+        },
         titleStyle: {
             type: Object,
             default: () => {}
+        },
+        descClass: {
+            type: String,
+            default: ''
         },
         descStyle: {
             type: Object,
@@ -53,17 +62,23 @@ export default {
     padding: 14px 16px;
     .van-col {
         flex: 1;
+        min-width: 22%;
     }
     .van-col__title {
         color: $text-color;
-        font-size: 0.28rem;
+        font-size: 14px;
         line-height: 20px;
     }
     .van-col__desc {
         margin-top: 2px;
         color: $text-color5;
-        font-size: 0.24rem;
+        font-size: 12px;
         line-height: 17px;
+        .iconfont {
+            margin-left: 4px;
+            font-size: 13px;
+            vertical-align: middle;
+        }
     }
 }
 .col-column + .col-column {

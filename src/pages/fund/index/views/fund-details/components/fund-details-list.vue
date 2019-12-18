@@ -7,7 +7,9 @@
 </template>
 <script>
 import { itemList } from './fund-list'
-import localStorage from '../../../../../../utils/local-storage'
+import LS from '@/utils/local-storage'
+import jsBridge from '@/utils/js-bridge'
+import { clickFundDetails } from '@/utils/burying-point'
 export default {
     i18n: {
         zhCHS: {
@@ -15,6 +17,7 @@ export default {
                 trade: { label: '交易记录' },
                 survey: { label: '基金概况' },
                 rule: { label: '交易规则' },
+                history: { label: '净值历史' },
                 files: { label: '相关文件' },
                 tips: { label: '风险提示' }
             }
@@ -24,6 +27,7 @@ export default {
                 trade: { label: '交易記錄' },
                 survey: { label: '基金概況' },
                 rule: { label: '交易規則' },
+                history: { label: '淨值歷史' },
                 files: { label: '相關文件' },
                 tips: { label: '風險提示' }
             }
@@ -33,6 +37,7 @@ export default {
                 trade: { label: 'Transaction Records' },
                 survey: { label: 'Fund Overview' },
                 rule: { label: 'Trading Rules' },
+                history: { label: 'NAV History' },
                 files: { label: 'Related Documents' },
                 tips: { label: 'Risk Disclosure' }
             }
@@ -54,7 +59,7 @@ export default {
             type: Object,
             default: () => {}
         },
-        fondCode: {
+        fundCode: {
             type: String,
             default: ''
         },
@@ -64,20 +69,15 @@ export default {
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
+        },
+        showPositionInfo: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
         return {
-            list: JSON.parse(JSON.stringify(itemList))
-        }
-    },
-    watch: {
-        positionStatus() {
-            // if (this.positionStatus.type != -1) {
-            //     this.list['trade'].itemShow = true
-            // } else {
-            //     this.list['trade'].itemShow = false
-            // }
+            list: []
         }
     },
     methods: {
@@ -85,31 +85,62 @@ export default {
             let data = {
                 path: item.routerPath
             }
-            localStorage.put('scroll', this.scroll)
-            localStorage.put('scrollFlag', 2)
+            clickFundDetails(
+                'fund_detail',
+                item.label,
+                this.fundHeaderInfoVO.fundId,
+                this.fundHeaderInfoVO.fundName
+            )
+            LS.put('scroll', this.scroll)
+            LS.put('scrollFlag', 2)
             if (item.routerPath == '/fund-introduce')
                 data.query = {
-                    id: this.$route.query.id
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId
                 }
-            if (item.routerPath == '/fund-files')
+            if (item.routerPath == '/fund-files') {
+                let filesData = this.fundCorrelationFileList
+                LS.remove('FILES-DATA')
+                LS.put('FILES-DATA', filesData)
+            }
+            if (
+                item.routerPath == '/trade-rule' ||
+                item.routerPath == '/fund-historical'
+            ) {
                 data.query = {
-                    data: JSON.stringify(this.fundCorrelationFileList)
-                }
-            if (item.routerPath == '/trade-rule') {
-                data.query = {
-                    id: this.$route.query.id
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId,
+                    assetType: this.fundHeaderInfoVO.assetType
                 }
             }
             if (item.routerPath == '/order-record') {
                 data.query = {
-                    id: this.$route.query.id,
+                    id: this.$route.query.id || this.fundHeaderInfoVO.fundId,
                     currencyType: this.fundTradeInfoVO.currency.type
                 }
             }
             if (item.routerPath == '/generator') {
-                window.location.href = `/webapp/market/generator.html?key=${this.fondCode}`
+                this.openWebView(
+                    `${window.location.origin}/webapp/market/generator.html?key=${this.fundCode}`
+                )
             } else {
-                this.$router.push(data)
+                let routerQuery = ''
+                for (let key in data.query) {
+                    routerQuery += `${key}=${data.query[key]}&`
+                }
+                this.openWebView(
+                    window.location.origin +
+                        '/wealth/fund/index.html#' +
+                        data.path +
+                        '?' +
+                        routerQuery
+                )
+            }
+        },
+        //App页面跳转
+        async openWebView(url) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
             }
         },
         InitI18nState() {
@@ -119,13 +150,16 @@ export default {
         }
     },
     mounted() {
+        let list = JSON.parse(JSON.stringify(itemList))
+        list.trade.itemShow = this.showPositionInfo
+        this.list = list
         this.InitI18nState()
     }
 }
 </script>
 <style lang="scss" scoped>
 .fund-details-list {
-    margin: 10px 0 10px 0;
+    margin: 6px 0 10px 0;
     background: $background-color;
     width: 100%;
     float: left;
