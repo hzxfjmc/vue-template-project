@@ -1,5 +1,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import jsBridge from '@/utils/js-bridge'
+import LS from '@/utils/local-storage.js'
+import { setToken } from '@/utils/http-request'
+import userService from '@/service/user-server.js'
+
 import {
     isYouxinIos,
     isYouxinAndroid,
@@ -7,10 +12,6 @@ import {
     appType,
     lang
 } from '@/utils/html-utils'
-import jsBridge from '@/utils/js-bridge'
-import LS from '@/utils/local-storage.js'
-import { setToken } from '@/utils/http-request'
-import userService from '@/service/user-server.js'
 // import { alertModule } from '@/utils/common/plugins/vant'
 Vue.use(Vuex)
 
