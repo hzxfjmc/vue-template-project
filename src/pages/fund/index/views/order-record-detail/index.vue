@@ -25,13 +25,13 @@
                     .order-item.flex(v-if="[1,2].includes(orderStatus)")
                             span.itemName {{$t('orderName')}}
                             span.type {{orderType}}
-                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="orderShare != 0 && [1,2].includes(orderStatus)")
                         span.itemName {{$t('orderShares')}}
-                        span {{orderShare}} 
-                    .order-item.flex(v-if="netPrice == 0 && [1,2].includes(orderStatus)")
+                        span {{orderShare|transNumToThousandMark}} 
+                    .order-item.flex(v-if="netPrice && [1,2].includes(orderStatus)")
                         span.itemName {{$t('orderNetWorth')}}
                         span {{netPrice|transNumToThousandMark}}
-                    .order-item.flex(v-if="moneyNum == 0 && [1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="moneyNum != 0 && [1,2].includes(orderStatus)")
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
                 van-cell(class="order-time" v-if="![1,2].includes(orderStatus)")
@@ -43,8 +43,8 @@
                         span {{netPrice|transNumToThousandMark}}
                     .order-item.flex()
                         span.itemName {{$t('orderShares')}}
-                        span {{orderShare}} 
-                    .order-item.flex(v-if="moneyNum != 0")
+                        span {{orderShare|transNumToThousandMark}} 
+                    .order-item.flex
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
                     .order-item.flex(v-if="orderFee")
@@ -162,15 +162,16 @@ export default {
                     (res.deliveryDate &&
                         dayjs(res.deliveryDate).format('MM.DD')) ||
                     '--'
-                if (
-                    res.orderShare === null ||
-                    ([1, 2].includes(res.externalStatus) &&
-                        res.orderShare * 1 === 0)
-                ) {
-                    this.orderShare = this.$t('beConfirmed')
-                } else {
-                    this.orderShare = transNumToThousandMark(res.orderShare, 4)
-                }
+                this.orderShare = res.orderShare
+                // if (
+                //     res.orderShare === null ||
+                //     ([1, 2].includes(res.externalStatus) &&
+                //         res.orderShare * 1 === 0)
+                // ) {
+                //     this.orderShare = this.$t('beConfirmed')
+                // } else {
+                //     this.orderShare = transNumToThousandMark(res.orderShare, 4)
+                // }
                 this.netPrice = res.netPrice
                 this.orderFinishValue =
                     (res.finishTime &&
