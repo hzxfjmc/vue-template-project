@@ -38,7 +38,7 @@
                     .order-item.flex()
                         span.itemName {{$t('orderName')}}
                         span.type {{orderType}}
-                    .order-item.flex()
+                    .order-item.flex(v-if="orderShare != 0")
                         span.itemName {{$t('orderShares')}}
                         span {{orderShare|transNumToThousandMark}} 
                     .order-item.flex(v-if="netPrice")
