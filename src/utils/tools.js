@@ -178,18 +178,15 @@ export function transNumToThousandMark(num = '0', dot = 2) {
     // 保留小数点后面的位数
     if (num.indexOf('.') !== -1) {
         let numArr = num.toString().split('.')
-        let docBeforeNum = numArr[0].replace(/\d{1,3}(?=(\d{3})+$)/g, v1 => {
-            return v1 + ','
-        })
+        let docBeforeNum = numArr[0].replace(
+            /(\d{1,3})(?=(\d{3})+(?:$|\.))/g,
+            '$1,'
+        )
         return docBeforeNum + '.' + numArr[1].substring(0, dot)
     } else {
-        let decimal = Number(num)
-            .toFixed(dot)
-            .split('.')[1] // 小数部分
-        let number = num.replace(/\d{1,3}(?=(\d{3})+$)/g, v1 => {
-            return v1 + ','
-        })
-        return number + '.' + decimal
+        num = Number(num).toFixed(dot)
+        let number = num.replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, '$1,')
+        return number
     }
 }
 

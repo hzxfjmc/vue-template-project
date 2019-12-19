@@ -19,6 +19,7 @@
                                 input( 
                                     v-model="item.value" 
                                     type="number"
+                                    @input="changeNumber"
                                     :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `"  
                                     )
                             .right-item-other(v-else)
@@ -141,7 +142,8 @@ export default {
     watch: {
         'subscribeObj.buyMoney.value'(val) {
             let numberInt
-            if (val.indexOf(',') > -1) {
+            console.log(val)
+            if (`${val}`.indexOf(',') > -1) {
                 let arr = val.split(',')
                 numberInt = arr.join('')
             } else {
@@ -158,10 +160,19 @@ export default {
                 (numberInt * this.subscribeObj.subscriptionFee.value) / 100
             if (numberInt > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
+                return
             }
         }
     },
     methods: {
+        changeNumber(e) {
+            console.log(e.target.value)
+            console.log(this.subscribeObj.buyMoney.value)
+            if (e.target.value > +this.withdrawBalance) {
+                this.subscribeObj.buyMoney.value = +this.withdrawBalance
+                return
+            }
+        },
         async openProtocol(url) {
             url = await getCosUrl(url)
             if (jsBridge.isYouxinApp) {
@@ -329,12 +340,7 @@ export default {
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
-                        purchaseAmount:
-                            this.subscribeObj.buyMoney.value.indexOf(',') > -1
-                                ? this.subscribeObj.buyMoney.value
-                                      .split(',')
-                                      .join('')
-                                : this.subscribeObj.buyMoney.value,
+                        purchaseAmount: this.subscribeObj.buyMoney.value,
                         requestId: generateUUID(),
                         tradeToken: token
                     })
@@ -344,6 +350,7 @@ export default {
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
+                    console.log(error)
                     this.$alert({
                         message: error.msg,
                         confirmButtonText: this.$t('iKnow')

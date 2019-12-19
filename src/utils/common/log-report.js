@@ -103,6 +103,7 @@ Vue.config.errorHandler = async function(error, source, lineno) {
     } else {
         data.net_type = ''
         data.uuid = ''
+        console.log(data)
         logjson({ list: [data] }).catch(e => console.log('日志上报失败', e))
     }
 }
