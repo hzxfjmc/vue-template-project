@@ -45,6 +45,14 @@
             @click="toOrderList")
             span {{inTransitOrder}}{{$t('fundmsg')}}
             em(class="iconfont icon-previewright")
+
+    .block-bannar-sub-swiper(v-if="tabbarnnarList.length !== 0")
+            van-swipe 
+                van-swipe-item(
+                    v-for="(item, index) in tabbarnnarList" 
+                    @click="goBanner(item)"
+                    :key="index") 
+                    img(:src="item.picture_url") 
     .block__tab
         .block__tab--list
             .block__tab--Item(
@@ -186,6 +194,7 @@ export default {
             barnnarList: [],
             barnnarUsList: [],
             barnnarHkList: [],
+            tabbarnnarList: [],
             chooseCurrencyShow: false,
             choiceFundListShow: false,
             blueChipFundListShow: false,
@@ -308,6 +317,7 @@ export default {
                 const res = await bannerAdvertisement(26)
                 const res1 = await bannerAdvertisement(27)
                 const res2 = await bannerAdvertisement(100)
+                const res3 = await bannerAdvertisement(101)
                 this.barnnarHkList = res.banner_list
                 if (res.banner_list.length === 0) {
                     let imgUrl =
@@ -320,7 +330,7 @@ export default {
                 }
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
-                console.log(document.querySelectorAll('.van-swipe__indicators'))
+                this.tabbarnnarList = res3.banner_list
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -507,7 +517,7 @@ export default {
                 const { code } = await getSource()
                 this.code = code
                 if (this.isLogin) {
-                    this.getFundPositionListV3()
+                    await this.getFundPositionListV3()
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
                 }
@@ -528,7 +538,6 @@ export default {
         this.currency = LS.get('activeTab')
         this.initI18n()
         this.getFundHomepageInfo()
-
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},

@@ -1,6 +1,12 @@
 <template lang="pug">
 .fund-details-echart
-    span {{$t('fundTrade')}}
+    .block__fund--echart
+        .block__fund--item 業續走勢
+        .block__fund--item 歷史業續
+        .block__fund--item 淨值歷史
+    .block__fund--title 
+        span 近2月收益率：
+        span +12.32%
     .fund-echart-content
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
@@ -252,6 +258,28 @@ export default {
     }
 }
 .fund-details-echart {
+    .block__fund--echart {
+        display: flex;
+        flex-direction: row;
+        height: 40px;
+        .block__fund--item {
+            width: 33.33%;
+            font-size: 16px;
+            display: flex;
+            color: #666666;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+    .block__fund--title {
+        display: flex;
+        flex-direction: row;
+        font-size: 12px;
+        width: 100%;
+        span {
+            display: flex;
+        }
+    }
     margin: 6px 0 0 0;
     width: 100%;
     float: left;

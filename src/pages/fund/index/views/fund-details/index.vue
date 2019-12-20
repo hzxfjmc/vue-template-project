@@ -420,6 +420,7 @@ export default {
 .fund-details {
     display: flex;
     flex-direction: column;
+    background: #fbfcfe;
     height: 100%;
     -webkit-overflow-scrolling: touch;
     overflow: hidden;
