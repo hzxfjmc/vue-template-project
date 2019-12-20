@@ -16,6 +16,7 @@
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value}}%)
                             .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
+                                p {{money}}
                                 input( 
                                     v-model="item.value" 
                                     type="number"
@@ -75,13 +76,10 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import {
-    generateUUID,
-    transNumToThousandMark,
-    parseThousands
-} from '@/utils/tools.js'
+import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
+import { mapGetters } from 'vuex'
 import './index.scss'
 export default {
     name: 'subscribe',
@@ -107,6 +105,7 @@ export default {
             buyProtocolFileName: '',
             buyProtocol: '', // 基金购买协议
             buySubmit: '',
+            money: '',
             buyConfirm: '', // 买入确认份额时间
             buyProfitLoss: '', // 买入查看盈亏时间
             buyProtocolFileList: [],
@@ -122,6 +121,7 @@ export default {
         this.getWithdrawBalance()
     },
     computed: {
+        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount']),
         // 预计完成时间多语言配置
         predictDay() {
             return {
@@ -139,36 +139,54 @@ export default {
             )
         }
     },
-    watch: {
-        'subscribeObj.buyMoney.value'(val) {
-            let numberInt
-            console.log(val)
-            if (`${val}`.indexOf(',') > -1) {
-                let arr = val.split(',')
-                numberInt = arr.join('')
-            } else {
-                numberInt = val
-            }
-            this.subscribeObj.totalOrderAmount.value =
-                Number(numberInt) +
-                    (numberInt * this.subscribeObj.subscriptionFee.value) /
-                        100 || '0.00'
-            this.subscribeObj.totalOrderAmount.value = parseThousands(
-                Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
-            )
-            this.subscriptionFee =
-                (numberInt * this.subscribeObj.subscriptionFee.value) / 100
-            if (numberInt > +this.withdrawBalance) {
-                this.subscribeObj.buyMoney.value = +this.withdrawBalance
-                return
-            }
-        }
-    },
     methods: {
         changeNumber(e) {
-            console.log(e.target.value)
-            console.log(this.subscribeObj.buyMoney.value)
+            let obj = {
+                en: {
+                    5: 'Ten Thousand',
+                    6: 'Hundred Thousand',
+                    7: 'Million',
+                    8: 'Ten Million',
+                    9: 'Hundred Million'
+                },
+                zhCHT: {
+                    5: '萬',
+                    6: '十萬',
+                    7: '百萬',
+                    8: '千萬',
+                    9: '億'
+                },
+                zhCHS: {
+                    5: '万',
+                    6: '十万',
+                    7: '百万',
+                    8: '千万',
+                    9: '亿'
+                }
+            }
+            if (this.subscribeObj.buyMoney.value.indexOf('.') > 0) {
+                this.money =
+                    obj[this.lang][
+                        this.subscribeObj.buyMoney.value.split('.')[0].length
+                    ]
+                this.subscribeObj.buyMoney.value =
+                    Math.floor(this.subscribeObj.buyMoney.value * 100) / 100
+            } else {
+                this.money =
+                    obj[this.lang][this.subscribeObj.buyMoney.value.length]
+            }
             if (e.target.value > +this.withdrawBalance) {
+                this.subscribeObj.buyMoney.value =
+                    this.subscribeObj.buyMoney.value + ''
+                this.money =
+                    this.subscribeObj.buyMoney.value.indexOf('.') > 0
+                        ? obj[this.lang][
+                              this.subscribeObj.buyMoney.value.split('.')[0]
+                                  .length
+                          ]
+                        : obj[this.lang][
+                              this.subscribeObj.buyMoney.value.length
+                          ]
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
                 return
             }

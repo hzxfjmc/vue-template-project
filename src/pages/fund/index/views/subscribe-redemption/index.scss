@@ -185,6 +185,7 @@
             width:100%;
             display: flex;
             line-height: 30px;
+            height:40px;
             padding: 5px 0;
             .left-item{
                 width:50%;
@@ -193,6 +194,7 @@
             .right-item{
                 text-align: right;
                 width:50%;
+                position: relative;
             }
         }
         .right-item-buyMoney{
@@ -201,6 +203,12 @@
                 font-size: 24px;
                 text-align: right;
                 border:none;
+            }
+            p{
+                font-size:12px;
+                position: absolute;
+                top:-20px;
+                right:20px;
             }
               input::-webkit-input-placeholder {
                     /* placeholder颜色  */
