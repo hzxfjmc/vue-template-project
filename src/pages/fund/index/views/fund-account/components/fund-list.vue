@@ -3,6 +3,9 @@
     .block__fund-title.border-bottom(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}
+        .block__fund--right
+            p {{currency === '2'?'港币市值' :'美元市值'}}
+            p {{currency === '2'?'hkd' :'usd'}} 437647836
         em(:class="listShow && fundList.length != 0 ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
     .list-item-content(
         v-for="(item,index) in fundList" 
@@ -86,15 +89,13 @@ export default {
             type: Boolean,
             default: localStorage.get('showMoney')
         },
+        currency: {
+            type: String
+        },
         code: {
             type: Number
         }
     },
-    // watch: {
-    //     fundList() {
-    //         this.listShow = this.fundList.length === 0
-    //     }
-    // },
     data() {
         return {
             listShow: true
@@ -164,6 +165,18 @@ export default {
         flex-direction: row;
         height: 44px;
         line-height: 44px;
+        .block__fund--right {
+            font-size: 11px;
+            width: 300px;
+            text-align: right;
+            margin: 5px 0;
+            // border: 1px solid red;
+            p {
+                font-size: 11px;
+                line-height: 17px;
+                color: rgba(25, 25, 25, 0.5);
+            }
+        }
         span {
             display: block;
             width: 4px;

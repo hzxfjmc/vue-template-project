@@ -10,6 +10,7 @@
         fundList(
             slot="fundList"
             bgColor="#0091FF"
+            currency="2"
             :title = "$t('fundHkdType')"
             v-if="!noMoreShow"
             :code = "code"
@@ -18,6 +19,7 @@
         fundList(
             slot="fundList"
             bgColor="#FFBA00"
+            currency="1"
             :title = "$t('fundUsdType')"
             v-if="!noMoreShow"
             :code = "code"

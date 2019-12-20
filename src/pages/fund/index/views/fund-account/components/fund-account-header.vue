@@ -8,7 +8,6 @@
                     i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
                 .fund__content
                     .number-price(
-                        :style="{ fontSize: fontSize + 'px',lineHeight:lineheight+'px' }"
                         v-if="showPsd") {{firstPositionAmount || '--'}}.
                         em(v-if="showPsd") {{secondPositionAmount || '--'}}
                     .number-price.close-eye(v-if="!showPsd") ******
@@ -23,26 +22,24 @@
                             span(
                                 @click="chooseCurrency(1)"
                                 :class="[currencyNum === 1 ? 'active' :'']") {{$t('usd')}}
-            
+            .block__footer--hold(
+                v-if="inTransitOrder!=='0'"
+                @click="toRouterPath('/fund-order-list')")
+                span {{inTransitOrder}}{{$t('fundmsg')}}
+                em(class="iconfont icon-previewright")
             .header-content-right
-                span(v-if="showPsd") {{$t('profitPosition')}} {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
-                span(v-else) {{$t('profitPosition')}} ****
-                    //- em(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
-                    //- em(v-else) ****
-                span(v-if="showPsd") {{$t('SevenDayIncome')}} {{positionDation.weekEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
-                span(v-else) {{$t('SevenDayIncome')}} ****
-                    //- em(v-if="showPsd") {{positionDation.weekEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
-                    //- em(v-else) ****
-        
+                .block__content--left
+                    span.block__content--subtitle {{$t('SevenDayIncome')}} 
+                    span.block__content--p(v-if="showPsd") {{positionDation.weekEarnings>0 ? '+' : ''}} {{positionDation.weekEarnings|transNumToThousandMark}}
+                    span.block__content--p(v-else) ****
+                .block__content--right
+                    span.block__content--subtitle {{$t('profitPosition')}} 
+                    span.block__content--p(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
+                    span.block__content--p(v-else) ****
         .header-footer-tab.border-top(class="border-bottom-active")
             span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
             span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
-        .block__footer--hold.border-top(
-            v-if="inTransitOrder!=='0'"
-            class="border-bottom-active"
-            @click="toRouterPath('/fund-order-list')")
-            span {{inTransitOrder}}{{$t('fundmsg')}}
-            em(class="iconfont icon-previewright")
+        
     slot(name="fundList")
 </template>
 <script>
@@ -241,15 +238,15 @@ export default {
     display: flex;
     padding: 0 3% 20px 3%;
     float: left;
-    // border: 1px solid red;
-    flex-direction: row;
+    flex-direction: column;
     .header-content-left {
-        flex: 1;
-        width: 60%;
+        width: 100%;
         .title {
             color: rgba(255, 255, 255, 0.6);
             line-height: 20px;
             display: flex;
+            justify-content: center;
+            width: 100%;
             font-size: 0.24rem;
             em {
                 float: left;
@@ -263,12 +260,11 @@ export default {
         .fund__content {
             display: flex;
             height: 40px;
-            margin: 9px 0 0 0;
+            justify-content: center;
             width: 100%;
             flex-direction: row;
             .number-price {
-                font-size: 0.7rem;
-                // flex: 10;
+                font-size: 30px;
                 font-family: 'yxFontDINPro-Medium';
                 em {
                     font-size: 0.4rem;
@@ -346,13 +342,28 @@ export default {
         }
     }
     .header-content-right {
-        flex: 1;
-        width: 40%;
-        margin: 28px 0 0 0;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        .block__content--left,
+        .block__content--right {
+            width: 50%;
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+            .block__content--subtitle {
+                font-size: 14px;
+                line-height: 30px;
+            }
+            .block__content--p {
+                font-size: 16px;
+                color: #fff;
+                font-family: yxFontDINPro-Medium;
+            }
+        }
         span {
             display: inline-block;
             width: 100%;
-            text-align: right;
             font-size: 0.24rem;
             color: rgba(255, 255, 255, 0.6);
             line-height: 17px;
@@ -400,13 +411,14 @@ export default {
     line-height: 40px;
     display: flex;
     justify-content: center;
+    color: rgba(255, 255, 255, 0.6);
     span {
         font-size: 14px;
-        color: rgba(255, 255, 255, 1);
+        // color: rgba(255, 255, 255, 1);
     }
     em {
         font-size: 20px;
-        color: rgba(255, 255, 255, 1);
+        // color: rgba(255, 255, 255, 1);
         line-height: 40px;
         margin: 1px 0 0 5px;
     }
