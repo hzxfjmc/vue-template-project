@@ -1,20 +1,35 @@
 <template lang="pug">
     .bond-index-wrapper
-        FundHeaderTitle(
-            :assetType="assetTypetab"
-            @handlerCuenrry="handlerCuenrry"
-        )
-        .fund__banner
-            img(:src="bannarTitleUrl" @click="goBarnner")
-        .fund__banner2(v-if="code != 1 && bannerShow")
-            img(:src="barnnarUrl")
+        .block__fund--header
+            FundHeaderTitle(
+                :assetType="assetTypetab"
+                @handlerCuenrry="handlerCuenrry"
+            )
+            .fund__banner
+                img(:src="bannarTitleUrl" @click="goBarnner")
+            .fund__banner2(v-if="code != 1 && bannerShow")
+                img(:src="barnnarUrl")
+            .block__fund--currey
+                .block__fund--left
+                    span 精选基金
+                .block__fund--right
+                    span 全部基金
+                    em.iconfont
+                .block__master(v-if="currencyShow")
+                    .block__list--element.border-top(
+                        :class="active === index ?'active':''"
+                        v-for="(item,index) in currencyLis")
+                        .block__list--left {{item.label}}
+                        .block__list--icon.iconfont
+        .block__fund--master(
+            v-if="currencyShow"
+            @touchstart.prevent="currencyShow = !currencyShow")
         .bond-list
             div(
                 v-for="(item, index) in list"
                 :key="index"
             )
                 Card(:info="item" :assetType="assetType" :currency="currency" @click.native="goNext(item.fundId)")
-            //- .no-data(v-if="list.length !== 0") 没有更多基金
         .no-bond-box(v-if="load")
             .no-bond {{ $t('noFund') }}
 </template>
@@ -57,10 +72,23 @@ export default {
     },
     data() {
         return {
+            currencyShow: true,
             barnnarUrl: require('@/assets/img/fund/icon_huobi.png'),
             load: false,
             bannerShow: false,
             bannerUrl: [],
+            active: 0,
+            currencyLis: [
+                {
+                    label: '全部基金'
+                },
+                {
+                    label: '港币基金'
+                },
+                {
+                    label: '美元基金'
+                }
+            ],
             list: [],
             pageNum: 1,
             pageSize: 100,
@@ -200,6 +228,45 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__fund--master {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+}
+.block__fund--currey {
+    padding: 0 10px;
+    background: #fff;
+    height: 40px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    .block__fund--left {
+        width: 50%;
+    }
+    .block__fund--right {
+        width: 50%;
+        text-align: right;
+    }
+    .block__master {
+        position: absolute;
+        bottom: -150px;
+        z-index: 999999;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
+        left: 0;
+        background: #fff;
+        width: 100%;
+        padding: 0 10px;
+        .active {
+            color: #0091ff;
+        }
+        .block__list--element {
+            line-height: 50px;
+        }
+    }
+}
 .bond-index-wrapper {
     min-height: 100%;
     padding-bottom: 77px;
