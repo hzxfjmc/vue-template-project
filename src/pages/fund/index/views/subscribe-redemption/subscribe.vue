@@ -141,6 +141,24 @@ export default {
     },
     methods: {
         changeNumber(e) {
+            if (this.withdrawBalance <= 0) {
+                this.subscribeObj.buyMoney.value = ''
+                this.$dialog
+                    .confirm({
+                        message: this.$t('msg'),
+                        confirmButtonText: this.$t('confirm'),
+                        closeOnClickOverlay: true,
+                        cancelButtonText: this.$t('iknow')
+                    })
+                    .then(() => {
+                        // on confirm
+                    })
+                    .catch(() => {
+                        // on cancel
+                    })
+                return
+            }
+
             let obj = {
                 en: {
                     5: 'Ten Thousand',
@@ -262,9 +280,13 @@ export default {
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 let num =
                     this.withdrawBalance / fundDetail.fundHeaderInfoVO.netPrice
+
                 this.subscribeObj.withdrawBalanceNetPrice.value = transNumToThousandMark(
                     num
                 )
+                if (this.withdrawBalance < 0) {
+                    this.subscribeObj.withdrawBalanceNetPrice.value = 0
+                }
                 console.log(
                     this.withdrawBalance,
                     fundDetail.fundHeaderInfoVO.netPrice,
@@ -425,7 +447,10 @@ export default {
             subscribeObj: subscribeObji18n.i18n.zhCHS,
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
             buyMoneyPlaceHolder: '起',
-            orderAmount: '订单金额'
+            orderAmount: '订单金额',
+            iknow: '我知道了',
+            confirm: '立即入金',
+            msg: '您的可用余额不足\n您可以选择入金后进行申购'
         },
         zhCHT: {
             buySuccess: '申購成功',
@@ -454,7 +479,10 @@ export default {
             subscribeObj: subscribeObji18n.i18n.zhCHT,
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
             buyMoneyPlaceHolder: '起',
-            orderAmount: '訂單金額'
+            orderAmount: '訂單金額',
+            iknow: '我知道了',
+            confirm: '立即入金',
+            msg: '您的可用余額不足\n您可以選擇入金後進行申購'
         },
         en: {
             buySuccess: 'Subscription Successful',
@@ -484,7 +512,11 @@ export default {
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
             buyMoneyPlaceHolder: 'Initial Subs',
-            orderAmount: 'Amount of Orders'
+            orderAmount: 'Amount of Orders',
+            iknow: 'I Get It',
+            confirm: 'Deposit Now',
+            msg:
+                'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit'
         }
     }
 }
