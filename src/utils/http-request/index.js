@@ -6,7 +6,7 @@ import qs from 'qs'
 import Vue from 'vue'
 import JSBridge from '@/utils/js-bridge'
 import { compareVersion, guid } from '@/utils/tools'
-import { Toast } from 'vant'
+// import { Toast } from 'vant'
 import { isYouxinApp } from '@/utils/html-utils.js'
 
 // 开发环境使用，打包前注意要注释
@@ -114,11 +114,6 @@ export default class baseRequest {
                 console.log(e, '报错了')
                 let errorNetwork =
                     Vue.prototype.$t && Vue.prototype.$t('errorNetwork')
-                Toast({
-                    position: 'bottom',
-                    message: errorNetwork || '网络开小差了,请稍后重试',
-                    duration: 2000
-                })
                 return Promise.reject({
                     msg: errorNetwork || '网络开小差了,请稍后重试'
                 })
