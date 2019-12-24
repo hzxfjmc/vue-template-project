@@ -13,15 +13,16 @@
             v-if="holdDetailsShow"
             :initState="holdInitState")
 
-        fundDetailsList(
-            :fundCorrelationFileList="fundCorrelationFileList"
-            :fundTradeInfoVO = "fundTradeInfoVO"
-            :positionStatus = "positionStatus"
-            :fundCode = "fundCode"
-            :scroll = "scroll"
-            :showPositionInfo="showPositionInfo"
-            :fundHeaderInfoVO = "fundHeaderInfoVO" 
-            :fundOverviewInfoVO="fundOverviewInfoVO") 
+        fundSurvey
+        //- fundDetailsList(
+        //-     :fundCorrelationFileList="fundCorrelationFileList"
+        //-     :fundTradeInfoVO = "fundTradeInfoVO"
+        //-     :positionStatus = "positionStatus"
+        //-     :fundCode = "fundCode"
+        //-     :scroll = "scroll"
+        //-     :showPositionInfo="showPositionInfo"
+        //-     :fundHeaderInfoVO = "fundHeaderInfoVO" 
+        //-     :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow && isGrayAuthority")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
@@ -39,6 +40,7 @@ import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
 import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
+import fundSurvey from './components/fund-survey'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
@@ -90,6 +92,7 @@ export default {
         HoldfundDetails,
         fundDetailsList,
         Button,
+        fundSurvey,
         Dialog
     },
     computed: {

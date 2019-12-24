@@ -1,13 +1,43 @@
 <template lang="pug">
-.fund-details-echart
+.fund-details--echart
     .block__fund--echart
-        .block__fund--item 業續走勢
-        .block__fund--item 歷史業續
-        .block__fund--item 淨值歷史
-    .block__fund--title 
-        span 近2月收益率：
-        span +12.32%
-    .fund-echart-content
+        .block__fund--item(
+            :class="activeTab==1?'activeItem':''"
+            @click="handlerActiveTab(1)") 業續走勢
+        .block__fund--item(
+            :class="activeTab==2?'activeItem':''"
+            @click="handlerActiveTab(2)") 歷史業續
+        .block__fund--item(
+            :class="activeTab==3?'activeItem':''"
+            @click="handlerActiveTab(3)") 淨值歷史
+    .fund-echart-content2(v-show ="activeTab ==2")
+        .block__fund--yj
+            .block__list--item.fund__list--headerjy
+                p.list__left 时间区间
+                p.list__right 涨跌幅
+            .block__list--item(
+                v-for="(item,index) in timeList" 
+                :key="index")
+                p.list__left {{item.label}}
+                p.list__right {{item.value}}
+            .block__list--more
+                span 查看全部
+    .fund-echart-content2(v-show ="activeTab ==3")
+        .block__fund--yj
+            .block__list--item.fund__list--headerjy
+                p.list__left 时间区间
+                p.list__right 涨跌幅
+            .block__list--item(
+                v-for="(item,index) in timeList" 
+                :key="index")
+                p.list__left {{item.label}}
+                p.list__right {{item.value}}
+            .block__list--more
+                span 查看全部
+    .fund-echart-content(v-show="activeTab == 1")
+        .block__fund--title 
+            span 近2月收益率：
+            span +12.32%
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
             .header-right
@@ -20,12 +50,12 @@
                 p.day {{fundHeaderInfoVO.assetType === 4 ? $t('yieldInLast7d'):$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
-    .fund-date-list
-        div.date-item(
-            v-for="(item,index) of list" 
-            :key="index"
-            @click="chooseMonth(item,index)"
-            :class="[index == active ? 'active' :'']") {{item.date}}
+        .fund-date-list
+            div.date-item(
+                v-for="(item,index) of list" 
+                :key="index"
+                @click="chooseMonth(item,index)"
+                :class="[index == active ? 'active' :'']") {{item.date}}
 </template>
 <script>
 import F2 from '@antv/f2'
@@ -91,6 +121,29 @@ export default {
     },
     data() {
         return {
+            timeList: {
+                1: {
+                    label: '近一桌',
+                    value: '231'
+                },
+                2: {
+                    label: '近一個月',
+                    value: '231'
+                },
+                3: {
+                    label: '近三個月',
+                    value: '231'
+                },
+                4: {
+                    label: '近六個',
+                    value: '231'
+                },
+                5: {
+                    label: '近一年',
+                    value: '231'
+                }
+            },
+            activeTab: 1,
             active: 0,
             list: {
                 0: { date: '1个月', key: 1, show: false },
@@ -113,6 +166,9 @@ export default {
         }
     },
     methods: {
+        handlerActiveTab(activeTab) {
+            this.activeTab = activeTab
+        },
         chooseMonth(item, index) {
             this.active = index
             this.$emit('chooseTime', item.key)
@@ -219,6 +275,40 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.fund-echart-content2 {
+    .block__list--more {
+        width: 100%;
+        line-height: 30px;
+        text-align: center;
+        span {
+            font-size: 12px;
+            color: #999999;
+        }
+    }
+    .block__list--item {
+        display: flex;
+        flex-direction: row;
+        line-height: 30px;
+        .list__left,
+        .list__right {
+            font-size: 14px;
+            width: 50%;
+        }
+        .list__left {
+            padding-left: 10px;
+        }
+        .list__right {
+            padding-right: 10px;
+            text-align: right;
+        }
+    }
+    .fund__list--headerjy {
+        background: #e1e1e1;
+        position: relative;
+        width: 100%;
+    }
+}
+
 .fund-echart-header {
     background: rgba(244, 248, 255, 1);
     z-index: 99999;
@@ -226,7 +316,6 @@ export default {
     width: 100%;
     left: 0;
     top: 0;
-    float: left;
     height: 40px;
     font-size: 12px;
     line-height: 40px;
@@ -257,11 +346,15 @@ export default {
         }
     }
 }
-.fund-details-echart {
+.fund-details--echart {
+    margin: 6px 0 0 0;
+    width: 100%;
+
+    background: $background-color;
     .block__fund--echart {
         display: flex;
         flex-direction: row;
-        height: 40px;
+        height: 54px;
         .block__fund--item {
             width: 33.33%;
             font-size: 16px;
@@ -269,6 +362,26 @@ export default {
             color: #666666;
             justify-content: center;
             align-items: center;
+        }
+        .activeItem {
+            color: #2b4f80;
+            position: relative;
+            &::after {
+                position: absolute;
+                box-sizing: border-box;
+                content: ' ';
+                pointer-events: none;
+                right: 0;
+                bottom: 0px;
+                width: 40%;
+                left: 30%;
+                border-bottom: 4px solid #2b4f80;
+                @media only screen and (min-resolution: 2dppx) {
+                    // 非标准的
+                    -webkit-transform: scaleY(0.5);
+                    transform: scaleY(0.5);
+                }
+            }
         }
     }
     .block__fund--title {
@@ -280,18 +393,15 @@ export default {
             display: flex;
         }
     }
-    margin: 6px 0 0 0;
-    width: 100%;
-    float: left;
-    position: relative;
-    padding: 10px;
-    background: $background-color;
+
     span {
         columns: 14px;
         color: $text-color;
         line-height: 20px;
     }
     .fund-echart-content {
+        position: relative;
+        padding: 10px;
         #myChart {
             width: 100% !important;
         }

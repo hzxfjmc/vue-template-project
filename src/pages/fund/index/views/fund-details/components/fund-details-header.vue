@@ -93,8 +93,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 .funds-details-header {
-    // background: $background-color;
-    float: left;
     width: 100%;
     min-height: 174px;
     .fund-details-header-top {
