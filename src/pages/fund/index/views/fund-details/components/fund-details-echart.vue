@@ -117,32 +117,14 @@ export default {
         step: {
             type: Number,
             default: 0
+        },
+        timeList: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
         return {
-            timeList: {
-                1: {
-                    label: '近一桌',
-                    value: '231'
-                },
-                2: {
-                    label: '近一個月',
-                    value: '231'
-                },
-                3: {
-                    label: '近三個月',
-                    value: '231'
-                },
-                4: {
-                    label: '近六個',
-                    value: '231'
-                },
-                5: {
-                    label: '近一年',
-                    value: '231'
-                }
-            },
             activeTab: 1,
             active: 0,
             list: {

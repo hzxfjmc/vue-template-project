@@ -11,6 +11,15 @@
         .block__fund--item
             .block__fund--title 基金公司
             p Pimco
+        .block__fund--item
+            .block__fund--title 資產類別
+            p Pimco发挥空间的付好款的付款的看风景的看法的看法肯定疯
+        .block__fund--item
+            .block__fund--title 投資地區
+            p Pimco
+        .block__fund--item
+            .block__fund--title 基金規模
+            p Pimco
 </template>
 <script>
 export default {
@@ -20,6 +29,23 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__fundcontent--list {
+    .block__fund--item {
+        margin: 10px 0;
+        .block__fund--title {
+            font-size: 12px;
+            color: #999999;
+        }
+        p {
+            font-size: 14px;
+            color: #666666;
+        }
+    }
+    .block__fund--item:first-child {
+        margin: 0;
+    }
+}
+
 .block__fund--survey {
     width: 100%;
     padding: 0 3%;

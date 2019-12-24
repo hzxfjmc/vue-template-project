@@ -6,6 +6,7 @@
         fundDetailsEchart(
           @chooseTime = "getFundApyPointV1"
           :step="step"
+          :timeList="timeList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
@@ -14,6 +15,13 @@
             :initState="holdInitState")
 
         fundSurvey
+        fundTradingRules
+        .block__fundheader--tips
+            em.iconfont.icon-iconEBshoucang2
+            span.title 风险提示
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
+        fundCardList
         //- fundDetailsList(
         //-     :fundCorrelationFileList="fundCorrelationFileList"
         //-     :fundTradeInfoVO = "fundTradeInfoVO"
@@ -41,9 +49,12 @@ import fundDetailsEchart from './components/fund-details-echart'
 import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
 import fundSurvey from './components/fund-survey'
+import fundTradingRules from './components/fund-trading-rules'
+import fundCardList from './components/fund-card-list'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
+    // getFundPerformanceHistory,
     getFundApyPointV1
 } from '@/service/finance-info-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
@@ -93,7 +104,9 @@ export default {
         fundDetailsList,
         Button,
         fundSurvey,
-        Dialog
+        Dialog,
+        fundCardList,
+        fundTradingRules
     },
     computed: {
         ...mapGetters(['isLogin', 'openedAccount']),
@@ -161,10 +174,42 @@ export default {
             flag1: true, //追加
             flag2: true, //申购
             step: 0,
-            forbidPrompt: ''
+            forbidPrompt: '',
+            timeList: {
+                oneWeek: {
+                    label: '近一周',
+                    value: '·'
+                },
+                oneMonth: {
+                    label: '近一個月',
+                    value: '·'
+                },
+                threeMonth: {
+                    label: '近三個月',
+                    value: '·'
+                },
+                sixMonth: {
+                    label: '近六個',
+                    value: '·'
+                },
+                oneYear: {
+                    label: '近一年',
+                    value: '·'
+                }
+            }
         }
     },
     methods: {
+        //
+        async getFundPerformanceHistory() {
+            try {
+                // const res = await getFundPerformanceHistory({
+                //     fundId: this.id
+                // })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         //获取用户信息
         async getCurrentUser() {
             try {
@@ -240,6 +285,7 @@ export default {
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.getFundApyPointV1()
                 this.getFundPositionV2()
+                this.getFundPerformanceHistory()
                 //赎回按钮是否置灰
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
@@ -420,6 +466,36 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__fundheader--tips {
+    display: flex;
+    flex-direction: row;
+    padding: 15px 10px;
+    margin: 10px 0 0 0;
+    background: #fff;
+    line-height: 22px;
+    .icon-icon-gaishu {
+        font-size: 20px;
+    }
+    .title {
+        font-size: 16px;
+        margin: 0 0 0 10px;
+    }
+    .block__list--right {
+        margin-right: auto;
+        flex-grow: 1; //这三个元素只有它在有空余空间时可伸缩，也就是它占据了所有剩余空间
+        display: flex; //将它设置为flex,就可以单独对他进行主轴右对齐
+        justify-content: flex-end;
+        text-align: right;
+        span {
+            font-size: 14px;
+            color: #666666;
+        }
+        .iconfont {
+            font-size: 15px;
+            line-height: 25px;
+        }
+    }
+}
 .fund-details {
     display: flex;
     flex-direction: column;

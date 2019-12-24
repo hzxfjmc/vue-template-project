@@ -5,21 +5,30 @@
         .funds-details-subtitle 
             span ISIN：{{fundHeaderInfoVO.isin}}
         .block-left
-            .fund-tag
-                van-tag(
-                    color="#2177FF"
-                    plain
-                    ) {{ fundHeaderInfoVO.assetTypeName }}
-            .fund-tag
-                van-tag(
-                    color="#2177FF"
-                    plain
-                    ) {{ fundHeaderInfoVO.fundRisk }}
-            .fund-tag
-                van-tag(
-                    color="#2177FF"
-                    plain
-                    ) {{ fundHeaderInfoVO.earningsTypeName }}
+            .fund_tag
+                em.iconfont.icon-iconsjijinfengxiancopy-copy 
+                span {{ fundHeaderInfoVO.assetTypeName }}
+            .fund_tag
+                em.iconfont.icon-iconsjijinfengxian
+                span {{ fundHeaderInfoVO.fundRisk }}
+            .fund_tag
+                em.iconfont.icon-iconsjijinfengxiancopy-copy1
+                span {{ fundHeaderInfoVO.earningsTypeName }}
+            //- .fund-tag
+            //-     van-tag(
+            //-         color="#2177FF"
+            //-         plain
+            //-         ) {{ fundHeaderInfoVO.assetTypeName }}
+            //- .fund-tag
+            //-     van-tag(
+            //-         color="#2177FF"
+            //-         plain
+            //-         ) {{ fundHeaderInfoVO.fundRisk }}
+            //- .fund-tag
+            //-     van-tag(
+            //-         color="#2177FF"
+            //-         plain
+            //-         ) {{ fundHeaderInfoVO.earningsTypeName }}
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
@@ -119,7 +128,28 @@ export default {
     }
     .block-left {
         display: flex;
-        margin-left: 14px;
+        .fund_tag {
+            margin: 0 8px 0 0;
+            display: flex;
+            flex-direction: row;
+            span {
+                font-size: 10px;
+                line-height: 25px;
+                color: #666666;
+            }
+        }
+        .iconfont {
+            font-size: 16px;
+        }
+        .icon-iconsjijinfengxiancopy-copy {
+            color: #b38c23;
+        }
+        .icon-iconsjijinfengxian {
+            color: #d0524a;
+        }
+        .icon-iconsjijinfengxiancopy-copy1 {
+            color: #f8d61c;
+        }
     }
     .funds-details-number {
         width: 100%;

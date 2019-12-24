@@ -103,3 +103,11 @@ export const getFundHomepageInfo = params => {
 export const getFundApyPointV1 = params => {
     return axios.post(`/finance-info-server/api/get-fund-apy-point/v1`, params)
 }
+
+//基金历史业绩查询接口
+export const getFundPerformanceHistory = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-performance-history/v1`,
+        params
+    )
+}
