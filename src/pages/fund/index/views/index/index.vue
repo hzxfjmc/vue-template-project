@@ -12,15 +12,16 @@
             .block__fund--currey
                 .block__fund--left
                     span 精选基金
-                .block__fund--right
-                    span 全部基金
-                    em.iconfont
+                .block__fund--right(@click="currencyShow=true")
+                    span {{labelTitle||currencyLis[0].label}}
+                    em.iconfont.icon-pulldown-
                 .block__master(v-if="currencyShow")
                     .block__list--element.border-top(
                         :class="active === index ?'active':''"
+                        @click="handlerType(item,index)"
                         v-for="(item,index) in currencyLis")
                         .block__list--left {{item.label}}
-                        .block__list--icon.iconfont
+                        .block__list--icon.iconfont.icon-tick-(v-if="active===index")
         .block__fund--master(
             v-if="currencyShow"
             @touchstart.prevent="currencyShow = !currencyShow")
@@ -72,21 +73,25 @@ export default {
     },
     data() {
         return {
-            currencyShow: true,
+            currencyShow: false,
             barnnarUrl: require('@/assets/img/fund/icon_huobi.png'),
             load: false,
             bannerShow: false,
             bannerUrl: [],
+            labelTitle: '',
             active: 0,
             currencyLis: [
                 {
-                    label: '全部基金'
+                    label: '全部基金',
+                    value: null
                 },
                 {
-                    label: '港币基金'
+                    label: '港币基金',
+                    value: 2
                 },
                 {
-                    label: '美元基金'
+                    label: '美元基金',
+                    value: 1
                 }
             ],
             list: [],
@@ -105,6 +110,13 @@ export default {
         this.getSource()
     },
     methods: {
+        handlerType(item, index) {
+            this.currency = item.value
+            this.currencyShow = false
+            this.active = index
+            this.labelTitle = item.label
+            this.getFundListV2()
+        },
         goBarnner() {
             //大陆版本banner不跳转
             if (this.code === 1) {
@@ -264,6 +276,15 @@ export default {
         }
         .block__list--element {
             line-height: 50px;
+            display: flex;
+            flex-direction: row;
+            .block__list--left,
+            .block__list--icon {
+                width: 50%;
+            }
+            .block__list--icon {
+                text-align: right;
+            }
         }
     }
 }

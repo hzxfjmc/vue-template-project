@@ -23,7 +23,7 @@
             .block--element--number(:class="code != 1? 'color-blue':'color-black'" v-if="moneyShow") {{positionAmount}}
             .block--element--number.close--eye(v-else) ******
             .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
-                span(@click="handlerCurrency") {{currency===0?$t('hkd'):$t('usd')}}
+                span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
                 em(class="iconfont icon-iconxiala" @click="handlerCurrency")
                 em(class="iconfont icon-icon_fund_index_2" @click="handlerDialog")
                 .block--master(
@@ -32,14 +32,14 @@
                 .block__currey(v-if="chooseCurrencyShow")
                     span.border-bottom(
                         @click="chooseCurrency(0)"
-                        :class="[currency === 0 ? 'active' :'']") {{$t('hkd')}}
+                        :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
                     span(
                         @click="chooseCurrency(1)"
-                        :class="[currency === 1 ? 'active' :'']") {{$t('usd')}}
+                        :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
         
         .block__left__bottom
-            span(v-if="moneyShow") {{weekEarnings}} {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-            span(v-else) **** {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+            span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+            span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
         .block__bottom--num.border-top(
             v-if="inTransitOrder !== '0'"
             @click="toOrderList")
@@ -178,7 +178,7 @@ export default {
             confirm: 'Confirm',
             fundmsg: ' Processing Order',
             msg:
-                '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currency is only used as a display of uSMART fund asset calculations. Does not affect the fund currency of each fund.'
+                '1. You can choose HKD or USD as the base currencyTab of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currencyTab.Example: When your base currencyTab is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currencyTab is only used as a display of uSMART fund asset calculations. Does not affect the fund currencyTab of each fund.'
         }
     },
     computed: {
@@ -189,7 +189,7 @@ export default {
     },
     data() {
         return {
-            currency: 0,
+            currencyTab: 0,
             moneyShow: true,
             barnnarList: [],
             barnnarUsList: [],
@@ -346,11 +346,11 @@ export default {
                 this.hkSummary = hkSummary
                 this.usSummary = usSummary
                 let positionAmout =
-                    this.currency === 0
+                    this.currencyTab === 0
                         ? hkSummary.positionAmount
                         : usSummary.positionAmount
                 let weekEarnings =
-                    this.currency === 0
+                    this.currencyTab === 0
                         ? hkSummary.weekEarnings
                         : usSummary.weekEarnings
                 this.inTransitOrder = inTransitOrder || '0'
@@ -364,7 +364,7 @@ export default {
             this.chooseCurrencyShow = true
         },
         chooseCurrency(data) {
-            this.currency = data
+            this.currencyTab = data
             LS.put('activeTab', data)
             this.positionAmount =
                 data === 0
@@ -535,7 +535,7 @@ export default {
         enablePullRefresh(true)
         this.$refs.renderEchartlist.innerHTML = ''
         this.moneyShow = LS.get('showMoney')
-        this.currency = LS.get('activeTab')
+        this.currencyTab = LS.get('activeTab')
         this.initI18n()
         this.getFundHomepageInfo()
         jsBridge.callAppNoPromise(
