@@ -1,6 +1,6 @@
 <template lang="pug">
 .block__fund--trading
-    .block__fundheader--survey
+    .block__fundheader--survey(@click="tofundTrade")
         em.iconfont.icon-iconEBshoucang1
         span.title 交易规则
         .block__list--right
@@ -29,6 +29,7 @@
 <script>
 import FundSteps from '@/biz-components/fond-steps'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { jumpUrl } from '@/utils/tools.js'
 export default {
     components: {
         FundSteps
@@ -56,6 +57,12 @@ export default {
                 label: '查看盈亏',
                 value: ''
             }
+        }
+    },
+    methods: {
+        tofundTrade() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/trade-rule?id=${this.fundTradeInfoVO.fundId}&assetType=${this.fundTradeInfoVO.assetType}`
+            jumpUrl(3, url)
         }
     }
 }

@@ -1,6 +1,6 @@
 <template lang="pug">
 .block__fund--survey
-    .block__fundheader--survey
+    .block__fundheader--survey(@click="tofundSurvey")
         em.iconfont.icon-icon-gaishu
         span.title 基金概况
         .block__list--right
@@ -22,6 +22,7 @@
             p {{fundOverviewInfoVO.fundSize}}
 </template>
 <script>
+import { jumpUrl } from '@/utils/tools.js'
 export default {
     props: {
         fundOverviewInfoVO: {
@@ -29,8 +30,11 @@ export default {
             default: () => {}
         }
     },
-    data() {
-        return {}
+    methods: {
+        tofundSurvey() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}`
+            jumpUrl(3, url)
+        }
     }
 }
 </script>

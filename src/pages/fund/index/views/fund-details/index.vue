@@ -16,21 +16,12 @@
 
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
-        .block__fundheader--tips
+        .block__fundheader--tips(@click="toRouterGenerator")
             em.iconfont.icon-iconEBshoucang2
             span.title 风险提示
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
         fundCardList
-        //- fundDetailsList(
-        //-     :fundCorrelationFileList="fundCorrelationFileList"
-        //-     :fundTradeInfoVO = "fundTradeInfoVO"
-        //-     :positionStatus = "positionStatus"
-        //-     :fundCode = "fundCode"
-        //-     :scroll = "scroll"
-        //-     :showPositionInfo="showPositionInfo"
-        //-     :fundHeaderInfoVO = "fundHeaderInfoVO" 
-        //-     :fundOverviewInfoVO="fundOverviewInfoVO") 
     .fund-footer-content(v-if="btnShow && isGrayAuthority")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
@@ -57,7 +48,7 @@ import {
     getFundPerformanceHistory,
     getFundApyPointV1
 } from '@/service/finance-info-server.js'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
@@ -200,7 +191,10 @@ export default {
         }
     },
     methods: {
-        //
+        toRouterGenerator() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/generator?key=${this.fundHeaderInfoVO.fundCode}`
+            jumpUrl(3, url)
+        },
         async getFundPerformanceHistory() {
             try {
                 const res = await getFundPerformanceHistory({
@@ -284,7 +278,10 @@ export default {
                 ).format('YYYY-MM-DD')
                 this.fundOverviewInfoVO = res.fundOverviewInfoVO
                 this.fundCorrelationFileList = res.fundCorrelationFileList
+                this.fundOverviewInfoVO.fundId = res.fundHeaderInfoVO.fundId
                 this.fundTradeInfoVO = res.fundTradeInfoVO
+                this.fundTradeInfoVO.fundId = res.fundHeaderInfoVO.fundId
+                this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.getFundApyPointV1()
                 this.getFundPositionV2()
