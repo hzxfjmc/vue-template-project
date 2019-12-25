@@ -153,6 +153,15 @@ export default new Router({
             meta: { title: 'home', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-index/index.vue`)
+        },
+        {
+            name: 'fund-historical-list',
+            path: '/fund-historical-list',
+            meta: { title: 'fundHistoricalList', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fund-historical-list/index.vue`
+                )
         }
     ]
 })

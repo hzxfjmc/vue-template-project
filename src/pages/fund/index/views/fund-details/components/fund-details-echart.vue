@@ -26,24 +26,30 @@
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                     v-else-if="item.value<0") -{{item.value|transNumToThousandMark(4)}}%
                 p.list__right(v-else) {{item.value|transNumToThousandMark(4)}}%
-            .block__list--more
+            .block__list--more(@click="toFundHistorylist")
                 span 查看全部
     .fund-echart-content2(v-show ="activeTab ==3")
         .block__fund--yj
             .block__list--item.fund__list--headerjy
-                p.list__left 时间区间
-                p.list__right 涨跌幅
+                p.list__left 日期
+                p.list__right 单位净值
             .block__list--item(
-                v-for="(item,index) in timeList" 
+                v-for="(item,index) in historyList" 
                 :key="index")
-                p.list__left {{item.label}}
-                p.list__right {{item.value|transNumToThousandMark}}%
-            .block__list--more
+                p.list__left {{item.belongDay}}
+                p.list__right {{item.netPrice}}
+            .block__list--more(@click="toFundHistory")
                 span 查看全部
     .fund-echart-content(v-show="activeTab == 1")
         .block__fund--title 
-            span 近2月收益率：
-            span +12.32%
+            span {{tabObj.label}}收益率：
+            span(
+                :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                v-if="tabObj.value>0") +{{tabObj.value}}%
+            span(
+                :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                v-else-if="tabObj.value<0") -{{tabObj.value}}%
+            span(v-else) {{tabObj.value}}%
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
             .header-right
@@ -65,7 +71,7 @@
 </template>
 <script>
 import F2 from '@antv/f2'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 export default {
@@ -132,6 +138,14 @@ export default {
         timeList: {
             type: Object,
             default: () => {}
+        },
+        historyList: {
+            type: Array,
+            default: () => {}
+        },
+        tabObj: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
@@ -159,6 +173,14 @@ export default {
         }
     },
     methods: {
+        toFundHistorylist() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-historical-list?id=${this.fundHeaderInfoVO.fundId}`
+            jumpUrl(3, url)
+        },
+        toFundHistory() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-historical?id=${this.fundHeaderInfoVO.fundId}`
+            jumpUrl(3, url)
+        },
         handlerActiveTab(activeTab) {
             this.activeTab = activeTab
         },
@@ -353,8 +375,13 @@ export default {
 .fund-details--echart {
     margin: 6px 0 0 0;
     width: 100%;
-
     background: $background-color;
+    .number-red {
+        color: #ea3d3d;
+    }
+    .number-green {
+        color: #04ba60;
+    }
     .block__fund--echart {
         display: flex;
         flex-direction: row;

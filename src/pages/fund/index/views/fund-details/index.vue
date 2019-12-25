@@ -7,6 +7,8 @@
           @chooseTime = "getFundApyPointV1"
           :step="step"
           :timeList="timeList"
+          :tabObj="tabObj"
+          :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
@@ -46,7 +48,8 @@ import dayjs from 'dayjs'
 import {
     getFundDetail,
     getFundPerformanceHistory,
-    getFundApyPointV1
+    getFundApyPointV1,
+    getFundNetPriceHistoryV1
 } from '@/service/finance-info-server.js'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
@@ -134,6 +137,10 @@ export default {
     },
     data() {
         return {
+            tabObj: {
+                label: '',
+                value: ''
+            },
             fundHeaderInfoVO: {
                 apy: 0.0,
                 netPrice: 0.0
@@ -141,6 +148,7 @@ export default {
             id: '',
             fundOverviewInfoVO: {},
             fundCorrelationFileList: [],
+            historyList: [],
             fundTradeInfoVO: {},
             initEchartList: [],
             copyinitEchartList: [],
@@ -187,10 +195,65 @@ export default {
                     label: '近一年',
                     value: '·'
                 }
+            },
+            timeLists: {
+                oneWeek: {
+                    label: '近一周',
+                    value: ''
+                },
+                oneMonth: {
+                    label: '近一個月',
+                    value: ''
+                },
+                threeMonth: {
+                    label: '近三個月',
+                    value: ''
+                },
+                sixMonth: {
+                    label: '近六個',
+                    value: ''
+                },
+                oneYear: {
+                    label: '近一年',
+                    value: ''
+                },
+                twoYear: {
+                    label: '近两年',
+                    value: ''
+                },
+                threeYear: {
+                    label: '近三年',
+                    value: ''
+                },
+                fiveYear: {
+                    label: '近五年',
+                    value: ''
+                },
+                all: {
+                    label: '成立来',
+                    value: ''
+                }
             }
         }
     },
     methods: {
+        //获取基金净值历史
+        async getFundNetPriceHistoryV1() {
+            try {
+                const { list } = await getFundNetPriceHistoryV1({
+                    fundId: this.id,
+                    pageNum: 1,
+                    pageSize: 5
+                })
+                list.map(item => {
+                    item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
+                    item.netPrice = Number(item.netPrice).toFixed(2)
+                })
+                this.historyList = list
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         toRouterGenerator() {
             let url = `${window.location.origin}/wealth/fund/index.html#/generator?key=${this.fundHeaderInfoVO.fundCode}`
             jumpUrl(3, url)
@@ -201,9 +264,15 @@ export default {
                     fundId: this.id
                 })
                 for (let key in this.timeList) {
-                    this.timeList[key].value = res[key]
+                    this.timeList[key].value = res[key] * 100
                 }
+                for (let key in this.timeLists) {
+                    this.timeLists[key].value = res[key] * 100
+                }
+                this.tabObj.label = this.timeList['oneMonth'].label
+                this.tabObj.value = this.timeList['oneMonth'].value
             } catch (e) {
+                console.log(e)
                 this.$toast(e.msg)
             }
         },
@@ -283,9 +352,7 @@ export default {
                 this.fundTradeInfoVO.fundId = res.fundHeaderInfoVO.fundId
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
-                this.getFundApyPointV1()
-                this.getFundPositionV2()
-                this.getFundPerformanceHistory()
+
                 //赎回按钮是否置灰
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
@@ -355,6 +422,19 @@ export default {
                     2: '3个月',
                     3: '6个月',
                     4: '1年'
+                }
+
+                let monthEmun = {
+                    1: 'oneMonth',
+                    2: 'threeMonth',
+                    3: 'sixMonth',
+                    4: 'oneYear',
+                    5: 'threeYear',
+                    9: 'all'
+                }
+                if (time) {
+                    this.tabObj.label = this.timeLists[monthEmun[time]].label
+                    this.tabObj.value = this.timeLists[monthEmun[time]].value
                 }
                 if (time <= 4) {
                     clickFundDetails(
@@ -451,6 +531,11 @@ export default {
     async created() {
         // enablePullRefresh(true)
         await this.getFundDetail()
+        this.getFundNetPriceHistoryV1()
+        this.getFundPositionV2()
+        this.getFundPerformanceHistory()
+        this.getFundApyPointV1()
+
         if (this.isLogin) {
             this.getCurrentUser()
         }

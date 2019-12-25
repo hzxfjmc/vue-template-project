@@ -41,6 +41,7 @@ export const i18nIntroducelist = {
     zhCHS: {
         fundIntroduceTitle: '基金概况',
         zk: '展开',
+        nomore: '暂无文件',
         zq: '折起',
         list: {
             fundCompanyName: {
@@ -97,6 +98,7 @@ export const i18nIntroducelist = {
         fundIntroduceTitle: '基金概況',
         zk: '更多',
         zq: '收起',
+        nomore: '暫無文件',
         list: {
             fundCompanyName: {
                 label: '基金公司'
@@ -151,6 +153,7 @@ export const i18nIntroducelist = {
     en: {
         fundIntroduceTitle: 'Fund General Situation',
         zk: 'More',
+        nomore: 'Empty',
         zq: 'Less',
         list: {
             fundCompanyName: {

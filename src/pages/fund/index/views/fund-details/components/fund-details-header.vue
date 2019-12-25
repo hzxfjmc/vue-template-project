@@ -21,14 +21,14 @@
             p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
             p(v-else) {{fundHeaderInfoVO.apy}}%
         .header-right
-            span {{$t('fundPrice')}} {{fundHeaderInfoVO.belongDay}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
+            span 起购金额（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
         .block__details--left
-            span 基金價格(美元):1,234.56 
+            span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}):{{fundHeaderInfoVO.netPrice}} 
             span (-0.32)
         .block__details--right
-            span 更新時間:2019-12-10
+            span 更新時間:{{fundHeaderInfoVO.belongDay}}
 </template>
 <script>
 import dayjs from 'dayjs'

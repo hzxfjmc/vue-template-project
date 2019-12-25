@@ -28,8 +28,8 @@
 </template>
 <script>
 import FundSteps from '@/biz-components/fond-steps'
-import { transNumToThousandMark } from '@/utils/tools.js'
-import { jumpUrl } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
+
 export default {
     components: {
         FundSteps
