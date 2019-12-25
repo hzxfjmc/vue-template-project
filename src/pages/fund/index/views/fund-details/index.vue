@@ -14,8 +14,8 @@
             v-if="holdDetailsShow"
             :initState="holdInitState")
 
-        fundSurvey
-        fundTradingRules
+        fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
+        fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips
             em.iconfont.icon-iconEBshoucang2
             span.title 风险提示
@@ -54,7 +54,7 @@ import fundCardList from './components/fund-card-list'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
-    // getFundPerformanceHistory,
+    getFundPerformanceHistory,
     getFundApyPointV1
 } from '@/service/finance-info-server.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
@@ -203,9 +203,12 @@ export default {
         //
         async getFundPerformanceHistory() {
             try {
-                // const res = await getFundPerformanceHistory({
-                //     fundId: this.id
-                // })
+                const res = await getFundPerformanceHistory({
+                    fundId: this.id
+                })
+                for (let key in this.timeList) {
+                    this.timeList[key].value = res[key]
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }

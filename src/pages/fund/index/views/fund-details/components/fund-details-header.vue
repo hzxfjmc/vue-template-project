@@ -14,21 +14,6 @@
             .fund_tag
                 em.iconfont.icon-iconsjijinfengxiancopy-copy1
                 span {{ fundHeaderInfoVO.earningsTypeName }}
-            //- .fund-tag
-            //-     van-tag(
-            //-         color="#2177FF"
-            //-         plain
-            //-         ) {{ fundHeaderInfoVO.assetTypeName }}
-            //- .fund-tag
-            //-     van-tag(
-            //-         color="#2177FF"
-            //-         plain
-            //-         ) {{ fundHeaderInfoVO.fundRisk }}
-            //- .fund-tag
-            //-     van-tag(
-            //-         color="#2177FF"
-            //-         plain
-            //-         ) {{ fundHeaderInfoVO.earningsTypeName }}
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}

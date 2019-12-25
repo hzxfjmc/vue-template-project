@@ -19,7 +19,13 @@
                 v-for="(item,index) in timeList" 
                 :key="index")
                 p.list__left {{item.label}}
-                p.list__right {{item.value}}
+                p.list__right(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="item.value>0") +{{item.value|transNumToThousandMark(4)}}%
+                p.list__right(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-else-if="item.value<0") -{{item.value|transNumToThousandMark(4)}}%
+                p.list__right(v-else) {{item.value|transNumToThousandMark(4)}}%
             .block__list--more
                 span 查看全部
     .fund-echart-content2(v-show ="activeTab ==3")
@@ -31,7 +37,7 @@
                 v-for="(item,index) in timeList" 
                 :key="index")
                 p.list__left {{item.label}}
-                p.list__right {{item.value}}
+                p.list__right {{item.value|transNumToThousandMark}}%
             .block__list--more
                 span 查看全部
     .fund-echart-content(v-show="activeTab == 1")
@@ -59,6 +65,8 @@
 </template>
 <script>
 import F2 from '@antv/f2'
+import { transNumToThousandMark } from '@/utils/tools.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 export default {
     i18n: {
@@ -104,6 +112,9 @@ export default {
                 9: { date: 'All' }
             }
         }
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
     },
     props: {
         fundHeaderInfoVO: {
@@ -238,6 +249,11 @@ export default {
             }
         }
     },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
+        }
+    },
     watch: {
         initEchartList() {
             let cavas = document.createElement('canvas')
@@ -327,6 +343,12 @@ export default {
             color: #04ba60;
         }
     }
+}
+.number-red {
+    color: #ea3d3d;
+}
+.number-green {
+    color: #04ba60;
 }
 .fund-details--echart {
     margin: 6px 0 0 0;

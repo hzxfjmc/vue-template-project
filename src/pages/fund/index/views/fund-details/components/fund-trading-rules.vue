@@ -12,25 +12,35 @@
             style="margin-top: -5px;"
             :curStep="3"
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
-            :stepTimes="[buySubmit.value,buyConfirm.value ,buyProfitLoss.value ]")
+            :stepTimes="[fundTradeInfoVO.buySubmit,fundTradeInfoVO.buyConfirm ,fundTradeInfoVO.buyProfitLoss ]")
         .block__list--item
             p.block__list--left 申購費
-            p.block__list--right 1%
+            p.block__list--right {{fundTradeInfoVO.subscriptionFee|transNumToThousandMark(2)}}%
         .block__list--item
             p.block__list--left 贖回費
-            p.block__list--right 1%
+            p.block__list--right {{fundTradeInfoVO.redemptionFee|transNumToThousandMark(2)}}%
         .block__list--item
             p.block__list--left 基金管理費
-            p.block__list--right 1%
+            p.block__list--right {{fundTradeInfoVO.managementFee|transNumToThousandMark(2)}}%
         .block__list--item
             p.block__list--left 平台管理費
-            p.block__list--right 1%
+            p.block__list--right {{fundTradeInfoVO.platformManagementFee|transNumToThousandMark(2)}}%
 </template>
 <script>
 import FundSteps from '@/biz-components/fond-steps'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
         FundSteps
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
+    },
+    props: {
+        fundTradeInfoVO: {
+            type: Object,
+            default: () => {}
+        }
     },
     data() {
         return {

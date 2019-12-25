@@ -10,19 +10,25 @@
     .block__fundcontent--list
         .block__fund--item
             .block__fund--title 基金公司
-            p Pimco
+            p {{fundOverviewInfoVO.fundCompanyName}}
         .block__fund--item
             .block__fund--title 資產類別
-            p Pimco发挥空间的付好款的付款的看风景的看法的看法肯定疯
+            p {{fundOverviewInfoVO.assetSubType}}
         .block__fund--item
             .block__fund--title 投資地區
-            p Pimco
+            p {{fundOverviewInfoVO.investArea}}
         .block__fund--item
             .block__fund--title 基金規模
-            p Pimco
+            p {{fundOverviewInfoVO.fundSize}}
 </template>
 <script>
 export default {
+    props: {
+        fundOverviewInfoVO: {
+            type: Object,
+            default: () => {}
+        }
+    },
     data() {
         return {}
     }
@@ -48,7 +54,7 @@ export default {
 
 .block__fund--survey {
     width: 100%;
-    padding: 0 3%;
+    padding: 0 3% 5px 3%;
     margin: 10px 0 0 0;
     background: #fff;
     .block__fundheader--survey {
