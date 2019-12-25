@@ -525,7 +525,7 @@ export default {
         enablePullRefresh(true)
         this.$refs.renderEchartlist.innerHTML = ''
         this.moneyShow = LS.get('showMoney')
-        this.currency = LS.get('activeTab')
+        this.currency = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
         this.getFundHomepageInfo()
 

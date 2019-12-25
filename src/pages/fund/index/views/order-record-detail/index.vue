@@ -27,10 +27,10 @@
                             span.type {{orderType}}
                     .order-item.flex(v-if="orderShare != 0 && [1,2].includes(orderStatus)")
                         span.itemName {{$t('orderShares')}}
-                        span {{orderShare|transNumToThousandMark}} 
+                        span {{orderShare|transNumToThousandMark(4)}} 
                     .order-item.flex(v-if="netPrice && [1,2].includes(orderStatus)")
                         span.itemName {{$t('orderNetWorth')}}
-                        span {{netPrice|transNumToThousandMark}}
+                        span {{netPrice|transNumToThousandMark(4)}}
                     .order-item.flex(v-if="moneyNum != 0 && [1,2].includes(orderStatus)")
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
@@ -40,10 +40,10 @@
                         span.type {{orderType}}
                     .order-item.flex(v-if="orderShare != 0")
                         span.itemName {{$t('orderShares')}}
-                        span {{orderShare|transNumToThousandMark}} 
+                        span {{orderShare|transNumToThousandMark(4)}} 
                     .order-item.flex(v-if="netPrice")
                         span.itemName {{$t('orderNetWorth')}}
-                        span {{netPrice|transNumToThousandMark}}
+                        span {{netPrice|transNumToThousandMark(4)}}
                     .order-item.flex(v-if="moneyNum != 0")
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
