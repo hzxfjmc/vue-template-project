@@ -95,7 +95,7 @@ export default {
                             : 2
                     item.earnings = transNumToThousandMark(item.earnings)
                     item.belongDate = dayjs(item.belongDate).format(
-                        'YYYY-MM-DD HH:mm:ss'
+                        'YYYY-MM-DD'
                     )
                 })
                 this.list = this.list.concat(list)
