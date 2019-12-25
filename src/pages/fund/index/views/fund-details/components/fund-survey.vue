@@ -19,11 +19,15 @@
             p {{fundOverviewInfoVO.investArea}}
         .block__fund--item
             .block__fund--title {{$t('fundSize')}}
-            p {{fundOverviewInfoVO.fundSize}}
+            p {{fundOverviewInfoVO.currency.name}} {{fundOverviewInfoVO.fundSize|transNumToThousandMark}}
 </template>
 <script>
-import { jumpUrl } from '@/utils/tools.js'
+import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
+
 export default {
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
+    },
     i18n: {
         zhCHS: {
             survey: '基金概况',

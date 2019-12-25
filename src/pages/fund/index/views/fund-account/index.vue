@@ -15,6 +15,7 @@
             v-if="!noMoreShow"
             :code = "code"
             :eyeTab="eyeTab"       
+            :amount="hkdPositionAmount"
             :fundList="hkPositionList")
         fundList(
             slot="fundList"
@@ -24,6 +25,7 @@
             v-if="!noMoreShow"
             :code = "code"
             :eyeTab="eyeTab"    
+            :amount="usdPositionAmount"
             :fundList="usPositionList")
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/empty.png") 
@@ -44,6 +46,8 @@ export default {
         return {
             holdData: {},
             fundList: [],
+            usdPositionAmount: '',
+            hkdPositionAmount: '',
             currency: 2,
             noMoreShow: false,
             code: 0,
@@ -96,6 +100,8 @@ export default {
                 hkSummary,
                 usPositionList,
                 usSummary,
+                hkdPositionAmount,
+                usdPositionAmount,
                 inTransitOrder
             } = await getFundPositionListV3()
             this.hkPositionList = hkPositionList
@@ -105,6 +111,8 @@ export default {
                 hkSummary: hkSummary,
                 usSummary: usSummary
             }
+            this.usdPositionAmount = usdPositionAmount
+            this.hkdPositionAmount = hkdPositionAmount
             this.usPositionList.map(item => {
                 item.currency = item.currency.shortSymbol
                 for (let key in item) {

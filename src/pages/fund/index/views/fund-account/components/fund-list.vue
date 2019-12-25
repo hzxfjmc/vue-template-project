@@ -5,7 +5,7 @@
         p {{title}}
         .block__fund--right
             p {{currency === '2'?'港币市值' :'美元市值'}}
-            p {{currency === '2'?'hkd' :'usd'}} 437647836
+            p {{currency === '2'?'hkd' :'usd'}} {{amount}}
         em(:class="listShow && fundList.length != 0 ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
     .list-item-content(
         v-for="(item,index) in fundList" 
@@ -80,6 +80,10 @@ export default {
         fundList: {
             type: Array,
             default: () => {}
+        },
+        amount: {
+            type: String,
+            default: ''
         },
         noMoreShow: {
             type: Boolean,
