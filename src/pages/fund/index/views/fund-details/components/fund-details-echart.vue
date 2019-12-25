@@ -30,14 +30,22 @@
                 span 查看全部
     .fund-echart-content2(v-show ="activeTab ==3")
         .block__fund--yj
-            .block__list--item.fund__list--headerjy
+            .block__list--item.fund__list--headerjy.fund__list--content
                 p.list__left 日期
-                p.list__right 单位净值
+                p.list__content 单位净值
+                p.list__right 涨跌幅
             .block__list--item(
                 v-for="(item,index) in historyList" 
                 :key="index")
                 p.list__left {{item.belongDay}}
-                p.list__right {{item.netPrice}}
+                p.list__content {{item.netPrice}}
+                p.list__right(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="item.price>0") +{{item.price}}%
+                p.list__right(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-else-if="item.price<0") -{{item.price}}%
+                p.list__right(v-else) {{item.price}}%
             .block__list--more(@click="toFundHistory")
                 span 查看全部
     .fund-echart-content(v-show="activeTab == 1")
@@ -320,6 +328,17 @@ export default {
         .list__right {
             padding-right: 10px;
             text-align: right;
+        }
+    }
+    .fund__list--content {
+        .list__left,
+        .list__content,
+        .list__right {
+            font-size: 14px;
+            width: 33.33%;
+        }
+        .list__content {
+            text-align: center;
         }
     }
     .fund__list--headerjy {

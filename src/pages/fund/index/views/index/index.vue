@@ -259,6 +259,7 @@ export default {
     }
     .block__fund--right {
         width: 50%;
+        color: #0091ff;
         text-align: right;
     }
     .block__master {

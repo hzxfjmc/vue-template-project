@@ -2,9 +2,9 @@
 .block__fund--trading
     .block__fundheader--survey(@click="tofundTrade")
         em.iconfont.icon-iconEBshoucang1
-        span.title 交易规则
+        span.title {{$t('rule')}}
         .block__list--right
-            span 交易流程、費率
+            span {{$t('tips')}}
             em.iconfont.icon-iconEBgengduoCopy
 
     .block__fundcontent--list
@@ -14,16 +14,16 @@
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
             :stepTimes="[fundTradeInfoVO.buySubmit,fundTradeInfoVO.buyConfirm ,fundTradeInfoVO.buyProfitLoss ]")
         .block__list--item
-            p.block__list--left 申購費
+            p.block__list--left {{$t('subscriptionFee')}}
             p.block__list--right {{fundTradeInfoVO.subscriptionFee|transNumToThousandMark(2)}}%
         .block__list--item
-            p.block__list--left 贖回費
+            p.block__list--left {{$t('redemptionFee')}}
             p.block__list--right {{fundTradeInfoVO.redemptionFee|transNumToThousandMark(2)}}%
         .block__list--item
-            p.block__list--left 基金管理費
+            p.block__list--left {{$t('managementFee')}}
             p.block__list--right {{fundTradeInfoVO.managementFee|transNumToThousandMark(2)}}%
         .block__list--item
-            p.block__list--left 平台管理費
+            p.block__list--left {{$t('platformManagementFee')}}
             p.block__list--right {{fundTradeInfoVO.platformManagementFee|transNumToThousandMark(2)}}%
 </template>
 <script>
@@ -31,6 +31,32 @@ import FundSteps from '@/biz-components/fond-steps'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 
 export default {
+    i18n: {
+        zhCHS: {
+            rule: '交易规则',
+            tips: '交易流程、费率',
+            subscriptionFee: '申购费',
+            redemptionFee: '赎回费',
+            managementFee: '基金管理费',
+            platformManagementFee: '平台管理费'
+        },
+        zhCHT: {
+            rule: '交易規則',
+            tips: '交易流程、費率',
+            subscriptionFee: '申購費',
+            redemptionFee: '贖回費',
+            managementFee: '基金管理費',
+            platformManagementFee: '平台管理費'
+        },
+        en: {
+            rule: 'Trading Rules',
+            tips: 'Process、Fees',
+            subscriptionFee: 'Subscription Fee',
+            redemptionFee: 'Redemption Fee',
+            managementFee: 'Management Fee',
+            platformManagementFee: 'Platform Fee'
+        }
+    },
     components: {
         FundSteps
     },

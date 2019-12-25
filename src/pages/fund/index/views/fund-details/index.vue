@@ -1,7 +1,9 @@
 <template lang="pug">
 .fund-details
     .fund-content(slot="main" ref="content")
-        fundDetailsHeader(:fundHeaderInfoVO="fundHeaderInfoVO")
+        fundDetailsHeader(
+            :price="price"
+            :fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
           @chooseTime = "getFundApyPointV1"
@@ -172,6 +174,7 @@ export default {
             flag: true, //赎回
             flag1: true, //追加
             flag2: true, //申购
+            price: '',
             step: 0,
             forbidPrompt: '',
             timeList: {
@@ -237,19 +240,42 @@ export default {
         }
     },
     methods: {
+        sliceDeci(s, l) {
+            let deci = s.split('.')[1].slice(0, l)
+            return s.split('.')[0] + '.' + deci
+        },
         //获取基金净值历史
         async getFundNetPriceHistoryV1() {
             try {
                 const { list } = await getFundNetPriceHistoryV1({
                     fundId: this.id,
                     pageNum: 1,
-                    pageSize: 5
+                    pageSize: 6
                 })
-                list.map(item => {
+                list.forEach((item, index) => {
                     item.belongDay = dayjs(item.belongDay).format('YYYY-MM-DD')
-                    item.netPrice = Number(item.netPrice).toFixed(2)
+                    item.netPrice = this.sliceDeci(item.netPrice, 4)
+                    if (index === list.length - 1) {
+                        list[list.length - 1].price = '0.00' // 最后一项涨跌幅无法则算为0
+                    } else {
+                        if (Number(list[index + 1].netPrice) !== 0) {
+                            item.price =
+                                ((list[index].netPrice -
+                                    list[index + 1].netPrice) /
+                                    list[index + 1].netPrice) *
+                                100
+                            item.price =
+                                this.assetType != 4
+                                    ? item.price.toFixed(2)
+                                    : item.price.toFixed(4)
+                        } else {
+                            item.price = '0.00'
+                        }
+                    }
                 })
-                this.historyList = list
+                this.price = list[0].price
+
+                this.historyList = list.slice(0, 5)
             } catch (e) {
                 this.$toast(e.msg)
             }

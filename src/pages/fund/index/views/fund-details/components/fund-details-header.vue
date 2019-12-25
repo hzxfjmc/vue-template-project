@@ -17,18 +17,28 @@
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
-            p(v-if="fundHeaderInfoVO.apy >0" :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
-            p(v-else-if="fundHeaderInfoVO.apy<0" :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
+            p(
+                v-if="fundHeaderInfoVO.apy >0" 
+                :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
+            p(
+                v-else-if="fundHeaderInfoVO.apy<0" 
+                :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
             p(v-else) {{fundHeaderInfoVO.apy}}%
         .header-right
-            span 起购金额（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
-            p.number-black {{fundHeaderInfoVO.netPrice}}
+            span {{$t('purchase')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
+            p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
     .funds-details-footer
         .block__details--left
             span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}):{{fundHeaderInfoVO.netPrice}} 
-            span (-0.32)
+            span(
+                :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                v-if="this.price>0") (+{{this.price}}%)
+            span(
+                :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                v-else-if="this.price<0") (-{{this.price}}%)
+            span(v-else) ({{this.price}}%)
         .block__details--right
-            span 更新時間:{{fundHeaderInfoVO.belongDay}}
+            span {{$t('update')}}:{{fundHeaderInfoVO.belongDay}}
 </template>
 <script>
 import dayjs from 'dayjs'
@@ -42,6 +52,8 @@ export default {
         zhCHS: {
             fundPrice: '基金价格',
             minInvestment: '起投金额',
+            purchase: '起购金额',
+            update: '更新时间',
             oneYearShow: '近一年收益率',
             yieldInLast7d: '近七日年化',
             hkd: '港币',
@@ -53,7 +65,9 @@ export default {
             oneYearShow: '近一年表現',
             yieldInLast7d: '近七日年化',
             hkd: '港幣',
-            usd: '美元'
+            usd: '美元',
+            purchase: '起購金額',
+            update: '更新時間'
         },
         en: {
             fundPrice: 'Price',
@@ -61,10 +75,16 @@ export default {
             oneYearShow: 'Past Year',
             hkd: 'HKD',
             usd: 'USD',
-            yieldInLast7d: 'Yield in Last 7d'
+            yieldInLast7d: 'Yield in Last 7d',
+            purchase: 'Min. Subs From',
+            update: 'Update Time'
         }
     },
     props: {
+        price: {
+            type: String,
+            default: ''
+        },
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
@@ -177,6 +197,12 @@ export default {
         color: $text-color5;
         .block__details--left {
             width: 60%;
+        }
+        .number-red {
+            color: rgba(234, 61, 61, 1);
+        }
+        .number-green {
+            color: #04ba60;
         }
         .block__details--right {
             width: 40%;

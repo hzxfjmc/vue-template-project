@@ -2,28 +2,54 @@
 .block__fund--survey
     .block__fundheader--survey(@click="tofundSurvey")
         em.iconfont.icon-icon-gaishu
-        span.title 基金概况
+        span.title {{$t('survey')}}
         .block__list--right
-            span 概況、分紅、文件
+            span {{$t('tips')}}
             em.iconfont.icon-iconEBgengduoCopy
 
     .block__fundcontent--list
         .block__fund--item
-            .block__fund--title 基金公司
+            .block__fund--title {{$t('fundCompanyName')}}
             p {{fundOverviewInfoVO.fundCompanyName}}
         .block__fund--item
-            .block__fund--title 資產類別
+            .block__fund--title {{$t('assetSubType')}}
             p {{fundOverviewInfoVO.assetSubType}}
         .block__fund--item
-            .block__fund--title 投資地區
+            .block__fund--title {{$t('investArea')}}
             p {{fundOverviewInfoVO.investArea}}
         .block__fund--item
-            .block__fund--title 基金規模
+            .block__fund--title {{$t('fundSize')}}
             p {{fundOverviewInfoVO.fundSize}}
 </template>
 <script>
 import { jumpUrl } from '@/utils/tools.js'
 export default {
+    i18n: {
+        zhCHS: {
+            survey: '基金概况',
+            tips: '概況、分紅、文件',
+            fundCompanyName: '基金公司',
+            assetSubType: '资产类别',
+            investArea: '投资地区',
+            fundSize: '基金规模'
+        },
+        zhCHT: {
+            survey: '基金概況',
+            tips: '概況、分紅、文件',
+            fundCompanyName: '基金公司',
+            assetSubType: '資產類別',
+            investArea: '投資地區',
+            fundSize: '基金規模'
+        },
+        en: {
+            survey: 'Fund Overview',
+            tips: 'Details、Dividend、DOC',
+            fundCompanyName: 'Fund Company',
+            assetSubType: 'Asset Class',
+            investArea: 'Geographical Allocation',
+            fundSize: 'Fund Size'
+        }
+    },
     props: {
         fundOverviewInfoVO: {
             type: Object,
