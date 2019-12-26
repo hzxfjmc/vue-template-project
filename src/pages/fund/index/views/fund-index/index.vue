@@ -531,13 +531,13 @@ export default {
             }
         }
     },
-    mounted() {
+    async mounted() {
         enablePullRefresh(true)
         this.$refs.renderEchartlist.innerHTML = ''
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = LS.get('activeTab')
         this.initI18n()
-        this.getFundHomepageInfo()
+
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
@@ -546,6 +546,7 @@ export default {
         )
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 800)
+        await this.getFundHomepageInfo()
         this.getSource(false)
     }
 }

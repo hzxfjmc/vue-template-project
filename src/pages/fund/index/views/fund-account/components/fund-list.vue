@@ -109,6 +109,8 @@ export default {
         zhCHS: {
             amountMoney: '金额',
             share: '份额',
+            hkdAssets: '港币市值',
+            usdAssets: '美元市值',
             profitPostion: '持有收益',
             SevenDayIncome: '近七日收益',
             Redemption: '赎回中',
@@ -118,6 +120,8 @@ export default {
         zhCHT: {
             amountMoney: '金額',
             share: '份額',
+            hkdAssets: '港幣市值',
+            usdAssets: '美元市值',
             profitPostion: '持有收益',
             SevenDayIncome: '近七日收益',
             Redemption: '贖回中',
@@ -127,6 +131,8 @@ export default {
         en: {
             amountMoney: 'Amount',
             share: 'Unit',
+            hkdAssets: 'HKD Assets',
+            usdAssets: 'USD Assets',
             profitPostion: 'Total Return',
             SevenDayIncome: '7 Days',
             Redemption: 'Redeming',
