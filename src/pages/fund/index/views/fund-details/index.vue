@@ -22,7 +22,7 @@
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator")
             em.iconfont.icon-iconEBshoucang2
-            span.title 风险提示
+            span.title {{$t('risk')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
         fundCardList
@@ -67,29 +67,65 @@ export default {
         zhCHS: {
             buy: '申购',
             redeem: '赎回',
+            risk: '风险提示',
             append: '追加',
             login: '请登录后进行操作 ',
             loginBtn: '立即登录',
             openAccountBtn: '立即开户',
-            openAccount: '您尚未开户，开户成功即可交易'
+            openAccount: '您尚未开户，开户成功即可交易',
+            timeTranslation: {
+                oneWeek: '近一周',
+                oneMonth: '近一月',
+                threeMonth: '近三月',
+                sixMonth: '近六月',
+                oneYear: '近一年',
+                twoYear: '近两年',
+                threeYear: '近三年',
+                fiveYear: '近五年',
+                all: '成立来'
+            }
         },
         zhCHT: {
             buy: '申購',
             redeem: '贖回',
+            risk: '風險提示',
             append: '續投',
             login: '請登陸後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
-            openAccount: '您尚未開戶，開戶成功即可交易'
+            openAccount: '您尚未開戶，開戶成功即可交易',
+            timeTranslation: {
+                oneWeek: '近一周',
+                oneMonth: '近一月',
+                threeMonth: '近三月',
+                sixMonth: '近六月',
+                oneYear: '近一年',
+                twoYear: '近两年',
+                threeYear: '近三年',
+                fiveYear: '近五年',
+                all: '成立来'
+            }
         },
         en: {
             buy: 'Subscribe',
             redeem: 'Redemption',
+            risk: 'Risk Disclosure',
             append: 'Incremental',
             login: 'Please login in',
             loginBtn: 'Login',
             openAccountBtn: 'Open account',
-            openAccount: 'Please open your account to continue the trade'
+            openAccount: 'Please open your account to continue the trade',
+            timeTranslation: {
+                oneWeek: 'Last 1 week',
+                oneMonth: 'Last 1 month',
+                threeMonth: 'Last 1 year',
+                sixMonth: 'Last 1 year',
+                oneYear: 'Last 1 year',
+                twoYear: 'YTD',
+                threeYear: 'YTD',
+                fiveYear: 'YTD',
+                all: 'ALL'
+            }
         }
     },
     keepalive: true,
@@ -552,16 +588,25 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
+        },
+        init18inState() {
+            for (let key in this.timeList) {
+                this.timeList[key].label = this.$t('timeTranslation')[key]
+            }
+            for (let key in this.timeLists) {
+                this.timeLists[key].label = this.$t('timeTranslation')[key]
+            }
         }
     },
     async created() {
         // enablePullRefresh(true)
+        this.init18inState()
         await this.getFundDetail()
         this.getFundNetPriceHistoryV1()
         this.getFundPositionV2()
+
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
-
         if (this.isLogin) {
             this.getCurrentUser()
         }

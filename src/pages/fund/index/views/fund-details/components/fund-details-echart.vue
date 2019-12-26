@@ -3,18 +3,18 @@
     .block__fund--echart
         .block__fund--item(
             :class="activeTab==1?'activeItem':''"
-            @click="handlerActiveTab(1)") 業續走勢
+            @click="handlerActiveTab(1)") {{$t('trendCharts')}}
         .block__fund--item(
             :class="activeTab==2?'activeItem':''"
-            @click="handlerActiveTab(2)") 歷史業續
+            @click="handlerActiveTab(2)") {{$t('historicalRTN')}}
         .block__fund--item(
             :class="activeTab==3?'activeItem':''"
-            @click="handlerActiveTab(3)") 淨值歷史
+            @click="handlerActiveTab(3)") {{$t('NAVHistory')}}
     .fund-echart-content2(v-show ="activeTab ==2")
         .block__fund--yj
             .block__list--item.fund__list--headerjy
-                p.list__left 时间区间
-                p.list__right 涨跌幅
+                p.list__left {{$t('timeMore')}}
+                p.list__right {{$t('nav')}}
             .block__list--item(
                 v-for="(item,index) in timeList" 
                 :key="index")
@@ -24,16 +24,16 @@
                     v-if="item.value>0") +{{item.value|transNumToThousandMark(4)}}%
                 p.list__right(
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="item.value<0") -{{item.value|transNumToThousandMark(4)}}%
+                    v-else-if="item.value<0") {{item.value|transNumToThousandMark(4)}}%
                 p.list__right(v-else) {{item.value|transNumToThousandMark(4)}}%
             .block__list--more(@click="toFundHistorylist")
-                span 查看全部
+                span {{$t('more')}}
     .fund-echart-content2(v-show ="activeTab ==3")
         .block__fund--yj
             .block__list--item.fund__list--headerjy.fund__list--content
-                p.list__left 日期
-                p.list__content 单位净值
-                p.list__right 涨跌幅
+                p.list__left {{$t('time')}}
+                p.list__content {{$t('navChg')}}
+                p.list__right {{$t('nav')}}
             .block__list--item(
                 v-for="(item,index) in historyList" 
                 :key="index")
@@ -44,13 +44,13 @@
                     v-if="item.price>0") +{{item.price}}%
                 p.list__right(
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="item.price<0") -{{item.price}}%
+                    v-else-if="item.price<0") {{item.price}}%
                 p.list__right(v-else) {{item.price}}%
             .block__list--more(@click="toFundHistory")
-                span 查看全部
+                span {{$t('more')}}
     .fund-echart-content(v-show="activeTab == 1")
         .block__fund--title 
-            span {{tabObj.label}}收益率：
+            span {{tabObj.label}}{{$t('incomeRate')}}：
             span(
                 :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                 v-if="tabObj.value>0") +{{tabObj.value}}%
@@ -88,6 +88,11 @@ export default {
             fundTrade: '基金业绩走势',
             nav: '涨幅',
             time: '日期',
+            dayChg: '日涨幅',
+            timeMore: '时间区间',
+            navChg: '单位净值',
+            incomeRate: '收益率',
+            more: '查看更多',
             yieldInLast7d: '近七日年化',
             list: {
                 0: { date: '近1月' },
@@ -96,10 +101,18 @@ export default {
                 3: { date: '近1年' },
                 4: { date: '近3年' },
                 9: { date: '全部' }
-            }
+            },
+            trendCharts: '业绩走势',
+            historicalRTN: '历史业绩',
+            NAVHistory: '净值历史'
         },
         zhCHT: {
             fundTrade: '基金業績走勢',
+            incomeRate: '收益率',
+            timeMore: '時間區間',
+            more: '查看更多',
+            dayChg: '日漲幅',
+            navChg: '單位淨值',
             nav: '漲幅',
             time: '日期',
             yieldInLast7d: '近七日年化',
@@ -110,21 +123,32 @@ export default {
                 3: { date: '近1年' },
                 4: { date: '近3年' },
                 9: { date: '全部' }
-            }
+            },
+            trendCharts: '業績走勢',
+            historicalRTN: '歷史業績',
+            NAVHistory: '淨值歷史'
         },
         en: {
+            dayChg: 'Day%Chg',
+            navChg: 'NAV',
+            timeMore: 'Period',
+            more: 'More',
+            incomeRate: 'Return',
             fundTrade: 'Trend Charts',
             time: 'Time',
             nav: 'Chg%',
             yieldInLast7d: 'Yield in Last 7d',
             list: {
-                0: { date: '1 Month' },
-                1: { date: '3 Months' },
-                2: { date: '6 Months' },
-                3: { date: '1 Year' },
-                4: { date: '3 Years' },
+                0: { date: '1M' },
+                1: { date: '3M' },
+                2: { date: '6M' },
+                3: { date: '1Y' },
+                4: { date: '3Y' },
                 9: { date: 'All' }
-            }
+            },
+            trendCharts: 'Trend Charts',
+            historicalRTN: 'Historical RTN',
+            NAVHistory: 'NAV History'
         }
     },
     filters: {

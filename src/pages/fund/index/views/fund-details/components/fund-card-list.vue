@@ -1,10 +1,10 @@
 <template lang="pug">
 .fund__details--list   
-    .fund__list--title 更多基金
+    .fund__list--title {{$t('more')}}
     .fund__list--content
         .fund__list--item
             .block__left
-                .fund_time 近一年
+                .fund_time {{$t('oneYear')}}
                 .fund_number + 323.32%
             .block__right
                 .fund_name 返回电话费打瞌睡客服号返回几点开始房贷发 
@@ -26,6 +26,20 @@
 </template>
 <script>
 export default {
+    i18n: {
+        zhCHS: {
+            oneYear: '近一年',
+            more: '更多基金'
+        },
+        zhCHT: {
+            oneYear: '近一年',
+            more: '更多基金'
+        },
+        en: {
+            oneYear: 'Last 1 year',
+            more: 'More'
+        }
+    },
     data() {
         return {}
     }

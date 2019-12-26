@@ -35,7 +35,7 @@
                 v-if="this.price>0") (+{{this.price}}%)
             span(
                 :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                v-else-if="this.price<0") (-{{this.price}}%)
+                v-else-if="this.price<0") ({{this.price}}%)
             span(v-else) ({{this.price}}%)
         .block__details--right
             span {{$t('update')}}:{{fundHeaderInfoVO.belongDay}}
