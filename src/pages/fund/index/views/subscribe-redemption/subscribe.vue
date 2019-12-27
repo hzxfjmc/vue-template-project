@@ -10,19 +10,20 @@
         template(v-if="step === 1")
             .fund-content
                 .fond-buy
+                    .block__fund--header
+                        span.fund__title--block 申购金额
+                        .block__fund--input
+                            span HK$
+                            //- p {{money}}
+                            input(
+                                v-model="purchaseAmount" 
+                                @input="changeNumber"
+                                placeholder="请输入金额")
                     .buy-row-item(v-for="(item,index) in subscribeObj")
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value}}%)
-                            .right-item-buyMoney.border-bottom(v-else-if="index=='buyMoney'")
-                                p {{money}}
-                                input( 
-                                    v-model="item.value" 
-                                    type="number"
-                                    @input="changeNumber"
-                                    :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `"  
-                                    )
                             .right-item-other(v-else)
                                 span {{item.value}}
                 FundSteps(
@@ -98,6 +99,7 @@ export default {
             fundName: '',
             isin: '',
             currency: '',
+            purchaseAmount: null,
             withdrawBalance: 0,
             subscriptionFee: null,
             initialInvestAmount: 0, // 起投金额
@@ -114,6 +116,30 @@ export default {
             isCheckedProtocol: true,
             orderTotalAmount: '',
             positionStatus: '' //持仓状态
+        }
+    },
+    watch: {
+        purchaseAmount(val) {
+            let numberInt
+            if (`${val}`.indexOf(',') > -1) {
+                let arr = val.split(',')
+                numberInt = arr.join('')
+            } else {
+                numberInt = val
+            }
+            this.subscribeObj.totalOrderAmount.value =
+                Number(numberInt) +
+                    (numberInt * this.subscribeObj.subscriptionFee.value) /
+                        100 || '0.00'
+            this.subscribeObj.totalOrderAmount.value = transNumToThousandMark(
+                Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
+            )
+            this.subscriptionFee =
+                (numberInt * this.subscribeObj.subscriptionFee.value) / 100
+            if (numberInt > +this.withdrawBalance) {
+                this.purchaseAmount = +this.withdrawBalance
+                return
+            }
         }
     },
     async created() {
@@ -134,15 +160,13 @@ export default {
             return NP.times(+this.subscriptionFee, 100)
         },
         disabled() {
-            return (
-                !this.isCheckedProtocol || !this.subscribeObj['buyMoney'].value
-            )
+            return !this.isCheckedProtocol || !this.purchaseAmount
         }
     },
     methods: {
         changeNumber(e) {
             if (this.withdrawBalance <= 0) {
-                this.subscribeObj.buyMoney.value = ''
+                this.purchaseAmount.value = ''
                 this.$dialog
                     .confirm({
                         message: this.$t('msg'),
@@ -182,30 +206,24 @@ export default {
                     9: '亿'
                 }
             }
-            if (this.subscribeObj.buyMoney.value.indexOf('.') > 0) {
+            if (this.purchaseAmount.indexOf('.') > 0) {
                 this.money =
-                    obj[this.lang][
-                        this.subscribeObj.buyMoney.value.split('.')[0].length
-                    ]
-                this.subscribeObj.buyMoney.value =
-                    Math.floor(this.subscribeObj.buyMoney.value * 100) / 100
+                    obj[this.lang][this.purchaseAmount.split('.')[0].length]
+                this.purchaseAmount =
+                    Math.floor(this.purchaseAmount * 100) / 100
             } else {
-                this.money =
-                    obj[this.lang][this.subscribeObj.buyMoney.value.length]
+                this.money = obj[this.lang][this.purchaseAmount.length]
             }
             if (e.target.value > +this.withdrawBalance) {
-                this.subscribeObj.buyMoney.value =
-                    this.subscribeObj.buyMoney.value + ''
+                this.purchaseAmount = this.purchaseAmount + ''
+
                 this.money =
-                    this.subscribeObj.buyMoney.value.indexOf('.') > 0
+                    this.purchaseAmount.indexOf('.') > 0
                         ? obj[this.lang][
-                              this.subscribeObj.buyMoney.value.split('.')[0]
-                                  .length
+                              this.purchaseAmount.split('.')[0].length
                           ]
-                        : obj[this.lang][
-                              this.subscribeObj.buyMoney.value.length
-                          ]
-                this.subscribeObj.buyMoney.value = +this.withdrawBalance
+                        : obj[this.lang][this.purchaseAmount.length]
+                this.purchaseAmount = +this.withdrawBalance
                 return
             }
         },
@@ -250,18 +268,8 @@ export default {
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 for (let key in this.subscribeObj) {
-                    if (key == 'currency') {
-                        this.subscribeObj['currency'].label = this.$t(
-                            'currency'
-                        )
-                    } else {
-                        this.subscribeObj[key].label = this.$t('subscribeObj')[
-                            key
-                        ]
-                    }
+                    this.subscribeObj[key].label = this.$t('subscribeObj')[key]
                 }
-                this.subscribeObj.currency.value =
-                    fundDetail.fundTradeInfoVO.currency.name
 
                 if (this.positionStatus !== 1) {
                     this.initialInvestAmount = transNumToThousandMark(
@@ -278,20 +286,15 @@ export default {
                 }
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
-                let num =
-                    this.withdrawBalance / fundDetail.fundHeaderInfoVO.netPrice
+                // let num =
+                //     this.withdrawBalance / fundDetail.fundHeaderInfoVO.netPrice
 
-                this.subscribeObj.withdrawBalanceNetPrice.value = transNumToThousandMark(
-                    num
-                )
+                // this.subscribeObj.withdrawBalanceNetPrice.value = transNumToThousandMark(
+                //     num
+                // )
                 if (this.withdrawBalance < 0) {
                     this.subscribeObj.withdrawBalanceNetPrice.value = 0
                 }
-                console.log(
-                    this.withdrawBalance,
-                    fundDetail.fundHeaderInfoVO.netPrice,
-                    num
-                )
 
                 this.setCosUrl(
                     'buyProtocol',
@@ -311,6 +314,7 @@ export default {
                     item.fileName = item.fileName.split('.')[0]
                 })
             } catch (e) {
+                console.log(e)
                 console.log('申购页面-getFundDetail:error:>>>', e)
             }
         },
@@ -373,14 +377,11 @@ export default {
             if (submitStep === 1) {
                 try {
                     this.$loading()
-                    // let t = await getTradePasswordToken({
-                    //     password:
-                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    // })
+
                     let re = await fundPurchase({
                         displayLocation: 1,
                         fundId: this.$route.query.id,
-                        purchaseAmount: this.subscribeObj.buyMoney.value,
+                        purchaseAmount: this.purchaseAmount,
                         requestId: generateUUID(),
                         tradeToken: token
                     })
@@ -390,7 +391,6 @@ export default {
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
-                    console.log(error)
                     this.$alert({
                         message: error.msg,
                         confirmButtonText: this.$t('iKnow')
@@ -401,14 +401,6 @@ export default {
 
             if (submitStep === 2) {
                 this.step = 2
-            }
-        },
-        // 失焦后添加逗号
-        addComma(val) {
-            if (val) {
-                this.subscribeObj.buyMoney.value = transNumToThousandMark(
-                    Number(val).toFixed(2)
-                )
             }
         },
         // 获取当前客户单个基金持仓数据

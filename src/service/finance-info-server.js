@@ -111,3 +111,11 @@ export const getFundPerformanceHistory = params => {
         params
     )
 }
+
+//获取基金推荐列表
+export const getFundRecommendList = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-recommend-list/v1`,
+        params
+    )
+}

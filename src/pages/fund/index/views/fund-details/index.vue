@@ -25,7 +25,7 @@
             span.title {{$t('risk')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
-        fundCardList
+        fundCardList(:recommendList="recommendList")
     .fund-footer-content(v-if="btnShow && isGrayAuthority")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
@@ -51,7 +51,8 @@ import {
     getFundDetail,
     getFundPerformanceHistory,
     getFundApyPointV1,
-    getFundNetPriceHistoryV1
+    getFundNetPriceHistoryV1,
+    getFundRecommendList
 } from '@/service/finance-info-server.js'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
@@ -185,6 +186,7 @@ export default {
             },
             id: '',
             fundOverviewInfoVO: {},
+            recommendList: [], //推荐基金
             fundCorrelationFileList: [],
             historyList: [],
             fundTradeInfoVO: {},
@@ -373,8 +375,8 @@ export default {
                     isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
-                this.fundHeaderInfoVO.dividendType =
-                    res.fundTradeInfoVO.dividendType.name
+                // this.fundHeaderInfoVO.dividendType =
+                //     res.fundTradeInfoVO.dividendType.name
                 this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fundCode = this.fundHeaderInfoVO.fundCode
@@ -414,7 +416,7 @@ export default {
                 this.fundTradeInfoVO.fundId = res.fundHeaderInfoVO.fundId
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
-
+                this.fundOverviewInfoVO.currencyName = this.fundOverviewInfoVO.currency.name
                 //赎回按钮是否置灰
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
@@ -596,6 +598,22 @@ export default {
             for (let key in this.timeLists) {
                 this.timeLists[key].label = this.$t('timeTranslation')[key]
             }
+        },
+        //获取推荐基金
+        async getFundRecommendList() {
+            try {
+                const res = await getFundRecommendList({
+                    displayLocation: this.$route.query.displayLocation || 1,
+                    fundId: this.$route.query.id || this.id
+                })
+                this.recommendList = res
+                this.recommendList.map(item => {
+                    item.apy = Math.floor(item.apy * 10000) / 100
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundRecommendList:error:>>>', e)
+            }
         }
     },
     async created() {
@@ -604,7 +622,7 @@ export default {
         await this.getFundDetail()
         this.getFundNetPriceHistoryV1()
         this.getFundPositionV2()
-
+        this.getFundRecommendList()
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
         if (this.isLogin) {

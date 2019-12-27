@@ -19,7 +19,7 @@
             p {{fundOverviewInfoVO.investArea}}
         .block__fund--item
             .block__fund--title {{$t('fundSize')}}
-            p {{fundOverviewInfoVO.currency.name}} {{fundOverviewInfoVO.fundSize|transNumToThousandMark}}
+            p {{fundOverviewInfoVO.currencyName}} {{fundOverviewInfoVO.fundSize|transNumToThousandMark}}
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'

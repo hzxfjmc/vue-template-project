@@ -2,30 +2,55 @@
 .fund__details--list   
     .fund__list--title {{$t('more')}}
     .fund__list--content
-        .fund__list--item
+        .fund__list--item(
+            @click="goNext(item.fundId)"
+            v-for="(item,index) in recommendList" 
+            :key="item.fundId")
             .block__left
                 .fund_time {{$t('oneYear')}}
-                .fund_number + 323.32%
+                .fund_number(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="item.apy>0") +{{item.apy}}%
+                .fund_number(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-else-if="item.apy<0") {{item.apy}}%
+                .fund_number(v-else) {{item.apy}}%
             .block__right
-                .fund_name 返回电话费打瞌睡客服号返回几点开始房贷发 
+                .fund_name {{item.fundName}}
                 .fund__list--tag
                     .fund_tag
                         em.iconfont.icon-iconsjijinfengxiancopy-copy 
-                        span 混合
+                        span {{item.assetType}}
                     .fund_tag
                         em.iconfont.icon-iconsjijinfengxian
-                        span 中高风险
+                        span {{item.fundRisk}}
                     .fund_tag
                         em.iconfont.icon-iconsjijinfengxiancopy-copy1
-                        span 分红型
-                p 我只是一句被配置的文案
+                        span {{item.earningsTypeName}}
+                p {{item.feature}}
                     
 
     .fund___list--p
         p 以上資料來源於基金公司及第三方數據商，相關數據僅供參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現，不構成投資建議，市場有風險投資需謹慎。
 </template>
 <script>
+import { getStockColorType } from '@/utils/html-utils.js'
+import { jumpUrl } from '@/utils/tools.js'
 export default {
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
+        },
+        isMonetaryFund() {
+            return Number(this.fundHeaderInfoVO.assetType) === 4 // 货币型基金
+        }
+    },
+    props: {
+        recommendList: {
+            type: Array,
+            default: () => {}
+        }
+    },
     i18n: {
         zhCHS: {
             oneYear: '近一年',
@@ -40,19 +65,29 @@ export default {
             more: 'More'
         }
     },
-    data() {
-        return {}
+    methods: {
+        goNext(fundId) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+            jumpUrl(3, url)
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
+.number-red {
+    color: rgba(234, 61, 61, 1);
+}
+.number-green {
+    color: #04ba60;
+}
 .fund__list--item {
     display: flex;
     flex-direction: row;
+    margin: 10px 0 0 0;
     background: #fff;
-    padding: 14px 10px 10px 10px;
+    padding: 4px 10px 10px 10px;
     .block__left {
-        width: 40%;
+        width: 38%;
         .fund_time {
             font-size: 12px;
             color: #999999;
@@ -68,7 +103,7 @@ export default {
         }
     }
     .block__right {
-        width: 60%;
+        width: 62%;
         display: flex;
         flex-direction: column;
         .fund_name {
@@ -85,7 +120,7 @@ export default {
             margin: 5px 0;
             flex-direction: row;
             .fund_tag {
-                margin: 0 8px 0 0;
+                margin: 0 3px 0 0;
                 display: flex;
                 flex-direction: row;
                 span {
