@@ -14,7 +14,7 @@
                         span.fund__title--block 申购金额
                         .block__fund--input
                             span {{currency.type == 1 ? '':'HK'}}$
-                            //- p {{money}}
+                            p {{money}}
                             input(
                                 v-model="purchaseAmount" 
                                 type="number"
@@ -216,15 +216,15 @@ export default {
                 this.money = obj[this.lang][this.purchaseAmount.length]
             }
             if (e.target.value > +this.withdrawBalance) {
+                this.purchaseAmount = +this.withdrawBalance
                 this.purchaseAmount = this.purchaseAmount + ''
-
                 this.money =
                     this.purchaseAmount.indexOf('.') > 0
                         ? obj[this.lang][
                               this.purchaseAmount.split('.')[0].length
                           ]
                         : obj[this.lang][this.purchaseAmount.length]
-                this.purchaseAmount = +this.withdrawBalance
+
                 return
             }
         },
