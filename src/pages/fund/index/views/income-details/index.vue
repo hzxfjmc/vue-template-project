@@ -30,21 +30,21 @@ export default {
         zhCHS: {
             FundNmae: '基金名称',
             amountMoney: '金额',
-            time: '时间',
+            time: '日期',
             nomore: '暂无收益',
             nomore1: '无更多内容'
         },
         zhCHT: {
             FundNmae: '基金名稱',
             amountMoney: '金額',
-            time: '時間',
+            time: '日期',
             nomore: '暫無收益',
             nomore1: '無更多內容'
         },
         en: {
             FundNmae: 'Fund Name',
             amountMoney: 'Amount',
-            time: 'Time',
+            time: 'Date',
             nomore: 'No Return',
             nomore1: 'No More Content'
         }
@@ -95,7 +95,7 @@ export default {
                             : 2
                     item.earnings = transNumToThousandMark(item.earnings)
                     item.belongDate = dayjs(item.belongDate).format(
-                        'YYYY-MM-DD HH:mm:ss'
+                        'YYYY-MM-DD'
                     )
                 })
                 this.list = this.list.concat(list)
