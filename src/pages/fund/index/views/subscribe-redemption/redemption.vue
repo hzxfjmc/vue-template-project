@@ -10,20 +10,35 @@
         template(v-if="step === 1")
             .fund-content
                 .fond-buy
+                    .block__fund--header
+                        span.fund__title--block 申购金额
+                        .block__fund--input
+                            span {{currencyType == 1 ? '':'HK'}}$
+                            //- p {{money}}
+                            input(
+                                v-model="redemptionShare" 
+                                type="number"
+                                :placeHolder="$t('entryUnit')" 
+                                )
+                            .block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}
                     .buy-row
                         .left {{ $t('positionShare') }}
                         .right {{ positionShare |  parseThousands}}
-                    .buy-row
-                        .left {{ $t('positionMarketValue') }}
-                        .right {{ positionMarketValue | sliceFixedTwo | parseThousands }}
-                    .buy-row
-                        .left {{ $t('minPositionShare') }}
-                        .right {{ minPositionShare | sliceFixedTwo(4)| parseThousands }}
-                    .buy-row.block-row
-                        .left {{ $t('redeemShares') }}
-                        .right.buy-money.border-bottom
-                            input(v-model="redemptionShare" type="number" :placeHolder="$t('entryUnit')" :disabled="positionShare === 0")
-                            span(@click="HandlerAllSell") {{$t('sellAll')}}
+                    //- .buy-row
+                    //-     .left {{ $t('positionMarketValue') }}
+                    //-     .right {{ positionMarketValue | sliceFixedTwo | parseThousands }}
+                    //- .buy-row
+                    //-     .left {{ $t('minPositionShare') }}
+                    //-     .right {{ minPositionShare | sliceFixedTwo(4)| parseThousands }}
+                    //- .buy-row.block-row
+                    //-     .left {{ $t('redeemShares') }}
+                    //-     .right.buy-money.border-bottom
+                    //-         input(
+                    //-             v-model="redemptionShare" 
+                    //-             type="number" 
+                    //-             :placeHolder="$t('entryUnit')" 
+                    //-             :disabled="positionShare === 0")
+                    //-         span(@click="HandlerAllSell") {{$t('sellAll')}}
                     .buy-row
                         .left  {{$t('predictSellAmount')}}
                         .right {{ predictSellAmount | sliceFixedTwo | parseThousands }}

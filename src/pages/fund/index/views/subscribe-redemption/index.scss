@@ -264,12 +264,19 @@
         }
         span{
             display:block;
-            width:48px;
+            // width:48px;
             text-align: right;
             margin:0 10px 0 0;
         }
         input{
             border:none;
+            width:60%;
+        }
+        .block__allsell{
+            font-size:16px;
+            width:30%;
+            color:#0D50D8;
+            text-align:right;
         }
         input::-webkit-input-placeholder {
             /* placeholder颜色  */

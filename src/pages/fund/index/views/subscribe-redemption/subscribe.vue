@@ -13,12 +13,13 @@
                     .block__fund--header
                         span.fund__title--block 申购金额
                         .block__fund--input
-                            span HK$
+                            span {{currency.type == 1 ? '':'HK'}}$
                             //- p {{money}}
                             input(
                                 v-model="purchaseAmount" 
+                                type="number"
                                 @input="changeNumber"
-                                placeholder="请输入金额")
+                                :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
                     .buy-row-item(v-for="(item,index) in subscribeObj")
                         .left-item {{item.label}}
                         .right-item 
@@ -98,7 +99,7 @@ export default {
             buyMoney: null,
             fundName: '',
             isin: '',
-            currency: '',
+            currency: {},
             purchaseAmount: null,
             withdrawBalance: 0,
             subscriptionFee: null,
@@ -284,6 +285,7 @@ export default {
                         ).toFixed(2)
                     )
                 }
+                this.currency = fundDetail.fundTradeInfoVO.currency
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 // let num =
