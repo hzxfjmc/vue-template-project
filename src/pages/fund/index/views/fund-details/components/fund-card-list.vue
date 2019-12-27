@@ -152,6 +152,9 @@ export default {
         }
     }
 }
+.fund__list--item:first-child {
+    margin: 0;
+}
 .fund__details--list {
     width: 90%;
     margin: 0 5%;
