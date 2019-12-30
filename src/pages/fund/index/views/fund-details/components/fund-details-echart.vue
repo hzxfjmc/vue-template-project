@@ -56,7 +56,7 @@
                 v-if="tabObj.value>0") +{{tabObj.value}}%
             span(
                 :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                v-else-if="tabObj.value<0") -{{tabObj.value}}%
+                v-else-if="tabObj.value<0") {{tabObj.value}}%
             span(v-else) {{tabObj.value}}%
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
