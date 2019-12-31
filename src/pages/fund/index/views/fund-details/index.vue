@@ -29,10 +29,29 @@
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag")
-        van-button(
-            class="fund-footer btn button-width"
-            @click="handleBuyOrSell" 
-            :disabled="disabled") {{$t('buy')}}
+        .block__list--header
+            .block__footer-avat
+                img 
+            .block__footer--content
+                span 剩余
+                .van-count-down
+                    CountDown(
+                        millisecond
+                        :time="time" 
+                        format="HH:mm:ss:SS")
+                span 还差1人
+            .block__footer-right
+                van-button(
+                    :disabled="disabled") 参与拼团
+        .block__button--list
+            van-button(
+                class="fund-footer btn button-width"
+                @click="handleBuyOrSell" 
+                :disabled="disabled") {{$t('buy')}}
+            van-button(
+                class="fund-footer btn button-width"
+                @click="handleBuyOrSell" 
+                :disabled="disabled") {{$t('buy')}}
     
     
 </template>
@@ -56,6 +75,7 @@ import jsBridge from '@/utils/js-bridge'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
+import { CountDown } from 'vant-fork'
 export default {
     i18n: {
         zhCHS: {
@@ -94,7 +114,8 @@ export default {
         fundDetailsList,
         Button,
         Dialog,
-        FightFund
+        FightFund,
+        CountDown
     },
     computed: {
         ...mapGetters(['isLogin', 'openedAccount']),
@@ -131,6 +152,7 @@ export default {
     },
     data() {
         return {
+            time: 30 * 60 * 60 * 1000,
             fundHeaderInfoVO: {
                 apy: 0.0,
                 netPrice: 0.0
@@ -433,7 +455,7 @@ export default {
         flex-direction: column;
     }
     .button-width {
-        width: 100%;
+        width: 50%;
     }
     .fund-footer {
         background: $primary-color;
@@ -473,5 +495,44 @@ export default {
 }
 .fund-footer-content {
     width: 100%;
+    .block__list--header {
+        width: 100%;
+        height: 60px;
+        padding: 0 12px;
+        background: rgba(234, 61, 61, 0.05);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .block__footer--content {
+            width: 60%;
+
+            line-height: 22px;
+            display: flex;
+            flex-direction: row;
+            .van-count-down {
+                font-size: 16px;
+                color: rgba(234, 61, 61, 1);
+                line-height: 24px;
+            }
+        }
+        .block__footer-avat {
+            margin: 0 10px 0 0;
+            img {
+                width: 40px;
+                height: 40px;
+            }
+        }
+        .block__footer-right {
+            width: 100px;
+            height: 36px;
+            .van-button {
+                height: 36px !important;
+                line-height: 36px;
+                color: #fff;
+                background: #ea3d3d;
+                width: 100%;
+            }
+        }
+    }
 }
 </style>

@@ -16,8 +16,8 @@ module.exports = {
       "import",
       {
         libraryName: 'vant-fork',
-        libraryDirectory: 'src',
-         style: name => `${name}/index.less`,
+        libraryDirectory: 'es',
+        style: name => `${name}/style/less`,
       },
       "vant-fork"
     ],

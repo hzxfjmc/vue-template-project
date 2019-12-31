@@ -38,12 +38,12 @@
             style="height:150px;"
             vertical)
             van-swipe-item 
-                .block__vant--item
+                .block__vant--item.border-top
                     .block__vant--left
                         img(:src="require('@/assets/img/fund/icon/Achieve.png')")
                     .block__vant--name 我是南山巴菲特
                     .block__vant--p 拼团成功，团队规模3人，尊享申购费8折
-                .block__vant--item
+                .block__vant--item.border-top
                     .block__vant--left
                         img(:src="require('@/assets/img/fund/icon/Achieve.png')")
                     .block__vant--name 我是南山巴菲特
