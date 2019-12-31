@@ -13,6 +13,8 @@
             v-if="holdDetailsShow"
             :initState="holdInitState")
 
+        FightFund
+        
         fundDetailsList(
             :fundCorrelationFileList="fundCorrelationFileList"
             :fundTradeInfoVO = "fundTradeInfoVO"
@@ -39,6 +41,7 @@ import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
 import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
+import FightFund from './components/fight-fund.vue'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
@@ -90,7 +93,8 @@ export default {
         HoldfundDetails,
         fundDetailsList,
         Button,
-        Dialog
+        Dialog,
+        FightFund
     },
     computed: {
         ...mapGetters(['isLogin', 'openedAccount']),
