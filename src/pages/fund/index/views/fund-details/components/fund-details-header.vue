@@ -90,7 +90,8 @@ export default {
 <style lang="scss" scoped>
 .funds-details-header {
     background: $background-color;
-    float: left;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     min-height: 174px;
     .fund-details-header-top {

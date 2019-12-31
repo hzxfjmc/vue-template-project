@@ -220,7 +220,7 @@ export default {
     width: 100%;
     left: 0;
     top: 0;
-    float: left;
+    // float: left;
     height: 40px;
     font-size: 12px;
     line-height: 40px;
@@ -254,7 +254,7 @@ export default {
 .fund-details-echart {
     margin: 6px 0 0 0;
     width: 100%;
-    float: left;
+    // float: left;
     position: relative;
     padding: 10px;
     background: $background-color;
