@@ -447,6 +447,7 @@ export default {
                 this.positionStatus = res.positionStatus
                 this.btnShow1 = false //申购按钮显示
                 this.btnShow = false //追加赎回按钮显示
+                alert(1)
                 if (
                     this.positionStatus.type === 1 &&
                     this.holdInitState.availableShare > 0

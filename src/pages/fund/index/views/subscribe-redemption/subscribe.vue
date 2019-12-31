@@ -24,7 +24,7 @@
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
-                                span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value}}%)
+                                span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value||transNumToThousandMark(2)}}%)
                             .right-item-other(v-else-if="index === 'withdrawBalance'")
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
@@ -120,6 +120,9 @@ export default {
             orderTotalAmount: '',
             positionStatus: '' //持仓状态
         }
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
     },
     watch: {
         purchaseAmount(val) {

@@ -27,9 +27,9 @@
                     //- .buy-row
                     //-     .left {{ $t('positionMarketValue') }}
                     //-     .right {{ positionMarketValue | sliceFixedTwo | parseThousands }}
-                    //- .buy-row
-                    //-     .left {{ $t('minPositionShare') }}
-                    //-     .right {{ minPositionShare | sliceFixedTwo(4)| parseThousands }}
+                    .buy-row
+                        .left {{ $t('minPositionShare') }}
+                        .right {{ minPositionShare | sliceFixedTwo(4)| parseThousands }}
                     //- .buy-row.block-row
                     //-     .left {{ $t('redeemShares') }}
                     //-     .right.buy-money.border-bottom
@@ -39,9 +39,9 @@
                     //-             :placeHolder="$t('entryUnit')" 
                     //-             :disabled="positionShare === 0")
                     //-         span(@click="HandlerAllSell") {{$t('sellAll')}}
-                    .buy-row
-                        .left  {{$t('predictSellAmount')}}
-                        .right {{ predictSellAmount | sliceFixedTwo | parseThousands }}
+                    //- .buy-row
+                    //-     .left  {{$t('predictSellAmount')}}
+                    //-     .right {{ predictSellAmount | sliceFixedTwo | parseThousands }}
                     .buy-row
                         .left
                             span {{ $t('redemption') }}

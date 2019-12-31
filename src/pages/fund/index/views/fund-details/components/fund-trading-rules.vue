@@ -15,16 +15,16 @@
             :stepTimes="[fundTradeInfoVO.buySubmit,fundTradeInfoVO.buyConfirm ,fundTradeInfoVO.buyProfitLoss ]")
         .block__list--item
             p.block__list--left {{$t('subscriptionFee')}}
-            p.block__list--right {{fundTradeInfoVO.subscriptionFee|transNumToThousandMark(2)}}%
+            p.block__list--right {{fundTradeInfoVO.subscriptionFee*100|transNumToThousandMark(2)}}%
         .block__list--item
             p.block__list--left {{$t('redemptionFee')}}
-            p.block__list--right {{fundTradeInfoVO.redemptionFee|transNumToThousandMark(2)}}%
+            p.block__list--right {{fundTradeInfoVO.redemptionFee*100|transNumToThousandMark(2)}}%
         .block__list--item
             p.block__list--left {{$t('managementFee')}}
-            p.block__list--right {{fundTradeInfoVO.managementFee|transNumToThousandMark(2)}}%
+            p.block__list--right {{fundTradeInfoVO.managementFee*100|transNumToThousandMark(2)}}%
         .block__list--item
             p.block__list--left {{$t('platformManagementFee')}}
-            p.block__list--right {{fundTradeInfoVO.platformManagementFee|transNumToThousandMark(2)}}%
+            p.block__list--right {{fundTradeInfoVO.platformManagementFee*100|transNumToThousandMark(2)}}%
 </template>
 <script>
 import FundSteps from '@/biz-components/fond-steps'
