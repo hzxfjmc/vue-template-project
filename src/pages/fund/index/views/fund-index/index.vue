@@ -201,11 +201,11 @@ export default {
             robustFundListShow: false,
             tabList: [
                 {
-                    imgUrl: require('@/assets/img/fund/icon_money.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
-                    label: '貨幣型',
-                    key: 'fundCurrency',
-                    value: '4'
+                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
+                    label: '股票型',
+                    key: 'fundShares',
+                    value: '1'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
@@ -221,12 +221,13 @@ export default {
                     key: 'fundBlend',
                     value: '3'
                 },
+
                 {
-                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
-                    label: '股票型',
-                    key: 'fundShares',
-                    value: '1'
+                    imgUrl: require('@/assets/img/fund/icon_money.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
+                    label: '貨幣型',
+                    key: 'fundCurrency',
+                    value: '4'
                 }
             ],
             choiceFundList: {}, //精选基金

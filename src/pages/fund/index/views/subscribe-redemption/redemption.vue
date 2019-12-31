@@ -11,7 +11,7 @@
             .fund-content
                 .fond-buy
                     .block__fund--header
-                        span.fund__title--block 申购金额
+                        span.fund__title--block {{$t('redeemShares')}}
                         .block__fund--input
                             span {{currencyType == 1 ? '':'HK'}}$
                             //- p {{money}}

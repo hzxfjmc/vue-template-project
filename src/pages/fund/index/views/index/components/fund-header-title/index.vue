@@ -88,10 +88,10 @@ export default {
     watch: {
         assetType(val) {
             let obj = {
-                1: 4,
+                1: 1,
                 2: 2,
                 3: 3,
-                4: 1
+                4: 4
             }
             this.activeTab = obj[val]
             // this.$refs.navTransform.style.left =
@@ -142,10 +142,11 @@ export default {
                     value: ''
                 },
                 {
-                    label: '货币型',
-                    key: 'fundCurrency',
-                    value: '4'
+                    label: '股票型',
+                    key: 'fundShares',
+                    value: '1'
                 },
+
                 {
                     label: '债券型',
                     key: 'fundBond',
@@ -157,9 +158,9 @@ export default {
                     value: '3'
                 },
                 {
-                    label: '股票型',
-                    key: 'fundShares',
-                    value: '1'
+                    label: '货币型',
+                    key: 'fundCurrency',
+                    value: '4'
                 }
             ],
             code: 0

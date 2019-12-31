@@ -261,6 +261,7 @@
             font-size:12px;
             left:60px;
             top:-20px;
+            z-index:9999;
         }
         span{
             display:block;
@@ -270,6 +271,9 @@
         }
         input{
             border:none;
+            position: absolute;
+            top:-10px;
+            left:50px;
             width:60%;
         }
         .block__allsell{

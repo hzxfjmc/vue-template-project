@@ -10,8 +10,8 @@
         template(v-if="step === 1")
             .fund-content
                 .fond-buy
-                    .block__fund--header
-                        span.fund__title--block 申购金额
+                    .block__fund--header.border-bottom
+                        span.fund__title--block {{$t('buyMoneyNumber')}}
                         .block__fund--input
                             span {{currency.type == 1 ? '':'HK'}}$
                             p {{money}}
@@ -25,6 +25,8 @@
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value}}%)
+                            .right-item-other(v-else-if="index === 'withdrawBalance'")
+                                span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
                                 span {{item.value}}
                 FundSteps(
@@ -423,6 +425,7 @@ export default {
             availableBalance: '可用余额',
             buyBalance: '购买金额',
             minBugBalance: '最小申购金额',
+            buyMoneyNumber: '申购金额',
             continueBalance: '续投金额',
             redemption: '申购费',
             predict: '预计',
@@ -455,6 +458,7 @@ export default {
             availableBalance: '可用餘額',
             buyBalance: '购买金额',
             minBugBalance: '最小申購金額',
+            buyMoneyNumber: '申購金額',
             continueBalance: '續投金額',
             redemption: '申購費',
             predict: '預計',
@@ -487,6 +491,7 @@ export default {
             availableBalance: 'Available Balance',
             buyBalance: 'Investment Amount',
             minBugBalance: 'Initial',
+            buyMoneyNumber: 'Amount of Purchasing',
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
             predict: 'Estimated',
@@ -505,7 +510,7 @@ export default {
             subscribeObj: subscribeObji18n.i18n.en,
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
-            buyMoneyPlaceHolder: 'Initial Subs',
+            buyMoneyPlaceHolder: ' Initial Subs',
             orderAmount: 'Amount of Orders',
             iknow: 'I Get It',
             confirm: 'Deposit Now',

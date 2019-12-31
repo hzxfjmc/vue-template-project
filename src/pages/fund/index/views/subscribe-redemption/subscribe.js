@@ -31,6 +31,7 @@ export const subscribeObji18n = {
             withdrawBalance: '可用余额',
             withdrawBalanceNetPrice: '最大可买(份额)',
             buyMoney: '购买金额',
+
             subscriptionFee: '申购费（预计）',
             hkd: '港币',
             usd: '美元',
@@ -41,6 +42,7 @@ export const subscribeObji18n = {
             withdrawBalance: '可用餘額',
             withdrawBalanceNetPrice: '最大可買(份額)',
             buyMoney: '購買金額',
+
             hkd: '港幣',
             usd: '美元',
             subscriptionFee: '申購費（預計）',
@@ -51,6 +53,7 @@ export const subscribeObji18n = {
             withdrawBalance: 'Available Balance',
             withdrawBalanceNetPrice: 'Max Purchase(unit)',
             buyMoney: 'Amount of Purchasing',
+
             hkd: 'HKD',
             usd: 'USD',
             subscriptionFee: 'Subscription Fee (Estimated)',
