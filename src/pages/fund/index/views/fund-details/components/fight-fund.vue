@@ -34,15 +34,20 @@
     .block__bottom--swiper
         van-swipe(
             :show-indicators="false"
-            :autoplay='5000'
+            :autoplay='52222222000'
             style="height:150px;"
             vertical)
             van-swipe-item 
-                .block__vant--item 1
+                .block__vant--item
                     .block__vant--left
+                        img(:src="require('@/assets/img/fund/icon/Achieve.png')")
                     .block__vant--name 我是南山巴菲特
                     .block__vant--p 拼团成功，团队规模3人，尊享申购费8折
-                .block__vant--item 2
+                .block__vant--item
+                    .block__vant--left
+                        img(:src="require('@/assets/img/fund/icon/Achieve.png')")
+                    .block__vant--name 我是南山巴菲特
+                    .block__vant--p 拼团成功，团队规模3人，
             van-swipe-item 
                 .block__vant--item 3
                 .block__vant--item 4
@@ -175,7 +180,25 @@ export default {
         height: 150px;
         .block__vant--item {
             height: 75px;
-            border: 1px solid red;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .block__vant--left {
+                img {
+                    width: 40px;
+                    height: 40px;
+                }
+            }
+            .block__vant--name {
+                overflow: hidden;
+                white-space: nowrap;
+                margin: 0 5px;
+                height: 20px;
+                text-overflow: ellipsis;
+            }
+            .block__vant--p {
+                width: 70%;
+            }
         }
     }
 }
