@@ -11,10 +11,10 @@
                 img(:src="barnnarUrl")
             .block__fund--currey
                 .block__fund--left
-                    span 精选基金
+                    span {{$t('FeatureFund')}}
                 .block__fund--right(@click="currencyShow=true")
                     span {{labelTitle||currencyLis['fundAllType'].label}}
-                    em.iconfont.icon-pulldown-
+                    em.iconfont(:class="currencyShow?'icon-icon-top':'icon-icon-bottom'")
                 .block__master(v-if="currencyShow")
                     .block__list--element.border-top(
                         :class="active === index ?'active':''"
@@ -48,20 +48,23 @@ export default {
     i18n: {
         zhCHS: {
             noFund: '暂无基金',
-            fundAllType: '全部货币',
+            fundAllType: '全部币种',
             fundHkdType: '港币基金',
+            FeatureFund: '精选基金',
             fundUsdType: '美元基金'
         },
         zhCHT: {
             noFund: '暫無基金',
-            fundAllType: '全部貨幣',
+            fundAllType: '全部幣種',
             fundHkdType: '港幣基金',
+            FeatureFund: '精選基金',
             fundUsdType: '美元基金'
         },
         en: {
             noFund: 'No Data',
-            fundAllType: 'All Currencies',
+            fundAllType: 'ALL CURR',
             fundHkdType: 'HKD Fund',
+            FeatureFund: 'Feature Fund',
             fundUsdType: 'USD Fund'
         }
     },
@@ -168,7 +171,6 @@ export default {
             }
         },
         handlerCuenrry(data) {
-            this.currency = data.currency
             // 0：tab切换 1：货币切换
             if (data.flag !== '0') {
                 this.assetType = data.assetType
@@ -307,10 +309,14 @@ export default {
         .block__list--element {
             line-height: 50px;
             display: flex;
+            font-size: 14px;
             flex-direction: row;
             .block__list--left,
             .block__list--icon {
                 width: 50%;
+            }
+            .block__list--icon {
+                font-size: 10px;
             }
             .block__list--icon {
                 text-align: right;

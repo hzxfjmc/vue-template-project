@@ -98,14 +98,12 @@ export default {
             font-size: 12px;
             color: #999999;
             line-height: 20px;
-            // padding: 8px 0 0 0;
+            margin: 10px 0 0 0;
         }
-
         .fund_number {
             font-size: 26px;
             font-family: yxFontDINPro-Medium;
-            // line-height: 40px;
-            padding: 8px 0 0 0;
+            padding: 2px 0 0 0;
         }
     }
     .block__right {
@@ -117,7 +115,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            line-height: 17px;
+            margin: 10px 0 0 0;
         }
         .fund__list--tag {
             display: flex;

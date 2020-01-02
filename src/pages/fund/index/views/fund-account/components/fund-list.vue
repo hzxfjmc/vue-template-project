@@ -1,15 +1,16 @@
 <template lang="pug">
 .block-fund-list-content(:class="[code!=1? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
-    .block__fund-title.border-bottom(@click="hanlderSwitch") 
+    .block__fund-title(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}
         .block__fund--right
-            p {{currency === '2'?'港币市值' :'美元市值'}}
-            p {{currency === '2'?'hkd' :'usd'}} {{amount}}
+            p {{currency === '2'?'港币市值' :'美元市值'}} {{currency === '2'?'HKD' :'USD'}} {{amount}}
+            //- p 
         em(:class="listShow && fundList.length != 0 ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
     .list-item-content(
         v-for="(item,index) in fundList" 
         v-if="listShow"
+        :class="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0 ? '':'border-bottom'"
         :key="index" 
         @click="toFundDetails(item)")
         .fund-name {{item.fundName}}
@@ -42,7 +43,6 @@
                     .block-element-number(v-else) ****
                     span {{$t('share')}}
         .fund-list-other(
-            class="border-top" 
             v-if="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0")
             .o-item(v-if="item.redeemDeliveryShare != 0")
                 .footer-left-l {{$t('Redemption')}}
@@ -174,16 +174,17 @@ export default {
         display: flex;
         flex-direction: row;
         height: 44px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         line-height: 44px;
         .block__fund--right {
             font-size: 11px;
             width: 300px;
             text-align: right;
             margin: 5px 0;
-            // border: 1px solid red;
             p {
-                font-size: 11px;
-                line-height: 17px;
+                font-size: 12px;
+                line-height: 36px;
+                white-space: nowrap;
                 color: rgba(25, 25, 25, 0.5);
             }
         }
@@ -198,11 +199,14 @@ export default {
             font-size: 16px;
             margin: 0 0 0 18px;
         }
+        em {
+            padding: 0 12px;
+        }
     }
     .list-item-content {
-        width: 100%;
-        padding: 10px 5% 14px 5%;
-        border-bottom: 1px solid #e1e1e1;
+        width: 90%;
+        margin: 0 5%;
+        padding: 10px 0 14px 0;
         background: #fff;
         .fund-name {
             font-size: 0.32rem;
@@ -228,8 +232,9 @@ export default {
                     color: rgba(25, 25, 25, 0.5);
                 }
                 .block-element-number {
-                    font-size: 15px;
-                    font-family: 'yxFontDINPro-Regular';
+                    font-size: 20px;
+                    font-family: 'yxFontDINPro-Medium';
+                    // font-weight: bold;
                 }
                 .active-red {
                     color: #ea3d3d;
@@ -244,17 +249,23 @@ export default {
         }
         .fund-list-other {
             margin: 10px 0 0 0;
-            padding: 7px 0 0 0;
+            // padding: 7px 0 0 0;
+            line-height: 40px;
+            height: 40px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.02);
             .o-item {
                 display: flex;
                 margin: 5px 0 0 0;
                 flex-direction: row;
                 .footer-left-l {
                     width: 50%;
+                    padding: 0 0 0 10px;
                 }
                 .footer-right {
                     text-align: right;
                     width: 50%;
+                    padding: 0 10px 0 0;
                     span {
                         font-size: 0.24rem;
                         color: rgba(25, 25, 25, 0.5);
