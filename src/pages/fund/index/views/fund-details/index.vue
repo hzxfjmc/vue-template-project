@@ -148,16 +148,14 @@ export default {
             return this.isLogin && this.openedAccount
         },
         disabled() {
-            if (!this.isLogin) {
+            if (
+                this.userInfo.assessResult &&
+                this.fundHeaderInfoVO.fundRiskType
+            ) {
                 return false
+            } else {
+                return true
             }
-            if (this.isLogin && this.userInfo.grayStatusBit) {
-                return false
-            }
-            if (this.fundOverviewInfoVO.tradeAuth) {
-                return false
-            }
-            return true
         },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
