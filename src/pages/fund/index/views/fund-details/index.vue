@@ -34,11 +34,11 @@
                 img 
             .block__footer--content
                 span 剩余
-                .van-count-down
-                    CountDown(
+                .vant-count-down
+                    CountDown( 
                         millisecond
-                        :time="time" 
-                        format="HH:mm:ss:SS")
+                        :time="time"
+                        format="HH:mm:ss:SSS")
                 span 还差1人
             .block__footer-right
                 van-button(
@@ -48,10 +48,9 @@
                 class="fund-footer btn button-width"
                 @click="handleBuyOrSell" 
                 :disabled="disabled") {{$t('buy')}}
-            van-button(
-                class="fund-footer btn button-width"
-                @click="handleBuyOrSell" 
-                :disabled="disabled") {{$t('buy')}}
+            .block__fight--btn.btn
+                span 发起拼团申购
+                em 最多省100$
     
     
 </template>
@@ -460,6 +459,7 @@ export default {
     .fund-footer {
         background: $primary-color;
     }
+
     .btn {
         height: 50px;
         color: #fff;
@@ -469,7 +469,23 @@ export default {
         border-radius: 0;
         border: none;
     }
-
+    .block__fight--btn {
+        width: 50%;
+        height: 48px;
+        background: #ea3d3d;
+        display: flex;
+        flex-direction: column;
+        span {
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        em {
+            font-size: 12px;
+            line-height: 10px;
+            font-style: normal;
+        }
+    }
     .fund-check,
     .fund-buy {
         width: 50%;
@@ -534,5 +550,9 @@ export default {
             }
         }
     }
+}
+.block__button--list {
+    display: flex;
+    flex-direction: row;
 }
 </style>
