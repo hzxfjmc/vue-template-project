@@ -4,7 +4,7 @@
         em.iconfont.icon-icon-gaishu
         span.title {{$t('survey')}}
         .block__list--right
-            span {{$t('tips')}}
+            span {{$t('surveytips')}}
             em.iconfont.icon-iconEBgengduoCopy
 
     .block__fundcontent--list
@@ -31,7 +31,7 @@ export default {
     i18n: {
         zhCHS: {
             survey: '基金概况',
-            tips: '概況、分紅、文件',
+            surveytips: '概況、分紅、文件',
             fundCompanyName: '基金公司',
             assetSubType: '资产类别',
             investArea: '投资地区',
@@ -39,7 +39,7 @@ export default {
         },
         zhCHT: {
             survey: '基金概況',
-            tips: '概況、分紅、文件',
+            surveytips: '概況、分紅、文件',
             fundCompanyName: '基金公司',
             assetSubType: '資產類別',
             investArea: '投資地區',
@@ -47,7 +47,7 @@ export default {
         },
         en: {
             survey: 'Fund Overview',
-            tips: 'Details、Dividend、DOC',
+            surveytips: 'Details、Dividend、DOC',
             fundCompanyName: 'Fund Company',
             assetSubType: 'Asset Class',
             investArea: 'Geographical Allocation',
@@ -89,7 +89,7 @@ export default {
 .block__fund--survey {
     width: 100%;
     padding: 0 3% 5px 3%;
-    margin: 10px 0 0 0;
+    margin: 6px 0 0 0;
     background: #fff;
     .block__fundheader--survey {
         display: flex;

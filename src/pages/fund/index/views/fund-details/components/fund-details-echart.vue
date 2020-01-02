@@ -25,7 +25,7 @@
                 p.list__right(
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                     v-else-if="item.value<0") {{item.value|transNumToThousandMark(4)}}%
-                p.list__right(v-else) {{item.value|transNumToThousandMark(4)}}%
+                p.list__right(v-else) {{item.value}}%
             .block__list--more(@click="toFundHistorylist")
                 span {{$t('more')}}
     .fund-echart-content2(v-show ="activeTab ==3")
@@ -330,7 +330,8 @@ export default {
 .fund-echart-content2 {
     .block__list--more {
         width: 100%;
-        line-height: 30px;
+        // line-height: 30px;
+        padding: 14px 0;
         text-align: center;
         span {
             font-size: 12px;
@@ -366,9 +367,10 @@ export default {
         }
     }
     .fund__list--headerjy {
-        background: #e1e1e1;
+        background: rgba(47, 121, 255, 0.05);
         position: relative;
         width: 100%;
+        line-height: 40px;
     }
 }
 
@@ -438,7 +440,7 @@ export default {
             align-items: center;
         }
         .activeItem {
-            color: #2b4f80;
+            color: #2f79ff;
             position: relative;
             &::after {
                 position: absolute;
@@ -447,9 +449,9 @@ export default {
                 pointer-events: none;
                 right: 0;
                 bottom: 0px;
-                width: 40%;
-                left: 30%;
-                border-bottom: 4px solid #2b4f80;
+                width: 20%;
+                left: 40%;
+                border-bottom: 4px solid #2f79ff;
                 @media only screen and (min-resolution: 2dppx) {
                     // 非标准的
                     -webkit-transform: scaleY(0.5);

@@ -30,8 +30,7 @@
                 p {{item.feature}}
                     
 
-    .fund___list--p
-        p {{$t('msg')}}
+    
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
@@ -83,6 +82,7 @@ export default {
 .number-red {
     color: rgba(234, 61, 61, 1);
 }
+
 .number-green {
     color: #04ba60;
 }
@@ -90,7 +90,9 @@ export default {
     display: flex;
     flex-direction: row;
     margin: 10px 0 0 0;
+    border-radius: 4px;
     background: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     padding: 4px 10px 10px 10px;
     .block__left {
         width: 38%;
@@ -154,16 +156,11 @@ export default {
     margin: 0;
 }
 .fund__details--list {
-    width: 90%;
-    margin: 0 5%;
-    .fund___list--p {
-        margin: 10px 0;
-        p {
-            font-size: 12px;
-            line-height: 17px;
-            color: #999999;
-        }
-    }
+    width: 100%;
+    margin: 6px 0 0 0;
+    padding: 0 5% 20px 5%;
+
+    background: #fff;
 }
 .fund__list--title {
     line-height: 50px;

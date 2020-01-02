@@ -109,6 +109,7 @@ export default {
 .funds-details-header {
     width: 100%;
     min-height: 174px;
+    background: #fff;
     .fund-details-header-top {
         width: 100%;
         padding: 10px;

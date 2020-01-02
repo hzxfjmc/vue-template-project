@@ -95,7 +95,7 @@ export default {
             active: 'fundAllType',
             currencyLis: {
                 fundAllType: {
-                    label: '全部基金',
+                    label: '全部币种',
                     value: null
                 },
                 fundHkdType: {
@@ -171,6 +171,7 @@ export default {
             }
         },
         handlerCuenrry(data) {
+            this.currencyShow = false
             // 0：tab切换 1：货币切换
             if (data.flag !== '0') {
                 this.assetType = data.assetType

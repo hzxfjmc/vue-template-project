@@ -109,12 +109,15 @@ export default {
             text-align: right;
         }
     }
+    .block__list--item:last-child {
+        padding: 0 0 14px 0;
+    }
 }
 
 .block__fund--trading {
     width: 100%;
     padding: 0 3%;
-    margin: 10px 0 0 0;
+    margin: 6px 0 0 0;
     background: #fff;
     .block__fundheader--survey {
         display: flex;

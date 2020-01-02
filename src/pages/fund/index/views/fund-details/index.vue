@@ -26,6 +26,9 @@
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
         fundCardList(:recommendList="recommendList")
+
+        .fund___list--p
+            p {{$t('msg')}}
     .fund-footer-content(v-if="btnShow && isGrayAuthority")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
@@ -36,6 +39,7 @@
             @click="handleBuyOrSell" 
             :disabled="disabled") {{$t('buy')}}
     
+   
     
 </template>
 <script>
@@ -84,7 +88,9 @@ export default {
                 threeYear: '近三年',
                 fiveYear: '近五年',
                 all: '成立来'
-            }
+            },
+            msg:
+                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎'
         },
         zhCHT: {
             buy: '申購',
@@ -105,7 +111,9 @@ export default {
                 threeYear: '近三年',
                 fiveYear: '近五年',
                 all: '成立来'
-            }
+            },
+            msg:
+                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
         },
         en: {
             buy: 'Subscribe',
@@ -126,7 +134,9 @@ export default {
                 threeYear: 'YTD',
                 fiveYear: 'YTD',
                 all: 'ALL'
-            }
+            },
+            msg:
+                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.'
         }
     },
     keepalive: true,
@@ -326,7 +336,11 @@ export default {
                     fundId: this.id
                 })
                 for (let key in this.timeList) {
-                    this.timeList[key].value = res[key] * 100
+                    if (res[key] * 100 == 0) {
+                        this.timeList[key].value = res[key].toFixed(2)
+                    } else {
+                        this.timeList[key].value = res[key] * 100
+                    }
                 }
                 for (let key in this.timeLists) {
                     this.timeLists[key].value = res[key] * 100
@@ -638,11 +652,20 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.fund___list--p {
+    width: 90%;
+    margin: 20px 5%;
+    p {
+        font-size: 12px;
+        line-height: 17px;
+        color: #999999;
+    }
+}
 .block__fundheader--tips {
     display: flex;
     flex-direction: row;
     padding: 15px 10px;
-    margin: 10px 0 0 0;
+    margin: 6px 0 0 0;
     background: #fff;
     line-height: 22px;
     .icon-icon-gaishu {
@@ -671,7 +694,7 @@ export default {
 .fund-details {
     display: flex;
     flex-direction: column;
-    background: #fbfcfe;
+    background: #f3f3f3;
     height: 100%;
     -webkit-overflow-scrolling: touch;
     overflow: hidden;
