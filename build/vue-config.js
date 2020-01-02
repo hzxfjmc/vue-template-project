@@ -234,7 +234,10 @@ module.exports = {
                 target: jyApi,
                 changeOrigin: true
             },
-
+            '/zt-group-apiserver': {
+                target: hzApi,
+                changeOrigin: true
+            },
 
             //     // onProxyRes: function(proxyRes, req, res) {
             //     //     let resHttp = proxyRes.client._httpMessage
@@ -258,11 +261,11 @@ module.exports = {
             //     // }
             // },
             // 债券交易
-            '/': {
-                ws: false,
-                target: jyApi,
-                changeOrigin: true
-            }
+            // '/': {
+            //     ws: false,
+            //     target: jyApi,
+            //     changeOrigin: true
+            // }
         },
         historyApiFallback: {}
     },

@@ -65,6 +65,7 @@ import {
     getFundDetail,
     getFundApyPointV1
 } from '@/service/finance-info-server.js'
+// import { getGroupAction, getGroupOrder } from '@/service/zt-group-apiserver.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
@@ -187,6 +188,28 @@ export default {
         }
     },
     methods: {
+        //查询团购单的订单
+        // async getGroupOrder() {
+        //     try {
+        //         const res = await getGroupOrder({
+        //             group_id: '0'
+        //         })
+        //     } catch (e) {
+        //         console.log('getGroupOrder:error:>>>', e)
+        //     }
+        // },
+        // //查询业务团购活动
+        // async getGroupAction() {
+        //     try {
+        //         const res = await getGroupAction({
+        //             biz_id: this.id,
+        //             biz_type: 0,
+        //             action_status: 2
+        //         })
+        //     } catch (e) {
+        //         console.log('getGroupAction:error:>>>', e)
+        //     }
+        // },
         //获取用户信息
         async getCurrentUser() {
             try {
@@ -427,6 +450,8 @@ export default {
     async created() {
         // enablePullRefresh(true)
         await this.getFundDetail()
+        // this.getGroupAction()
+        // this.getGroupOrder()
         if (this.isLogin) {
             this.getCurrentUser()
         }
