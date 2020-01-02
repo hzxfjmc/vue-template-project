@@ -21,10 +21,10 @@
                 p.list__left {{item.label}}
                 p.list__right(
                     :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="item.value>0") +{{item.value|transNumToThousandMark(4)}}%
+                    v-if="item.value>0") +{{item.value|transNumToThousandMark(2)}}%
                 p.list__right(
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="item.value<0") {{item.value|transNumToThousandMark(4)}}%
+                    v-else-if="item.value<0") {{item.value|transNumToThousandMark(2)}}%
                 p.list__right(v-else) {{item.value}}%
             .block__list--more(@click="toFundHistorylist")
                 span {{$t('more')}}
@@ -49,7 +49,7 @@
             .block__list--more(@click="toFundHistory")
                 span {{$t('more')}}
     .fund-echart-content(v-show="activeTab == 1")
-        .block__fund--title 
+        .block__fund--title(v-if="fundHeaderInfoVO.assetType != 4") 
             span {{tabObj.label}}{{$t('incomeRate')}}：
             span(
                 :class="stockColorType === 1 ? 'number-red' : 'number-green'"

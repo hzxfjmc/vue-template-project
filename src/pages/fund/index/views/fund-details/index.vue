@@ -336,14 +336,14 @@ export default {
                     fundId: this.id
                 })
                 for (let key in this.timeList) {
-                    if (res[key] * 100 == 0) {
-                        this.timeList[key].value = res[key].toFixed(2)
-                    } else {
-                        this.timeList[key].value = res[key] * 100
-                    }
+                    // if (res[key] * 100 == 0) {
+                    this.timeList[key].value = res[key].toFixed(2)
+                    // } else {
+                    //     this.timeList[key].value = res[key]
+                    // }
                 }
                 for (let key in this.timeLists) {
-                    this.timeLists[key].value = res[key] * 100
+                    this.timeLists[key].value = res[key]
                 }
                 this.tabObj.label = this.timeList['oneMonth'].label
                 this.tabObj.value = this.timeList['oneMonth'].value
