@@ -74,7 +74,7 @@ export default {
             fundHkdType: 'HKD Fund',
             fundUsdType: 'USD Fund',
             fundAll: 'All',
-            fundCurrency: 'Money',
+            fundCurrency: 'MMF',
             fundBond: 'Bond',
             fundBlend: 'Balanced',
             fundShares: 'Equity'
@@ -236,6 +236,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.fund__header--nav {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+}
 .fund__header--subnav {
     width: 100%;
     margin: 0 0;

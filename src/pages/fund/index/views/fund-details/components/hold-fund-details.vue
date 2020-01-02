@@ -90,7 +90,7 @@ export default {
     background: $background-color;
     padding: 10px;
     // height: 160px;
-    float: left;
+    // float: left;
     width: 100%;
     .fund-row {
         margin: 10px 0 0 0;

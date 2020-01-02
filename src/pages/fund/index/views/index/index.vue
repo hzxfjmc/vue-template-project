@@ -240,6 +240,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.fund__banner {
+    margin: 42px 0 0 0;
+}
 .block__fund--master {
     position: fixed;
     width: 100%;

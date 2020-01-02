@@ -12,19 +12,20 @@
                 .fond-buy
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('buyMoneyNumber')}}
-                        .block__fund--input
+                        .block__fund--input(@click="focusEvent")
                             span {{currency.type == 1 ? '':'HK'}}$
                             p {{money}}
                             input(
                                 v-model="purchaseAmount" 
-                                type="number"
+                                type="text"
+                                :disabled="disabledInput"
                                 @input="changeNumber"
                                 :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
                     .buy-row-item(v-for="(item,index) in subscribeObj")
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
-                                span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value||transNumToThousandMark(2)}}%)
+                                span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value|transNumToThousandMark(2)}}%)
                             .right-item-other(v-else-if="index === 'withdrawBalance'")
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
@@ -99,6 +100,7 @@ export default {
             subscribeObj: JSON.parse(JSON.stringify(subscribeObj)),
             buyMoneyBlur: false,
             buyMoney: null,
+            disabledInput: false,
             fundName: '',
             isin: '',
             currency: {},
@@ -170,9 +172,8 @@ export default {
         }
     },
     methods: {
-        changeNumber(e) {
+        focusEvent() {
             if (this.withdrawBalance <= 0) {
-                this.purchaseAmount.value = ''
                 this.$dialog
                     .confirm({
                         message: this.$t('msg'),
@@ -186,9 +187,11 @@ export default {
                     .catch(() => {
                         // on cancel
                     })
+
                 return
             }
-
+        },
+        changeNumber(e) {
             let obj = {
                 en: {
                     5: 'Ten Thousand',
@@ -212,11 +215,15 @@ export default {
                     9: '亿'
                 }
             }
-            if (this.purchaseAmount.indexOf('.') > 0) {
+            let match =
+                (this.purchaseAmount &&
+                    this.purchaseAmount.match(/^(\d+)(\.)?(\d{1,2})?/)) ||
+                []
+            this.purchaseAmount = `${match[1] || ''}${match[2] ||
+                ''}${match[3] || ''}`
+            if (e.target.value.indexOf('.') > 0) {
                 this.money =
                     obj[this.lang][this.purchaseAmount.split('.')[0].length]
-                this.purchaseAmount =
-                    Math.floor(this.purchaseAmount * 100) / 100
             } else {
                 this.money = obj[this.lang][this.purchaseAmount.length]
             }
@@ -229,7 +236,6 @@ export default {
                               this.purchaseAmount.split('.')[0].length
                           ]
                         : obj[this.lang][this.purchaseAmount.length]
-
                 return
             }
         },
@@ -293,16 +299,6 @@ export default {
                 this.currency = fundDetail.fundTradeInfoVO.currency
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
-                // let num =
-                //     this.withdrawBalance / fundDetail.fundHeaderInfoVO.netPrice
-
-                // this.subscribeObj.withdrawBalanceNetPrice.value = transNumToThousandMark(
-                //     num
-                // )
-                if (this.withdrawBalance < 0) {
-                    this.subscribeObj.withdrawBalanceNetPrice.value = 0
-                }
-
                 this.setCosUrl(
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
@@ -347,6 +343,9 @@ export default {
             try {
                 const hsInfo = await hsAccountInfo(currencyType)
                 this.withdrawBalance = hsInfo.withdrawBalance
+                if (this.withdrawBalance <= 0) {
+                    this.disabledInput = true
+                }
                 this.subscribeObj.withdrawBalance.value = transNumToThousandMark(
                     hsInfo.withdrawBalance
                 )

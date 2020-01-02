@@ -23,13 +23,13 @@ if (Object.values(pages)[0]) {
     openPage = Object.values(pages)[0].filename // 当前项目的第一个单页
 }
 
-const jyApi = 'http://jy-dev.yxzq.com'
-const jy1Api = 'http://jy1-dev.yxzq.com'
+const jyApi = 'http://jy-sit.yxzq.com'
+const jy1Api = 'http://jy1-sit.yxzq.com'
 
-const hzApi = 'http://hz-dev.yxzq.com'
-const hz1Api = 'http://hz1-dev.yxzq.com'
+const hzApi = 'http://hz-sit.yxzq.com'
+const hz1Api = 'http://hz1-sit.yxzq.com'
 
-const webappApi = 'http://m-dev.yxzq.com'
+const webappApi = 'http://m-sit.yxzq.com'
 // config 配置
 module.exports = {
     ...commonConfig(project),
