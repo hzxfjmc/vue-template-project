@@ -13,7 +13,7 @@
                 .block__fund--left
                     span 精选基金
                 .block__fund--right(@click="currencyShow=true")
-                    span {{labelTitle||currencyLis[0].label}}
+                    span {{labelTitle||currencyLis['fundAllType'].label}}
                     em.iconfont.icon-pulldown-
                 .block__master(v-if="currencyShow")
                     .block__list--element.border-top(
@@ -42,17 +42,27 @@ import FundHeaderTitle from './components/fund-header-title/index.vue'
 // import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { jumpUrl } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
+import LS from '@/utils/local-storage'
 import { getSource } from '@/service/customer-relationship-server'
 export default {
     i18n: {
         zhCHS: {
-            noFund: '暂无基金'
+            noFund: '暂无基金',
+            fundAllType: '全部货币',
+            fundHkdType: '港币基金',
+            fundUsdType: '美元基金'
         },
         zhCHT: {
-            noFund: '暫無基金'
+            noFund: '暫無基金',
+            fundAllType: '全部貨幣',
+            fundHkdType: '港幣基金',
+            fundUsdType: '美元基金'
         },
         en: {
-            noFund: 'No Data'
+            noFund: 'No Data',
+            fundAllType: 'All Currencies',
+            fundHkdType: 'HKD Fund',
+            fundUsdType: 'USD Fund'
         }
     },
     computed: {
@@ -79,21 +89,21 @@ export default {
             bannerShow: false,
             bannerUrl: [],
             labelTitle: '',
-            active: 0,
-            currencyLis: [
-                {
+            active: 'fundAllType',
+            currencyLis: {
+                fundAllType: {
                     label: '全部基金',
                     value: null
                 },
-                {
+                fundHkdType: {
                     label: '港币基金',
                     value: 2
                 },
-                {
+                fundUsdType: {
                     label: '美元基金',
                     value: 1
                 }
-            ],
+            },
             list: [],
             pageNum: 1,
             pageSize: 100,
@@ -115,6 +125,7 @@ export default {
             this.currencyShow = false
             this.active = index
             this.labelTitle = item.label
+            LS.put('fundListCurrencyTab', index)
             this.getFundListV2()
         },
         goBarnner() {
@@ -217,6 +228,11 @@ export default {
                 this.assetType === '4'
                     ? require(`@/assets/img/fund/fundImg/${this.lang}/huobi.png`)
                     : require(`@/assets/img/fund/fundImg/${this.lang}/zhaiquan.png`)
+        },
+        initI18nState() {
+            for (let key in this.currencyLis) {
+                this.currencyLis[key].label = this.$t(key)
+            }
         }
     },
     watch: {
@@ -231,9 +247,19 @@ export default {
                 this.assetTypetab = this.$route.query.type
                 this.getFundListV2()
                 this.getSource()
+                this.initI18nState()
                 if (this.$route.query.type) {
                     this.changeBannarTitle()
                 }
+                let tab = LS.get('fundListCurrencyTab')
+                this.label =
+                    tab === 'fundUsdType'
+                        ? this.$t('fundUsdType')
+                        : tab === 'fundHkdType'
+                        ? this.$t('fundHkdType')
+                        : this.$t('fundAllType')
+                console.log(tab)
+                console.log(this.$t('fundHkdType'))
             }
         }
     }
