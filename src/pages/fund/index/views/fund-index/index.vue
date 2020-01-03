@@ -539,7 +539,6 @@ export default {
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
-
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},

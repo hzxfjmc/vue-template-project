@@ -178,7 +178,7 @@ export default {
         }
     },
     mounted() {
-        this.currencyNum = LS.get('activeTab')
+        this.currencyNum = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.showPsd = LS.get('showMoney')
     }
 }
