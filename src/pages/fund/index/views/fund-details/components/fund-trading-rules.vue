@@ -103,7 +103,7 @@ export default {
             line-height: 28px;
         }
         .block__list--left {
-            color: #666666;
+            color: rgba(25, 25, 25, 0.5);
         }
         .block__list--right {
             text-align: right;
