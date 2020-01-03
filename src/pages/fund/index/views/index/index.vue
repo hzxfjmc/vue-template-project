@@ -80,6 +80,18 @@ export default {
         goBarnner() {
             //大陆版本banner不跳转
             if (this.code === 1) {
+                let obj = [
+                    'http://shence.youxin.com:8106/r/uQ',
+                    'https://m.yxzq.com/marketing/fund-investment/index.html?register-ct=ecp&register-cid=1896#/stock',
+                    'https://m.yxzq.com/marketing/fund-investment/index.html?register-ct=ecp&register-cid=1896#/fund',
+                    'https://m.yxzq.com/marketing/fund-investment/index.html?register-ct=ecp&register-cid=1896#/mixin',
+                    'https://m.yxzq.com/marketing/fund-investment/index.html?register-ct=ecp&register-cid=1896#/money'
+                ]
+                if (this.assetType) {
+                    jumpUrl(3, obj[this.assetType])
+                } else {
+                    jumpUrl(3, obj[0])
+                }
                 return
             }
             let jump_url = [
@@ -90,7 +102,6 @@ export default {
                 `${window.location.origin}/marketing/smart-fund/index.html?tabsName=moneyMarket#/`
             ]
             if (this.assetType) {
-                // console.log(jump_url[this.assetType])
                 jumpUrl(3, jump_url[this.assetType])
             } else {
                 jumpUrl(3, jump_url[0])
