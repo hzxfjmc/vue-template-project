@@ -3,23 +3,22 @@
     .hold-fund-header
         span {{$t('holdFundTitle')}}
         span.hold-right.iconfont(@click="foldUpCard" :class="[contentShow ? 'icon-icon-bottom':'icon-icon-top']")
-    transition(name="fade")  
-        .hold-fund-content(v-if="contentShow")
-            van-row()
-                van-col( 
-                    span="8"
-                    v-for="(item,index) of list" 
-                    :key="item.label"
-                    class="fund-row" 
-                    :class="item.layout") 
-                    span.holdSubtitle {{item.label}}
-                    p.holdNumber(
-                        :class="stockColorType === 1 ? 'active_red' : 'active-green'"
-                        v-if="item.flag == 1 && (index == 'weekEarnings' || index === 'positionEarnings')") +{{item.value}}
-                    p.holdNumber(
-                        :class="stockColorType === 1 ? 'active-green' : 'active_red'"
-                        v-else-if="item.flag == 2 && (index == 'weekEarnings' || index === 'positionEarnings')") {{item.value}}
-                    p.holdNumber(v-else) {{item.value}}
+    .hold-fund-content
+        van-row(v-if="contentShow")
+            van-col( 
+                span="8"
+                v-for="(item,index) of list" 
+                :key="item.label"
+                class="fund-row" 
+                :class="item.layout") 
+                span.holdSubtitle {{item.label}}
+                p.holdNumber(
+                    :class="stockColorType === 1 ? 'active_red' : 'active-green'"
+                    v-if="item.flag == 1 && (index == 'weekEarnings' || index === 'positionEarnings')") +{{item.value}}
+                p.holdNumber(
+                    :class="stockColorType === 1 ? 'active-green' : 'active_red'"
+                    v-else-if="item.flag == 2 && (index == 'weekEarnings' || index === 'positionEarnings')") {{item.value}}
+                p.holdNumber(v-else) {{item.value}}
 </template>
 <script>
 import { Row, Col } from 'vant'
@@ -89,9 +88,10 @@ export default {
     margin: 6px 0 0 0;
     background: $background-color;
     padding: 10px;
-    // height: 160px;
-    // float: left;
     width: 100%;
+    .hold-fund-content {
+        display: block;
+    }
     .fund-row {
         margin: 10px 0 0 0;
         .holdSubtitle {
@@ -132,8 +132,7 @@ export default {
 .fade-leave-active {
     transition: all 0.3s;
 }
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
-    height: 0;
-    opacity: 0;
+.animation-down {
+    animation: mymove_down 0.3s forwards;
 }
 </style>
