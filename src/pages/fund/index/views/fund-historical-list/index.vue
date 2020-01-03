@@ -11,8 +11,8 @@
             :class="stockColorType === 1 ? 'number-red' : 'number-green'"
             v-if="item.value>0") +{{item.value}}%
         span.block__fund--right(
-            :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-            v-else-if="item.value<0") -{{item.value}}%
+            :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+            v-else-if="item.value<0") {{item.value}}%
         span.block__fund--right(v-else-if="item.value==='--'") {{item.value}}
         span.block__fund--right(v-else) {{item.value}}%
     .block__fund-p
