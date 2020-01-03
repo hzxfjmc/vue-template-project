@@ -13,13 +13,13 @@
                 .block__fund--left
                     span {{$t('FeatureFund')}}
                 .block__fund--right(@click="currencyShow=true")
-                    span {{labelTitle||currencyLis['fundAllType'].label}}
+                    span {{labelTitle||currencyList['fundAllType'].label}}
                     em.iconfont(:class="currencyShow?'icon-icon-top':'icon-icon-bottom'")
                 .block__master(v-if="currencyShow")
                     .block__list--element.border-top(
                         :class="active === index ?'active':''"
                         @click="handlerType(item,index)"
-                        v-for="(item,index) in currencyLis")
+                        v-for="(item,index) in currencyList")
                         .block__list--left {{item.label}}
                         .block__list--icon.iconfont.icon-tick-(v-if="active===index")
         .block__fund--master(
@@ -93,7 +93,7 @@ export default {
             bannerUrl: [],
             labelTitle: '',
             active: 'fundAllType',
-            currencyLis: {
+            currencyList: {
                 fundAllType: {
                     label: '全部币种',
                     value: null
@@ -121,6 +121,21 @@ export default {
     mounted() {
         this.assetTypetab = this.$route.query.type
         this.getSource()
+        this.assetType = this.$route.query.type
+        this.currency = this.$route.query.currency
+        this.assetTypetab = this.$route.query.type
+        this.getFundListV2()
+        this.initI18nState()
+        if (this.$route.query.type) {
+            this.changeBannarTitle()
+        }
+        let tab = LS.get('fundListCurrencyTab')
+        this.label =
+            tab === 'fundUsdType'
+                ? this.$t('fundUsdType')
+                : tab === 'fundHkdType'
+                ? this.$t('fundHkdType')
+                : this.$t('fundAllType')
     },
     methods: {
         handlerType(item, index) {
@@ -233,8 +248,8 @@ export default {
                     : require(`@/assets/img/fund/fundImg/${this.lang}/zhaiquan.png`)
         },
         initI18nState() {
-            for (let key in this.currencyLis) {
-                this.currencyLis[key].label = this.$t(key)
+            for (let key in this.currencyList) {
+                this.currencyList[key].label = this.$t(key)
             }
         }
     },
@@ -261,8 +276,6 @@ export default {
                         : tab === 'fundHkdType'
                         ? this.$t('fundHkdType')
                         : this.$t('fundAllType')
-                console.log(tab)
-                console.log(this.$t('fundHkdType'))
             }
         }
     }

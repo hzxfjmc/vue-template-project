@@ -111,7 +111,7 @@ export default {
             this.usdPositionAmount = usdPositionAmount
             this.hkdPositionAmount = hkdPositionAmount
             this.usPositionList.map(item => {
-                item.currency = item.currency.shortSymbol
+                item.currency = item.currency.type
                 for (let key in item) {
                     if (
                         key != 'fundId' &&
