@@ -97,6 +97,7 @@ export default {
             step: 1,
             orderNo: null,
             buyMoneyBlur: false,
+            currencyType: this.$route.query.currencyType,
             positionShare: 0, // 持有份额
             positionMarketValue: 0, // 持仓市值
             lowestInvestAmount: 0, // 最低持有金额
