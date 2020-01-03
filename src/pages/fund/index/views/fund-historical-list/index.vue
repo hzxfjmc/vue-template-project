@@ -1,9 +1,9 @@
 <template lang="pug">
 .block__fund--historical
-    .block__fund--item.block__fund--header
+    .block__fund--item.border-bottom
         span.block__fund--left {{$t('timeMore')}}
         span.block__fund--right {{$t('nav')}}
-    .block__fund--item(
+    .block__fund--item.border-bottom(
         v-for="(item,index) in timeList" 
         :key="index")
         span.block__fund--left {{item.label}}
@@ -170,7 +170,7 @@ export default {
     }
     .block__fund--header {
         height: 30px;
-        background: #e1e1e1;
+        // background: #e1e1e1;
         line-height: 30px;
     }
     .block__fund-p {

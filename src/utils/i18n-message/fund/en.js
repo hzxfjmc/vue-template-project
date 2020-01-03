@@ -16,5 +16,6 @@ export const en = {
     home: 'Smart Fund',
     fundOrderList: 'Order Records',
     fundAccount: 'My Funds',
-    fundHistorical: 'NAV History'
+    fundHistorical: 'NAV History',
+    fundHistoricalList: 'Historical RTN'
 }

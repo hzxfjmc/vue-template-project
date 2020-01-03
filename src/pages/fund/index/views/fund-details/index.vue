@@ -29,7 +29,9 @@
             span.title {{$t('risk')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
-        fundCardList(:recommendList="recommendList")
+        fundCardList(
+            v-if="recommendList.length != 0"
+            :recommendList="recommendList")
 
         .fund___list--p
             p {{$t('msg')}}
