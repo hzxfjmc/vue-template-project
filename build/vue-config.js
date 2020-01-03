@@ -261,11 +261,11 @@ module.exports = {
             //     // }
             // },
             // 债券交易
-            // '/': {
-            //     ws: false,
-            //     target: jyApi,
-            //     changeOrigin: true
-            // }
+            '/': {
+                ws: false,
+                target: jyApi,
+                changeOrigin: true
+            }
         },
         historyApiFallback: {}
     },

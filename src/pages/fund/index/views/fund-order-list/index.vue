@@ -32,6 +32,7 @@
 import { fundOrderList } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { handlerBatchgetUserGroupOrder } from '@/service/zt-group-apiserver.js'
 import { List } from 'vant'
 export default {
     components: {
@@ -73,10 +74,21 @@ export default {
             loading: false,
             finished: false,
             finishedText: '无更多内容',
-            currency: this.$route.query.currency
+            currency: this.$route.query.currency,
+            orderList: []
         }
     },
     methods: {
+        //批量查询用户团购单
+        async handlerBatchgetUserGroupOrder(data) {
+            try {
+                const { order_list } = await handlerBatchgetUserGroupOrder(data)
+                this.orderList = this.orderList.concat(order_list)
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('handlerBatchgetUserGroupOrder:error:>>>', e)
+            }
+        },
         // 跳转到详情
         toDetailHandle(item) {
             this.$router.push({
@@ -104,12 +116,20 @@ export default {
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
+                let arr = []
                 list.map(item => {
                     item.orderAmount = transNumToThousandMark(item.orderAmount)
                     item.orderTime = dayjs(item.orderTime).format(
                         'YYYY-MM-DD HH:mm:ss'
                     )
+                    let obj = {
+                        biz_id: item.fundBaseInfoVO.fundId,
+                        order_id: item.orderNo,
+                        biz_type: 0
+                    }
+                    arr.push(obj)
                 })
+                await handlerBatchgetUserGroupOrder({ biz_order_list: arr })
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
                 this.loading = false

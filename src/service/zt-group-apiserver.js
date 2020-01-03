@@ -16,3 +16,14 @@ export const getGroupAction = data => {
 export const getGroupOrder = data => {
     return axios.get(`/zt-group-apiserver/api/v1/group/get-group-orders`, data)
 }
+
+/**
+ * @describe 批量查询用户团购单
+ * @param {Object}
+ */
+export const handlerBatchgetUserGroupOrder = data => {
+    return axios.post(
+        `/zt-group-apiserver/api/v1/group/batchget-user-grouporder`,
+        data
+    )
+}
