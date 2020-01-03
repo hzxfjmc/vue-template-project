@@ -124,6 +124,7 @@ export default {
     },
     i18n: {
         zhCHS: {
+            unit: '亿',
             fundHold: '基金持仓',
             SevenDayIncome: '近七日收益',
             hkd: '港币',
@@ -146,6 +147,7 @@ export default {
             fundHold: '基金持倉',
             SevenDayIncome: '近七日收益',
             hkd: '港幣',
+            unit: '億',
             usd: '美元',
             accountTotal: '基金總資產',
             fundCurrency: '貨幣型',
@@ -162,6 +164,7 @@ export default {
                 '1. 你可選擇港幣或美元作為基金總資產基礎貨幣。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。'
         },
         en: {
+            unit: 'B ',
             fundHold: 'Position',
             SevenDayIncome: '7 Days',
             hkd: 'HKD',

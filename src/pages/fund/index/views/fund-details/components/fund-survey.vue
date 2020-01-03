@@ -19,17 +19,23 @@
             p {{fundOverviewInfoVO.investArea}}
         .block__fund--item
             .block__fund--title {{$t('fundSize')}}
-            p {{fundOverviewInfoVO.currencyName}} {{fundOverviewInfoVO.fundSize|transNumToThousandMark}}
+            p(v-if="lang != 'en'") {{fundOverviewInfoVO.currencyName}} {{fundOverviewInfoVO.fundSize/100000000}} {{$t('unit')}}
+            p(v-if="lang == 'en' && fundOverviewInfoVO.fundSize/100000000 > 10 ") {{fundOverviewInfoVO.currencyName}} {{fundOverviewInfoVO.fundSize/1000000000}} Billion
+            p(v-if="lang == 'en' && fundOverviewInfoVO.fundSize/100000000 < 10 ") {{fundOverviewInfoVO.currencyName}} {{fundOverviewInfoVO.fundSize/10000000}} Million
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
-
+import { mapGetters } from 'vuex'
 export default {
+    computed: {
+        ...mapGetters(['lang'])
+    },
     filters: {
         transNumToThousandMark: transNumToThousandMark
     },
     i18n: {
         zhCHS: {
+            unit: '亿',
             survey: '基金概况',
             surveytips: '概況、分红、文件',
             fundCompanyName: '基金公司',
@@ -38,6 +44,7 @@ export default {
             fundSize: '基金规模'
         },
         zhCHT: {
+            unit: '億',
             survey: '基金概況',
             surveytips: '概況、分紅、文件',
             fundCompanyName: '基金公司',
@@ -46,6 +53,7 @@ export default {
             fundSize: '基金規模'
         },
         en: {
+            unit: 'B ',
             survey: 'Fund Overview',
             surveytips: 'Details、Dividend、DOC',
             fundCompanyName: 'Fund Company',

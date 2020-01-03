@@ -25,7 +25,7 @@
                 p.list__right(
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                     v-else-if="item.value<0") {{item.value|transNumToThousandMark(2)}}%
-                p.list__right(v-else) {{item.value}}%
+                p.list__right(v-else) --
             .block__list--more(@click="toFundHistorylist")
                 span {{$t('more1')}}
     .fund-echart-content2(v-show ="activeTab ==3")
@@ -61,10 +61,18 @@
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
             .header-right
-                span.number.number-red(v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType === 4") +{{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number.number-red(v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType !== 4") +{{Number(masterData.pointData)| sliceFixedTwo(2)}}%
-                span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
+                span.number(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType === 4") +{{Number(masterData.pointData)| sliceFixedTwo(4)}}%
+                span.number(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType !== 4") +{{Number(masterData.pointData)| sliceFixedTwo(2)}}%
+                span.number(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
+                span.number(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
                 span.number(v-if="masterData.pointData==0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
                 span.number(v-if="masterData.pointData===0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
                 p.day {{fundHeaderInfoVO.assetType === 4 ? $t('yieldInLast7d'):$t('nav')}}：

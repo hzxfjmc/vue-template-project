@@ -10,7 +10,7 @@
             title-active-color="#2F79FF")
                 van-tab(:title="$t('list')['fundIntroduce'].label" :name="0")
                 van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
-                van-tab(title="相关文件" :name="2")
+                van-tab(:title="$t('list')['fundFiles'].label" :name="2")
     .fund-introduce-content(v-if="active===0")
         .fund-introduce-list(
             v-for="(item,index) of list"
@@ -131,6 +131,11 @@ export default {
                         this.list[key].value = `${
                             fundTradeInfoVO.currency.name
                         } ${transNumToThousandMark(fundHeaderInfoVO[key])}`
+                    }
+                    if (key === 'establishDay') {
+                        this.list[key].value = dayjs(
+                            this.list[key].value
+                        ).format('YYYY-MM-DD')
                     }
                 }
                 for (let key in this.otherList) {

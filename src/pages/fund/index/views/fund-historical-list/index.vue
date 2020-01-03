@@ -16,7 +16,7 @@
         span.block__fund--right(v-else-if="item.value==='--'") {{item.value}}
         span.block__fund--right(v-else) {{item.value}}%
     .block__fund-p
-        p 基金過往業績不預示未來表現，示構成投資建議，市場有風險投資需謹慎
+        p {{$t('msg')}}
 </template>
 <script>
 import { getFundPerformanceHistory } from '@/service/finance-info-server.js'
@@ -43,7 +43,7 @@ export default {
                 all: '成立来'
             },
             msg:
-                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎'
+                '基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎'
         },
         zhCHT: {
             timeMore: '時間區間',
@@ -60,7 +60,7 @@ export default {
                 all: '成立来'
             },
             msg:
-                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
+                '基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
         },
         en: {
             timeMore: 'Period',
@@ -68,16 +68,16 @@ export default {
             timeTranslation: {
                 oneWeek: 'Last 1 week',
                 oneMonth: 'Last 1 month',
-                threeMonth: 'Last 1 year',
-                sixMonth: 'Last 1 year',
+                threeMonth: 'Last 3 month',
+                sixMonth: 'Last 6 month',
                 oneYear: 'Last 1 year',
-                twoYear: 'YTD',
-                threeYear: 'YTD',
+                twoYear: 'Last 2 year',
+                threeYear: 'Last 3 year',
                 fiveYear: 'YTD',
                 all: 'ALL'
             },
             msg:
-                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.'
+                'Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.'
         }
     },
     data() {
