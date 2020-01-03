@@ -1,6 +1,6 @@
 <template lang="pug">
 .funds-details-header
-    .fund-details-header-top.border-bottom
+    .fund-details-header-top
         h3 {{fundHeaderInfoVO.fundName}}
         .funds-details-subtitle 
             span ISIN：{{fundHeaderInfoVO.isin}}
@@ -29,7 +29,7 @@
             p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
     .funds-details-footer
         .block__details--left
-            span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}):{{fundHeaderInfoVO.netPrice}} 
+            span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：{{fundHeaderInfoVO.netPrice}} 
             span(
                 :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                 v-if="this.price>0") (+{{this.price}}%)
@@ -38,7 +38,7 @@
                 v-else-if="this.price<0") ({{this.price}}%)
             span(v-else) ({{this.price}}%)
         .block__details--right
-            span {{$t('update')}}:{{fundHeaderInfoVO.belongDay}}
+            span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
 </template>
 <script>
 import dayjs from 'dayjs'
@@ -50,7 +50,7 @@ export default {
     },
     i18n: {
         zhCHS: {
-            fundPrice: '基金价格',
+            fundPrice: '基金净值',
             minInvestment: '起投金额',
             purchase: '起购金额',
             update: '更新时间',
@@ -70,7 +70,7 @@ export default {
             update: '更新時間'
         },
         en: {
-            fundPrice: 'Price',
+            fundPrice: 'NAV',
             minInvestment: 'Min. Initial Investment',
             oneYearShow: 'Past Year',
             hkd: 'HKD',
@@ -159,7 +159,7 @@ export default {
     }
     .funds-details-number {
         width: 100%;
-        padding: 20px 10px 0 10px;
+        padding: 10px 10px 20px 10px;
         background: #fff;
         display: flex;
         flex-direction: row;

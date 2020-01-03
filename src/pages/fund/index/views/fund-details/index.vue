@@ -17,10 +17,14 @@
         HoldfundDetails(
             v-if="holdDetailsShow"
             :initState="holdInitState")
-
+        .block__fundheader--tips(@click="toRouterGenerator('/order-record')")
+            em.iconfont.icon-iconEBshoucang
+            span.title {{$t('trade')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
-        .block__fundheader--tips(@click="toRouterGenerator")
+        .block__fundheader--tips(@click="toRouterGenerator('/generator')")
             em.iconfont.icon-iconEBshoucang2
             span.title {{$t('risk')}}
             .block__list--right
@@ -74,6 +78,7 @@ export default {
             redeem: '赎回',
             risk: '风险提示',
             append: '追加',
+            trade: '交易记录',
             login: '请登录后进行操作 ',
             loginBtn: '立即登录',
             openAccountBtn: '立即开户',
@@ -97,6 +102,7 @@ export default {
             redeem: '贖回',
             risk: '風險提示',
             append: '續投',
+            trade: '交易記錄',
             login: '請登陸後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
@@ -119,6 +125,7 @@ export default {
             buy: 'Subscribe',
             redeem: 'Redemption',
             risk: 'Risk Disclosure',
+            trade: 'Transaction Records',
             append: 'Incremental',
             login: 'Please login in',
             loginBtn: 'Login',
@@ -326,8 +333,13 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        toRouterGenerator() {
-            let url = `${window.location.origin}/wealth/fund/index.html#/generator?key=${this.fundHeaderInfoVO.fundCode}`
+        toRouterGenerator(data) {
+            let url
+            if (data === '/generator') {
+                url = `${window.location.origin}/wealth/fund/index.html#/generator?key=${this.fundHeaderInfoVO.fundCode}`
+            } else {
+                url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
+            }
             jumpUrl(3, url)
         },
         async getFundPerformanceHistory() {
@@ -689,6 +701,9 @@ export default {
             font-size: 15px;
             line-height: 25px;
         }
+    }
+    .iconfont {
+        font-size: 20px;
     }
 }
 .fund-details {

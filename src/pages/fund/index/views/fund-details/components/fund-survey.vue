@@ -31,7 +31,7 @@ export default {
     i18n: {
         zhCHS: {
             survey: '基金概况',
-            surveytips: '概況、分紅、文件',
+            surveytips: '概況、分红、文件',
             fundCompanyName: '基金公司',
             assetSubType: '资产类别',
             investArea: '投资地区',

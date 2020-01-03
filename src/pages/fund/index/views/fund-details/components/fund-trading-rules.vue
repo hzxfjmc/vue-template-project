@@ -100,7 +100,7 @@ export default {
         flex-direction: row;
         p {
             width: 50%;
-            line-height: 25px;
+            line-height: 28px;
         }
         .block__list--left {
             color: #666666;
@@ -145,6 +145,9 @@ export default {
                 font-size: 15px;
                 line-height: 25px;
             }
+        }
+        .iconfont {
+            font-size: 20px;
         }
     }
 }

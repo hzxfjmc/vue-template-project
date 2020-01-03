@@ -61,19 +61,16 @@ export default {
         zhCHS: {
             fundHkdType: '港币基金',
             fundUsdType: '美元基金',
-
             nomore: '暂无持仓'
         },
         zhCHT: {
             fundHkdType: '港幣基金',
             fundUsdType: '美元基金',
-
             nomore: '暫無持倉'
         },
         en: {
             fundHkdType: 'HKD Fund',
             fundUsdType: 'USD Fund',
-
             nomore: 'No Position'
         }
     },

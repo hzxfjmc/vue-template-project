@@ -15,7 +15,7 @@
             .block__list--item.fund__list--headerjy
                 p.list__left {{$t('timeMore')}}
                 p.list__right {{$t('nav')}}
-            .block__list--item(
+            .block__list--item.border-bottom(
                 v-for="(item,index) in timeList" 
                 :key="index")
                 p.list__left {{item.label}}
@@ -27,14 +27,14 @@
                     v-else-if="item.value<0") {{item.value|transNumToThousandMark(2)}}%
                 p.list__right(v-else) {{item.value}}%
             .block__list--more(@click="toFundHistorylist")
-                span {{$t('more')}}
+                span {{$t('more1')}}
     .fund-echart-content2(v-show ="activeTab ==3")
         .block__fund--yj
             .block__list--item.fund__list--headerjy.fund__list--content
                 p.list__left {{$t('time')}}
                 p.list__content {{$t('navChg')}}
                 p.list__right {{$t('nav')}}
-            .block__list--item(
+            .block__list--item.border-bottom(
                 v-for="(item,index) in historyList" 
                 :key="index")
                 p.list__left {{item.belongDay}}
@@ -47,7 +47,7 @@
                     v-else-if="item.price<0") {{item.price}}%
                 p.list__right(v-else) {{item.price}}%
             .block__list--more(@click="toFundHistory")
-                span {{$t('more')}}
+                span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
         .block__fund--title(v-if="fundHeaderInfoVO.assetType != 4") 
             span {{tabObj.label}}{{$t('incomeRate')}}：
@@ -92,7 +92,7 @@ export default {
             timeMore: '时间区间',
             navChg: '单位净值',
             incomeRate: '收益率',
-            more: '查看更多',
+            more1: '查看更多',
             yieldInLast7d: '近七日年化',
             list: {
                 0: { date: '近1月' },
@@ -110,7 +110,7 @@ export default {
             fundTrade: '基金業績走勢',
             incomeRate: '收益率',
             timeMore: '時間區間',
-            more: '查看更多',
+            more1: '查看更多',
             dayChg: '日漲幅',
             navChg: '單位淨值',
             nav: '漲幅',
@@ -132,7 +132,7 @@ export default {
             dayChg: 'Day%Chg',
             navChg: 'NAV',
             timeMore: 'Period',
-            more: 'More',
+            more1: 'More',
             incomeRate: 'Return',
             fundTrade: 'Trend Charts',
             time: 'Time',
@@ -341,7 +341,7 @@ export default {
     .block__list--item {
         display: flex;
         flex-direction: row;
-        line-height: 30px;
+        line-height: 40px;
         .list__left,
         .list__right {
             font-size: 14px;

@@ -4,13 +4,12 @@
         span(:style="{background:bgColor}")
         p {{title}}
         .block__fund--right
-            p {{currency === '2'?'港币市值' :'美元市值'}} {{currency === '2'?'HKD' :'USD'}} {{amount}}
+            p {{currency === '2'?$t('hkdAssets') :$t('usdAssets')}} {{currency === '2'?'HKD' :'USD'}} {{amount|parseThousands(2)}}
             //- p 
         em(:class="listShow && fundList.length != 0 ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
-    .list-item-content(
+    .list-item-content.border-bottom(
         v-for="(item,index) in fundList" 
         v-if="listShow"
-        :class="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0 ? '':'border-bottom'"
         :key="index" 
         @click="toFundDetails(item)")
         .fund-name {{item.fundName}}
@@ -251,12 +250,12 @@ export default {
             margin: 10px 0 0 0;
             // padding: 7px 0 0 0;
             line-height: 40px;
-            height: 40px;
-            border-radius: 4px;
-            background: rgba(0, 0, 0, 0.02);
             .o-item {
                 display: flex;
                 margin: 5px 0 0 0;
+                height: 40px;
+                border-radius: 4px;
+                background: rgba(0, 0, 0, 0.02);
                 flex-direction: row;
                 .footer-left-l {
                     width: 50%;
