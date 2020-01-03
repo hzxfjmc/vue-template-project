@@ -165,14 +165,14 @@ export default {
             return this.isLogin && this.openedAccount
         },
         disabled() {
+            // 接口返回数据后才允许点击
             if (
-                this.userInfo.assessResult &&
-                this.fundHeaderInfoVO.fundRiskType
+                !this.userInfo.grayStatusBit ||
+                !this.fundOverviewInfoVO.tradeAuth
             ) {
-                return false
-            } else {
                 return true
             }
+            return false
         },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
@@ -368,6 +368,7 @@ export default {
         async getCurrentUser() {
             try {
                 const res = await getCurrentUser()
+                console.log(res)
                 this.userInfo = res
             } catch (e) {
                 this.$toast(e.msg)
