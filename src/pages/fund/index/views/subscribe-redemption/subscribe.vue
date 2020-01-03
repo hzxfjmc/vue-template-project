@@ -84,6 +84,7 @@ import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
+import { jumpUrl } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import './index.scss'
 export default {
@@ -182,7 +183,10 @@ export default {
                         cancelButtonText: this.$t('iknow')
                     })
                     .then(() => {
-                        // on confirm
+                        jumpUrl(
+                            3,
+                            `${window.location.origin}/webapp/open-account/deposit.html#/`
+                        )
                     })
                     .catch(() => {
                         // on cancel
