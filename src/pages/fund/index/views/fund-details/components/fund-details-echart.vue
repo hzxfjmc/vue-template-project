@@ -33,7 +33,7 @@
             .block__list--item.fund__list--headerjy.fund__list--content
                 p.list__left {{$t('time')}}
                 p.list__content {{$t('navChg')}}
-                p.list__right {{$t('nav')}}
+                p.list__right {{$t('dayChg')}}
             .block__list--item.border-bottom(
                 v-for="(item,index) in historyList" 
                 :key="index")
@@ -86,7 +86,7 @@ export default {
     i18n: {
         zhCHS: {
             fundTrade: '基金业绩走势',
-            nav: '涨幅',
+            nav: '涨跌幅',
             time: '日期',
             dayChg: '日涨幅',
             timeMore: '时间区间',
@@ -113,7 +113,7 @@ export default {
             more1: '查看更多',
             dayChg: '日漲幅',
             navChg: '單位淨值',
-            nav: '漲幅',
+            nav: '漲跌幅',
             time: '日期',
             yieldInLast7d: '近七日年化',
             list: {
