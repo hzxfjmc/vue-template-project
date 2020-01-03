@@ -349,14 +349,15 @@ export default {
                 })
                 for (let key in this.timeList) {
                     // if (res[key] * 100 == 0) {
-                    this.timeList[key].value = res[key].toFixed(2)
+                    this.timeList[key].value = (res[key] * 100).toFixed(2)
                     // } else {
                     //     this.timeList[key].value = res[key]
                     // }
                 }
                 for (let key in this.timeLists) {
-                    this.timeLists[key].value = res[key]
+                    this.timeLists[key].value = (res[key] * 100).toFixed(2)
                 }
+                console.log(this.timeList['oneMonth'].value)
                 this.tabObj.label = this.timeList['oneMonth'].label
                 this.tabObj.value = this.timeList['oneMonth'].value
             } catch (e) {

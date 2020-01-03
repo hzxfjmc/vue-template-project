@@ -53,11 +53,11 @@
             span {{tabObj.label}}{{$t('incomeRate')}}：
             span(
                 :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                v-if="tabObj.value>0") +{{tabObj.value|transNumToThousandMark(2)}}%
+                v-if="tabObj.value>0") +{{tabObj.value}}%
             span(
                 :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                v-else-if="tabObj.value<0") {{tabObj.value|transNumToThousandMark(2)}}%
-            span(v-else) {{tabObj.value|transNumToThousandMark(2)}}%
+                v-else-if="tabObj.value<0") {{tabObj.value}}%
+            span(v-else) {{tabObj.value}}%
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
             .header-right
