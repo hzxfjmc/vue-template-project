@@ -252,32 +252,6 @@ export default {
                 this.currencyList[key].label = this.$t(key)
             }
         }
-    },
-    watch: {
-        $route(to, from) {
-            if (
-                from.path === '/home' ||
-                from.path === '/fund-index' ||
-                from.path === '/'
-            ) {
-                this.assetType = this.$route.query.type
-                this.currency = this.$route.query.currency
-                this.assetTypetab = this.$route.query.type
-                this.getFundListV2()
-                this.getSource()
-                this.initI18nState()
-                if (this.$route.query.type) {
-                    this.changeBannarTitle()
-                }
-                let tab = LS.get('fundListCurrencyTab')
-                this.label =
-                    tab === 'fundUsdType'
-                        ? this.$t('fundUsdType')
-                        : tab === 'fundHkdType'
-                        ? this.$t('fundHkdType')
-                        : this.$t('fundAllType')
-            }
-        }
     }
 }
 </script>
