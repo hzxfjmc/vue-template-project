@@ -47,7 +47,7 @@
                     CountDown( 
                         millisecond
                         :time="time"
-                        format="HH:mm:ss:SSS")
+                        format="DD天 HH:mm:ss")
                 span 还差1人
             .block__footer-right
                 van-button(
@@ -225,6 +225,7 @@ export default {
                 }
                 res.action.rule_detail = JSON.parse(res.action.rule_detail)
                 this.actionInfo = res.action
+                this.time = (res.action.action_end_time - res.unix_time) * 1000
                 console.log(this.actionInfo)
             } catch (e) {
                 console.log('getGroupAction:error:>>>', e)
@@ -569,12 +570,12 @@ export default {
         align-items: center;
         .block__footer--content {
             width: 60%;
-
             line-height: 22px;
             display: flex;
             flex-direction: row;
             .van-count-down {
                 font-size: 16px;
+                font-family: yxFontDINPro-Medium;
                 color: rgba(234, 61, 61, 1);
                 line-height: 24px;
             }
