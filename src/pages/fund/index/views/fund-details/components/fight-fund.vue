@@ -65,6 +65,11 @@ export default {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem
     },
+    props: {
+        actionInfo: {
+            type: Object
+        }
+    },
     data() {
         return {}
     }
