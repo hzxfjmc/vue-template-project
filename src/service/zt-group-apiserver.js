@@ -27,3 +27,14 @@ export const handlerBatchgetUserGroupOrder = data => {
         data
     )
 }
+
+/**
+ * @describe 创建拼团单
+ * @param {Object}
+ */
+export const createGroupOrder = data => {
+    return axios.post(
+        `/zt-group-apiserver/api/v1/group/create-group-order`,
+        data
+    )
+}
