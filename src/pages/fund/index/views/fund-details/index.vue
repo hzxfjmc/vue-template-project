@@ -13,7 +13,9 @@
             v-if="holdDetailsShow"
             :initState="holdInitState")
 
-        FightFund(:actionInfo = "actionInfo")
+        FightFund(
+            v-if="!fightShow"
+            :actionInfo = "actionInfo")
         
         fundDetailsList(
             :fundCorrelationFileList="fundCorrelationFileList"
@@ -159,7 +161,7 @@ export default {
     },
     data() {
         return {
-            fightShow: false,
+            fightShow: true,
             time: 30 * 60 * 60 * 1000,
             fundHeaderInfoVO: {
                 apy: 0.0,
@@ -212,13 +214,17 @@ export default {
         //查询业务团购活动
         async getGroupAction() {
             try {
-                const { action } = await getGroupAction({
+                const res = await getGroupAction({
                     biz_id: this.id,
                     biz_type: 0,
                     action_status: 2
                 })
-                action.rule_detail = JSON.parse(action.rule_detail)
-                this.actionInfo = action
+
+                if (res !== null || res.action) {
+                    this.fightShow = false
+                }
+                res.action.rule_detail = JSON.parse(res.action.rule_detail)
+                this.actionInfo = res.action
                 console.log(this.actionInfo)
             } catch (e) {
                 console.log('getGroupAction:error:>>>', e)
