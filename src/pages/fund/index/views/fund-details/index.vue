@@ -217,7 +217,9 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
+                action.rule_detail = JSON.parse(action.rule_detail)
                 this.actionInfo = action
+                console.log(this.actionInfo)
             } catch (e) {
                 console.log('getGroupAction:error:>>>', e)
             }

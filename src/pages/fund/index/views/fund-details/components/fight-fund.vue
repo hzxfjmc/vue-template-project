@@ -27,7 +27,8 @@
             span 拼团未满达成目标，视为拼团失败不影响基金申购
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/check.png')")
-            span 拼团成功团长和团员可享申购费90%返还
+            span 拼团成功，
+                em(v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 团队规模{{item.start_user_count}}人以上尊享申购费{{item.discount/1000}}折;
     .block__bottom--header
         img(:src="require('@/assets/img/fund/icon/Notice.png')")
         span 3280人正在拼团申购
@@ -163,6 +164,9 @@ export default {
                 width: 12px;
                 height: 12px;
                 margin: 0 5px;
+            }
+            em {
+                font-style: normal;
             }
         }
     }
