@@ -13,8 +13,8 @@
         span.block__fund--right(
             :class="stockColorType === 1 ? 'number-green' : 'number-red'"
             v-else-if="item.value<0") {{item.value}}%
-        span.block__fund--right(v-else-if="item.value==='--'") {{item.value}}
-        span.block__fund--right(v-else) {{item.value}}%
+        //- span.block__fund--right(v-else-if="item.value==='--'") {{item.value}}
+        span.block__fund--right(v-else) --
     .block__fund-p
         p {{$t('msg')}}
 </template>
@@ -129,8 +129,7 @@ export default {
                     fundId: this.$route.query.id
                 })
                 for (let key in this.timeList) {
-                    this.timeList[key].value =
-                        Math.floor(res[key] * 10000) / 100 || '--'
+                    this.timeList[key].value = (res[key] * 100).toFixed(2)
                 }
             } catch (e) {
                 this.$toast(e.msg)
