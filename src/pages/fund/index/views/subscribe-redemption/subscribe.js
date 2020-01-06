@@ -11,10 +11,10 @@ export const subscribeObj = {
     //     label: '最大可买',
     //     value: ''
     // },
-    // buyMoney: {
-    //     label: '购买金额',
-    //     value: null
-    // },
+    buyMoney: {
+        label: '购买金额',
+        value: null
+    },
     subscriptionFee: {
         label: '申购费（预计）',
         value: ''

@@ -136,12 +136,12 @@ export default {
             timeTranslation: {
                 oneWeek: 'Last 1 week',
                 oneMonth: 'Last 1 month',
-                threeMonth: 'Last 1 year',
-                sixMonth: 'Last 1 year',
+                threeMonth: 'Last 3 month',
+                sixMonth: 'Last 6 month',
                 oneYear: 'Last 1 year',
-                twoYear: 'YTD',
-                threeYear: 'YTD',
-                fiveYear: 'YTD',
+                twoYear: 'Last 2 year',
+                threeYear: 'Last 3 year',
+                fiveYear: 'Last 5 year',
                 all: 'ALL'
             },
             msg:

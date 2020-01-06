@@ -308,7 +308,9 @@ export default {
             this.active = 0
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
+                console.log(this.$t('list')[key].date)
             }
+            console.log(this.list)
         }
     },
     computed: {

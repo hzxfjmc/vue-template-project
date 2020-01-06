@@ -21,7 +21,7 @@
                                 :disabled="disabledInput"
                                 @input="changeNumber"
                                 :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
-                    .buy-row-item(v-for="(item,index) in subscribeObj")
+                    .buy-row-item(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
@@ -396,7 +396,6 @@ export default {
                         tradeToken: token
                     })
                     submitStep = 2
-                    alert(submitStep)
                     this.orderNo = re.orderNo
                     this.orderTotalAmount = re.orderTotalAmount
                     console.log('申购页面-fundPurchaseData:', re)
@@ -409,7 +408,6 @@ export default {
                     this.$close()
                 }
             }
-            alert(submitStep)
             if (submitStep === 2) {
                 this.step = 2
             }
