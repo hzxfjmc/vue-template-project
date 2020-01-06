@@ -1,7 +1,7 @@
 <template lang="pug">
 .block-fund-index
     .block__swiper.block__fund_index_swiper
-        van-swipe(:autoplay="10000") 
+        van-swipe(:autoplay="3000") 
             van-swipe-item(
                 v-for="(item, index) in barnnarHkList" 
                 :key="index"  
@@ -59,7 +59,7 @@
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
         .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
-            van-swipe 
+            van-swipe(:autoplay="3000")  
                 van-swipe-item(
                     v-for="(item, index) in barnnarList" 
                     @click="goBanner(item)"
@@ -81,7 +81,7 @@
         .block-bannar-sub(
             :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']"
             v-if="barnnarUsList.length !== 0")
-            van-swipe(:autoplay="10000") 
+            van-swipe(:autoplay="3000") 
                 van-swipe-item(
                     v-for="(item, index) in barnnarUsList" 
                     :key="index"  
