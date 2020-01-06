@@ -73,7 +73,7 @@ export default {
                 oneYear: 'Last 1 year',
                 twoYear: 'Last 2 year',
                 threeYear: 'Last 3 year',
-                fiveYear: 'YTD',
+                fiveYear: 'Last 5 year',
                 all: 'ALL'
             },
             msg:

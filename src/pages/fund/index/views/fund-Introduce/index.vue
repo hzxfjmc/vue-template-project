@@ -133,9 +133,9 @@ export default {
                         } ${transNumToThousandMark(fundHeaderInfoVO[key])}`
                     }
                     if (key === 'establishDay') {
-                        this.list[key].value = dayjs(
-                            this.list[key].value
-                        ).format('YYYY-MM-DD')
+                        this.list[key].value = !this.list[key].value
+                            ? '--'
+                            : dayjs(this.list[key].value).format('YYYY-MM-DD')
                     }
                 }
                 for (let key in this.otherList) {
