@@ -13,7 +13,7 @@
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('redeemShares')}}
                         .block__fund--input
-                            span {{currencyType == 1 ? '':'HK'}}$
+                            //- span {{currencyType == 1 ? '':'HK'}}$
                             input(
                                 v-model="redemptionShare" 
                                 type="number"
@@ -30,10 +30,10 @@
                     .buy-row
                         .left
                             span {{ $t('redemption') }}
-                            span ( {{ $t('predict') }}) :
+                            span ({{ $t('predict')}}) :
                         .right
                             span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | parseThousands }}
-                            span ({{ redemptionFeeScale  }}%)
+                            span ({{redemptionFeeScale}}%)
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('balanceRule')"

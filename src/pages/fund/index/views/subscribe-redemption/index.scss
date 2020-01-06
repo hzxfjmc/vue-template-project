@@ -254,6 +254,8 @@
         line-height:30px;
         font-size:24px;
         display:flex;
+        height:40px;
+        width:100%;
         flex-direction: row;
         position: relative;
         p{
@@ -273,7 +275,7 @@
             border:none;
             position: absolute;
             top:-5px;
-            left:50px;
+            // left:50px;
             // border:1px solid red;
             height:40px;
             line-height:30px;

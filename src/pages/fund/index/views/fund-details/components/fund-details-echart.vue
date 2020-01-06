@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-details--echart
-    .block__fund--echart
+    .block__fund--echart.border-bottom
         .block__fund--item(
             :class="activeTab==1?'activeItem':''"
             @click="handlerActiveTab(1)") {{$t('trendCharts')}}
@@ -440,7 +440,7 @@ export default {
     .block__fund--echart {
         display: flex;
         flex-direction: row;
-        height: 54px;
+        height: 40px;
         .block__fund--item {
             width: 33.33%;
             font-size: 16px;

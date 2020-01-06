@@ -38,7 +38,10 @@ export default {
             subscriptionFee: '申购费',
             redemptionFee: '赎回费',
             managementFee: '基金管理费',
-            platformManagementFee: '平台管理费'
+            platformManagementFee: '平台管理费',
+            buySubmit: '买入提交',
+            buyConfirm: '确认份额',
+            buyProfitLoss: '查看盈亏'
         },
         zhCHT: {
             rule: '交易規則',
@@ -46,7 +49,10 @@ export default {
             subscriptionFee: '申購費',
             redemptionFee: '贖回費',
             managementFee: '基金管理費',
-            platformManagementFee: '平台管理費'
+            platformManagementFee: '平台管理費',
+            buySubmit: '買入提交',
+            buyConfirm: '確認份額',
+            buyProfitLoss: '查看盈虧'
         },
         en: {
             rule: 'Trading Rules',
@@ -54,7 +60,10 @@ export default {
             subscriptionFee: 'Subscription Fee',
             redemptionFee: 'Redemption Fee',
             managementFee: 'Management Fee',
-            platformManagementFee: 'Platform Fee'
+            platformManagementFee: 'Platform Fee',
+            buySubmit: 'Submit',
+            buyConfirm: 'Allocate Fund Units',
+            buyProfitLoss: 'Check P/L'
         }
     },
     components: {
@@ -68,6 +77,11 @@ export default {
             type: Object,
             default: () => {}
         }
+    },
+    created() {
+        this.buySubmit.label = this.$t('buySubmit')
+        this.buyConfirm.label = this.$t('buyConfirm')
+        this.buyProfitLoss.label = this.$t('buyProfitLoss')
     },
     data() {
         return {

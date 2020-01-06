@@ -12,7 +12,7 @@
             .block__fund--currey
                 .block__fund--left
                     span {{$t('FeatureFund')}}
-                .block__fund--right(@click="currencyShow=true")
+                .block__fund--right(@click="currencyShow=!currencyShow")
                     span {{labelTitle||currencyList['fundAllType'].label}}
                     em.iconfont(:class="currencyShow?'icon-icon-top':'icon-icon-bottom'")
                 .block__master(v-if="currencyShow")
