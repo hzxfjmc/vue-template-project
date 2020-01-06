@@ -337,7 +337,7 @@ export default {
                 this.tabbarnnarList = res3.banner_list
             } catch (e) {
                 console.log(e)
-                // console.log(e.msg)
+                // this.$toast(e.msg)
             }
         },
         //获取持仓
@@ -362,7 +362,7 @@ export default {
                 this.positionAmount = transNumToThousandMark(positionAmout, 2)
                 this.weekEarnings = transNumToThousandMark(weekEarnings, 2)
             } catch (e) {
-                console.log(e.msg)
+                this.$toast(e.msg)
             }
         },
         handlerCurrency() {
@@ -402,7 +402,7 @@ export default {
                 this.factoryMap_('blueChipFundList', obj)
                 this.factoryMap_('robustFundList', obj)
             } catch (e) {
-                console.log(e.msg)
+                this.$toast(e.msg)
             }
         },
         //工厂模式批量生成图片并插入数组中
@@ -532,7 +532,7 @@ export default {
                 if (flag) {
                     return
                 }
-                console.log(e.msg)
+                this.$toast(e.msg)
             }
         }
     },
