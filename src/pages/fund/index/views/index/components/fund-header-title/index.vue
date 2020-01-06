@@ -70,9 +70,9 @@ export default {
             fundShares: '股票型'
         },
         en: {
-            fundAllType: 'All Currencies',
-            fundHkdType: 'HKD Fund',
-            fundUsdType: 'USD Fund',
+            fundAllType: 'All CURR',
+            fundHkdType: 'HKD',
+            fundUsdType: 'USD',
             fundAll: 'All',
             fundCurrency: 'MMF',
             fundBond: 'Bond',

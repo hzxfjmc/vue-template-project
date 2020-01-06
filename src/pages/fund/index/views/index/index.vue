@@ -63,9 +63,9 @@ export default {
         en: {
             noFund: 'No Data',
             fundAllType: 'ALL CURR',
-            fundHkdType: 'HKD Fund',
+            fundHkdType: 'HKD',
             FeatureFund: 'Feature Fund',
-            fundUsdType: 'USD Fund'
+            fundUsdType: 'USD'
         }
     },
     computed: {
