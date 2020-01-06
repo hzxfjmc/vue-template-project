@@ -167,8 +167,6 @@ export default {
     },
     methods: {
         changeNumber(e) {
-            console.log(e.target.value)
-            console.log(this.subscribeObj.buyMoney.value)
             if (e.target.value > +this.withdrawBalance) {
                 this.subscribeObj.buyMoney.value = +this.withdrawBalance
                 return
@@ -246,11 +244,6 @@ export default {
                 let num =
                     this.withdrawBalance / fundDetail.fundHeaderInfoVO.netPrice
                 this.subscribeObj.withdrawBalanceNetPrice.value = transNumToThousandMark(
-                    num
-                )
-                console.log(
-                    this.withdrawBalance,
-                    fundDetail.fundHeaderInfoVO.netPrice,
                     num
                 )
 
@@ -334,10 +327,6 @@ export default {
             if (submitStep === 1) {
                 try {
                     this.$loading()
-                    // let t = await getTradePasswordToken({
-                    //     password:
-                    //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
-                    // })
                     let params = {
                         displayLocation: 1,
                         fundId: this.$route.query.id,
@@ -345,7 +334,12 @@ export default {
                         requestId: generateUUID(),
                         tradeToken: token
                     }
-                    let re = await fundPurchase(params)
+                    if (!this.$route.query.groupId) {
+                        let re = await fundPurchase(params)
+                        this.orderNo = re.orderNo
+                        this.orderTotalAmount = re.orderTotalAmount
+                        console.log('申购页面-fundPurchaseData:', re)
+                    }
                     await createGroupOrder({
                         group_id: Number(this.$route.query.groupId),
                         biz_type: 0,
@@ -353,12 +347,8 @@ export default {
                         order_detail: JSON.stringify(params)
                     })
                     submitStep = 2
-                    this.orderNo = re.orderNo
-                    this.orderTotalAmount = re.orderTotalAmount
-                    console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
-                    console.log(error)
                     this.$alert({
                         message: error.msg,
                         confirmButtonText: this.$t('iKnow')

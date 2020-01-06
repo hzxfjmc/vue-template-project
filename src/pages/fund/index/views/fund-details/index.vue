@@ -15,6 +15,7 @@
 
         FightFund(
             v-if="!fightShow"
+            :userList="userList"
             :actionInfo = "actionInfo")
         
         fundDetailsList(
@@ -48,7 +49,7 @@
                         millisecond
                         :time="time"
                         format="DD天 HH:mm:ss")
-                span 还差1人
+                span 还差{{differenceNumer}}人
             .block__footer-right
                 van-button(
                     :disabled="disabled") 参与拼团
@@ -204,7 +205,8 @@ export default {
             actionInfo: {},
             orderList: [],
             actionId: '',
-            userList: []
+            userList: [],
+            differenceNumer: 5
         }
     },
     methods: {
@@ -215,8 +217,24 @@ export default {
                     limit: 10,
                     action_id: this.action_id
                 })
-
-                this.userList = order_list
+                let tempArr = []
+                ;(order_list || []).forEach((e, i) => {
+                    tempArr.push({
+                        headImg: e.user_info.head_img,
+                        nickName: e.user_info.nick_name,
+                        order_count: e.group.order_count,
+                        rule_detail: JSON.parse(e.action.rule_detail)
+                            .rule_list[1].discount
+                    })
+                    if (
+                        tempArr.length === 2 ||
+                        i === (order_list || []).length - 1
+                    ) {
+                        this.userList.push(tempArr)
+                        tempArr = []
+                    }
+                })
+                console.log(this.userList)
             } catch (e) {
                 console.log('getGroupOrder:error:>>>', e)
             }
@@ -227,7 +245,10 @@ export default {
                 const { order_list } = await getGroupOrder({
                     group_id: '0'
                 })
-                this.orderList = order_list
+                this.orderList = order_list || []
+                this.differenceNumer =
+                    this.actionInfo.rule_detail.most_user -
+                    this.orderList.length
             } catch (e) {
                 console.log('getGroupOrder:error:>>>', e)
             }
@@ -240,7 +261,6 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
-                console.log(123213)
                 if (res !== null || res.action) {
                     this.fightShow = false
                 }
@@ -436,7 +456,8 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
-            // if (this.disabled) return
+            // alert(this.disabled)
+            if (this.disabled) return
             if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >

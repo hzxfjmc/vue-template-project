@@ -35,29 +35,15 @@
     .block__bottom--swiper
         van-swipe(
             :show-indicators="false"
-            :autoplay='52222222000'
+            :autoplay='3000'
             style="height:150px;"
             vertical)
-            van-swipe-item 
-                .block__vant--item.border-top
+            van-swipe-item(v-for="(item,index) in userList")
+                .block__vant--item.border-top(v-for="(items,index) in item")
                     .block__vant--left
-                        img(:src="require('@/assets/img/fund/icon/Achieve.png')")
-                    .block__vant--name 我是南山巴菲特
-                    .block__vant--p 拼团成功，团队规模3人，尊享申购费8折
-                .block__vant--item.border-top
-                    .block__vant--left
-                        img(:src="require('@/assets/img/fund/icon/Achieve.png')")
-                    .block__vant--name 我是南山巴菲特
-                    .block__vant--p 拼团成功，团队规模3人，
-            van-swipe-item 
-                .block__vant--item 3
-                .block__vant--item 4
-            van-swipe-item 
-                .block__vant--item 5
-                .block__vant--item 6
-            van-swipe-item  
-                .block__vant--item 7
-                .block__vant--item 8
+                        img(:src="items.headImg")
+                    .block__vant--name {{items.nickName}}
+                    .block__vant--p 拼团成功，团队规模{{items.order_count}}人，尊享申购费{{items.rule_detail/1000}}折
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -69,6 +55,9 @@ export default {
     props: {
         actionInfo: {
             type: Object
+        },
+        userList: {
+            type: Array
         }
     },
     data() {
@@ -196,12 +185,14 @@ export default {
                 img {
                     width: 40px;
                     height: 40px;
+                    border-radius: 40px;
                 }
             }
             .block__vant--name {
                 overflow: hidden;
                 white-space: nowrap;
                 margin: 0 5px;
+                min-width: 50px;
                 height: 20px;
                 text-overflow: ellipsis;
             }
