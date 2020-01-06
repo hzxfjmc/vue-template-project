@@ -1,7 +1,7 @@
 <template lang="pug">
 .block-fund-index
     .block__swiper.block__fund_index_swiper
-        van-swipe(:autoplay="10000") 
+        van-swipe(:autoplay="3000") 
             van-swipe-item(
                 v-for="(item, index) in barnnarHkList" 
                 :key="index"  
@@ -59,7 +59,7 @@
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
         .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
-            van-swipe 
+            van-swipe(:autoplay="3000")  
                 van-swipe-item(
                     v-for="(item, index) in barnnarList" 
                     @click="goBanner(item)"
@@ -81,7 +81,7 @@
         .block-bannar-sub(
             :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']"
             v-if="barnnarUsList.length !== 0")
-            van-swipe(:autoplay="10000") 
+            van-swipe(:autoplay="3000") 
                 van-swipe-item(
                     v-for="(item, index) in barnnarUsList" 
                     :key="index"  
@@ -303,7 +303,7 @@ export default {
             )
         },
         //获取轮播
-        async bannerAdvertisement() {
+        async bannerAdvertisement(flag) {
             try {
                 const res = await bannerAdvertisement(26)
                 const res1 = await bannerAdvertisement(27)
@@ -322,11 +322,14 @@ export default {
                 this.barnnarList = res2.banner_list
                 console.log(document.querySelectorAll('.van-swipe__indicators'))
             } catch (e) {
+                if (flag) {
+                    return
+                }
                 this.$toast(e.msg)
             }
         },
         //获取持仓
-        async getFundPositionListV3() {
+        async getFundPositionListV3(flag) {
             try {
                 const {
                     usSummary,
@@ -347,6 +350,9 @@ export default {
                 this.positionAmount = transNumToThousandMark(positionAmout, 2)
                 this.weekEarnings = transNumToThousandMark(weekEarnings, 2)
             } catch (e) {
+                if (flag) {
+                    return
+                }
                 this.$toast(e.msg)
             }
         },
@@ -507,11 +513,11 @@ export default {
                 const { code } = await getSource()
                 this.code = code
                 if (this.isLogin) {
-                    this.getFundPositionListV3()
+                    this.getFundPositionListV3(flag)
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
                 }
-                this.bannerAdvertisement()
+                this.bannerAdvertisement(flag)
             } catch (e) {
                 //解决ios上出现网络开小差的问题
                 if (flag) {
