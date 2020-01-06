@@ -320,7 +320,7 @@ export default {
                                     list[index + 1].netPrice) *
                                 100
                             item.price =
-                                this.assetType != 4
+                                this.fundHeaderInfoVO.assetType != 4
                                     ? item.price.toFixed(2)
                                     : item.price.toFixed(4)
                         } else {
@@ -329,7 +329,6 @@ export default {
                     }
                 })
                 this.price = list[0].price
-
                 this.historyList = list.slice(0, 5)
             } catch (e) {
                 this.$toast(e.msg)

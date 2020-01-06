@@ -193,7 +193,7 @@ export default {
         background: #fff;
         display: flex;
         flex-direction: row;
-        padding: 10px 10px 5px 10px;
+        padding: 10px;
         font-size: 11px;
         color: $text-color5;
         .block__details--left {

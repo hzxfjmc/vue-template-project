@@ -19,9 +19,9 @@
             p {{fundOverviewInfoVO.investArea}}
         .block__fund--item
             .block__fund--title {{$t('fundSize')}}
-            p(v-if="lang != 'en'") {{fundOverviewInfoVO.currencyName}} {{fundOverviewInfoVO.fundSize/100000000}} {{$t('unit')}}
-            p(v-if="lang == 'en' && fundOverviewInfoVO.fundSize/100000000 >= 10 ") {{fundOverviewInfoVO.currencyName}} {{fundOverviewInfoVO.fundSize/1000000000}} Billion
-            p(v-if="lang == 'en' && fundOverviewInfoVO.fundSize/100000000 < 10 ") {{fundOverviewInfoVO.currencyName}} {{fundOverviewInfoVO.fundSize/10000000}} Million
+            p(v-if="lang != 'en'") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/100000000).toFixed(2)}} {{$t('unit')}}
+            p(v-if="lang == 'en' && fundOverviewInfoVO.fundSize/100000000 >= 10 ") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/1000000000).toFixed(2)}} Billion
+            p(v-if="lang == 'en' && fundOverviewInfoVO.fundSize/100000000 < 10 ") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/10000000).toFixed(2)}} Million
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
@@ -86,7 +86,7 @@ export default {
         }
         p {
             font-size: 14px;
-            color: #666666;
+            // color: #666666;
         }
     }
     .block__fund--item:first-child {
