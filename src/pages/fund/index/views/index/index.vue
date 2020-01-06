@@ -40,7 +40,7 @@ import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
 // import { gotoNewWebView } from '@/utils/js-bridge.js'
-import { jumpUrl } from '@/utils/tools.js'
+import { jumpUrl, debounce } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage'
 import { getSource } from '@/service/customer-relationship-server'
@@ -160,9 +160,9 @@ export default {
             ]
             if (this.assetType) {
                 // console.log(jump_url[this.assetType])
-                jumpUrl(3, jump_url[this.assetType])
+                debounce(jumpUrl(3, jump_url[this.assetType]), 300)
             } else {
-                jumpUrl(3, jump_url[0])
+                debounce(jumpUrl(3, jump_url[0]), 300)
             }
         },
         //获取用户归属 1大陆 2香港
@@ -224,7 +224,7 @@ export default {
         },
         goNext(fundId) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
-            jumpUrl(3, url)
+            debounce(jumpUrl(3, url), 300)
         },
         changeBannarTitle() {
             let bannarEmun = {

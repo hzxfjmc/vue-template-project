@@ -34,6 +34,7 @@ import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { debounce } from '@/utils/tools.js'
 export default {
     computed: {
         stockColorType() {
@@ -84,7 +85,7 @@ export default {
     methods: {
         goNext(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
-            gotoNewWebView(url)
+            debounce(gotoNewWebView(url), 300)
         }
     }
 }

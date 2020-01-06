@@ -104,7 +104,7 @@ import FundListItem from './fund-list-item'
 import { getFundHomepageInfo } from '@/service/finance-info-server'
 import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
-import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
@@ -113,7 +113,6 @@ import jsBridge from '@/utils/js-bridge'
 import { enablePullRefresh } from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
-import { debounce } from '@/utils/tools.js'
 import { getSource } from '@/service/customer-relationship-server'
 export default {
     components: {
@@ -267,7 +266,7 @@ export default {
         },
         goBanner(item) {
             if (!item.news_jump_type && !item.jump_url) return
-            jumpUrl(item.news_jump_type, item.jump_url)
+            debounce(jumpUrl(item.news_jump_type, item.jump_url), 300)
         },
         //跳转
         handlerNavItem(item) {
@@ -549,7 +548,7 @@ export default {
             'appInvisible'
         )
         // 解决ios系统快速切换tab后，报网络开小差的情况
-        window.appVisible = debounce(this.appVisibleHandle, 800)
+        window.appVisible = debounce(this.appVisibleHandle, 300)
         await this.getFundHomepageInfo()
         this.getSource(false)
     }
