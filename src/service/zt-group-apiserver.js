@@ -38,3 +38,14 @@ export const createGroupOrder = data => {
         data
     )
 }
+
+/**
+ * @describe 获取拼团广告订单
+ * @param {Object}
+ */
+export const getAdGroupOrders = data => {
+    return axios.get(
+        `/zt-group-apiserver/api/v1/group/get-ad-group-orders`,
+        data
+    )
+}

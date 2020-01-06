@@ -74,7 +74,11 @@ import {
     getFundDetail,
     getFundApyPointV1
 } from '@/service/finance-info-server.js'
-import { getGroupAction, getGroupOrder } from '@/service/zt-group-apiserver.js'
+import {
+    getGroupAction,
+    getGroupOrder,
+    getAdGroupOrders
+} from '@/service/zt-group-apiserver.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
@@ -196,10 +200,25 @@ export default {
             step: 0,
             forbidPrompt: '',
             actionInfo: {},
-            orderList: []
+            orderList: [],
+            actionId: '',
+            userList: []
         }
     },
     methods: {
+        //获取拼团广告订单
+        async getAdGroupOrders() {
+            try {
+                const { order_list } = await getAdGroupOrders({
+                    limit: 10,
+                    action_id: this.action_id
+                })
+
+                this.userList = order_list
+            } catch (e) {
+                console.log('getGroupOrder:error:>>>', e)
+            }
+        },
         //查询团购单的订单
         async getGroupOrder() {
             try {
@@ -226,7 +245,7 @@ export default {
                 res.action.rule_detail = JSON.parse(res.action.rule_detail)
                 this.actionInfo = res.action
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
-                console.log(this.actionInfo)
+                this.actionId = res.action.action_id
             } catch (e) {
                 console.log('getGroupAction:error:>>>', e)
             }
@@ -471,7 +490,8 @@ export default {
     async created() {
         // enablePullRefresh(true)
         await this.getFundDetail()
-        this.getGroupAction()
+        await this.getGroupAction()
+        this.getAdGroupOrders()
         this.getGroupOrder()
         if (this.isLogin) {
             this.getCurrentUser()
