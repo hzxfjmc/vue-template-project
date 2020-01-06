@@ -52,15 +52,18 @@
             .block__footer-right
                 van-button(
                     :disabled="disabled") 参与拼团
-        .block__button--list
+        .block__button--list(v-if="figthBtnShow")
             van-button(
                 class="fund-footer btn button-width1"
                 @click="handleBuyOrSell" 
                 :disabled="disabled") {{$t('buy')}}
-            .block__fight--btn.btn
+            .block__fight--btn.btn(@click="handleBuyOrSell")
                 span 发起拼团申购
                 em 最多省100$
-    
+        .block__button--list(v-else)
+            .block__fight--btn1.btn(@click="handleBuyOrSell")
+                span 发起拼团申购
+                em 最多省100$
     
 </template>
 <script>
@@ -137,16 +140,14 @@ export default {
             return this.isLogin && this.openedAccount
         },
         disabled() {
-            if (!this.isLogin) {
-                return false
+            // 接口返回数据后才允许点击
+            if (
+                !this.userInfo.grayStatusBit ||
+                !this.fundOverviewInfoVO.tradeAuth
+            ) {
+                return true
             }
-            if (this.isLogin && this.userInfo.grayStatusBit) {
-                return false
-            }
-            if (this.fundOverviewInfoVO.tradeAuth) {
-                return false
-            }
-            return true
+            return false
         },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
@@ -165,6 +166,7 @@ export default {
     },
     data() {
         return {
+            figthBtnShow: false,
             fightShow: true,
             time: 30 * 60 * 60 * 1000,
             fundHeaderInfoVO: {
@@ -238,7 +240,7 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
-
+                console.log(123213)
                 if (res !== null || res.action) {
                     this.fightShow = false
                 }
@@ -434,6 +436,7 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
+            // if (this.disabled) return
             if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >
@@ -467,6 +470,9 @@ export default {
                         currencyType: this.fundTradeInfoVO.currency.type,
                         fundCode: this.fundCode
                     }
+                }
+                if (!this.fightShow) {
+                    data.query.groupId = this.$route.query.groupId || '0'
                 }
                 data.path =
                     // eslint-disable-next-line no-constant-condition
@@ -528,7 +534,9 @@ export default {
     .fund-footer {
         background: $primary-color;
     }
-
+    .fund-footer1 {
+        background: #ea3d3d;
+    }
     .btn {
         height: 50px;
         color: #fff;
@@ -540,6 +548,23 @@ export default {
     }
     .block__fight--btn {
         width: 50%;
+        height: 48px;
+        background: #ea3d3d;
+        display: flex;
+        flex-direction: column;
+        span {
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        em {
+            font-size: 12px;
+            line-height: 10px;
+            font-style: normal;
+        }
+    }
+    .block__fight--btn1 {
+        width: 100%;
         height: 48px;
         background: #ea3d3d;
         display: flex;

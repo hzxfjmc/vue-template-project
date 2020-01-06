@@ -80,6 +80,7 @@ import {
     transNumToThousandMark,
     parseThousands
 } from '@/utils/tools.js'
+import { createGroupOrder } from '@/service/zt-group-apiserver.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
@@ -120,6 +121,7 @@ export default {
     async created() {
         this.getFundPositionV2Fun()
         this.getWithdrawBalance()
+        console.log(this.$route.query)
     },
     computed: {
         // 预计完成时间多语言配置
@@ -142,7 +144,6 @@ export default {
     watch: {
         'subscribeObj.buyMoney.value'(val) {
             let numberInt
-            console.log(val)
             if (`${val}`.indexOf(',') > -1) {
                 let arr = val.split(',')
                 numberInt = arr.join('')
@@ -337,12 +338,19 @@ export default {
                     //     password:
                     //         'J2vefyUMeLg27ePqHMYQi2JS_SyBVF5aZPDGi2DrrSHudsf1TBS5oLlqF3_lh41hnBzsMixr_SVIXgTAp_9iCd8f624dNRw1L2ez0-g27vwqPlACZDuinmRAtTsdrnri7RWMBAsao1dtTci8KX7hdEDn3BZ-Fm755uhBpXnEV0k='
                     // })
-                    let re = await fundPurchase({
+                    let params = {
                         displayLocation: 1,
                         fundId: this.$route.query.id,
                         purchaseAmount: this.subscribeObj.buyMoney.value,
                         requestId: generateUUID(),
                         tradeToken: token
+                    }
+                    let re = await fundPurchase(params)
+                    await createGroupOrder({
+                        group_id: Number(this.$route.query.groupId),
+                        biz_type: 0,
+                        biz_id: this.$route.query.id,
+                        order_detail: JSON.stringify(params)
                     })
                     submitStep = 2
                     this.orderNo = re.orderNo
