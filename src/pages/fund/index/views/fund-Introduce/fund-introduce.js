@@ -39,6 +39,7 @@ export const Introducelit = {
 
 export const i18nIntroducelist = {
     zhCHS: {
+        unit: '亿',
         fundIntroduceTitle: '基金概况',
         zk: '展开',
         nomore: '暂无文件',
@@ -100,6 +101,7 @@ export const i18nIntroducelist = {
     zhCHT: {
         fundIntroduceTitle: '基金概況',
         zk: '更多',
+        unit: '億',
         zq: '收起',
         nomore: '暫無文件',
         list: {
@@ -159,6 +161,7 @@ export const i18nIntroducelist = {
     en: {
         fundIntroduceTitle: 'Fund General Situation',
         zk: 'More',
+        unit: 'B ',
         nomore: 'Empty',
         zq: 'Less',
         list: {

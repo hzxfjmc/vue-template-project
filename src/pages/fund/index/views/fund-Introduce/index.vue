@@ -17,11 +17,13 @@
             :class="[item.flag == 2 ? 'activelist':'']"
             :key="item.label")
             span.left {{item.label}}
-            span.right(:ref="item.refs" :class="[item.flag  == 1 ? 'hiddenClass' :'showClass',item.flag == 0 ? '' : item.refs]") {{item.value}}
-                span.active(
-                    v-show="item.flag == 1 || item.flag == 2" 
-                    @click="foldItem(index)" 
-                    :class="[item.flag == 2 ? 'activeShow':'']") {{item.flag == 1 ? $t('zk') : $t('zq')}}
+            span.right(v-if="index != 'fundSize'") {{item.value}}
+            span.right(
+                v-if="index == 'fundSize' && lang != 'en'") {{currencyName}} {{(item.value/100000000).toFixed(2)}} {{$t('unit')}}
+            span.right(
+                v-if="index == 'fundSize' && lang == 'en' && item.value/100000000 >= 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Billion
+            span.right(
+                v-if="index == 'fundSize' && lang == 'en' && item.value/100000000 < 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Million
     .fund-introduce-other(v-if="active===0")
         .fund-introduce-objective(v-for="item in otherList")
             .title {{item.label}}
@@ -57,8 +59,12 @@ import Vue from 'vue'
 import { List, Row, Col } from 'vant'
 import { getCosUrl } from '@/utils/cos-utils'
 import dayjs from 'dayjs'
+import { mapGetters } from 'vuex'
 Vue.use(List)
 export default {
+    computed: {
+        ...mapGetters(['lang'])
+    },
     i18n: i18nIntroducelist,
     components: {
         dividendDetail,
@@ -74,6 +80,7 @@ export default {
             currency: null,
             active: 0,
             filelist: [],
+            currencyName: '',
             otherList: JSON.parse(JSON.stringify(otherList))
         }
     },
@@ -110,15 +117,9 @@ export default {
                             ? require('@/assets/img/fund/pdf.png')
                             : require('@/assets/img/fund/html.png')
                 })
+                this.currencyName = fundOverviewInfoVO['currency'].name
                 for (let key in this.list) {
-                    this.list[key].value =
-                        key === 'fundSize'
-                            ? `${
-                                  fundOverviewInfoVO.currency.name
-                              } ${transNumToThousandMark(
-                                  fundOverviewInfoVO[key]
-                              )}`
-                            : fundOverviewInfoVO[key]
+                    this.list[key].value = fundOverviewInfoVO[key]
                     if (key === 'fundRisk') {
                         this.list[
                             key

@@ -218,7 +218,7 @@ export default {
             jumpUrl(3, url)
         },
         toFundHistory() {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-historical?id=${this.fundHeaderInfoVO.fundId}`
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-historical?id=${this.fundHeaderInfoVO.fundId}&assetType=${this.fundHeaderInfoVO.assetType}`
             jumpUrl(3, url)
         },
         handlerActiveTab(activeTab) {
