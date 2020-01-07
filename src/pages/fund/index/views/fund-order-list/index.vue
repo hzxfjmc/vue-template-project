@@ -27,7 +27,7 @@
                         span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                     span.element-time {{item.orderTime}}
             .block__footer(v-if="item.actionInfo")
-                .block__footer--left 再邀请0人即可享受8折申购费
+                .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/1000}}折申购费
                 .block__footer--right
                     van-button(class="btn") 邀请拼团
     
@@ -89,16 +89,13 @@ export default {
     methods: {
         //批量查询用户团购单
         async handlerBatchgetUserGroupOrder(data) {
-            console.log(123)
             try {
                 const { order_list } = await handlerBatchgetUserGroupOrder(data)
                 this.orderList = this.orderList.concat(order_list)
 
                 this.orderList.map(item => {
-                    console.log(item)
                     this.list.map(items => {
                         if (item.group_order.order_id == items.orderNo) {
-                            console.log(111111111111)
                             items.actionInfo = item
                         }
                     })
@@ -159,9 +156,13 @@ export default {
                         )
                         item.action.discountNum =
                             item.action.rule_detail.rule_list[1].discount
+
                         list.map(items => {
                             if (item.group_order.order_id == items.orderNo) {
                                 items.actionInfo = item
+                                items.countNumber =
+                                    item.action.rule_detail.most_user -
+                                    item.group.order_count
                             }
                         })
                     })
