@@ -39,7 +39,7 @@
             :disabled="disabled") {{$t('buy')}}
 
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow")
-        .block__list--header
+        .block__list--header(v-if="shareHeaderShow")
             .block__footer-avat
                 img 
             .block__footer--content
@@ -168,6 +168,7 @@ export default {
     },
     data() {
         return {
+            shareHeaderShow: false,
             figthBtnShow: true,
             fightShow: true,
             time: 30 * 60 * 60 * 1000,
@@ -269,6 +270,9 @@ export default {
                 }
                 if (this.$route.query.group_id) {
                     this.figthBtnShow = false
+                }
+                if (res.order_list) {
+                    this.shareHeaderShow = true
                 }
                 res.action.rule_detail = JSON.parse(res.action.rule_detail)
                 this.actionInfo = res.action
