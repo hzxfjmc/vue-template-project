@@ -267,7 +267,7 @@ export default {
                 if (res !== null || res.action) {
                     this.fightShow = false
                 }
-                if (this.$route.query.groupId) {
+                if (this.$route.query.group_id) {
                     this.figthBtnShow = false
                 }
                 res.action.rule_detail = JSON.parse(res.action.rule_detail)
