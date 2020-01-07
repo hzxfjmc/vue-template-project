@@ -1,27 +1,35 @@
 <template lang="pug">
 .income-details-content
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
-        .block-list(class="border-bottom" v-for="(item,index) in list" :key="index" @click="toDetailHandle(item)")
-            .block-left 
-                span.element-fund-name {{item.tradeTypeName}}
-                span.element-fund-name1 {{$t('fundName')}}
-                template(v-if="item.tradeType === 1")
-                    span.element-price {{$t('amountMoney')}}
-                template(v-else)
-                    span.element-price {{$t('share')}}
-                span.element-time {{$t('time')}}
-            .block-right 
-                span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.externalName}}
-                span.msg(class="element-fund-color")(v-if="item.externalStatus == 2") {{item.externalName}}
-                span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.externalName}}
-                span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
-                span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
-                span.element-time.fund-name {{item.fundBaseInfoVO.fundName}}
-                template(v-if="item.tradeType === 1")
-                    span.element-price {{item.currency && item.currency.name}} {{item.orderAmount}}
-                template(v-else)
-                    span.element-price {{item.orderShare |sliceFixedTwo(4)}}
-                span.element-time {{item.orderTime}}
+        .block-list(
+            class="border-bottom" 
+            v-for="(item,index) in list" :key="index" 
+            @click="toDetailHandle(item)")
+            .block__list--item
+                .block-left 
+                    span.element-fund-name {{item.tradeTypeName}}
+                    span.element-fund-name1 {{$t('fundName')}}
+                    template(v-if="item.tradeType === 1")
+                        span.element-price {{$t('amountMoney')}}
+                    template(v-else)
+                        span.element-price {{$t('share')}}
+                    span.element-time {{$t('time')}}
+                .block-right 
+                    span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.externalName}}
+                    span.msg(class="element-fund-color")(v-if="item.externalStatus == 2") {{item.externalName}}
+                    span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.externalName}}
+                    span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
+                    span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
+                    span.element-time.fund-name {{item.fundBaseInfoVO.fundName}}
+                    template(v-if="item.tradeType === 1")
+                        span.element-price {{item.currency && item.currency.name}} {{item.orderAmount}}
+                    template(v-else)
+                        span.element-price {{item.orderShare |sliceFixedTwo(4)}}
+                    span.element-time {{item.orderTime}}
+            .block__footer(v-if="item.actionInfo")
+                .block__footer--left 再邀请0人即可享受8折申购费
+                .block__footer--right
+                    van-button(class="btn") 邀请拼团
     
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
@@ -81,12 +89,21 @@ export default {
     methods: {
         //批量查询用户团购单
         async handlerBatchgetUserGroupOrder(data) {
+            console.log(123)
             try {
                 const { order_list } = await handlerBatchgetUserGroupOrder(data)
                 this.orderList = this.orderList.concat(order_list)
+
                 this.orderList.map(item => {
                     console.log(item)
+                    this.list.map(items => {
+                        if (item.group_order.order_id == items.orderNo) {
+                            console.log(111111111111)
+                            items.actionInfo = item
+                        }
+                    })
                 })
+                console.log(this.list)
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('handlerBatchgetUserGroupOrder:error:>>>', e)
@@ -132,7 +149,24 @@ export default {
                     }
                     arr.push(obj)
                 })
-                await handlerBatchgetUserGroupOrder({ biz_order_list: arr })
+                const { order_list } = await handlerBatchgetUserGroupOrder({
+                    biz_order_list: arr
+                })
+                if (order_list) {
+                    order_list.map(item => {
+                        item.action.rule_detail = JSON.parse(
+                            item.action.rule_detail
+                        )
+                        item.action.discountNum =
+                            item.action.rule_detail.rule_list[1].discount
+                        list.map(items => {
+                            if (item.group_order.order_id == items.orderNo) {
+                                items.actionInfo = item
+                            }
+                        })
+                    })
+                }
+
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
                 this.loading = false
@@ -163,8 +197,12 @@ export default {
     .block-list {
         width: 100%;
         padding: 10px 2%;
-        display: flex;
+        // display: flex;
         align-items: center;
+        .block__list--item {
+            display: flex;
+            flex-direction: row;
+        }
         .block-left {
             display: flex;
             width: 30%;
@@ -221,6 +259,32 @@ export default {
                 display: block;
                 white-space: nowrap;
                 line-height: 25px;
+            }
+        }
+        .block__footer {
+            width: 100%;
+            padding: 0 12px;
+            margin: 5px 0 0 0;
+            display: flex;
+            flex-direction: row;
+            height: 60px;
+            background: rgba(234, 61, 61, 0.05);
+            border-radius: 4px;
+            align-items: center;
+            line-height: 40px;
+            .block__footer--left {
+                color: #191919;
+                width: 70%;
+            }
+            .block__footer--right {
+                // height: 36px;
+                .btn {
+                    width: 104px;
+                    line-height: 32px;
+                    height: 36px !important;
+                    background: #ea3d3d;
+                    color: #fff;
+                }
             }
         }
     }
