@@ -50,7 +50,7 @@
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
         .block__fund--title(v-if="fundHeaderInfoVO.assetType != 4") 
-            span {{tabObj.label}} {{$t('incomeRate')}}：
+            span {{tabObj.label}}{{$t('incomeRate')}}：
             span(
                 :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                 v-if="tabObj.value>0") +{{tabObj.value}}%
@@ -141,7 +141,7 @@ export default {
             navChg: 'NAV',
             timeMore: 'Period',
             more1: 'More',
-            incomeRate: 'Return',
+            incomeRate: ' Return',
             fundTrade: 'Trend Charts',
             time: 'Time',
             nav: 'Chg%',
