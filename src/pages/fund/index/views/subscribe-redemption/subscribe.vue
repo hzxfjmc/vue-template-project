@@ -101,7 +101,7 @@ export default {
             subscribeObj: JSON.parse(JSON.stringify(subscribeObj)),
             buyMoneyBlur: false,
             buyMoney: null,
-            disabledInput: false,
+            disabledInput: true,
             fundName: '',
             isin: '',
             currency: {},
@@ -347,8 +347,8 @@ export default {
             try {
                 const hsInfo = await hsAccountInfo(currencyType)
                 this.withdrawBalance = hsInfo.withdrawBalance
-                if (this.withdrawBalance <= 0) {
-                    this.disabledInput = true
+                if (this.withdrawBalance > 0) {
+                    this.disabledInput = false
                 }
                 this.subscribeObj.withdrawBalance.value = transNumToThousandMark(
                     hsInfo.withdrawBalance
@@ -398,6 +398,7 @@ export default {
                     submitStep = 2
                     this.orderNo = re.orderNo
                     this.orderTotalAmount = re.orderTotalAmount
+                    this.subscribeObj.buyMoney.value = re.orderTotalAmount
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
