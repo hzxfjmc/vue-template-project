@@ -12,11 +12,11 @@
                 .fond-buy
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('redeemShares')}}
-                        .block__fund--input
+                        .block__fund--input1
                             //- span {{currencyType == 1 ? '':'HK'}}$
                             input(
                                 v-model="redemptionShare" 
-                                type="number"
+                                type="text"
                                 @input="changeNumber"
                                 :placeHolder="$t('entryUnit')" 
                                 )
@@ -161,6 +161,7 @@ export default {
                 []
             this.redemptionShare = `${match[1] || ''}${match[2] ||
                 ''}${match[3] || ''}`
+            console.log(this.redemptionShare)
         },
         sliceDeci(s, l) {
             let deci = s.split('.')[1].slice(0, l)
@@ -259,11 +260,6 @@ export default {
             this.$nextTick(() => {
                 this.$refs['buy-money'].focus()
             })
-        },
-        handleOnblurBuyInput() {
-            if (this.redemptionShare === null || this.redemptionShare === '') {
-                this.buyMoneyBlur = false
-            }
         },
         async handleSubmit() {
             let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功

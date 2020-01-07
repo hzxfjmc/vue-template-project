@@ -678,6 +678,7 @@ export default {
     margin: 6px 0 0 0;
     background: #fff;
     line-height: 22px;
+    height: 50px;
     .icon-icon-gaishu {
         font-size: 20px;
     }

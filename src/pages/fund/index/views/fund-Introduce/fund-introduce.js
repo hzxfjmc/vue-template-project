@@ -166,7 +166,7 @@ export const i18nIntroducelist = {
         zq: 'Less',
         list: {
             fundFiles: {
-                label: 'Related Documents'
+                label: 'Related DOC'
             },
             fundCompanyName: {
                 label: 'Fund Company'
@@ -193,7 +193,7 @@ export const i18nIntroducelist = {
                 label: 'Geographical Allocation'
             },
             fundSize: {
-                label: 'Fund Size'
+                label: 'Fund AUM'
             },
             companyProfile: {
                 label: 'Fund Company Introduction'
@@ -211,7 +211,7 @@ export const i18nIntroducelist = {
                 label: 'No More'
             },
             fundIntroduce: {
-                label: 'Fund Company Introduction'
+                label: 'Fund Intro'
             },
             dividendDeatail: {
                 label: 'Dividend Details'

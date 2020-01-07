@@ -10,11 +10,11 @@
                 .fund_time {{$t('oneYear')}}
                 .fund_number(
                     :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="item.apy>0") +{{item.apy}}%
+                    v-if="item.apy>0") +{{Number(item.apy).toFixed(2)}}%
                 .fund_number(
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="item.apy<0") {{item.apy}}%
-                .fund_number(v-else) {{item.apy}}%
+                    v-else-if="item.apy<0") {{Number(item.apy).toFixed(2)}}%
+                .fund_number(v-else) {{Number(item.apy).toFixed(2)}}%
             .block__right
                 .fund_name {{item.fundName}}
                 .fund__list--tag

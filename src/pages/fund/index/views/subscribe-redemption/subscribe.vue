@@ -13,7 +13,7 @@
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('buyMoneyNumber')}}
                         .block__fund--input(@click="focusEvent")
-                            //- span {{currency.type == 1 ? '':'HK'}}$
+                            span {{currency.type == 1 ? '':'HK'}}$
                             p {{money}}
                             input(
                                 v-model="purchaseAmount" 
@@ -398,9 +398,9 @@ export default {
                     submitStep = 2
                     this.orderNo = re.orderNo
                     this.orderTotalAmount = re.orderTotalAmount
-                    this.subscribeObj.buyMoney.value = Number(
+                    this.subscribeObj.buyMoney.value = transNumToThousandMark(
                         re.orderAmount
-                    ).toFixed(2)
+                    )
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
@@ -444,7 +444,7 @@ export default {
             stepOne: '买入提交',
             stepTwo: '确认份额',
             stepThree: '查看盈亏',
-            confirmTheShare: '确认份额',
+            confirmTheShare: '确认份额并开始计算收益',
             earnings: '查看收益',
             money: '金额',
             done: '完成',
@@ -477,7 +477,7 @@ export default {
             stepOne: '買入提交',
             stepTwo: '確認份額',
             stepThree: '查看盈虧',
-            confirmTheShare: '確認份額',
+            confirmTheShare: '確認份額並開始計算收益',
             earnings: '查看收益',
             money: '金額',
             done: '完成',

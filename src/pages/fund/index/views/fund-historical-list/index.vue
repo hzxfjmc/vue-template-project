@@ -40,6 +40,7 @@ export default {
                 twoYear: '近两年',
                 threeYear: '近三年',
                 fiveYear: '近五年',
+                toYear: '今年来',
                 all: '成立来'
             },
             msg:
@@ -57,6 +58,7 @@ export default {
                 twoYear: '近两年',
                 threeYear: '近三年',
                 fiveYear: '近五年',
+                toYear: '今年来',
                 all: '成立来'
             },
             msg:
@@ -74,6 +76,7 @@ export default {
                 twoYear: 'Last 2 year',
                 threeYear: 'Last 3 year',
                 fiveYear: 'Last 5 year',
+                toYear: 'YTD',
                 all: 'ALL'
             },
             msg:

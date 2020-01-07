@@ -267,10 +267,57 @@
         }
         span{
             display:block;
-            // width:48px;
+            width:48px;
             text-align: right;
             margin:0 10px 0 0;
         }
+        input{
+            border:none;
+            position: absolute;
+            top:-5px;
+            left:50px;
+            // border:1px solid red;
+            height:40px;
+            line-height:30px;
+            width:60%;
+
+        }
+        .block__allsell{
+            font-size:14px;
+            width:30%;
+            color:#0D50D8;
+            position: absolute;
+            right:0;
+            text-align:right;
+        }
+        input::-webkit-input-placeholder {
+            /* placeholder颜色  */
+            color: #aab2bd;
+            /* placeholder字体大小  */
+            font-size: 14px;
+        }
+    }
+    .block__fund--input1{
+        line-height:30px;
+        font-size:24px;
+        display:flex;
+        height:40px;
+        width:100%;
+        flex-direction: row;
+        position: relative;
+        p{
+            position: absolute;
+            font-size:12px;
+            left:60px;
+            top:-20px;
+            z-index:9999;
+        }
+        // span{
+        //     display:block;
+        //     width:48px;
+        //     text-align: right;
+        //     margin:0 10px 0 0;
+        // }
         input{
             border:none;
             position: absolute;

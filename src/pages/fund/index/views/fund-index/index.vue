@@ -169,7 +169,7 @@ export default {
             hkd: 'HKD',
             usd: 'USD',
             accountTotal: 'Total Fund Assets',
-            fundCurrency: 'Money Market',
+            fundCurrency: 'MMF',
             fundBond: 'Bond',
             fundBlend: 'Balanced',
             fundShares: 'Equity',

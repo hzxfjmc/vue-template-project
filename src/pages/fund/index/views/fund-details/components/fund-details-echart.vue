@@ -50,7 +50,7 @@
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
         .block__fund--title(v-if="fundHeaderInfoVO.assetType != 4") 
-            span {{tabObj.label}}{{$t('incomeRate')}}：
+            span {{tabObj.label}} {{$t('incomeRate')}}：
             span(
                 :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                 v-if="tabObj.value>0") +{{tabObj.value}}%
@@ -397,8 +397,11 @@ export default {
     position: absolute;
     .header-left,
     .header-right {
-        width: 50%;
+        width: 70%;
         float: left;
+    }
+    .header-left {
+        width: 30%;
     }
     .header-right {
         text-align: right;
@@ -406,7 +409,7 @@ export default {
             display: inline-block;
         }
         .day {
-            width: 90px;
+            // width: 90px;
             float: right;
         }
         .number {
