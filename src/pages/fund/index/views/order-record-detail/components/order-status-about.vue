@@ -96,7 +96,7 @@ export default {
         // 查收收益日多语言
         surePositionEndTime() {
             return {
-                zhCHS: `${this.endTime}日证券到达证券账户`,
+                zhCHS: `${this.endTime}日资金到达证券账户`,
                 zhCHT: `${this.endTime}日資金到達證券賬戶`,
                 en: `Funds Credited to Securities Account in ${this.endTime} Days`
             }[this.$i18n.lang]

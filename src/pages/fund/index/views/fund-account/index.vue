@@ -108,8 +108,8 @@ export default {
                 hkSummary: hkSummary,
                 usSummary: usSummary
             }
-            this.usdPositionAmount = usdPositionAmount
-            this.hkdPositionAmount = hkdPositionAmount
+            this.usdPositionAmount = transNumToThousandMark(usdPositionAmount)
+            this.hkdPositionAmount = transNumToThousandMark(hkdPositionAmount)
             this.usPositionList.map(item => {
                 item.currency = item.currency.type
                 for (let key in item) {

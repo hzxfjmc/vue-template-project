@@ -4,8 +4,9 @@
         span(:style="{background:bgColor}")
         p {{title}}
         .block__fund--right
-            p {{currency === '2'?$t('hkdAssets') :$t('usdAssets')}} {{currency === '2'?'HKD' :'USD'}} {{amount|parseThousands(2)}}
-            //- p 
+            p {{currency === '2'?$t('hkdAssets') :$t('usdAssets')}} {{currency === '2'?'HKD' :'USD'}} 
+                em.block__em(v-if="eyeTab") {{amount}}
+                em.block_em1(v-else) ****
         em(:class="listShow && fundList.length != 0 ? 'iconfont icon-icon-bottom' : 'iconfont icon-iconshouqi'")
     .list-item-content.border-bottom(
         v-for="(item,index) in fundList" 
@@ -179,6 +180,7 @@ export default {
         display: flex;
         flex-direction: row;
         height: 44px;
+        align-items: center;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         line-height: 44px;
         .block__fund--right {
@@ -191,6 +193,14 @@ export default {
                 line-height: 36px;
                 white-space: nowrap;
                 color: rgba(25, 25, 25, 0.5);
+            }
+            .block__em {
+                font-style: normal;
+                padding: 0;
+            }
+            .block_em1 {
+                font-style: normal;
+                padding: 0;
             }
         }
         span {
