@@ -168,7 +168,7 @@ export default {
     },
     data() {
         return {
-            figthBtnShow: false,
+            figthBtnShow: true,
             fightShow: true,
             time: 30 * 60 * 60 * 1000,
             fundHeaderInfoVO: {
@@ -247,9 +247,11 @@ export default {
                     group_id: '0'
                 })
                 this.orderList = order_list || []
-                this.differenceNumer =
-                    this.actionInfo.rule_detail.most_user -
-                    this.orderList.length
+                if (this.actionInfo.rule_detail) {
+                    this.differenceNumer =
+                        this.actionInfo.rule_detail.most_user -
+                        this.orderList.length
+                }
             } catch (e) {
                 console.log('getGroupOrder:error:>>>', e)
             }
@@ -264,6 +266,9 @@ export default {
                 })
                 if (res !== null || res.action) {
                     this.fightShow = false
+                }
+                if (this.$route.query.groupId) {
+                    this.figthBtnShow = false
                 }
                 res.action.rule_detail = JSON.parse(res.action.rule_detail)
                 this.actionInfo = res.action
