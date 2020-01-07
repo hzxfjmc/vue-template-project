@@ -84,6 +84,9 @@ export default {
             try {
                 const { order_list } = await handlerBatchgetUserGroupOrder(data)
                 this.orderList = this.orderList.concat(order_list)
+                this.orderList.map(item => {
+                    console.log(item)
+                })
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('handlerBatchgetUserGroupOrder:error:>>>', e)
