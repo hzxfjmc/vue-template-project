@@ -29,7 +29,7 @@
             .block__footer(v-if="item.actionInfo")
                 .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/1000}}折申购费
                 .block__footer--right
-                    van-button(class="btn" @click="handlerShareBtn") 邀请拼团
+                    van-button(class="btn" @click="handlerShareBtn(item)") 邀请拼团
             share-way(
                 v-model="showShare"
                 overlay-class="activity-invited"
@@ -48,6 +48,9 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 import { handlerBatchgetUserGroupOrder } from '@/service/zt-group-apiserver.js'
 import { List } from 'vant'
 import shareWay from '@/biz-components/share-way/index'
+import { getShortUrl } from '@/service/news-shorturl.js'
+import { appType, langType } from '@/utils/html-utils.js'
+
 export default {
     components: {
         [List.name]: List,
@@ -91,15 +94,53 @@ export default {
             finished: false,
             finishedText: '无更多内容',
             currency: this.$route.query.currency,
-            orderList: []
+            orderList: [],
+            bizId: '',
+            groupId: ''
         }
     },
     methods: {
-        handlerShareBtn() {
+        handlerShareBtn(item) {
+            this.bizId = item.actionInfo.action.biz_id
+            this.groupId = item.actionInfo.group.group_id
             this.showShare = true
         },
-        handleShare(data) {
-            console.log(data)
+        async handleShare(_index) {
+            // webViewClick('Invitefriend', 'shareurl', '分享链接')
+            let shareTypeMap = [
+                'wechat_friend',
+                'wechat_friends_circle',
+                'qq',
+                'weibo'
+            ]
+
+            let shareType = shareTypeMap[_index]
+            try {
+                let lt =
+                    (langType.Ch && 1) ||
+                    (langType.Hk && 2) ||
+                    (langType.En && 3) ||
+                    1
+
+                let at = appType.Hk ? 2 : 1
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}#/invite`
+                let shortUrl = await getShortUrl({
+                    long: encodeURIComponent(link)
+                })
+                await this.$jsBridge.callApp('command_share', {
+                    shareType: shareType,
+                    title: `还差${this.groupRestUsers}人，赶快邀请好友来拼团吧`,
+                    description: '',
+                    pageUrl: unescape(link),
+                    shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
+                })
+                this.$toast('分享成功')
+                this.goIpoPurchaseList()
+            } catch (e) {
+                e.msg && this.$toast(e.msg)
+            }
+            // }
         },
         //批量查询用户团购单
         async handlerBatchgetUserGroupOrder(data) {
