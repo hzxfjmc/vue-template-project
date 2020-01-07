@@ -52,6 +52,7 @@
                 span 还差{{differenceNumer}}人
             .block__footer-right
                 van-button(
+                    @click="handleBuyOrSell"
                     :disabled="disabled") 参与拼团
         .block__button--list(v-if="figthBtnShow")
             van-button(
@@ -650,6 +651,7 @@ export default {
             margin: 0 10px 0 0;
             img {
                 width: 40px;
+                border-radius: 40px;
                 height: 40px;
             }
         }
