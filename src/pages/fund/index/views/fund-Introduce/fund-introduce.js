@@ -15,8 +15,8 @@ export const Introducelit = {
         label: 'ISIN',
         value: ''
     },
-    initialInvestAmount: {
-        label: '起投金额',
+    establishDay: {
+        label: '成立日期',
         value: ''
     },
     fundRisk: {
@@ -39,10 +39,15 @@ export const Introducelit = {
 
 export const i18nIntroducelist = {
     zhCHS: {
+        unit: '亿',
         fundIntroduceTitle: '基金概况',
         zk: '展开',
+        nomore: '暂无文件',
         zq: '折起',
         list: {
+            fundFiles: {
+                label: '相关文件'
+            },
             fundCompanyName: {
                 label: '基金公司'
             },
@@ -55,8 +60,8 @@ export const i18nIntroducelist = {
             isin: {
                 label: 'ISIN'
             },
-            initialInvestAmount: {
-                label: '起投金额'
+            establishDay: {
+                label: '成立日期'
             },
             fundRisk: {
                 label: '风险等级'
@@ -96,8 +101,13 @@ export const i18nIntroducelist = {
     zhCHT: {
         fundIntroduceTitle: '基金概況',
         zk: '更多',
+        unit: '億',
         zq: '收起',
+        nomore: '暫無文件',
         list: {
+            fundFiles: {
+                label: '相關文件'
+            },
             fundCompanyName: {
                 label: '基金公司'
             },
@@ -110,8 +120,8 @@ export const i18nIntroducelist = {
             isin: {
                 label: 'ISIN'
             },
-            initialInvestAmount: {
-                label: '起投金額'
+            establishDay: {
+                label: '成立日期'
             },
             fundRisk: {
                 label: '風險等級'
@@ -151,8 +161,13 @@ export const i18nIntroducelist = {
     en: {
         fundIntroduceTitle: 'Fund General Situation',
         zk: 'More',
+        unit: 'B ',
+        nomore: 'Empty',
         zq: 'Less',
         list: {
+            fundFiles: {
+                label: 'Related DOC'
+            },
             fundCompanyName: {
                 label: 'Fund Company'
             },
@@ -165,8 +180,8 @@ export const i18nIntroducelist = {
             isin: {
                 label: 'ISIN'
             },
-            initialInvestAmount: {
-                label: 'Min. Initial Investment'
+            establishDay: {
+                label: 'Launch Date'
             },
             fundRisk: {
                 label: 'Risk Level'
@@ -178,7 +193,7 @@ export const i18nIntroducelist = {
                 label: 'Geographical Allocation'
             },
             fundSize: {
-                label: 'Fund Size'
+                label: 'Fund AUM'
             },
             companyProfile: {
                 label: 'Fund Company Introduction'
@@ -196,7 +211,7 @@ export const i18nIntroducelist = {
                 label: 'No More'
             },
             fundIntroduce: {
-                label: 'Fund Company Introduction'
+                label: 'Fund Intro'
             },
             dividendDeatail: {
                 label: 'Dividend Details'

@@ -16,5 +16,6 @@ export const zhCHT = {
     home: '智選基金',
     fundOrderList: '訂單記錄',
     fundAccount: '基金持倉',
-    fundHistorical: '淨值歷史'
+    fundHistorical: '淨值歷史',
+    fundHistoricalList: '歷史業績'
 }

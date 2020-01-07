@@ -10,30 +10,30 @@
         template(v-if="step === 1")
             .fund-content
                 .fond-buy
+                    .block__fund--header.border-bottom
+                        span.fund__title--block {{$t('redeemShares')}}
+                        .block__fund--input1
+                            //- span {{currencyType == 1 ? '':'HK'}}$
+                            input(
+                                v-model="redemptionShare" 
+                                type="text"
+                                @input="changeNumber"
+                                :placeHolder="$t('entryUnit')" 
+                                )
+                            .block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}
                     .buy-row
                         .left {{ $t('positionShare') }}
                         .right {{ positionShare |  parseThousands}}
                     .buy-row
-                        .left {{ $t('positionMarketValue') }}
-                        .right {{ positionMarketValue | sliceFixedTwo | parseThousands }}
-                    .buy-row
                         .left {{ $t('minPositionShare') }}
                         .right {{ minPositionShare | sliceFixedTwo(4)| parseThousands }}
-                    .buy-row.block-row
-                        .left {{ $t('redeemShares') }}
-                        .right.buy-money.border-bottom
-                            input(v-model="redemptionShare" type="number" :placeHolder="$t('entryUnit')" :disabled="positionShare === 0")
-                            span(@click="HandlerAllSell") {{$t('sellAll')}}
-                    .buy-row
-                        .left  {{$t('predictSellAmount')}}
-                        .right {{ predictSellAmount | sliceFixedTwo | parseThousands }}
                     .buy-row
                         .left
                             span {{ $t('redemption') }}
-                            span ( {{ $t('predict') }}) :
+                            span ({{ $t('predict')}}) :
                         .right
                             span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | parseThousands }}
-                            span ({{ redemptionFeeScale  }}%)
+                            span ({{redemptionFeeScale}}%)
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('balanceRule')"
@@ -97,6 +97,7 @@ export default {
             step: 1,
             orderNo: null,
             buyMoneyBlur: false,
+            currencyType: this.$route.query.currencyType,
             positionShare: 0, // 持有份额
             positionMarketValue: 0, // 持仓市值
             lowestInvestAmount: 0, // 最低持有金额
@@ -153,6 +154,15 @@ export default {
         }
     },
     methods: {
+        changeNumber() {
+            let match =
+                (this.redemptionShare &&
+                    this.redemptionShare.match(/^(\d+)(\.)?(\d{1,4})?/)) ||
+                []
+            this.redemptionShare = `${match[1] || ''}${match[2] ||
+                ''}${match[3] || ''}`
+            console.log(this.redemptionShare)
+        },
         sliceDeci(s, l) {
             let deci = s.split('.')[1].slice(0, l)
             return s.split('.')[0] + '.' + deci
@@ -250,11 +260,6 @@ export default {
             this.$nextTick(() => {
                 this.$refs['buy-money'].focus()
             })
-        },
-        handleOnblurBuyInput() {
-            if (this.redemptionShare === null || this.redemptionShare === '') {
-                this.buyMoneyBlur = false
-            }
         },
         async handleSubmit() {
             let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功

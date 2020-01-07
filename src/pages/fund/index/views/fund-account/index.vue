@@ -10,18 +10,22 @@
         fundList(
             slot="fundList"
             bgColor="#0091FF"
+            currency="2"
             :title = "$t('fundHkdType')"
             v-if="!noMoreShow"
             :code = "code"
             :eyeTab="eyeTab"       
+            :amount="hkdPositionAmount"
             :fundList="hkPositionList")
         fundList(
             slot="fundList"
             bgColor="#FFBA00"
+            currency="1"
             :title = "$t('fundUsdType')"
             v-if="!noMoreShow"
             :code = "code"
             :eyeTab="eyeTab"    
+            :amount="usdPositionAmount"
             :fundList="usPositionList")
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/empty.png") 
@@ -42,6 +46,8 @@ export default {
         return {
             holdData: {},
             fundList: [],
+            usdPositionAmount: '',
+            hkdPositionAmount: '',
             currency: 2,
             noMoreShow: false,
             code: 0,
@@ -55,19 +61,16 @@ export default {
         zhCHS: {
             fundHkdType: '港币基金',
             fundUsdType: '美元基金',
-
             nomore: '暂无持仓'
         },
         zhCHT: {
             fundHkdType: '港幣基金',
             fundUsdType: '美元基金',
-
             nomore: '暫無持倉'
         },
         en: {
             fundHkdType: 'HKD Fund',
             fundUsdType: 'USD Fund',
-
             nomore: 'No Position'
         }
     },
@@ -94,6 +97,8 @@ export default {
                 hkSummary,
                 usPositionList,
                 usSummary,
+                hkdPositionAmount,
+                usdPositionAmount,
                 inTransitOrder
             } = await getFundPositionListV3()
             this.hkPositionList = hkPositionList
@@ -103,8 +108,10 @@ export default {
                 hkSummary: hkSummary,
                 usSummary: usSummary
             }
+            this.usdPositionAmount = transNumToThousandMark(usdPositionAmount)
+            this.hkdPositionAmount = transNumToThousandMark(hkdPositionAmount)
             this.usPositionList.map(item => {
-                item.currency = item.currency.shortSymbol
+                item.currency = item.currency.type
                 for (let key in item) {
                     if (
                         key != 'fundId' &&

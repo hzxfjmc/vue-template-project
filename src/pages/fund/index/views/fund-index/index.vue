@@ -1,7 +1,7 @@
 <template lang="pug">
 .block-fund-index
     .block__swiper.block__fund_index_swiper
-        van-swipe(:autoplay="10000") 
+        van-swipe(:autoplay="3000") 
             van-swipe-item(
                 v-for="(item, index) in barnnarHkList" 
                 :key="index"  
@@ -23,7 +23,7 @@
             .block--element--number(:class="code != 1? 'color-blue':'color-black'" v-if="moneyShow") {{positionAmount}}
             .block--element--number.close--eye(v-else) ******
             .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
-                span(@click="handlerCurrency") {{currency===0?$t('hkd'):$t('usd')}}
+                span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
                 em(class="iconfont icon-iconxiala" @click="handlerCurrency")
                 em(class="iconfont icon-icon_fund_index_2" @click="handlerDialog")
                 .block--master(
@@ -32,19 +32,27 @@
                 .block__currey(v-if="chooseCurrencyShow")
                     span.border-bottom(
                         @click="chooseCurrency(0)"
-                        :class="[currency === 0 ? 'active' :'']") {{$t('hkd')}}
+                        :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
                     span(
                         @click="chooseCurrency(1)"
-                        :class="[currency === 1 ? 'active' :'']") {{$t('usd')}}
+                        :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
         
         .block__left__bottom
-            span(v-if="moneyShow") {{weekEarnings}} {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-            span(v-else) **** {{currency===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+            span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+            span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
         .block__bottom--num.border-top(
             v-if="inTransitOrder !== '0'"
             @click="toOrderList")
             span {{inTransitOrder}}{{$t('fundmsg')}}
             em(class="iconfont icon-previewright")
+
+    .block-bannar-sub-swiper(v-if="tabbarnnarList.length !== 0")
+            van-swipe 
+                van-swipe-item(
+                    v-for="(item, index) in tabbarnnarList" 
+                    @click="goBanner(item)"
+                    :key="index") 
+                    img(:src="item.picture_url") 
     .block__tab
         .block__tab--list
             .block__tab--Item(
@@ -59,7 +67,7 @@
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
         .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
-            van-swipe 
+            van-swipe(:autoplay="3000")  
                 van-swipe-item(
                     v-for="(item, index) in barnnarList" 
                     @click="goBanner(item)"
@@ -81,7 +89,7 @@
         .block-bannar-sub(
             :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']"
             v-if="barnnarUsList.length !== 0")
-            van-swipe(:autoplay="10000") 
+            van-swipe(:autoplay="3000") 
                 van-swipe-item(
                     v-for="(item, index) in barnnarUsList" 
                     :key="index"  
@@ -96,7 +104,7 @@ import FundListItem from './fund-list-item'
 import { getFundHomepageInfo } from '@/service/finance-info-server'
 import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
-import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
@@ -105,7 +113,6 @@ import jsBridge from '@/utils/js-bridge'
 import { enablePullRefresh } from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
-import { debounce } from '@/utils/tools.js'
 import { getSource } from '@/service/customer-relationship-server'
 export default {
     components: {
@@ -116,6 +123,7 @@ export default {
     },
     i18n: {
         zhCHS: {
+            unit: '亿',
             fundHold: '基金持仓',
             SevenDayIncome: '近七日收益',
             hkd: '港币',
@@ -138,6 +146,7 @@ export default {
             fundHold: '基金持倉',
             SevenDayIncome: '近七日收益',
             hkd: '港幣',
+            unit: '億',
             usd: '美元',
             accountTotal: '基金總資產',
             fundCurrency: '貨幣型',
@@ -154,12 +163,13 @@ export default {
                 '1. 你可選擇港幣或美元作為基金總資產基礎貨幣。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。'
         },
         en: {
+            unit: 'B ',
             fundHold: 'Position',
             SevenDayIncome: '7 Days',
             hkd: 'HKD',
             usd: 'USD',
             accountTotal: 'Total Fund Assets',
-            fundCurrency: 'Money Market',
+            fundCurrency: 'MMF',
             fundBond: 'Bond',
             fundBlend: 'Balanced',
             fundShares: 'Equity',
@@ -170,7 +180,7 @@ export default {
             confirm: 'Confirm',
             fundmsg: ' Processing Order',
             msg:
-                '1. You can choose HKD or USD as the base currency of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currency.Example: When your base currency is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currency is only used as a display of uSMART fund asset calculations. Does not affect the fund currency of each fund.'
+                '1. You can choose HKD or USD as the base currencyTab of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currencyTab.Example: When your base currencyTab is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currencyTab is only used as a display of uSMART fund asset calculations. Does not affect the fund currencyTab of each fund.'
         }
     },
     computed: {
@@ -181,22 +191,23 @@ export default {
     },
     data() {
         return {
-            currency: 0,
+            currencyTab: 0,
             moneyShow: true,
             barnnarList: [],
             barnnarUsList: [],
             barnnarHkList: [],
+            tabbarnnarList: [],
             chooseCurrencyShow: false,
             choiceFundListShow: false,
             blueChipFundListShow: false,
             robustFundListShow: false,
             tabList: [
                 {
-                    imgUrl: require('@/assets/img/fund/icon_money.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
-                    label: '貨幣型',
-                    key: 'fundCurrency',
-                    value: '4'
+                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
+                    label: '股票型',
+                    key: 'fundShares',
+                    value: '1'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
@@ -212,12 +223,13 @@ export default {
                     key: 'fundBlend',
                     value: '3'
                 },
+
                 {
-                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
-                    label: '股票型',
-                    key: 'fundShares',
-                    value: '1'
+                    imgUrl: require('@/assets/img/fund/icon_money.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
+                    label: '貨幣型',
+                    key: 'fundCurrency',
+                    value: '4'
                 }
             ],
             choiceFundList: {}, //精选基金
@@ -254,7 +266,7 @@ export default {
         },
         goBanner(item) {
             if (!item.news_jump_type && !item.jump_url) return
-            jumpUrl(item.news_jump_type, item.jump_url)
+            debounce(jumpUrl(item.news_jump_type, item.jump_url), 300)
         },
         //跳转
         handlerNavItem(item) {
@@ -303,11 +315,12 @@ export default {
             )
         },
         //获取轮播
-        async bannerAdvertisement() {
+        async bannerAdvertisement(flag) {
             try {
                 const res = await bannerAdvertisement(26)
                 const res1 = await bannerAdvertisement(27)
                 const res2 = await bannerAdvertisement(100)
+                const res3 = await bannerAdvertisement(101)
                 this.barnnarHkList = res.banner_list
                 if (res.banner_list.length === 0) {
                     let imgUrl =
@@ -320,13 +333,16 @@ export default {
                 }
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
-                console.log(document.querySelectorAll('.van-swipe__indicators'))
+                this.tabbarnnarList = res3.banner_list
             } catch (e) {
+                if (flag) {
+                    return
+                }
                 this.$toast(e.msg)
             }
         },
         //获取持仓
-        async getFundPositionListV3() {
+        async getFundPositionListV3(flag) {
             try {
                 const {
                     usSummary,
@@ -336,17 +352,20 @@ export default {
                 this.hkSummary = hkSummary
                 this.usSummary = usSummary
                 let positionAmout =
-                    this.currency === 0
+                    this.currencyTab === 0
                         ? hkSummary.positionAmount
                         : usSummary.positionAmount
                 let weekEarnings =
-                    this.currency === 0
+                    this.currencyTab === 0
                         ? hkSummary.weekEarnings
                         : usSummary.weekEarnings
                 this.inTransitOrder = inTransitOrder || '0'
                 this.positionAmount = transNumToThousandMark(positionAmout, 2)
                 this.weekEarnings = transNumToThousandMark(weekEarnings, 2)
             } catch (e) {
+                if (flag) {
+                    return
+                }
                 this.$toast(e.msg)
             }
         },
@@ -354,7 +373,7 @@ export default {
             this.chooseCurrencyShow = true
         },
         chooseCurrency(data) {
-            this.currency = data
+            this.currencyTab = data
             LS.put('activeTab', data)
             this.positionAmount =
                 data === 0
@@ -507,11 +526,11 @@ export default {
                 const { code } = await getSource()
                 this.code = code
                 if (this.isLogin) {
-                    this.getFundPositionListV3()
+                    this.getFundPositionListV3(flag)
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
                 }
-                this.bannerAdvertisement()
+                this.bannerAdvertisement(flag)
             } catch (e) {
                 //解决ios上出现网络开小差的问题
                 if (flag) {
@@ -521,14 +540,12 @@ export default {
             }
         }
     },
-    mounted() {
+    async mounted() {
         enablePullRefresh(true)
         this.$refs.renderEchartlist.innerHTML = ''
         this.moneyShow = LS.get('showMoney')
-        this.currency = !LS.get('activeTab') ? 0 : LS.get('activeTab')
+        this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
-        this.getFundHomepageInfo()
-
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
@@ -536,7 +553,8 @@ export default {
             'appInvisible'
         )
         // 解决ios系统快速切换tab后，报网络开小差的情况
-        window.appVisible = debounce(this.appVisibleHandle, 800)
+        window.appVisible = debounce(this.appVisibleHandle, 300)
+        await this.getFundHomepageInfo()
         this.getSource(false)
     }
 }
