@@ -4,8 +4,8 @@
         .block-list(
             class="border-bottom" 
             v-for="(item,index) in list" :key="index" 
-            @click="toDetailHandle(item)")
-            .block__list--item
+            )
+            .block__list--item(@click="toDetailHandle(item)")
                 .block-left 
                     span.element-fund-name {{item.tradeTypeName}}
                     span.element-fund-name1 {{$t('fundName')}}
@@ -29,8 +29,13 @@
             .block__footer(v-if="item.actionInfo")
                 .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/1000}}折申购费
                 .block__footer--right
-                    van-button(class="btn") 邀请拼团
-    
+                    van-button(class="btn" @click="handlerShareBtn") 邀请拼团
+            share-way(
+                v-model="showShare"
+                overlay-class="activity-invited"
+                @handleShare="handleShare"
+                title="还差X人，赶快邀请好友来拼团把"
+            )
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
         .no-record-box {{$t('nomore')}}
@@ -42,9 +47,11 @@ import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { handlerBatchgetUserGroupOrder } from '@/service/zt-group-apiserver.js'
 import { List } from 'vant'
+import shareWay from '@/biz-components/share-way/index'
 export default {
     components: {
-        [List.name]: List
+        [List.name]: List,
+        shareWay
     },
     i18n: {
         zhCHS: {
@@ -74,6 +81,7 @@ export default {
     },
     data() {
         return {
+            showShare: false,
             list: [],
             noMoreShow: false,
             pageSize: 20,
@@ -87,6 +95,12 @@ export default {
         }
     },
     methods: {
+        handlerShareBtn() {
+            this.showShare = true
+        },
+        handleShare(data) {
+            console.log(data)
+        },
         //批量查询用户团购单
         async handlerBatchgetUserGroupOrder(data) {
             try {
