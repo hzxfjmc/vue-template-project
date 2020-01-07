@@ -13,7 +13,8 @@
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('buyMoneyNumber')}}
                         .block__fund--input(@click="focusEvent")
-                            span {{currency.type == 1 ? '':'HK'}}$
+                            span.usaspan(v-if="currency.type == 1") $
+                            span.hkspan(v-else) HK$
                             p {{money}}
                             input(
                                 v-model="purchaseAmount" 

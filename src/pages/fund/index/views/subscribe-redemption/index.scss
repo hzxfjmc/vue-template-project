@@ -265,10 +265,16 @@
             top:-20px;
             z-index:9999;
         }
-        span{
+        .hkspan{
             display:block;
             width:48px;
             text-align: right;
+            margin:0 10px 0 0;
+        }
+        .usaspan{
+             display:block;
+            width:48px;
+            text-align: center;
             margin:0 10px 0 0;
         }
         input{
