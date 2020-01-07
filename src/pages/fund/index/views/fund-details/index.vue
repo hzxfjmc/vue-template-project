@@ -16,6 +16,7 @@
         FightFund(
             v-if="!fightShow"
             :userList="userList"
+            :swipeShow="swipeShow"
             :actionInfo = "actionInfo")
         
         fundDetailsList(
@@ -168,6 +169,7 @@ export default {
     },
     data() {
         return {
+            swipeShow: false,
             shareHeaderShow: false,
             figthBtnShow: true,
             fightShow: true,
@@ -219,6 +221,9 @@ export default {
                     limit: 10,
                     action_id: this.action_id
                 })
+                if (order_list.length != 0) {
+                    return (this.swipeShow = true)
+                }
                 let tempArr = []
                 ;(order_list || []).forEach((e, i) => {
                     tempArr.push({
