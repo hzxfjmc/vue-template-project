@@ -398,7 +398,9 @@ export default {
                     submitStep = 2
                     this.orderNo = re.orderNo
                     this.orderTotalAmount = re.orderTotalAmount
-                    this.subscribeObj.buyMoney.value = re.orderAmount
+                    this.subscribeObj.buyMoney.value = Number(
+                        re.orderAmount
+                    ).toFixed(2)
                     console.log('申购页面-fundPurchaseData:', re)
                     this.$close()
                 } catch (error) {
