@@ -50,3 +50,7 @@ export const getAdGroupOrders = data => {
         data
     )
 }
+
+// 查询团购单的订单
+export const getGroupOrders = params =>
+    axios.get(`/zt-group-apiserver/api/v1/group/get-group-orders`, params)

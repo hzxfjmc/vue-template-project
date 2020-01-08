@@ -34,7 +34,7 @@
                 v-model="showShare"
                 overlay-class="activity-invited"
                 @handleShare="handleShare"
-                title="还差X人，赶快邀请好友来拼团把"
+                :title="content"
             )
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
@@ -45,7 +45,11 @@
 import { fundOrderList } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
-import { handlerBatchgetUserGroupOrder } from '@/service/zt-group-apiserver.js'
+import {
+    handlerBatchgetUserGroupOrder,
+    getGroupOrders,
+    getGroupAction
+} from '@/service/zt-group-apiserver.js'
 import { List } from 'vant'
 import shareWay from '@/biz-components/share-way/index'
 import { getShortUrl } from '@/service/news-shorturl.js'
@@ -85,6 +89,7 @@ export default {
     },
     data() {
         return {
+            content: '还差X人，赶快邀请好友来拼团把',
             showShare: false,
             list: [],
             noMoreShow: false,
@@ -98,10 +103,32 @@ export default {
             orderList: [],
             bizId: '',
             groupId: '',
-            userInfo: {}
+            userInfo: {},
+            groupRestUsers: 5
         }
     },
     methods: {
+        //查询拼团订单
+        async getGroupOrders() {
+            try {
+                let data = await getGroupAction({
+                    biz_id: this.bizId,
+                    biz_type: 0,
+                    action_status: 2
+                })
+                let grdersData = await getGroupOrders({
+                    group_id: this.groupId
+                })
+                let orderList = grdersData.order_list || []
+                this.groupRestUsers =
+                    JSON.parse(data.action.rule_detail).most_user -
+                    orderList.length
+                this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getGroupOrders:error:>>>', e)
+            }
+        },
         //获取用户信息
         async getCurrentUser() {
             try {
@@ -115,6 +142,7 @@ export default {
         handlerShareBtn(item) {
             this.bizId = item.actionInfo.action.biz_id
             this.groupId = item.actionInfo.group.group_id
+            this.getGroupOrders()
             this.showShare = true
         },
 
@@ -136,7 +164,7 @@ export default {
                     1
 
                 let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}#/invite=${this.userInfo.invitationCode}`
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.$route.query.groupId}&&invitationCode=${this.userInfo.invitationCode}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
