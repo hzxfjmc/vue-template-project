@@ -27,7 +27,7 @@
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value|transNumToThousandMark(2)}}%)
-                                span.msg(v-if="groupId") 拼团最低可返90%
+                                span.msg(v-if="groupId") 拼团最低可返{{discount/100}}%
                             .right-item-other(v-else-if="index === 'withdrawBalance'")
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
@@ -144,7 +144,8 @@ export default {
             groupId: this.$route.query.groupId,
             positionStatus: '', //持仓状态
             userInfo: {},
-            groupRestUsers: 5
+            groupRestUsers: 5,
+            discount: null
         }
     },
     filters: {
@@ -213,6 +214,9 @@ export default {
                 this.groupRestUsers =
                     JSON.parse(data.action.rule_detail).most_user -
                     orderList.length
+                this.discount = JSON.parse(
+                    data.action.rule_detail
+                ).rule_list[1].discount
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getGroupOrders:error:>>>', e)
