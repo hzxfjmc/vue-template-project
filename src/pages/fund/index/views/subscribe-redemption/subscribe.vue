@@ -168,6 +168,7 @@ export default {
         }
     },
     async created() {
+        await getCurrentUser()
         this.getFundPositionV2Fun()
         this.getWithdrawBalance()
     },
@@ -217,7 +218,7 @@ export default {
                     1
 
                 let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}#/invite=${this.userInfo.invitationCode}`
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.$route.query.groupId}#/invite=${this.userInfo.invitationCode}`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
