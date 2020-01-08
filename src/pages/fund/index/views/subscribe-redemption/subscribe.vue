@@ -27,7 +27,7 @@
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value|transNumToThousandMark(2)}}%)
-                                span.msg 拼团最低可返90%
+                                span.msg(v-if="groupId") 拼团最低可返90%
                             .right-item-other(v-else-if="index === 'withdrawBalance'")
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
@@ -136,6 +136,7 @@ export default {
             protocolVisible: false,
             isCheckedProtocol: true,
             orderTotalAmount: '',
+            groupId: this.$route.query.groupId,
             positionStatus: '', //持仓状态
             userInfo: {}
         }
@@ -168,7 +169,7 @@ export default {
         }
     },
     async created() {
-        await getCurrentUser()
+        await this.getCurrentUser()
         this.getFundPositionV2Fun()
         this.getWithdrawBalance()
     },
