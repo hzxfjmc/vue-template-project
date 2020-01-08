@@ -50,7 +50,7 @@ import { List } from 'vant'
 import shareWay from '@/biz-components/share-way/index'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import { appType, langType } from '@/utils/html-utils.js'
-
+import { getCurrentUser } from '@/service/user-server.js'
 export default {
     components: {
         [List.name]: List,
@@ -96,15 +96,27 @@ export default {
             currency: this.$route.query.currency,
             orderList: [],
             bizId: '',
-            groupId: ''
+            groupId: '',
+            userInfo: {}
         }
     },
     methods: {
+        //获取用户信息
+        async getCurrentUser() {
+            try {
+                const res = await getCurrentUser()
+                this.userInfo = res
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getCurrentUser:error:>>>', e)
+            }
+        },
         handlerShareBtn(item) {
             this.bizId = item.actionInfo.action.biz_id
             this.groupId = item.actionInfo.group.group_id
             this.showShare = true
         },
+
         async handleShare(_index) {
             // webViewClick('Invitefriend', 'shareurl', '分享链接')
             let shareTypeMap = [
@@ -123,7 +135,7 @@ export default {
                     1
 
                 let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}#/invite`
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}#/invite=${this.userInfo.invitationCode}`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
@@ -236,7 +248,8 @@ export default {
             }
         }
     },
-    mounted() {
+    async created() {
+        await this.getCurrentUser()
         this.fundOrderList()
     }
 }

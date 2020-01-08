@@ -386,7 +386,6 @@ export default {
                         tempArr = []
                     }
                 })
-                console.log(this.userList)
             } catch (e) {
                 console.log('getGroupOrder:error:>>>', e)
             }
@@ -421,7 +420,7 @@ export default {
                 if (this.$route.query.group_id) {
                     this.figthBtnShow = false
                 }
-                if (res.order_list) {
+                if (res.order_list.length != 0) {
                     this.shareHeaderShow = true
                 }
                 res.action.rule_detail = JSON.parse(res.action.rule_detail)
@@ -502,7 +501,6 @@ export default {
         async getCurrentUser() {
             try {
                 const res = await getCurrentUser()
-                console.log(res)
                 this.userInfo = res
             } catch (e) {
                 this.$toast(e.msg)

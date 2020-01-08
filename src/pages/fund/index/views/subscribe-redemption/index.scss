@@ -185,7 +185,7 @@
             width:100%;
             display: flex;
             line-height: 30px;
-            height:40px;
+            // height:40px;
             padding: 5px 0;
             .left-item{
                 width:50%;
@@ -195,6 +195,13 @@
                 text-align: right;
                 width:50%;
                 position: relative;
+                span{
+                    display:block;
+                    width:100%;
+                }
+                .msg{
+                    color:#FF7127;
+                }
             }
         }
         .right-item-buyMoney{
