@@ -177,7 +177,6 @@ export default {
     },
     async created() {
         await this.getCurrentUser()
-        this.getGroupOrders()
         this.getFundPositionV2Fun()
         this.getWithdrawBalance()
     },
@@ -208,7 +207,7 @@ export default {
                     action_status: 2
                 })
                 let grdersData = await getGroupOrders({
-                    group_id: this.$route.query.groupId
+                    group_id: this.groupId
                 })
                 let orderList = grdersData.order_list || []
                 this.groupRestUsers =
@@ -495,7 +494,7 @@ export default {
                         this.orderTotalAmount = re.orderTotalAmount
                         console.log('申购页面-fundPurchaseData:', re)
                     } else {
-                        const { body } = await createGroupOrder({
+                        const { body, group_id } = await createGroupOrder({
                             group_id: Number(this.$route.query.groupId),
                             biz_type: 0,
                             biz_id: this.$route.query.id,
@@ -507,6 +506,8 @@ export default {
                                 tradeToken: token
                             })
                         })
+                        this.groupId = group_id
+                        this.getGroupOrders()
                         this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
                         re = JSON.stringify(body)
                         this.showShare = true
