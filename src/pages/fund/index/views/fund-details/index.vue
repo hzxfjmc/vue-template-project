@@ -39,15 +39,15 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")
         
-        fundDetailsList(
-            :fundCorrelationFileList="fundCorrelationFileList"
-            :fundTradeInfoVO = "fundTradeInfoVO"
-            :positionStatus = "positionStatus"
-            :fundCode = "fundCode"
-            :scroll = "scroll"
-            :showPositionInfo="showPositionInfo"
-            :fundHeaderInfoVO = "fundHeaderInfoVO" 
-            :fundOverviewInfoVO="fundOverviewInfoVO") 
+        //- fundDetailsList(
+        //-     :fundCorrelationFileList="fundCorrelationFileList"
+        //-     :fundTradeInfoVO = "fundTradeInfoVO"
+        //-     :positionStatus = "positionStatus"
+        //-     :fundCode = "fundCode"
+        //-     :scroll = "scroll"
+        //-     :showPositionInfo="showPositionInfo"
+        //-     :fundHeaderInfoVO = "fundHeaderInfoVO" 
+        //-     :fundOverviewInfoVO="fundOverviewInfoVO") 
         .fund___list--p
             p {{$t('msg')}}
     .fund-footer-content(v-if="btnShow && isGrayAuthority")
@@ -82,11 +82,11 @@
                 class="fund-footer btn button-width1"
                 @click="handleBuyOrSell" 
                 :disabled="disabled") {{$t('buy')}}
-            .block__fight--btn.btn(@click="handleBuyOrSell")
+            .block__fight--btn.btn(:class="[disabled?'fund-footer2':'fund-footer1']" @click="handleBuyOrSell")
                 span 发起拼团申购
                 em 最多省100$
         .block__button--list(v-else)
-            .block__fight--btn1.btn(@click="handleBuyOrSell")
+            .block__fight--btn1.btn( @click="handleBuyOrSell")
                 span 发起拼团申购
                 em 最多省100$
     
@@ -873,6 +873,9 @@ export default {
     .fund-footer1 {
         background: #ea3d3d;
     }
+    .fund-footer2 {
+        background: #c7c7c7;
+    }
     .btn {
         height: 50px;
         color: #fff;
@@ -885,7 +888,7 @@ export default {
     .block__fight--btn {
         width: 50%;
         height: 48px;
-        background: #ea3d3d;
+        // background: #ea3d3d;
         display: flex;
         flex-direction: column;
         span {
@@ -902,8 +905,8 @@ export default {
     .block__fight--btn1 {
         width: 100%;
         height: 48px;
-        background: #ea3d3d;
         display: flex;
+        background: #ea3d3d;
         flex-direction: column;
         span {
             line-height: 30px;

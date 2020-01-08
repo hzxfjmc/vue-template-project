@@ -79,6 +79,8 @@
             @handleShare="handleShare"
             :title="content"
             )
+        .block__footer--loading(v-if="loading")
+            Loading(type="spinner" color="#1989fa")
 </template>
 <script>
 import NP from 'number-precision'
@@ -103,16 +105,19 @@ import { mapGetters } from 'vuex'
 import { appType, langType } from '@/utils/html-utils.js'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import { getCurrentUser } from '@/service/user-server.js'
+import { Loading } from 'vant'
 import './index.scss'
 export default {
     name: 'subscribe',
     components: {
         FundSteps,
         protocolPopup,
-        shareWay
+        shareWay,
+        Loading
     },
     data() {
         return {
+            loading: true,
             content: '还差X人，赶快邀请好友来拼团把',
             // 1: 购买 2:成功
             step: 1,
@@ -228,6 +233,7 @@ export default {
             try {
                 const res = await getCurrentUser()
                 this.userInfo = res
+                this.loading = false
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getCurrentUser:error:>>>', e)
