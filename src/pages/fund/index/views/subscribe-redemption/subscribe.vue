@@ -80,7 +80,7 @@
             :title="content"
             )
         .block__footer--loading(v-if="loading")
-            Loading(type="spinner" color="#1989fa")
+            Loading(type="spinner" color="#2F79FF")
 </template>
 <script>
 import NP from 'number-precision'
