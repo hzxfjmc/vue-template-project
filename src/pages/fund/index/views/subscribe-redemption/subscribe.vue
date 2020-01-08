@@ -216,6 +216,7 @@ export default {
                 this.discount = JSON.parse(
                     data.action.rule_detail
                 ).rule_list[1].discount
+                this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getGroupOrders:error:>>>', e)
@@ -508,7 +509,7 @@ export default {
                         })
                         this.groupId = group_id
                         this.getGroupOrders()
-                        this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
+
                         re = JSON.stringify(body)
                         this.showShare = true
                     }
