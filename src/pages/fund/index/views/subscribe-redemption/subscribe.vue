@@ -217,6 +217,7 @@ export default {
                     data.action.rule_detail
                 ).rule_list[1].discount
                 this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
+                this.showShare = true
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getGroupOrders:error:>>>', e)
@@ -511,7 +512,6 @@ export default {
                         this.getGroupOrders()
 
                         re = JSON.stringify(body)
-                        this.showShare = true
                     }
                     submitStep = 2
                     this.orderNo = re.orderNo
