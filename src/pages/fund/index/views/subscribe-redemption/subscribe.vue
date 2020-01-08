@@ -488,8 +488,8 @@ export default {
             buyMoneyPlaceHolder: '起',
             orderAmount: '訂單金額',
             iknow: '我知道了',
-            confirm: '立即入金',
-            msg: '您的可用余額不足\n您可以選擇入金後進行申購'
+            confirm: '立即存款',
+            msg: '您的可用餘額不足\n您可以选择存款後進行申購'
         },
         en: {
             buySuccess: 'Subscription Successful',
