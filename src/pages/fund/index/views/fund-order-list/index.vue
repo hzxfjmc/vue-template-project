@@ -49,6 +49,7 @@ import { handlerBatchgetUserGroupOrder } from '@/service/zt-group-apiserver.js'
 import { List } from 'vant'
 import shareWay from '@/biz-components/share-way/index'
 import { getShortUrl } from '@/service/news-shorturl.js'
+import jsBridge from '@/utils/js-bridge'
 import { appType, langType } from '@/utils/html-utils.js'
 import { getCurrentUser } from '@/service/user-server.js'
 export default {
@@ -139,7 +140,7 @@ export default {
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
-                await this.$jsBridge.callApp('command_share', {
+                await jsBridge.callApp('command_share', {
                     shareType: shareType,
                     title: `还差${this.groupRestUsers}人，赶快邀请好友来拼团吧`,
                     description: '',
@@ -148,7 +149,6 @@ export default {
                     thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
                 })
                 this.$toast('分享成功')
-                this.goIpoPurchaseList()
             } catch (e) {
                 e.msg && this.$toast(e.msg)
             }
