@@ -1,7 +1,5 @@
 <template lang="pug">
 .income-details-content
-    .block__master
-        span {{list}}
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
         .block-list(
             class="border-bottom" 
@@ -48,7 +46,7 @@ import { fundOrderList } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import {
-    handlerBatchgetUserGroupOrder,
+    // handlerBatchgetUserGroupOrder,
     getGroupOrders,
     getGroupAction
 } from '@/service/zt-group-apiserver.js'
@@ -213,9 +211,62 @@ export default {
                     }
                     arr.push(obj)
                 })
-                const { order_list } = await handlerBatchgetUserGroupOrder({
-                    biz_order_list: arr
-                })
+                // const { order_list } = await handlerBatchgetUserGroupOrder({
+                //     biz_order_list: arr
+                // })
+                let order_list = [
+                    {
+                        group_order: {
+                            order_id: 267660035645304832,
+                            user_id: 0,
+                            group_id: 28,
+                            requestId: '07ec8f5d-0ef5-441c-8f43-697991b70af4',
+                            create_time: 1577708776,
+                            order_status: 2,
+                            discount: 0,
+                            invite_user: 0,
+                            action_id: 3,
+                            biz_type: 0,
+                            str_order_id: '264126965022294016'
+                        },
+                        group: {
+                            group_id: 28,
+                            action_id: 3,
+                            end_time: 1578240000,
+                            discount_time: 1579017600,
+                            create_time: 1577708776,
+                            fund_user: 0,
+                            group_status: 2,
+                            order_count: 1,
+                            retry_time: 0
+                        },
+                        action: {
+                            action_id: 3,
+                            biz_type: 0,
+                            action_name: 'test_action',
+                            action_tags: ['test_tag1', 'test_tag2'],
+                            action_desc: 'action_desc_test',
+                            action_start_time: 1577679317,
+                            action_end_time: 1578240000,
+                            warm_start_time: 1577669317,
+                            warm_end_time: 1577679317,
+                            warm: 1,
+                            biz_id: '81',
+                            rule_type: 1,
+                            rule_detail:
+                                '{"most_user":5,"rule_list":[{"start_user_count":2,"end_user_count":3,"discount":8000},{"start_user_count":3,"end_user_count":6,"discount":7000}]}',
+                            create_time: 1577708746,
+                            update_time: 1577784385,
+                            update_user: '',
+                            action_status: 2,
+                            rule_key: 'test_action_rule_key',
+                            app_type: 1,
+                            discount_days: 9,
+                            real_order_count: 10,
+                            ad_order_count: 100
+                        }
+                    }
+                ]
                 if (order_list.length != 0) {
                     order_list.map(item => {
                         item.action.rule_detail = JSON.parse(
