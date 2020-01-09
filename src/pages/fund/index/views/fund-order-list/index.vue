@@ -222,7 +222,9 @@ export default {
                         item.action.discountNum =
                             item.action.rule_detail.rule_list[1].discount
                         for (let items of this.list) {
-                            if (item.group_order.order_id == items.orderNo) {
+                            if (
+                                item.group_order.str_order_id == items.orderNo
+                            ) {
                                 items.actionInfo = item
                                 items.countNumber =
                                     item.action.rule_detail.most_user -
