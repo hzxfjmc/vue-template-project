@@ -221,9 +221,6 @@ export default {
         },
         async fundOrderList() {
             try {
-                const { order_list } = await handlerBatchgetUserGroupOrder({
-                    biz_order_list: arr
-                })
                 const { list, pageSize, pageNum, total } = await fundOrderList({
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
@@ -232,6 +229,7 @@ export default {
                 this.total = total
                 this.pageSize = pageSize
                 let arr = []
+
                 list.map(item => {
                     item.orderAmount = transNumToThousandMark(item.orderAmount)
                     item.orderTime = dayjs(item.orderTime).format(
@@ -244,7 +242,10 @@ export default {
                     }
                     arr.push(obj)
                 })
-                if (order_list) {
+                const { order_list } = await handlerBatchgetUserGroupOrder({
+                    biz_order_list: arr
+                })
+                if (order_list.length != 0) {
                     order_list.map(item => {
                         item.action.rule_detail = JSON.parse(
                             item.action.rule_detail
