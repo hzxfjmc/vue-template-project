@@ -52,7 +52,7 @@
             @click="handleBuyOrSell" 
             :disabled="disabled") {{$t('buy')}}
 
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code != 2")
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
         .block__list--header(v-if="shareHeaderShow")
             .block__footer-avat
                 img 
@@ -81,14 +81,14 @@
                 span 发起拼团申购
                 em 最多省100$
 
-    .fund-footer-content.fund-footer-hk(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code!=1")
-        .block__list--header-hk(v-if="shareHeaderShow")
+    .fund-footer-content.fund-footer-hk(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
+        .block__list--header-hk
             .block__footer-left
                p 認購後，好友參與「同行優惠」，最多可省
             .block__footer-right
                 van-button(
                     @click="handleBuyOrSell"
-                    :disabled="disabled") 参与拼团
+                    :disabled="disabled") 独自认购
         .block__button--list-hk
             .block__fight--btn-hk( @click="handleBuyOrSell")
                 .block__fight--left
@@ -841,7 +841,7 @@ export default {
         this.getGroupOrder()
         this.addGroupFollow()
         if (this.isLogin) {
-            this.getCurrentUser()
+            await this.getCurrentUser()
         }
         this.getSource()
         jsBridge.callAppNoPromise(
@@ -880,8 +880,10 @@ export default {
         .block__footer-right {
             width: 100px;
             height: 30px;
+
             .van-button {
                 width: 100% !important;
+                border-radius: 5px !important;
                 line-height: 30px;
                 margin: 10px 0 0 20px;
                 background: #1e93f3;
