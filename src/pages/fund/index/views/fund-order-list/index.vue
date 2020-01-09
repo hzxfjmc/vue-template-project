@@ -261,6 +261,7 @@ export default {
                                 items.countNumber =
                                     item.action.rule_detail.most_user -
                                     item.group.order_count
+                                alert(213)
                             }
                         })
                     })
