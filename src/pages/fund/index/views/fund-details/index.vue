@@ -90,15 +90,15 @@
                 span 发起拼团申购
                 em 最多省100$
     
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow")
-        .block__list--header.block__list--hk(v-if="shareHeaderShow")
-            .block__footer-left
-                span 認購後，好友參與「同行優惠」，最多可省80%认购费
-            .block__footer-right
-                van-button(
-                    @click="handleBuyOrSell"
-                    :disabled="disabled") 独自认购
-        .block__button--list(v-if="figthBtnShow")
+    //- .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow")
+    //-     .block__list--header.block__list--hk(v-if="shareHeaderShow")
+    //-         .block__footer-left
+    //-             span 認購後，好友參與「同行優惠」，最多可省80%认购费
+    //-         .block__footer-right
+    //-             van-button(
+    //-                 @click="handleBuyOrSell"
+    //-                 :disabled="disabled") 独自认购
+    //-     .block__button--list(v-if="figthBtnShow")
            
     
    

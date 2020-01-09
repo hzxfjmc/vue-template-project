@@ -223,14 +223,14 @@ export default {
                         )
                         item.action.discountNum =
                             item.action.rule_detail.rule_list[1].discount
-                        this.list.map(items => {
+                        for (let items of this.list) {
                             if (item.group_order.order_id == items.orderNo) {
                                 items.actionInfo = item
                                 items.countNumber =
                                     item.action.rule_detail.most_user -
                                     item.group.order_count
                             }
-                        })
+                        }
                     })
                 }
             } catch (e) {
