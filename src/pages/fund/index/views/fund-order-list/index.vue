@@ -228,6 +228,7 @@ export default {
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
+                this.loading = false
                 let arr = []
 
                 list.map(item => {
@@ -265,7 +266,7 @@ export default {
                 }
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
-                this.loading = false
+
                 if (this.list.length >= this.total) {
                     this.finished = true
                 }
