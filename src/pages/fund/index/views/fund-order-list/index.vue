@@ -43,8 +43,8 @@
 </template>
 <script>
 import { fundOrderList } from '@/service/finance-server.js'
-// import dayjs from 'dayjs'
-// import { transNumToThousandMark } from '@/utils/tools.js'
+import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
 import {
     // handlerBatchgetUserGroupOrder,
     getGroupOrders,
@@ -195,8 +195,10 @@ export default {
         },
         //上拉加载更多
         onLoad() {
-            this.pageNum = this.pageNum + 1
-            this.fundOrderList()
+            if (this.list.length < this.total) {
+                this.pageNum = this.pageNum + 1
+                this.fundOrderList()
+            }
         },
         async fundOrderList() {
             try {
@@ -204,19 +206,19 @@ export default {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
-                // let arr = []
-                // list.map(item => {
-                //     item.orderAmount = transNumToThousandMark(item.orderAmount)
-                //     item.orderTime = dayjs(item.orderTime).format(
-                //         'YYYY-MM-DD HH:mm:ss'
-                //     )
-                //     let obj = {
-                //         biz_id: item.fundBaseInfoVO.fundId,
-                //         order_id: item.orderNo,
-                //         biz_type: 0
-                //     }
-                //     arr.push(obj)
-                // })
+                let arr = []
+                list.map(item => {
+                    item.orderAmount = transNumToThousandMark(item.orderAmount)
+                    item.orderTime = dayjs(item.orderTime).format(
+                        'YYYY-MM-DD HH:mm:ss'
+                    )
+                    let obj = {
+                        biz_id: item.fundBaseInfoVO.fundId,
+                        order_id: item.orderNo,
+                        biz_type: 0
+                    }
+                    arr.push(obj)
+                })
                 // const { order_list } = await handlerBatchgetUserGroupOrder({
                 //     biz_order_list: arr
                 // })
