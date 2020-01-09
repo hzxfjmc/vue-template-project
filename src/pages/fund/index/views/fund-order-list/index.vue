@@ -221,6 +221,9 @@ export default {
         },
         async fundOrderList() {
             try {
+                const { order_list } = await handlerBatchgetUserGroupOrder({
+                    biz_order_list: arr
+                })
                 const { list, pageSize, pageNum, total } = await fundOrderList({
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
@@ -241,9 +244,6 @@ export default {
                     }
                     arr.push(obj)
                 })
-                const { order_list } = await handlerBatchgetUserGroupOrder({
-                    biz_order_list: arr
-                })
                 if (order_list) {
                     order_list.map(item => {
                         item.action.rule_detail = JSON.parse(
@@ -262,7 +262,6 @@ export default {
                         })
                     })
                 }
-
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
                 this.loading = false
