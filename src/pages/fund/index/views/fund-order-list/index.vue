@@ -214,7 +214,6 @@ export default {
                 const { order_list } = await handlerBatchgetUserGroupOrder({
                     biz_order_list: arr
                 })
-                alert(order_list)
                 if (order_list.length != 0) {
                     order_list.map(item => {
                         item.action.rule_detail = JSON.parse(
@@ -222,18 +221,29 @@ export default {
                         )
                         item.action.discountNum =
                             item.action.rule_detail.rule_list[1].discount
-                        for (let items of this.list) {
+                        this.list.map(items => {
                             alert(item.group_order.str_order_id)
                             if (
                                 item.group_order.str_order_id == items.orderNo
                             ) {
-                                alert(123)
                                 items.actionInfo = item
                                 items.countNumber =
                                     item.action.rule_detail.most_user -
                                     item.group.order_count
                             }
-                        }
+                        })
+                        // for (let items of this.list) {
+                        //     alert(item.group_order.str_order_id)
+                        // if (
+                        //     item.group_order.str_order_id == items.orderNo
+                        // ) {
+                        //     alert(123)
+                        //     items.actionInfo = item
+                        //     items.countNumber =
+                        //         item.action.rule_detail.most_user -
+                        //         item.group.order_count
+                        // }
+                        // }
                     })
                 }
                 console.log(this.list)
