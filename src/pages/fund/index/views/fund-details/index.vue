@@ -267,7 +267,7 @@ export default {
         return {
             swipeShow: false,
             shareHeaderShow: false,
-            figthBtnShow: true,
+            figthBtnShow: false,
             fightShow: true,
             time: 30 * 60 * 60 * 1000,
             code: '',
@@ -455,7 +455,7 @@ export default {
                     this.fightShow = false
                 }
                 if (this.$route.query.group_id) {
-                    this.figthBtnShow = false
+                    this.figthBtnShow = true
                 }
                 if (res.order_list.length != 0) {
                     this.shareHeaderShow = true
