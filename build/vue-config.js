@@ -26,7 +26,7 @@ if (Object.values(pages)[0]) {
 const jyApi = 'http://jy-sit.yxzq.com'
 const jy1Api = 'http://jy1-sit.yxzq.com'
 
-const hzApi = 'http://hz-sit.yxzq.com'
+const hzApi = 'http://hz1-sit.yxzq.com'
 const hz1Api = 'http://hz1-sit.yxzq.com'
 
 const webappApi = 'http://m-sit.yxzq.com'
