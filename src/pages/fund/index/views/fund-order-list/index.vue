@@ -242,11 +242,9 @@ export default {
                     }
                     arr.push(obj)
                 })
-                console.log(123)
                 const { order_list } = await handlerBatchgetUserGroupOrder({
                     biz_order_list: arr
                 })
-                console.log(345)
                 if (order_list.length != 0) {
                     order_list.map(item => {
                         item.action.rule_detail = JSON.parse(
@@ -267,7 +265,6 @@ export default {
                 }
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
-                console.log(this.list)
                 if (this.list.length >= this.total) {
                     this.finished = true
                 }
