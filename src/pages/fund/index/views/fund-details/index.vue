@@ -510,7 +510,7 @@ export default {
         toRouterGenerator(data) {
             let url
             if (data === '/generator') {
-                url = `${window.location.origin}/wealth/fund/index.html#/generator?key=${this.fundHeaderInfoVO.fundCode}`
+                url = `${window.location.origin}/webapp/market/generator.html?key=${this.fundHeaderInfoVO.fundCode}`
             } else {
                 url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
             }
