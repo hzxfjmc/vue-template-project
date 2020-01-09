@@ -405,7 +405,7 @@ export default {
         async getGroupOrder() {
             try {
                 const { order_list } = await getGroupOrder({
-                    group_id: '0'
+                    group_id: this.$route.query.group_id
                 })
                 this.orderList = order_list || []
                 if (this.actionInfo.rule_detail) {

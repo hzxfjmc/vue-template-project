@@ -1,5 +1,7 @@
 <template lang="pug">
 .income-details-content
+    .block__header-master
+        span {{list}}
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
         .block-list(
             class="border-bottom" 
@@ -223,8 +225,9 @@ export default {
                             item.action.rule_detail.rule_list[1].discount
                         for (let items of this.list) {
                             if (
-                                item.group_order.str_order_id == items.orderNo
+                                item.group_order.str_order_id === items.orderNo
                             ) {
+                                alert(123)
                                 items.actionInfo = item
                                 items.countNumber =
                                     item.action.rule_detail.most_user -
@@ -233,6 +236,7 @@ export default {
                         }
                     })
                 }
+                console.log(this.list)
             } catch (e) {
                 this.$toast(e.msg)
             }
