@@ -31,7 +31,7 @@
                 em(v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 团队规模{{item.start_user_count}}人以上尊享申购费{{item.discount/1000}}折;
     .block__bottom--header(v-if="swipeShow")
         img(:src="require('@/assets/img/fund/icon/Notice.png')")
-        span 3280人正在拼团申购
+        span {{actionInfo.ad_order_count}}人正在拼团申购
     .block__bottom--swiper(v-if="swipeShow")
         van-swipe(
             :show-indicators="false"

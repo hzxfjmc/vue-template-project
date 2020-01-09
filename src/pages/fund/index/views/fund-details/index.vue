@@ -394,16 +394,18 @@ export default {
                     action_id: this.action_id
                 })
                 if (order_list.length > 0) {
-                    return (this.swipeShow = true)
+                    this.swipeShow = true
                 }
                 let tempArr = []
-                ;(order_list || []).forEach((e, i) => {
+                order_list.forEach((e, i) => {
                     tempArr.push({
                         headImg: e.user_info.head_img,
                         nickName: e.user_info.nick_name,
                         order_count: e.group.order_count,
-                        rule_detail: JSON.parse(e.action.rule_detail)
-                            .rule_list[1].discount
+                        rule_detail: JSON.parse(e.action.rule_detail).rule_list[
+                            JSON.parse(e.action.rule_detail).rule_list.length -
+                                1
+                        ].discount
                     })
                     if (
                         tempArr.length === 2 ||
@@ -420,6 +422,7 @@ export default {
         //查询团购单的订单
         async getGroupOrder() {
             try {
+                if (!this.$route.query.group_id) return
                 const { order_list } = await getGroupOrder({
                     group_id: this.$route.query.group_id || 0
                 })
