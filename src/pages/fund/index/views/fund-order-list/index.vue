@@ -1,5 +1,7 @@
 <template lang="pug">
 .income-details-content
+    .block__master
+        span {{list}}
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
         .block-list(
             class="border-bottom" 
