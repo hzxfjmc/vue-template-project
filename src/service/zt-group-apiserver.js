@@ -54,3 +54,7 @@ export const getAdGroupOrders = data => {
 // 查询团购单的订单
 export const getGroupOrders = params =>
     axios.get(`/zt-group-apiserver/api/v1/group/get-group-orders`, params)
+
+// 绑定团购单跟随关系
+export const addGroupFollow = params =>
+    axios.post(`/zt-group-apiserver/api/v1/group/add-group-follow`, params)

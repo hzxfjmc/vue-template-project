@@ -124,7 +124,8 @@ import {
 import {
     getGroupAction,
     getGroupOrder,
-    getAdGroupOrders
+    getAdGroupOrders,
+    addGroupFollow
 } from '@/service/zt-group-apiserver.js'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
@@ -370,6 +371,21 @@ export default {
         }
     },
     methods: {
+        async addGroupFollow() {
+            try {
+                if (
+                    this.$route.query.group_id &&
+                    this.$route.query.invitationCode
+                ) {
+                    await addGroupFollow({
+                        group_id: this.$route.query.group_id,
+                        invite_order_id: this.$route.query.invitationCode
+                    })
+                }
+            } catch (e) {
+                console.log('addGroupFollowError: ', e)
+            }
+        },
         //获取拼团广告订单
         async getAdGroupOrders() {
             try {
@@ -801,7 +817,7 @@ export default {
         await this.getGroupAction()
         this.getAdGroupOrders()
         this.getGroupOrder()
-
+        this.addGroupFollow()
         if (this.isLogin) {
             this.getCurrentUser()
         }
