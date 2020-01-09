@@ -26,7 +26,11 @@
                     template(v-else)
                         span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                     span.element-time {{item.orderTime}}
-            .block__footer(v-if="item.actionInfo")
+            .block__footer(v-if="item.actionInfo && code != 2")
+                .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/1000}}折申购费
+                .block__footer--right
+                    van-button(class="btn" @click="handlerShareBtn(item)") 邀请拼团
+            .block__footer-hk(v-if="item.actionInfo && code != 1")
                 .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/1000}}折申购费
                 .block__footer--right
                     van-button(class="btn" @click="handlerShareBtn(item)") 邀请拼团
@@ -56,6 +60,7 @@ import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
 import { appType, langType } from '@/utils/html-utils.js'
 import { getCurrentUser } from '@/service/user-server.js'
+import { getSource } from '@/service/customer-relationship-server'
 export default {
     components: {
         [List.name]: List,
@@ -92,6 +97,7 @@ export default {
             content: '还差人，赶快邀请好友来拼团把',
             showShare: false,
             list: [],
+            code: null,
             noMoreShow: false,
             pageSize: 20,
             pageNum: 1,
@@ -284,11 +290,24 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+                if (!this.isLogin) {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     async created() {
         this.getCurrentUser()
         this.fundOrderList()
+        this.getSource()
     }
 }
 </script>
@@ -390,6 +409,31 @@ export default {
                     line-height: 32px;
                     height: 36px !important;
                     background: #ea3d3d;
+                    color: #fff;
+                }
+            }
+        }
+        .block__footer-hk {
+            width: 100%;
+            padding: 0 12px;
+            margin: 5px 0 0 0;
+            display: flex;
+            flex-direction: row;
+            height: 60px;
+            border-radius: 4px;
+            align-items: center;
+            line-height: 40px;
+            .block__footer--left {
+                color: #ff7127;
+                width: 70%;
+            }
+            .block__footer--right {
+                // height: 36px;
+                .btn {
+                    width: 104px;
+                    line-height: 32px;
+                    height: 36px !important;
+                    background: #1e93f3;
                     color: #fff;
                 }
             }

@@ -39,15 +39,6 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")
         
-        //- fundDetailsList(
-        //-     :fundCorrelationFileList="fundCorrelationFileList"
-        //-     :fundTradeInfoVO = "fundTradeInfoVO"
-        //-     :positionStatus = "positionStatus"
-        //-     :fundCode = "fundCode"
-        //-     :scroll = "scroll"
-        //-     :showPositionInfo="showPositionInfo"
-        //-     :fundHeaderInfoVO = "fundHeaderInfoVO" 
-        //-     :fundOverviewInfoVO="fundOverviewInfoVO") 
         .fund___list--p
             p {{$t('msg')}}
     .fund-footer-content(v-if="btnShow && isGrayAuthority")
@@ -61,7 +52,7 @@
             @click="handleBuyOrSell" 
             :disabled="disabled") {{$t('buy')}}
 
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow")
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code != 2")
         .block__list--header(v-if="shareHeaderShow")
             .block__footer-avat
                 img 
@@ -89,19 +80,33 @@
             .block__fight--btn1.btn( @click="handleBuyOrSell")
                 span 发起拼团申购
                 em 最多省100$
+
+    .fund-footer-content.fund-footer-hk(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code!=1")
+        .block__list--header-hk(v-if="shareHeaderShow")
+            .block__footer-left
+               p 認購後，好友參與「同行優惠」，最多可省
+            .block__footer-right
+                van-button(
+                    @click="handleBuyOrSell"
+                    :disabled="disabled") 参与拼团
+        .block__button--list-hk
+            .block__fight--btn-hk( @click="handleBuyOrSell")
+                .block__fight--left
+                    img()
+                .block__fight--right
+                    .block__fight--top
+                        p  「同行」認購
+                        p (剩餘 
+                        .vant-count-down
+                            CountDown( 
+                                millisecond
+                                :time="time"
+                                format="DD天 HH:mm:ss")
+                        p )
+                    .block__fight--bottom 還差2人，最多可省80%認購費
     
-    //- .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow")
-    //-     .block__list--header.block__list--hk(v-if="shareHeaderShow")
-    //-         .block__footer-left
-    //-             span 認購後，好友參與「同行優惠」，最多可省80%认购费
-    //-         .block__footer-right
-    //-             van-button(
-    //-                 @click="handleBuyOrSell"
-    //-                 :disabled="disabled") 独自认购
-    //-     .block__button--list(v-if="figthBtnShow")
+
            
-    
-   
     
 </template>
 <script>
@@ -127,6 +132,7 @@ import {
     getAdGroupOrders,
     addGroupFollow
 } from '@/service/zt-group-apiserver.js'
+import { getSource } from '@/service/customer-relationship-server'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
@@ -264,6 +270,7 @@ export default {
             figthBtnShow: true,
             fightShow: true,
             time: 30 * 60 * 60 * 1000,
+            code: '',
             tabObj: {
                 label: '',
                 value: ''
@@ -806,6 +813,18 @@ export default {
                 this.$toast(e.msg)
                 console.log('getFundRecommendList:error:>>>', e)
             }
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+                if (!this.isLogin) {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     async created() {
@@ -824,6 +843,7 @@ export default {
         if (this.isLogin) {
             this.getCurrentUser()
         }
+        this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
@@ -843,6 +863,79 @@ export default {
         font-size: 12px;
         line-height: 17px;
         color: #999999;
+    }
+}
+.fund-footer-hk {
+    .block__list--header-hk {
+        background: rgba(0, 145, 255, 0.05);
+        display: flex;
+        flex-direction: row;
+        padding: 6px 18px 0 18px;
+        height: 62px;
+        .block__footer-left {
+            width: 60%;
+            font-size: 13px;
+            padding: 5px 0 0 0;
+        }
+        .block__footer-right {
+            width: 100px;
+            height: 30px;
+            .van-button {
+                width: 100% !important;
+                line-height: 30px;
+                margin: 10px 0 0 20px;
+                background: #1e93f3;
+                font-size: 10px;
+                color: #fff;
+                height: 100% !important;
+            }
+        }
+    }
+    .block__fight--btn-hk {
+        height: 65px;
+        display: flex;
+        flex-direction: row;
+        background: linear-gradient(
+            153deg,
+            rgba(14, 192, 241, 1) 0%,
+            rgba(83, 90, 240, 1) 100%
+        );
+        .block__fight--left {
+            // width: 30%;
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 40px;
+                margin: 12px 30px 12px 12px;
+                // border: 1px solid red;
+            }
+        }
+        .block__fight--right {
+            display: flex;
+            width: 70%;
+            flex-direction: column;
+            color: #fff;
+            align-items: item;
+            .block__fight--top {
+                width: 100%;
+                display: flex;
+                margin: 10px 0 0px 0;
+                font-size: 16px;
+                justify-content: center;
+                flex-direction: row;
+                text-align: center;
+                .van-count-down {
+                    color: #fff;
+                }
+            }
+            .block__fight--bottom {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                flex-direction: row;
+                text-align: center;
+            }
+        }
     }
 }
 .block__fundheader--tips {
