@@ -183,24 +183,24 @@ export default {
             // }
         },
         //批量查询用户团购单
-        async handlerBatchgetUserGroupOrder(data) {
-            try {
-                const { order_list } = await handlerBatchgetUserGroupOrder(data)
-                this.orderList = this.orderList.concat(order_list)
+        // async handlerBatchgetUserGroupOrder(data) {
+        //     try {
+        //         const { order_list } = await handlerBatchgetUserGroupOrder(data)
+        //         this.orderList = this.orderList.concat(order_list)
 
-                this.orderList.map(item => {
-                    this.list.map(items => {
-                        if (item.group_order.order_id == items.orderNo) {
-                            items.actionInfo = item
-                        }
-                    })
-                })
-                console.log(this.list)
-            } catch (e) {
-                this.$toast(e.msg)
-                console.log('handlerBatchgetUserGroupOrder:error:>>>', e)
-            }
-        },
+        //         this.orderList.map(item => {
+        //             this.list.map(items => {
+        //                 if (item.group_order.order_id == items.orderNo) {
+        //                     items.actionInfo = item
+        //                 }
+        //             })
+        //         })
+        //         console.log(this.list)
+        //     } catch (e) {
+        //         this.$toast(e.msg)
+        //         console.log('handlerBatchgetUserGroupOrder:error:>>>', e)
+        //     }
+        // },
         // 跳转到详情
         toDetailHandle(item) {
             this.$router.push({
@@ -254,21 +254,18 @@ export default {
                         )
                         item.action.discountNum =
                             item.action.rule_detail.rule_list[1].discount
-                        console.log(list)
                         list.map(items => {
                             if (item.group_order.order_id == items.orderNo) {
                                 items.actionInfo = item
                                 items.countNumber =
                                     item.action.rule_detail.most_user -
                                     item.group.order_count
-                                alert(213)
                             }
                         })
                     })
                 }
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
-                console.log(this.list)
                 if (this.list.length >= this.total) {
                     this.finished = true
                 }
