@@ -221,7 +221,6 @@ export default {
         },
         async fundOrderList() {
             try {
-                console.log(1)
                 const { list, pageSize, pageNum, total } = await fundOrderList({
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
@@ -243,7 +242,6 @@ export default {
                     }
                     arr.push(obj)
                 })
-                console.log(2)
                 const { order_list } = await handlerBatchgetUserGroupOrder({
                     biz_order_list: arr
                 })
