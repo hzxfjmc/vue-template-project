@@ -43,10 +43,10 @@
 </template>
 <script>
 import { fundOrderList } from '@/service/finance-server.js'
-import dayjs from 'dayjs'
-import { transNumToThousandMark } from '@/utils/tools.js'
+// import dayjs from 'dayjs'
+// import { transNumToThousandMark } from '@/utils/tools.js'
 import {
-    handlerBatchgetUserGroupOrder,
+    // handlerBatchgetUserGroupOrder,
     getGroupOrders,
     getGroupAction
 } from '@/service/zt-group-apiserver.js'
@@ -204,39 +204,39 @@ export default {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
-                let arr = []
-                list.map(item => {
-                    item.orderAmount = transNumToThousandMark(item.orderAmount)
-                    item.orderTime = dayjs(item.orderTime).format(
-                        'YYYY-MM-DD HH:mm:ss'
-                    )
-                    let obj = {
-                        biz_id: item.fundBaseInfoVO.fundId,
-                        order_id: item.orderNo,
-                        biz_type: 0
-                    }
-                    arr.push(obj)
-                })
-                const { order_list } = await handlerBatchgetUserGroupOrder({
-                    biz_order_list: arr
-                })
-                if (order_list.length != 0) {
-                    order_list.map(item => {
-                        item.action.rule_detail = JSON.parse(
-                            item.action.rule_detail
-                        )
-                        item.action.discountNum =
-                            item.action.rule_detail.rule_list[1].discount
-                        list.map(items => {
-                            if (item.group_order.order_id == items.orderNo) {
-                                items.actionInfo = item
-                                items.countNumber =
-                                    item.action.rule_detail.most_user -
-                                    item.group.order_count
-                            }
-                        })
-                    })
-                }
+                // let arr = []
+                // list.map(item => {
+                //     item.orderAmount = transNumToThousandMark(item.orderAmount)
+                //     item.orderTime = dayjs(item.orderTime).format(
+                //         'YYYY-MM-DD HH:mm:ss'
+                //     )
+                //     let obj = {
+                //         biz_id: item.fundBaseInfoVO.fundId,
+                //         order_id: item.orderNo,
+                //         biz_type: 0
+                //     }
+                //     arr.push(obj)
+                // })
+                // const { order_list } = await handlerBatchgetUserGroupOrder({
+                //     biz_order_list: arr
+                // })
+                // if (order_list.length != 0) {
+                //     order_list.map(item => {
+                //         item.action.rule_detail = JSON.parse(
+                //             item.action.rule_detail
+                //         )
+                //         item.action.discountNum =
+                //             item.action.rule_detail.rule_list[1].discount
+                //         list.map(items => {
+                //             if (item.group_order.order_id == items.orderNo) {
+                //                 items.actionInfo = item
+                //                 items.countNumber =
+                //                     item.action.rule_detail.most_user -
+                //                     item.group.order_count
+                //             }
+                //         })
+                //     })
+                // }
                 this.loading = false
                 this.list = this.list.concat(list)
                 this.pageNum = pageNum
