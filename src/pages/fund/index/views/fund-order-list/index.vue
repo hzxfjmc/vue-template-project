@@ -242,9 +242,11 @@ export default {
                     }
                     arr.push(obj)
                 })
+                console.log(123)
                 const { order_list } = await handlerBatchgetUserGroupOrder({
                     biz_order_list: arr
                 })
+                console.log(345)
                 if (order_list.length != 0) {
                     order_list.map(item => {
                         item.action.rule_detail = JSON.parse(
@@ -252,7 +254,7 @@ export default {
                         )
                         item.action.discountNum =
                             item.action.rule_detail.rule_list[1].discount
-
+                        console.log(list)
                         list.map(items => {
                             if (item.group_order.order_id == items.orderNo) {
                                 items.actionInfo = item
