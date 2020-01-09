@@ -397,11 +397,11 @@ export default {
     position: absolute;
     .header-left,
     .header-right {
-        width: 70%;
+        width: 60%;
         float: left;
     }
     .header-left {
-        width: 30%;
+        width: 40%;
     }
     .header-right {
         text-align: right;
