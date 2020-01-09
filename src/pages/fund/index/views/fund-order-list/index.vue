@@ -277,7 +277,7 @@ export default {
         }
     },
     async created() {
-        await this.getCurrentUser()
+        this.getCurrentUser()
         this.fundOrderList()
     }
 }
