@@ -78,7 +78,7 @@
                 em 最多省100$
         .block__button--list(v-if="!figthBtnShow")
             .block__fight--btn1.btn( @click="handleBuyOrSell")
-                span 发起拼团申购
+                span 参与拼团申购
                 em 最多省100$
 
     .fund-footer-content.fund-footer-hk(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
@@ -267,7 +267,7 @@ export default {
         return {
             swipeShow: false,
             shareHeaderShow: false,
-            figthBtnShow: false,
+            figthBtnShow: true,
             fightShow: true,
             time: 30 * 60 * 60 * 1000,
             code: '',
@@ -457,7 +457,7 @@ export default {
                 if (this.$route.query.group_id) {
                     this.figthBtnShow = true
                 }
-                if (res.order_list.length != 0) {
+                if (res.order_list.length > 0) {
                     this.shareHeaderShow = true
                 }
                 res.action.rule_detail = JSON.parse(res.action.rule_detail)
