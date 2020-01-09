@@ -204,10 +204,6 @@ export default {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
-                this.pageNum = pageNum
-                this.total = total
-                this.pageSize = pageSize
-
                 let arr = []
                 list.map(item => {
                     item.orderAmount = transNumToThousandMark(item.orderAmount)
@@ -243,6 +239,10 @@ export default {
                 }
                 this.loading = false
                 this.list = this.list.concat(list)
+                this.pageNum = pageNum
+                this.total = total
+                this.pageSize = pageSize
+
                 this.noMoreShow = this.total == 0
                 if (this.list.length >= this.total) {
                     this.finished = true
