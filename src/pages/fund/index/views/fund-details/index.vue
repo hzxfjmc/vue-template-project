@@ -393,7 +393,7 @@ export default {
                     limit: 10,
                     action_id: this.action_id
                 })
-                if (order_list.length != 0) {
+                if (order_list.length > 0) {
                     return (this.swipeShow = true)
                 }
                 let tempArr = []
@@ -421,7 +421,7 @@ export default {
         async getGroupOrder() {
             try {
                 const { order_list } = await getGroupOrder({
-                    group_id: this.$route.query.group_id
+                    group_id: this.$route.query.group_id || 0
                 })
                 this.orderList = order_list || []
                 if (this.actionInfo.rule_detail) {

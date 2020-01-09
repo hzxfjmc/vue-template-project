@@ -3,7 +3,7 @@
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
         .block-list(
             class="border-bottom" 
-            v-for="(item,index) in list" :key="index" 
+            v-for="(item,index) in list" :key="item.orderNo" 
             )
             .block__list--item(@click="toDetailHandle(item)")
                 .block-left 
