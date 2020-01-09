@@ -214,120 +214,21 @@ export default {
                 const { order_list } = await handlerBatchgetUserGroupOrder({
                     biz_order_list: arr
                 })
-                // let order_list = [
-                //     {
-                //         group_order: {
-                //             order_id: 267660035645304832,
-                //             user_id: 0,
-                //             group_id: 251,
-                //             requestId: '44b9ce23-02a0-451c-977f-141f5c72c47d',
-                //             create_time: 1578551125,
-                //             order_status: 2,
-                //             discount: 0,
-                //             invite_user: 0,
-                //             action_id: 10054,
-                //             biz_type: 0,
-                //             str_order_id: '267660035645304832'
-                //         },
-                //         group: {
-                //             group_id: 251,
-                //             action_id: 10054,
-                //             end_time: 1580400000,
-                //             discount_time: 1580486400,
-                //             create_time: 1578551125,
-                //             fund_user: 0,
-                //             group_status: 2,
-                //             order_count: 1,
-                //             retry_time: 0
-                //         },
-                //         action: {
-                //             action_id: 10054,
-                //             biz_type: 0,
-                //             action_name: '基金拼团01091124',
-                //             action_tags: ['标签1'],
-                //             action_desc: '基金拼团01091124',
-                //             action_start_time: 1578541200,
-                //             action_end_time: 1580400000,
-                //             warm_start_time: 0,
-                //             warm_end_time: 0,
-                //             warm: 0,
-                //             biz_id: '54',
-                //             rule_type: 1,
-                //             rule_detail:
-                //                 '{"most_user":999,"rule_list":[{"discount":90,"start_user_count":2,"end_user_count":999}]}',
-                //             create_time: 1578541162,
-                //             update_time: 1578541162,
-                //             update_user: '',
-                //             action_status: 2,
-                //             rule_key: '基金拼团01091124',
-                //             app_type: 1,
-                //             discount_days: 1,
-                //             real_order_count: 18,
-                //             ad_order_count: 1065,
-                //             biz_key: '基金拼团01091124'
-                //         }
-                //     },
-                //     {
-                //         group_order: {
-                //             order_id: 267654835321307136,
-                //             user_id: 0,
-                //             group_id: 244,
-                //             requestId: '4ca2e64f-0dbe-40c4-9caf-814278227125',
-                //             create_time: 1578549885,
-                //             order_status: 2,
-                //             discount: 0,
-                //             invite_user: 0,
-                //             action_id: 10054,
-                //             biz_type: 0,
-                //             str_order_id: '267654835321307136'
-                //         },
-                //         group: {
-                //             group_id: 244,
-                //             action_id: 10054,
-                //             end_time: 1580400000,
-                //             discount_time: 1580486400,
-                //             create_time: 1578549885,
-                //             fund_user: 0,
-                //             group_status: 2,
-                //             order_count: 1,
-                //             retry_time: 0
-                //         },
-                //         action: {
-                //             action_id: 10054,
-                //             biz_type: 0,
-                //             action_name: '基金拼团01091124',
-                //             action_tags: ['标签1'],
-                //             action_desc: '基金拼团01091124',
-                //             action_start_time: 1578541200,
-                //             action_end_time: 1580400000,
-                //             warm_start_time: 0,
-                //             warm_end_time: 0,
-                //             warm: 0,
-                //             biz_id: '54',
-                //             rule_type: 1,
-                //             rule_detail:
-                //                 '{"most_user":999,"rule_list":[{"discount":90,"start_user_count":2,"end_user_count":999}]}',
-                //             create_time: 1578541162,
-                //             update_time: 1578541162,
-                //             update_user: '',
-                //             action_status: 2,
-                //             rule_key: '基金拼团01091124',
-                //             app_type: 1,
-                //             discount_days: 1,
-                //             real_order_count: 18,
-                //             ad_order_count: 1065,
-                //             biz_key: '基金拼团01091124'
-                //         }
-                //     }
-                // ]
                 if (order_list.length > 0) {
                     let list = this.list.map(orderItem => {
                         order_list.map(item => {
-                            // item.action.rule_detail = JSON.parse(
-                            //     item.action.rule_detail
-                            // )
-                            // item.action.discountNum =
-                            //     item.action.rule_detail.rule_list[1].discount
+                            try {
+                                item.action.rule_detail = JSON.parse(
+                                    item.action.rule_detail
+                                )
+                                item.action.discountNum =
+                                    item.action.rule_detail.rule_list[
+                                        item.action.rule_detail.rule_list
+                                            .length - 1
+                                    ].discount
+                            } catch (e) {
+                                console.log(e)
+                            }
                             if (
                                 item.group_order.str_order_id ==
                                 orderItem.orderNo
