@@ -8,9 +8,9 @@
                 span.element-time {{$t('time')}}
             .block-right 
                 span.element-fund-name {{item.fundName}}
-                span(v-if="item.msg == 0" :class="stockColorType === 1 ?'element-price-red':'element-price-green'") {{currency == 2 ?'HKD':'USD'}} +{{item.earnings}}
-                span(v-if="item.msg == 1" :class="stockColorType === 1 ?'element-price-green':'element-price-red'") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
-                span.element-price(v-if="item.msg == 2") {{currency == 2 ?'HKD':'USD'}} {{item.earnings}}
+                span(v-if="item.msg == 0" :class="stockColorType === 1 ?'element-price-red':'element-price-green'") {{item.currency.name}} +{{item.earnings}}
+                span(v-if="item.msg == 1" :class="stockColorType === 1 ?'element-price-green':'element-price-red'") {{item.currency.name}} {{item.earnings}}
+                span.element-price(v-if="item.msg == 2") {{item.currency.name}} {{item.earnings}}
                 span.element-time {{item.belongDate}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
