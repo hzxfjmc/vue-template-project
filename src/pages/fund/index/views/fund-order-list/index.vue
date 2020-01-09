@@ -214,6 +214,7 @@ export default {
                 const { order_list } = await handlerBatchgetUserGroupOrder({
                     biz_order_list: arr
                 })
+                alert(order_list)
                 if (order_list.length != 0) {
                     order_list.map(item => {
                         item.action.rule_detail = JSON.parse(
