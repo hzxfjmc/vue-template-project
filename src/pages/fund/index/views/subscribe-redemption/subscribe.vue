@@ -178,7 +178,7 @@ export default {
             if (this.withdrawBalance <= 0) {
                 this.$dialog
                     .confirm({
-                        message: this.$t('msg'),
+                        message: this.$t('subscribemsg'),
                         confirmButtonText: this.$t('confirm'),
                         closeOnClickOverlay: true,
                         cancelButtonText: this.$t('iknow')
@@ -456,7 +456,7 @@ export default {
             orderAmount: '订单金额',
             iknow: '我知道了',
             confirm: '立即入金',
-            msg: '您的可用余额不足\n您可以选择入金后进行申购'
+            subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购'
         },
         zhCHT: {
             buySuccess: '申購成功',
@@ -489,7 +489,7 @@ export default {
             orderAmount: '訂單金額',
             iknow: '我知道了',
             confirm: '立即存款',
-            msg: '您的可用餘額不足\n您可以选择存款後進行申購'
+            subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購'
         },
         en: {
             buySuccess: 'Subscription Successful',
@@ -523,7 +523,7 @@ export default {
             orderAmount: 'Amount of Orders',
             iknow: 'I Get It',
             confirm: 'Deposit Now',
-            msg:
+            subscribemsg:
                 'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit'
         }
     }
