@@ -89,7 +89,7 @@ export default {
     },
     data() {
         return {
-            content: '还差X人，赶快邀请好友来拼团把',
+            content: '还差人，赶快邀请好友来拼团把',
             showShare: false,
             list: [],
             noMoreShow: false,
@@ -182,25 +182,6 @@ export default {
             }
             // }
         },
-        //批量查询用户团购单
-        // async handlerBatchgetUserGroupOrder(data) {
-        //     try {
-        //         const { order_list } = await handlerBatchgetUserGroupOrder(data)
-        //         this.orderList = this.orderList.concat(order_list)
-
-        //         this.orderList.map(item => {
-        //             this.list.map(items => {
-        //                 if (item.group_order.order_id == items.orderNo) {
-        //                     items.actionInfo = item
-        //                 }
-        //             })
-        //         })
-        //         console.log(this.list)
-        //     } catch (e) {
-        //         this.$toast(e.msg)
-        //         console.log('handlerBatchgetUserGroupOrder:error:>>>', e)
-        //     }
-        // },
         // 跳转到详情
         toDetailHandle(item) {
             this.$router.push({
@@ -214,10 +195,8 @@ export default {
         },
         //上拉加载更多
         onLoad() {
-            if (this.list.length < this.total) {
-                this.pageNum = this.pageNum + 1
-                this.fundOrderList()
-            }
+            this.pageNum = this.pageNum + 1
+            this.fundOrderList()
         },
         async fundOrderList() {
             try {
@@ -228,7 +207,7 @@ export default {
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
-                this.loading = false
+
                 let arr = []
                 list.map(item => {
                     item.orderAmount = transNumToThousandMark(item.orderAmount)
@@ -262,6 +241,7 @@ export default {
                         })
                     })
                 }
+                this.loading = false
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
                 if (this.list.length >= this.total) {
