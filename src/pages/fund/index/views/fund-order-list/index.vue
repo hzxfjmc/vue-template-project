@@ -230,7 +230,6 @@ export default {
                 this.pageSize = pageSize
                 this.loading = false
                 let arr = []
-
                 list.map(item => {
                     item.orderAmount = transNumToThousandMark(item.orderAmount)
                     item.orderTime = dayjs(item.orderTime).format(
@@ -266,7 +265,7 @@ export default {
                 }
                 this.list = this.list.concat(list)
                 this.noMoreShow = this.total == 0
-
+                console.log(this.list)
                 if (this.list.length >= this.total) {
                     this.finished = true
                 }
