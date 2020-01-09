@@ -1,35 +1,106 @@
 <template lang="pug">
-.fund-details-echart
-    span {{$t('fundTrade')}}
-    .fund-echart-content
+.fund-details--echart
+    .block__fund--echart.border-bottom
+        .block__fund--item(
+            :class="activeTab==1?'activeItem':''"
+            @click="handlerActiveTab(1)") {{$t('trendCharts')}}
+        .block__fund--item(
+            :class="activeTab==2?'activeItem':''"
+            @click="handlerActiveTab(2)") {{$t('historicalRTN')}}
+        .block__fund--item(
+            :class="activeTab==3?'activeItem':''"
+            @click="handlerActiveTab(3)") {{$t('NAVHistory')}}
+    .fund-echart-content2(v-show ="activeTab ==2")
+        .block__fund--yj
+            .block__list--item.fund__list--headerjy
+                p.list__left {{$t('timeMore')}}
+                p.list__right {{$t('nav')}}
+            .block__list--item.border-bottom(
+                v-for="(item,index) in timeList" 
+                :key="index")
+                p.list__left {{item.label}}
+                p.list__right(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="item.value>0") +{{item.value|transNumToThousandMark(2)}}%
+                p.list__right(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-else-if="item.value<0") {{item.value|transNumToThousandMark(2)}}%
+                p.list__right(v-else) --
+            .block__list--more(@click="toFundHistorylist")
+                span {{$t('more1')}}
+    .fund-echart-content2(v-show ="activeTab ==3")
+        .block__fund--yj
+            .block__list--item.fund__list--headerjy.fund__list--content
+                p.list__left {{$t('time')}}
+                p.list__content {{$t('navChg')}}
+                p.list__right {{$t('dayChg')}}
+            .block__list--item.border-bottom(
+                v-for="(item,index) in historyList" 
+                :key="index")
+                p.list__left {{item.belongDay}}
+                p.list__content {{item.netPrice}}
+                p.list__right(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="item.price>0") +{{item.price}}%
+                p.list__right(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-else-if="item.price<0") {{item.price}}%
+                p.list__right(v-else) {{item.price}}%
+            .block__list--more(@click="toFundHistory")
+                span {{$t('more1')}}
+    .fund-echart-content(v-show="activeTab == 1")
+        .block__fund--title(v-if="fundHeaderInfoVO.assetType != 4") 
+            span {{tabObj.label}}{{$t('incomeRate')}}：
+            span(
+                :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                v-if="tabObj.value>0") +{{tabObj.value}}%
+            span(
+                :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                v-else-if="tabObj.value<0") {{tabObj.value}}%
+            span(v-else) {{tabObj.value}}%
         .fund-echart-header(v-if="masterShow")
             .header-left  {{$t('time')}}：{{masterData.belongDay}}
             .header-right
-                span.number.number-red(v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType === 4") +{{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number.number-red(v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType !== 4") +{{Number(masterData.pointData)| sliceFixedTwo(2)}}%
-                span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number.number-green(v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
+                span.number(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType === 4") +{{Number(masterData.pointData)| sliceFixedTwo(4)}}%
+                span.number(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType !== 4") +{{Number(masterData.pointData)| sliceFixedTwo(2)}}%
+                span.number(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
+                span.number(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
                 span.number(v-if="masterData.pointData==0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
                 span.number(v-if="masterData.pointData===0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
                 p.day {{fundHeaderInfoVO.assetType === 4 ? $t('yieldInLast7d'):$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
-    .fund-date-list
-        div.date-item(
-            v-for="(item,index) of list" 
-            :key="index"
-            @click="chooseMonth(item,index)"
-            :class="[index == active ? 'active' :'']") {{item.date}}
+        .fund-date-list
+            div.date-item(
+                v-for="(item,index) of list" 
+                :key="index"
+                @click="chooseMonth(item,index)"
+                :class="[index == active ? 'active' :'']") {{item.date}}
 </template>
 <script>
 import F2 from '@antv/f2'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 export default {
     i18n: {
         zhCHS: {
             fundTrade: '基金业绩走势',
-            nav: '涨幅',
+            nav: '涨跌幅',
             time: '日期',
+            dayChg: '日涨幅',
+            timeMore: '时间区间',
+            navChg: '单位净值',
+            incomeRate: '收益率',
+            more1: '查看更多',
             yieldInLast7d: '近七日年化',
             list: {
                 0: { date: '近1月' },
@@ -38,11 +109,19 @@ export default {
                 3: { date: '近1年' },
                 4: { date: '近3年' },
                 9: { date: '全部' }
-            }
+            },
+            trendCharts: '业绩走势',
+            historicalRTN: '历史业绩',
+            NAVHistory: '净值历史'
         },
         zhCHT: {
             fundTrade: '基金業績走勢',
-            nav: '漲幅',
+            incomeRate: '收益率',
+            timeMore: '時間區間',
+            more1: '查看更多',
+            dayChg: '日漲幅',
+            navChg: '單位淨值',
+            nav: '漲跌幅',
             time: '日期',
             yieldInLast7d: '近七日年化',
             list: {
@@ -52,22 +131,36 @@ export default {
                 3: { date: '近1年' },
                 4: { date: '近3年' },
                 9: { date: '全部' }
-            }
+            },
+            trendCharts: '業績走勢',
+            historicalRTN: '歷史業績',
+            NAVHistory: '淨值歷史'
         },
         en: {
+            dayChg: 'Day%Chg',
+            navChg: 'NAV',
+            timeMore: 'Period',
+            more1: 'More',
+            incomeRate: ' Return',
             fundTrade: 'Trend Charts',
             time: 'Time',
             nav: 'Chg%',
             yieldInLast7d: 'Yield in Last 7d',
             list: {
-                0: { date: '1 Month' },
-                1: { date: '3 Months' },
-                2: { date: '6 Months' },
-                3: { date: '1 Year' },
-                4: { date: '3 Years' },
+                0: { date: '1M' },
+                1: { date: '3M' },
+                2: { date: '6M' },
+                3: { date: '1Y' },
+                4: { date: '3Y' },
                 9: { date: 'All' }
-            }
+            },
+            trendCharts: 'Trend Charts',
+            historicalRTN: 'Historical RTN',
+            NAVHistory: 'NAV History'
         }
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
     },
     props: {
         fundHeaderInfoVO: {
@@ -81,10 +174,23 @@ export default {
         step: {
             type: Number,
             default: 0
+        },
+        timeList: {
+            type: Object,
+            default: () => {}
+        },
+        historyList: {
+            type: Array,
+            default: () => {}
+        },
+        tabObj: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
         return {
+            activeTab: 1,
             active: 0,
             list: {
                 0: { date: '1个月', key: 1, show: false },
@@ -107,6 +213,17 @@ export default {
         }
     },
     methods: {
+        toFundHistorylist() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-historical-list?id=${this.fundHeaderInfoVO.fundId}`
+            jumpUrl(3, url)
+        },
+        toFundHistory() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-historical?id=${this.fundHeaderInfoVO.fundId}&assetType=${this.fundHeaderInfoVO.assetType}`
+            jumpUrl(3, url)
+        },
+        handlerActiveTab(activeTab) {
+            this.activeTab = activeTab
+        },
         chooseMonth(item, index) {
             this.active = index
             this.$emit('chooseTime', item.key)
@@ -191,7 +308,14 @@ export default {
             this.active = 0
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
+                console.log(this.$t('list')[key].date)
             }
+            console.log(this.list)
+        }
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
         }
     },
     watch: {
@@ -213,6 +337,53 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.fund-echart-content2 {
+    .block__list--more {
+        width: 100%;
+        // line-height: 30px;
+        padding: 14px 0;
+        text-align: center;
+        span {
+            font-size: 12px;
+            color: #999999;
+        }
+    }
+    .block__list--item {
+        display: flex;
+        flex-direction: row;
+        line-height: 40px;
+        .list__left,
+        .list__right {
+            font-size: 14px;
+            width: 50%;
+        }
+        .list__left {
+            padding-left: 10px;
+        }
+        .list__right {
+            padding-right: 10px;
+            text-align: right;
+        }
+    }
+    .fund__list--content {
+        .list__left,
+        .list__content,
+        .list__right {
+            font-size: 14px;
+            width: 33.33%;
+        }
+        .list__content {
+            text-align: center;
+        }
+    }
+    .fund__list--headerjy {
+        background: rgba(47, 121, 255, 0.05);
+        position: relative;
+        width: 100%;
+        line-height: 40px;
+    }
+}
+
 .fund-echart-header {
     background: rgba(244, 248, 255, 1);
     z-index: 99999;
@@ -220,15 +391,17 @@ export default {
     width: 100%;
     left: 0;
     top: 0;
-    float: left;
     height: 40px;
     font-size: 12px;
     line-height: 40px;
     position: absolute;
     .header-left,
     .header-right {
-        width: 50%;
+        width: 60%;
         float: left;
+    }
+    .header-left {
+        width: 40%;
     }
     .header-right {
         text-align: right;
@@ -236,7 +409,7 @@ export default {
             display: inline-block;
         }
         .day {
-            width: 90px;
+            // width: 90px;
             float: right;
         }
         .number {
@@ -251,19 +424,73 @@ export default {
         }
     }
 }
-.fund-details-echart {
+.number-red {
+    color: #ea3d3d;
+}
+.number-green {
+    color: #04ba60;
+}
+.fund-details--echart {
     margin: 6px 0 0 0;
     width: 100%;
-    float: left;
-    position: relative;
-    padding: 10px;
     background: $background-color;
+    .number-red {
+        color: #ea3d3d;
+    }
+    .number-green {
+        color: #04ba60;
+    }
+    .block__fund--echart {
+        display: flex;
+        flex-direction: row;
+        height: 40px;
+        .block__fund--item {
+            width: 33.33%;
+            font-size: 16px;
+            display: flex;
+            color: #666666;
+            justify-content: center;
+            align-items: center;
+        }
+        .activeItem {
+            color: #2f79ff;
+            position: relative;
+            &::after {
+                position: absolute;
+                box-sizing: border-box;
+                content: ' ';
+                pointer-events: none;
+                right: 0;
+                bottom: 0px;
+                width: 20%;
+                left: 40%;
+                border-bottom: 4px solid #2f79ff;
+                @media only screen and (min-resolution: 2dppx) {
+                    // 非标准的
+                    -webkit-transform: scaleY(0.5);
+                    transform: scaleY(0.5);
+                }
+            }
+        }
+    }
+    .block__fund--title {
+        display: flex;
+        flex-direction: row;
+        font-size: 12px;
+        width: 100%;
+        span {
+            display: flex;
+        }
+    }
+
     span {
         columns: 14px;
         color: $text-color;
         line-height: 20px;
     }
     .fund-echart-content {
+        position: relative;
+        padding: 10px;
         #myChart {
             width: 100% !important;
         }

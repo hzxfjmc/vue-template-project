@@ -73,8 +73,8 @@ export default {
         // 申购时确认份额日多语言
         sureNetWorthBeginTime() {
             return {
-                zhCHS: `${this.beginTime}日确认份额 `,
-                zhCHT: `${this.beginTime}日確認份額`,
+                zhCHS: `${this.beginTime}日确认份额并开始计算收益`,
+                zhCHT: `${this.beginTime}日確認份額並開始計算收益`,
                 en: `Fund Units Allocation in ${this.beginTime} Days `
             }[this.$i18n.lang]
         },
@@ -96,7 +96,7 @@ export default {
         // 查收收益日多语言
         surePositionEndTime() {
             return {
-                zhCHS: `${this.endTime}日证券到达证券账户`,
+                zhCHS: `${this.endTime}日资金到达证券账户`,
                 zhCHT: `${this.endTime}日資金到達證券賬戶`,
                 en: `Funds Credited to Securities Account in ${this.endTime} Days`
             }[this.$i18n.lang]

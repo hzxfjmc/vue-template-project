@@ -68,7 +68,7 @@ export const i18nHoldDetailsData = {
         holdFundTitle: '持倉詳情',
         holdDetailsData: {
             weekEarnings: {
-                label: '昨日收益'
+                label: '近7日收益'
             },
             positionEarnings: {
                 label: '持有收益'
@@ -91,7 +91,7 @@ export const i18nHoldDetailsData = {
         holdFundTitle: 'Position',
         holdDetailsData: {
             weekEarnings: {
-                label: 'Yesterday P/L'
+                label: 'Last 1 week'
             },
             positionEarnings: {
                 label: 'Total P/L'

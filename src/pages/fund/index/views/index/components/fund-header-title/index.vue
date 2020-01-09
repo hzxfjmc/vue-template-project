@@ -7,14 +7,14 @@
                 @click="handerTab(item,index)"
                 :class="[activeTab===index ? 'active':'']"
                 :key="index") {{item.label}}
-        .fund__nav--fixed(@click="handlerNavItem") 
-            img(:src="IconPath")
-            p {{fundTitle}}
-        protocol-popup(
-            v-model="protocolVisible"
-            @chooseFilePath="chooseFilePath"
-            :protocolFileList="sellProtocolFileList"
-            )
+        //- .fund__nav--fixed(@click="handlerNavItem") 
+        //-     img(:src="IconPath")
+        //-     p {{fundTitle}}
+        //- protocol-popup(
+        //-     v-model="protocolVisible"
+        //-     @chooseFilePath="chooseFilePath"
+        //-     :protocolFileList="sellProtocolFileList"
+        //-     )
     .fund__header--subnav(v-if="chShow")
         .fund__nav--scroll.fund__nav--scroll-d(ref="navTransform")
             .fund__nav--subitem(
@@ -22,14 +22,14 @@
                 @click="handerTab(item,index)"
                 :class="[activeTab==index ? 'active1':'']"
                 :key="index") {{item.label}}
-        .fund__nav--fixed.fund__nav--fixed-d
-            p(@click="handlerNavItem") {{fundTitle}}
-                em(class="iconfont icon-icon-bottom")
-            .block--master(v-if="chooseCurrencyShow1" @click="chooseCurrencyShow1 = false")
-            .block__currey(v-if="chooseCurrencyShow1")
-                span.border-bottom(
-                    v-for="(item,index) in sellProtocolFileList"
-                    @click="chooseFilePath(item)") {{item.fileName1}}
+        //- .fund__nav--fixed.fund__nav--fixed-d
+        //-     p(@click="handlerNavItem") {{fundTitle}}
+        //-         em(class="iconfont icon-icon-bottom")
+        //-     .block--master(v-if="chooseCurrencyShow1" @click="chooseCurrencyShow1 = false")
+        //-     .block__currey(v-if="chooseCurrencyShow1")
+        //-         span.border-bottom(
+        //-             v-for="(item,index) in sellProtocolFileList"
+        //-             @click="chooseFilePath(item)") {{item.fileName1}}
    
 
 </template>
@@ -70,11 +70,11 @@ export default {
             fundShares: '股票型'
         },
         en: {
-            fundAllType: 'All Currencies',
-            fundHkdType: 'HKD Fund',
-            fundUsdType: 'USD Fund',
+            fundAllType: 'All CURR',
+            fundHkdType: 'HKD',
+            fundUsdType: 'USD',
             fundAll: 'All',
-            fundCurrency: 'Money',
+            fundCurrency: 'MMF',
             fundBond: 'Bond',
             fundBlend: 'Balanced',
             fundShares: 'Equity'
@@ -88,10 +88,10 @@ export default {
     watch: {
         assetType(val) {
             let obj = {
-                1: 4,
+                1: 1,
                 2: 2,
                 3: 3,
-                4: 1
+                4: 4
             }
             this.activeTab = obj[val]
             // this.$refs.navTransform.style.left =
@@ -142,10 +142,11 @@ export default {
                     value: ''
                 },
                 {
-                    label: '货币型',
-                    key: 'fundCurrency',
-                    value: '4'
+                    label: '股票型',
+                    key: 'fundShares',
+                    value: '1'
                 },
+
                 {
                     label: '债券型',
                     key: 'fundBond',
@@ -157,9 +158,9 @@ export default {
                     value: '3'
                 },
                 {
-                    label: '股票型',
-                    key: 'fundShares',
-                    value: '1'
+                    label: '货币型',
+                    key: 'fundCurrency',
+                    value: '4'
                 }
             ],
             code: 0
@@ -235,6 +236,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.fund__header--nav {
+    position: fixed;
+    top: 0;
+    z-index: 9999;
+    width: 100%;
+}
 .fund__header--subnav {
     width: 100%;
     margin: 0 0;
@@ -243,56 +250,18 @@ export default {
     height: 42px;
     line-height: 42px;
     .fund__nav--scroll {
-        width: 400px;
+        width: 100%;
         height: 30px;
         display: flex;
         margin: 6px 0;
-        padding: 0 50px 0 0;
+        // padding: 0 50px 0 0;
         flex-direction: row;
         position: relative;
         // right: 0;
     }
     .fund__nav--scroll-d {
-        padding: 0 70px 0 0;
-
         .fund__nav--subitem {
             font-size: 14px;
-        }
-    }
-    .fund__nav--fixed {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 55px;
-        height: 40px;
-        text-align: center;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        background: url('~@/assets/img/fund/fix-box.png');
-        background-size: 100% 100%;
-        img {
-            width: 20px;
-            height: 20px;
-            margin: 0 17px;
-            text-align: center;
-        }
-        p {
-            font-size: 10px;
-            display: inline;
-            line-height: 16px;
-        }
-    }
-    .fund__nav--fixed-d {
-        background: url('~@/assets/img/fund/box-show.png');
-        background-size: 100% 100%;
-        width: 72px;
-        p {
-            font-size: 14px;
-            em {
-                // display: block;
-                padding: 0 0 0 5px;
-            }
         }
     }
     .fund__nav--item {
@@ -311,8 +280,7 @@ export default {
         color: #fff;
     }
     .fund__nav--subitem {
-        width: 21%;
-        margin: 0 2%;
+        width: 25%;
         font-size: 16px;
         height: 30px;
         line-height: 30px;
@@ -330,9 +298,8 @@ export default {
             right: 0;
             bottom: -6px;
             width: 31px;
-            left: 10px;
+            left: 22px;
             border-bottom: 4px solid #2f79ff;
-
             @media only screen and (min-resolution: 2dppx) {
                 // 非标准的
                 -webkit-transform: scaleY(0.5);
