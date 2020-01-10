@@ -27,11 +27,11 @@
                         span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                     span.element-time {{item.orderTime}}
             .block__footer(v-if="item.actionInfo && code != 2")
-                .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/1000}}折申购费
+                .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
                 .block__footer--right
                     van-button(class="btn" @click="handlerShareBtn(item)") 邀请拼团
             .block__footer-hk(v-if="item.actionInfo && code != 1")
-                .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/1000}}折申购费
+                .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
                 .block__footer--right
                     van-button(class="btn" @click="handlerShareBtn(item)") 邀请拼团
             share-way(
@@ -110,7 +110,8 @@ export default {
             bizId: '',
             groupId: '',
             userInfo: {},
-            groupRestUsers: 5
+            groupRestUsers: 5,
+            orderNo: ''
         }
     },
     methods: {
@@ -150,6 +151,7 @@ export default {
         handlerShareBtn(item) {
             this.bizId = item.actionInfo.action.biz_id
             this.groupId = item.actionInfo.group.group_id
+            this.orderNo = item.orderNo
             this.getGroupOrders()
             this.showShare = true
         },
@@ -172,7 +174,7 @@ export default {
                     1
 
                 let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.$route.query.groupId}&&invitationCode=${this.userInfo.invitationCode}#/invite`
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.$route.query.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
@@ -226,14 +228,20 @@ export default {
                     let list = this.list.map(orderItem => {
                         order_list.map(item => {
                             try {
-                                item.action.rule_detail = JSON.parse(
-                                    item.action.rule_detail
-                                )
-                                item.action.discountNum =
-                                    item.action.rule_detail.rule_list[
-                                        item.action.rule_detail.rule_list
-                                            .length - 1
-                                    ].discount
+                                if (
+                                    item.action &&
+                                    item.action.rule_detail &&
+                                    typeof item.action.rule_detail == 'string'
+                                ) {
+                                    item.action.rule_detail = JSON.parse(
+                                        item.action.rule_detail
+                                    )
+                                    item.action.discountNum =
+                                        item.action.rule_detail.rule_list[
+                                            item.action.rule_detail.rule_list
+                                                .length - 1
+                                        ].discount
+                                }
                             } catch (e) {
                                 console.log(e)
                             }
@@ -243,7 +251,8 @@ export default {
                             ) {
                                 orderItem.actionInfo = item
                                 orderItem.countNumber =
-                                    item.action.rule_detail.most_user -
+                                    item.action.rule_detail.rule_list[0]
+                                        .start_user_count -
                                     item.group.order_count
                             }
                         })
@@ -251,7 +260,6 @@ export default {
                     })
                     this.list = list
                 }
-                console.log(this.list)
             } catch (e) {
                 this.$toast(e.msg)
             }
