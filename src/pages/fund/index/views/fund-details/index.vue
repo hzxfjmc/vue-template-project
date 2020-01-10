@@ -75,11 +75,11 @@
                 :disabled="disabled") {{$t('buy')}}
             .block__fight--btn.btn(:class="[disabled?'fund-footer2':'fund-footer1']" @click="handleBuyOrSell(2)")
                 span 发起拼团申购
-                em 最多省{{discount}}$
+                em 申购费最高可返{{discount}}%
         .block__button--list(v-if="!figthBtnShow")
             .block__fight--btn1.btn( @click="handleBuyOrSell(2)")
                 span 参与拼团申购
-                em 最多省{{discount}}$
+                em 申购费最高可返{{discount}}%
 
     .fund-footer-content.fund-footer-hk(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
         .block__list--header-hk
@@ -103,7 +103,7 @@
                                 :time="time"
                                 format="DD天 HH:mm:ss")
                         p )
-                    .block__fight--bottom 還差{{differenceNumer}}人，最多可省{{discount}}%認購費
+                    .block__fight--bottom 還差{{differenceNumer}}人，申购费最高可返{{discount}}%
     
 
            

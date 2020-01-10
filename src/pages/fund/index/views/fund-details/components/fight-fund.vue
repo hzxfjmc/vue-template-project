@@ -28,8 +28,7 @@
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/check.png')")
             span 拼团成功，
-                em(v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 团队规模{{item.start_user_count}}人以上尊享申购费{{item.discount/1000}}折;
-    .block__bottom--header(v-if="swipeShow")
+                em(v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 根据团队规模最高可返{{item.discount}}%申购费 
         img(:src="require('@/assets/img/fund/icon/Notice.png')")
         span {{actionInfo.ad_order_count}}人正在拼团申购
     .block__bottom--swiper(v-if="swipeShow")
@@ -43,7 +42,7 @@
                     .block__vant--left
                         img(:src="items.headImg")
                     .block__vant--name {{items.nickName}}
-                    .block__vant--p 拼团成功，团队规模{{items.order_count}}人，尊享申购费{{items.rule_detail/1000}}折
+                    .block__vant--p 拼团成功，团队规模{{items.order_count}}人，尊享{{items.rule_detail}}%申购费返还
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
