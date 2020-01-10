@@ -66,7 +66,7 @@
                 span 还差{{differenceNumer}}人
             .block__footer-right(v-if="!figthBtnShow")
                 van-button(
-                    @click="handleBuyOrSell(2)"
+                    @click="handleBuyOrSell(3)"
                     :disabled="disabled") 参与拼团
         .block__button--list(v-if="figthBtnShow")
             van-button(
@@ -459,7 +459,7 @@ export default {
                 if (res !== null && res.action.warm === 0) {
                     this.fightShow = false
                 }
-                if (!res.has_joined) {
+                if (res.has_joined) {
                     this.figthBtnShow = false
                 }
                 if (res.order_list.length > 0) {
@@ -780,8 +780,11 @@ export default {
                         fundCode: this.fundCode
                     }
                 }
+                if (params === 3) {
+                    data.query.groupId = this.$route.query.group_id
+                }
                 if (params === 2) {
-                    data.query.groupId = this.$route.query.group_id || 0
+                    data.query.groupId = 0
                 }
                 data.path =
                     // eslint-disable-next-line no-constant-condition
