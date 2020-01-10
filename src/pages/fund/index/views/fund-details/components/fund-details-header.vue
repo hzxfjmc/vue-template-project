@@ -14,6 +14,13 @@
             .fund_tag
                 em.iconfont.icon-iconsjijinfengxiancopy-copy1
                 span {{ fundHeaderInfoVO.earningsTypeName }}
+        .block__right--tag(
+            @click="confirmAlter"
+            v-if="fundHeaderInfoVO.derivativeType !== 1")
+            .blcok__tag--left.iconfont.icon-warning1
+            .block__tag--right
+                p(v-if="fundHeaderInfoVO.derivativeType !== 3") 衍生產品 
+                p 复杂产品
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
@@ -95,6 +102,11 @@ export default {
             nowDate: dayjs(Date.parse(new Date())).format('MMDDYYYY')
         }
     },
+    methods: {
+        confirmAlter() {
+            console.log(123)
+        }
+    },
     computed: {
         stockColorType() {
             return +getStockColorType()
@@ -113,7 +125,35 @@ export default {
     .fund-details-header-top {
         width: 100%;
         padding: 10px;
-        float: left;
+        background: #fbfcfe;
+        position: relative;
+        .block__right--tag {
+            position: absolute;
+            width: 86px;
+            height: 38px;
+            border-top-left-radius: 32px;
+            border-bottom-left-radius: 32px;
+            border: 1px solid #edc92c;
+            border-right: none;
+            line-height: 32px;
+            display: flex;
+            align-items: center;
+            bottom: 14px;
+            right: 0;
+            .iconfont {
+                color: #edc92c;
+                margin: 0 0 0 10px;
+            }
+            .block__tag--right {
+                font-size: 9px;
+                font-weight: 400;
+                color: rgba(153, 153, 153, 1);
+                p {
+                    line-height: 16px;
+                    margin: 0 0 0 2px;
+                }
+            }
+        }
     }
     h3 {
         font-size: 0.32rem;

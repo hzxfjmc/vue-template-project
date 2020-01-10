@@ -401,6 +401,8 @@ export default {
                 //     res.fundTradeInfoVO.dividendType.name
                 this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
+                this.fundHeaderInfoVO.derivativeType =
+                    res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
                 let flag = this.fundHeaderInfoVO.apy < 0
                 this.fundHeaderInfoVO.apy =
