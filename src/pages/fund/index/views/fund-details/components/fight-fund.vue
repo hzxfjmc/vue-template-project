@@ -29,8 +29,9 @@
             img(:src="require('@/assets/img/fund/icon/check.png')")
             span 拼团成功，
                 em(v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 根据团队规模最高可返{{item.discount}}%申购费 
-        img(:src="require('@/assets/img/fund/icon/Notice.png')")
-        span {{actionInfo.ad_order_count}}人正在拼团申购
+        .block__item--notice
+            img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
+            span {{actionInfo.ad_order_count}}人正在拼团申购
     .block__bottom--swiper(v-if="swipeShow")
         van-swipe(
             :show-indicators="false"
@@ -144,6 +145,16 @@ export default {
         padding: 0 0 5px 0;
         margin: 20px 0 0 0;
         flex-direction: column;
+        .block__item--notice {
+            display: flex;
+            margin: 10px 0 0 0;
+            padding: 0 5px;
+            flex-direction: row;
+            img {
+                width: 20px;
+                height: 20px;
+            }
+        }
         .block__list--p {
             font-size: 12px;
             line-height: 20px;
@@ -159,6 +170,10 @@ export default {
             em {
                 font-style: normal;
             }
+        }
+        .block__notice {
+            width: 10px;
+            height: 10px;
         }
     }
     .block__bottom--header {

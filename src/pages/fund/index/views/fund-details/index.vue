@@ -460,8 +460,10 @@ export default {
                     this.fightShow = false
                 }
                 if (this.$route.query.group_id && !res.has_joined) {
-                    this.shareHeaderShow = true
                     this.figthBtnShow = false
+                }
+                if (res.order_list.length > 0) {
+                    this.shareHeaderShow = true
                 }
                 // this.has_joined = res.has_joined
                 this.actionInfo = res.action
