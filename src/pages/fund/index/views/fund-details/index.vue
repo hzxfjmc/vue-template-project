@@ -64,7 +64,7 @@
                         :time="time"
                         format="DD天 HH:mm:ss")
                 span 还差{{differenceNumer}}人
-            .block__footer-right
+            .block__footer-right(v-if="!figthBtnShow")
                 van-button(
                     @click="handleBuyOrSell(2)"
                     :disabled="disabled") 参与拼团
