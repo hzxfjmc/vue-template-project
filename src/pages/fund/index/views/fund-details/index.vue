@@ -349,7 +349,11 @@ export default {
                     fundId: this.id
                 })
                 for (let key in this.timeList) {
-                    this.timeList[key].value = (res[key] * 100).toFixed(2)
+                    if (!res[key] && res[key] != 0) {
+                        this.timeList[key].value = '--'
+                    } else {
+                        this.timeList[key].value = (res[key] * 100).toFixed(2)
+                    }
                 }
                 for (let key in this.timeLists) {
                     this.timeLists[key].value = (res[key] * 100).toFixed(2)
