@@ -221,7 +221,7 @@ export default {
                         JSON.parse(data.action.rule_detail).rule_list.length - 1
                     ].discount
                 }
-                if (!this.$route.query.groupId) return
+                if (!this.groupId) return
                 let grdersData = await getGroupOrders({
                     group_id: +this.groupId
                 })
@@ -498,7 +498,7 @@ export default {
                 try {
                     this.$loading()
                     let re
-                    if (!this.$route.query.groupId) {
+                    if (!this.discountShow) {
                         re = await fundPurchase({
                             displayLocation: 1,
                             fundId: this.$route.query.id,
@@ -511,7 +511,7 @@ export default {
                         console.log('申购页面-fundPurchaseData:', re)
                     } else {
                         const { body, group_id } = await createGroupOrder({
-                            group_id: Number(this.$route.query.groupId),
+                            group_id: Number(this.$route.query.groupId) || 0,
                             biz_type: 0,
                             biz_id: this.$route.query.id,
                             order_detail: JSON.stringify({
