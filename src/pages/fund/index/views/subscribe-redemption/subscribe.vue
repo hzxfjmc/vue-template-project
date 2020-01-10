@@ -214,7 +214,11 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
+                let mostNum
+                let restNum
                 if (data.action && data.action.rule_detail) {
+                    mostNum = JSON.parse(data.action.rule_detail).most_user
+
                     this.discount = JSON.parse(
                         data.action.rule_detail
                     ).rule_list[
@@ -229,49 +233,27 @@ export default {
                 let grdersData = await getGroupOrders({
                     group_id: +this.groupId
                 })
-                let ruleDetail = {}
-                // this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
                 let orderList = grdersData.order_list || []
+                if (data.action && data.action.rule_detail) {
+                    restNum =
+                        JSON.parse(data.action.rule_detail).rule_list[0]
+                            .start_user_count - orderList.length
+                }
 
-                // 剩余多少人成团
-                let restNum =
-                    +ruleDetail.rule_list[0].start_user_count - orderList.length
-                let mostNum = +ruleDetail.most_user
-
-                let pt = appType.Hk
-                    ? this.$t(['「同行」', '「同行」', '「同行」'])
-                    : this.$t(['拼团', '拼團', '拼团'])
-
-                this.shareTitle = this.$t([
-                    '<p>认购申请已提交</p>',
-                    '<p>認購申請已提交</p>',
-                    '<p>Application for subscription has been submitted</p>'
-                ])
+                this.shareTitle = `<p>认购申请已提交</p>`
                 if (orderList.length === mostNum) {
-                    this.shareTitle += this.$t([
-                        `<p>${pt}认购成功，团队已满员</p>`,
-                        `<p>${pt}認購成功，團隊已滿員</p>`,
-                        `<p>${pt}认购成功，团队已满员</p>`
-                    ])
+                    this.shareTitle += `<p>同行认购成功，团队已满员</p>`
                 } else {
                     let mostRest = mostNum - orderList.length
+
                     // 未成团
                     if (restNum > 0) {
-                        this.shareTitle += this.$t([
-                            `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`,
-                            `<p>還差 ${restNum} 人，趕快邀請好友來拼團吧</p>`,
-                            `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`
-                        ])
+                        this.shareTitle += `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`
                     } else {
-                        this.shareTitle += this.$t([
-                            `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`,
-                            `<p>團隊已達到標，還可以邀請 ${mostRest} 人</p>`,
-                            `<p>團隊已達到標，還可以邀請 ${mostRest} 人</p>`
-                        ])
+                        this.shareTitle += `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`
                     }
                 }
 
-                // await this.$toast(this.$t('submitSuccess'))
                 if (data.action && data.action.rule_detail) {
                     this.groupRestUsers = this.discount =
                         JSON.parse(data.action.rule_detail).rule_list[0]

@@ -36,10 +36,9 @@
                     van-button(class="btn" @click="handlerShareBtn(item)") 邀请拼团
             share-way(
                 v-model="showShare"
-                overlay-class="activity-invited"
                 @handleShare="handleShare"
-                :title="content"
-            )
+                :title="shareTitle"
+                )
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
         .no-record-box {{$t('nomore')}}
@@ -110,6 +109,7 @@ export default {
             bizId: '',
             groupId: '',
             userInfo: {},
+            shareTitle: '',
             groupRestUsers: 5,
             orderNo: ''
         }
@@ -123,16 +123,51 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
+                let mostNum
+                let restNum
+                if (data.action && data.action.rule_detail) {
+                    mostNum = JSON.parse(data.action.rule_detail).most_user
+
+                    this.discount = JSON.parse(
+                        data.action.rule_detail
+                    ).rule_list[
+                        JSON.parse(data.action.rule_detail).rule_list.length - 1
+                    ].discount
+                }
+                if (!this.groupId && this.groupId === 0) {
+                    this.discountShow = true
+                    return
+                }
+                if (!this.groupId) return
                 let grdersData = await getGroupOrders({
-                    group_id: this.groupId
+                    group_id: +this.groupId
                 })
                 let orderList = grdersData.order_list || []
+                if (data.action && data.action.rule_detail) {
+                    restNum =
+                        JSON.parse(data.action.rule_detail).rule_list[0]
+                            .start_user_count - orderList.length
+                }
+
+                this.shareTitle = `<p>认购申请已提交</p>`
+                if (orderList.length === mostNum) {
+                    this.shareTitle += `<p>同行认购成功，团队已满员</p>`
+                } else {
+                    let mostRest = mostNum - orderList.length
+
+                    // 未成团
+                    if (restNum > 0) {
+                        this.shareTitle += `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`
+                    } else {
+                        this.shareTitle += `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`
+                    }
+                }
+
                 if (data.action && data.action.rule_detail) {
                     this.groupRestUsers = this.discount =
                         JSON.parse(data.action.rule_detail).rule_list[0]
                             .start_user_count - orderList.length
                 }
-                this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getGroupOrders:error:>>>', e)
