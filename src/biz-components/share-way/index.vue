@@ -1,12 +1,13 @@
 <template lang="pug">
     .share-contain
-        yx-popup(
+        van-popup(
             v-model="showShare"
-            position='bottom'
-            :overlay-class="overlayClass"
+            :position="position"
+            :closeable="true"
+            @close="closePopup"
             @click-overlay="handleClickOverlay"
         )
-            p.title(v-if="title") {{ title }}
+            p.title(v-if="title" v-html="title")
             ul
                 li(
                 v-for="(item,index) in 4"
@@ -18,22 +19,26 @@
 </template>
 
 <script>
+import { Popup } from 'vant'
 export default {
+    props: {
+        value: {},
+        title: {
+            type: String,
+            default: ''
+        },
+        position: {
+            type: String,
+            default: 'center'
+        }
+    },
+    components: {
+        [Popup.name]: Popup
+    },
     data() {
         return {
             shareText: ['微信', '朋友圈', 'QQ', '微博'],
             shareIcon: ['wechat', 'pengyouquan', 'qq', 'weibo']
-        }
-    },
-    props: {
-        value: {},
-        overlayClass: {
-            type: String,
-            default: ''
-        },
-        title: {
-            type: String,
-            default: ''
         }
     },
     computed: {
@@ -52,6 +57,9 @@ export default {
         },
         toShare(_index) {
             this.$emit('handleShare', _index)
+        },
+        closePopup() {
+            this.$emit('closePopup')
         }
     }
 }
@@ -85,12 +93,9 @@ export default {
 </style>
 <style lang="scss">
 .share-contain {
-    .yx-popup {
-        .van-popup--bottom {
-            width: 100%;
-            bottom: 0;
-            border-radius: 0;
-        }
+    .van-popup {
+        width: 80%;
+        border-radius: 10px;
     }
 }
 </style>
