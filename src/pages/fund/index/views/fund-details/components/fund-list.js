@@ -42,3 +42,9 @@ export const itemList = {
         borderBottom: false
     }
 }
+
+export const derivativeType_EMUN = {
+    1: '非衍生产品、非复杂产品',
+    2: '衍生产品且为复杂产品',
+    3: '复杂产品 非衍生品'
+}
