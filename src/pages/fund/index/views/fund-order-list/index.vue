@@ -3,7 +3,8 @@
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
         .block-list(
             class="border-bottom" 
-            v-for="(item,index) in list" :key="item.orderNo" 
+            v-for="(item,index) in list" 
+            :key="item.orderNo" 
             )
             .block__list--item(@click="toDetailHandle(item)")
                 .block-left 
@@ -154,7 +155,6 @@ export default {
                     this.shareTitle += `<p>同行认购成功，团队已满员</p>`
                 } else {
                     let mostRest = mostNum - orderList.length
-
                     // 未成团
                     if (restNum > 0) {
                         this.shareTitle += `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`
@@ -230,14 +230,18 @@ export default {
         },
         // 跳转到详情
         toDetailHandle(item) {
-            this.$router.push({
+            let data = {
                 name: 'order-record-detail',
                 query: {
                     orderNo: item.orderNo,
                     orderStatus: item.externalStatus,
                     currencyType: this.$route.query.currency
                 }
-            })
+            }
+            if (item.actionInfo) {
+                data.query.groupId = item.actionInfo.group.group_id
+            }
+            this.$router.push(data)
         },
         //上拉加载更多
         onLoad() {

@@ -198,13 +198,18 @@ export default {
         },
         // 再买一笔
         buyMoreHandle() {
-            this.$router.push({
+            let data = {
                 path: '/fund-subscribe',
                 query: {
                     id: this.fundId,
                     currencyType: this.$route.query.currencyType
                 }
-            })
+            }
+            if (this.$route.query.groupId) {
+                data.query.groupId = 0
+            }
+            console.log(data)
+            this.$router.push(data)
         },
         // 撤销
         showBackOutHandle() {
