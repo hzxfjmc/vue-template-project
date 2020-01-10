@@ -126,9 +126,11 @@ export default {
                     group_id: this.groupId
                 })
                 let orderList = grdersData.order_list || []
-                this.groupRestUsers =
-                    JSON.parse(data.action.rule_detail).most_user -
-                    orderList.length
+                if (data.action && data.action.rule_detail) {
+                    this.groupRestUsers = this.discount =
+                        JSON.parse(data.action.rule_detail).rule_list[0]
+                            .start_user_count - orderList.length
+                }
                 this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
             } catch (e) {
                 this.$toast(e.msg)
