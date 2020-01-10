@@ -458,7 +458,7 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
-                if (res !== null || res.action) {
+                if (res !== null && res.action.warm === 0) {
                     this.fightShow = false
                 }
                 if (this.$route.query.group_id) {
