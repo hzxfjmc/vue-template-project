@@ -776,7 +776,7 @@ export default {
                     }
                 }
                 if (!this.fightShow) {
-                    data.query.groupId = this.$route.query.group_id
+                    data.query.groupId = this.$route.query.group_id || 0
                 }
                 data.path =
                     // eslint-disable-next-line no-constant-condition
