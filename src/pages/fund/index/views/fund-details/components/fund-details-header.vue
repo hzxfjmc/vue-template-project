@@ -64,7 +64,9 @@ export default {
             oneYearShow: '近一年收益率',
             yieldInLast7d: '近七日年化',
             hkd: '港币',
-            usd: '美元'
+            usd: '美元',
+            iknow: '我知道了',
+            content: ''
         },
         zhCHT: {
             fundPrice: '基金價格',
