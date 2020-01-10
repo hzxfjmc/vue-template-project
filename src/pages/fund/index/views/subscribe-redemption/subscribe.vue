@@ -214,7 +214,6 @@ export default {
                     action_status: 2
                 })
                 if (data.action && data.action.rule_detail) {
-                    this.discountShow = true
                     this.discount = JSON.parse(
                         data.action.rule_detail
                     ).rule_list[
@@ -222,6 +221,7 @@ export default {
                     ].discount
                 }
                 if (!this.groupId && this.groupId == 0) return
+                this.discountShow = true
                 let grdersData = await getGroupOrders({
                     group_id: +this.groupId
                 })
