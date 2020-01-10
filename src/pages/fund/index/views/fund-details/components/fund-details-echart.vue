@@ -25,7 +25,8 @@
                 p.list__right(
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                     v-else-if="item.value<0") {{item.value|transNumToThousandMark(2)}}%
-                p.list__right(v-else) {{item.value}}%
+                p.list__right(v-if="item.value==='--'") {{item.value}}
+                p.list__right(v-if="item.value==0") {{item.value}}%
             .block__list--more(@click="toFundHistorylist")
                 span {{$t('more1')}}
     .fund-echart-content2(v-show ="activeTab ==3")
