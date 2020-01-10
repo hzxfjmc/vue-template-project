@@ -181,7 +181,8 @@ export default {
         }
     },
     async created() {
-        await this.getCurrentUser()
+        this.getCurrentUser()
+        this.getGroupOrders()
         this.getFundPositionV2Fun()
         this.getWithdrawBalance()
     },
@@ -218,9 +219,13 @@ export default {
                 this.groupRestUsers =
                     JSON.parse(data.action.rule_detail).most_user -
                     orderList.length
-                this.discount = JSON.parse(
-                    data.action.rule_detail
-                ).rule_list[1].discount
+                if (data.action && data.action.rule_detail) {
+                    this.discount = JSON.parse(
+                        data.action.rule_detail
+                    ).rule_list[
+                        JSON.parse(data.action.rule_detail).rule_list.length - 1
+                    ].discount
+                }
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getGroupOrders:error:>>>', e)
@@ -516,7 +521,8 @@ export default {
                         await this.getGroupOrders()
                         this.content = `还差${this.groupRestUsers}人，赶快邀请好友来拼团把`
                         this.showShare = true
-                        re = JSON.stringify(body)
+                        re = JSON.parse(body)
+                        console.log(re)
                     }
                     submitStep = 2
                     this.orderNo = re.orderNo

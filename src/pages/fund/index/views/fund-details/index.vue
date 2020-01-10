@@ -103,7 +103,7 @@
                                 :time="time"
                                 format="DD天 HH:mm:ss")
                         p )
-                    .block__fight--bottom 還差2人，最多可省80%認購費
+                    .block__fight--bottom 還差{{differenceNumer}}人，最多可省80%認購費
     
 
            
