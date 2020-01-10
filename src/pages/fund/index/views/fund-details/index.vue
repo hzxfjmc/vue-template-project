@@ -459,12 +459,14 @@ export default {
                 if (res !== null && res.action.warm === 0) {
                     this.fightShow = false
                 }
-                if (res.has_joined) {
-                    this.figthBtnShow = false
-                }
+
                 if (res.order_list.length > 0) {
                     this.shareHeaderShow = true
                     this.figthBtnShow = false
+                }
+                if (res.has_joined) {
+                    this.figthBtnShow = true
+                    this.shareHeaderShow = false
                 }
                 // this.has_joined = res.has_joined
                 this.actionInfo = res.action
