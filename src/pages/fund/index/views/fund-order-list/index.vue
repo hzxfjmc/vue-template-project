@@ -210,7 +210,6 @@ export default {
 
                 let at = appType.Hk ? 2 : 1
                 let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                console.log(link)
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })

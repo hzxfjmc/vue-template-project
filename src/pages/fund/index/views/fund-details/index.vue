@@ -271,6 +271,7 @@ export default {
             fightShow: true,
             time: 30 * 60 * 60 * 1000,
             code: '',
+            has_joined: true,
             tabObj: {
                 label: '',
                 value: ''
@@ -458,10 +459,11 @@ export default {
                 if (res !== null && res.action.warm === 0) {
                     this.fightShow = false
                 }
-                if (this.$route.query.group_id) {
-                    this.figthBtnShow = false
+                if (this.$route.query.group_id && !res.has_joined) {
                     this.shareHeaderShow = true
+                    this.figthBtnShow = false
                 }
+                // this.has_joined = res.has_joined
                 this.actionInfo = res.action
                 if (res.action && res.action.rule_detail) {
                     res.action.rule_detail = JSON.parse(res.action.rule_detail)
