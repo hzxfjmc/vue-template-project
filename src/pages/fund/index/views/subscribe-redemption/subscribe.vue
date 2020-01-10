@@ -224,6 +224,7 @@ export default {
                     this.discountShow = true
                     return
                 }
+                if (!this.groupId) return
                 let grdersData = await getGroupOrders({
                     group_id: +this.groupId
                 })
@@ -398,7 +399,6 @@ export default {
                 for (let key in this.subscribeObj) {
                     this.subscribeObj[key].label = this.$t('subscribeObj')[key]
                 }
-
                 if (this.positionStatus !== 1) {
                     this.initialInvestAmount = transNumToThousandMark(
                         Number(

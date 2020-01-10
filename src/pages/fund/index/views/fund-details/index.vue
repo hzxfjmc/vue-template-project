@@ -397,7 +397,7 @@ export default {
             try {
                 const { order_list } = await getAdGroupOrders({
                     limit: 10,
-                    action_id: this.action_id
+                    action_id: this.actionId
                 })
                 if (order_list.length > 0) {
                     this.swipeShow = true
