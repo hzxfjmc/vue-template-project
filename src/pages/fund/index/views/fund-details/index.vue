@@ -49,7 +49,7 @@
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow")
         van-button(
             class="fund-footer btn button-width"
-            @click="handleBuyOrSell" 
+            @click="handleBuyOrSell(1)" 
             :disabled="disabled") {{$t('buy')}}
 
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
@@ -66,18 +66,18 @@
                 span 还差{{differenceNumer}}人
             .block__footer-right
                 van-button(
-                    @click="handleBuyOrSell"
+                    @click="handleBuyOrSell(2)"
                     :disabled="disabled") 参与拼团
         .block__button--list(v-if="figthBtnShow")
             van-button(
                 class="fund-footer btn button-width1"
-                @click="handleBuyOrSell" 
+                @click="handleBuyOrSell(1)" 
                 :disabled="disabled") {{$t('buy')}}
-            .block__fight--btn.btn(:class="[disabled?'fund-footer2':'fund-footer1']" @click="handleBuyOrSell")
+            .block__fight--btn.btn(:class="[disabled?'fund-footer2':'fund-footer1']" @click="handleBuyOrSell(2)")
                 span 发起拼团申购
                 em 最多省{{discount}}$
         .block__button--list(v-if="!figthBtnShow")
-            .block__fight--btn1.btn( @click="handleBuyOrSell")
+            .block__fight--btn1.btn( @click="handleBuyOrSell(2)")
                 span 参与拼团申购
                 em 最多省{{discount}}$
 
@@ -713,7 +713,7 @@ export default {
             }
         },
         //用户是否能申购或者是否需要测评
-        async handleBuyOrSell() {
+        async handleBuyOrSell(params) {
             clickFundDetails(
                 'fund_detail',
                 '申购',
@@ -775,7 +775,7 @@ export default {
                         fundCode: this.fundCode
                     }
                 }
-                if (!this.fightShow) {
+                if (params === 2) {
                     data.query.groupId = this.$route.query.group_id || 0
                 }
                 data.path =

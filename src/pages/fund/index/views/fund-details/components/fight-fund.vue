@@ -195,7 +195,7 @@ export default {
                 overflow: hidden;
                 white-space: nowrap;
                 margin: 0 5px;
-                min-width: 50px;
+                width: 50px;
                 height: 20px;
                 text-overflow: ellipsis;
             }

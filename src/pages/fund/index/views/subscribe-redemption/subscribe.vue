@@ -220,8 +220,10 @@ export default {
                         JSON.parse(data.action.rule_detail).rule_list.length - 1
                     ].discount
                 }
-                if (!this.groupId && this.groupId == 0) return
-                this.discountShow = true
+                if (!this.groupId && this.groupId === 0) {
+                    this.discountShow = true
+                    return
+                }
                 let grdersData = await getGroupOrders({
                     group_id: +this.groupId
                 })
@@ -498,7 +500,10 @@ export default {
                 try {
                     this.$loading()
                     let re
-                    if (!this.$route.query.groupId) {
+                    if (
+                        !this.$route.query.groupId &&
+                        this.$route.query.groupId != 0
+                    ) {
                         re = await fundPurchase({
                             displayLocation: 1,
                             fundId: this.$route.query.id,
