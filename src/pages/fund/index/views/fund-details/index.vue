@@ -382,13 +382,10 @@ export default {
     methods: {
         async addGroupFollow() {
             try {
-                if (
-                    this.$route.query.group_id &&
-                    this.$route.query.invitationCode
-                ) {
+                if (this.$route.query.group_id && this.$route.query.order_id) {
                     await addGroupFollow({
                         group_id: +this.$route.query.group_id,
-                        invite_order_id: this.userInfo.invitationCode
+                        invite_order_id: this.$route.query.order_id
                     })
                 }
             } catch (e) {
