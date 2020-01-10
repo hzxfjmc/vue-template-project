@@ -55,7 +55,7 @@
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
         .block__list--header(v-if="shareHeaderShow")
             .block__footer-avat
-                img 
+                img(:src="avatImg") 
             .block__footer--content
                 span 剩余
                 .vant-count-down
@@ -75,11 +75,11 @@
                 :disabled="disabled") {{$t('buy')}}
             .block__fight--btn.btn(:class="[disabled?'fund-footer2':'fund-footer1']" @click="handleBuyOrSell")
                 span 发起拼团申购
-                em 最多省100$
+                em 最多省{{discount}}$
         .block__button--list(v-if="!figthBtnShow")
             .block__fight--btn1.btn( @click="handleBuyOrSell")
                 span 参与拼团申购
-                em 最多省100$
+                em 最多省{{discount}}$
 
     .fund-footer-content.fund-footer-hk(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
         .block__list--header-hk
@@ -92,7 +92,7 @@
         .block__button--list-hk
             .block__fight--btn-hk( @click="handleBuyOrSell")
                 .block__fight--left
-                    img()
+                    img(:src="avatImg")
                 .block__fight--right
                     .block__fight--top
                         p  「同行」認購
@@ -103,7 +103,7 @@
                                 :time="time"
                                 format="DD天 HH:mm:ss")
                         p )
-                    .block__fight--bottom 還差{{differenceNumer}}人，最多可省80%認購費
+                    .block__fight--bottom 還差{{differenceNumer}}人，最多可省{{discount}}%認購費
     
 
            
@@ -314,7 +314,9 @@ export default {
             orderList: [],
             actionId: '',
             userList: [],
+            discount: null,
             differenceNumer: 5,
+            avatImg: require('@/assets/img/fund/share/avat.png'),
             timeList: {
                 oneWeek: {
                     label: '近一周',
@@ -385,8 +387,8 @@ export default {
                     this.$route.query.invitationCode
                 ) {
                     await addGroupFollow({
-                        group_id: this.$route.query.group_id,
-                        invite_order_id: this.$route.query.invitationCode
+                        group_id: +this.$route.query.group_id,
+                        invite_order_id: this.userInfo.invitationCode
                     })
                 }
             } catch (e) {
@@ -436,9 +438,14 @@ export default {
                 this.orderList = order_list || []
                 if (this.actionInfo.rule_detail) {
                     this.differenceNumer =
-                        this.actionInfo.rule_detail.most_user -
-                        this.orderList.length
+                        this.actionInfo.rule_detail.rule_list[0]
+                            .start_user_count - this.orderList.length
                 }
+                this.orderList.map(item => {
+                    if (item.user_info.is_invite_user) {
+                        this.avatImg = item.head_img
+                    }
+                })
             } catch (e) {
                 console.log('getGroupOrder:error:>>>', e)
             }
@@ -455,13 +462,17 @@ export default {
                     this.fightShow = false
                 }
                 if (this.$route.query.group_id) {
-                    this.figthBtnShow = true
-                }
-                if (res.order_list.length > 0) {
+                    this.figthBtnShow = false
                     this.shareHeaderShow = true
                 }
-                res.action.rule_detail = JSON.parse(res.action.rule_detail)
                 this.actionInfo = res.action
+                if (res.action && res.action.rule_detail) {
+                    res.action.rule_detail = JSON.parse(res.action.rule_detail)
+                    this.discount =
+                        res.action.rule_detail.rule_list[
+                            res.action.rule_detail.rule_list.length - 1
+                        ].discount
+                }
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
                 this.actionId = res.action.action_id
             } catch (e) {
@@ -569,8 +580,6 @@ export default {
                     isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
-                // this.fundHeaderInfoVO.dividendType =
-                //     res.fundTradeInfoVO.dividendType.name
                 this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fundCode = this.fundHeaderInfoVO.fundCode
@@ -839,9 +848,9 @@ export default {
         await this.getGroupAction()
         this.getAdGroupOrders()
         this.getGroupOrder()
-        this.addGroupFollow()
         if (this.isLogin) {
             await this.getCurrentUser()
+            this.addGroupFollow()
         }
         this.getSource()
         jsBridge.callAppNoPromise(
