@@ -433,7 +433,7 @@ export default {
             try {
                 if (!this.$route.query.group_id) return
                 const { order_list } = await getGroupOrder({
-                    group_id: this.$route.query.group_id || 0
+                    group_id: this.$route.query.group_id
                 })
                 this.orderList = order_list || []
                 if (this.actionInfo.rule_detail) {
@@ -779,7 +779,7 @@ export default {
                     }
                 }
                 if (!this.fightShow) {
-                    data.query.groupId = this.$route.query.groupId || '0'
+                    data.query.groupId = this.$route.query.groupId
                 }
                 data.path =
                     // eslint-disable-next-line no-constant-condition

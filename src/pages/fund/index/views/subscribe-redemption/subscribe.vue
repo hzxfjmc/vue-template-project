@@ -27,7 +27,7 @@
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value|transNumToThousandMark(2)}}%)
-                                span.msg(v-if="groupId") 拼团最低可返{{discount/100}}%
+                                span.msg(v-if="discountShow") 拼团最低可返{{discount}}%
                             .right-item-other(v-else-if="index === 'withdrawBalance'")
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
@@ -146,6 +146,7 @@ export default {
             protocolVisible: false,
             isCheckedProtocol: true,
             orderTotalAmount: '',
+            discountShow: false,
             groupId: this.$route.query.groupId,
             positionStatus: '', //持仓状态
             userInfo: {},
@@ -212,19 +213,23 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
-                let grdersData = await getGroupOrders({
-                    group_id: this.groupId
-                })
-                let orderList = grdersData.order_list || []
-                this.groupRestUsers =
-                    JSON.parse(data.action.rule_detail).most_user -
-                    orderList.length
                 if (data.action && data.action.rule_detail) {
+                    this.discountShow = true
                     this.discount = JSON.parse(
                         data.action.rule_detail
                     ).rule_list[
                         JSON.parse(data.action.rule_detail).rule_list.length - 1
                     ].discount
+                }
+                if (!this.$route.query.groupId) return
+                let grdersData = await getGroupOrders({
+                    group_id: +this.groupId
+                })
+                let orderList = grdersData.order_list || []
+                if (data.action && data.action.rule_detail) {
+                    this.groupRestUsers = this.discount =
+                        JSON.parse(data.action.rule_detail).rule_list[0]
+                            .start_user_count - orderList.length
                 }
             } catch (e) {
                 this.$toast(e.msg)
