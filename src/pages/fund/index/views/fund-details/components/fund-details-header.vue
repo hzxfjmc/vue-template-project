@@ -16,11 +16,11 @@
                 span {{ fundHeaderInfoVO.earningsTypeName }}
         .block__right--tag(
             @click="confirmAlter"
-            v-if="fundHeaderInfoVO.derivativeType !== 1")
+            v-if="tagShow")
             .blcok__tag--left.iconfont.icon-warning1
             .block__tag--right
-                p(v-if="fundHeaderInfoVO.derivativeType !== 3") 衍生產品 
-                p 复杂产品
+                p(v-if="tagsShow") {{$t('Derivatives')}} 
+                p {{$t('Complex')}}
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
@@ -57,6 +57,8 @@ export default {
     },
     i18n: {
         zhCHS: {
+            Derivatives: '衍生产品',
+            Complex: '复杂产品',
             fundPrice: '基金净值',
             minInvestment: '起投金额',
             purchase: '起购金额',
@@ -70,6 +72,8 @@ export default {
                 '您目前期望申购的开放式公募基金为获香港证监会认可的衍生产品及复杂产品，请根据您自身风险偏好和风险承受能力做出审慎判断。请注意投资此类产品或可导致阁下遭受巨大损失，损失金额或可大于投资本金。也请注意证监会认可不等同于对该产品作出推介或认许，亦不是对该产品的商业利弊或业绩表现作出保证。点击继续操作将视为您自愿承担该产品风险及损失，友信并未主动向您推荐该产品。\n若您未有衍生品相关知识，请注意购买此类产品或可存在一些您无法理解的风险及损失，请依据自己的实际情况、风险承受能力以及风险偏好做出谨慎选择。'
         },
         zhCHT: {
+            Derivatives: '衍生產品',
+            Complex: '複雜產品',
             fundPrice: '基金價格',
             minInvestment: '起投金額',
             oneYearShow: '近一年表現',
@@ -83,6 +87,8 @@ export default {
                 '您目前期望的申購購置的開放式公募基金為獲香港證監會認可的衍生產品及復雜產品，請根據您自身的風險和風險承受能力作出審慎判斷。請注意投資此類產品或可導致重大的重大損失 ，則損失金額或可增加投資本金。也請注意證監會認可不相等於該產品承諾推廣或認許，亦不是該產品的商業利弊或業績表現作出保證。 承擔該產品風險及損失，友信重新主動向您推薦該產品。\n若您未有衍生品相關知識，請注意購買此類產品或可存在一些您無法理解的風險及損失，請根據自己的實際情況，風險承受能力以及風險做出適當的選擇。'
         },
         en: {
+            Derivatives: 'Derivatives',
+            Complex: 'Complex',
             fundPrice: 'NAV',
             minInvestment: 'Min. Initial Investment',
             oneYearShow: 'Past Year',
@@ -104,6 +110,14 @@ export default {
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
+        },
+        tagShow: {
+            type: Boolean,
+            default: false
+        },
+        tagsShow: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -126,6 +140,12 @@ export default {
         isMonetaryFund() {
             return Number(this.fundHeaderInfoVO.assetType) === 4 // 货币型基金
         }
+        // tagShow() {
+        //     return this.fundHeaderInfoVO.derivativeType !== 1
+        // },
+        // tag1Show() {
+        //     return this.fundHeaderInfoVO.derivativeType !== 3
+        // }
     }
 }
 </script>

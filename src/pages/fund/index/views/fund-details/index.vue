@@ -3,6 +3,8 @@
     .fund-content(slot="main" ref="content")
         fundDetailsHeader(
             :price="price"
+            :tagShow="tagShow"
+            :tagsShow="tagsShow"
             :fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
@@ -193,6 +195,8 @@ export default {
     },
     data() {
         return {
+            tagsShow: false,
+            tagShow: false,
             tabObj: {
                 label: '',
                 value: ''
@@ -450,6 +454,9 @@ export default {
                 //申购按钮是否置灰
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                //合规信息
+                this.tagShow = this.fundHeaderInfoVO.derivativeType !== 1
+                this.tagsShow = this.fundHeaderInfoVO.derivativeType !== 3
                 browseFundDetails(
                     'fund_detail',
                     res.fundHeaderInfoVO.fundId,

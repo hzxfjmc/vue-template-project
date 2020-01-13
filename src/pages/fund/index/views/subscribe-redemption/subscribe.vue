@@ -371,7 +371,10 @@ export default {
             }
         },
         handlerSubmitFilter() {
-            if (this.purchaseAmount / this.withdrawBalance > 0.5) {
+            if (
+                this.purchaseAmount / this.withdrawBalance > 0.5 &&
+                this.fundOverviewInfoVO.derivativeType != 1
+            ) {
                 this.$dialog
                     .confirm({
                         message: this.$t('content'),
