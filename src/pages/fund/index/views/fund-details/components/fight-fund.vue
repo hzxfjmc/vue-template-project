@@ -3,7 +3,7 @@
     .block__fight--header
         .block__left
             span {{$t("competition")}}
-            img(:src="require('@/assets/img/fund/icon/vip.png')")
+            img(:src="vipImgUrl")
         .block__right
             span {{$t('rule')}}
             em.iconfont.icon-previewright
@@ -47,6 +47,7 @@
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
+import { mapGetters } from 'vuex'
 export default {
     i18n: {
         zhCHS: {
@@ -101,8 +102,16 @@ export default {
             type: Boolean
         }
     },
+    computed: {
+        ...mapGetters(['lang'])
+    },
     data() {
-        return {}
+        return {
+            vipImgUrl: require('@/assets/img/fund/fundImg/zhCHS/vip.png')
+        }
+    },
+    created() {
+        this.vipImgUrl = require(`@/assets/img/fund/fundImg/${this.lang}/vip.png`)
     }
 }
 </script>
