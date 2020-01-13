@@ -127,6 +127,7 @@ export default {
             bizId: '',
             groupId: '',
             userInfo: {},
+            maxNumberPeople: null,
             shareTitle: '',
             groupRestUsers: 5,
             orderNo: '',
@@ -172,12 +173,12 @@ export default {
                 if (orderList.length === mostNum) {
                     this.shareTitle += `<p>同行认购成功，团队已满员</p>`
                 } else {
-                    let mostRest = mostNum - orderList.length
+                    // let mostRest = mostNum - orderList.length
                     // 未成团
                     if (restNum > 0) {
                         this.shareTitle += `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`
                     } else {
-                        this.shareTitle += `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`
+                        this.shareTitle += `<p>团队已达到标，还可以邀请 ${this.maxNumberPeople} 人</p>`
                     }
                 }
 
@@ -206,6 +207,8 @@ export default {
             this.groupId = item.actionInfo.group.group_id
             this.orderNo = item.orderNo
             this.fundName = item.fundBaseInfoVO.fundName
+            this.maxNumberPeople =
+                item.actionInfo.action.rule_detail.most_user - item.countNumber
             this.getGroupOrders()
             this.showShare = true
         },
