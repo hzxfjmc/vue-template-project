@@ -471,7 +471,7 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
-                if (res !== null && res.action.warm === 0) {
+                if (res !== null && res.action.status === 3) {
                     this.fightShow = false
                 }
 
