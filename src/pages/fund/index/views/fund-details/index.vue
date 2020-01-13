@@ -285,7 +285,7 @@ export default {
     data() {
         return {
             swipeShow: false,
-            shareHeaderShow: false,
+            shareHeaderShow: true,
             figthComeShow: false,
             figthBtnShow: true,
             fightShow: true,
@@ -480,14 +480,17 @@ export default {
                     this.fightShow = false
                 }
 
-                if (res.order_list.length > 0 && !res.has_joined) {
+                if (
+                    res.order_list.length > 0 &&
+                    !res.has_joined &&
+                    this.$route.query.from != 'appOutside'
+                ) {
                     this.figthBtnShow = true
-                    this.shareHeaderShow = true
                     this.figthComeShow = true
                 }
                 if (this.$route.query.from === 'appOutside') {
                     this.figthBtnShow = false
-                    this.shareHeaderShow = true
+                    this.figthComeShow = false
                 }
                 this.actionInfo = res.action
                 if (res.action && res.action.rule_detail) {
