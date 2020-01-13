@@ -306,7 +306,8 @@ export default {
                             }
                             if (
                                 item.group_order.str_order_id ==
-                                orderItem.orderNo
+                                    orderItem.orderNo &&
+                                item.action.status === 3
                             ) {
                                 orderItem.actionInfo = item
                                 orderItem.countNumber =
