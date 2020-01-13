@@ -28,7 +28,7 @@
                         span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                     span.element-time {{item.orderTime}}
             .block__footer(v-if="item.actionInfo && code != 2")
-                .block__footer--left(v-if="item.countNumber < 1") 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
+                .block__footer--left(v-if="item.countNumber > 0") 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
                 .block__footer--left(v-else) 已成团，还可以邀请{{item.actionInfo.action.rule_detail.most_user - item.countNumber}}人
                 .block__footer--right
                     van-button(
@@ -36,7 +36,7 @@
                         :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber" 
                         @click="handlerShareBtn(item)") 邀请拼团
             .block__footer-hk(v-if="item.actionInfo && code != 1")
-                .block__footer--left(v-if="item.countNumber<1") 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
+                .block__footer--left(v-if="item.countNumber>0") 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
                 .block__footer--left(v-else) 已成团，还可以邀请{{item.actionInfo.action.rule_detail.most_user - item.countNumber}}人
                 .block__footer--right
                     van-button(
