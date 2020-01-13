@@ -28,7 +28,8 @@
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/check.png')")
             span {{$t('teamSuccess')}}，
-                em(v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 根据团队规模最高可返{{item.discount}}%申购费 
+                em(
+                    v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 根据团队规模最高可返{{100-item.discount}}%申购费 
         .block__item--notice
             img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
             span {{actionInfo.ad_order_count}}{{$t('describe2')}}
@@ -43,7 +44,7 @@
                     .block__vant--left
                         img(:src="items.headImg")
                     .block__vant--name {{items.nickName}}
-                    .block__vant--p 拼团成功，团队规模{{items.order_count}}人，尊享{{items.rule_detail}}%申购费返还
+                    .block__vant--p 拼团成功，团队规模{{items.order_count}}人，尊享{{100-items.rule_detail}}%申购费返还
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'

@@ -65,7 +65,7 @@
                         :time="time"
                         format="DD天 HH:mm:ss")
                 span 还差{{differenceNumer}}人
-            .block__footer-right(v-if="figthBtnShow")
+            .block__footer-right(v-if="figthComeShow")
                 van-button(
                     @click="handleBuyOrSell(3)"
                     :disabled="disabled") 参与拼团
@@ -74,7 +74,9 @@
                 class="fund-footer btn button-width1"
                 @click="handleBuyOrSell(1)" 
                 :disabled="disabled") {{$t('buy')}}
-            .block__fight--btn.btn(:class="[disabled?'fund-footer2':'fund-footer1']" @click="handleBuyOrSell(2)")
+            .block__fight--btn.btn(
+                :class="[disabled?'fund-footer2':'fund-footer1']" 
+                @click="handleBuyOrSell(2)")
                 span 发起拼团申购
                 em 申购费最高可返{{discount}}%
         .block__button--list(v-if="!figthBtnShow")
@@ -284,6 +286,7 @@ export default {
         return {
             swipeShow: false,
             shareHeaderShow: false,
+            figthComeShow: false,
             figthBtnShow: true,
             fightShow: true,
             time: 30 * 60 * 60 * 1000,
@@ -477,12 +480,13 @@ export default {
                     this.fightShow = false
                 }
 
-                if (res.order_list.length > 0) {
-                    this.shareHeaderShow = true
-                    this.figthBtnShow = false
-                }
-                if (!res.has_joined) {
+                if (res.order_list.length > 0 && !res.has_joined) {
                     this.figthBtnShow = true
+                    this.shareHeaderShow = true
+                    this.figthComeShow = true
+                }
+                if (this.$route.query.from === 'appOutside') {
+                    this.figthBtnShow = false
                     this.shareHeaderShow = true
                 }
                 this.actionInfo = res.action
