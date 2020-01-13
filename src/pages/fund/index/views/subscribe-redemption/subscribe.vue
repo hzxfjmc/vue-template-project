@@ -122,7 +122,8 @@ export default {
             protocolVisible: false,
             isCheckedProtocol: true,
             orderTotalAmount: '',
-            positionStatus: '' //持仓状态
+            positionStatus: '', //持仓状态
+            derivativeType: null
         }
     },
     filters: {
@@ -284,6 +285,8 @@ export default {
                 })
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
+                this.derivativeType =
+                    fundDetail.fundOverviewInfoVO.derivativeType
                 for (let key in this.subscribeObj) {
                     this.subscribeObj[key].label = this.$t('subscribeObj')[key]
                 }
@@ -373,7 +376,7 @@ export default {
         handlerSubmitFilter() {
             if (
                 this.purchaseAmount / this.withdrawBalance > 0.5 &&
-                this.fundOverviewInfoVO.derivativeType != 1
+                this.derivativeType != 1
             ) {
                 this.$dialog
                     .confirm({
