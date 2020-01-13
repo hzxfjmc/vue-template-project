@@ -494,7 +494,8 @@ export default {
                 ) {
                     this.figthBtnShow = false
                     this.figthComeShow = false
-                } else {
+                }
+                if (this.$route.query.from === 'appOutside' && res.has_joined) {
                     this.figthBtnShow = true
                     this.figthComeShow = false
                 }
