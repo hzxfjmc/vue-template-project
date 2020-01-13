@@ -28,13 +28,21 @@
                         span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                     span.element-time {{item.orderTime}}
             .block__footer(v-if="item.actionInfo && code != 2")
-                .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
+                .block__footer--left(v-if="item.countNumber != 0") 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
+                .block__footer--left(v-else) 已成团，还可以邀请{{item.actionInfo.action.rule_detail.most_user - item.countNumber}}人
                 .block__footer--right
-                    van-button(class="btn" @click="handlerShareBtn(item)") 邀请拼团
+                    van-button(
+                        class="btn" 
+                        :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber" 
+                        @click="handlerShareBtn(item)") 邀请拼团
             .block__footer-hk(v-if="item.actionInfo && code != 1")
-                .block__footer--left 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
+                .block__footer--left(v-if="item.countNumber != 0") 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
+                .block__footer--left(v-else) 已成团，还可以邀请{{item.actionInfo.action.rule_detail.most_user - item.countNumber}}人
                 .block__footer--right
-                    van-button(class="btn" @click="handlerShareBtn(item)") 邀请拼团
+                    van-button(
+                        class="btn"
+                        :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber"  
+                        @click="handlerShareBtn(item)") 分享活动
             share-way(
                 v-model="showShare"
                 @handleShare="handleShare"
@@ -68,6 +76,9 @@ export default {
     },
     i18n: {
         zhCHS: {
+            invitation: '再邀请1人即可享受9折申购费',
+            group: '已成团，还可以邀请453432人',
+            shareActive: '分享活动',
             fundName: '基金名称',
             amountMoney: '金额',
             share: '份额',
@@ -76,6 +87,9 @@ export default {
             nomore1: '无更多内容'
         },
         zhCHT: {
+            invitation: '再邀请1人即可享受9折申购费',
+            group: '已成团，还可以邀请453432人',
+            shareActive: '分享活动',
             fundName: '基金名稱',
             amountMoney: '金額',
             share: '份額',
@@ -84,6 +98,9 @@ export default {
             nomore1: '無更多內容'
         },
         en: {
+            invitation: '再邀请1人即可享受9折申购费',
+            group: '已成团，还可以邀请453432人',
+            shareActive: '分享活动',
             fundName: 'Fund Name',
             amountMoney: 'Amount',
             share: 'Unit',
@@ -301,6 +318,7 @@ export default {
                         return orderItem
                     })
                     this.list = list
+                    console.log(this.list)
                 }
             } catch (e) {
                 this.$toast(e.msg)

@@ -84,7 +84,7 @@
     .fund-footer-content.fund-footer-hk(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
         .block__list--header-hk
             .block__footer-left
-               p 認購後，好友參與「同行優惠」，最多可省
+               p 認購後，好友參與「同行優惠」，最多可省80%的认购费
             .block__footer-right
                 van-button(
                     @click="handleBuyOrSell"
@@ -146,6 +146,11 @@ import { CountDown } from 'vant-fork'
 export default {
     i18n: {
         zhCHS: {
+            subscribeafter: '认购后，好友参与[同行优惠]，最多可省80%的认购费',
+            aloneScribe: '独自认购',
+            togetherScribe: '[同行认购]',
+            Surplus: '剩余',
+            describe: '还差5人,申购费最高可返50%',
             buy: '申购',
             redeem: '赎回',
             risk: '风险提示',
@@ -170,6 +175,11 @@ export default {
                 '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎'
         },
         zhCHT: {
+            subscribeafter: '认购后，好友参与[同行优惠]，最多可省80%的认购费',
+            aloneScribe: '独自认购',
+            togetherScribe: '[同行认购]',
+            Surplus: '剩余',
+            describe: '还差5人,申购费最高可返50%',
             buy: '申購',
             redeem: '贖回',
             risk: '風險提示',
@@ -194,6 +204,11 @@ export default {
                 '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
         },
         en: {
+            subscribeafter: '认购后，好友参与[同行优惠]，最多可省80%的认购费',
+            aloneScribe: '独自认购',
+            togetherScribe: '[同行认购]',
+            Surplus: '剩余',
+            describe: '还差5人,申购费最高可返50%',
             buy: 'Subscribe',
             redeem: 'Redemption',
             risk: 'Risk Disclosure',

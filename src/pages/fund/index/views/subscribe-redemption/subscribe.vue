@@ -590,6 +590,13 @@ export default {
     },
     i18n: {
         zhCHS: {
+            FundReturn: '拼团最低可返',
+            subscribeApply: '认购申请已提交',
+            subscribeSuccess: '同行认购成功，团队已满员',
+            invitation: '还差 5人，赶快邀请好友来拼团吧',
+            invitationInfo: '团队已达到标，还可以邀请 999 人',
+            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申购成功',
             buyMoney: '购买金额',
             buyFile: '基金购买协议',
@@ -623,6 +630,13 @@ export default {
             subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购'
         },
         zhCHT: {
+            FundReturn: '拼团最低可返',
+            subscribeApply: '认购申请已提交',
+            subscribeSuccess: '同行认购成功，团队已满员',
+            invitation: '还差 5人，赶快邀请好友来拼团吧',
+            invitationInfo: '团队已达到标，还可以邀请 999 人',
+            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申購成功',
             buyMoney: '購買金額',
             buyFile: '基金購買協議',
@@ -656,6 +670,13 @@ export default {
             subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購'
         },
         en: {
+            FundReturn: '拼团最低可返',
+            subscribeApply: '认购申请已提交',
+            subscribeSuccess: '同行认购成功，团队已满员',
+            invitation: '还差 5人，赶快邀请好友来拼团吧',
+            invitationInfo: '团队已达到标，还可以邀请 999 人',
+            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: 'Subscription Successful',
             buyMoney: 'Investment Amount',
             buyFile: 'Fund Investment Agreement',
