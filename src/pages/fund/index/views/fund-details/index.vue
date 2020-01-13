@@ -481,9 +481,9 @@ export default {
                     this.shareHeaderShow = true
                     this.figthBtnShow = false
                 }
-                if (res.has_joined) {
+                if (!res.has_joined) {
                     this.figthBtnShow = true
-                    this.shareHeaderShow = false
+                    this.shareHeaderShow = true
                 }
                 this.actionInfo = res.action
                 if (res.action && res.action.rule_detail) {
