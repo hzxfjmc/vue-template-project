@@ -104,7 +104,7 @@ import { jumpUrl } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import { appType, langType } from '@/utils/html-utils.js'
 import { getShortUrl } from '@/service/news-shorturl.js'
-import { getCurrentUser } from '@/service/user-server.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
 import './index.scss'
 export default {
@@ -183,7 +183,7 @@ export default {
         }
     },
     async created() {
-        this.getCurrentUser()
+        this.getFundUserInfo()
         this.getGroupOrders()
         this.getFundPositionV2Fun()
         this.getWithdrawBalance()
@@ -265,14 +265,14 @@ export default {
             }
         },
         //获取用户信息
-        async getCurrentUser() {
+        async getFundUserInfo() {
             try {
-                const res = await getCurrentUser()
+                const res = await getFundUserInfo()
                 this.userInfo = res
                 this.loading = false
             } catch (e) {
                 this.$toast(e.msg)
-                console.log('getCurrentUser:error:>>>', e)
+                console.log('getFundUserInfo:error:>>>', e)
             }
         },
         async handleShare(_index) {

@@ -5,7 +5,7 @@
 
 <script>
 import riskAssessment from '@/components/risk-assessment'
-import { getCurrentUser } from '@/service/user-server.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 export default {
     components: {
         riskAssessment
@@ -18,7 +18,7 @@ export default {
     beforeRouteEnter(to, from, next) {
         next(async vm => {
             try {
-                const res = await getCurrentUser()
+                const res = await getFundUserInfo()
                 const userInfo = res
                 if (
                     !vm.$route.query.id &&
@@ -34,7 +34,7 @@ export default {
                     vm.isriskAssessment = true
                 }
             } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
+                console.log('getFundUserInfo:error:>>>', e)
             }
         })
     }

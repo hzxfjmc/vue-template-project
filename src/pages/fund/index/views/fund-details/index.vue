@@ -52,7 +52,8 @@
             @click="handleBuyOrSell(1)" 
             :disabled="disabled") {{$t('buy')}}
 
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
+    .fund-footer-content(
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
         .block__list--header(v-if="shareHeaderShow")
             .block__footer-avat
                 img(:src="avatImg") 
@@ -64,7 +65,7 @@
                         :time="time"
                         format="DD天 HH:mm:ss")
                 span 还差{{differenceNumer}}人
-            .block__footer-right(v-if="!figthBtnShow")
+            .block__footer-right(v-if="figthBtnShow")
                 van-button(
                     @click="handleBuyOrSell(3)"
                     :disabled="disabled") 参与拼团
@@ -81,7 +82,8 @@
                 span 参与拼团申购
                 em 申购费最高可返{{discount}}%
 
-    .fund-footer-content.fund-footer-hk(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
+    .fund-footer-content.fund-footer-hk(
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
         .block__list--header-hk
             .block__footer-left
                p 認購後，好友參與「同行優惠」，最多可省80%的认购费
@@ -135,7 +137,7 @@ import {
 import { getSource } from '@/service/customer-relationship-server'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
-import { getCurrentUser } from '@/service/user-server.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 // import { enablePullRefresh } from '@/utils/js-bridge.js'
@@ -564,13 +566,13 @@ export default {
             }
         },
         //获取用户信息
-        async getCurrentUser() {
+        async getFundUserInfo() {
             try {
-                const res = await getCurrentUser()
+                const res = await getFundUserInfo()
                 this.userInfo = res
             } catch (e) {
                 this.$toast(e.msg)
-                console.log('getCurrentUser:error:>>>', e)
+                console.log('getFundUserInfo:error:>>>', e)
             }
         },
         //跳转
@@ -870,7 +872,7 @@ export default {
         this.getAdGroupOrders()
         this.getGroupOrder()
         if (this.isLogin) {
-            await this.getCurrentUser()
+            await this.getFundUserInfo()
             this.addGroupFollow()
         }
         this.getSource()

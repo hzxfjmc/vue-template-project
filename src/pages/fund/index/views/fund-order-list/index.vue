@@ -67,7 +67,7 @@ import shareWay from '@/biz-components/share-way/index'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
 import { appType, langType } from '@/utils/html-utils.js'
-import { getCurrentUser } from '@/service/user-server.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 import { getSource } from '@/service/customer-relationship-server'
 export default {
     components: {
@@ -192,13 +192,13 @@ export default {
             }
         },
         //获取用户信息
-        async getCurrentUser() {
+        async getFundUserInfo() {
             try {
-                const res = await getCurrentUser()
+                const res = await getFundUserInfo()
                 this.userInfo = res
             } catch (e) {
                 this.$toast(e.msg)
-                console.log('getCurrentUser:error:>>>', e)
+                console.log('getFundUserInfo:error:>>>', e)
             }
         },
         handlerShareBtn(item) {
@@ -376,7 +376,7 @@ export default {
         }
     },
     async created() {
-        this.getCurrentUser()
+        this.getFundUserInfo()
         this.fundOrderList()
         this.getSource()
     }
