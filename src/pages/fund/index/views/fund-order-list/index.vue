@@ -205,7 +205,7 @@ export default {
             this.bizId = item.actionInfo.action.biz_id
             this.groupId = item.actionInfo.group.group_id
             this.orderNo = item.orderNo
-            this.fundName = item.fundName
+            this.fundName = item.fundBaseInfoVO.fundName
             this.getGroupOrders()
             this.showShare = true
         },
