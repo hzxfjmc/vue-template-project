@@ -2,36 +2,36 @@
 .block__fight--fund
     .block__fight--header
         .block__left
-            span 参与拼团
+            span {{$t("competition")}}
             img(:src="require('@/assets/img/fund/icon/vip.png')")
         .block__right
-            span 详细规则
+            span {{$t('rule')}}
             em.iconfont.icon-previewright
     .block__fight--content
         .block__fight--list
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Subscribe.png')")
-                p 拼团认购
+                p {{$t('subscription')}}
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Achieve.png')")
-                p 达到目标
+                p {{$t('target')}}
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Success.png')")
-                p 拼团成功
+                p {{$t('teamSuccess')}}
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/return.png')")
-                p 申购费折扣返还
+                p {{$t('discountReturn')}}
     .block__fight--bottom
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/about.png')")
-            span 拼团未满达成目标，视为拼团失败不影响基金申购
+            span {{$t('describe')}}
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/check.png')")
-            span 拼团成功，
+            span {{$t('teamSuccess')}}，
                 em(v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 根据团队规模最高可返{{item.discount}}%申购费 
         .block__item--notice
             img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
-            span {{actionInfo.ad_order_count}}人正在拼团申购
+            span {{actionInfo.ad_order_count}}{{$t('describe2')}}
     .block__bottom--swiper(v-if="swipeShow")
         van-swipe(
             :show-indicators="false"
@@ -48,6 +48,44 @@
 <script>
 import { Swipe, SwipeItem } from 'vant'
 export default {
+    i18n: {
+        zhCHS: {
+            competition: '参与拼团',
+            rule: '详细规则',
+            subscription: '拼团认购',
+            target: '达到目标',
+            teamSuccess: '拼团成功',
+            discountReturn: '申购费折扣返还',
+            describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
+            describe1: '根据团队规模最高可返60%申购费',
+            describe2: '人正在拼团申购',
+            describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
+        },
+        zhCHT: {
+            competition: '参与拼团',
+            rule: '详细规则',
+            subscription: '拼团认购',
+            target: '达到目标',
+            teamSuccess: '拼团成功',
+            discountReturn: '申购费折扣返还',
+            describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
+            describe1: '根据团队规模最高可返60%申购费',
+            describe2: '5人正在拼团申购',
+            describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
+        },
+        en: {
+            competition: '参与拼团',
+            rule: '详细规则',
+            subscription: '拼团认购',
+            target: '达到目标',
+            teamSuccess: '拼团成功',
+            discountReturn: '申购费折扣返还',
+            describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
+            describe1: '根据团队规模最高可返60%申购费',
+            describe2: '5人正在拼团申购',
+            describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
+        }
+    },
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem

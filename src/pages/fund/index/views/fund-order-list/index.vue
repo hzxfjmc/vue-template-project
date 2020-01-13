@@ -112,7 +112,8 @@ export default {
             userInfo: {},
             shareTitle: '',
             groupRestUsers: 5,
-            orderNo: ''
+            orderNo: '',
+            fundName: ''
         }
     },
     methods: {
@@ -187,6 +188,7 @@ export default {
             this.bizId = item.actionInfo.action.biz_id
             this.groupId = item.actionInfo.group.group_id
             this.orderNo = item.orderNo
+            this.fundName = item.fundName
             this.getGroupOrders()
             this.showShare = true
         },
@@ -215,8 +217,9 @@ export default {
                 })
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
-                    title: `还差${this.groupRestUsers}人，赶快邀请好友来拼团吧`,
-                    description: '',
+                    title: `我正在认购${this.fundName}，老司机开团，就差你上车啦！`,
+                    description:
+                        '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
                     pageUrl: unescape(link),
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`

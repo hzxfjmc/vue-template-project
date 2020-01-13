@@ -468,7 +468,6 @@ export default {
                     this.figthBtnShow = true
                     this.shareHeaderShow = false
                 }
-                // this.has_joined = res.has_joined
                 this.actionInfo = res.action
                 if (res.action && res.action.rule_detail) {
                     res.action.rule_detail = JSON.parse(res.action.rule_detail)
