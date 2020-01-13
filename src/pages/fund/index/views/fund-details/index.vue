@@ -426,7 +426,9 @@ export default {
                 let tempArr = []
                 order_list.forEach((e, i) => {
                     tempArr.push({
-                        headImg: e.user_info.head_img,
+                        headImg:
+                            e.user_info.head_img ||
+                            require('@/assets/img/fund/share/avat.png'),
                         nickName: e.user_info.nick_name,
                         order_count: e.group.order_count,
                         rule_detail: JSON.parse(e.action.rule_detail).rule_list[
