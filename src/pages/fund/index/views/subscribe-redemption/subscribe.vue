@@ -209,6 +209,7 @@ export default {
         //查询拼团订单
         async getGroupOrders() {
             try {
+                if (!this.groupId && this.groupId != 0) return
                 let data = await getGroupAction({
                     biz_id: this.$route.query.id,
                     biz_type: 0,
