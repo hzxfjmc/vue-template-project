@@ -498,6 +498,14 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
+
+                this.orderList = res.order_list || []
+
+                this.orderList.map(item => {
+                    if (item.user_info.is_invite_user) {
+                        this.avatImg = item.head_img
+                    }
+                })
                 if (res !== null && res.action.status === 3) {
                     this.fightShow = false
                 }
