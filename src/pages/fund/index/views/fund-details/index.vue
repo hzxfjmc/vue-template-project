@@ -170,6 +170,9 @@ export default {
         },
         disabled() {
             // 接口返回数据后才允许点击
+            if (!this.isLogin) {
+                return false
+            }
             if (
                 !this.userInfo.grayStatusBit ||
                 !this.fundOverviewInfoVO.tradeAuth
