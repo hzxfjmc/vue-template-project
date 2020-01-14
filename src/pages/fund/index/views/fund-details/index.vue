@@ -64,11 +64,11 @@
                         millisecond
                         :time="time"
                         format="DD天 HH:mm:ss")
-                span 还差{{differenceNumer}}人
+                span {{contentmsg}}
             .block__footer-right(v-if="figthComeShow")
                 van-button(
                     @click="handleBuyOrSell(3)"
-                    :disabled="disabled") 参与拼团
+                    :disabled="disabled || differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
         .block__button--list(v-if="figthBtnShow")
             van-button(
                 class="fund-footer btn button-width1"
@@ -132,7 +132,7 @@ import {
 } from '@/service/finance-info-server.js'
 import {
     getGroupAction,
-    getGroupOrder,
+    // getGroupOrder,
     getAdGroupOrders,
     addGroupFollow
 } from '@/service/zt-group-apiserver.js'
@@ -292,6 +292,7 @@ export default {
             figthComeShow: false,
             figthBtnShow: true,
             fightShow: true,
+            contentmsg: '',
             time: 30 * 60 * 60 * 1000,
             code: '',
             has_joined: true,
@@ -473,23 +474,24 @@ export default {
             }
         },
         //查询团购单的订单
-        async getGroupOrder() {
-            try {
-                if (!this.$route.query.group_id) return
-                const { order_list } = await getGroupOrder({
-                    group_id: this.$route.query.group_id
-                })
-                this.orderList = order_list || []
+        // async getGroupOrder() {
+        //     try {
+        //         if (!this.$route.query.group_id) return
+        //         const { order_list } = await getGroupOrder({
+        //             group_id: this.$route.query.group_id
+        //         })
+        //         this.orderList = order_list || []
 
-                this.orderList.map(item => {
-                    if (item.user_info.is_invite_user) {
-                        this.avatImg = item.head_img
-                    }
-                })
-            } catch (e) {
-                console.log('getGroupOrder:error:>>>', e)
-            }
-        },
+        // this.orderList.map(item => {
+        //     if (item.user_info.is_invite_user) {
+        //         this.avatImg = item.head_img
+        //         alert(123)
+        //     }
+        // })
+        //     } catch (e) {
+        //         console.log('getGroupOrder:error:>>>', e)
+        //     }
+        // },
         //查询业务团购活动
         async getGroupAction() {
             try {
@@ -504,6 +506,8 @@ export default {
                 this.orderList.map(item => {
                     if (item.user_info.is_invite_user) {
                         this.avatImg = item.head_img
+                        console.log(this.avatImg)
+                        alert(123)
                     }
                 })
                 if (res !== null && res.action.status === 3) {
@@ -538,10 +542,22 @@ export default {
                     this.differenceNumer =
                         this.actionInfo.rule_detail.rule_list[0]
                             .start_user_count - this.orderList.length
+
+                    if (this.differenceNumer < 1) {
+                        this.differenceNumer =
+                            this.actionInfo.rule_detail.most_user -
+                            this.orderList.length
+                        if (this.differenceNumer >= 1) {
+                            this.contentmsg = `还剩${this.differenceNumer}人`
+                        }
+                    } else {
+                        this.contentmsg = `还剩${this.differenceNumer}人`
+                    }
                     this.discount =
                         res.action.rule_detail.rule_list[
                             res.action.rule_detail.rule_list.length - 1
                         ].discount
+
                     if (this.differenceNumer > 1) {
                         this.subscribeButton = this.$t([
                             `还差${this.differenceNumer}人,申购费最高可返${100 -
@@ -577,7 +593,6 @@ export default {
                         `You entitled Group Discount,Up to ${this.discount}% discount on handling fee if you meet the Group Discount requirement.`
                     ])
                 }
-                console.log(this.actionInfo)
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
                 this.actionId = res.action.action_id
             } catch (e) {
@@ -969,7 +984,7 @@ export default {
         this.getFundApyPointV1()
         await this.getGroupAction()
         this.getAdGroupOrders()
-        this.getGroupOrder()
+        // this.getGroupOrder()
         if (this.isLogin) {
             await this.getFundUserInfo()
             this.addGroupFollow()

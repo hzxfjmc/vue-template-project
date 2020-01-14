@@ -184,7 +184,6 @@ export default {
     },
     async created() {
         if (LS.get('groupId') != undefined) {
-            alert(123)
             this.groupId = LS.get('groupId')
         }
         this.getFundUserInfo()

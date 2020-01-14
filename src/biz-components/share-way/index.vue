@@ -47,12 +47,7 @@ export default {
                   ]
                 : ['微信', '朋友圈', 'QQ', '微博'],
             shareIcon: appType.Hk
-                ? [
-                      'whatsapp',
-                      'facebook',
-                      'wechat_friend',
-                      'wechat_friends_circle'
-                  ]
+                ? ['share_whats', 'share_facebook', 'wechat', 'pengyouquan']
                 : ['wechat', 'pengyouquan', 'qq', 'weibo']
         }
     },
