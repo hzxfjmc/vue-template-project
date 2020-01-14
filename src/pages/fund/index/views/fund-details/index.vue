@@ -1051,6 +1051,8 @@ export default {
                 text-align: center;
                 .van-count-down {
                     color: #fff;
+                    font-size: 18px;
+                    margin: 2px 3px 0 3px;
                 }
             }
             .block__fight--bottom {
@@ -1196,7 +1198,7 @@ export default {
         width: 100%;
         height: 60px;
         padding: 0 12px;
-        background: rgba(234, 61, 61, 0.05);
+        background: #fef5f5;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -1204,9 +1206,11 @@ export default {
             width: 60%;
             line-height: 22px;
             display: flex;
+
             flex-direction: row;
             .van-count-down {
                 font-size: 16px;
+                margin: 0 6px;
                 font-family: yxFontDINPro-Medium;
                 color: rgba(234, 61, 61, 1);
                 line-height: 24px;
