@@ -106,6 +106,7 @@ import { appType, langType } from '@/utils/html-utils.js'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
+import LS from '@/utils/local-storage'
 import './index.scss'
 export default {
     name: 'subscribe',
@@ -147,7 +148,7 @@ export default {
             isCheckedProtocol: true,
             orderTotalAmount: '',
             discountShow: false,
-            groupId: this.$route.query.groupId,
+            groupId: null,
             positionStatus: '', //持仓状态
             userInfo: {},
             groupRestUsers: 5,
@@ -182,6 +183,9 @@ export default {
         }
     },
     async created() {
+        if (!LS.get('groupId') || LS.get('groupId') === 0) {
+            this.groupdId = LS.get('groupId')
+        }
         this.getFundUserInfo()
         this.getGroupOrders()
         this.getFundPositionV2Fun()
@@ -549,10 +553,7 @@ export default {
                 try {
                     this.$loading()
                     let re
-                    if (
-                        !this.$route.query.groupId &&
-                        this.$route.query.groupId != 0
-                    ) {
+                    if (!this.groupId && this.groupId != 0) {
                         re = await fundPurchase({
                             displayLocation: 1,
                             fundId: this.$route.query.id,
@@ -565,7 +566,7 @@ export default {
                         console.log('申购页面-fundPurchaseData:', re)
                     } else {
                         const { body, group_id } = await createGroupOrder({
-                            group_id: Number(this.$route.query.groupId) || 0,
+                            group_id: Number(this.groupId) || 0,
                             biz_type: 0,
                             biz_id: this.$route.query.id,
                             order_detail: JSON.stringify({

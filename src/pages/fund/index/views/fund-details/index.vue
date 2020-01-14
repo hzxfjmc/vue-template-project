@@ -137,6 +137,7 @@ import {
     addGroupFollow
 } from '@/service/zt-group-apiserver.js'
 import { getSource } from '@/service/customer-relationship-server'
+import LS from '@/utils/local-storage'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundUserInfo } from '@/service/user-server.js'
@@ -835,8 +836,18 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
-            // alert(this.disabled)
-            if (this.disabled) return
+            if (params === 3) {
+                LS.put('groupId', this.$route.query.group_id)
+            }
+            if (params === 2) {
+                LS.put('groupId', 0)
+            }
+            if (params === 4) {
+                LS.put('groupId', this.$route.query.group_id || 0)
+            }
+            if (params === 0) {
+                LS.remove('groupId')
+            }
             if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >
@@ -871,16 +882,6 @@ export default {
                         fundCode: this.fundCode
                     }
                 }
-                if (params === 3) {
-                    data.query.groupId = this.$route.query.group_id
-                }
-                if (params === 2) {
-                    data.query.groupId = 0
-                }
-                if (params === 4) {
-                    data.query.groupId = this.$route.query.group_id || 0
-                }
-
                 data.path =
                     // eslint-disable-next-line no-constant-condition
                     (this.userInfo.extendStatusBit & 16) > 0
