@@ -41,7 +41,7 @@
             span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
             span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
         .block__bottom--num.border-top(
-            v-if="inTransitOrder !== '0'"
+            v-if="inTransitOrder !== '0' && isLogin"
             @click="toOrderList")
             span {{inTransitOrder}}{{$t('fundmsg')}}
             em(class="iconfont icon-previewright")
@@ -528,6 +528,8 @@ export default {
                 if (this.isLogin) {
                     this.getFundPositionListV3(flag)
                 } else {
+                    this.hkSummary = {}
+                    this.usSummary = {}
                     this.code = this.appType.Hk ? 2 : 1
                 }
                 this.bannerAdvertisement(flag)
