@@ -524,6 +524,9 @@ export default {
                     this.figthBtnShow = true
                     this.figthComeShow = true
                 }
+                if (res.order_list.length < 1) {
+                    this.shareHeaderShow = false
+                }
                 if (
                     this.$route.query.from === 'appOutside' &&
                     !res.has_joined
