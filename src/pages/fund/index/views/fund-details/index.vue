@@ -504,10 +504,9 @@ export default {
                 this.orderList = res.order_list || []
 
                 this.orderList.map(item => {
+                    console.log(item.user_info.is_invite_user)
                     if (item.user_info.is_invite_user) {
-                        this.avatImg = item.head_img
-                        console.log(this.avatImg)
-                        alert(123)
+                        this.avatImg = item.user_info.head_img
                     }
                 })
                 if (res !== null && res.action.status === 3) {
