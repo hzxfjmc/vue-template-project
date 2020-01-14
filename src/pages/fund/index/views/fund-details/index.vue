@@ -78,11 +78,11 @@
                 :class="[disabled?'fund-footer2':'fund-footer1']" 
                 @click="handleBuyOrSell(2)")
                 span 发起拼团申购
-                em 申购费最高可返{{discount}}%
+                em 申购费最高可返{{100-discount}}%
         .block__button--list(v-if="!figthBtnShow")
-            .block__fight--btn1.btn( @click="handleBuyOrSell(3)")
+            .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
                 span 参与拼团申购
-                em 申购费最高可返{{discount}}%
+                em 申购费最高可返{{100-discount}}%
 
     .fund-footer-content.fund-footer-hk(
         v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")

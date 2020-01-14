@@ -183,7 +183,7 @@ export default {
         }
     },
     async created() {
-        if (!LS.get('groupId') || LS.get('groupId') === 0) {
+        if (LS.get('groupId') != undefined) {
             this.groupId = LS.get('groupId')
         }
         this.getFundUserInfo()
