@@ -20,6 +20,7 @@
 
 <script>
 import { Popup } from 'vant'
+import { appType } from '@/utils/html-utils.js'
 export default {
     props: {
         value: {},
@@ -37,8 +38,22 @@ export default {
     },
     data() {
         return {
-            shareText: ['微信', '朋友圈', 'QQ', '微博'],
-            shareIcon: ['wechat', 'pengyouquan', 'qq', 'weibo']
+            shareText: appType.Hk
+                ? [
+                      'WhatsApp',
+                      'Facebook',
+                      'WeChat',
+                      this.$t(['朋友圈', '朋友圈', 'WeChat Moments'])
+                  ]
+                : ['微信', '朋友圈', 'QQ', '微博'],
+            shareIcon: appType.Hk
+                ? [
+                      'whatsapp',
+                      'facebook',
+                      'wechat_friend',
+                      'wechat_friends_circle'
+                  ]
+                : ['wechat', 'pengyouquan', 'qq', 'weibo']
         }
     },
     computed: {

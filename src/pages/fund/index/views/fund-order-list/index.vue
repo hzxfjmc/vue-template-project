@@ -295,8 +295,9 @@ export default {
                 const { order_list } = await handlerBatchgetUserGroupOrder({
                     biz_order_list: arr
                 })
+                let list
                 if (order_list.length > 0) {
-                    let list = this.list.map(orderItem => {
+                    list = this.list.map(orderItem => {
                         order_list.map(item => {
                             try {
                                 if (
@@ -323,9 +324,10 @@ export default {
                             ) {
                                 orderItem.actionInfo = item
                                 orderItem.countNumber =
-                                    item.action.rule_detail.rule_list[0]
-                                        .start_user_count -
-                                    item.group.order_count
+                                    item.action.rule_detail.rule_list[
+                                        item.action.rule_detail.rule_list
+                                            .length - 1
+                                    ].start_user_count - item.group.order_count
                                 if (orderItem.countNumber > 0) {
                                     orderItem.discribe = this.$t([
                                         `再邀请${
@@ -340,20 +342,33 @@ export default {
                                         `${orderItem.countNumber} people needed to get the ${orderItem.actionInfo.action.discountNum}% discount on subscription fee.`
                                     ])
                                 } else {
-                                    orderItem.discribe = this.$t([
-                                        `已成团，还可以邀请${orderItem
-                                            .actionInfo.action.rule_detail
+                                    if (
+                                        orderItem.actionInfo.action.rule_detail
                                             .most_user -
-                                            orderItem.countNumber}人`,
-                                        `「同行優惠」已達成目標，還可以再多${orderItem
-                                            .actionInfo.action.rule_detail
-                                            .most_user -
-                                            orderItem.countNumber}人一同參與`,
-                                        `You have entitled Group Discount, you can have ${orderItem
-                                            .actionInfo.action.rule_detail
-                                            .most_user -
-                                            orderItem.countNumber} more people to join your group.`
-                                    ])
+                                            orderItem.countNumber ===
+                                        0
+                                    ) {
+                                        orderItem.discribe = this.$t([
+                                            `同行认购成功，团队已满员`,
+                                            `同行認購成功，團隊已滿`,
+                                            `Your group is full, you have got the Group Discount offer.`
+                                        ])
+                                    } else {
+                                        orderItem.discribe = this.$t([
+                                            `已成团，还可以邀请${orderItem
+                                                .actionInfo.action.rule_detail
+                                                .most_user -
+                                                orderItem.countNumber}人`,
+                                            `「同行優惠」已達成目標，還可以再多${orderItem
+                                                .actionInfo.action.rule_detail
+                                                .most_user -
+                                                orderItem.countNumber}人一同參與`,
+                                            `You have entitled Group Discount, you can have ${orderItem
+                                                .actionInfo.action.rule_detail
+                                                .most_user -
+                                                orderItem.countNumber} more people to join your group.`
+                                        ])
+                                    }
                                 }
                             }
                         })
