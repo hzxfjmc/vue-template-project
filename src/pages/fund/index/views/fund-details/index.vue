@@ -80,7 +80,7 @@
                 span 发起拼团申购
                 em 申购费最高可返{{discount}}%
         .block__button--list(v-if="!figthBtnShow")
-            .block__fight--btn1.btn( @click="handleBuyOrSell(2)")
+            .block__fight--btn1.btn( @click="handleBuyOrSell(3)")
                 span 参与拼团申购
                 em 申购费最高可返{{discount}}%
 
