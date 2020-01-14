@@ -480,21 +480,7 @@ export default {
                     group_id: this.$route.query.group_id
                 })
                 this.orderList = order_list || []
-                if (this.actionInfo.rule_detail) {
-                    this.differenceNumer =
-                        this.actionInfo.rule_detail.rule_list[0]
-                            .start_user_count - this.orderList.length
-                    this.subscribeButton = this.$t([
-                        `还差${this.differenceNumer}人,申购费最高可返${100 -
-                            this.discount}%`,
-                        `還差${this.differenceNumer}人，最高可享申購費${100 -
-                            this.discount}%折扣`,
-                        `${
-                            this.differenceNumer
-                        } people needed to get the ${100 -
-                            this.discount}% discounton subscription fee.`
-                    ])
-                }
+
                 this.orderList.map(item => {
                     if (item.user_info.is_invite_user) {
                         this.avatImg = item.head_img
@@ -541,20 +527,34 @@ export default {
                 this.actionInfo = res.action
                 if (res.action && res.action.rule_detail) {
                     res.action.rule_detail = JSON.parse(res.action.rule_detail)
+                    this.differenceNumer =
+                        this.actionInfo.rule_detail.rule_list[0]
+                            .start_user_count - this.orderList.length
                     this.discount =
                         res.action.rule_detail.rule_list[
                             res.action.rule_detail.rule_list.length - 1
                         ].discount
-                    this.subscribeButton = this.$t([
-                        `还差${this.differenceNumer}人,申购费最高可返${100 -
-                            this.discount}%`,
-                        `還差${this.differenceNumer}人，最高可享申購費${100 -
-                            this.discount}%折扣`,
-                        `${
-                            this.differenceNumer
-                        } people needed to get the ${100 -
-                            this.discount}% discounton subscription fee.`
-                    ])
+                    if (this.differenceNumer > 1) {
+                        this.subscribeButton = this.$t([
+                            `还差${this.differenceNumer}人,申购费最高可返${100 -
+                                this.discount}%`,
+                            `還差${
+                                this.differenceNumer
+                            }人，最高可享申購費${100 - this.discount}%折扣`,
+                            `${
+                                this.differenceNumer
+                            } people needed to get the ${100 -
+                                this.discount}% discounton subscription fee.`
+                        ])
+                    } else {
+                        this.subscribeButton = this.$t([
+                            `同行认购成功，团队已满员`,
+                            `同行認購成功，團隊已滿`,
+                            `Your group is full, you have got the Group Discount offer.`
+                        ])
+                        this.figthComeShow = false
+                    }
+
                     this.applyAfter = this.$t([
                         `认购后，好友参与[同行优惠]，最多可省${100 -
                             this.discount}%的认购费`,
