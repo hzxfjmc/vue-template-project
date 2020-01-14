@@ -528,8 +528,8 @@ export default {
                 if (this.isLogin) {
                     this.getFundPositionListV3(flag)
                 } else {
-                    this.hkSummary = {}
-                    this.usSummary = {}
+                    this.positionAmount = '0.00'
+                    this.weekEarnings = '0.00'
                     this.code = this.appType.Hk ? 2 : 1
                 }
                 this.bannerAdvertisement(flag)
