@@ -858,7 +858,7 @@ export default {
             if (params === 4) {
                 LS.put('groupId', this.$route.query.group_id || 0)
             }
-            if (params === 0) {
+            if (params === 1) {
                 LS.remove('groupId')
             }
             if (
