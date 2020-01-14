@@ -19,7 +19,9 @@
         HoldfundDetails(
             v-if="holdDetailsShow"
             :initState="holdInitState")
-        .block__fundheader--tips(@click="toRouterGenerator('/order-record')")
+        .block__fundheader--tips(
+            v-if="isLogin"
+            @click="toRouterGenerator('/order-record')")
             em.iconfont.icon-iconEBshoucang
             span.title {{$t('trade')}}
             .block__list--right
@@ -71,7 +73,7 @@ import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getCurrentUser } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
-// import { enablePullRefresh } from '@/utils/js-bridge.js'
+import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
@@ -651,7 +653,7 @@ export default {
         }
     },
     async created() {
-        // enablePullRefresh(true)
+        enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
         this.getFundNetPriceHistoryV1()
