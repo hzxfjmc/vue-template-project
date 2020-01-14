@@ -61,7 +61,17 @@ const install = (Vue, options) => {
         }
     })
     proto.$t = (path, ...args) => {
+        if (Array.isArray(path)) {
+            let index =
+                {
+                    zhCHS: 0,
+                    zhCHT: 1,
+                    en: 2
+                }[_vm.lang] || 0
+            return path[index] || ''
+        }
         let messages = _vm.messages[_vm.lang]
+
         if (!proto.$i18n.messages) {
             if (process.env.NODE_ENV !== 'production') {
                 console.error('[yxI18n] Locale not correctly registered')

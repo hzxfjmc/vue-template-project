@@ -27,9 +27,10 @@
             span {{$t('describe')}}
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/check.png')")
-            span {{$t('teamSuccess')}}，
-                em(
-                    v-for="(item,index) in actionInfo.rule_detail.rule_list" :key="index") 根据团队规模最高可返{{100-item.discount}}%申购费 
+            span {{actionInfo.describeDiscount}}
+                //- em(
+                //-     v-for="(item,index) in actionInfo.rule_detail.rule_list" 
+                //-     :key="index")  
         .block__item--notice
             img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
             span {{actionInfo.ad_order_count}}{{$t('describe2')}}
@@ -44,7 +45,7 @@
                     .block__vant--left
                         img(:src="items.headImg")
                     .block__vant--name {{items.nickName}}
-                    .block__vant--p 拼团成功，团队规模{{items.order_count}}人，尊享{{100-items.rule_detail}}%申购费返还
+                    .block__vant--p {{items.discribe}}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -60,32 +61,31 @@ export default {
             discountReturn: '申购费折扣返还',
             describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
             describe1: '根据团队规模最高可返60%申购费',
-            describe2: '人正在拼团申购',
-            describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
+            describe2: '人正在拼团申购'
         },
         zhCHT: {
-            competition: '参与拼团',
-            rule: '详细规则',
-            subscription: '拼团认购',
-            target: '达到目标',
-            teamSuccess: '拼团成功',
-            discountReturn: '申购费折扣返还',
-            describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
-            describe1: '根据团队规模最高可返60%申购费',
-            describe2: '5人正在拼团申购',
-            describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
+            competition: '「同行」認購',
+            rule: '詳細規則',
+            subscription: '「同行」認購',
+            target: '達到目標',
+            teamSuccess: '「同行」成功',
+            discountReturn: '申購費折扣返還',
+            describe: '未達成「同行優惠」目標，未能領取優惠，不影響基金申購',
+            describe1: '根據團隊規模最高可享申購費60%折扣',
+            describe2: '人正在參與「同行」申購'
         },
         en: {
-            competition: '参与拼团',
-            rule: '详细规则',
-            subscription: '拼团认购',
-            target: '达到目标',
-            teamSuccess: '拼团成功',
-            discountReturn: '申购费折扣返还',
-            describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
-            describe1: '根据团队规模最高可返60%申购费',
-            describe2: '5人正在拼团申购',
-            describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
+            competition: 'Subs. with Group Discount',
+            rule: 'Terms and Conditions',
+            subscription: 'Subs. with Group Discount',
+            target: 'You entitled Group Discount',
+            teamSuccess: 'You entitled Group Discount',
+            discountReturn: 'Discount on subscription fee',
+            describe:
+                "You will fail to get the Group Discount if you do not gather enough people, but it doesn't affect funds subscription.",
+            describe1:
+                'Up to X% discount on handling fee if you meet the Group Discount requirement.',
+            describe2: 'N people is joining the Group Discount'
         }
     },
     components: {

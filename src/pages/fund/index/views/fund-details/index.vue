@@ -176,7 +176,8 @@ export default {
                 all: '成立来'
             },
             msg:
-                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎'
+                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
+            describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
         },
         zhCHT: {
             subscribeafter: '认购后，好友参与[同行优惠]，最多可省80%的认购费',
@@ -205,7 +206,8 @@ export default {
                 all: '成立来'
             },
             msg:
-                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
+                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎',
+            describe3: '3人「同行」成功，尊享70%申購費折扣'
         },
         en: {
             subscribeafter: '认购后，好友参与[同行优惠]，最多可省80%的认购费',
@@ -234,7 +236,9 @@ export default {
                 all: 'ALL'
             },
             msg:
-                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.'
+                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.',
+            describe3:
+                'You entitled Group Discount, you will get Y% discount on subscription fee.'
         }
     },
     keepalive: true,
@@ -431,6 +435,25 @@ export default {
                             require('@/assets/img/fund/share/avat.png'),
                         nickName: e.user_info.nick_name,
                         order_count: e.group.order_count,
+                        discribe: this.$t([
+                            `拼团成功，团队规模${
+                                e.group.order_count
+                            }人，尊享${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}%申购费返还`,
+                            `${e.group.order_count}人「同行」成功，尊享${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}%申購費折扣`,
+                            `You entitled Group Discount, you will get ${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}% discount on subscription fee.`
+                        ]),
                         rule_detail: JSON.parse(e.action.rule_detail).rule_list[
                             JSON.parse(e.action.rule_detail).rule_list.length -
                                 1
@@ -508,7 +531,13 @@ export default {
                         res.action.rule_detail.rule_list[
                             res.action.rule_detail.rule_list.length - 1
                         ].discount
+                    this.actionInfo.describeDiscount = this.$t([
+                        `拼团成功，根据团队规模最高可返${this.discount}%申购费`,
+                        `「同行」成功，根據團隊規模最高可享申購費${this.discount}%折扣`,
+                        `You entitled Group Discount,Up to ${this.discount}% discount on handling fee if you meet the Group Discount requirement.`
+                    ])
                 }
+                console.log(this.actionInfo)
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
                 this.actionId = res.action.action_id
             } catch (e) {
