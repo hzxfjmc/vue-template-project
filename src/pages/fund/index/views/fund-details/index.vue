@@ -88,26 +88,26 @@
         v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
         .block__list--header-hk
             .block__footer-left
-               p 認購後，好友參與「同行優惠」，最多可省80%的认购费
+               p {{applyAfter}}
             .block__footer-right
                 van-button(
                     @click="handleBuyOrSell"
-                    :disabled="disabled") 独自认购
+                    :disabled="disabled") {{$t('aloneScribe')}}
         .block__button--list-hk
             .block__fight--btn-hk( @click="handleBuyOrSell")
                 .block__fight--left
                     img(:src="avatImg")
                 .block__fight--right
                     .block__fight--top
-                        p  「同行」認購
-                        p (剩餘 
+                        p  {{$t('togetherScribe')}}
+                        p ({{$t('Surplus')}}
                         .vant-count-down
                             CountDown( 
                                 millisecond
                                 :time="time"
                                 format="DD天 HH:mm:ss")
                         p )
-                    .block__fight--bottom 還差{{differenceNumer}}人，申购费最高可返{{discount}}%
+                    .block__fight--bottom {{subscribeButton}}
     
 
            
@@ -150,7 +150,6 @@ import { CountDown } from 'vant-fork'
 export default {
     i18n: {
         zhCHS: {
-            subscribeafter: '认购后，好友参与[同行优惠]，最多可省80%的认购费',
             aloneScribe: '独自认购',
             togetherScribe: '[同行认购]',
             Surplus: '剩余',
@@ -180,11 +179,10 @@ export default {
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
         },
         zhCHT: {
-            subscribeafter: '认购后，好友参与[同行优惠]，最多可省80%的认购费',
-            aloneScribe: '独自认购',
-            togetherScribe: '[同行认购]',
-            Surplus: '剩余',
-            describe: '还差5人,申购费最高可返50%',
+            aloneScribe: '獨自認購',
+            togetherScribe: '「同行」認購',
+            Surplus: '剩餘',
+            describe: '還差5人，最高可享申購費50%折扣',
             buy: '申購',
             redeem: '贖回',
             risk: '風險提示',
@@ -210,11 +208,11 @@ export default {
             describe3: '3人「同行」成功，尊享70%申購費折扣'
         },
         en: {
-            subscribeafter: '认购后，好友参与[同行优惠]，最多可省80%的认购费',
-            aloneScribe: '独自认购',
-            togetherScribe: '[同行认购]',
-            Surplus: '剩余',
-            describe: '还差5人,申购费最高可返50%',
+            aloneScribe: 'Subscribe',
+            togetherScribe: 'Subs. with Group Discount',
+            Surplus: 'Remaining',
+            describe:
+                'X people needed to get the 50% discounton subscription fee.',
             buy: 'Subscribe',
             redeem: 'Redemption',
             risk: 'Risk Disclosure',
@@ -340,6 +338,8 @@ export default {
             actionId: '',
             userList: [],
             discount: null,
+            subscribeButton: null,
+            applyAfter: null,
             differenceNumer: 5,
             avatImg: require('@/assets/img/fund/share/avat.png'),
             timeList: {
@@ -483,6 +483,16 @@ export default {
                     this.differenceNumer =
                         this.actionInfo.rule_detail.rule_list[0]
                             .start_user_count - this.orderList.length
+                    this.subscribeButton = this.$t([
+                        `还差${this.differenceNumer}人,申购费最高可返${100 -
+                            this.discount}%`,
+                        `還差${this.differenceNumer}人，最高可享申購費${100 -
+                            this.discount}%折扣`,
+                        `${
+                            this.differenceNumer
+                        } people needed to get the ${100 -
+                            this.discount}% discounton subscription fee.`
+                    ])
                 }
                 this.orderList.map(item => {
                     if (item.user_info.is_invite_user) {
@@ -531,6 +541,24 @@ export default {
                         res.action.rule_detail.rule_list[
                             res.action.rule_detail.rule_list.length - 1
                         ].discount
+                    this.subscribeButton = this.$t([
+                        `还差${this.differenceNumer}人,申购费最高可返${100 -
+                            this.discount}%`,
+                        `還差${this.differenceNumer}人，最高可享申購費${100 -
+                            this.discount}%折扣`,
+                        `${
+                            this.differenceNumer
+                        } people needed to get the ${100 -
+                            this.discount}% discounton subscription fee.`
+                    ])
+                    this.applyAfter = this.$t([
+                        `认购后，好友参与[同行优惠]，最多可省${100 -
+                            this.discount}%的认购费`,
+                        `認購後，好友參與「同行優惠」，最享${100 -
+                            this.discount}%認購費折扣`,
+                        `Share the Group Discount offer to your friends, you can get up to ${100 -
+                            this.discount}% discount on the subscription fee.`
+                    ])
                     this.actionInfo.describeDiscount = this.$t([
                         `拼团成功，根据团队规模最高可返${this.discount}%申购费`,
                         `「同行」成功，根據團隊規模最高可享申購費${this.discount}%折扣`,

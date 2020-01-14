@@ -118,7 +118,6 @@ export default {
     data() {
         return {
             loading: true,
-            content: '还差X人，赶快邀请好友来拼团把',
             // 1: 购买 2:成功
             step: 1,
             showShare: false,
@@ -241,17 +240,33 @@ export default {
                             .start_user_count - orderList.length
                 }
 
-                this.shareTitle = `<p>认购申请已提交</p>`
+                this.shareTitle = this.$t([
+                    `<p>认购申请已提交</p>`,
+                    `<p>認購申請已提交</p>`,
+                    `<p>Subscription submitted</p>`
+                ])
                 if (orderList.length === mostNum) {
-                    this.shareTitle += `<p>同行认购成功，团队已满员</p>`
+                    this.shareTitle += this.$t([
+                        `<p>同行认购成功，团队已满员</p>`,
+                        `<p>同行認購成功，團隊已滿</p>`,
+                        `<p>Your group is full, you have got the Group Discount offer. </p>`
+                    ])
                 } else {
                     let mostRest = mostNum - orderList.length
 
                     // 未成团
                     if (restNum > 0) {
-                        this.shareTitle += `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`
+                        this.shareTitle += this.$t([
+                            `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`,
+                            `<p>還差${restNum}人，趕緊邀請好友一同參與「同行優惠」</p>`,
+                            `<p>${restNum} people needed to get the 50% discount on subscription fee.</p>`
+                        ])
                     } else {
-                        this.shareTitle += `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`
+                        this.shareTitle += this.$t([
+                            `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`,
+                            `<p>「同行優惠」已達成目標，還可以再多${mostRest}人一同參與</p>`,
+                            `<p>You have entitled Group Discount, you can have ${mostRest} more people to join your group.</p>`
+                        ])
                     }
                 }
 
@@ -300,14 +315,21 @@ export default {
                 })
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
-                    title: `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                    description:
+                    title: this.$t([
+                        `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
+                        `我正在申購${this.fundName}，就差你一個了！`,
+                        `I am subscribing${this.fundName}， join me now!`
+                    ]),
+                    description: this.$t([
                         '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                        '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
+                        'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
+                    ]),
                     pageUrl: unescape(link),
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
                 })
-                this.$toast('分享成功')
+                this.$toast(this.$t([`分享成功`, `分享成功`, `Successful`]))
             } catch (e) {
                 e.msg && this.$toast(e.msg)
             }

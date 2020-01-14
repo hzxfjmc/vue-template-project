@@ -28,21 +28,19 @@
                         span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                     span.element-time {{item.orderTime}}
             .block__footer(v-if="item.actionInfo && code != 2")
-                .block__footer--left(v-if="item.countNumber > 0") 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
-                .block__footer--left(v-else) 已成团，还可以邀请{{item.actionInfo.action.rule_detail.most_user - item.countNumber}}人
+                .block__footer--left {{item.discribe}}
                 .block__footer--right
                     van-button(
                         class="btn" 
                         :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber" 
                         @click="handlerShareBtn(item)") 邀请拼团
             .block__footer-hk(v-if="item.actionInfo && code != 1")
-                .block__footer--left(v-if="item.countNumber>0") 再邀请{{item.countNumber}}人即可享受{{item.actionInfo.action.discountNum/10}}折申购费
-                .block__footer--left(v-else) 已成团，还可以邀请{{item.actionInfo.action.rule_detail.most_user - item.countNumber}}人
+                .block__footer--left {{item.discribe}}
                 .block__footer--right
                     van-button(
                         class="btn"
                         :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber"  
-                        @click="handlerShareBtn(item)") 分享活动
+                        @click="handlerShareBtn(item)") {{$t('shareActive')}}
             share-way(
                 v-model="showShare"
                 @handleShare="handleShare"
@@ -76,8 +74,6 @@ export default {
     },
     i18n: {
         zhCHS: {
-            invitation: '再邀请1人即可享受9折申购费',
-            group: '已成团，还可以邀请453432人',
             shareActive: '分享活动',
             fundName: '基金名称',
             amountMoney: '金额',
@@ -87,9 +83,7 @@ export default {
             nomore1: '无更多内容'
         },
         zhCHT: {
-            invitation: '再邀请1人即可享受9折申购费',
-            group: '已成团，还可以邀请453432人',
-            shareActive: '分享活动',
+            shareActive: '分享活動',
             fundName: '基金名稱',
             amountMoney: '金額',
             share: '份額',
@@ -98,9 +92,7 @@ export default {
             nomore1: '無更多內容'
         },
         en: {
-            invitation: '再邀请1人即可享受9折申购费',
-            group: '已成团，还可以邀请453432人',
-            shareActive: '分享活动',
+            shareActive: 'Share',
             fundName: 'Fund Name',
             amountMoney: 'Amount',
             share: 'Unit',
@@ -169,16 +161,33 @@ export default {
                             .start_user_count - orderList.length
                 }
 
-                this.shareTitle = `<p>认购申请已提交</p>`
+                this.shareTitle = this.$t([
+                    `<p>认购申请已提交</p>`,
+                    `<p>認購申請已提交</p>`,
+                    `<p>Subscription submitted</p>`
+                ])
                 if (orderList.length === mostNum) {
-                    this.shareTitle += `<p>同行认购成功，团队已满员</p>`
+                    this.shareTitle += this.$t([
+                        `<p>同行认购成功，团队已满员</p>`,
+                        `<p>同行認購成功，團隊已滿</p>`,
+                        `<p>Your group is full, you have got the Group Discount offer. </p>`
+                    ])
                 } else {
-                    // let mostRest = mostNum - orderList.length
+                    let mostRest = mostNum - orderList.length
+
                     // 未成团
                     if (restNum > 0) {
-                        this.shareTitle += `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`
+                        this.shareTitle += this.$t([
+                            `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`,
+                            `<p>還差${restNum}人，趕緊邀請好友一同參與「同行優惠」</p>`,
+                            `<p>${restNum} people needed to get the 50% discount on subscription fee.</p>`
+                        ])
                     } else {
-                        this.shareTitle += `<p>团队已达到标，还可以邀请 ${this.maxNumberPeople} 人</p>`
+                        this.shareTitle += this.$t([
+                            `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`,
+                            `<p>「同行優惠」已達成目標，還可以再多${mostRest}人一同參與</p>`,
+                            `<p>You have entitled Group Discount, you can have ${mostRest} more people to join your group.</p>`
+                        ])
                     }
                 }
 
@@ -317,6 +326,35 @@ export default {
                                     item.action.rule_detail.rule_list[0]
                                         .start_user_count -
                                     item.group.order_count
+                                if (orderItem.countNumber > 0) {
+                                    orderItem.discribe = this.$t([
+                                        `再邀请${
+                                            orderItem.countNumber
+                                        }人即可享受${orderItem.actionInfo.action
+                                            .discountNum / 10}折申购费`,
+                                        `再多${
+                                            orderItem.countNumber
+                                        }人參與「同行優惠」即可享申購費${orderItem
+                                            .actionInfo.action.discountNum /
+                                            10}折`,
+                                        `${orderItem.countNumber} people needed to get the ${orderItem.actionInfo.action.discountNum}% discount on subscription fee.`
+                                    ])
+                                } else {
+                                    orderItem.discribe = this.$t([
+                                        `已成团，还可以邀请${orderItem
+                                            .actionInfo.action.rule_detail
+                                            .most_user -
+                                            orderItem.countNumber}人`,
+                                        `「同行優惠」已達成目標，還可以再多${orderItem
+                                            .actionInfo.action.rule_detail
+                                            .most_user -
+                                            orderItem.countNumber}人一同參與`,
+                                        `You have entitled Group Discount, you can have ${orderItem
+                                            .actionInfo.action.rule_detail
+                                            .most_user -
+                                            orderItem.countNumber} more people to join your group.`
+                                    ])
+                                }
                             }
                         })
                         return orderItem
