@@ -91,10 +91,10 @@
                p {{applyAfter}}
             .block__footer-right
                 van-button(
-                    @click="handleBuyOrSell"
+                    @click="handleBuyOrSell(1)"
                     :disabled="disabled") {{$t('aloneScribe')}}
         .block__button--list-hk
-            .block__fight--btn-hk( @click="handleBuyOrSell")
+            .block__fight--btn-hk( @click="handleBuyOrSell(4)")
                 .block__fight--left
                     img(:src="avatImg")
                 .block__fight--right
@@ -877,6 +877,10 @@ export default {
                 if (params === 2) {
                     data.query.groupId = 0
                 }
+                if (params === 4) {
+                    data.query.groupId = this.$route.query.group_id || 0
+                }
+
                 data.path =
                     // eslint-disable-next-line no-constant-condition
                     (this.userInfo.extendStatusBit & 16) > 0
