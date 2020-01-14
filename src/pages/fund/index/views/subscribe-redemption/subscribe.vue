@@ -184,6 +184,7 @@ export default {
     },
     async created() {
         if (LS.get('groupId') != undefined) {
+            alert(123)
             this.groupId = LS.get('groupId')
         }
         this.getFundUserInfo()
@@ -213,6 +214,7 @@ export default {
         async getGroupOrders() {
             try {
                 if (!this.groupId && this.groupId != 0) return
+                this.discountShow = true
                 let data = await getGroupAction({
                     biz_id: this.$route.query.id,
                     biz_type: 0,
@@ -228,10 +230,6 @@ export default {
                     ).rule_list[
                         JSON.parse(data.action.rule_detail).rule_list.length - 1
                     ].discount
-                }
-                if (!this.groupId && this.groupId === 0) {
-                    this.discountShow = true
-                    return
                 }
                 if (!this.groupId) return
                 let grdersData = await getGroupOrders({
