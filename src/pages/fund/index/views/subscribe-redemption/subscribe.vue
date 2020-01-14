@@ -184,7 +184,7 @@ export default {
     },
     async created() {
         if (!LS.get('groupId') || LS.get('groupId') === 0) {
-            this.groupdId = LS.get('groupId')
+            this.groupId = LS.get('groupId')
         }
         this.getFundUserInfo()
         this.getGroupOrders()
