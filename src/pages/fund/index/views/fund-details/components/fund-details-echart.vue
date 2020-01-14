@@ -3,13 +3,13 @@
     .block__fund--echart.border-bottom
         .block__fund--item(
             :class="activeTab==1?'activeItem':''"
-            @click="handlerActiveTab(1)") {{$t('trendCharts')}}
+            @click="handlerActiveTab(1)") {{isMMF?$t('yieldInLast7d'):$t('trendCharts')}}
         .block__fund--item(
             :class="activeTab==2?'activeItem':''"
             @click="handlerActiveTab(2)") {{$t('historicalRTN')}}
         .block__fund--item(
             :class="activeTab==3?'activeItem':''"
-            @click="handlerActiveTab(3)") {{$t('NAVHistory')}}
+            @click="handlerActiveTab(3)") {{isMMF?$t('tenKRTN'):$t('NAVHistory')}}
     .fund-echart-content2(v-show ="activeTab ==2")
         .block__fund--yj
             .block__list--item.fund__list--headerjy
@@ -33,19 +33,22 @@
             .block__list--item.fund__list--headerjy.fund__list--content
                 p.list__left {{$t('time')}}
                 p.list__content {{$t('navChg')}}
-                p.list__right {{$t('dayChg')}}
+                p.list__right {{isMMF?$t('RTNDetail'):$t('dayChg')}}
             .block__list--item.border-bottom(
                 v-for="(item,index) in historyList" 
                 :key="index")
                 p.list__left {{item.belongDay}}
                 p.list__content {{item.netPrice}}
-                p.list__right(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="item.price>0") +{{item.price}}%
-                p.list__right(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="item.price<0") {{item.price}}%
-                p.list__right(v-else) {{item.price}}%
+                template(v-if="isMMF")
+                    p.list__right {{item.revenue}}
+                template(v-else)
+                    p.list__right(
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                        v-if="item.price>0") +{{item.price}}%
+                    p.list__right(
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        v-else-if="item.price<0") {{item.price}}%
+                    p.list__right(v-else) {{item.price}}%
             .block__list--more(@click="toFundHistory")
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
@@ -90,6 +93,7 @@ import F2 from '@antv/f2'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
+import { FUND_ASSET_TYPE } from '@/pages/fund/index/map'
 export default {
     i18n: {
         zhCHS: {
@@ -112,7 +116,9 @@ export default {
             },
             trendCharts: '业绩走势',
             historicalRTN: '历史业绩',
-            NAVHistory: '净值历史'
+            NAVHistory: '净值历史',
+            tenKRTN: '万元收益',
+            RTNDetail: '收益详情'
         },
         zhCHT: {
             fundTrade: '基金業績走勢',
@@ -134,7 +140,9 @@ export default {
             },
             trendCharts: '業績走勢',
             historicalRTN: '歷史業績',
-            NAVHistory: '淨值歷史'
+            NAVHistory: '淨值歷史',
+            tenKRTN: '萬元收益',
+            RTNDetail: '收益詳情'
         },
         en: {
             dayChg: 'Day%Chg',
@@ -156,7 +164,9 @@ export default {
             },
             trendCharts: 'Trend Charts',
             historicalRTN: 'Historical RTN',
-            NAVHistory: 'NAV History'
+            NAVHistory: 'NAV History',
+            tenKRTN: '10K RTN',
+            RTNDetail: 'RTN Details'
         }
     },
     filters: {
@@ -316,6 +326,9 @@ export default {
     computed: {
         stockColorType() {
             return +getStockColorType()
+        },
+        isMMF() {
+            return FUND_ASSET_TYPE.MMF.value === this.fundHeaderInfoVO.assetType
         }
     },
     watch: {

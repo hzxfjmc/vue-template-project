@@ -321,6 +321,7 @@ export default {
                     item.netPrice = this.sliceDeci(item.netPrice, 4)
                     if (index === list.length - 1) {
                         list[list.length - 1].price = '0.00' // 最后一项涨跌幅无法则算为0
+                        list[list.length - 1].revenue = '0.00' // 最后一项涨跌幅无法则算为0
                     } else {
                         if (Number(list[index + 1].netPrice) !== 0) {
                             item.price =
@@ -330,8 +331,11 @@ export default {
                                 100
                             item.price =
                                 this.fundHeaderInfoVO.assetType != 4
-                                    ? item.price.toFixed(2)
-                                    : item.price.toFixed(4)
+                                    ? Number(item.price).toFixed(2)
+                                    : Number(item.price).toFixed(4)
+                            item.revenue = Number(
+                                Number(item.price).toFixed(4) * 100
+                            ).toFixed(2)
                         } else {
                             item.price = '0.00'
                         }
