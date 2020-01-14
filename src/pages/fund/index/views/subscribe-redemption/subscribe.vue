@@ -375,7 +375,7 @@ export default {
         },
         handlerSubmitFilter() {
             if (
-                this.purchaseAmount / this.withdrawBalance > 0.5 &&
+                this.purchaseAmount / this.withdrawBalance >= 0.5 &&
                 this.derivativeType != 1
             ) {
                 this.$dialog
