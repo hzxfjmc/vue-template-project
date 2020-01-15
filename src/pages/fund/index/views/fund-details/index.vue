@@ -601,7 +601,7 @@ export default {
                             this.contentmsg = `差${this.differenceNumer}人成团`
                         }
                     } else {
-                        this.contentmsg = `差${this.differenceNumer}人成团`
+                        this.contentmsg = `已${this.differenceNumer}人成团`
                     }
                     this.discount =
                         res.action.rule_detail.rule_list[
