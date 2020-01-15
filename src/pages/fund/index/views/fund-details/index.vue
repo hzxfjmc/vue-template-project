@@ -339,6 +339,7 @@ export default {
             orderList: [],
             actionId: '',
             userList: [],
+            group_id: null,
             discount: null,
             subscribeButton: null,
             applyAfter: null,
@@ -498,14 +499,15 @@ export default {
                 const res = await getGroupAction({
                     biz_id: this.id,
                     biz_type: 0,
-                    action_status: 2
+                    action_status: 2,
+                    group_id: this.$route.query.group_id
                 })
 
                 this.orderList = res.order_list || []
 
                 this.orderList.map(item => {
-                    console.log(item.user_info.is_invite_user)
                     if (item.user_info.is_invite_user) {
+                        this.group_id = item.group_order.group_id
                         this.avatImg = item.user_info.head_img
                     }
                 })
@@ -866,7 +868,7 @@ export default {
                 return
             }
             if (params === 3) {
-                LS.put('groupId', this.$route.query.group_id)
+                LS.put('groupId', this.$route.query.group_id || this.group_id)
             }
             if (params === 2) {
                 LS.put('groupId', 0)
