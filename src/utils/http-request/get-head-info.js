@@ -37,7 +37,7 @@ export default async () => {
         if (domain.IS_LOCAL_DEV) {
             // 本地环境环境使用此uid测试
             // XUid = '318439107153240064'
-            XUid = '402917514448928768'
+            XUid = '323575447837016064'
             data['X-Uid'] = XUid
         }
         // 获取用户ID
