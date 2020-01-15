@@ -516,7 +516,6 @@ export default {
                 if (res.order_list.length > 0 && !res.has_joined) {
                     this.figthBtnShow = true
                     this.figthComeShow = true
-                    // alert(1)
                 }
                 if (res.order_list.length < 1) {
                     this.shareHeaderShow = false
@@ -538,7 +537,7 @@ export default {
                     this.differenceNumer =
                         this.actionInfo.rule_detail.rule_list[0]
                             .start_user_count - this.orderList.length
-
+                    //已满足团但是没满足团设置最大人数
                     if (this.differenceNumer < 1) {
                         this.differenceNumer =
                             this.actionInfo.rule_detail.most_user -
@@ -554,6 +553,7 @@ export default {
                             res.action.rule_detail.rule_list.length - 1
                         ].discount
 
+                    //未满足团
                     if (this.differenceNumer > 1) {
                         this.subscribeButton = this.$t([
                             `还差${this.differenceNumer}人,申购费最高可返${100 -
@@ -577,9 +577,13 @@ export default {
                             this.discount}% discount on the subscription fee.`
                     ])
                     this.actionInfo.describeDiscount = this.$t([
-                        `拼团成功，根据团队规模最高可返${this.discount}%申购费`,
-                        `「同行」成功，根據團隊規模最高可享申購費${this.discount}%折扣`,
-                        `You entitled Group Discount,Up to ${this.discount}% discount on handling fee if you meet the Group Discount requirement.`
+                        `拼团成功，根据团队规模最高可返${100 -
+                            this.discount}%申购费`,
+                        `「同行」成功，根據團隊規模最高可享申購費${100 -
+                            this.discount}%折扣`,
+                        `You entitled Group Discount,Up to ${100 -
+                            this
+                                .discount}% discount on handling fee if you meet the Group Discount requirement.`
                     ])
                 }
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
