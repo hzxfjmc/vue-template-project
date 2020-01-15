@@ -27,14 +27,14 @@
                     template(v-else)
                         span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                     span.element-time {{item.orderTime}}
-            .block__footer(v-if="item.actionInfo && code != 2")
+            .block__footer(v-if="item.actionInfo && code != 1")
                 .block__footer--left {{item.discribe}}
                 .block__footer--right
                     van-button(
                         class="btn" 
                         :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber" 
                         @click="handlerShareBtn(item)") 邀请拼团
-            .block__footer-hk(v-if="item.actionInfo && code != 1")
+            .block__footer-hk(v-if="item.actionInfo && code != 2")
                 .block__footer--left {{item.discribe}}
                 .block__footer--right
                     van-button(
@@ -178,7 +178,7 @@ export default {
                     // 未成团
                     if (restNum > 0) {
                         this.shareTitle += this.$t([
-                            `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`,
+                            `<p>还差 ${restNum} 人成团，赶快邀请好友来拼团吧</p>`,
                             `<p>還差${restNum}人，趕緊邀請好友一同參與「同行優惠」</p>`,
                             `<p>${restNum} people needed to get the ${mostRest}% discount on subscription fee.</p>`
                         ])
@@ -331,17 +331,17 @@ export default {
                                     orderItem.discribe = this.$t([
                                         `再邀请${
                                             orderItem.countNumber
-                                        }人即可享受${100 -
+                                        }%人可享受${100 -
                                             orderItem.actionInfo.action
                                                 .discountNum}申购费返还`,
                                         `再多${
                                             orderItem.countNumber
-                                        }人參與「同行優惠」即可享申購費${100 -
+                                        }%人參與「同行優惠」可享申購費${100 -
                                             orderItem.actionInfo.action
                                                 .discountNum}`,
                                         `${
                                             orderItem.countNumber
-                                        } people needed to get the ${100 -
+                                        }% people needed to get the ${100 -
                                             orderItem.actionInfo.action
                                                 .discountNum}% discount on subscription fee.`
                                     ])

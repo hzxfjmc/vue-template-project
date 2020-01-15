@@ -17,11 +17,19 @@
         HoldfundDetails(
             v-if="holdDetailsShow"
             :initState="holdInitState")
+
+        FightFund(
+            v-if="!fightShow"
+            :userList="userList"
+            :swipeShow="swipeShow"
+            :actionInfo = "actionInfo")   
+
         .block__fundheader--tips(@click="toRouterGenerator('/order-record')")
             em.iconfont.icon-iconEBshoucang
             span.title {{$t('trade')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
+       
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -33,11 +41,7 @@
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
 
-        FightFund(
-            v-if="!fightShow"
-            :userList="userList"
-            :swipeShow="swipeShow"
-            :actionInfo = "actionInfo")
+        
         
         .fund___list--p
             p {{$t('msg')}}
@@ -519,7 +523,10 @@ export default {
                     this.figthBtnShow = true
                     this.figthComeShow = true
                 }
-                if (res.order_list.length < 1) {
+                if (
+                    res.order_list.length < 1 &&
+                    this.$route.query.from != 'appOutside'
+                ) {
                     this.shareHeaderShow = false
                 }
                 if (
@@ -545,10 +552,10 @@ export default {
                             this.actionInfo.rule_detail.most_user -
                             this.orderList.length
                         if (this.differenceNumer >= 1) {
-                            this.contentmsg = `还剩${this.differenceNumer}人`
+                            this.contentmsg = `还剩${this.differenceNumer}人成团`
                         }
                     } else {
-                        this.contentmsg = `还剩${this.differenceNumer}人`
+                        this.contentmsg = `还剩${this.differenceNumer}人成团`
                     }
                     this.discount =
                         res.action.rule_detail.rule_list[
