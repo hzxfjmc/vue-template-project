@@ -279,7 +279,7 @@ export default {
         FightFundHk
     },
     computed: {
-        ...mapGetters(['isLogin', 'openedAccount']),
+        ...mapGetters(['isLogin', 'appType', 'openedAccount']),
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
@@ -598,10 +598,10 @@ export default {
                             this.actionInfo.rule_detail.most_user -
                             this.orderList.length
                         if (this.differenceNumer >= 1) {
-                            this.contentmsg = `差${this.differenceNumer}人成团`
+                            this.contentmsg = `已${this.differenceNumer}人成团`
                         }
                     } else {
-                        this.contentmsg = `已${this.differenceNumer}人成团`
+                        this.contentmsg = `差${this.differenceNumer}人成团`
                     }
                     this.discount =
                         res.action.rule_detail.rule_list[
@@ -1040,7 +1040,6 @@ export default {
                 if (!this.isLogin) {
                     this.code = this.appType.Hk ? 2 : 1
                 }
-                alert(this.code)
             } catch (e) {
                 this.$toast(e.msg)
             }
