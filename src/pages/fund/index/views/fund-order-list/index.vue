@@ -331,14 +331,19 @@ export default {
                                     orderItem.discribe = this.$t([
                                         `再邀请${
                                             orderItem.countNumber
-                                        }人即可享受${orderItem.actionInfo.action
-                                            .discountNum / 10}折申购费`,
+                                        }人即可享受${100 -
+                                            orderItem.actionInfo.action
+                                                .discountNum}申购费返还`,
                                         `再多${
                                             orderItem.countNumber
-                                        }人參與「同行優惠」即可享申購費${orderItem
-                                            .actionInfo.action.discountNum /
-                                            10}折`,
-                                        `${orderItem.countNumber} people needed to get the ${orderItem.actionInfo.action.discountNum}% discount on subscription fee.`
+                                        }人參與「同行優惠」即可享申購費${100 -
+                                            orderItem.actionInfo.action
+                                                .discountNum}`,
+                                        `${
+                                            orderItem.countNumber
+                                        } people needed to get the ${100 -
+                                            orderItem.actionInfo.action
+                                                .discountNum}% discount on subscription fee.`
                                     ])
                                 } else {
                                     if (
