@@ -58,12 +58,12 @@ export default {
         zhCHS: {
             competition: '参与「同行优惠」享折扣',
             rule: '详细规则',
-            subscription: '拼团认购',
-            target: '达到目标',
-            target1: '达到目标',
-            teamSuccess: '拼团成功',
-            discountReturn: '申购费折扣返还',
-            discountReturn1: '申购费折扣返还',
+            subscription: '成功认购',
+            target: '组团参与',
+            target1: '[同行优惠]',
+            teamSuccess: '达到目标',
+            discountReturn: '认购费',
+            discountReturn1: '折扣返还',
             describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
             describe1: '根据团队规模最高可返60%申购费',
             describe2: '人正在助力'
@@ -179,7 +179,7 @@ export default {
             p {
                 margin: 2px 0 0 0;
                 width: 100%;
-                white-space: nowrap;
+                // white-space: nowrap;
             }
         }
         .block__list--item:after {
