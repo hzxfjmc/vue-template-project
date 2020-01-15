@@ -105,9 +105,9 @@
                p {{applyAfter}}
             .block__footer-right
                 van-button(
-                    @click="handleBuyOrSell(1)"
+                    @click="handleBuyOrSell(2)"
                     :disabled="disabled") {{$t('aloneScribe')}}
-        .block__button--list-hk
+        .block__button--list-hk()
             .block__fight--btn-hk( @click="handleBuyOrSell(4)")
                 .block__fight--left
                     img(:src="avatImg")
@@ -478,6 +478,23 @@ export default {
                                         .length - 1
                                 ].discount}% discount on subscription fee.`
                         ]),
+                        discribeHk: this.$t([
+                            `${e.group.order_count}人同行成功，尊享申購費${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}%折扣 `,
+                            `${e.group.order_count}人同行成功，尊享申購費${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}%折扣 `,
+                            `Groups with ${e.group.order_count} ppl, ${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}% discount on subs. fee`
+                        ]),
                         rule_detail: JSON.parse(e.action.rule_detail).rule_list[
                             JSON.parse(e.action.rule_detail).rule_list.length -
                                 1
@@ -611,6 +628,14 @@ export default {
                         `You entitled Group Discount,Up to ${100 -
                             this
                                 .discount}% discount on handling fee if you meet the Group Discount requirement.`
+                    ])
+                    this.actionInfo.describeDiscountHk = this.$t([
+                        `成功后发起人可享认购费90%折扣，其他成员可享认购费80%折扣`,
+                        `成功後發起人可享認購費${100 -
+                            this.discount}%折扣，其他成員可享認購費80%折扣`,
+                        `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -
+                            this
+                                .discount}% off, other members can enjoy 80% discount on subs. fee. `
                     ])
                 }
                 this.time = (res.action.action_end_time - res.unix_time) * 1000

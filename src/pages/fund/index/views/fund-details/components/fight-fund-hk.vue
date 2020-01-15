@@ -2,7 +2,7 @@
 .block__fight--fund-hk
     .block__fight--header
         .block__left
-            span 參與「同行優惠」享折扣
+            span {{$t('competition')}}
             //- img(:src="vipImgUrl")
         .block__right
             span {{$t('rule')}}
@@ -12,28 +12,28 @@
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Subscribe-hk.png')")
                 .plist
-                    p 成功認購
+                    p {{$t('subscription')}}
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Achieve-hk.png')")
                 .plist
-                    p 成功認購
-                    p 「同行優惠」
+                    p {{$t('target')}}
+                    p {{$t('target1')}}
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Success-hk.png')")
                 .plist
-                    p 達到目標
+                    p {{$t('teamSuccess')}}
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/return-hk.png')")
                 .plist
-                    p 認購費
-                    p 折扣返還
+                    p {{$t('discountReturn')}}
+                    p {{$t('discountReturn1')}}
     .block__fight--bottom
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/about.png')")
-            span 未達成目標，不影響基金正常認購
+            span {{$t('describe')}}
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/check.png')")
-            span {{actionInfo.describeDiscount}}
+            span {{actionInfo.describeDiscountHk}}
     .block__item--notice
         img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
         span {{actionInfo.ad_order_count}}{{$t('describe2')}}
@@ -48,7 +48,7 @@
                     .block__vant--left
                         img(:src="items.headImg")
                     .block__vant--name {{items.nickName}}
-                    .block__vant--p {{items.discribe}}
+                    .block__vant--p {{items.discribeHk}}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -56,39 +56,45 @@ import { mapGetters } from 'vuex'
 export default {
     i18n: {
         zhCHS: {
-            competition: '参与拼团',
+            competition: '参与「同行优惠」享折扣',
             rule: '详细规则',
             subscription: '拼团认购',
             target: '达到目标',
+            target1: '达到目标',
             teamSuccess: '拼团成功',
             discountReturn: '申购费折扣返还',
+            discountReturn1: '申购费折扣返还',
             describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
             describe1: '根据团队规模最高可返60%申购费',
-            describe2: '人正在拼团申购'
+            describe2: '人正在助力'
         },
         zhCHT: {
-            competition: '「同行」認購',
+            competition: '參與「同行優惠」享折扣',
             rule: '詳細規則',
-            subscription: '「同行」認購',
-            target: '達到目標',
-            teamSuccess: '「同行」成功',
-            discountReturn: '申購費折扣返還',
-            describe: '未達成「同行優惠」目標，未能領取優惠，不影響基金申購',
+            subscription: '成功認購',
+            target: '組團參與',
+            target1: '「同行優惠」',
+            teamSuccess: '達到目標',
+            discountReturn: '認購費',
+            discountReturn1: '折扣返還',
+            describe: '未達成目標，不影響基金正常認購',
             describe1: '根據團隊規模最高可享申購費60%折扣',
-            describe2: '人正在參與「同行」申購'
+            describe2: '人正在申購'
         },
         en: {
             competition: 'Subs. with Group Discount',
             rule: 'Terms and Conditions',
-            subscription: 'Subs. with Group Discount',
-            target: 'You entitled Group Discount',
-            teamSuccess: 'You entitled Group Discount',
-            discountReturn: 'Discount on subscription fee',
+            subscription: 'Subscribe Fund',
+            target: 'Share with friends ',
+            target1: 'to get Group Discount',
+            teamSuccess: 'Fulfill requirements',
+            discountReturn: 'Get fees discount ',
+            discountReturn1: '',
             describe:
                 "You will fail to get the Group Discount if you do not gather enough people, but it doesn't affect funds subscription.",
             describe1:
-                'Up to X% discount on handling fee if you meet the Group Discount requirement.',
-            describe2: 'N people is joining the Group Discount'
+                'If you meet the Group Discount requirements, group leader can get subs. fee 90% off, other members can enjoy 80% discount on subs. fee. ',
+            describe2: 'ppl subscribing now'
         }
     },
     components: {
@@ -195,7 +201,7 @@ export default {
     }
     .block__item--notice {
         display: flex;
-        margin: 10px 0 0 0;
+        margin: 10px 0;
         padding: 0 5px;
         align-items: center;
         flex-direction: row;

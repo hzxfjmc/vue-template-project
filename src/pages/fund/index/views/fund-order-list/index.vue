@@ -350,7 +350,7 @@ export default {
                                         0
                                     ) {
                                         orderItem.discribe = this.$t([
-                                            `同行认购成功，团队已满员`,
+                                            `同行认购成功，团队已满`,
                                             `同行認購成功，團隊已滿`,
                                             `Your group is full, you have got the Group Discount offer.`
                                         ])
