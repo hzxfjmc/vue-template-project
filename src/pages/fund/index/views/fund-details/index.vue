@@ -20,8 +20,14 @@
             v-if="holdDetailsShow"
             :initState="holdInitState")
 
+        FightFundHk(
+            v-if="!fightShow && code ==1"
+            :userList="userList"
+            :swipeShow="swipeShow"
+            :actionInfo = "actionInfo") 
+
         FightFund(
-            v-if="!fightShow"
+            v-if="!fightShow && code == 2"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
@@ -127,6 +133,7 @@ import fundDetailsEchart from './components/fund-details-echart'
 import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
 import FightFund from './components/fight-fund.vue'
+import FightFundHk from './components/fight-fund-hk.vue'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
@@ -260,7 +267,8 @@ export default {
         CountDown,
         fundSurvey,
         fundCardList,
-        fundTradingRules
+        fundTradingRules,
+        FightFundHk
     },
     computed: {
         ...mapGetters(['isLogin', 'openedAccount']),

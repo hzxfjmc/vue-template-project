@@ -1,39 +1,42 @@
 <template lang="pug">
-.block__fight--fund
+.block__fight--fund-hk
     .block__fight--header
         .block__left
-            span {{$t("competition")}}
-            img(:src="vipImgUrl")
+            span 參與「同行優惠」享折扣
+            //- img(:src="vipImgUrl")
         .block__right
             span {{$t('rule')}}
             em.iconfont.icon-previewright
     .block__fight--content
         .block__fight--list
             .block__list--item
-                img(:src="require('@/assets/img/fund/icon/Subscribe.png')")
-                p {{$t('subscription')}}
+                img(:src="require('@/assets/img/fund/icon/Subscribe-hk.png')")
+                .plist
+                    p 成功認購
             .block__list--item
-                img(:src="require('@/assets/img/fund/icon/Achieve.png')")
-                p {{$t('target')}}
+                img(:src="require('@/assets/img/fund/icon/Achieve-hk.png')")
+                .plist
+                    p 成功認購
+                    p 「同行優惠」
             .block__list--item
-                img(:src="require('@/assets/img/fund/icon/Success.png')")
-                p {{$t('teamSuccess')}}
+                img(:src="require('@/assets/img/fund/icon/Success-hk.png')")
+                .plist
+                    p 達到目標
             .block__list--item
-                img(:src="require('@/assets/img/fund/icon/return.png')")
-                p {{$t('discountReturn')}}
+                img(:src="require('@/assets/img/fund/icon/return-hk.png')")
+                .plist
+                    p 認購費
+                    p 折扣返還
     .block__fight--bottom
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/about.png')")
-            span {{$t('describe')}}
+            span 未達成目標，不影響基金正常認購
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/check.png')")
             span {{actionInfo.describeDiscount}}
-                //- em(
-                //-     v-for="(item,index) in actionInfo.rule_detail.rule_list" 
-                //-     :key="index")  
-        .block__item--notice
-            img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
-            span {{actionInfo.ad_order_count}}{{$t('describe2')}}
+    .block__item--notice
+        img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
+        span {{actionInfo.ad_order_count}}{{$t('describe2')}}
     .block__bottom--swiper(v-if="swipeShow")
         van-swipe(
             :show-indicators="false"
@@ -117,7 +120,7 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.block__fight--fund {
+.block__fight--fund-hk {
     margin: 8px 0;
     background: #fff;
     padding: 0 12px 20px 12px;
@@ -158,14 +161,18 @@ export default {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            // justify-content: center;
             position: relative;
             img {
                 width: 36px;
                 height: 36px;
             }
+            .plist {
+                margin: 5px 0 0 0;
+            }
             p {
-                margin: 10px 0 0 0;
+                margin: 2px 0 0 0;
+                width: 100%;
                 white-space: nowrap;
             }
         }
@@ -205,8 +212,9 @@ export default {
         background: rgba(122, 122, 122, 0.05);
         display: flex;
         padding: 0 0 5px 0;
-        margin: 20px 0 0 0;
+        margin: 10px 0 0 0;
         flex-direction: column;
+
         .block__list--p {
             font-size: 12px;
             line-height: 20px;
@@ -224,8 +232,8 @@ export default {
             }
         }
         .block__notice {
-            width: 10px;
-            height: 10px;
+            width: 15px;
+            height: 15px;
         }
     }
     .block__bottom--header {
