@@ -324,10 +324,9 @@ export default {
                             ) {
                                 orderItem.actionInfo = item
                                 orderItem.countNumber =
-                                    item.action.rule_detail.rule_list[
-                                        item.action.rule_detail.rule_list
-                                            .length - 1
-                                    ].start_user_count - item.group.order_count
+                                    item.action.rule_detail.rule_list[0]
+                                        .start_user_count -
+                                    item.group.order_count
                                 if (orderItem.countNumber > 0) {
                                     orderItem.discribe = this.$t([
                                         `再邀请${
