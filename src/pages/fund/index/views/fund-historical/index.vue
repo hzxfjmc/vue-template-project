@@ -4,7 +4,7 @@
             .block-list.border-bottom(class="block-header")
                 .block-left {{$t('time')}}
                 .block-content {{$t('nav')}}
-                .block-right {{$t('dayChg')}}
+                .block-right {{isMMF?$t('RTNDetail'):$t('dayChg')}}
             .block-list(class="border-bottom" v-for="(item,index) in list")
                 .block-left {{item.belongDay}}
                 .block-content {{item.netPrice}}
@@ -31,19 +31,22 @@ export default {
             dayChg: '日涨幅',
             nav: '单位净值',
             time: '日期',
-            finishedText: '无更多内容'
+            finishedText: '无更多内容',
+            RTNDetail: '收益详情'
         },
         zhCHT: {
             dayChg: '日漲幅',
             nav: '單位淨值',
             time: '日期',
-            finishedText: '無更多內容'
+            finishedText: '無更多內容',
+            RTNDetail: '收益詳情'
         },
         en: {
             dayChg: 'Day%Chg',
             time: 'Time',
             nav: 'NAV',
-            finishedText: 'No More Content'
+            finishedText: 'No More Content',
+            RTNDetail: 'RTN Details'
         }
     },
     components: {
@@ -68,7 +71,10 @@ export default {
             return +getStockColorType()
         },
         isMMF() {
-            return FUND_ASSET_TYPE.MMF.value === this.fundHeaderInfoVO.assetType
+            return (
+                FUND_ASSET_TYPE.MMF.value ===
+                Number(this.$route.query.assetType)
+            )
         }
     },
     filters: {

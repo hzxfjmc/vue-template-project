@@ -3,6 +3,7 @@
     .fund-content(slot="main" ref="content")
         fundDetailsHeader(
             :price="price"
+            :revenue="revenue"
             :tagShow="tagShow"
             :tagsShow="tagsShow"
             :fundHeaderInfoVO="fundHeaderInfoVO")
@@ -239,6 +240,7 @@ export default {
             flag1: true, //追加
             flag2: true, //申购
             price: '',
+            revenue: '',
             step: 0,
             forbidPrompt: '',
             timeList: {
@@ -342,6 +344,7 @@ export default {
                     }
                 })
                 this.price = list[0].price
+                this.revenue = list[0].revenue
                 this.historyList = list.slice(0, 5)
             } catch (e) {
                 this.$toast(e.msg)
