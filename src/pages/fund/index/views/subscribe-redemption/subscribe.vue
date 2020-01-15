@@ -95,7 +95,7 @@ import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import {
     createGroupOrder,
-    getGroupOrders,
+    // getGroupOrders,
     getGroupAction
 } from '@/service/zt-group-apiserver.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
@@ -237,10 +237,10 @@ export default {
                     `Up to ${100 - this.discount}% discount on subscription fee`
                 ])
                 if (!this.groupId) return
-                let grdersData = await getGroupOrders({
-                    group_id: +this.groupId
-                })
-                let orderList = grdersData.order_list || []
+                // let grdersData = await getGroupOrders({
+                //     group_id: Number(this.groupId)
+                // })
+                let orderList = data.order_list || []
                 if (data.action && data.action.rule_detail) {
                     restNum =
                         JSON.parse(data.action.rule_detail).rule_list[0]
