@@ -32,14 +32,14 @@
                 .block__footer--right
                     van-button(
                         class="btn" 
-                        :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber" 
+                        :disabled="item.actionInfo.action.rule_detail.most_user === item.actionInfo.group.order_count" 
                         @click="handlerShareBtn(item)") 邀请拼团
             .block__footer-hk(v-if="item.actionInfo && code != 1")
                 .block__footer--left {{item.discribe}}
                 .block__footer--right
                     van-button(
                         class="btn"
-                        :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber"  
+                        :disabled="item.actionInfo.action.rule_detail.most_user === item.actionInfo.group.order_count"  
                         @click="handlerShareBtn(item)") {{$t('shareActive')}}
             share-way(
                 v-model="showShare"
