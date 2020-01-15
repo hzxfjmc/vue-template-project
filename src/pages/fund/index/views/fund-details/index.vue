@@ -3,6 +3,8 @@
     .fund-content(slot="main" ref="content")
         fundDetailsHeader(
             :price="price"
+            :tagShow="tagShow"
+            :tagsShow="tagsShow"
             :fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
@@ -24,7 +26,9 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
 
-        .block__fundheader--tips(@click="toRouterGenerator('/order-record')")
+        .block__fundheader--tips(
+            v-if="isLogin"
+            @click="toRouterGenerator('/order-record')")
             em.iconfont.icon-iconEBshoucang
             span.title {{$t('trade')}}
             .block__list--right
@@ -266,6 +270,9 @@ export default {
         },
         disabled() {
             // 接口返回数据后才允许点击
+            if (!this.isLogin) {
+                return false
+            }
             if (
                 !this.userInfo.grayStatusBit ||
                 !this.fundOverviewInfoVO.tradeAuth
@@ -300,6 +307,8 @@ export default {
             time: 30 * 60 * 60 * 1000,
             code: '',
             has_joined: true,
+            tagsShow: false,
+            tagShow: false,
             tabObj: {
                 label: '',
                 value: ''
@@ -714,6 +723,8 @@ export default {
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
                 this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
+                this.fundHeaderInfoVO.derivativeType =
+                    res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
                 let flag = this.fundHeaderInfoVO.apy < 0
                 this.fundHeaderInfoVO.apy =
@@ -761,6 +772,9 @@ export default {
                 //申购按钮是否置灰
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                //合规信息
+                this.tagShow = this.fundHeaderInfoVO.derivativeType !== 1
+                this.tagsShow = this.fundHeaderInfoVO.derivativeType !== 3
                 browseFundDetails(
                     'fund_detail',
                     res.fundHeaderInfoVO.fundId,

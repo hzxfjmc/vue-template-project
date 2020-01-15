@@ -44,7 +44,7 @@
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
-                van-button(:disabled="disabled" @click="handleSubmit") {{$t('submitButtonText')}}
+                van-button(:disabled="disabled" @click="handlerSubmitFilter") {{$t('submitButtonText')}}
         template(v-else-if="step === 2")
             .fond-buy.border-bottom
                 .buy-row
@@ -153,7 +153,8 @@ export default {
             positionStatus: '', //持仓状态
             userInfo: {},
             groupRestUsers: 5,
-            discount: null
+            discount: null,
+            derivativeType: null
         }
     },
     filters: {
@@ -452,6 +453,8 @@ export default {
                 })
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
+                this.derivativeType =
+                    fundDetail.fundOverviewInfoVO.derivativeType
                 for (let key in this.subscribeObj) {
                     this.subscribeObj[key].label = this.$t('subscribeObj')[key]
                 }
@@ -535,6 +538,28 @@ export default {
         handleOnblurBuyInput() {
             if (this.buyMoney === null || this.buyMoney === '') {
                 this.buyMoneyBlur = false
+            }
+        },
+        handlerSubmitFilter() {
+            if (
+                this.purchaseAmount / this.withdrawBalance >= 0.5 &&
+                this.derivativeType != 1
+            ) {
+                this.$dialog
+                    .confirm({
+                        message: this.$t('content'),
+                        confirmButtonText: this.$t('continue'),
+                        cancelButtonText: this.$t('cancel')
+                    })
+                    .then(() => {
+                        this.handleSubmit()
+                        // on confirm
+                    })
+                    .catch(() => {
+                        // on cancel
+                    })
+            } else {
+                this.handleSubmit()
             }
         },
         async handleSubmit() {
@@ -654,7 +679,11 @@ export default {
             orderAmount: '订单金额',
             iknow: '我知道了',
             confirm: '立即入金',
-            subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购'
+            subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购',
+            cancel: '取消',
+            continue: '继续申购',
+            content:
+                '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
         },
         zhCHT: {
             FundReturn: '拼团最低可返',
@@ -694,7 +723,11 @@ export default {
             orderAmount: '訂單金額',
             iknow: '我知道了',
             confirm: '立即存款',
-            subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購'
+            subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購',
+            cancel: '取消',
+            continue: '繼續申購',
+            content:
+                '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。'
         },
         en: {
             FundReturn: '拼团最低可返',
@@ -736,7 +769,11 @@ export default {
             iknow: 'I Get It',
             confirm: 'Deposit Now',
             subscribemsg:
-                'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit'
+                'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit',
+            cancel: 'cancel',
+            continue: 'Continue ',
+            content:
+                'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
         }
     }
 }

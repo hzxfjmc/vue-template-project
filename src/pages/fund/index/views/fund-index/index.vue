@@ -41,7 +41,7 @@
             span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
             span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
         .block__bottom--num.border-top(
-            v-if="inTransitOrder !== '0'"
+            v-if="inTransitOrder !== '0' && isLogin"
             @click="toOrderList")
             span {{inTransitOrder}}{{$t('fundmsg')}}
             em(class="iconfont icon-previewright")
@@ -110,7 +110,7 @@ import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
 import jsBridge from '@/utils/js-bridge'
-import { enablePullRefresh } from '@/utils/js-bridge.js'
+// import { enablePullRefresh } from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
 import { getSource } from '@/service/customer-relationship-server'
@@ -528,6 +528,8 @@ export default {
                 if (this.isLogin) {
                     this.getFundPositionListV3(flag)
                 } else {
+                    this.positionAmount = '0.00'
+                    this.weekEarnings = '0.00'
                     this.code = this.appType.Hk ? 2 : 1
                 }
                 this.bannerAdvertisement(flag)
@@ -541,7 +543,7 @@ export default {
         }
     },
     async mounted() {
-        enablePullRefresh(true)
+        // enablePullRefresh(true)
         this.$refs.renderEchartlist.innerHTML = ''
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
