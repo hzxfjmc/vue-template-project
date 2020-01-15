@@ -100,15 +100,15 @@
 
     .fund-footer-content.fund-footer-hk(
         v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
-        .block__list--header-hk
+        .block__list--header-hk(v-if="subscribeButtonShow")
             .block__footer-left
                p {{applyAfter}}
             .block__footer-right
                 van-button(
                     @click="handleBuyOrSell(2)"
                     :disabled="disabled") {{$t('aloneScribe')}}
-        .block__button--list-hk()
-            .block__fight--btn-hk( @click="handleBuyOrSell(4)")
+        .block__button--list-hk(v-if="subscribeButtonShow")
+            .block__fight--btn-hk( @click="handleBuyOrSell(3)")
                 .block__fight--left
                     img(:src="avatImg")
                 .block__fight--right
@@ -121,8 +121,13 @@
                                 :time="time"
                                 format="DD天 HH:mm:ss")
                         p )
-                    .block__fight--bottom {{subscribeButton}}
-    
+                    .block__fight--bottom {{subscribeButtonHk}}
+        .block__button--list-hk(v-if="!subscribeButtonShow")
+            .block__buy-hk
+                van-button(
+                    @click="handleBuyOrSell(2)"
+                    :disabled="disabled") {{$t('Subscribenow')}}
+
 
            
     
@@ -192,7 +197,8 @@ export default {
             },
             msg:
                 '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
-            describe3: '拼团成功，团队规模3人，尊享70%申购费返还'
+            describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
+            Subscribenow: '立即认购'
         },
         zhCHT: {
             aloneScribe: '獨自認購',
@@ -221,7 +227,8 @@ export default {
             },
             msg:
                 '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎',
-            describe3: '3人「同行」成功，尊享70%申購費折扣'
+            describe3: '3人「同行」成功，尊享70%申購費折扣',
+            Subscribenow: '立即認購'
         },
         en: {
             aloneScribe: 'Subscribe',
@@ -252,7 +259,8 @@ export default {
             msg:
                 'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.',
             describe3:
-                'You entitled Group Discount, you will get Y% discount on subscription fee.'
+                'You entitled Group Discount, you will get Y% discount on subscription fee.',
+            Subscribenow: 'Subscribe now'
         }
     },
     keepalive: true,
@@ -363,6 +371,8 @@ export default {
             group_id: null,
             discount: null,
             subscribeButton: null,
+            subscribeButtonHk: null,
+            subscribeButtonShow: false,
             applyAfter: null,
             differenceNumer: 5,
             avatImg: require('@/assets/img/fund/share/avat.png'),
@@ -576,6 +586,7 @@ export default {
                     this.figthComeShow = false
                 }
                 this.actionInfo = res.action
+
                 if (res.action && res.action.rule_detail) {
                     res.action.rule_detail = JSON.parse(res.action.rule_detail)
                     this.differenceNumer =
@@ -611,7 +622,17 @@ export default {
                                 this.discount}% discounton subscription fee.`
                         ])
                     }
-
+                    if (this.orderList.length > 0) {
+                        this.subscribeButtonShow = true
+                        this.subscribeButtonHk = this.$t([
+                            `最多可享${100 - this.discount}%认购费折扣`,
+                            `最多可享${100 - this.discount}%認購費折扣`,
+                            `Up to ${100 -
+                                this.discount}% discount on subs. fee`
+                        ])
+                    } else {
+                        this.subscribeButtonShow = false
+                    }
                     this.applyAfter = this.$t([
                         `认购后，好友参与[同行优惠]，最多可省${100 -
                             this.discount}%的认购费`,
@@ -897,6 +918,7 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
+            console.log(this.group_id)
             clickFundDetails(
                 'fund_detail',
                 '申购',
@@ -1087,6 +1109,21 @@ export default {
                 color: #fff;
                 height: 100% !important;
             }
+        }
+    }
+    .block__buy-hk {
+        width: 100%;
+        line-height: 50px;
+        .van-button {
+            width: 100% !important;
+            background: linear-gradient(
+                153deg,
+                rgba(14, 192, 241, 1) 0%,
+                rgba(83, 90, 240, 1) 100%
+            );
+            font-size: 10px;
+            color: #fff;
+            height: 100% !important;
         }
     }
     .block__fight--btn-hk {

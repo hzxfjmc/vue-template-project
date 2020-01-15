@@ -35,7 +35,8 @@
                         :disabled="item.actionInfo.action.rule_detail.most_user === item.actionInfo.group.order_count" 
                         @click="handlerShareBtn(item)") 邀请拼团
             .block__footer-hk(v-if="item.actionInfo && code != 1")
-                .block__footer--left {{item.discribe}}
+                .block__footer--left 
+                    p {{item.discribe}}
                 .block__footer--right
                     van-button(
                         class="btn"
@@ -530,7 +531,12 @@ export default {
             line-height: 40px;
             .block__footer--left {
                 color: #191919;
+                display: flex;
+                align-items: center;
                 width: 70%;
+                p {
+                    line-height: 20px;
+                }
             }
             .block__footer--right {
                 // height: 36px;
@@ -552,10 +558,11 @@ export default {
             height: 60px;
             border-radius: 4px;
             align-items: center;
-            line-height: 40px;
+            // line-height: 40px;
             .block__footer--left {
                 color: #ff7127;
                 width: 70%;
+                margin: 0 4px 0 0;
             }
             .block__footer--right {
                 // height: 36px;

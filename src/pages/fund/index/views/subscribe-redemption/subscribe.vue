@@ -27,8 +27,8 @@
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value|transNumToThousandMark(2)}}%)
-                                span.msg(v-if="discountShow") {{descrbeDiscount}}
-                                span.msg(v-if="discountShow") {{descrbeDiscount}}4324
+                                span.msg(v-if="discountShow && code == 1") {{descrbeDiscount}}
+                                span.msg(v-if="discountShow && code == 2") {{descrbeDiscountHk}}
                             .right-item-other(v-else-if="index === 'withdrawBalance'")
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
@@ -94,6 +94,7 @@ import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
+import { getSource } from '@/service/customer-relationship-server'
 import {
     createGroupOrder,
     // getGroupOrders,
@@ -132,6 +133,7 @@ export default {
             shareTitle: '',
             isin: '',
             currency: {},
+            code: null,
             purchaseAmount: null,
             withdrawBalance: 0,
             subscriptionFee: null,
@@ -189,6 +191,7 @@ export default {
         if (LS.get('groupId') != undefined) {
             this.groupId = LS.get('groupId')
         }
+        this.getSource()
         this.getFundUserInfo()
         this.getGroupOrders()
         this.getFundPositionV2Fun()
@@ -212,6 +215,18 @@ export default {
         }
     },
     methods: {
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+                if (!this.isLogin) {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         //查询拼团订单
         async getGroupOrders() {
             try {
@@ -237,6 +252,11 @@ export default {
                     `拼团最高可返${100 - this.discount}%`,
                     `「同行優惠」最高可以費用${100 - this.discount}%折扣`,
                     `Up to ${100 - this.discount}% discount on subscription fee`
+                ])
+                this.descrbeDiscountHk = this.$t([
+                    `最多可享${100 - this.discount}%认购费折扣`,
+                    `最多可享${100 - this.discount}%認購費折扣`,
+                    `Up to ${100 - this.discount}% discount on subs. fee`
                 ])
                 if (!this.groupId) return
                 // let grdersData = await getGroupOrders({
