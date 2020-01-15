@@ -27,7 +27,7 @@
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value|transNumToThousandMark(2)}}%)
-                                span.msg(v-if="discountShow") 拼团最高可返{{100-discount}}%
+                                span.msg(v-if="discountShow") {{descrbeDiscount}}
                             .right-item-other(v-else-if="index === 'withdrawBalance'")
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
@@ -134,6 +134,7 @@ export default {
             purchaseAmount: null,
             withdrawBalance: 0,
             subscriptionFee: null,
+            descrbeDiscount: '',
             initialInvestAmount: 0, // 起投金额
             continueInvestAmount: 0, // 续投金额
             buyProtocolFileName: '',
@@ -230,6 +231,11 @@ export default {
                         JSON.parse(data.action.rule_detail).rule_list.length - 1
                     ].discount
                 }
+                this.descrbeDiscount = this.$t([
+                    `拼团最高可返${100 - this.discount}%`,
+                    `「同行優惠」最高可以費用${100 - this.discount}%折扣`,
+                    `Up to ${100 - this.discount}% discount on subscription fee`
+                ])
                 if (!this.groupId) return
                 let grdersData = await getGroupOrders({
                     group_id: +this.groupId
