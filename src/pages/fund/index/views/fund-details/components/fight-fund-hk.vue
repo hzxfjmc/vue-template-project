@@ -94,7 +94,7 @@ export default {
                 "You will fail to get the Group Discount if you do not gather enough people, but it doesn't affect funds subscription.",
             describe1:
                 'If you meet the Group Discount requirements, group leader can get subs. fee 90% off, other members can enjoy 80% discount on subs. fee. ',
-            describe2: 'ppl subscribing now'
+            describe2: ' ppl subscribing now'
         }
     },
     components: {

@@ -119,7 +119,7 @@
                             CountDown( 
                                 millisecond
                                 :time="time"
-                                format="DD天 HH:mm:ss")
+                                :format="$t('format')")
                         p )
                     .block__fight--bottom {{subscribeButtonHk}}
         .block__button--list-hk(v-if="!subscribeButtonShow")
@@ -172,6 +172,7 @@ import { CountDown } from 'vant-fork'
 export default {
     i18n: {
         zhCHS: {
+            format: 'DD天 HH:mm:ss',
             aloneScribe: '独自认购',
             togetherScribe: '[同行认购]',
             Surplus: '剩余',
@@ -202,6 +203,7 @@ export default {
             Subscribenow: '立即认购'
         },
         zhCHT: {
+            format: 'DD天 HH:mm:ss',
             aloneScribe: '獨自認購',
             togetherScribe: '「同行」認購',
             Surplus: '剩餘',
@@ -232,9 +234,10 @@ export default {
             Subscribenow: '立即認購'
         },
         en: {
+            format: 'DDD HH:mm:ss',
             aloneScribe: 'Subscribe',
             togetherScribe: 'Subs. with Group Discount',
-            Surplus: 'Remaining',
+            Surplus: '',
             describe:
                 'X people needed to get the 50% discounton subscription fee.',
             buy: 'Subscribe',
