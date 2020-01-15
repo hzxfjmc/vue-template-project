@@ -623,7 +623,7 @@ export default {
                                 this.discount}% discounton subscription fee.`
                         ])
                     }
-                    if (this.orderList.length > 0) {
+                    if (this.orderList.length > 0 && !res.has_joined) {
                         this.subscribeButtonShow = true
                         this.subscribeButtonHk = this.$t([
                             `最多可享${100 - this.discount}%认购费折扣`,
