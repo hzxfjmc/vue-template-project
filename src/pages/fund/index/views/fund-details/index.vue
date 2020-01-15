@@ -125,6 +125,7 @@
         .block__button--list-hk(v-if="!subscribeButtonShow")
             .block__buy-hk
                 van-button(
+                    class="btn"
                     @click="handleBuyOrSell(2)"
                     :disabled="disabled") {{$t('Subscribenow')}}
 
@@ -1113,7 +1114,7 @@ export default {
     }
     .block__buy-hk {
         width: 100%;
-        line-height: 50px;
+        line-height: 48px;
         .van-button {
             width: 100% !important;
             background: linear-gradient(
@@ -1124,6 +1125,10 @@ export default {
             font-size: 10px;
             color: #fff;
             height: 100% !important;
+        }
+        .btn {
+            font-size: 16px;
+            line-height: 48px;
         }
     }
     .block__fight--btn-hk {
