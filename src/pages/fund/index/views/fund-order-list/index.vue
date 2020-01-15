@@ -225,12 +225,14 @@ export default {
 
         async handleShare(_index) {
             // webViewClick('Invitefriend', 'shareurl', '分享链接')
-            let shareTypeMap = [
-                'wechat_friend',
-                'wechat_friends_circle',
-                'qq',
-                'weibo'
-            ]
+            let shareTypeMap = appType.Hk
+                ? [
+                      'whatsapp',
+                      'wechat_friends_circle',
+                      'wechat_friend',
+                      'twitter'
+                  ]
+                : ['wechat_friend', 'wechat_friends_circle', 'qq', 'weibo']
 
             let shareType = shareTypeMap[_index]
             try {
