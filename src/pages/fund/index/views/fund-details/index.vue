@@ -525,11 +525,12 @@ export default {
                 })
 
                 this.orderList = res.order_list || []
-
                 this.orderList.map(item => {
                     if (item.user_info.is_invite_user) {
                         this.group_id = item.group_order.group_id
-                        this.avatImg = item.user_info.head_img
+                        this.avatImg =
+                            item.user_info.head_img ||
+                            require('@/assets/img/fund/share/avat.png')
                     }
                 })
                 if (res !== null && res.action.status === 3) {
