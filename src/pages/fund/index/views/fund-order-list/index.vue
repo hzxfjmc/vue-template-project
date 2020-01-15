@@ -27,14 +27,14 @@
                     template(v-else)
                         span.element-price {{item.orderShare |sliceFixedTwo(4)}}
                     span.element-time {{item.orderTime}}
-            .block__footer(v-if="item.actionInfo && code != 1")
+            .block__footer(v-if="item.actionInfo && code != 2")
                 .block__footer--left {{item.discribe}}
                 .block__footer--right
                     van-button(
                         class="btn" 
                         :disabled="item.actionInfo.action.rule_detail.most_user === item.countNumber" 
                         @click="handlerShareBtn(item)") 邀请拼团
-            .block__footer-hk(v-if="item.actionInfo && code != 2")
+            .block__footer-hk(v-if="item.actionInfo && code != 1")
                 .block__footer--left {{item.discribe}}
                 .block__footer--right
                     van-button(
