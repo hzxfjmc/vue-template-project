@@ -349,7 +349,7 @@ export default {
                                     if (
                                         orderItem.actionInfo.action.rule_detail
                                             .most_user -
-                                            orderItem.countNumber ===
+                                            item.group.order_count ===
                                         0
                                     ) {
                                         orderItem.discribe = this.$t([

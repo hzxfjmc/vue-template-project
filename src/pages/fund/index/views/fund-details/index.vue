@@ -842,7 +842,6 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
-            console.log(this.$route.query.group_id || this.group_id)
             clickFundDetails(
                 'fund_detail',
                 '申购',
