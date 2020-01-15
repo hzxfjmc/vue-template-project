@@ -359,15 +359,17 @@ export default {
                                             `已成团，还可以邀请${orderItem
                                                 .actionInfo.action.rule_detail
                                                 .most_user -
-                                                orderItem.countNumber}人`,
+                                                item.group.order_count}人`,
                                             `「同行優惠」已達成目標，還可以再多${orderItem
                                                 .actionInfo.action.rule_detail
                                                 .most_user -
-                                                orderItem.countNumber}人一同參與`,
+                                                item.group
+                                                    .order_count}人一同參與`,
                                             `You have entitled Group Discount, you can have ${orderItem
                                                 .actionInfo.action.rule_detail
                                                 .most_user -
-                                                orderItem.countNumber} more people to join your group.`
+                                                item.group
+                                                    .order_count} more people to join your group.`
                                         ])
                                     }
                                 }
