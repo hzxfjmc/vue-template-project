@@ -1007,13 +1007,13 @@ export default {
         this.getFundRecommendList()
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
-        await this.getGroupAction()
-        this.getAdGroupOrders()
         // this.getGroupOrder()
         if (this.isLogin) {
             await this.getFundUserInfo()
-            this.addGroupFollow()
+            await this.addGroupFollow()
         }
+        await this.getGroupAction()
+        this.getAdGroupOrders()
         this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
