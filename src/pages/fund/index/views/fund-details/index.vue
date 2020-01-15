@@ -516,6 +516,7 @@ export default {
                 if (res.order_list.length > 0 && !res.has_joined) {
                     this.figthBtnShow = true
                     this.figthComeShow = true
+                    // alert(1)
                 }
                 if (res.order_list.length < 1) {
                     this.shareHeaderShow = false
@@ -565,13 +566,6 @@ export default {
                             } people needed to get the ${100 -
                                 this.discount}% discounton subscription fee.`
                         ])
-                    } else {
-                        this.subscribeButton = this.$t([
-                            `同行认购成功，团队已满员`,
-                            `同行認購成功，團隊已滿`,
-                            `Your group is full, you have got the Group Discount offer.`
-                        ])
-                        this.figthComeShow = false
                     }
 
                     this.applyAfter = this.$t([
