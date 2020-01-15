@@ -513,11 +513,7 @@ export default {
                     this.fightShow = false
                 }
 
-                if (
-                    res.order_list.length > 0 &&
-                    !res.has_joined &&
-                    this.$route.query.from != 'appOutside'
-                ) {
+                if (res.order_list.length > 0 && !res.has_joined) {
                     this.figthBtnShow = true
                     this.figthComeShow = true
                 }

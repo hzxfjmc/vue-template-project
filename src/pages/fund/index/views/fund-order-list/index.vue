@@ -180,7 +180,7 @@ export default {
                         this.shareTitle += this.$t([
                             `<p>还差 ${restNum} 人，赶快邀请好友来拼团吧</p>`,
                             `<p>還差${restNum}人，趕緊邀請好友一同參與「同行優惠」</p>`,
-                            `<p>${restNum} people needed to get the 50% discount on subscription fee.</p>`
+                            `<p>${restNum} people needed to get the ${mostRest}% discount on subscription fee.</p>`
                         ])
                     } else {
                         this.shareTitle += this.$t([
