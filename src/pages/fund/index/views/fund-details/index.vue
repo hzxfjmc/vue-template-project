@@ -21,13 +21,13 @@
             :initState="holdInitState")
 
         FightFundHk(
-            v-if="!fightShow && code ==1"
+            v-if="!fightShow && code ==2"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
         FightFund(
-            v-if="!fightShow && code == 2"
+            v-if="!fightShow && code == 1"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
