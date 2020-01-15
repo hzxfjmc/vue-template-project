@@ -309,10 +309,7 @@ export default {
                                         item.action.rule_detail
                                     )
                                     item.action.discountNum =
-                                        item.action.rule_detail.rule_list[
-                                            item.action.rule_detail.rule_list
-                                                .length - 1
-                                        ].discount
+                                        item.action.rule_detail.rule_list[0].discount
                                 }
                             } catch (e) {
                                 console.log(e)
@@ -331,17 +328,17 @@ export default {
                                     orderItem.discribe = this.$t([
                                         `再邀请${
                                             orderItem.countNumber
-                                        }%人可享受${100 -
+                                        }人可享受${100 -
                                             orderItem.actionInfo.action
-                                                .discountNum}申购费返还`,
+                                                .discountNum}%申购费返还`,
                                         `再多${
                                             orderItem.countNumber
-                                        }%人參與「同行優惠」可享申購費${100 -
+                                        }人參與「同行優惠」可享申購費${100 -
                                             orderItem.actionInfo.action
-                                                .discountNum}`,
+                                                .discountNum}%`,
                                         `${
                                             orderItem.countNumber
-                                        }% people needed to get the ${100 -
+                                        } people needed to get the ${100 -
                                             orderItem.actionInfo.action
                                                 .discountNum}% discount on subscription fee.`
                                     ])
