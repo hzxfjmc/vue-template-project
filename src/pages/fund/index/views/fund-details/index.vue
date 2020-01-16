@@ -751,8 +751,13 @@ export default {
                     .reverse()
                     .join('')[5]
                 if (!isWhiteUserBit) {
-                    this.isGroup = true
+                    this.fightShow = true
                     return
+                } else {
+                    await this.addGroupFollow()
+                    await this.getGroupAction()
+                    this.getGroupOrder()
+                    this.getAdGroupOrders()
                 }
             } catch (e) {
                 this.$toast(e.msg)
@@ -1062,13 +1067,11 @@ export default {
         this.getFundRecommendList()
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
-        this.getGroupOrder()
+
         if (this.isLogin) {
             await this.getFundUserInfo()
-            await this.addGroupFollow()
         }
-        await this.getGroupAction()
-        this.getAdGroupOrders()
+
         this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
