@@ -341,8 +341,12 @@ export default {
 
                 let at = appType.Hk ? 2 : 1
                 let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${window.location.href}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
+                })
+                let shortPageUrl = await getShortUrl({
+                    long: encodeURIComponent(pageUrl)
                 })
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
@@ -356,7 +360,7 @@ export default {
                         '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
                         'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                     ]),
-                    pageUrl: unescape(link),
+                    pageUrl: unescape(shortPageUrl),
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
                 })

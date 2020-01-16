@@ -244,15 +244,19 @@ export default {
 
                 let at = appType.Hk ? 2 : 1
                 let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${window.location.href}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
+                })
+                let shortPageUrl = await getShortUrl({
+                    long: encodeURIComponent(pageUrl)
                 })
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
                     title: `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
                     description:
                         '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
-                    pageUrl: unescape(link),
+                    pageUrl: unescape(shortPageUrl),
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
                 })
