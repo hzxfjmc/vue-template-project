@@ -91,3 +91,8 @@ export default {
         return axios.getForm(`/user-server/${device}/get-current-user/v1`)
     }
 }
+
+// 基金获取用户信息
+export function getFundUserInfo() {
+    return axios.getForm(`/user-server/api/get-current-user/v1/for-found`)
+}

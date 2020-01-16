@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { fundRiskAutograph, getCurrentUser } from '@/service/user-server.js'
+import { fundRiskAutograph, getFundUserInfo } from '@/service/user-server.js'
 import { i18nOpenPermissions } from './open-permissions-i18n.js'
 import LS from '@/utils/local-storage.js'
 import { queryMessageDetail } from '@/service/news-helpcenter.js'
@@ -60,7 +60,7 @@ export default {
         }
     },
     async created() {
-        this.getCurrentUser()
+        this.getFundUserInfo()
         if (this.$route.query.fondCode) {
             this.fundCode = this.$route.query.fondCode
         }
@@ -103,15 +103,15 @@ export default {
             }
         },
         //获取用户信息
-        async getCurrentUser() {
+        async getFundUserInfo() {
             try {
-                const res = await getCurrentUser()
+                const res = await getFundUserInfo()
                 this.userInfo = res
                 this.resultIndex = res.assessResult
                 this.firstName = res.firstName
                 this.lastName = res.lastName
             } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
+                console.log('getFundUserInfo:error:>>>', e)
             }
         }
     }

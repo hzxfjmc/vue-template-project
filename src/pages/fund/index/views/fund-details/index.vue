@@ -3,6 +3,8 @@
     .fund-content(slot="main" ref="content")
         fundDetailsHeader(
             :price="price"
+            :tagShow="tagShow"
+            :tagsShow="tagsShow"
             :fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
@@ -17,11 +19,27 @@
         HoldfundDetails(
             v-if="holdDetailsShow"
             :initState="holdInitState")
-        .block__fundheader--tips(@click="toRouterGenerator('/order-record')")
+
+        FightFundHk(
+            v-if="!fightShow && code ==2"
+            :userList="userList"
+            :swipeShow="swipeShow"
+            :actionInfo = "actionInfo") 
+
+        FightFund(
+            v-if="!fightShow && code == 1"
+            :userList="userList"
+            :swipeShow="swipeShow"
+            :actionInfo = "actionInfo")   
+
+        .block__fundheader--tips(
+            v-if="isLogin"
+            @click="toRouterGenerator('/order-record')")
             em.iconfont.icon-iconEBshoucang
             span.title {{$t('trade')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
+       
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -33,19 +51,87 @@
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
 
+        
+        
         .fund___list--p
             p {{$t('msg')}}
     .fund-footer-content(v-if="btnShow && isGrayAuthority")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
-
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag")
+    
+    
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow")
         van-button(
             class="fund-footer btn button-width"
-            @click="handleBuyOrSell" 
+            @click="handleBuyOrSell(1)" 
             :disabled="disabled") {{$t('buy')}}
-    
-   
+
+    .fund-footer-content(
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
+        .block__list--header(v-if="shareHeaderShow")
+            .block__footer-avat
+                img(:src="avatImg") 
+            .block__footer--content
+                span 剩余
+                .vant-count-down
+                    CountDown( 
+                        millisecond
+                        :time="time"
+                        format="DD天 HH:mm:ss")
+                span {{contentmsg}}
+            .block__footer-right(v-if="figthComeShow")
+                van-button(
+                    @click="handleBuyOrSell(3)"
+                    :disabled="disabled || differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
+        .block__button--list(v-if="figthBtnShow")
+            van-button(
+                class="fund-footer btn button-width1"
+                @click="handleBuyOrSell(1)" 
+                :disabled="disabled") {{$t('buy')}}
+            .block__fight--btn.btn(
+                :class="[disabled?'fund-footer2':'fund-footer1']" 
+                @click="handleBuyOrSell(2)")
+                span 发起拼团申购
+                em 申购费最高可返{{100-discount}}%
+        .block__button--list(v-if="!figthBtnShow")
+            .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
+                span 参与拼团申购
+                em 申购费最高可返{{100-discount}}%
+
+    .fund-footer-content.fund-footer-hk(
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
+        .block__list--header-hk(v-if="subscribeButtonShow")
+            .block__footer-left
+               p {{applyAfter}}
+            .block__footer-right
+                van-button(
+                    class="van-button"
+                    @click="handleBuyOrSell(2)"
+                    :disabled="disabled") {{$t('aloneScribe')}}
+        .block__button--list-hk(v-if="subscribeButtonShow")
+            .block__fight--btn-hk( @click="handleBuyOrSell(3)")
+                .block__fight--left
+                    img(:src="avatImg")
+                .block__fight--right
+                    .block__fight--top
+                        p  {{$t('togetherScribe')}}
+                        p ({{$t('Surplus')}}
+                        .vant-count-down
+                            CountDown( 
+                                millisecond
+                                :time="time"
+                                :format="$t('format')")
+                        p )
+                    .block__fight--bottom {{subscribeButtonHk}}
+        .block__button--list-hk(v-if="!subscribeButtonShow")
+            .block__buy-hk
+                van-button(
+                    class="btn"
+                    @click="handleBuyOrSell(2)"
+                    :disabled="disabled") {{$t('Subscribenow')}}
+
+
+           
     
 </template>
 <script>
@@ -53,6 +139,8 @@ import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
 import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
+import FightFund from './components/fight-fund.vue'
+import FightFundHk from './components/fight-fund-hk.vue'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
@@ -64,18 +152,32 @@ import {
     getFundNetPriceHistoryV1,
     getFundRecommendList
 } from '@/service/finance-info-server.js'
+import {
+    getGroupAction,
+    getGroupOrder,
+    getAdGroupOrders,
+    addGroupFollow
+} from '@/service/zt-group-apiserver.js'
+import { getSource } from '@/service/customer-relationship-server'
+import LS from '@/utils/local-storage'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
-import { getCurrentUser } from '@/service/user-server.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 // import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
+import { CountDown } from 'vant-fork'
 export default {
     i18n: {
         zhCHS: {
+            format: 'DD天 HH:mm:ss',
+            aloneScribe: '独自认购',
+            togetherScribe: '[同行认购]',
+            Surplus: '剩余',
+            describe: '还差5人,申购费最高可返50%',
             buy: '申购',
             redeem: '赎回',
             risk: '风险提示',
@@ -97,9 +199,16 @@ export default {
                 all: '成立来'
             },
             msg:
-                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎'
+                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
+            describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
+            Subscribenow: '立即认购'
         },
         zhCHT: {
+            format: 'DD天 HH:mm:ss',
+            aloneScribe: '獨自認購',
+            togetherScribe: '「同行」認購',
+            Surplus: '剩餘',
+            describe: '還差5人，最高可享申購費50%折扣',
             buy: '申購',
             redeem: '贖回',
             risk: '風險提示',
@@ -121,9 +230,17 @@ export default {
                 all: '成立来'
             },
             msg:
-                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
+                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎',
+            describe3: '3人「同行」成功，尊享70%申購費折扣',
+            Subscribenow: '立即認購'
         },
         en: {
+            format: 'DDD HH:mm:ss',
+            aloneScribe: 'Subscribe',
+            togetherScribe: 'Susb. with Group',
+            Surplus: '',
+            describe:
+                'X people needed to get the 50% discounton subscription fee.',
             buy: 'Subscribe',
             redeem: 'Redemption',
             risk: 'Risk Disclosure',
@@ -145,7 +262,10 @@ export default {
                 all: 'ALL'
             },
             msg:
-                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.'
+                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.',
+            describe3:
+                'You entitled Group Discount, you will get Y% discount on subscription fee.',
+            Subscribenow: 'Subscribe now'
         }
     },
     keepalive: true,
@@ -155,19 +275,25 @@ export default {
         HoldfundDetails,
         fundDetailsList,
         Button,
-        fundSurvey,
         Dialog,
+        FightFund,
+        CountDown,
+        fundSurvey,
         fundCardList,
-        fundTradingRules
+        fundTradingRules,
+        FightFundHk
     },
     computed: {
-        ...mapGetters(['isLogin', 'openedAccount']),
+        ...mapGetters(['isLogin', 'appType', 'openedAccount']),
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
         },
         disabled() {
             // 接口返回数据后才允许点击
+            if (!this.isLogin) {
+                return false
+            }
             if (
                 !this.userInfo.grayStatusBit ||
                 !this.fundOverviewInfoVO.tradeAuth
@@ -193,6 +319,17 @@ export default {
     },
     data() {
         return {
+            swipeShow: false,
+            shareHeaderShow: true,
+            figthComeShow: false,
+            figthBtnShow: true,
+            fightShow: true,
+            contentmsg: '',
+            time: 30 * 60 * 60 * 1000,
+            code: '',
+            has_joined: true,
+            tagsShow: false,
+            tagShow: false,
             tabObj: {
                 label: '',
                 value: ''
@@ -232,6 +369,18 @@ export default {
             price: '',
             step: 0,
             forbidPrompt: '',
+            actionInfo: {},
+            orderList: [],
+            actionId: '',
+            userList: [],
+            group_id: null,
+            discount: null,
+            subscribeButton: null,
+            subscribeButtonHk: null,
+            subscribeButtonShow: false,
+            applyAfter: null,
+            differenceNumer: 5,
+            avatImg: require('@/assets/img/fund/share/avat.png'),
             timeList: {
                 oneWeek: {
                     label: '近一周',
@@ -295,6 +444,231 @@ export default {
         }
     },
     methods: {
+        async addGroupFollow() {
+            try {
+                if (this.$route.query.group_id && this.$route.query.order_id) {
+                    await addGroupFollow({
+                        group_id: +this.$route.query.group_id,
+                        invite_order_id: this.$route.query.order_id
+                    })
+                }
+            } catch (e) {
+                console.log('addGroupFollowError: ', e)
+            }
+        },
+        //获取拼团广告订单
+        async getAdGroupOrders() {
+            try {
+                const { order_list } = await getAdGroupOrders({
+                    limit: 10,
+                    action_id: this.actionId
+                })
+                if (order_list.length > 0) {
+                    this.swipeShow = true
+                }
+                let tempArr = []
+                order_list.forEach((e, i) => {
+                    tempArr.push({
+                        headImg:
+                            e.user_info.head_img ||
+                            require('@/assets/img/fund/share/avat.png'),
+                        nickName: e.user_info.nick_name,
+                        order_count: e.group.order_count,
+                        discribe: this.$t([
+                            `拼团成功，团队规模${
+                                e.group.order_count
+                            }人，尊享${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}%申购费返还`,
+                            `${e.group.order_count}人「同行」成功，尊享${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}%申購費折扣`,
+                            `You entitled Group Discount, you will get ${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}% discount on subscription fee.`
+                        ]),
+                        discribeHk: this.$t([
+                            `${e.group.order_count}人同行成功，尊享申購費${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}%折扣 `,
+                            `${e.group.order_count}人同行成功，尊享申購費${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}%折扣 `,
+                            `Groups with ${e.group.order_count} ppl, ${100 -
+                                JSON.parse(e.action.rule_detail).rule_list[
+                                    JSON.parse(e.action.rule_detail).rule_list
+                                        .length - 1
+                                ].discount}% discount on subs. fee`
+                        ]),
+                        rule_detail: JSON.parse(e.action.rule_detail).rule_list[
+                            JSON.parse(e.action.rule_detail).rule_list.length -
+                                1
+                        ].discount
+                    })
+                    if (
+                        tempArr.length === 2 ||
+                        i === (order_list || []).length - 1
+                    ) {
+                        this.userList.push(tempArr)
+                        tempArr = []
+                    }
+                })
+            } catch (e) {
+                console.log('getGroupOrder:error:>>>', e)
+            }
+        },
+        //查询团购单的订单
+        async getGroupOrder() {
+            try {
+                if (!this.$route.query.group_id) return
+                const { order_list } = await getGroupOrder({
+                    group_id: this.$route.query.group_id
+                })
+                this.orderList = order_list || []
+
+                this.orderList.map(item => {
+                    if (item.user_info.is_invite_user) {
+                        this.avatImg = item.head_img
+                    }
+                })
+            } catch (e) {
+                console.log('getGroupOrder:error:>>>', e)
+            }
+        },
+        //查询业务团购活动
+        async getGroupAction() {
+            try {
+                const res = await getGroupAction({
+                    biz_id: this.id,
+                    biz_type: 0,
+                    action_status: 2,
+                    group_id: this.$route.query.group_id
+                })
+
+                this.orderList = res.order_list || []
+                this.orderList.map(item => {
+                    if (item.user_info.is_invite_user) {
+                        this.group_id = item.group_order.group_id
+                        this.avatImg =
+                            item.user_info.head_img ||
+                            require('@/assets/img/fund/share/avat.png')
+                    }
+                })
+                if (res !== null && res.action.status === 3) {
+                    this.fightShow = false
+                }
+
+                if (res.order_list.length > 0 && !res.has_joined) {
+                    this.figthBtnShow = true
+                    this.figthComeShow = true
+                }
+                if (
+                    res.order_list.length < 1 &&
+                    this.$route.query.from != 'appOutside'
+                ) {
+                    this.shareHeaderShow = false
+                }
+                if (
+                    this.$route.query.from === 'appOutside' &&
+                    !res.has_joined
+                ) {
+                    this.figthBtnShow = false
+                    this.figthComeShow = false
+                }
+                if (this.$route.query.from === 'appOutside' && res.has_joined) {
+                    this.figthBtnShow = true
+                    this.figthComeShow = false
+                }
+                this.actionInfo = res.action
+
+                if (res.action && res.action.rule_detail) {
+                    res.action.rule_detail = JSON.parse(res.action.rule_detail)
+                    this.differenceNumer =
+                        this.actionInfo.rule_detail.rule_list[0]
+                            .start_user_count - this.orderList.length
+                    //已满足团但是没满足团设置最大人数
+                    if (this.differenceNumer < 1) {
+                        this.differenceNumer =
+                            this.actionInfo.rule_detail.most_user -
+                            this.orderList.length
+                        if (this.differenceNumer >= 1) {
+                            this.contentmsg = `已${this.orderList.length}人成团`
+                        }
+                    } else {
+                        this.contentmsg = `差${this.differenceNumer}人成团`
+                    }
+                    this.discount =
+                        res.action.rule_detail.rule_list[
+                            res.action.rule_detail.rule_list.length - 1
+                        ].discount
+
+                    //未满足团
+                    if (this.differenceNumer > 1) {
+                        this.subscribeButton = this.$t([
+                            `还差${this.differenceNumer}人,申购费最高可返${100 -
+                                this.discount}%`,
+                            `還差${
+                                this.differenceNumer
+                            }人，最高可享申購費${100 - this.discount}%折扣`,
+                            `${
+                                this.differenceNumer
+                            } people needed to get the ${100 -
+                                this.discount}% discounton subscription fee.`
+                        ])
+                    }
+                    if (this.orderList.length > 0 && !res.has_joined) {
+                        this.subscribeButtonShow = true
+                        this.subscribeButtonHk = this.$t([
+                            `最多可享${100 - this.discount}%认购费折扣`,
+                            `最多可享${100 - this.discount}%認購費折扣`,
+                            `Up to ${100 -
+                                this.discount}% discount on subs. fee`
+                        ])
+                    } else {
+                        this.subscribeButtonShow = false
+                    }
+                    this.applyAfter = this.$t([
+                        `认购后，好友参与[同行优惠]，最多可省${100 -
+                            this.discount}%的认购费`,
+                        `認購後，好友參與「同行優惠」，最享${100 -
+                            this.discount}%認購費折扣`,
+                        `Share with friends, up to ${100 -
+                            this.discount}% discount on subs. fee `
+                    ])
+                    this.actionInfo.describeDiscount = this.$t([
+                        `拼团成功，根据团队规模最高可返${100 -
+                            this.discount}%申购费`,
+                        `「同行」成功，根據團隊規模最高可享申購費${100 -
+                            this.discount}%折扣`,
+                        `You entitled Group Discount,Up to ${100 -
+                            this
+                                .discount}% discount on handling fee if you meet the Group Discount requirement.`
+                    ])
+                    this.actionInfo.describeDiscountHk = this.$t([
+                        `成功后发起人可享认购费90%折扣，其他成员可享认购费80%折扣`,
+                        `成功後發起人可享認購費${100 -
+                            this.discount}%折扣，其他成員可享認購費80%折扣`,
+                        `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -
+                            this
+                                .discount}% off, other members can enjoy 80% discount on subs. fee `
+                    ])
+                }
+                this.time = (res.action.action_end_time - res.unix_time) * 1000
+                this.actionId = res.action.action_id
+            } catch (e) {
+                console.log('getGroupAction:error:>>>', e)
+            }
+        },
         sliceDeci(s, l) {
             let deci = s.split('.')[1].slice(0, l)
             return s.split('.')[0] + '.' + deci
@@ -366,14 +740,28 @@ export default {
             }
         },
         //获取用户信息
-        async getCurrentUser() {
+        async getFundUserInfo() {
             try {
-                const res = await getCurrentUser()
-                console.log(res)
+                const res = await getFundUserInfo()
                 this.userInfo = res
+                //白名单
+                let isWhiteUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[5]
+                if (!isWhiteUserBit) {
+                    this.fightShow = true
+                    return
+                } else {
+                    await this.addGroupFollow()
+                    await this.getGroupAction()
+                    this.getGroupOrder()
+                    this.getAdGroupOrders()
+                }
             } catch (e) {
                 this.$toast(e.msg)
-                console.log('getCurrentUser:error:>>>', e)
+                console.log('getFundUserInfo:error:>>>', e)
             }
         },
         //跳转
@@ -401,10 +789,10 @@ export default {
                     isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
-                // this.fundHeaderInfoVO.dividendType =
-                //     res.fundTradeInfoVO.dividendType.name
                 this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
+                this.fundHeaderInfoVO.derivativeType =
+                    res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
                 let flag = this.fundHeaderInfoVO.apy < 0
                 this.fundHeaderInfoVO.apy =
@@ -452,6 +840,9 @@ export default {
                 //申购按钮是否置灰
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                //合规信息
+                this.tagShow = this.fundHeaderInfoVO.derivativeType !== 1
+                this.tagsShow = this.fundHeaderInfoVO.derivativeType !== 3
                 browseFundDetails(
                     'fund_detail',
                     res.fundHeaderInfoVO.fundId,
@@ -539,7 +930,8 @@ export default {
             }
         },
         //用户是否能申购或者是否需要测评
-        async handleBuyOrSell() {
+        async handleBuyOrSell(params) {
+            console.log(this.group_id)
             clickFundDetails(
                 'fund_detail',
                 '申购',
@@ -564,6 +956,18 @@ export default {
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
+            }
+            if (params === 3) {
+                LS.put('groupId', this.$route.query.group_id || this.group_id)
+            }
+            if (params === 2) {
+                LS.put('groupId', 0)
+            }
+            if (params === 4) {
+                LS.put('groupId', this.$route.query.group_id || 0)
+            }
+            if (params === 1) {
+                LS.remove('groupId')
             }
             if (
                 !this.userInfo.assessResult ||
@@ -640,6 +1044,18 @@ export default {
                 this.$toast(e.msg)
                 console.log('getFundRecommendList:error:>>>', e)
             }
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+                if (!this.isLogin) {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     async created() {
@@ -651,9 +1067,12 @@ export default {
         this.getFundRecommendList()
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
+
         if (this.isLogin) {
-            this.getCurrentUser()
+            await this.getFundUserInfo()
         }
+
+        this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
@@ -673,6 +1092,101 @@ export default {
         font-size: 12px;
         line-height: 17px;
         color: #999999;
+    }
+}
+.fund-footer-hk {
+    .block__list--header-hk {
+        background: rgba(0, 145, 255, 0.05);
+        display: flex;
+        flex-direction: row;
+        padding: 6px 18px 0 18px;
+        height: 62px;
+        .block__footer-left {
+            width: 60%;
+            font-size: 13px;
+            padding: 5px 0 0 0;
+        }
+        .block__footer-right {
+            width: 100px;
+            height: 30px;
+            .van-button {
+                width: 100% !important;
+                border-radius: 5px !important;
+                line-height: 30px;
+                margin: 10px 0 0 40px;
+                background: #1e93f3;
+                font-size: 10px;
+                color: #fff;
+                height: 100% !important;
+            }
+        }
+    }
+    .block__buy-hk {
+        width: 100%;
+        line-height: 48px;
+        .van-button {
+            width: 100% !important;
+            background: linear-gradient(
+                153deg,
+                rgba(14, 192, 241, 1) 0%,
+                rgba(83, 90, 240, 1) 100%
+            );
+            font-size: 10px;
+            color: #fff;
+            height: 100% !important;
+        }
+        .btn {
+            font-size: 16px;
+            line-height: 48px;
+        }
+    }
+    .block__fight--btn-hk {
+        height: 65px;
+        display: flex;
+        flex-direction: row;
+        background: linear-gradient(
+            153deg,
+            rgba(14, 192, 241, 1) 0%,
+            rgba(83, 90, 240, 1) 100%
+        );
+        .block__fight--left {
+            // width: 30%;
+            img {
+                width: 40px;
+                height: 40px;
+                border-radius: 40px;
+                margin: 12px 30px 12px 12px;
+                // border: 1px solid red;
+            }
+        }
+        .block__fight--right {
+            display: flex;
+            width: 70%;
+            flex-direction: column;
+            color: #fff;
+            align-items: item;
+            .block__fight--top {
+                width: 100%;
+                display: flex;
+                margin: 10px 0 0px 0;
+                font-size: 14px;
+                justify-content: center;
+                flex-direction: row;
+                text-align: center;
+                .van-count-down {
+                    color: #fff;
+                    font-size: 16px !important;
+                    margin: 0px 3px 0 3px;
+                }
+            }
+            .block__fight--bottom {
+                width: 100%;
+                display: flex;
+                justify-content: center;
+                flex-direction: row;
+                text-align: center;
+            }
+        }
     }
 }
 .block__fundheader--tips {
@@ -724,8 +1238,17 @@ export default {
     .button-width {
         width: 100%;
     }
+    .button-width1 {
+        width: 50%;
+    }
     .fund-footer {
         background: $primary-color;
+    }
+    .fund-footer1 {
+        background: #ea3d3d;
+    }
+    .fund-footer2 {
+        background: #c7c7c7;
     }
     .btn {
         height: 50px;
@@ -736,7 +1259,40 @@ export default {
         border-radius: 0;
         border: none;
     }
-
+    .block__fight--btn {
+        width: 50%;
+        height: 48px;
+        // background: #ea3d3d;
+        display: flex;
+        flex-direction: column;
+        span {
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        em {
+            font-size: 12px;
+            line-height: 10px;
+            font-style: normal;
+        }
+    }
+    .block__fight--btn1 {
+        width: 100%;
+        height: 48px;
+        display: flex;
+        background: #ea3d3d;
+        flex-direction: column;
+        span {
+            line-height: 30px;
+            font-size: 16px;
+            font-weight: 500;
+        }
+        em {
+            font-size: 12px;
+            line-height: 10px;
+            font-style: normal;
+        }
+    }
     .fund-check,
     .fund-buy {
         width: 50%;
@@ -762,5 +1318,51 @@ export default {
 }
 .fund-footer-content {
     width: 100%;
+    .block__list--header {
+        width: 100%;
+        height: 60px;
+        padding: 0 12px;
+        background: #fef5f5;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        .block__footer--content {
+            width: 60%;
+            line-height: 22px;
+            display: flex;
+
+            flex-direction: row;
+            .van-count-down {
+                font-size: 16px;
+                margin: 0 6px;
+                font-family: yxFontDINPro-Medium;
+                color: rgba(234, 61, 61, 1);
+                line-height: 24px;
+            }
+        }
+        .block__footer-avat {
+            margin: 0 10px 0 0;
+            img {
+                width: 40px;
+                border-radius: 40px;
+                height: 40px;
+            }
+        }
+        .block__footer-right {
+            width: 100px;
+            height: 36px;
+            .van-button {
+                height: 36px !important;
+                line-height: 36px;
+                color: #fff;
+                background: #ea3d3d;
+                width: 100%;
+            }
+        }
+    }
+}
+.block__button--list {
+    display: flex;
+    flex-direction: row;
 }
 </style>

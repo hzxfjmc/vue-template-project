@@ -75,13 +75,13 @@ export default {
             total: 0
         }
     },
-    computed: {},
     watch: {
         $route(to, from) {
             if (
                 from.path === '/order-record-detail' &&
                 this.$route.query.isRefresh
             ) {
+                this.orderRecordList = []
                 this.fundOrderListFun()
             }
         }
@@ -110,9 +110,9 @@ export default {
                 let res = await fundOrderList(params)
                 const _this = this
                 this.total = res.total
-                this.orderRecordList = []
+                let arr = []
                 res.list.map(item => {
-                    this.orderRecordList.push({
+                    arr.push({
                         tradeType: item.tradeType,
                         typeValue: item.externalName,
                         moneyValue:
@@ -133,15 +133,17 @@ export default {
                         orderStatus: item.externalStatus,
                         tradeTypeName: item.tradeTypeName
                     })
-                    this.loading = false
-                    if (this.orderRecordList.length >= this.total) {
-                        this.finished = true
-                    }
                     this.assetType =
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
                     this.fundRisk = item.fundBaseInfoVO.fundRisk
                     _this.fundIntro = item.fundBaseInfoVO.fundName
                 })
+                this.orderRecordList = this.orderRecordList.concat(arr)
+                this.loading = false
+                if (this.orderRecordList.length >= this.total) {
+                    console.log(this.orderRecordList.length)
+                    this.finished = true
+                }
             } catch (e) {
                 if (e.msg) {
                     this.$alert(e.msg)
