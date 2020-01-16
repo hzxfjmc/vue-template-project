@@ -38,3 +38,49 @@ export const CURRENCY_NAME = {
         6: '日元'
     }
 }
+
+// 基金类型枚举
+export const FUND_ASSET_TYPE = {
+    Equity: {
+        label_Cn: '股票型',
+        label_Hk: '股票型',
+        label_En: 'Equity',
+        type: 1,
+        value: 1
+    },
+    Bond: {
+        label_Cn: '债券型',
+        label_Hk: '債券型',
+        label_En: 'Bond',
+        type: 2,
+        value: 2
+    },
+    Balanced: {
+        label_Cn: '混合型',
+        label_Hk: '混合型',
+        label_En: 'Balanced',
+        type: 3,
+        value: 3
+    },
+    MMF: {
+        label_Cn: '货币型',
+        label_Hk: '貨幣型',
+        label_En: 'MMF',
+        type: 4,
+        value: 4
+    },
+    Index: {
+        label_Cn: '指数型',
+        label_Hk: '指數型',
+        label_En: 'Index',
+        type: 5,
+        value: 5
+    },
+    Financial: {
+        label_Cn: '理財產品',
+        label_Hk: '理財產品',
+        label_En: 'Financial Product',
+        type: 6,
+        value: 6
+    }
+}

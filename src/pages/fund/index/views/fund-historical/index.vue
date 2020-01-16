@@ -4,13 +4,16 @@
             .block-list.border-bottom(class="block-header")
                 .block-left {{$t('time')}}
                 .block-content {{$t('nav')}}
-                .block-right {{$t('dayChg')}}
+                .block-right {{isMMF?$t('RTNDetail'):$t('dayChg')}}
             .block-list(class="border-bottom" v-for="(item,index) in list")
                 .block-left {{item.belongDay}}
                 .block-content {{item.netPrice}}
-                .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price }}%
-                .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price}}%
-                .block-right(v-else) {{item.price}}%
+                template(v-if="isMMF")
+                    .block-right {{item.revenue}}
+                template(v-else)
+                    .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price }}%
+                    .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price}}%
+                    .block-right(v-else) {{item.price}}%
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
             .no-record-box {{$t('finishedText')}}
@@ -21,25 +24,32 @@ import { getFundNetPriceHistoryV1 } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { FUND_ASSET_TYPE } from '@/pages/fund/index/map'
 export default {
     i18n: {
         zhCHS: {
             dayChg: '日涨幅',
             nav: '单位净值',
             time: '日期',
-            finishedText: '无更多内容'
+            finishedText: '无更多内容',
+            RTNDetail: '收益详情',
+            tenKRTN: '万元收益'
         },
         zhCHT: {
             dayChg: '日漲幅',
             nav: '單位淨值',
             time: '日期',
-            finishedText: '無更多內容'
+            finishedText: '無更多內容',
+            RTNDetail: '收益詳情',
+            tenKRTN: '萬元收益'
         },
         en: {
             dayChg: 'Day%Chg',
             time: 'Time',
             nav: 'NAV',
-            finishedText: 'No More Content'
+            finishedText: 'No More Content',
+            RTNDetail: 'RTN Details',
+            tenKRTN: '10K RTN'
         }
     },
     components: {
@@ -62,6 +72,12 @@ export default {
     computed: {
         stockColorType() {
             return +getStockColorType()
+        },
+        isMMF() {
+            return (
+                FUND_ASSET_TYPE.MMF.value ===
+                Number(this.$route.query.assetType)
+            )
         }
     },
     filters: {
@@ -105,6 +121,7 @@ export default {
                     item.netPrice = this.sliceDeci(item.netPrice, 4)
                     if (index === this.list.length - 1) {
                         this.list[this.list.length - 1].price = '0.00' // 最后一项涨跌幅无法则算为0
+                        this.list[this.list.length - 1].revenue = '0.00' // 最后一项涨跌幅无法则算为0
                     } else {
                         if (Number(this.list[index + 1].netPrice) !== 0) {
                             item.price =
@@ -114,10 +131,14 @@ export default {
                                 100
                             item.price =
                                 this.assetType != 4
-                                    ? item.price.toFixed(2)
-                                    : item.price.toFixed(4)
+                                    ? Number(item.price).toFixed(2)
+                                    : Number(item.price).toFixed(4)
+                            item.revenue = Number(
+                                Number(item.price).toFixed(4) * 100
+                            ).toFixed(2)
                         } else {
                             item.price = '0.00'
+                            item.revenue = '0.00'
                         }
                     }
                 })
@@ -134,7 +155,11 @@ export default {
             }
         }
     },
-    mounted() {
+    created() {
+        if (this.isMMF)
+            setTimeout(() => {
+                this.$setTitle(this.$t('tenKRTN'))
+            }, 0)
         this.getFundNetPriceHistoryV1()
     }
 }
