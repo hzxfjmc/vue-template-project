@@ -75,13 +75,13 @@ export default {
             total: 0
         }
     },
-    computed: {},
     watch: {
         $route(to, from) {
             if (
                 from.path === '/order-record-detail' &&
                 this.$route.query.isRefresh
             ) {
+                this.orderRecordList = []
                 this.fundOrderListFun()
             }
         }
@@ -111,7 +111,6 @@ export default {
                 const _this = this
                 this.total = res.total
                 let arr = []
-
                 res.list.map(item => {
                     arr.push({
                         tradeType: item.tradeType,

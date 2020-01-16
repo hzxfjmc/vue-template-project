@@ -162,6 +162,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 .funds-details-header {
+    background: $background-color;
+    display: flex;
+    flex-direction: column;
     width: 100%;
     min-height: 174px;
     background: #fff;

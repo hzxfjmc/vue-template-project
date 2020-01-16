@@ -25,7 +25,8 @@
                 p.list__right(
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                     v-else-if="item.value<0") {{item.value|transNumToThousandMark(2)}}%
-                p.list__right(v-else) --
+                p.list__right(v-if="item.value==='--'") {{item.value}}
+                p.list__right(v-if="item.value==0") {{item.value}}%
             .block__list--more(@click="toFundHistorylist")
                 span {{$t('more1')}}
     .fund-echart-content2(v-show ="activeTab ==3")
@@ -318,9 +319,7 @@ export default {
             this.active = 0
             for (let key in this.list) {
                 this.list[key].date = this.$t('list')[key].date
-                console.log(this.$t('list')[key].date)
             }
-            console.log(this.list)
         }
     },
     computed: {
