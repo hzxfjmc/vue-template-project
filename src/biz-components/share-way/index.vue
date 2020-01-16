@@ -41,13 +41,13 @@ export default {
             shareText: appType.Hk
                 ? [
                       'WhatsApp',
-                      'Facebook',
-                      'WeChat',
-                      this.$t(['朋友圈', '朋友圈', 'WeChat Moments'])
+                      this.$t(['朋友圈', '朋友圈', 'WeChat Moments']),
+                      this.$t(['微信好友', '微信好友', 'WeChat Friends']),
+                      'Twitter'
                   ]
                 : ['微信', '朋友圈', 'QQ', '微博'],
             shareIcon: appType.Hk
-                ? ['share_whats', 'share_facebook', 'wechat', 'pengyouquan']
+                ? ['share_whats', 'pengyouquan', 'wechat', 'twitter']
                 : ['wechat', 'pengyouquan', 'qq', 'weibo']
         }
     },
