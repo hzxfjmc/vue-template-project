@@ -32,21 +32,24 @@ export default {
             nav: '单位净值',
             time: '日期',
             finishedText: '无更多内容',
-            RTNDetail: '收益详情'
+            RTNDetail: '收益详情',
+            tenKRTN: '万元收益'
         },
         zhCHT: {
             dayChg: '日漲幅',
             nav: '單位淨值',
             time: '日期',
             finishedText: '無更多內容',
-            RTNDetail: '收益詳情'
+            RTNDetail: '收益詳情',
+            tenKRTN: '萬元收益'
         },
         en: {
             dayChg: 'Day%Chg',
             time: 'Time',
             nav: 'NAV',
             finishedText: 'No More Content',
-            RTNDetail: 'RTN Details'
+            RTNDetail: 'RTN Details',
+            tenKRTN: '10K RTN'
         }
     },
     components: {
@@ -152,7 +155,11 @@ export default {
             }
         }
     },
-    mounted() {
+    created() {
+        if (this.isMMF)
+            setTimeout(() => {
+                this.$setTitle(this.$t('tenKRTN'))
+            }, 0)
         this.getFundNetPriceHistoryV1()
     }
 }
