@@ -602,10 +602,10 @@ export default {
                             this.actionInfo.rule_detail.most_user -
                             this.orderList.length
                         if (this.differenceNumer >= 1) {
-                            this.contentmsg = `差${this.differenceNumer}人成团`
+                            this.contentmsg = `已${this.orderList.length}人成团`
                         }
                     } else {
-                        this.contentmsg = `已${this.differenceNumer}人成团`
+                        this.contentmsg = `差${this.differenceNumer}人成团`
                     }
                     this.discount =
                         res.action.rule_detail.rule_list[
