@@ -360,7 +360,7 @@ export default {
                         '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
                         'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                     ]),
-                    pageUrl: unescape(shortPageUrl),
+                    pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
                 })
