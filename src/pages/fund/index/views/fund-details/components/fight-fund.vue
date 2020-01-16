@@ -1,6 +1,6 @@
 <template lang="pug">
 .block__fight--fund
-    .block__fight--header
+    .block__fight--header(@click="toRouterRuleKey")
         .block__left
             span {{$t("competition")}}
             img(:src="vipImgUrl")
@@ -50,6 +50,7 @@
 <script>
 import { Swipe, SwipeItem } from 'vant'
 import { mapGetters } from 'vuex'
+import { jumpUrl } from '@/utils/tools.js'
 export default {
     i18n: {
         zhCHS: {
@@ -109,6 +110,14 @@ export default {
     data() {
         return {
             vipImgUrl: require('@/assets/img/fund/fundImg/zhCHS/vip.png')
+        }
+    },
+    methods: {
+        toRouterRuleKey() {
+            jumpUrl(
+                3,
+                `${window.location.origin}/webapp/market/generator.html?key=${this.actionInfo.rule_key}`
+            )
         }
     },
     created() {
