@@ -388,7 +388,7 @@ export default {
                     console.log(this.list)
                 }
             } catch (e) {
-                this.$toast(e.msg)
+                // this.$toast(e.msg)
             }
         },
         async fundOrderList() {
