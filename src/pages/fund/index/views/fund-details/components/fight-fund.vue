@@ -31,9 +31,9 @@
                 //- em(
                 //-     v-for="(item,index) in actionInfo.rule_detail.rule_list" 
                 //-     :key="index")  
-        .block__item--notice
-            img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
-            span {{actionInfo.ad_order_count}}{{$t('describe2')}}
+    .block__item--notice
+        img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
+        span {{actionInfo.ad_order_count}}{{$t('describe2')}}
     .block__bottom--swiper(v-if="swipeShow")
         van-swipe(
             :show-indicators="false"
@@ -197,7 +197,7 @@ export default {
     }
     .block__item--notice {
         display: flex;
-        margin: 10px 0 0 0;
+        margin: 10px 0;
         padding: 0 5px;
         align-items: center;
         flex-direction: row;
@@ -207,6 +207,7 @@ export default {
         }
         span {
             font-size: 16px;
+            margin: 0 0 0 5px;
         }
     }
     .block__fight--bottom {

@@ -105,6 +105,7 @@
                p {{applyAfter}}
             .block__footer-right
                 van-button(
+                    class="van-button"
                     @click="handleBuyOrSell(2)"
                     :disabled="disabled") {{$t('aloneScribe')}}
         .block__button--list-hk(v-if="subscribeButtonShow")
@@ -236,7 +237,7 @@ export default {
         en: {
             format: 'DDD HH:mm:ss',
             aloneScribe: 'Subscribe',
-            togetherScribe: 'Subs. with Group Discount',
+            togetherScribe: 'Susb. with Group',
             Surplus: '',
             describe:
                 'X people needed to get the 50% discounton subscription fee.',
@@ -642,8 +643,8 @@ export default {
                             this.discount}%的认购费`,
                         `認購後，好友參與「同行優惠」，最享${100 -
                             this.discount}%認購費折扣`,
-                        `Share the Group Discount offer to your friends, you can get up to ${100 -
-                            this.discount}% discount on the subscription fee.`
+                        `Share with friends, up to ${100 -
+                            this.discount}% discount on subs. fee `
                     ])
                     this.actionInfo.describeDiscount = this.$t([
                         `拼团成功，根据团队规模最高可返${100 -
@@ -660,7 +661,7 @@ export default {
                             this.discount}%折扣，其他成員可享認購費80%折扣`,
                         `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -
                             this
-                                .discount}% off, other members can enjoy 80% discount on subs. fee. `
+                                .discount}% off, other members can enjoy 80% discount on subs. fee `
                     ])
                 }
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
@@ -1106,12 +1107,11 @@ export default {
         .block__footer-right {
             width: 100px;
             height: 30px;
-
             .van-button {
                 width: 100% !important;
                 border-radius: 5px !important;
                 line-height: 30px;
-                margin: 10px 0 0 20px;
+                margin: 10px 0 0 40px;
                 background: #1e93f3;
                 font-size: 10px;
                 color: #fff;
@@ -1167,14 +1167,14 @@ export default {
                 width: 100%;
                 display: flex;
                 margin: 10px 0 0px 0;
-                font-size: 16px;
+                font-size: 14px;
                 justify-content: center;
                 flex-direction: row;
                 text-align: center;
                 .van-count-down {
                     color: #fff;
-                    font-size: 18px;
-                    margin: 2px 3px 0 3px;
+                    font-size: 16px !important;
+                    margin: 0px 3px 0 3px;
                 }
             }
             .block__fight--bottom {

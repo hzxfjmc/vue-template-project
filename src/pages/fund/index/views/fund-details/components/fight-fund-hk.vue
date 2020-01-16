@@ -220,6 +220,7 @@ export default {
         }
         span {
             font-size: 16px;
+            margin: 0 0 0 5px;
         }
     }
     .block__fight--bottom {
