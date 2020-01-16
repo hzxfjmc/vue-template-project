@@ -154,7 +154,7 @@ import {
 } from '@/service/finance-info-server.js'
 import {
     getGroupAction,
-    // getGroupOrder,
+    getGroupOrder,
     getAdGroupOrders,
     addGroupFollow
 } from '@/service/zt-group-apiserver.js'
@@ -528,24 +528,23 @@ export default {
             }
         },
         //查询团购单的订单
-        // async getGroupOrder() {
-        //     try {
-        //         if (!this.$route.query.group_id) return
-        //         const { order_list } = await getGroupOrder({
-        //             group_id: this.$route.query.group_id
-        //         })
-        //         this.orderList = order_list || []
+        async getGroupOrder() {
+            try {
+                if (!this.$route.query.group_id) return
+                const { order_list } = await getGroupOrder({
+                    group_id: this.$route.query.group_id
+                })
+                this.orderList = order_list || []
 
-        // this.orderList.map(item => {
-        //     if (item.user_info.is_invite_user) {
-        //         this.avatImg = item.head_img
-        //         alert(123)
-        //     }
-        // })
-        //     } catch (e) {
-        //         console.log('getGroupOrder:error:>>>', e)
-        //     }
-        // },
+                this.orderList.map(item => {
+                    if (item.user_info.is_invite_user) {
+                        this.avatImg = item.head_img
+                    }
+                })
+            } catch (e) {
+                console.log('getGroupOrder:error:>>>', e)
+            }
+        },
         //查询业务团购活动
         async getGroupAction() {
             try {
@@ -603,10 +602,10 @@ export default {
                             this.actionInfo.rule_detail.most_user -
                             this.orderList.length
                         if (this.differenceNumer >= 1) {
-                            this.contentmsg = `已${this.differenceNumer}人成团`
+                            this.contentmsg = `差${this.differenceNumer}人成团`
                         }
                     } else {
-                        this.contentmsg = `差${this.differenceNumer}人成团`
+                        this.contentmsg = `已${this.differenceNumer}人成团`
                     }
                     this.discount =
                         res.action.rule_detail.rule_list[
@@ -1063,7 +1062,7 @@ export default {
         this.getFundRecommendList()
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
-        // this.getGroupOrder()
+        this.getGroupOrder()
         if (this.isLogin) {
             await this.getFundUserInfo()
             await this.addGroupFollow()
