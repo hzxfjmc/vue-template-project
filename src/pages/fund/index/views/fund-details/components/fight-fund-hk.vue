@@ -241,6 +241,7 @@ export default {
             img {
                 width: 12px;
                 height: 12px;
+                display: flex;
                 margin: 0 5px;
             }
             em {
