@@ -34,7 +34,7 @@
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/check.png')")
             span {{actionInfo.describeDiscountHk}}
-    .block__item--notice
+    .block__item--notice(v-if="swipeShow")
         img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
         span {{actionInfo.ad_order_count}}{{$t('describe2')}}
     .block__bottom--swiper(v-if="swipeShow")

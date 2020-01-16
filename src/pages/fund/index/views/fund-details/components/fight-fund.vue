@@ -31,7 +31,7 @@
                 //- em(
                 //-     v-for="(item,index) in actionInfo.rule_detail.rule_list" 
                 //-     :key="index")  
-    .block__item--notice
+    .block__item--notice(v-if="swipeShow")
         img.block__notice(:src="require('@/assets/img/fund/icon/Notice.png')")
         span {{actionInfo.ad_order_count}}{{$t('describe2')}}
     .block__bottom--swiper(v-if="swipeShow")
