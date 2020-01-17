@@ -1119,7 +1119,7 @@ export default {
             height: 30px;
             .van-button {
                 width: 100% !important;
-                border-radius: 5px !important;
+                border-radius: 4px !important;
                 line-height: 30px;
                 margin: 10px 0 0 40px;
                 background: #1e93f3;
