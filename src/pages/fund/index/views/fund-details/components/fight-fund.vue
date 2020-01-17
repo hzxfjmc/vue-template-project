@@ -11,16 +11,21 @@
         .block__fight--list
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Subscribe.png')")
-                p {{$t('subscription')}}
+                .plist
+                    p {{$t('subscription')}}
+
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Achieve.png')")
-                p {{$t('target')}}
+                .plist
+                    p {{$t('target')}}
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/Success.png')")
-                p {{$t('teamSuccess')}}
+                .plist
+                    p {{$t('teamSuccess')}}
             .block__list--item
                 img(:src="require('@/assets/img/fund/icon/return.png')")
-                p {{$t('discountReturn')}}
+                .plist
+                    p {{$t('discountReturn')}}
     .block__fight--bottom
         .block__list--p  
             img(:src="require('@/assets/img/fund/icon/about.png')")
@@ -139,10 +144,13 @@ export default {
             width: 50%;
         }
         .block__left {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
             img {
                 width: 56px;
                 height: 17px;
-                margin: 18px 0 0 5px;
+                margin: 2px 0 0 5px;
             }
         }
         .block__right {
@@ -167,15 +175,19 @@ export default {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
+            // justify-content: center;
             position: relative;
             img {
                 width: 36px;
                 height: 36px;
             }
+            .plist {
+                margin: 5px 0 0 0;
+            }
             p {
-                margin: 10px 0 0 0;
-                white-space: nowrap;
+                margin: 2px 0 0 0;
+                width: 100%;
+                // white-space: nowrap;
             }
         }
         .block__list--item:after {

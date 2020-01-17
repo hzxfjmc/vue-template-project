@@ -73,13 +73,14 @@
             .block__footer-avat
                 img(:src="avatImg") 
             .block__footer--content
-                span 剩余
-                .vant-count-down
-                    CountDown( 
-                        millisecond
-                        :time="time"
-                        format="DD天 HH:mm:ss")
-                span {{contentmsg}}
+                .block__footer--top
+                    span 剩余
+                    .vant-count-down
+                        CountDown( 
+                            millisecond
+                            :time="time"
+                            format="DD天 HH:mm:ss")
+                .block__footer--bottom {{contentmsg}}
             .block__footer-right(v-if="figthComeShow")
                 van-button(
                     @click="handleBuyOrSell(3)"
@@ -1337,13 +1338,20 @@ export default {
             width: 60%;
             line-height: 22px;
             display: flex;
+            flex-direction: column;
+            .block__footer--top,
+            .block__footer--bottom {
+                display: flex;
+                flex-direction: row;
+                justify-content: flex-start;
+            }
 
-            flex-direction: row;
             .van-count-down {
                 font-size: 16px;
                 margin: 0 6px;
                 font-family: yxFontDINPro-Medium;
                 color: rgba(234, 61, 61, 1);
+                border-radius: 5px;
                 line-height: 24px;
             }
         }
@@ -1360,8 +1368,9 @@ export default {
             height: 36px;
             .van-button {
                 height: 36px !important;
-                line-height: 36px;
+                line-height: 28px;
                 color: #fff;
+                border-radius: 5px !important;
                 background: #ea3d3d;
                 width: 100%;
             }
