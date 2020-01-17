@@ -73,6 +73,7 @@
             .block__footer-avat
                 img(:src="avatImg") 
             .block__footer--content
+                .block__footer--bottom {{contentmsg}}
                 .block__footer--top
                     span 剩余
                     .vant-count-down
@@ -80,7 +81,7 @@
                             millisecond
                             :time="time"
                             format="DD天 HH:mm:ss")
-                .block__footer--bottom {{contentmsg}}
+                
             .block__footer-right(v-if="figthComeShow")
                 van-button(
                     @click="handleBuyOrSell(3)"

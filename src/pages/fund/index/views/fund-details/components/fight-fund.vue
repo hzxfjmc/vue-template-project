@@ -65,7 +65,7 @@ export default {
             target: '达到目标',
             teamSuccess: '拼团成功',
             discountReturn: '申购费折扣返还',
-            describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
+            describe: '拼团未达成目标，视为拼团失败不影响基金申购',
             describe1: '根据团队规模最高可返60%申购费',
             describe2: '人正在拼团申购'
         },
