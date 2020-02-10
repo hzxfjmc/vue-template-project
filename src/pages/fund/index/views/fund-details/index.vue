@@ -22,13 +22,13 @@
             :initState="holdInitState")
 
         FightFundHk(
-            v-if="!fightShow && code ==2"
+            v-if="!fightShow && code ===2"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
         FightFund(
-            v-if="!fightShow && code == 1"
+            v-if="!fightShow && code === 1"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
@@ -68,7 +68,7 @@
             :disabled="disabled") {{$t('buy')}}
 
     .fund-footer-content(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code === 1")
         .block__list--header(v-if="shareHeaderShow")
             .block__footer-avat
                 img(:src="avatImg") 
@@ -100,7 +100,7 @@
                 em 申购费最高可返{{100-discount}}%
 
     .fund-footer-content.fund-footer-hk(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code===2")
         .block__list--header-hk(v-if="subscribeButtonShow")
             .block__footer-left
                p {{applyAfter}}
@@ -327,7 +327,7 @@ export default {
             fightShow: true,
             contentmsg: '',
             time: 30 * 60 * 60 * 1000,
-            code: '',
+            code: null,
             has_joined: true,
             tagsShow: false,
             tagShow: false,
@@ -1057,6 +1057,7 @@ export default {
             try {
                 const { code } = await getSource()
                 this.code = code
+                this.fundHeaderInfoVO.code = code
                 if (!this.isLogin) {
                     this.code = this.appType.Hk ? 2 : 1
                 }

@@ -32,7 +32,7 @@
                 :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
             p(v-else) {{fundHeaderInfoVO.apy}}%
         .header-right
-            span {{$t('purchase')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
+            span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
     .funds-details-footer
         .block__details--left
@@ -66,6 +66,7 @@ export default {
             fundPrice: '基金净值',
             minInvestment: '起投金额',
             purchase: '起购金额',
+            pirchaseHk: '最低认购费',
             update: '更新时间',
             oneYearShow: '近一年收益率',
             yieldInLast7d: '近七日年化',
@@ -86,6 +87,7 @@ export default {
             hkd: '港幣',
             usd: '美元',
             purchase: '起購金額',
+            pirchaseHk: '最低認購費',
             update: '更新時間',
             iknow: '我知道了',
             content:
@@ -102,6 +104,7 @@ export default {
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',
             purchase: 'Min. Subs From',
+            pirchaseHk: 'Min. Subs From',
             update: 'Update Time',
             iknow: 'I get it',
             content:
