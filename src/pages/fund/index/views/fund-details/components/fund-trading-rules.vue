@@ -14,7 +14,7 @@
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
             :stepTimes="[fundTradeInfoVO.buySubmit,fundTradeInfoVO.buyConfirm ,fundTradeInfoVO.buyProfitLoss ]")
         .block__list--item
-            p.block__list--left {{fundTradeInfoVO ? $t('subscriptionFee') : $t('subscriptionFeeHk')}}
+            p.block__list--left {{fundTradeInfoVO.code ? $t('subscriptionFee') : $t('subscriptionFeeHk')}}
             p.block__list--right {{fundTradeInfoVO.subscriptionFee*100|transNumToThousandMark(2)}}%
         .block__list--item
             p.block__list--left {{$t('redemptionFee')}}
