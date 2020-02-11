@@ -62,7 +62,7 @@
         van-button(
             class="fund-footer btn button-width"
             @click="handleBuyOrSell(1)" 
-            :disabled="disabled") {{$t('buy')}}
+            :disabled="disabled") {{code ===1 ? $t('buy'):$t('buyHk')}}
 
     .fund-footer-content(
         v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code === 1")
@@ -177,6 +177,7 @@ export default {
             Surplus: '剩余',
             describe: '还差5人,申购费最高可返50%',
             buy: '申购',
+            buyHk: '认购',
             redeem: '赎回',
             risk: '风险提示',
             append: '追加',
@@ -208,6 +209,7 @@ export default {
             Surplus: '剩餘',
             describe: '還差5人，最高可享申購費50%折扣',
             buy: '申購',
+            buyHk: '認購',
             redeem: '贖回',
             risk: '風險提示',
             append: '續投',
@@ -240,6 +242,7 @@ export default {
             describe:
                 'X people needed to get the 50% discounton subscription fee.',
             buy: 'Subscribe',
+            buyHk: 'Subscribe',
             redeem: 'Redemption',
             risk: 'Risk Disclosure',
             trade: 'Transaction Records',
