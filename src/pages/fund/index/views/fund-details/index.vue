@@ -51,9 +51,6 @@
         fundCardList(
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
-
-        
-        
         .fund___list--p
             p {{$t('msg')}}
     .fund-footer-content(v-if="btnShow && isGrayAuthority")
@@ -1058,6 +1055,7 @@ export default {
                 const { code } = await getSource()
                 this.code = code
                 this.fundHeaderInfoVO.code = code
+                this.fundTradeInfoVO.code = code
                 if (!this.isLogin) {
                     this.code = this.appType.Hk ? 2 : 1
                 }
