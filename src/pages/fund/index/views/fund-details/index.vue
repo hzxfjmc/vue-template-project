@@ -62,7 +62,7 @@
         van-button(
             class="fund-footer btn button-width"
             @click="handleBuyOrSell(1)" 
-            :disabled="disabled") {{code ===1 ? $t('buy'):$t('buyHk')}}
+            :disabled="disabled") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
     .fund-footer-content(
         v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code === 1")
