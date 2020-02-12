@@ -1067,7 +1067,9 @@ export default {
             }
         },
         //app点击分享按钮回调
-        handlerFundShare() {}
+        async handlerFundShare() {
+            alert(2)
+        }
     },
     async created() {
         // enablePullRefresh(true)
@@ -1096,6 +1098,7 @@ export default {
             type: 'icon',
             icon: 'service'
         })
+        alert(123)
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
     }
