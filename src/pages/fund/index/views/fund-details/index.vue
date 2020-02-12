@@ -1059,6 +1059,7 @@ export default {
                 this.code = code
                 this.fundHeaderInfoVO.code = code
                 this.fundTradeInfoVO.code = code
+                this.holdInitState.code = code
                 if (!this.isLogin) {
                     this.code = this.appType.Hk ? 2 : 1
                 }

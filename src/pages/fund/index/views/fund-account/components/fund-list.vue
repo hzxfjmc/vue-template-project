@@ -51,7 +51,7 @@
                     span.price-number(v-if="eyeTab") {{item.redeemDeliveryShare}}
                     span.price-number(v-else) ****
             .o-item(v-if="item.inTransitAmount != 0")
-                .footer-left-l {{$t('subscribe')}}
+                .footer-left-l {{code === 1 ? $t('subscribe') : $t('subscribeHk')}}
                 .footer-right
                     span {{item.currency == 1 ? $t('usd'):$t('hkd')}}
                     span.price-number(v-if="eyeTab") {{item.inTransitAmount|parseThousands(2)}}
@@ -115,6 +115,7 @@ export default {
             SevenDayIncome: '近七日收益',
             Redemption: '赎回中',
             subscribe: '申购中',
+            subscribeHk: '认购中',
             nomore: '暂无持仓',
             usd: '美元',
             hkd: '港币'
@@ -128,6 +129,7 @@ export default {
             SevenDayIncome: '近七日收益',
             Redemption: '贖回中',
             subscribe: '申購中',
+            subscribeHk: '認購中',
             nomore: '暫無持倉',
             usd: '美元',
             hkd: '港幣'
@@ -141,6 +143,7 @@ export default {
             SevenDayIncome: '7 Days',
             Redemption: 'Redeming',
             subscribe: 'Purchasing',
+            subscribeHk: 'Purchasing',
             nomore: 'No Position',
             usd: 'USD',
             hkd: 'HKD'

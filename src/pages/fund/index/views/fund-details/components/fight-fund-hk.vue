@@ -65,8 +65,8 @@ export default {
             teamSuccess: '达到目标',
             discountReturn: '认购费',
             discountReturn1: '折扣返还',
-            describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
-            describe1: '根据团队规模最高可返60%申购费',
+            describe: '拼团未满达成目标，视为拼团失败不影响基金认购',
+            describe1: '根据团队规模最高可返60%认购费',
             describe2: '人正在助力'
         },
         zhCHT: {
@@ -80,7 +80,7 @@ export default {
             discountReturn1: '折扣返還',
             describe: '未達成目標，不影響基金正常認購',
             describe1: '根據團隊規模最高可享申購費60%折扣',
-            describe2: '人正在申購'
+            describe2: '人正在認購'
         },
         en: {
             competition: 'Subs. with Group Discount',
