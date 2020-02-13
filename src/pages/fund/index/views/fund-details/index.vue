@@ -1068,7 +1068,7 @@ export default {
         },
         //app点击分享按钮回调
         async handlerFundShare() {
-            alert(2)
+            console.log(123)
         }
     },
     async created() {
@@ -1093,12 +1093,11 @@ export default {
             'appInvisible'
         )
         jsBridge.callApp('command_set_titlebar_button', {
-            position: 2, //position取值1、2
+            position: 1, //position取值1、2
             clickCallback: 'handlerFundShare',
             type: 'icon',
             icon: 'service'
         })
-        alert(123)
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
     }
