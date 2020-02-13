@@ -1069,12 +1069,8 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        //app点击分享按钮回调
-        async handlerFundShare() {
-            console.log(123)
-        },
         //设置app分享按钮
-        setShareButton() {
+        async setShareButton() {
             const base64 = this.$refs.titlebarIcon.src.replace(
                 /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
                 ''
@@ -1111,6 +1107,10 @@ export default {
         this.setShareButton()
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
+        //app点击分享按钮回调
+        window.handlerFundShare = () => {
+            console.log(123)
+        }
     }
 }
 </script>
