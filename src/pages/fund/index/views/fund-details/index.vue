@@ -133,7 +133,10 @@
                     @click="handleBuyOrSell(2)"
                     :disabled="disabled") {{$t('Subscribenow')}}
 
-
+    img(
+        v-show="false"
+        :src="require('@/assets/img/fund/icon/icon-share.png')"
+        ref="titlebarIcon")
            
     
 </template>
@@ -1069,6 +1072,19 @@ export default {
         //app点击分享按钮回调
         async handlerFundShare() {
             console.log(123)
+        },
+        //设置app分享按钮
+        setShareButton() {
+            const base64 = this.$refs.titlebarIcon.src.replace(
+                /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
+                ''
+            )
+            jsBridge.callApp('command_set_titlebar_button', {
+                position: 1, //position取值1、2
+                clickCallback: 'handlerFundShare',
+                type: 'custom_icon',
+                custom_icon: base64
+            })
         }
     },
     async created() {
@@ -1092,12 +1108,7 @@ export default {
             'appVisible',
             'appInvisible'
         )
-        jsBridge.callApp('command_set_titlebar_button', {
-            position: 1, //position取值1、2
-            clickCallback: 'handlerFundShare',
-            type: 'icon',
-            icon: 'service'
-        })
+        this.setShareButton()
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
     }
