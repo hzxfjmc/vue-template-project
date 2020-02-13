@@ -32,7 +32,7 @@
                 :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
             p(v-else) {{fundHeaderInfoVO.apy}}%
         .header-right
-            span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
+            span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $t('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
     .funds-details-footer
         .block__details--left
