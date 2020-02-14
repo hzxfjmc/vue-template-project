@@ -198,7 +198,6 @@ export default {
                             .start_user_count - orderList.length
                 }
             } catch (e) {
-                this.$toast(e.msg)
                 console.log('getGroupOrders:error:>>>', e)
             }
         },
@@ -388,7 +387,7 @@ export default {
                     console.log(this.list)
                 }
             } catch (e) {
-                // this.$toast(e.msg)
+                console.log(e.msg)
             }
         },
         async fundOrderList() {
