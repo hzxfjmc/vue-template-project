@@ -1110,7 +1110,7 @@ export default {
         //app点击分享按钮回调
         window.handlerFundShare = () => {
             jsBridge.callApp('command_share', {
-                shareType: 'freedom',
+                shareType: 'more',
                 title: `我正在申购323，老司机开团，就差你上车啦！`,
                 description:
                     '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
