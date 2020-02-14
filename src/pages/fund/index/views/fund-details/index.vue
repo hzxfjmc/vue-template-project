@@ -1109,7 +1109,15 @@ export default {
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
         window.handlerFundShare = () => {
-            console.log(123)
+            jsBridge.callApp('command_share', {
+                shareType: 'freedom',
+                title: `我正在申购323，老司机开团，就差你上车啦！`,
+                description:
+                    '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                pageUrl: `www.baidu.com`,
+                shortUrl: `www.baidu.com`,
+                thumbUrl: `www.baidu.com`
+            })
         }
     }
 }
