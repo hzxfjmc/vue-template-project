@@ -236,7 +236,6 @@ export default {
 
             let shareType = shareTypeMap[_index]
             try {
-                console.log(this.bizId)
                 let lt =
                     (langType.Ch && 1) ||
                     (langType.Hk && 2) ||
@@ -244,16 +243,13 @@ export default {
                     1
                 let at = appType.Hk ? 2 : 1
                 let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
                 let shortPageUrl = await getShortUrl({
                     long: encodeURIComponent(pageUrl)
                 })
-                alert(link)
-                alert(pageUrl)
-                alert(shortUrl)
                 let title =
                     this.code === 1
                         ? this.$t([
