@@ -236,6 +236,7 @@ export default {
 
             let shareType = shareTypeMap[_index]
             try {
+                console.log(this.bizId)
                 let lt =
                     (langType.Ch && 1) ||
                     (langType.Hk && 2) ||
@@ -248,6 +249,8 @@ export default {
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
+                console.log(link)
+                console.log(shortUrl)
                 let shortPageUrl = await getShortUrl({
                     long: encodeURIComponent(pageUrl)
                 })
