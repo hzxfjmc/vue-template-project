@@ -305,6 +305,7 @@ export default {
                             .start_user_count - orderList.length
                 }
             } catch (e) {
+                LS.remove('groupId')
                 console.log('getGroupOrders:error:>>>', e)
             }
         },
