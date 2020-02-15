@@ -264,7 +264,7 @@ export default {
                     ]),
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
-                    thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
+                    thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
                 })
                 this.$toast('分享成功')
             } catch (e) {
