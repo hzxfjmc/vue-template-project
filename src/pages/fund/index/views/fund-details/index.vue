@@ -464,7 +464,7 @@ export default {
             scheme.gotoWebview(
                 `${window.location.origin}/wealth/fund/index.html?appType=${
                     this.appType.Ch ? 1 : 2
-                }&id=${this.$route.query.id}#/fund-details`
+                }#/fund-details?id=${this.$route.query.id}`
             )
         },
         async addGroupFollow() {
@@ -1124,16 +1124,14 @@ export default {
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
         window.handlerFundShare = async () => {
-            let link = `${
-                this.$appOrigin
-            }/wealth/fund/index.html#/fund-details?id=${
-                this.id
-            }&type=share&appType=${this.appType.Ch ? 1 : 2}`
+            let link = `${this.$appOrigin}/wealth/fund/index.html?appType=${
+                this.appType.Ch ? 1 : 2
+            }#/fund-details?id=${this.id}&type=share`
             let pageUrl = `${
                 window.location.origin
-            }/wealth/fund/index.html#/fund-details?id=${
-                this.id
-            }&type=share&appType=${this.appType.Ch ? 1 : 2}`
+            }/wealth/fund/index.html?appType=${
+                this.appType.Ch ? 1 : 2
+            }#/fund-details?id=${this.id}&type=share`
             try {
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
