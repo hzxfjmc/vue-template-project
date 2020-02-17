@@ -56,19 +56,25 @@
         
         .fund___list--p
             p {{$t('msg')}}
-    .fund-footer-content(v-if="btnShow && isGrayAuthority")
+    .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
     
     
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow")
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate !== 'share'")
         van-button(
             class="fund-footer btn button-width"
             @click="handleBuyOrSell(1)" 
             :disabled="disabled") {{$t('buy')}}
 
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate === 'share'")
+        van-button(
+            class="fund-footer btn button-width"
+            @click="handleBuyOrSell(1)" 
+            :disabled="disabled") 到uSMART查看更多內容
+
     .fund-footer-content(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1 && invate !== 'share'")
         .block__list--header(v-if="shareHeaderShow")
             .block__footer-avat
                 img(:src="avatImg") 
@@ -102,7 +108,7 @@
                 em 申购费最高可返{{100-discount}}%
 
     .fund-footer-content.fund-footer-hk(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2 && invate !== 'share'")
         .block__list--header-hk(v-if="subscribeButtonShow")
             .block__footer-left
                p {{applyAfter}}
@@ -170,6 +176,7 @@ import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
+import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
 // import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
@@ -388,6 +395,7 @@ export default {
             applyAfter: null,
             differenceNumer: 5,
             avatImg: require('@/assets/img/fund/share/avat.png'),
+            invate: this.$route.query.type,
             timeList: {
                 oneWeek: {
                     label: '近一周',
@@ -1107,7 +1115,15 @@ export default {
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
-        window.handlerFundShare = () => {
+        window.handlerFundShare = async () => {
+            let link = `${this.$appOrigin}/wealth/fund/index.html#/fund-details?id=${this.id}&type=share`
+            let pageUrl = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.id}&type=share`
+            let shortUrl = await getShortUrl({
+                long: encodeURIComponent(link)
+            })
+            let shortPageUrl = await getShortUrl({
+                long: encodeURIComponent(pageUrl)
+            })
             jsBridge.callApp('command_share', {
                 shareType: 'more',
                 title: `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`,
@@ -1121,7 +1137,9 @@ export default {
                     }%，基金规模：${this.undOverviewInfoVO.currency.name} ${(
                         this.fundOverviewInfoVO.fundSize / 1000000000
                     ).toFixed(2)}亿
-                    https:XXXXXXXXXXXXXXXXXX.com（分享来自@友信智投客户端，立即下载，投资港/美/A股）`,
+                    ${
+                        window.location.href
+                    }（分享来自@友信智投客户端，立即下载，投资港/美/A股）`,
                     `我睇緊一隻基金，你都可以睇下${
                         this.fundHeaderInfoVO.fundName
                     }（${this.fundHeaderInfoVO.isin}）近一年表現${
@@ -1132,9 +1150,9 @@ export default {
                             : this.fundHeaderInfoVO.apy
                     }%，基金規模：${this.undOverviewInfoVO.currency.name} ${(
                         this.fundOverviewInfoVO.fundSize / 1000000000
-                    ).toFixed(
-                        2
-                    )}億https:XXXXXXXXXXXXXXXXXX.com（分享來自@友信智投客戶端，立即下載，投資港/美/A股）`,
+                    ).toFixed(2)}億${
+                        window.location.href
+                    }（分享來自@友信智投客戶端，立即下載，投資港/美/A股）`,
                     `Fund I want to share with you ${
                         this.fundHeaderInfoVO.fundName
                     }（${this.fundHeaderInfoVO.isin}）1 Year ${
@@ -1145,13 +1163,13 @@ export default {
                             : this.fundHeaderInfoVO.apy
                     }%, AUM：${this.undOverviewInfoVO.currency.name} ${(
                         this.fundOverviewInfoVO.fundSize / 100000000
-                    ).toFixed(
-                        2
-                    )}B https:XXXXXXXXXXXXXXXXXX.com（Shared From uSMART, Download to trade both HK, US & CN stock）`
+                    ).toFixed(2)}B ${
+                        window.location.href
+                    }（Shared From uSMART, Download to trade both HK, US & CN stock）`
                 ]),
-                pageUrl: `www.baidu.com`,
-                shortUrl: `www.baidu.com`,
-                thumbUrl: `www.baidu.com`
+                pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
+                shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
             })
         }
     }
