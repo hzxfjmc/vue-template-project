@@ -461,7 +461,9 @@ export default {
     },
     methods: {
         handleShare() {
-            scheme.gotoWebview(window.location.href)
+            scheme.gotoWebview(
+                `${window.location.href}&&appType=${this.appType}`
+            )
         },
         async addGroupFollow() {
             try {
