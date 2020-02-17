@@ -70,7 +70,7 @@
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate === 'share'")
         van-button(
             class="fund-footer btn button-width"
-            @click="handleBuyOrSell(1)" 
+            @click="handleShare()" 
             :disabled="disabled") 到uSMART查看更多內容
 
     .fund-footer-content(
@@ -156,6 +156,7 @@ import FightFundHk from './components/fight-fund-hk.vue'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
+import scheme from '@/utils/scheme'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
@@ -459,6 +460,9 @@ export default {
         }
     },
     methods: {
+        handleShare() {
+            scheme.gotoWebview(window.location.href)
+        },
         async addGroupFollow() {
             try {
                 if (this.$route.query.group_id && this.$route.query.order_id) {
