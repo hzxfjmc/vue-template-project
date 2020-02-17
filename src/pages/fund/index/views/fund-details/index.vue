@@ -779,7 +779,7 @@ export default {
         //跳转
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
-                this.handleBuyOrSell()
+                this.handleBuyOrSell(1)
             } else {
                 if (!this.flag) return this.$toast(this.forbidPrompt)
                 this.$router.push({
@@ -943,7 +943,6 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
-            console.log(this.group_id)
             clickFundDetails(
                 'fund_detail',
                 '申购',

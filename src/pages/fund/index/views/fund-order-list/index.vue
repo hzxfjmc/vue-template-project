@@ -243,7 +243,7 @@ export default {
 
                 let at = appType.Hk ? 2 : 1
                 let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
@@ -252,12 +252,19 @@ export default {
                 })
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
-                    title: `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                    description:
+                    title: this.$t([
+                        `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
+                        `我正在申購${this.fundName}，就差你一個了！`,
+                        `I am subscribing${this.fundName}， join me now!`
+                    ]),
+                    description: this.$t([
                         '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                        '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
+                        'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
+                    ]),
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
-                    thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
+                    thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
                 })
                 this.$toast('分享成功')
             } catch (e) {
