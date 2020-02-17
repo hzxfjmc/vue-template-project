@@ -461,7 +461,9 @@ export default {
     },
     methods: {
         handleShare() {
-            scheme.gotoWebview(`${window.location.href}`)
+            scheme.gotoWebview(
+                `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.$route.query.id}`
+            )
         },
         async addGroupFollow() {
             try {
