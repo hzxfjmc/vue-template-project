@@ -36,7 +36,7 @@ export default {
             rule: '交易规则',
             tips: '交易流程、费率',
             subscriptionFee: '申购费',
-            subscriptionFeeHk: '认购费',
+            subscriptionFeeHk: '申购费',
             redemptionFee: '赎回费',
             managementFee: '基金管理费',
             platformManagementFee: '平台管理费',

@@ -115,7 +115,7 @@ export default {
             SevenDayIncome: '近七日收益',
             Redemption: '赎回中',
             subscribe: '申购中',
-            subscribeHk: '认购中',
+            subscribeHk: '申购中',
             nomore: '暂无持仓',
             usd: '美元',
             hkd: '港币'

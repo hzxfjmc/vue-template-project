@@ -34,7 +34,7 @@ export const holdDetailsData = {
     },
     inTransitAmount: {
         label: '申购中(金额）',
-        labelHk: '认购中(金额)',
+        labelHk: '申购中(金额)',
         key: '',
         layout: 'right',
         value: '0.00'
@@ -59,7 +59,7 @@ export const i18nHoldDetailsData = {
             },
             inTransitAmount: {
                 label: '申购中(金额）',
-                labelHk: '认购中(金额)'
+                labelHk: '申购中(金额)'
             },
             redeemDeliveryShare: {
                 label: '赎回中(份额）'

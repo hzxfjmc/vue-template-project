@@ -66,7 +66,7 @@ export default {
             fundPrice: '基金净值',
             minInvestment: '起投金额',
             purchase: '起购金额',
-            pirchaseHk: '最低认购费',
+            pirchaseHk: '起购金额',
             update: '更新时间',
             oneYearShow: '近一年收益率',
             yieldInLast7d: '近七日年化',

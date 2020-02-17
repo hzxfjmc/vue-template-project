@@ -179,7 +179,7 @@ export default {
             Surplus: '剩余',
             describe: '还差5人,申购费最高可返50%',
             buy: '申购',
-            buyHk: '认购',
+            buyHk: '申购',
             redeem: '赎回',
             risk: '风险提示',
             append: '追加',
@@ -642,7 +642,7 @@ export default {
                         this.subscribeButtonShow = false
                     }
                     this.applyAfter = this.$t([
-                        `认购后，好友参与[同行优惠]，最多可省${100 -
+                        `申购后，好友参与[同行优惠]，最多可省${100 -
                             this.discount}%的认购费`,
                         `認購後，好友參與「同行優惠」，最享${100 -
                             this.discount}%認購費折扣`,
