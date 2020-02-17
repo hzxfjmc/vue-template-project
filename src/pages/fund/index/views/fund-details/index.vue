@@ -1110,9 +1110,13 @@ export default {
         window.handlerFundShare = () => {
             jsBridge.callApp('command_share', {
                 shareType: 'more',
-                title: `我正在申购323，老司机开团，就差你上车啦！`,
-                description:
-                    '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                title: `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`,
+                description: this.$t([
+                    `我正在看一只基金，也推荐给你${this.fundHeaderInfoVO.fundName}（${this.fundHeaderInfoVO.isin}）近一年表现+26.55%，基金规模：USD 105亿
+                    https:XXXXXXXXXXXXXXXXXX.com（分享来自@友信智投客户端，立即下载，投资港/美/A股）`,
+                    `我睇緊一隻基金，你都可以睇下${this.fundHeaderInfoVO.fundName}（${this.fundHeaderInfoVO.isin}）近一年表現+26.55%，基金規模：USD 105億https:XXXXXXXXXXXXXXXXXX.com（分享來自@友信智投客戶端，立即下載，投資港/美/A股）`,
+                    `Fund I want to share with you ${this.fundHeaderInfoVO.fundName}（${this.fundHeaderInfoVO.isin}）1 Year +26.55%, AUM：USD 10.5Bhttps:XXXXXXXXXXXXXXXXXX.com（Shared From uSMART, Download to trade both HK, US & CN stock）`
+                ]),
                 pageUrl: `www.baidu.com`,
                 shortUrl: `www.baidu.com`,
                 thumbUrl: `www.baidu.com`
