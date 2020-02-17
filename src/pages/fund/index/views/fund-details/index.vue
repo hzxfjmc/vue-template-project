@@ -177,7 +177,7 @@ import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
-// import { getShortUrl } from '@/service/news-shorturl.js'
+import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
 // import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
@@ -1118,83 +1118,72 @@ export default {
         this.setShareButton()
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
-        //test
-        window.handlerFundShare = () => {
-            jsBridge.callApp('command_share', {
-                shareType: 'more',
-                title: `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`,
-                description: '43243',
-                pageUrl: `43243`,
-                shortUrl: `43243`,
-                thumbUrl: `4324`
-            })
-        }
         //app点击分享按钮回调
-        // window.handlerFundShare = async () => {
-        //     let link = `${this.$appOrigin}/wealth/fund/index.html#/fund-details?id=${this.id}&type=share`
-        //     let pageUrl = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.id}&type=share`
-        //     try {
-        //         let shortUrl = await getShortUrl({
-        //             long: encodeURIComponent(link)
-        //         })
-        //         let shortPageUrl = await getShortUrl({
-        //             long: encodeURIComponent(pageUrl)
-        //         })
-        //         jsBridge.callApp('command_share', {
-        //             shareType: 'more',
-        //             title: `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`,
-        //             description: this.$t([
-        //                 `我正在看一只基金，也推荐给你${
-        //                     this.fundHeaderInfoVO.fundName
-        //                 }（${this.fundHeaderInfoVO.isin}）近一年表现${
-        //                     this.fundHeaderInfoVO.apy > 0
-        //                         ? '+' + this.fundHeaderInfoVO.apy
-        //                         : this.fundHeaderInfoVO.apy
-        //                 }%，基金规模：${
-        //                     this.undOverviewInfoVO.currency.name
-        //                 } ${(
-        //                     this.fundOverviewInfoVO.fundSize / 1000000000
-        //                 ).toFixed(2)}亿
-        //             ${
-        //                 window.location.href
-        //             }（分享来自@友信智投客户端，立即下载，投资港/美/A股）`,
-        //                 `我睇緊一隻基金，大家一齊研究下${
-        //                     this.fundHeaderInfoVO.fundName
-        //                 }（${this.fundHeaderInfoVO.isin}）近一年表現${
-        //                     this.fundHeaderInfoVO.fundName
-        //                 }（${this.fundHeaderInfoVO.isin}）近一年表现${
-        //                     this.fundHeaderInfoVO.apy > 0
-        //                         ? '+' + this.fundHeaderInfoVO.apy
-        //                         : this.fundHeaderInfoVO.apy
-        //                 }%，基金規模：${
-        //                     this.undOverviewInfoVO.currency.name
-        //                 } ${(
-        //                     this.fundOverviewInfoVO.fundSize / 1000000000
-        //                 ).toFixed(2)}億${
-        //                     window.location.href
-        //                 }（分享來自@友信智投客戶端，立即下載，投資港/美/A股）`,
-        //                 `Fund I want to share with you ${
-        //                     this.fundHeaderInfoVO.fundName
-        //                 }（${this.fundHeaderInfoVO.isin}）1 Year ${
-        //                     this.fundHeaderInfoVO.fundName
-        //                 }（${this.fundHeaderInfoVO.isin}）近一年表现${
-        //                     this.fundHeaderInfoVO.apy > 0
-        //                         ? '+' + this.fundHeaderInfoVO.apy
-        //                         : this.fundHeaderInfoVO.apy
-        //                 }%, AUM：${this.undOverviewInfoVO.currency.name} ${(
-        //                     this.fundOverviewInfoVO.fundSize / 100000000
-        //                 ).toFixed(2)}B ${
-        //                     window.location.href
-        //                 }（Shared From uSMART, Download to trade both HK, US & CN stock）`
-        //             ]),
-        //             pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
-        //             shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
-        //             thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
-        //         })
-        //     } catch (e) {
-        //         console.log(e)
-        //     }
-        // }
+        window.handlerFundShare = async () => {
+            let link = `${this.$appOrigin}/wealth/fund/index.html#/fund-details?id=${this.id}&type=share`
+            let pageUrl = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.id}&type=share`
+            try {
+                let shortUrl = await getShortUrl({
+                    long: encodeURIComponent(link)
+                })
+                let shortPageUrl = await getShortUrl({
+                    long: encodeURIComponent(pageUrl)
+                })
+                jsBridge.callApp('command_share', {
+                    shareType: 'more',
+                    title: `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`,
+                    description: this.$t([
+                        `我正在看一只基金，也推荐给你${
+                            this.fundHeaderInfoVO.fundName
+                        }（${this.fundHeaderInfoVO.isin}）近一年表现${
+                            this.fundHeaderInfoVO.apy > 0
+                                ? '+' + this.fundHeaderInfoVO.apy
+                                : this.fundHeaderInfoVO.apy
+                        }%，基金规模：${
+                            this.fundOverviewInfoVO.currency.name
+                        } ${(
+                            this.fundOverviewInfoVO.fundSize / 1000000000
+                        ).toFixed(2)}亿
+        ${
+            window.location.href
+        }（分享来自@友信智投客户端，立即下载，投资港/美/A股）`,
+                        `我睇緊一隻基金，大家一齊研究下${
+                            this.fundHeaderInfoVO.fundName
+                        }（${this.fundHeaderInfoVO.isin}）近一年表現${
+                            this.fundHeaderInfoVO.fundName
+                        }（${this.fundHeaderInfoVO.isin}）近一年表现${
+                            this.fundHeaderInfoVO.apy > 0
+                                ? '+' + this.fundHeaderInfoVO.apy
+                                : this.fundHeaderInfoVO.apy
+                        }%，基金規模：${
+                            this.fundOverviewInfoVO.currency.name
+                        } ${(
+                            this.fundOverviewInfoVO.fundSize / 1000000000
+                        ).toFixed(2)}億${
+                            window.location.href
+                        }（分享來自@友信智投客戶端，立即下載，投資港/美/A股）`,
+                        `Fund I want to share with you ${
+                            this.fundHeaderInfoVO.fundName
+                        }（${this.fundHeaderInfoVO.isin}）1 Year ${
+                            this.fundHeaderInfoVO.fundName
+                        }（${this.fundHeaderInfoVO.isin}）近一年表现${
+                            this.fundHeaderInfoVO.apy > 0
+                                ? '+' + this.fundHeaderInfoVO.apy
+                                : this.fundHeaderInfoVO.apy
+                        }%, AUM：${this.fundOverviewInfoVO.currency.name} ${(
+                            this.fundOverviewInfoVO.fundSize / 100000000
+                        ).toFixed(2)}B ${
+                            window.location.href
+                        }（Shared From uSMART, Download to trade both HK, US & CN stock）`
+                    ]),
+                    pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
+                    shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
+                })
+            } catch (e) {
+                console.log(e)
+            }
+        }
     }
 }
 </script>
