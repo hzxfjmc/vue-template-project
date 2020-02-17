@@ -198,7 +198,6 @@ export default {
                             .start_user_count - orderList.length
                 }
             } catch (e) {
-                this.$toast(e.msg)
                 console.log('getGroupOrders:error:>>>', e)
             }
         },
@@ -280,7 +279,7 @@ export default {
                     description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
-                    thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
+                    thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
                 })
                 this.$toast('分享成功')
             } catch (e) {
@@ -357,7 +356,7 @@ export default {
                                     orderItem.discribe = this.$t([
                                         `再邀请${
                                             orderItem.countNumber
-                                        }人可享受${100 -
+                                        }人可享${100 -
                                             orderItem.actionInfo.action
                                                 .discountNum}%申购费返还`,
                                         `再多${
@@ -410,7 +409,7 @@ export default {
                     console.log(this.list)
                 }
             } catch (e) {
-                // this.$toast(e.msg)
+                console.log(e.msg)
             }
         },
         async fundOrderList() {
@@ -556,7 +555,7 @@ export default {
             background: rgba(234, 61, 61, 0.05);
             border-radius: 4px;
             align-items: center;
-            line-height: 40px;
+            // line-height: 40px;
             .block__footer--left {
                 color: #191919;
                 display: flex;

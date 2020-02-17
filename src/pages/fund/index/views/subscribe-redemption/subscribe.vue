@@ -305,7 +305,7 @@ export default {
                             .start_user_count - orderList.length
                 }
             } catch (e) {
-                this.$toast(e.msg)
+                LS.remove('groupId')
                 console.log('getGroupOrders:error:>>>', e)
             }
         },
@@ -378,7 +378,7 @@ export default {
                     description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
-                    thumbUrl: `${this.$appOrigin}/webapp/marketing/images/mgmChSharev2.png`
+                    thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
                 })
                 this.$toast(this.$t([`分享成功`, `分享成功`, `Successful`]))
             } catch (e) {
