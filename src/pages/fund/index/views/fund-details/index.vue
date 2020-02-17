@@ -462,7 +462,9 @@ export default {
     methods: {
         handleShare() {
             scheme.gotoWebview(
-                `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.$route.query.id}`
+                `${window.location.origin}/wealth/fund/index.html?appType=${
+                    this.appType.Ch ? 1 : 2
+                }&id=${this.$route.query.id}#/fund-details`
             )
         },
         async addGroupFollow() {
@@ -1126,12 +1128,12 @@ export default {
                 this.$appOrigin
             }/wealth/fund/index.html#/fund-details?id=${
                 this.id
-            }&type=share&appType=${this.appType.Ch ? 'Ch' : 'Hk'}`
+            }&type=share&appType=${this.appType.Ch ? 1 : 2}`
             let pageUrl = `${
                 window.location.origin
             }/wealth/fund/index.html#/fund-details?id=${
                 this.id
-            }&type=share&appType=${this.appType.Ch ? 'Ch' : 'Hk'}`
+            }&type=share&appType=${this.appType.Ch ? 1 : 2}`
             try {
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
