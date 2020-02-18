@@ -621,21 +621,21 @@ export default {
                         console.log('申购页面-fundPurchaseData:', re)
                     } else {
                         const requestId = generateUUID()
-                        const { body, group_id } = await createGroupOrder({
-                            group_id: Number(this.groupId) || 0,
-                            biz_type: 0,
-                            biz_id: this.$route.query.id,
-                            order_detail: JSON.stringify(
-                                {
+                        const { body, group_id } = await createGroupOrder(
+                            {
+                                group_id: Number(this.groupId) || 0,
+                                biz_type: 0,
+                                biz_id: this.$route.query.id,
+                                order_detail: JSON.stringify({
                                     displayLocation: 1,
                                     fundId: this.$route.query.id,
                                     purchaseAmount: this.purchaseAmount,
                                     requestId: requestId,
                                     tradeToken: token
-                                },
-                                { requestId: requestId }
-                            )
-                        })
+                                })
+                            },
+                            { requestId: requestId }
+                        )
                         this.groupId = group_id
                         await this.getGroupOrders()
 
