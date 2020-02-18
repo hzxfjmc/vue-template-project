@@ -558,7 +558,9 @@ export default {
                     action_status: 2,
                     group_id: this.$route.query.group_id
                 })
-                this.group_id = res.group.group_id
+                if (res.group) {
+                    this.group_id = res.group.group_id
+                }
                 this.orderList = res.order_list || []
                 this.orderList.map(item => {
                     if (item.user_info.is_invite_user) {
