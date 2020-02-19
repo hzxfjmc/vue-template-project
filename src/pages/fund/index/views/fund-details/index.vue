@@ -555,8 +555,7 @@ export default {
                 const res = await getGroupAction({
                     biz_id: this.id,
                     biz_type: 0,
-                    action_status: 2,
-                    group_id: this.$route.query.group_id
+                    action_status: 2
                 })
                 if (res.group) {
                     this.group_id = res.group.group_id
