@@ -252,18 +252,34 @@ export default {
                 let shortPageUrl = await getShortUrl({
                     long: encodeURIComponent(pageUrl)
                 })
+                let title =
+                    this.code === 1
+                        ? this.$t([
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已申購${this.fundName}，就差你一個了！`,
+                              `I am subscribing${this.fundName}， join me now!`
+                          ])
+                        : this.$t([
+                              `我已认购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
+                              `I am subscribing${this.fundName}， join me now!`
+                          ])
+                let description =
+                    this.code === 1
+                        ? this.$t([
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                              '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
+                              'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
+                          ])
+                        : this.$t([
+                              '和我一起拼团买，尊享认购费折扣返还！点击了解详情>>>',
+                              '一同購買更享「同行優惠」，尊享認購費折扣！點擊了解詳情>>>',
+                              'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
+                          ])
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
-                    title: this.$t([
-                        `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
-                        `我已申購${this.fundName}，就差你一個了！`,
-                        `I am subscribing${this.fundName}， join me now!`
-                    ]),
-                    description: this.$t([
-                        '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
-                        '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
-                        'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
-                    ]),
+                    title: title,
+                    description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
