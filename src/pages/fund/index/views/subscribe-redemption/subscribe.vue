@@ -157,7 +157,8 @@ export default {
             userInfo: {},
             groupRestUsers: 5,
             discount: null,
-            derivativeType: null
+            derivativeType: null,
+            appType: null
         }
     },
     filters: {
@@ -239,6 +240,7 @@ export default {
                 })
                 let mostNum
                 let restNum
+                this.appType = data.action.app_type
                 if (data.action && data.action.rule_detail) {
                     mostNum = JSON.parse(data.action.rule_detail).most_user
 
@@ -338,10 +340,8 @@ export default {
                     (langType.Hk && 2) ||
                     (langType.En && 3) ||
                     1
-
-                let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
