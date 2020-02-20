@@ -351,8 +351,8 @@ export default {
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
                     title: this.$t([
-                        `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                        `我正在申購${this.fundName}，就差你一個了！`,
+                        `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                        `我已申購${this.fundName}，就差你一個了！`,
                         `I am subscribing${this.fundName}， join me now!`
                     ]),
                     description: this.$t([
@@ -678,7 +678,7 @@ export default {
             subscribeSuccess: '同行认购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已认购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申购成功',
             buyMoney: '购买金额',
@@ -722,7 +722,7 @@ export default {
             subscribeSuccess: '同行认购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已认购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申購成功',
             buyMoney: '購買金額',
@@ -766,7 +766,7 @@ export default {
             subscribeSuccess: '同行认购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已认购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: 'Subscription Successful',
             buyMoney: 'Investment Amount',
