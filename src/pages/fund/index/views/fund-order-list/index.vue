@@ -145,7 +145,6 @@ export default {
             this.groupId = item.actionInfo.group.group_id
             this.orderNo = item.orderNo
             this.fundName = item.fundBaseInfoVO.fundName
-            console.log(item.actionInfo.action.rule_detail)
             this.maxNumberPeople =
                 item.actionInfo.action.rule_detail.most_user - item.countNumber
             try {
@@ -156,7 +155,6 @@ export default {
                     item.actionInfo.action &&
                     item.actionInfo.action.rule_detail
                 ) {
-                    console.log()
                     mostNum = item.actionInfo.action.rule_detail.most_user
 
                     this.discount =
