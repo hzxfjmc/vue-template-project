@@ -160,6 +160,7 @@ import {
     getGroupOrder,
     getAdGroupOrders,
     addGroupFollow
+    // checkWhetherGroup
 } from '@/service/zt-group-apiserver.js'
 import { getSource } from '@/service/customer-relationship-server'
 import LS from '@/utils/local-storage'
@@ -557,6 +558,7 @@ export default {
                     biz_type: 0,
                     action_status: 2
                 })
+
                 if (res.group) {
                     this.group_id = res.group.group_id
                 }
@@ -572,6 +574,9 @@ export default {
                 if (res !== null && res.action.status === 3) {
                     this.fightShow = false
                 }
+                // const data = await checkWhetherGroup({
+                //     group_id: this.$route.query.group_id
+                // })
 
                 if (res.order_list.length > 0 && !res.has_joined) {
                     this.figthBtnShow = true

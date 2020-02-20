@@ -59,3 +59,7 @@ export const getGroupOrders = params =>
 // 绑定团购单跟随关系
 export const addGroupFollow = params =>
     axios.post(`/zt-group-apiserver/api/v1/group/add-group-follow`, params)
+
+// 检查用户是否参团
+export const checkWhetherGroup = params =>
+    axios.get(`/zt-group-apiserver/api/v1/group/check-whether-group`, params)
