@@ -67,7 +67,7 @@
             @click="handleBuyOrSell(1)" 
             :disabled="disabled") {{$t('buy')}}
 
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate === 'share'")
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
         van-button(
             class="fund-footer btn button-width"
             @click="handleShare()" 
@@ -1099,6 +1099,7 @@ export default {
         }
     },
     async created() {
+        console.log(this.invate === 'share')
         // enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
