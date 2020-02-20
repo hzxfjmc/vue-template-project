@@ -1181,7 +1181,7 @@ export default {
                 ])
                 const title = `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`
                 jsBridge.callApp('command_share', {
-                    shareType: 'more',
+                    shareType: 'freedom',
                     title: title,
                     description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
