@@ -71,7 +71,7 @@
         van-button(
             class="fund-footer btn button-width"
             @click="handleShare()" 
-            :disabled="disabled") 到uSMART查看更多內容
+            :disabled="disabled") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
 
     .fund-footer-content(
         v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1 && invate !== 'share'")
