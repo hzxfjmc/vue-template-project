@@ -1156,37 +1156,41 @@ export default {
                 let shortPageUrl = await getShortUrl({
                     long: encodeURIComponent(pageUrl)
                 })
-                const tenKRTN =
-                    this.fundHeaderInfoVO.assetType === 4
-                        ? this.$t(['万元收益', '萬元收益', '10K RTN'])
-                        : this.$t(['近一年收益率', '近一年表現', 'Past Year'])
+                let tenKRTN
+                let apy
+                if (this.fundHeaderInfoVO.assetType === 4) {
+                    tenKRTN = this.$t(['万元收益', '萬元收益', '10K RTN'])
+                    apy = this.revenue
+                } else {
+                    tenKRTN = this.$t([
+                        '近一年收益率',
+                        '近一年表現',
+                        'Past Year'
+                    ])
+                    apy =
+                        this.fundHeaderInfoVO.apy > 0
+                            ? '+' + this.fundHeaderInfoVO.apy
+                            : this.fundHeaderInfoVO.apy
+                    apy = apy + '%'
+                }
+
                 const description = this.$t([
-                    `${tenKRTN}${
-                        this.fundHeaderInfoVO.apy > 0
-                            ? '+' + this.fundHeaderInfoVO.apy
-                            : this.fundHeaderInfoVO.apy
-                    }%，基金规模：${this.fundOverviewInfoVO.currency.name} ${(
-                        this.fundOverviewInfoVO.fundSize / 1000000000
-                    ).toFixed(2)}亿，
+                    `${tenKRTN}${apy}，基金规模：${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
+                        2
+                    )}亿，
                     更新时间${this.fundHeaderInfoVO.belongDay}`,
-                    `${tenKRTN}${
-                        this.fundHeaderInfoVO.apy > 0
-                            ? '+' + this.fundHeaderInfoVO.apy
-                            : this.fundHeaderInfoVO.apy
-                    }%，基金規模：${this.fundOverviewInfoVO.currency.name} ${(
-                        this.fundOverviewInfoVO.fundSize / 1000000000
-                    ).toFixed(2)}億，更新時間${
-                        this.fundHeaderInfoVO.belongDay
-                    }`,
-                    `${tenKRTN}${
-                        this.fundHeaderInfoVO.apy > 0
-                            ? '+' + this.fundHeaderInfoVO.apy
-                            : this.fundHeaderInfoVO.apy
-                    }%, AUM：${this.fundOverviewInfoVO.currency.name} ${(
-                        this.fundOverviewInfoVO.fundSize / 100000000
-                    ).toFixed(2)}B，Update Time${
-                        this.fundHeaderInfoVO.belongDay
-                    }`
+                    `${tenKRTN}${apy}，基金規模：${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
+                        2
+                    )}億，更新時間${this.fundHeaderInfoVO.belongDay}`,
+                    `${tenKRTN}${apy}, AUM：${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
+                        2
+                    )}B，Update Time${this.fundHeaderInfoVO.belongDay}`
                 ])
                 const title = `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`
                 jsBridge.callApp('command_share', {
