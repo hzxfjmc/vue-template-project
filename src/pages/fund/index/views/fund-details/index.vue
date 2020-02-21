@@ -1179,8 +1179,7 @@ export default {
                         this.fundOverviewInfoVO.currency.name
                     } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
                         2
-                    )}亿，
-                    更新时间${this.fundHeaderInfoVO.belongDay}`,
+                    )}亿，更新时间${this.fundHeaderInfoVO.belongDay}`,
                     `${tenKRTN}${apy}，基金規模：${
                         this.fundOverviewInfoVO.currency.name
                     } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
