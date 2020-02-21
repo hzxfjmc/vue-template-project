@@ -298,7 +298,7 @@ export default {
         FightFundHk
     },
     computed: {
-        ...mapGetters(['isLogin', 'appType', 'openedAccount']),
+        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
@@ -1100,9 +1100,8 @@ export default {
         }
     },
     async created() {
-        this.appType.Ch
-            ? require('@/assets/img/fund/icon/icon-share.png')
-            : require('@/assets/img/fund/icon/icon-share-hk.png')
+        console.log(this.lang)
+        this.appType.Ch = require('@/assets/img/fund/icon/icon-share-hk.png')
         // enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
@@ -1128,12 +1127,19 @@ export default {
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
         window.handlerFundShare = async () => {
-            let link = `${this.$appOrigin}/wealth/fund/index.html?appType=${
-                this.appType.Ch ? 1 : 2
-            }#/fund-details?id=${this.id}&type=share`
+            let langMun = {
+                zhCHS: 1,
+                zhCHT: 2,
+                en: 3
+            }
+            let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
+                langMun[this.lang]
+            }&appType=${this.appType.Ch ? 1 : 2}#/fund-details?id=${
+                this.id
+            }&type=share`
             let pageUrl = `${
                 window.location.origin
-            }/wealth/fund/index.html?appType=${
+            }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
                 this.appType.Ch ? 1 : 2
             }#/fund-details?id=${this.id}&type=share`
             try {
