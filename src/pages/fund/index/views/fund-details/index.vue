@@ -141,7 +141,7 @@
 
     img(
         v-show="false"
-        :src="require('@/assets/img/fund/icon/icon-share.png')"
+        :src="shareIcon"
         ref="titlebarIcon")
            
     
@@ -456,7 +456,8 @@ export default {
                     label: '成立来',
                     value: ''
                 }
-            }
+            },
+            shareIcon: require('@/assets/img/fund/icon/icon-share.png')
         }
     },
     methods: {
@@ -1099,7 +1100,9 @@ export default {
         }
     },
     async created() {
-        console.log(this.invate === 'share')
+        this.appType.Ch
+            ? require('@/assets/img/fund/icon/icon-share.png')
+            : require('@/assets/img/fund/icon/icon-share-hk.png')
         // enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
