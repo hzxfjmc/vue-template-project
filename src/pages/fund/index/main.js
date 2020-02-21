@@ -24,9 +24,7 @@ Vue.use(i18n, {
 
 router.beforeEach((to, from, next) => {
     // ...
-    if (to.name != 'fund-index') {
-        alert(to.name)
-        alert(21)
+    if (to.name != 'fund-index' && to.name != 'home') {
         require('@/utils/common')
     }
     next()
