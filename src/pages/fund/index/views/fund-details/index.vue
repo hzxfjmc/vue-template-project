@@ -184,6 +184,7 @@ import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
 import { CountDown } from 'vant-fork'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     i18n: {
         zhCHS: {
@@ -298,6 +299,9 @@ export default {
         FightFundHk
     },
     computed: {
+        stockColorType() {
+            return +getStockColorType()
+        },
         ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
@@ -1135,14 +1139,16 @@ export default {
             }
             let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
                 langMun[this.lang]
-            }&appType=${this.appType.Ch ? 1 : 2}#/fund-details?id=${
-                this.id
-            }&type=share`
+            }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
+                this.stockColorType
+            }#/fund-details?id=${this.id}&type=share`
             let pageUrl = `${
                 window.location.origin
             }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
                 this.appType.Ch ? 1 : 2
-            }#/fund-details?id=${this.id}&type=share`
+            }&stockColorType=${this.stockColorType}#/fund-details?id=${
+                this.id
+            }&type=share`
             try {
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
@@ -1189,7 +1195,7 @@ export default {
                     description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
-                    thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
+                    thumbUrl: require('@/assets/img/fund/icon/iconShareImg.png')
                 })
             } catch (e) {
                 console.log(e)
