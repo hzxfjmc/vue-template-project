@@ -1137,11 +1137,11 @@ export default {
                 zhCHT: 2,
                 en: 3
             }
-            // let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
-            //     langMun[this.lang]
-            // }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
-            //     this.stockColorType
-            // }#/fund-details?id=${this.id}&type=share`
+            let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
+                langMun[this.lang]
+            }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
+                this.stockColorType
+            }#/fund-details?id=${this.id}&type=share`
             let pageUrl = `${
                 window.location.origin
             }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
@@ -1150,9 +1150,9 @@ export default {
                 this.id
             }&type=share`
             try {
-                // let shortUrl = await getShortUrl({
-                //     long: encodeURIComponent(link)
-                // })
+                let shortUrl = await getShortUrl({
+                    long: encodeURIComponent(link)
+                })
                 let shortPageUrl = await getShortUrl({
                     long: encodeURIComponent(pageUrl)
                 })
@@ -1173,7 +1173,7 @@ export default {
                             : this.fundHeaderInfoVO.apy
                     apy = apy + '%'
                 }
-
+                alert(`${this.$appOrigin}/${shortUrl.url}`)
                 const description = this.$t([
                     `${tenKRTN}${apy}，基金规模：${
                         this.fundOverviewInfoVO.currency.name
@@ -1198,7 +1198,7 @@ export default {
                     title: title,
                     description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
-                    // shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${window.location.origin}/wealth/fund/iconShareImg.png`
                 })
             } catch (e) {
