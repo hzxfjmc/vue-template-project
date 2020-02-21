@@ -180,7 +180,7 @@ import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
-// import { enablePullRefresh } from '@/utils/js-bridge.js'
+import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
@@ -1108,7 +1108,7 @@ export default {
         this.shareIcon = env.isMainlandBlack
             ? require('@/assets/img/fund/icon/icon-share.png')
             : require('@/assets/img/fund/icon/icon-share-hk.png')
-        // enablePullRefresh(true)
+        enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
         this.getFundNetPriceHistoryV1()
