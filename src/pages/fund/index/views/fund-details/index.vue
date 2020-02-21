@@ -1137,25 +1137,25 @@ export default {
                 zhCHT: 2,
                 en: 3
             }
-            let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
-                langMun[this.lang]
-            }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
-                this.stockColorType
-            }#/fund-details?id=${this.id}&type=share`
-            // let pageUrl = `${
-            //     window.location.origin
-            // }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
-            //     this.appType.Ch ? 1 : 2
-            // }&stockColorType=${this.stockColorType}#/fund-details?id=${
-            //     this.id
-            // }&type=share`
+            // let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
+            //     langMun[this.lang]
+            // }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
+            //     this.stockColorType
+            // }#/fund-details?id=${this.id}&type=share`
+            let pageUrl = `${
+                window.location.origin
+            }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
+                this.appType.Ch ? 1 : 2
+            }&stockColorType=${this.stockColorType}#/fund-details?id=${
+                this.id
+            }&type=share`
             try {
-                let shortUrl = await getShortUrl({
-                    long: encodeURIComponent(link)
-                })
-                // let shortPageUrl = await getShortUrl({
-                //     long: encodeURIComponent(pageUrl)
+                // let shortUrl = await getShortUrl({
+                //     long: encodeURIComponent(link)
                 // })
+                let shortPageUrl = await getShortUrl({
+                    long: encodeURIComponent(pageUrl)
+                })
                 let tenKRTN
                 let apy
                 if (this.fundHeaderInfoVO.assetType === 4) {
@@ -1197,8 +1197,8 @@ export default {
                     shareType: 'freedom',
                     title: title,
                     description: description,
-                    // pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
-                    shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
+                    // shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${window.location.origin}/wealth/fund/iconShareImg.png`
                 })
             } catch (e) {
