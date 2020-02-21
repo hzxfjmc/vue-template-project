@@ -178,7 +178,7 @@ import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
-import { getShortUrl } from '@/service/news-shorturl.js'
+// import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
 // import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
@@ -1133,30 +1133,30 @@ export default {
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
         window.handlerFundShare = async () => {
-            let langMun = {
-                zhCHS: 1,
-                zhCHT: 2,
-                en: 3
-            }
-            let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
-                langMun[this.lang]
-            }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
-                this.stockColorType
-            }#/fund-details?id=${this.id}&type=share`
-            let pageUrl = `${
-                window.location.origin
-            }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
-                this.appType.Ch ? 1 : 2
-            }&stockColorType=${this.stockColorType}#/fund-details?id=${
-                this.id
-            }&type=share`
+            // let langMun = {
+            //     zhCHS: 1,
+            //     zhCHT: 2,
+            //     en: 3
+            // }
+            // let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
+            //     langMun[this.lang]
+            // }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
+            //     this.stockColorType
+            // }#/fund-details?id=${this.id}&type=share`
+            // let pageUrl = `${
+            //     window.location.origin
+            // }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
+            //     this.appType.Ch ? 1 : 2
+            // }&stockColorType=${this.stockColorType}#/fund-details?id=${
+            //     this.id
+            // }&type=share`
             try {
-                let shortUrl = await getShortUrl({
-                    long: encodeURIComponent(link)
-                })
-                let shortPageUrl = await getShortUrl({
-                    long: encodeURIComponent(pageUrl)
-                })
+                // let shortUrl = await getShortUrl({
+                //     long: encodeURIComponent(link)
+                // })
+                // let shortPageUrl = await getShortUrl({
+                //     long: encodeURIComponent(pageUrl)
+                // })
                 let tenKRTN
                 let apy
                 if (this.fundHeaderInfoVO.assetType === 4) {
@@ -1197,8 +1197,10 @@ export default {
                     shareType: 'freedom',
                     title: title,
                     description: description,
-                    pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
-                    shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    pageUrl: 'https://www.baidu.com/',
+                    shortUrl: 'https://www.baidu.com/',
+                    // pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
+                    // shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${window.location.origin}/wealth/fund/iconShareImg.png`
                 })
             } catch (e) {
