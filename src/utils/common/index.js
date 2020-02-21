@@ -20,7 +20,7 @@ import './global-components'
 // import './log-report.js'
 
 import LS from '../local-storage'
-
+alert('加载了')
 // 校验 vue validate
 import './global-validate'
 

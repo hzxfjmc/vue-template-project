@@ -24,6 +24,7 @@ Vue.use(i18n, {
 
 router.beforeEach((to, from, next) => {
     // ...
+    console.log(to)
     if (to.name != 'fund-index') {
         require('@/utils/common')
     }
