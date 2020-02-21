@@ -1195,7 +1195,8 @@ export default {
                     description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
-                    thumbUrl: require('@/assets/img/fund/icon/iconShareImg.png')
+                    thumbUrl:
+                        '../../../../assets/img/fund/icon/iconShareImg.png'
                 })
             } catch (e) {
                 console.log(e)
