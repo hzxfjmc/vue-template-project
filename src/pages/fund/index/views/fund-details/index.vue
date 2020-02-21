@@ -157,6 +157,7 @@ import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
 import scheme from '@/utils/scheme'
+import env from '@/utils/scheme/env'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
@@ -1104,9 +1105,9 @@ export default {
         }
     },
     async created() {
-        this.shareIcon = this.appType.Ch
-            ? require('@/assets/img/fund/icon/icon-share-hk.png')
-            : require('@/assets/img/fund/icon/icon-share.png')
+        this.shareIcon = env.isMainlandBlack
+            ? require('@/assets/img/fund/icon/icon-share.png')
+            : require('@/assets/img/fund/icon/icon-share-hk.png')
         // enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
