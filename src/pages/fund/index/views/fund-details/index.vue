@@ -1154,28 +1154,26 @@ export default {
                             : this.fundHeaderInfoVO.apy
                     }%，基金规模：${this.fundOverviewInfoVO.currency.name} ${(
                         this.fundOverviewInfoVO.fundSize / 1000000000
-                    ).toFixed(2)}亿
-                    ${
-                        window.location.href
-                    }（分享来自@友信智投客户端，立即下载，投资港/美/A股）`,
+                    ).toFixed(2)}亿，
+                    更新时间${this.fundHeaderInfoVO.belongDay}`,
                     `${tenKRTN}${
                         this.fundHeaderInfoVO.apy > 0
                             ? '+' + this.fundHeaderInfoVO.apy
                             : this.fundHeaderInfoVO.apy
                     }%，基金規模：${this.fundOverviewInfoVO.currency.name} ${(
                         this.fundOverviewInfoVO.fundSize / 1000000000
-                    ).toFixed(2)}億${
-                        window.location.href
-                    }（分享來自@友信智投客戶端，立即下載，投資港/美/A股）`,
+                    ).toFixed(2)}億，更新時間${
+                        this.fundHeaderInfoVO.belongDay
+                    }`,
                     `${tenKRTN}${
                         this.fundHeaderInfoVO.apy > 0
                             ? '+' + this.fundHeaderInfoVO.apy
                             : this.fundHeaderInfoVO.apy
                     }%, AUM：${this.fundOverviewInfoVO.currency.name} ${(
                         this.fundOverviewInfoVO.fundSize / 100000000
-                    ).toFixed(2)}B ${
-                        window.location.href
-                    }（Shared From uSMART, Download to trade both HK, US & CN stock）`
+                    ).toFixed(2)}B，Update Time${
+                        this.fundHeaderInfoVO.belongDay
+                    }`
                 ])
                 const title = `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`
                 jsBridge.callApp('command_share', {
