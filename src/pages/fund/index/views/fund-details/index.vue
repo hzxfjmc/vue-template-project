@@ -1140,10 +1140,12 @@ export default {
                 let shortPageUrl = await getShortUrl({
                     long: encodeURIComponent(pageUrl)
                 })
+                const tenKRTN =
+                    this.fundHeaderInfoVO.assetType === 4
+                        ? this.$t(['万元收益', '萬元收益', '10K RTN'])
+                        : this.$t(['近一年收益率', '近一年表現', 'Past Year'])
                 const description = this.$t([
-                    `我正在看一只基金，也推荐给你${
-                        this.fundHeaderInfoVO.fundName
-                    }（${this.fundHeaderInfoVO.isin}）近一年表现${
+                    `${tenKRTN}${
                         this.fundHeaderInfoVO.apy > 0
                             ? '+' + this.fundHeaderInfoVO.apy
                             : this.fundHeaderInfoVO.apy
@@ -1153,11 +1155,7 @@ export default {
                     ${
                         window.location.href
                     }（分享来自@友信智投客户端，立即下载，投资港/美/A股）`,
-                    `我睇緊一隻基金，大家一齊研究下${
-                        this.fundHeaderInfoVO.fundName
-                    }（${this.fundHeaderInfoVO.isin}）近一年表現${
-                        this.fundHeaderInfoVO.fundName
-                    }（${this.fundHeaderInfoVO.isin}）近一年表现${
+                    `${tenKRTN}${
                         this.fundHeaderInfoVO.apy > 0
                             ? '+' + this.fundHeaderInfoVO.apy
                             : this.fundHeaderInfoVO.apy
@@ -1166,11 +1164,7 @@ export default {
                     ).toFixed(2)}億${
                         window.location.href
                     }（分享來自@友信智投客戶端，立即下載，投資港/美/A股）`,
-                    `Fund I want to share with you ${
-                        this.fundHeaderInfoVO.fundName
-                    }（${this.fundHeaderInfoVO.isin}）1 Year ${
-                        this.fundHeaderInfoVO.fundName
-                    }（${this.fundHeaderInfoVO.isin}）近一年表现${
+                    `${tenKRTN}${
                         this.fundHeaderInfoVO.apy > 0
                             ? '+' + this.fundHeaderInfoVO.apy
                             : this.fundHeaderInfoVO.apy
