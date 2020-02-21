@@ -1173,7 +1173,6 @@ export default {
                             : this.fundHeaderInfoVO.apy
                     apy = apy + '%'
                 }
-                alert(`${this.$appOrigin}/${shortUrl.url}`)
                 const description = this.$t([
                     `${tenKRTN}${apy}，基金规模：${
                         this.fundOverviewInfoVO.currency.name
