@@ -1100,8 +1100,9 @@ export default {
         }
     },
     async created() {
-        console.log(this.lang)
-        this.appType.Ch = require('@/assets/img/fund/icon/icon-share-hk.png')
+        this.shareIcon = this.appType.Ch
+            ? require('@/assets/img/fund/icon/icon-share-hk.png')
+            : require('@/assets/img/fund/icon/icon-share.png')
         // enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
