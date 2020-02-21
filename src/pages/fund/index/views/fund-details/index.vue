@@ -56,19 +56,25 @@
         
         .fund___list--p
             p {{$t('msg')}}
-    .fund-footer-content(v-if="btnShow && isGrayAuthority")
+    .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
     
     
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow")
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate !== 'share'")
         van-button(
             class="fund-footer btn button-width"
             @click="handleBuyOrSell(1)" 
             :disabled="disabled") {{$t('buy')}}
 
+    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
+        van-button(
+            class="fund-footer btn button-width"
+            @click="handleShare()" 
+            :disabled="disabled") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
+
     .fund-footer-content(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1")
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1 && invate !== 'share'")
         .block__list--header(v-if="shareHeaderShow")
             .block__footer-avat
                 img(:src="avatImg") 
@@ -102,7 +108,7 @@
                 em 申购费最高可返{{100-discount}}%
 
     .fund-footer-content.fund-footer-hk(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2")
+        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2 && invate !== 'share'")
         .block__list--header-hk(v-if="subscribeButtonShow")
             .block__footer-left
                p {{applyAfter}}
@@ -133,7 +139,10 @@
                     @click="handleBuyOrSell(2)"
                     :disabled="disabled") {{$t('Subscribenow')}}
 
-
+    img(
+        v-show="false"
+        :src="shareIcon"
+        ref="titlebarIcon")
            
     
 </template>
@@ -147,6 +156,8 @@ import FightFundHk from './components/fight-fund-hk.vue'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
+import scheme from '@/utils/scheme'
+import env from '@/utils/scheme/env'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
@@ -167,12 +178,14 @@ import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
+import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
-// import { enablePullRefresh } from '@/utils/js-bridge.js'
+import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
 import { CountDown } from 'vant-fork'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     i18n: {
         zhCHS: {
@@ -287,7 +300,10 @@ export default {
         FightFundHk
     },
     computed: {
-        ...mapGetters(['isLogin', 'appType', 'openedAccount']),
+        stockColorType() {
+            return +getStockColorType()
+        },
+        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
@@ -385,6 +401,7 @@ export default {
             applyAfter: null,
             differenceNumer: 5,
             avatImg: require('@/assets/img/fund/share/avat.png'),
+            invate: this.$route.query.type,
             timeList: {
                 oneWeek: {
                     label: '近一周',
@@ -444,10 +461,18 @@ export default {
                     label: '成立来',
                     value: ''
                 }
-            }
+            },
+            shareIcon: require('@/assets/img/fund/icon/icon-share.png')
         }
     },
     methods: {
+        handleShare() {
+            scheme.gotoWebview(
+                `${window.location.origin}/wealth/fund/index.html?appType=${
+                    this.appType.Ch ? 1 : 2
+                }#/fund-details?id=${this.$route.query.id}`
+            )
+        },
         async addGroupFollow() {
             try {
                 if (this.$route.query.group_id && this.$route.query.order_id) {
@@ -1064,10 +1089,26 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        //设置app分享按钮
+        async setShareButton() {
+            const base64 = this.$refs.titlebarIcon.src.replace(
+                /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
+                ''
+            )
+            jsBridge.callApp('command_set_titlebar_button', {
+                position: 1, //position取值1、2
+                clickCallback: 'handlerFundShare',
+                type: 'custom_icon',
+                custom_icon: base64
+            })
         }
     },
     async created() {
-        // enablePullRefresh(true)
+        this.shareIcon = env.isMainlandBlack
+            ? require('@/assets/img/fund/icon/icon-share.png')
+            : require('@/assets/img/fund/icon/icon-share-hk.png')
+        enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
         this.getFundNetPriceHistoryV1()
@@ -1087,8 +1128,82 @@ export default {
             'appVisible',
             'appInvisible'
         )
+        this.setShareButton()
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
+        //app点击分享按钮回调
+        window.handlerFundShare = async () => {
+            let langMun = {
+                zhCHS: 1,
+                zhCHT: 2,
+                en: 3
+            }
+            let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
+                langMun[this.lang]
+            }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
+                this.stockColorType
+            }#/fund-details?id=${this.id}&type=share`
+            let pageUrl = `${
+                window.location.origin
+            }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
+                this.appType.Ch ? 1 : 2
+            }&stockColorType=${this.stockColorType}#/fund-details?id=${
+                this.id
+            }&type=share`
+            try {
+                let shortUrl = await getShortUrl({
+                    long: encodeURIComponent(link)
+                })
+                let shortPageUrl = await getShortUrl({
+                    long: encodeURIComponent(pageUrl)
+                })
+                let tenKRTN
+                let apy
+                if (this.fundHeaderInfoVO.assetType === 4) {
+                    tenKRTN = this.$t(['万元收益', '萬元收益', '10K RTN'])
+                    apy = this.revenue
+                } else {
+                    tenKRTN = this.$t([
+                        '近一年收益率',
+                        '近一年表現',
+                        'Past Year'
+                    ])
+                    apy =
+                        this.fundHeaderInfoVO.apy > 0
+                            ? '+' + this.fundHeaderInfoVO.apy
+                            : this.fundHeaderInfoVO.apy
+                    apy = apy + '%'
+                }
+                const description = this.$t([
+                    `${tenKRTN}${apy},基金规模:${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
+                        2
+                    )}亿,更新时间${this.fundHeaderInfoVO.belongDay}`,
+                    `${tenKRTN}${apy},基金規模:${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
+                        2
+                    )}億,更新時間${this.fundHeaderInfoVO.belongDay}`,
+                    `${tenKRTN}${apy},AUM:${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
+                        2
+                    )}B,Update Time${this.fundHeaderInfoVO.belongDay}`
+                ])
+                const title = `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`
+                jsBridge.callApp('command_share', {
+                    shareType: 'freedom',
+                    title: title,
+                    description: description,
+                    pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
+                    shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    thumbUrl: `${window.location.origin}/wealth/fund/iconShareImg.png`
+                })
+            } catch (e) {
+                console.log(e)
+            }
+        }
     }
 }
 </script>
