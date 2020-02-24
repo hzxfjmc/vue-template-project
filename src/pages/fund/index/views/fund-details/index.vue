@@ -217,7 +217,12 @@ export default {
             msg:
                 '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
-            Subscribenow: '立即认购'
+            Subscribenow: '立即认购',
+            riskTip: '风险提示',
+            riskTipContent:
+                '该产品为中高风险（R4），超出您当前的风险承受能力平衡性（A1）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品',
+            continueButton: '继续操作',
+            cancelButton: '取消'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -248,7 +253,12 @@ export default {
             msg:
                 '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
-            Subscribenow: '立即認購'
+            Subscribenow: '立即認購',
+            riskTip: '風險提示',
+            riskTipContent:
+                '該產品為中高風險（R4），超出您當前的風險承受能力平衡性（A1）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品',
+            continueButton: '繼續操作',
+            cancelButton: '取消'
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -281,7 +291,12 @@ export default {
                 'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
-            Subscribenow: 'Subscribe now'
+            Subscribenow: 'Subscribe now',
+            riskTip: 'Risk Tip',
+            riskTipContent:
+                'The risk level of this product is R4(Medium High), which exceeds your current risk tolerance is A1(Conservative). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.',
+            continueButton: 'Continue',
+            cancelButton: 'Cancel'
         }
     },
     keepalive: true,
@@ -1021,12 +1036,32 @@ export default {
                     this.userInfo.assessResult <
                     this.fundHeaderInfoVO.fundRiskType
                 ) {
-                    return this.$router.push({
-                        path: '/risk-appropriate-result',
-                        query: {
-                            id: this.$route.query.id || this.id
-                        }
-                    })
+                    if (
+                        this.fundHeaderInfoVO.derivativeType === 2 ||
+                        this.fundHeaderInfoVO.derivativeType === 2
+                    ) {
+                        return this.$router.push({
+                            path: '/risk-appropriate-result',
+                            query: {
+                                id: this.$route.query.id || this.id
+                            }
+                        })
+                    } else {
+                        this.$dialog
+                            .confirm({
+                                title: this.$t('riskTip'),
+                                message: this.$t('riskTipContent'),
+                                confirmButtonText: this.$t('continueButton'),
+                                cancelButtonText: this.$t('cancelButton')
+                            })
+                            .then(() => {
+                                // on confirm
+                            })
+                            .catch(() => {
+                                return
+                                // on cancel
+                            })
+                    }
                 }
                 let data = {
                     query: {

@@ -45,7 +45,7 @@
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
-                van-button(:disabled="disabled" @click="handlerSubmitFilter") {{$t('submitButtonText')}}
+                van-button(@click="handlerSubmitFilter") {{$t('submitButtonText')}}
         template(v-else-if="step === 2")
             .fond-buy.border-bottom
                 .buy-row
@@ -209,9 +209,6 @@ export default {
         },
         subscriptionFeeScale() {
             return NP.times(+this.subscriptionFee, 100)
-        },
-        disabled() {
-            return !this.isCheckedProtocol || !this.purchaseAmount
         }
     },
     methods: {
@@ -569,6 +566,15 @@ export default {
             }
         },
         handlerSubmitFilter() {
+            if (this.purchaseAmount <= 0) {
+                return this.$toast(
+                    this.$t([
+                        '请输入申购金额',
+                        '請輸入申購金額',
+                        'Please Enter The Purchase Amount'
+                    ])
+                )
+            }
             if (
                 this.purchaseAmount / this.withdrawBalance >= 0.5 &&
                 this.derivativeType != 1
