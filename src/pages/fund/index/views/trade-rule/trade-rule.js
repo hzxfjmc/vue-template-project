@@ -20,6 +20,7 @@ export const tradeList = {
     },
     subscriptionFee: {
         label: '申购费',
+        labelHk: '',
         value: ''
     }
 }
@@ -50,6 +51,8 @@ export const i18nTrudeRuleData = {
     zhCHS: {
         managermentLabel: '管理费',
         tradeTitle: '申购',
+        tradeTitleHk: '申购',
+        tradeSubTitleHk: '申购流程',
         tradeSubTitle: '申购流程',
         redeemTitle: '赎回',
         redeemSubtitle: '赎回规则',
@@ -70,7 +73,8 @@ export const i18nTrudeRuleData = {
                 label: '续投金额'
             },
             subscriptionFee: {
-                label: '申购费'
+                label: '申购费',
+                labelHk: '申购费'
             }
         },
         redeemList: {
@@ -102,6 +106,8 @@ export const i18nTrudeRuleData = {
     zhCHT: {
         tradeTitle: '申購',
         managermentLabel: '管理費',
+        tradeTitleHk: '認購',
+        tradeSubTitleHk: '認購流程',
         tradeSubTitle: '申購流程',
         redeemTitle: '贖回',
         redeemSubtitle: '贖回規則',
@@ -131,7 +137,8 @@ export const i18nTrudeRuleData = {
                 label: '續投金額'
             },
             subscriptionFee: {
-                label: '申購費'
+                label: '申購費',
+                labelHk: '認購費'
             }
         },
         redeemList: {
@@ -154,6 +161,8 @@ export const i18nTrudeRuleData = {
     en: {
         tradeTitle: 'Subscription',
         managermentLabel: 'Management Fee',
+        tradeTitleHk: 'Subscription',
+        tradeSubTitleHk: 'Subscription Process',
         tradeSubTitle: 'Subscription Process',
         redeemTitle: 'Redemption',
         redeemSubtitle: 'Workflow',
@@ -183,7 +192,8 @@ export const i18nTrudeRuleData = {
                 label: 'Incremental Amount'
             },
             subscriptionFee: {
-                label: 'Subscription Fee'
+                label: 'Subscription Fee',
+                labelHk: 'Subscription Fee'
             }
         },
         redeemList: {

@@ -73,7 +73,14 @@ export default {
         },
         initI18nState() {
             for (let key in this.list) {
-                this.list[key].label = this.$t('holdDetailsData')[key].label
+                if (key != 'inTransitAmount') {
+                    this.list[key].label = this.$t('holdDetailsData')[key].label
+                } else {
+                    this.list[key].label =
+                        this.initState.code === 1
+                            ? this.$t('holdDetailsData')[key].label
+                            : this.$t('holdDetailsData')[key].labelHk
+                }
             }
         }
     },
