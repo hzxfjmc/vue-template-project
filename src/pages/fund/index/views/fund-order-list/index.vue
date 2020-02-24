@@ -279,6 +279,7 @@ export default {
                     description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    overseaPageUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${window.location.origin}/webapp/marketing/images/mgmChSharev2.png`
                 })
                 this.$toast('分享成功')

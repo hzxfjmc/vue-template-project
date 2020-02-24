@@ -1201,6 +1201,7 @@ export default {
                     description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    overseaPageUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     thumbUrl: `${window.location.origin}/wealth/fund/iconShareImg.png`
                 })
             } catch (e) {
