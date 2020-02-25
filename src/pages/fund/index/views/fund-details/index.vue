@@ -695,8 +695,8 @@ export default {
                     ])
                     this.actionInfo.describeDiscountHk = this.$t([
                         `成功后发起人可享认购费90%折扣，其他成员可享认购费80%折扣`,
-                        `成功後發起人可享認購費${100 -
-                            this.discount}%折扣，其他成員可享認購費80%折扣`,
+                        `「同行」成功後，根據團隊人數最多可享認購費${10 -
+                            this.discount}折`,
                         `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -
                             this
                                 .discount}% off, other members can enjoy 80% discount on subs. fee `
