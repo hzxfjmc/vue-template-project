@@ -351,13 +351,13 @@ export default {
                 let title =
                     this.code === 1
                         ? this.$t([
-                              `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                              `我正在申購${this.fundName}，就差你一個了！`,
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已申購${this.fundName}，就差你一個了！`,
                               `I am subscribing${this.fundName}， join me now!`
                           ])
                         : this.$t([
-                              `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                              `我正在認購${this.fundName}，就差你一個了！`,
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
                               `I am subscribing${this.fundName}， join me now!`
                           ])
                 let description =
