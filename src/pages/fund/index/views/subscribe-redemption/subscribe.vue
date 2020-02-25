@@ -256,8 +256,8 @@ export default {
                     `Up to ${100 - this.discount}% discount on subscription fee`
                 ])
                 this.descrbeDiscountHk = this.$t([
-                    `最多可享${100 - this.discount}%认购费折扣`,
-                    `最多可享${100 - this.discount}%認購費折扣`,
+                    `最多可享认购费${this.discount / 10}折`,
+                    `最多可享認購費${this.discount / 10}折`,
                     `Up to ${100 - this.discount}% discount on subs. fee`
                 ])
                 if (!this.groupId) return

@@ -668,8 +668,8 @@ export default {
                     if (this.orderList.length > 0 && !res.has_joined) {
                         this.subscribeButtonShow = true
                         this.subscribeButtonHk = this.$t([
-                            `最多可享${100 - this.discount}%认购费折扣`,
-                            `最多可享${100 - this.discount}%認購費折扣`,
+                            `立即享最高认购费${this.discount / 10}折`,
+                            `立即享最高認購費${this.discount / 10}折`,
                             `Up to ${100 -
                                 this.discount}% discount on subs. fee`
                         ])
@@ -679,8 +679,8 @@ export default {
                     this.applyAfter = this.$t([
                         `申购后，好友参与[同行优惠]，最多可省${100 -
                             this.discount}%的认购费`,
-                        `認購後，好友參與「同行優惠」，最享${100 -
-                            this.discount}%認購費折扣`,
+                        `認購後，好友參與「同行優惠」，最享${this.discount /
+                            10}折`,
                         `Share with friends, up to ${100 -
                             this.discount}% discount on subs. fee `
                     ])
@@ -696,9 +696,8 @@ export default {
                     this.actionInfo.describeDiscountHk = this.$t([
                         `成功后发起人可享认购费90%折扣，其他成员可享认购费${100 -
                             this.discount}%折扣`,
-                        `「同行」成功後，根據團隊人數最多可享認購費${(100 -
-                            this.discount) /
-                            10}折`,
+                        `「同行」成功後，根據團隊人數最多可享認購費${this
+                            .discount / 10}折`,
                         `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -
                             this
                                 .discount}% off, other members can enjoy 80% discount on subs. fee `
