@@ -187,8 +187,8 @@ export default {
     i18n: {
         zhCHS: {
             format: 'DD天 HH:mm:ss',
-            aloneScribe: '独自认购',
-            togetherScribe: '[同行认购]',
+            aloneScribe: '独自申购',
+            togetherScribe: '[同行申购]',
             Surplus: '剩余',
             describe: '还差5人,申购费最高可返50%',
             buy: '申购',
@@ -215,7 +215,7 @@ export default {
             msg:
                 '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
-            Subscribenow: '立即认购'
+            Subscribenow: '立即申购'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -525,7 +525,7 @@ export default {
                         discribeHk: this.$t([
                             `${
                                 e.group.order_count
-                            }人同行成功，尊享申購費${JSON.parse(
+                            }人同行成功，尊享申购费${JSON.parse(
                                 e.action.rule_detail
                             ).rule_list[
                                 JSON.parse(e.action.rule_detail).rule_list
@@ -672,7 +672,7 @@ export default {
                     if (this.orderList.length > 0 && !res.has_joined) {
                         this.subscribeButtonShow = true
                         this.subscribeButtonHk = this.$t([
-                            `立即享认购费低至${this.discount / 10}折`,
+                            `立即享申购费低至${this.discount / 10}折`,
                             `立即享認購費低至${this.discount / 10}折`,
                             `Up to ${100 -
                                 this.discount}% discount on subs. fee`
@@ -698,8 +698,8 @@ export default {
                                 .discount}% discount on handling fee if you meet the Group Discount requirement.`
                     ])
                     this.actionInfo.describeDiscountHk = this.$t([
-                        `成功后发起人可享认购费90%折扣，其他成员可享认购费${100 -
-                            this.discount}%折扣`,
+                        `「同行」成功后，根据团队人数最多可享申购费${this
+                            .discount / 10}折`,
                         `「同行」成功後，根據團隊人數最多可享認購費${this
                             .discount / 10}折`,
                         `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -

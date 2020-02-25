@@ -59,14 +59,14 @@ export default {
         zhCHS: {
             competition: '参与「同行优惠」享折扣',
             rule: '详细规则',
-            subscription: '成功认购',
+            subscription: '成功申购',
             target: '组团参与',
             target1: '[同行优惠]',
             teamSuccess: '达到目标',
-            discountReturn: '认购费',
+            discountReturn: '是申购费',
             discountReturn1: '折扣返还',
-            describe: '拼团未满达成目标，视为拼团失败不影响基金认购',
-            describe1: '根据团队规模最高可返60%认购费',
+            describe: '未达成目标，不影响基金正常申购',
+            describe1: '根据团队规模最高可返60%申购费',
             describe2: '人正在助力'
         },
         zhCHT: {

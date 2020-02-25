@@ -188,7 +188,7 @@ export default {
                 ])
                 if (orderList.length === mostNum) {
                     this.shareTitle += this.$t([
-                        `<p>同行认购成功，团队已满员</p>`,
+                        `<p>同行申购成功，团队已满员</p>`,
                         `<p>同行認購成功，團隊已滿</p>`,
                         `<p>Your group is full, you have got the Group Discount offer. </p>`
                     ])
@@ -260,7 +260,7 @@ export default {
                               `I am subscribing${this.fundName}， join me now!`
                           ])
                         : this.$t([
-                              `我已认购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
                               `我已認購${this.fundName}，就差你一個了！`,
                               `I am subscribing${this.fundName}， join me now!`
                           ])
@@ -272,7 +272,7 @@ export default {
                               'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                           ])
                         : this.$t([
-                              '和我一起拼团买，尊享认购费折扣返还！点击了解详情>>>',
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
                               '一同購買更享「同行優惠」，尊享認購費折扣！點擊了解詳情>>>',
                               'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                           ])
@@ -382,7 +382,7 @@ export default {
                                         0
                                     ) {
                                         orderItem.discribe = this.$t([
-                                            `同行认购成功，团队已满`,
+                                            `同行申购成功，团队已满`,
                                             `同行認購成功，團隊已滿`,
                                             `Your group is full, you have got the Group Discount offer.`
                                         ])

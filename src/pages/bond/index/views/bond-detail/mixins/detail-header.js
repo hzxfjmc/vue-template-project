@@ -9,7 +9,7 @@ export default {
             yieldToMaturityTips:
                 '到期收益率指按买入价格买入债券并持有到期，获得的全部利息和本金计算而来的年平均收益率。\n\n' +
                 '到期收益率综合考虑了购买价格、持有期限、票面利率等因素，是非常重要的参考要素。',
-            refAmountContract: '参考认购金额/份',
+            refAmountContract: '参考申购金额/份',
             annualInterestContract: '年派息/份',
             viewStocks: '查看股票',
             ok: '我知道了'

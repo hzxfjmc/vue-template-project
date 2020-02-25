@@ -256,7 +256,7 @@ export default {
                     `Up to ${100 - this.discount}% discount on subscription fee`
                 ])
                 this.descrbeDiscountHk = this.$t([
-                    `认购费低至${this.discount / 10}折`,
+                    `申购费低至${this.discount / 10}折`,
                     `認購費低至${this.discount / 10}折`,
                     `Up to ${100 - this.discount}% discount on subs. fee`
                 ])
@@ -272,13 +272,13 @@ export default {
                 }
 
                 this.shareTitle = this.$t([
-                    `<p>认购申请已提交</p>`,
+                    `<p>申购申请已提交</p>`,
                     `<p>認購申請已提交</p>`,
                     `<p>Subscription submitted</p>`
                 ])
                 if (orderList.length === mostNum) {
                     this.shareTitle += this.$t([
-                        `<p>同行认购成功，团队已满员</p>`,
+                        `<p>同行申购成功，团队已满员</p>`,
                         `<p>同行認購成功，團隊已滿</p>`,
                         `<p>Your group is full, you have got the Group Discount offer. </p>`
                     ])
@@ -356,7 +356,7 @@ export default {
                               `I am subscribing${this.fundName}， join me now!`
                           ])
                         : this.$t([
-                              `我正在认购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
                               `我正在認購${this.fundName}，就差你一個了！`,
                               `I am subscribing${this.fundName}， join me now!`
                           ])
@@ -368,7 +368,7 @@ export default {
                               'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                           ])
                         : this.$t([
-                              '和我一起拼团买，尊享认购费折扣返还！点击了解详情>>>',
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
                               '一同購買更享「同行優惠」，尊享認購費折扣！點擊了解詳情>>>',
                               'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                           ])
@@ -691,11 +691,11 @@ export default {
     i18n: {
         zhCHS: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我已认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申购成功',
             buyMoney: '购买金额',
@@ -735,11 +735,11 @@ export default {
         },
         zhCHT: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我已认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申購成功',
             buyMoney: '購買金額',
@@ -779,11 +779,11 @@ export default {
         },
         en: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我已认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: 'Subscription Successful',
             buyMoney: 'Investment Amount',
