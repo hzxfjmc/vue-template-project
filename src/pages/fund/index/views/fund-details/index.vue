@@ -167,7 +167,8 @@ import {
     getGroupAction,
     getGroupOrder,
     getAdGroupOrders,
-    addGroupFollow
+    addGroupFollow,
+    checkWhetherGroup
 } from '@/service/zt-group-apiserver.js'
 import { getSource } from '@/service/customer-relationship-server'
 import LS from '@/utils/local-storage'
@@ -186,8 +187,8 @@ export default {
     i18n: {
         zhCHS: {
             format: 'DD天 HH:mm:ss',
-            aloneScribe: '独自认购',
-            togetherScribe: '[同行认购]',
+            aloneScribe: '独自申购',
+            togetherScribe: '[同行申购]',
             Surplus: '剩余',
             describe: '还差5人,申购费最高可返50%',
             buy: '申购',
@@ -214,7 +215,7 @@ export default {
             msg:
                 '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
-            Subscribenow: '立即认购'
+            Subscribenow: '立即申购'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -522,16 +523,20 @@ export default {
                                 ].discount}% discount on subscription fee.`
                         ]),
                         discribeHk: this.$t([
+                            `${
+                                e.group.order_count
+                            }人同行成功，尊享申购费${JSON.parse(
+                                e.action.rule_detail
+                            ).rule_list[
+                                JSON.parse(e.action.rule_detail).rule_list
+                                    .length - 1
+                            ].discount / 10}折扣 `,
                             `${e.group.order_count}人同行成功，尊享申購費${100 -
                                 JSON.parse(e.action.rule_detail).rule_list[
                                     JSON.parse(e.action.rule_detail).rule_list
                                         .length - 1
-                                ].discount}%折扣 `,
-                            `${e.group.order_count}人同行成功，尊享申購費${100 -
-                                JSON.parse(e.action.rule_detail).rule_list[
-                                    JSON.parse(e.action.rule_detail).rule_list
-                                        .length - 1
-                                ].discount}%折扣 `,
+                                ].discount /
+                                    10}折 `,
                             `Groups with ${e.group.order_count} ppl, ${100 -
                                 JSON.parse(e.action.rule_detail).rule_list[
                                     JSON.parse(e.action.rule_detail).rule_list
@@ -579,14 +584,16 @@ export default {
                 const res = await getGroupAction({
                     biz_id: this.id,
                     biz_type: 0,
-                    action_status: 2,
-                    group_id: this.$route.query.group_id
+                    action_status: 2
                 })
 
+                if (res.group) {
+                    this.group_id = res.group.group_id
+                }
                 this.orderList = res.order_list || []
                 this.orderList.map(item => {
                     if (item.user_info.is_invite_user) {
-                        this.group_id = item.group_order.group_id
+                        // this.group_id = item.group_order.group_id
                         this.avatImg =
                             item.user_info.head_img ||
                             require('@/assets/img/fund/share/avat.png')
@@ -594,6 +601,14 @@ export default {
                 })
                 if (res !== null && res.action.status === 3) {
                     this.fightShow = false
+                }
+                if (this.$route.query.group_id) {
+                    const data = await checkWhetherGroup({
+                        group_id: this.$route.query.group_id
+                    })
+                    if (data.flag) {
+                        this.fightShow = true
+                    }
                 }
 
                 if (res.order_list.length > 0 && !res.has_joined) {
@@ -657,8 +672,8 @@ export default {
                     if (this.orderList.length > 0 && !res.has_joined) {
                         this.subscribeButtonShow = true
                         this.subscribeButtonHk = this.$t([
-                            `最多可享${100 - this.discount}%认购费折扣`,
-                            `最多可享${100 - this.discount}%認購費折扣`,
+                            `立即享申购费低至${this.discount / 10}折`,
+                            `立即享認購費低至${this.discount / 10}折`,
                             `Up to ${100 -
                                 this.discount}% discount on subs. fee`
                         ])
@@ -666,10 +681,10 @@ export default {
                         this.subscribeButtonShow = false
                     }
                     this.applyAfter = this.$t([
-                        `申购后，好友参与[同行优惠]，最多可省${100 -
-                            this.discount}%的认购费`,
-                        `認購後，好友參與「同行優惠」，最享${100 -
-                            this.discount}%認購費折扣`,
+                        `申购后，好友参与[同行优惠]，可享申购费低至${this
+                            .discount / 10}折`,
+                        `認購後，好友參與「同行優惠」，可享認購費低至${this
+                            .discount / 10}折`,
                         `Share with friends, up to ${100 -
                             this.discount}% discount on subs. fee `
                     ])
@@ -678,17 +693,18 @@ export default {
                             this.discount}%申购费`,
                         `「同行」成功，根據團隊規模最高可享申購費${100 -
                             this.discount}%折扣`,
-                        `You entitled Group Discount,Up to ${100 -
+                        `If you meet the Group Discount requirements, you can get up to ${100 -
                             this
-                                .discount}% discount on handling fee if you meet the Group Discount requirement.`
+                                .discount}% discount on subs. fee. depending on the group size.`
                     ])
                     this.actionInfo.describeDiscountHk = this.$t([
-                        `成功后发起人可享认购费90%折扣，其他成员可享认购费80%折扣`,
-                        `成功後發起人可享認購費${100 -
-                            this.discount}%折扣，其他成員可享認購費80%折扣`,
-                        `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -
+                        `「同行」成功后，根据团队人数最多可享申购费${this
+                            .discount / 10}折`,
+                        `「同行」成功後，根據團隊人數最多可享認購費${this
+                            .discount / 10}折`,
+                        `If you meet the Group Discount requirements, you can get up to ${100 -
                             this
-                                .discount}% off, other members can enjoy 80% discount on subs. fee `
+                                .discount}% discount on subs. fee. depending on the group size.`
                     ])
                 }
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
@@ -1161,13 +1177,13 @@ export default {
                 let tenKRTN
                 let apy
                 if (this.fundHeaderInfoVO.assetType === 4) {
-                    tenKRTN = this.$t(['万元收益', '萬元收益', '10K RTN'])
+                    tenKRTN = this.$t(['万元收益:', '萬元收益:', '10K RTN:'])
                     apy = this.revenue
                 } else {
                     tenKRTN = this.$t([
-                        '近一年收益率',
-                        '近一年表現',
-                        'Past Year'
+                        '近一年收益率:',
+                        '近一年表現:',
+                        'Past Year:'
                     ])
                     apy =
                         this.fundHeaderInfoVO.apy > 0
