@@ -681,8 +681,7 @@ export default {
                         this.subscribeButtonShow = false
                     }
                     this.applyAfter = this.$t([
-                        `申购后，好友参与[同行优惠]，最多可省${100 -
-                            this.discount}%的认购费`,
+                        `申购后，好友参与[同行优惠]，可享申购费低至${this.discount}折`,
                         `認購後，好友參與「同行優惠」，可享認購費低至${this
                             .discount / 10}折`,
                         `Share with friends, up to ${100 -
