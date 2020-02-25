@@ -268,8 +268,8 @@ export default {
             timeTranslation: {
                 oneWeek: 'Last 1 week',
                 oneMonth: 'Last 1 month',
-                threeMonth: 'Last 3 month',
-                sixMonth: 'Last 6 month',
+                threeMonth: 'Last 3 months',
+                sixMonth: 'Last 6 months',
                 oneYear: 'Last 1 year',
                 twoYear: 'Last 2 year',
                 threeYear: 'Last 3 year',
@@ -277,7 +277,7 @@ export default {
                 all: 'ALL'
             },
             msg:
-                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.',
+                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment strategy.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
             Subscribenow: 'Subscribe now'

@@ -107,7 +107,7 @@ export default {
             hkd: 'HKD',
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',
-            purchase: 'Min. Subs From',
+            purchase: 'Min. Subs. Amount',
             pirchaseHk: 'Min. Subs Fee',
             update: 'Update Time',
             iknow: 'I get it',

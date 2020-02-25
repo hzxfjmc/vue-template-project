@@ -22,7 +22,7 @@
                                 :disabled="disabledInput"
                                 @input="changeNumber"
                                 :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
-                    .buy-row-item(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
+                    .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
@@ -789,7 +789,7 @@ export default {
             availableBalance: 'Available Balance',
             buyBalance: 'Investment Amount',
             minBugBalance: 'Initial',
-            buyMoneyNumber: 'Amount of Purchasing',
+            buyMoneyNumber: 'Investment Amount',
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
             predict: 'Estimated',

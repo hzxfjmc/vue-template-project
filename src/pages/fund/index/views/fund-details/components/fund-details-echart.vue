@@ -164,10 +164,10 @@ export default {
                 9: { date: 'All' }
             },
             trendCharts: 'Trend Charts',
-            historicalRTN: 'Historical RTN',
+            historicalRTN: 'Historical Rtn',
             NAVHistory: 'NAV History',
-            tenKRTN: '10K RTN',
-            RTNDetail: 'RTN Details'
+            tenKRTN: '10K Rtn',
+            RTNDetail: 'Rtn Details'
         }
     },
     filters: {

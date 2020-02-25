@@ -374,7 +374,7 @@ export default {
             minPositionShare: 'Min. Holding Share',
             continueBalance: 'Redemption Rules',
             redemption: 'Redemption Fee',
-            predict: 'Predict',
+            predict: 'Estimate',
             submitButtonText: 'Agree to agreement and submit',
             dayDone: 'Complete in X days',
             balanceRule: 'Redemption Rules',

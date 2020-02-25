@@ -67,7 +67,7 @@ export default {
             oneYear: 'Last 1 year',
             more: 'More',
             msg:
-                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.'
+                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment strategy.'
         }
     },
     methods: {
@@ -124,12 +124,16 @@ export default {
             font-size: 10px;
             color: #666666;
             margin: 5px 0;
-            flex-direction: row;
+            flex-wrap: wrap;
+            // flex-direction: row;
             .fund_tag {
                 margin: 0 3px 0 0;
                 display: flex;
-                flex-direction: row;
+
+                // flex-direction: row;
                 span {
+                    // white-space: nowrap;
+                    // border: 1px solid red;
                     line-height: 25px;
                 }
             }
