@@ -67,7 +67,7 @@ export default {
             oneYear: 'Last 1 year',
             more: 'More',
             msg:
-                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment strategy.'
+                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.'
         }
     },
     methods: {

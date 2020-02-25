@@ -81,7 +81,7 @@ export default {
                 all: 'ALL'
             },
             msg:
-                'Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.'
+                'Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment.'
         }
     },
     data() {

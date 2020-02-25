@@ -108,7 +108,7 @@ export default {
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',
             purchase: 'Min. Subs. Amount',
-            pirchaseHk: 'Min. Subs Fee',
+            pirchaseHk: 'Min. Subs. Amount',
             update: 'Update Time',
             iknow: 'I get it',
             content:
