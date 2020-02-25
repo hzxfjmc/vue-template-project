@@ -54,8 +54,8 @@ export const getFundPosition = params => {
  *	"tradeToken": "977bb092c9ab4111a69442c7113698f7"
  * }
  */
-export const fundPurchase = params => {
-    return axios.post(`/finance-server/api/fund-purchase/v1`, params)
+export const fundPurchase = (params, config) => {
+    return axios.post(`/finance-server/api/fund-purchase/v1`, params, config)
 }
 
 /**

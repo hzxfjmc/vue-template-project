@@ -157,7 +157,8 @@ export default {
             userInfo: {},
             groupRestUsers: 5,
             discount: null,
-            derivativeType: null
+            derivativeType: null,
+            appType: null
         }
     },
     filters: {
@@ -239,6 +240,7 @@ export default {
                 })
                 let mostNum
                 let restNum
+                this.appType = data.action.app_type
                 if (data.action && data.action.rule_detail) {
                     mostNum = JSON.parse(data.action.rule_detail).most_user
 
@@ -254,8 +256,8 @@ export default {
                     `Up to ${100 - this.discount}% discount on subscription fee`
                 ])
                 this.descrbeDiscountHk = this.$t([
-                    `最多可享${100 - this.discount}%认购费折扣`,
-                    `最多可享${100 - this.discount}%認購費折扣`,
+                    `申购费低至${this.discount / 10}折`,
+                    `認購費低至${this.discount / 10}折`,
                     `Up to ${100 - this.discount}% discount on subs. fee`
                 ])
                 if (!this.groupId) return
@@ -270,13 +272,13 @@ export default {
                 }
 
                 this.shareTitle = this.$t([
-                    `<p>认购申请已提交</p>`,
+                    `<p>申购申请已提交</p>`,
                     `<p>認購申請已提交</p>`,
                     `<p>Subscription submitted</p>`
                 ])
                 if (orderList.length === mostNum) {
                     this.shareTitle += this.$t([
-                        `<p>同行认购成功，团队已满员</p>`,
+                        `<p>同行申购成功，团队已满员</p>`,
                         `<p>同行認購成功，團隊已滿</p>`,
                         `<p>Your group is full, you have got the Group Discount offer. </p>`
                     ])
@@ -338,10 +340,8 @@ export default {
                     (langType.Hk && 2) ||
                     (langType.En && 3) ||
                     1
-
-                let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
@@ -351,13 +351,13 @@ export default {
                 let title =
                     this.code === 1
                         ? this.$t([
-                              `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                              `我正在申購${this.fundName}，就差你一個了！`,
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
                               `I am subscribing${this.fundName}， join me now!`
                           ])
                         : this.$t([
-                              `我正在认购${this.fundName}，老司机开团，就差你上车啦！`,
-                              `我正在認購${this.fundName}，就差你一個了！`,
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
                               `I am subscribing${this.fundName}， join me now!`
                           ])
                 let description =
@@ -368,7 +368,7 @@ export default {
                               'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                           ])
                         : this.$t([
-                              '和我一起拼团买，尊享认购费折扣返还！点击了解详情>>>',
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
                               '一同購買更享「同行優惠」，尊享認購費折扣！點擊了解詳情>>>',
                               'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                           ])
@@ -637,18 +637,22 @@ export default {
                         this.orderTotalAmount = re.orderTotalAmount
                         console.log('申购页面-fundPurchaseData:', re)
                     } else {
-                        const { body, group_id } = await createGroupOrder({
-                            group_id: Number(this.groupId) || 0,
-                            biz_type: 0,
-                            biz_id: this.$route.query.id,
-                            order_detail: JSON.stringify({
-                                displayLocation: 1,
-                                fundId: this.$route.query.id,
-                                purchaseAmount: this.purchaseAmount,
-                                requestId: generateUUID(),
-                                tradeToken: token
-                            })
-                        })
+                        const requestId = generateUUID()
+                        const { body, group_id } = await createGroupOrder(
+                            {
+                                group_id: Number(this.groupId) || 0,
+                                biz_type: 0,
+                                biz_id: this.$route.query.id,
+                                order_detail: JSON.stringify({
+                                    displayLocation: 1,
+                                    fundId: this.$route.query.id,
+                                    purchaseAmount: this.purchaseAmount,
+                                    requestId: requestId,
+                                    tradeToken: token
+                                })
+                            },
+                            { requestId: requestId }
+                        )
                         this.groupId = group_id
                         await this.getGroupOrders()
 
@@ -687,11 +691,11 @@ export default {
     i18n: {
         zhCHS: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申购成功',
             buyMoney: '购买金额',
@@ -731,11 +735,11 @@ export default {
         },
         zhCHT: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申購成功',
             buyMoney: '購買金額',
@@ -745,7 +749,7 @@ export default {
             availableBalance: '可用餘額',
             buyBalance: '购买金额',
             minBugBalance: '最小申購金額',
-            buyMoneyNumber: '申購金額',
+            buyMoneyNumber: '認購金額',
             continueBalance: '續投金額',
             redemption: '申購費',
             predict: '預計',
@@ -775,11 +779,11 @@ export default {
         },
         en: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: 'Subscription Successful',
             buyMoney: 'Investment Amount',

@@ -58,8 +58,7 @@ import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import {
     handlerBatchgetUserGroupOrder,
-    getGroupOrders,
-    getGroupAction
+    getGroupOrders
 } from '@/service/zt-group-apiserver.js'
 import { List } from 'vant'
 import shareWay from '@/biz-components/share-way/index'
@@ -124,28 +123,45 @@ export default {
             shareTitle: '',
             groupRestUsers: 5,
             orderNo: '',
-            fundName: ''
+            fundName: '',
+            appType: null
         }
     },
     methods: {
         //查询拼团订单
-        async getGroupOrders() {
+        async getGroupOrders() {},
+        //获取用户信息
+        async getFundUserInfo() {
             try {
-                let data = await getGroupAction({
-                    biz_id: this.bizId,
-                    biz_type: 0,
-                    action_status: 2
-                })
+                const res = await getFundUserInfo()
+                this.userInfo = res
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
+            }
+        },
+        async handlerShareBtn(item) {
+            this.bizId = item.actionInfo.action.biz_id
+            this.groupId = item.actionInfo.group.group_id
+            this.orderNo = item.orderNo
+            this.fundName = item.fundBaseInfoVO.fundName
+            this.maxNumberPeople =
+                item.actionInfo.action.rule_detail.most_user - item.countNumber
+            try {
                 let mostNum
                 let restNum
-                if (data.action && data.action.rule_detail) {
-                    mostNum = JSON.parse(data.action.rule_detail).most_user
+                this.appType = item.actionInfo.action.app_type
+                if (
+                    item.actionInfo.action &&
+                    item.actionInfo.action.rule_detail
+                ) {
+                    mostNum = item.actionInfo.action.rule_detail.most_user
 
-                    this.discount = JSON.parse(
-                        data.action.rule_detail
-                    ).rule_list[
-                        JSON.parse(data.action.rule_detail).rule_list.length - 1
-                    ].discount
+                    this.discount =
+                        item.actionInfo.action.rule_detail.rule_list[
+                            item.actionInfo.action.rule_detail.rule_list
+                                .length - 1
+                        ].discount
                 }
                 if (!this.groupId && this.groupId === 0) {
                     this.discountShow = true
@@ -156,9 +172,12 @@ export default {
                     group_id: +this.groupId
                 })
                 let orderList = grdersData.order_list || []
-                if (data.action && data.action.rule_detail) {
+                if (
+                    item.actionInfo.action &&
+                    item.actionInfo.action.rule_detail
+                ) {
                     restNum =
-                        JSON.parse(data.action.rule_detail).rule_list[0]
+                        item.actionInfo.action.rule_detail.rule_list[0]
                             .start_user_count - orderList.length
                 }
 
@@ -169,7 +188,7 @@ export default {
                 ])
                 if (orderList.length === mostNum) {
                     this.shareTitle += this.$t([
-                        `<p>同行认购成功，团队已满员</p>`,
+                        `<p>同行申购成功，团队已满员</p>`,
                         `<p>同行認購成功，團隊已滿</p>`,
                         `<p>Your group is full, you have got the Group Discount offer. </p>`
                     ])
@@ -192,34 +211,18 @@ export default {
                     }
                 }
 
-                if (data.action && data.action.rule_detail) {
+                if (
+                    item.actionInfo.action &&
+                    item.actionInfo.action.rule_detail
+                ) {
                     this.groupRestUsers = this.discount =
-                        JSON.parse(data.action.rule_detail).rule_list[0]
+                        item.actionInfo.action.rule_detail.rule_list[0]
                             .start_user_count - orderList.length
                 }
+                this.showShare = true
             } catch (e) {
                 console.log('getGroupOrders:error:>>>', e)
             }
-        },
-        //获取用户信息
-        async getFundUserInfo() {
-            try {
-                const res = await getFundUserInfo()
-                this.userInfo = res
-            } catch (e) {
-                this.$toast(e.msg)
-                console.log('getFundUserInfo:error:>>>', e)
-            }
-        },
-        handlerShareBtn(item) {
-            this.bizId = item.actionInfo.action.biz_id
-            this.groupId = item.actionInfo.group.group_id
-            this.orderNo = item.orderNo
-            this.fundName = item.fundBaseInfoVO.fundName
-            this.maxNumberPeople =
-                item.actionInfo.action.rule_detail.most_user - item.countNumber
-            this.getGroupOrders()
-            this.showShare = true
         },
 
         async handleShare(_index) {
@@ -240,9 +243,9 @@ export default {
                     (langType.Hk && 2) ||
                     (langType.En && 3) ||
                     1
-                let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
@@ -252,13 +255,13 @@ export default {
                 let title =
                     this.code === 1
                         ? this.$t([
-                              `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                              `我正在申購${this.fundName}，就差你一個了！`,
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
                               `I am subscribing${this.fundName}， join me now!`
                           ])
                         : this.$t([
-                              `我正在认购${this.fundName}，老司机开团，就差你上车啦！`,
-                              `我正在認購${this.fundName}，就差你一個了！`,
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
                               `I am subscribing${this.fundName}， join me now!`
                           ])
                 let description =
@@ -269,7 +272,7 @@ export default {
                               'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                           ])
                         : this.$t([
-                              '和我一起拼团买，尊享认购费折扣返还！点击了解详情>>>',
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
                               '一同購買更享「同行優惠」，尊享認購費折扣！點擊了解詳情>>>',
                               'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
                           ])
@@ -379,7 +382,7 @@ export default {
                                         0
                                     ) {
                                         orderItem.discribe = this.$t([
-                                            `同行认购成功，团队已满`,
+                                            `同行申购成功，团队已满`,
                                             `同行認購成功，團隊已滿`,
                                             `Your group is full, you have got the Group Discount offer.`
                                         ])

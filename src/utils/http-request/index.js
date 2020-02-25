@@ -48,7 +48,7 @@ export default class baseRequest {
             // 修复bug 几乎同时请求是 生产的id 会一致的问题
             headerInfo['X-Time'] = Date.now()
             headerInfo['X-Trans-Id'] = guid()
-            headerInfo['X-Request-Id'] = guid()
+            headerInfo['X-Request-Id'] = config['requestId'] || guid()
             if (compareVersion(headerInfo['X-Ver'], '1.7.0') > -1) {
                 // X-Token，安全渗透，版本大于等于 1.7.0 时候加入 header
                 let xTokenData = await JSBridge.callApp('get_http_sign', {
