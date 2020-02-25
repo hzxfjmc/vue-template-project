@@ -125,15 +125,10 @@ export default {
             color: #666666;
             margin: 5px 0;
             flex-wrap: wrap;
-            // flex-direction: row;
             .fund_tag {
                 margin: 0 3px 0 0;
                 display: flex;
-
-                // flex-direction: row;
                 span {
-                    // white-space: nowrap;
-                    // border: 1px solid red;
                     line-height: 25px;
                 }
             }
