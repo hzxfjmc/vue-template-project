@@ -702,9 +702,9 @@ export default {
                             .discount / 10}折`,
                         `「同行」成功後，根據團隊人數最多可享認購費${this
                             .discount / 10}折`,
-                        `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -
+                        `If you meet the Group Discount requirements, you can get up to ${100 -
                             this
-                                .discount}% off, other members can enjoy 80% discount on subs. fee `
+                                .discount}% discount on subs. fee. depending on the group size.`
                     ])
                 }
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
