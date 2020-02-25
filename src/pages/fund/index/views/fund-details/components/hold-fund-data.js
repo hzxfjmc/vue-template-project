@@ -34,6 +34,7 @@ export const holdDetailsData = {
     },
     inTransitAmount: {
         label: '申购中(金额）',
+        labelHk: '申购中(金额)',
         key: '',
         layout: 'right',
         value: '0.00'
@@ -57,7 +58,8 @@ export const i18nHoldDetailsData = {
                 label: '持有资产'
             },
             inTransitAmount: {
-                label: '申购中(金额）'
+                label: '申购中(金额）',
+                labelHk: '申购中(金额)'
             },
             redeemDeliveryShare: {
                 label: '赎回中(份额）'
@@ -80,7 +82,8 @@ export const i18nHoldDetailsData = {
                 label: '持有市值'
             },
             inTransitAmount: {
-                label: '待確認金額'
+                label: '待確認金額',
+                labelHk: '待確認金額'
             },
             redeemDeliveryShare: {
                 label: '贖回中(份額)'
@@ -103,7 +106,8 @@ export const i18nHoldDetailsData = {
                 label: 'Holding Value'
             },
             inTransitAmount: {
-                label: 'Amount to be CFMD'
+                label: 'Amount to be CFMD',
+                labelHk: 'Amount to be CFMD'
             },
             redeemDeliveryShare: {
                 label: 'Redeeming（Unit）'

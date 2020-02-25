@@ -22,13 +22,13 @@
             :initState="holdInitState")
 
         FightFundHk(
-            v-if="!fightShow && code ==2"
+            v-if="!fightShow && code ===2"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
         FightFund(
-            v-if="!fightShow && code == 1"
+            v-if="!fightShow && code === 1"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
@@ -51,9 +51,6 @@
         fundCardList(
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
-
-        
-        
         .fund___list--p
             p {{$t('msg')}}
     .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
@@ -65,7 +62,7 @@
         van-button(
             class="fund-footer btn button-width"
             @click="handleBuyOrSell(1)" 
-            :disabled="disabled") {{$t('buy')}}
+            :disabled="disabled") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
         van-button(
@@ -181,7 +178,6 @@ import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
-import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
@@ -196,6 +192,7 @@ export default {
             Surplus: '剩余',
             describe: '还差5人,申购费最高可返50%',
             buy: '申购',
+            buyHk: '申购',
             redeem: '赎回',
             risk: '风险提示',
             append: '追加',
@@ -227,6 +224,7 @@ export default {
             Surplus: '剩餘',
             describe: '還差5人，最高可享申購費50%折扣',
             buy: '申購',
+            buyHk: '認購',
             redeem: '贖回',
             risk: '風險提示',
             append: '續投',
@@ -259,6 +257,7 @@ export default {
             describe:
                 'X people needed to get the 50% discounton subscription fee.',
             buy: 'Subscribe',
+            buyHk: 'Subscribe',
             redeem: 'Redemption',
             risk: 'Risk Disclosure',
             trade: 'Transaction Records',
@@ -346,7 +345,7 @@ export default {
             fightShow: true,
             contentmsg: '',
             time: 30 * 60 * 60 * 1000,
-            code: '',
+            code: null,
             has_joined: true,
             tagsShow: false,
             tagShow: false,
@@ -678,7 +677,7 @@ export default {
                         this.subscribeButtonShow = false
                     }
                     this.applyAfter = this.$t([
-                        `认购后，好友参与[同行优惠]，最多可省${100 -
+                        `申购后，好友参与[同行优惠]，最多可省${100 -
                             this.discount}%的认购费`,
                         `認購後，好友參與「同行優惠」，最享${100 -
                             this.discount}%認購費折扣`,
@@ -1094,6 +1093,9 @@ export default {
             try {
                 const { code } = await getSource()
                 this.code = code
+                this.fundHeaderInfoVO.code = code
+                this.fundTradeInfoVO.code = code
+                this.holdInitState.code = code
                 if (!this.isLogin) {
                     this.code = this.appType.Hk ? 2 : 1
                 }
@@ -1119,7 +1121,6 @@ export default {
         this.shareIcon = env.isMainlandBlack
             ? require('@/assets/img/fund/icon/icon-share.png')
             : require('@/assets/img/fund/icon/icon-share-hk.png')
-        enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
         this.getFundNetPriceHistoryV1()

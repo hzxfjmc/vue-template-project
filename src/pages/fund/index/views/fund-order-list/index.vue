@@ -182,7 +182,7 @@ export default {
                 }
 
                 this.shareTitle = this.$t([
-                    `<p>认购申请已提交</p>`,
+                    `<p>申购申请已提交</p>`,
                     `<p>認購申請已提交</p>`,
                     `<p>Subscription submitted</p>`
                 ])

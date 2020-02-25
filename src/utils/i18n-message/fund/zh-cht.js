@@ -9,7 +9,7 @@ export const zhCHT = {
     riskAppropriateResult: '產品匹配',
     openPermissions: '基金權限開通',
     orderRecord: '訂單記錄',
-    fundSubscribe: '基金申購',
+    fundSubscribe: '基金認購',
     fundRedemption: '基金贖回',
     orderRecordDetail: '訂單記錄',
     incomeDetails: '收益明細',

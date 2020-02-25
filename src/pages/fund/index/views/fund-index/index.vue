@@ -110,7 +110,7 @@ import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
 import jsBridge from '@/utils/js-bridge'
-// import { enablePullRefresh } from '@/utils/js-bridge.js'
+import { enablePullRefresh } from '@/utils/js-bridge.js'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
 import { getSource } from '@/service/customer-relationship-server'
@@ -543,7 +543,7 @@ export default {
         }
     },
     async mounted() {
-        // enablePullRefresh(true)
+        enablePullRefresh(true)
         this.$refs.renderEchartlist.innerHTML = ''
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
