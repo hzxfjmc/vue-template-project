@@ -523,16 +523,20 @@ export default {
                                 ].discount}% discount on subscription fee.`
                         ]),
                         discribeHk: this.$t([
+                            `${
+                                e.group.order_count
+                            }人同行成功，尊享申購費${JSON.parse(
+                                e.action.rule_detail
+                            ).rule_list[
+                                JSON.parse(e.action.rule_detail).rule_list
+                                    .length - 1
+                            ].discount / 10}折扣 `,
                             `${e.group.order_count}人同行成功，尊享申購費${100 -
                                 JSON.parse(e.action.rule_detail).rule_list[
                                     JSON.parse(e.action.rule_detail).rule_list
                                         .length - 1
-                                ].discount}%折扣 `,
-                            `${e.group.order_count}人同行成功，尊享申購費${100 -
-                                JSON.parse(e.action.rule_detail).rule_list[
-                                    JSON.parse(e.action.rule_detail).rule_list
-                                        .length - 1
-                                ].discount}%折扣 `,
+                                ].discount /
+                                    10}折 `,
                             `Groups with ${e.group.order_count} ppl, ${100 -
                                 JSON.parse(e.action.rule_detail).rule_list[
                                     JSON.parse(e.action.rule_detail).rule_list
@@ -679,8 +683,8 @@ export default {
                     this.applyAfter = this.$t([
                         `申购后，好友参与[同行优惠]，最多可省${100 -
                             this.discount}%的认购费`,
-                        `認購後，好友參與「同行優惠」，最享${this.discount /
-                            10}折`,
+                        `認購後，好友參與「同行優惠」，最高享認購費${this
+                            .discount / 10}折`,
                         `Share with friends, up to ${100 -
                             this.discount}% discount on subs. fee `
                     ])
