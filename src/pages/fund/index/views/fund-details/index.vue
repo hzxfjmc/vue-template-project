@@ -693,9 +693,9 @@ export default {
                             this.discount}%申购费`,
                         `「同行」成功，根據團隊規模最高可享申購費${100 -
                             this.discount}%折扣`,
-                        `You entitled Group Discount,Up to ${100 -
+                        `If you meet the Group Discount requirements, you can get up to ${100 -
                             this
-                                .discount}% discount on handling fee if you meet the Group Discount requirement.`
+                                .discount}% discount on subs. fee. depending on the group size.`
                     ])
                     this.actionInfo.describeDiscountHk = this.$t([
                         `「同行」成功后，根据团队人数最多可享申购费${this
