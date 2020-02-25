@@ -1177,13 +1177,13 @@ export default {
                 let tenKRTN
                 let apy
                 if (this.fundHeaderInfoVO.assetType === 4) {
-                    tenKRTN = this.$t(['万元收益', '萬元收益', '10K RTN'])
+                    tenKRTN = this.$t(['万元收益:', '萬元收益:', '10K RTN:'])
                     apy = this.revenue
                 } else {
                     tenKRTN = this.$t([
-                        '近一年收益率',
-                        '近一年表現',
-                        'Past Year'
+                        '近一年收益率:',
+                        '近一年表現:',
+                        'Past Year:'
                     ])
                     apy =
                         this.fundHeaderInfoVO.apy > 0
