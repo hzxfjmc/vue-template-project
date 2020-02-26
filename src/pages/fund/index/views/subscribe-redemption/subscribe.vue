@@ -21,7 +21,7 @@
                                 type="text"
                                 :disabled="disabledInput"
                                 @input="changeNumber"
-                                :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
+                                :placeHolder="`${initialInvestAmount}${currency.shortSymbol || ''}${$t('buyMoneyPlaceHolder')} `" )
                     .buy-row-item(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
