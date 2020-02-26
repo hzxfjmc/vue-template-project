@@ -104,7 +104,7 @@ export default {
             dayChg: '日涨幅',
             timeMore: '时间区间',
             navChg: '单位净值',
-            incomeRate: '漲跌幅',
+            incomeRate: '涨跌幅',
             more1: '查看更多',
             yieldInLast7d: '近七日年化',
             list: {
