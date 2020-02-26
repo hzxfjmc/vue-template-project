@@ -1181,7 +1181,7 @@ export default {
                     apy = this.revenue
                 } else {
                     tenKRTN = this.$t([
-                        '近一年收益率:',
+                        '近一年漲跌幅:',
                         '近一年表現:',
                         'Past Year:'
                     ])

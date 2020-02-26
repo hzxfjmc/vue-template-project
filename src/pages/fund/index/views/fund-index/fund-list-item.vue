@@ -50,7 +50,7 @@ export default {
             described: '起',
             unit: '亿',
             fundSizeIndex: '规模',
-            day: '收益率'
+            day: '涨跌幅'
         },
         zhCHT: {
             described: '起',

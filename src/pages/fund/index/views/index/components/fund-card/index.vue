@@ -19,7 +19,7 @@ import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     i18n: {
         zhCHS: {
-            annualRateOfReturn: '近一年收益率',
+            annualRateOfReturn: '近一年涨跌幅',
             yieldInLast7d: '近七日年化',
             HKD: '港币',
             USD: '美元'

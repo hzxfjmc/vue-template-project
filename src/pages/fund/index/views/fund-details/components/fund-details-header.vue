@@ -68,7 +68,7 @@ export default {
             purchase: '起购金额',
             pirchaseHk: '起购金额',
             update: '更新时间',
-            oneYearShow: '近一年收益率',
+            oneYearShow: '近一年涨跌幅',
             yieldInLast7d: '近七日年化',
             hkd: '港币',
             usd: '美元',

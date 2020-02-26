@@ -104,7 +104,7 @@ export default {
             dayChg: '日涨幅',
             timeMore: '时间区间',
             navChg: '单位净值',
-            incomeRate: '收益率',
+            incomeRate: '漲跌幅',
             more1: '查看更多',
             yieldInLast7d: '近七日年化',
             list: {
@@ -123,7 +123,7 @@ export default {
         },
         zhCHT: {
             fundTrade: '基金業績走勢',
-            incomeRate: '收益率',
+            incomeRate: '漲跌幅',
             timeMore: '時間區間',
             more1: '查看更多',
             dayChg: '日漲幅',
