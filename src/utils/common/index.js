@@ -20,7 +20,6 @@ import './global-components'
 import './log-report.js'
 
 import LS from '../local-storage'
-
 // 校验 vue validate
 import './global-validate'
 
