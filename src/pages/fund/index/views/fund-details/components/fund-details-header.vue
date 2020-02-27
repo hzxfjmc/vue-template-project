@@ -103,7 +103,7 @@ export default {
             Complex: 'Complex',
             fundPrice: 'NAV',
             minInvestment: 'Min. Initial Investment',
-            oneYearShow: '1 Year Rtn(Cum)',
+            oneYearShow: '1-Year Rtn(Cum)',
             hkd: 'HKD',
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',

@@ -24,8 +24,8 @@
                             span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                         .tag-list--element(v-else)
                             span {{item.assetTypeName}}
-                            span {{`${item.initialInvestAmount}${item.tradeCurrency}起`}}
-                            span {{`${item.fundSize}亿${item.fundSizeCurrency}`}}
+                            span {{`${item.initialInvestAmount}${item.tradeCurrency}${$t('described1')}`}}
+                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                             //- fund-tag(:title="item.assetTypeName")
                             //- fund-tag(
                             //-     :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
@@ -53,6 +53,7 @@ export default {
     i18n: {
         zhCHS: {
             described: '起',
+            described1: '起',
             fundSizeIndex: '规模',
             unit: '亿',
             USD: '美元',
@@ -61,10 +62,11 @@ export default {
             AUS: '澳元',
             KRW: '韩元',
             JPY: '日元',
-            day: '收益率'
+            day: '涨跌幅'
         },
         zhCHT: {
             described: '起',
+            described1: '起',
             fundSizeIndex: '規模',
             unit: '億',
             USD: '美元',
@@ -77,6 +79,7 @@ export default {
         },
         en: {
             described: 'Min. ',
+            described1: '',
             fundSizeIndex: 'AUM ',
             unit: 'B ',
             USD: '美元',
@@ -85,7 +88,7 @@ export default {
             AUS: '澳元',
             KRW: '韩元',
             JPY: '日元',
-            day: 'Rtn (Cum)'
+            day: ''
         }
     },
     components: {

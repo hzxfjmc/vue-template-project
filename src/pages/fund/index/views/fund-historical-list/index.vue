@@ -69,16 +69,16 @@ export default {
             timeMore: 'Period',
             nav: 'Chg%',
             timeTranslation: {
-                oneWeek: 'Last 1 week',
-                oneMonth: 'Last 1 month',
-                threeMonth: 'Last 3 month',
-                sixMonth: 'Last 6 month',
-                oneYear: 'Last 1 year',
-                twoYear: 'Last 2 year',
-                threeYear: 'Last 3 year',
-                fiveYear: 'Last 5 year',
-                toYear: 'YTD',
-                all: 'ALL'
+                oneWeek: 'Last 1-Week',
+                oneMonth: 'Last 1-Month',
+                threeMonth: 'Last 3-Month',
+                sixMonth: 'Last 6-Month',
+                oneYear: 'Last 1-Year',
+                twoYear: 'Last 2-Year',
+                threeYear: 'Last 3-Year',
+                fiveYear: 'Last 5-Year',
+                all: 'SInce Inception',
+                toYear: 'YTD'
             },
             msg:
                 'Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment.'

@@ -164,7 +164,7 @@ export default {
         },
         en: {
             unit: 'B ',
-            fundHold: 'Position',
+            fundHold: 'Portfolio',
             SevenDayIncome: '7 Days',
             hkd: 'HKD',
             usd: 'USD',

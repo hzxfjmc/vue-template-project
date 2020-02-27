@@ -267,15 +267,15 @@ export default {
             openAccountBtn: 'Open account',
             openAccount: 'Please open your account to continue the trade',
             timeTranslation: {
-                oneWeek: 'Last 1 week',
-                oneMonth: 'Last 1 month',
-                threeMonth: 'Last 3 months',
-                sixMonth: 'Last 6 months',
-                oneYear: 'Last 1 year',
-                twoYear: 'Last 2 year',
-                threeYear: 'Last 3 year',
-                fiveYear: 'Last 5 year',
-                all: 'ALL'
+                oneWeek: 'Last 1-Week',
+                oneMonth: 'Last 1-Month',
+                threeMonth: 'Last 3-Month',
+                sixMonth: 'Last 6-Month',
+                oneYear: 'Last 1-Year',
+                twoYear: 'Last 2-Year',
+                threeYear: 'Last 3-Year',
+                fiveYear: 'Last 5-Year',
+                all: 'SInce Inception'
             },
             msg:
                 'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.',
@@ -1232,6 +1232,7 @@ export default {
     p {
         font-size: 12px;
         line-height: 17px;
+        text-align: justify;
         color: #999999;
     }
 }

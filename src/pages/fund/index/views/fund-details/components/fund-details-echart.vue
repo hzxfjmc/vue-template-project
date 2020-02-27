@@ -161,7 +161,7 @@ export default {
                 2: { date: '6M' },
                 3: { date: '1Y' },
                 4: { date: '3Y' },
-                9: { date: 'All' }
+                9: { date: 'Max' }
             },
             trendCharts: 'Trend Charts',
             historicalRTN: 'Historical Rtn',

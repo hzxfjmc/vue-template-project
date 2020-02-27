@@ -31,7 +31,7 @@ export default {
             USD: '美元'
         },
         en: {
-            annualRateOfReturn: '1 Year Rtn(Cum)',
+            annualRateOfReturn: '1-Year Rtn(Cum)',
             yieldInLast7d: 'Yield in Last 7d',
             HKD: 'HKD',
             USD: 'USD'

@@ -137,8 +137,8 @@ export default {
         en: {
             amountMoney: 'Amount',
             share: 'Unit',
-            hkdAssets: 'HKD Assets',
-            usdAssets: 'USD Assets',
+            hkdAssets: 'HKD Holdings',
+            usdAssets: 'USD Holdings',
             profitPostion: 'Total Return',
             SevenDayIncome: '7 Days',
             Redemption: 'Redeming',
