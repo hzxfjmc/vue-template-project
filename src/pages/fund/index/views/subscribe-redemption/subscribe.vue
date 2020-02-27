@@ -253,7 +253,7 @@ export default {
                 this.descrbeDiscount = this.$t([
                     `拼团最高可返${100 - this.discount}%`,
                     `「同行優惠」最高可以費用${100 - this.discount}%折扣`,
-                    `Up to ${100 - this.discount}% discount on subscription fee`
+                    `Up to ${100 - this.discount}% discount on subs. fee`
                 ])
                 this.descrbeDiscountHk = this.$t([
                     `申购费低至${this.discount / 10}折`,

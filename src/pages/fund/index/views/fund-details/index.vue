@@ -686,7 +686,7 @@ export default {
                         `認購後，好友參與「同行優惠」，可享認購費低至${this
                             .discount / 10}折`,
                         `Share with friends, up to ${100 -
-                            this.discount}% discount on subs. fee `
+                            this.discount}% discount on subs. fee`
                     ])
                     this.actionInfo.describeDiscount = this.$t([
                         `拼团成功，根据团队规模最高可返${100 -
