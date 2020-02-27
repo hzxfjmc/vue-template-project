@@ -103,7 +103,7 @@ export default {
             Complex: 'Complex',
             fundPrice: 'NAV',
             minInvestment: 'Min. Initial Investment',
-            oneYearShow: 'Past Year',
+            oneYearShow: '1 Year Rtn(Cum)',
             hkd: 'HKD',
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',
@@ -296,7 +296,7 @@ export default {
         font-size: 11px;
         color: $text-color5;
         .block__details--left {
-            width: 60%;
+            width: 50%;
         }
         .number-red {
             color: rgba(234, 61, 61, 1);
@@ -305,7 +305,7 @@ export default {
             color: #04ba60;
         }
         .block__details--right {
-            width: 40%;
+            width: 50%;
             text-align: right;
         }
     }

@@ -171,7 +171,7 @@ export default {
             accountTotal: 'Total Fund Assets',
             fundCurrency: 'MMF',
             fundBond: 'Bond',
-            fundBlend: 'Balanced',
+            fundBlend: 'Allocation',
             fundShares: 'Equity',
             login: 'Please login in',
             loginBtn: 'Login',

@@ -64,7 +64,7 @@ export default {
                 '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
         },
         en: {
-            oneYear: 'Past Year',
+            oneYear: '1 Year Rtn(Cum)',
             more: 'More',
             msg:
                 'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.'

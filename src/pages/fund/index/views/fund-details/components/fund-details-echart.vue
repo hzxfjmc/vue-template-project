@@ -150,7 +150,7 @@ export default {
             navChg: 'NAV',
             timeMore: 'Period',
             more1: 'More',
-            incomeRate: ' Return',
+            incomeRate: ' Rtn(Cum)',
             fundTrade: 'Trend Charts',
             time: 'Time',
             nav: 'Chg%',

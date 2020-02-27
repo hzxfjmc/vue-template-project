@@ -62,7 +62,7 @@ export default {
             described: 'Min. ',
             unit: 'B ',
             fundSizeIndex: 'AUM ',
-            day: ''
+            day: '(Cum)'
         }
     },
     props: {
