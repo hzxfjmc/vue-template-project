@@ -52,19 +52,19 @@ export default {
     },
     i18n: {
         zhCHS: {
-            oneYear: '近一年',
+            oneYear: '近一年涨跌幅',
             more: '更多基金',
             msg:
                 '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎'
         },
         zhCHT: {
-            oneYear: '近一年',
+            oneYear: '近一年表現',
             more: '更多基金',
             msg:
                 '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
         },
         en: {
-            oneYear: 'Last 1 year',
+            oneYear: 'Past Year',
             more: 'More',
             msg:
                 'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.'
