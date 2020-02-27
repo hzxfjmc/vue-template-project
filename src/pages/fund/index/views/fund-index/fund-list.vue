@@ -85,7 +85,7 @@ export default {
             AUS: '澳元',
             KRW: '韩元',
             JPY: '日元',
-            day: '(Cum)'
+            day: 'Rtn (Cum)'
         }
     },
     components: {
