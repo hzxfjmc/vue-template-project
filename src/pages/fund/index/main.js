@@ -26,10 +26,11 @@ router.beforeEach((to, from, next) => {
     // ...
     if (to.name != 'fund-index' && to.name != 'home') {
         require('@/utils/common')
+    } else {
+        require('@/utils/common/fund_index')
     }
     next()
 })
-
 // mock
 // import '@/mock/index.js'
 
