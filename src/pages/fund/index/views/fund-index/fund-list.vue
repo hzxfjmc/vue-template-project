@@ -194,7 +194,6 @@ export default {
         .element--right {
             width: 40px;
             height: 40px;
-            // margin: 15px 0;
             img {
                 width: 40px;
 
