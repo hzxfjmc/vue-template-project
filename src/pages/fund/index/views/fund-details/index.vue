@@ -1038,7 +1038,7 @@ export default {
                 ) {
                     if (
                         this.fundHeaderInfoVO.derivativeType === 2 ||
-                        this.fundHeaderInfoVO.derivativeType === 2
+                        this.fundHeaderInfoVO.derivativeType === 3
                     ) {
                         return this.$router.push({
                             path: '/risk-appropriate-result',
