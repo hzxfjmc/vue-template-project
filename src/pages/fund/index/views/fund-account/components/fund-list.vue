@@ -144,7 +144,7 @@ export default {
             Redemption: 'Redeming',
             subscribe: 'Purchasing',
             subscribeHk: 'Purchasing',
-            nomore: 'No Position',
+            nomore: 'No Holdings',
             usd: 'USD',
             hkd: 'HKD'
         }
