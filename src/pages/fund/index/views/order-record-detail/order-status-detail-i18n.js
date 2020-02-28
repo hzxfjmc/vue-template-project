@@ -36,7 +36,7 @@ export const i18nOrderStatusData = {
         failedRemark: '訂單失敗原因'
     },
     en: {
-        amount: 'Amount',
+        amount: 'Investment Amount',
         againBuy: 'One More Order',
         dialogMsg: 'Would you like to cancel the order?',
         orderTime: 'Order Time',

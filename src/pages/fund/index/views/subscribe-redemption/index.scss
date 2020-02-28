@@ -204,6 +204,30 @@
                 }
             }
         }
+        .buy-row-item-fund{
+            margin:0;
+            width:100%;
+            display: flex;
+            line-height: 30px;
+            // height:40px;
+            padding: 5px 0;
+            .left-item{
+                width:30%;
+                color: $text-color5;
+            }
+            .right-item{
+                text-align: right;
+                width:70%;
+                position: relative;
+                span{
+                    display:block;
+                    width:100%;
+                }
+                .msg{
+                    color:#FF7127;
+                }
+            }
+        }
         .right-item-buyMoney{
             input{
                 width: 100%;

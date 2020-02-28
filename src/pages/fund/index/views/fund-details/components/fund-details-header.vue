@@ -103,12 +103,12 @@ export default {
             Complex: 'Complex',
             fundPrice: 'NAV',
             minInvestment: 'Min. Initial Investment',
-            oneYearShow: 'Past Year',
+            oneYearShow: '1-Year Rtn(Cum)',
             hkd: 'HKD',
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',
-            purchase: 'Min. Subs From',
-            pirchaseHk: 'Min. Subs Fee',
+            purchase: 'Min. Subs. Amount',
+            pirchaseHk: 'Min. Subs. Amount',
             update: 'Update Time',
             iknow: 'I get it',
             content:
@@ -296,7 +296,7 @@ export default {
         font-size: 11px;
         color: $text-color5;
         .block__details--left {
-            width: 60%;
+            width: 50%;
         }
         .number-red {
             color: rgba(234, 61, 61, 1);
@@ -305,7 +305,7 @@ export default {
             color: #04ba60;
         }
         .block__details--right {
-            width: 40%;
+            width: 50%;
             text-align: right;
         }
     }

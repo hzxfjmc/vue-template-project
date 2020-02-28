@@ -23,10 +23,10 @@
                         //- fund-tag(
                         //-     :title="item.assetTypeName")
                         fund-tag(
-                            :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
+                            :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described1'):''}`")
                         fund-tag(
                             v-if="item.fundSize != 0"
-                            :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
+                            :title="`${lang === 'en' ? $t('fundSizeIndex'):''}${item.fundSize}${$t('unit')}${item.fundSizeCurrency}${lang === 'en' ?'':$t('fundSizeIndex')}`")
                 
 </template>
 <script>
@@ -48,18 +48,21 @@ export default {
     i18n: {
         zhCHS: {
             described: '起',
+            described1: '起购',
             unit: '亿',
             fundSizeIndex: '规模',
             day: '涨跌幅'
         },
         zhCHT: {
             described: '起',
+            described1: '起購',
             unit: '億',
             fundSizeIndex: '規模',
             day: '表現'
         },
         en: {
             described: 'Min. ',
+            described1: '',
             unit: 'B ',
             fundSizeIndex: 'AUM ',
             day: ''

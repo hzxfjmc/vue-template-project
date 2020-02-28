@@ -150,7 +150,7 @@ export default {
             navChg: 'NAV',
             timeMore: 'Period',
             more1: 'More',
-            incomeRate: ' Return',
+            incomeRate: ' Rtn(Cum)',
             fundTrade: 'Trend Charts',
             time: 'Time',
             nav: 'Chg%',
@@ -161,13 +161,13 @@ export default {
                 2: { date: '6M' },
                 3: { date: '1Y' },
                 4: { date: '3Y' },
-                9: { date: 'All' }
+                9: { date: 'Max' }
             },
             trendCharts: 'Trend Charts',
-            historicalRTN: 'Historical RTN',
+            historicalRTN: 'Historical Rtn',
             NAVHistory: 'NAV History',
-            tenKRTN: '10K RTN',
-            RTNDetail: 'RTN Details'
+            tenKRTN: '10K Rtn',
+            RTNDetail: 'Rtn Details'
         }
     },
     filters: {

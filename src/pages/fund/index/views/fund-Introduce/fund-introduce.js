@@ -166,7 +166,7 @@ export const i18nIntroducelist = {
         zq: 'Less',
         list: {
             fundFiles: {
-                label: 'Related DOC'
+                label: 'Related Docs'
             },
             fundCompanyName: {
                 label: 'Fund Company'

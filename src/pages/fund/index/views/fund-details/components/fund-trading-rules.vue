@@ -58,7 +58,7 @@ export default {
         },
         en: {
             rule: 'Trading Rules',
-            tips: 'Process、Fees',
+            tips: 'Process,Fees',
             subscriptionFee: 'Subscription Fee',
             subscriptionFeeHk: 'Subscription Fee',
             redemptionFee: 'Redemption Fee',
