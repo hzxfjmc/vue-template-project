@@ -1038,7 +1038,8 @@ export default {
                 ) {
                     if (
                         this.fundHeaderInfoVO.derivativeType === 2 ||
-                        this.fundHeaderInfoVO.derivativeType === 3
+                        this.fundHeaderInfoVO.derivativeType === 3 ||
+                        this.userInfo.damagedStatus === 1
                     ) {
                         return this.$router.push({
                             path: '/risk-appropriate-result',
