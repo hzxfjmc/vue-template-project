@@ -77,7 +77,7 @@ export default {
                 twoYear: 'Last 2-Year',
                 threeYear: 'Last 3-Year',
                 fiveYear: 'Last 5-Year',
-                all: 'SInce Inception',
+                all: 'Since Inception',
                 toYear: 'YTD'
             },
             msg:
