@@ -35,7 +35,7 @@ export default {
     created() {
         console.log(this.bondRiskLevel, '0000')
         // 等待预定请求完成后，执行下一步操作
-        this.getCurrentUser()
+        console.log(window.location.href)
         if (!this.$route.query.fundRiskType) {
             this.handleGetBondDetail()
         }

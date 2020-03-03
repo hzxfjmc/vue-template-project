@@ -219,8 +219,6 @@ export default {
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
             Subscribenow: '立即认购',
             riskTip: '风险提示',
-            riskTipContent:
-                '该产品为中高风险（R4），超出您当前的风险承受能力平衡性（A1）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品',
             continueButton: '继续操作',
             cancelButton: '取消'
         },
@@ -255,8 +253,6 @@ export default {
             describe3: '3人「同行」成功，尊享70%申購費折扣',
             Subscribenow: '立即認購',
             riskTip: '風險提示',
-            riskTipContent:
-                '該產品為中高風險（R4），超出您當前的風險承受能力平衡性（A1）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品',
             continueButton: '繼續操作',
             cancelButton: '取消'
         },
@@ -293,8 +289,6 @@ export default {
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
             Subscribenow: 'Subscribe now',
             riskTip: 'Risk Tip',
-            riskTipContent:
-                'The risk level of this product is R4(Medium High), which exceeds your current risk tolerance is A1(Conservative). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.',
             continueButton: 'Continue',
             cancelButton: 'Cancel'
         }
@@ -1044,18 +1038,40 @@ export default {
                         return this.$router.push({
                             path: '/risk-appropriate-result',
                             query: {
-                                id: this.$route.query.id || this.id
+                                id: this.$route.query.id || this.id,
+                                fundRiskType: this.fundRiskType
                             }
                         })
                     } else {
+                        let riskTipContent = this.$t([
+                            `该产品为中高风险（R${this.fundHeaderInfoVO.fundRiskType}），超出您当前的风险承受能力平衡性（A${this.userInfo.assessResult}）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
+                            `該產品為中高風險（R${this.fundHeaderInfoVO.fundRiskType}），超出您當前的風險承受能力平衡性（A${this.userInfo.assessResult}）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
+                            `The risk level of this product is R${this.fundHeaderInfoVO.fundRiskType}(Medium High), which exceeds your current risk tolerance is A${this.userInfo.assessResult}(Conservative). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
+                        ])
                         this.$dialog
                             .confirm({
                                 title: this.$t('riskTip'),
-                                message: this.$t('riskTipContent'),
+                                message: riskTipContent,
                                 confirmButtonText: this.$t('continueButton'),
                                 cancelButtonText: this.$t('cancelButton')
                             })
                             .then(() => {
+                                let data = {
+                                    query: {
+                                        id: this.$route.query.id || this.id,
+                                        assessResult: this.userInfo
+                                            .assessResult,
+                                        currencyType: this.fundTradeInfoVO
+                                            .currency.type,
+                                        fundCode: this.fundCode
+                                    }
+                                }
+                                data.path =
+                                    // eslint-disable-next-line no-constant-condition
+                                    (this.userInfo.extendStatusBit & 16) > 0
+                                        ? '/fund-subscribe'
+                                        : '/open-permissions'
+                                this.$router.push(data)
                                 // on confirm
                             })
                             .catch(() => {
@@ -1064,20 +1080,6 @@ export default {
                             })
                     }
                 }
-                let data = {
-                    query: {
-                        id: this.$route.query.id || this.id,
-                        assessResult: this.userInfo.assessResult,
-                        currencyType: this.fundTradeInfoVO.currency.type,
-                        fundCode: this.fundCode
-                    }
-                }
-                data.path =
-                    // eslint-disable-next-line no-constant-condition
-                    (this.userInfo.extendStatusBit & 16) > 0
-                        ? '/fund-subscribe'
-                        : '/open-permissions'
-                this.$router.push(data)
             }
         },
         async appVisibleHandle(data) {
