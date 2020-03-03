@@ -22,14 +22,7 @@ Vue.use(i18n, {
     messages
 })
 
-router.beforeEach((to, from, next) => {
-    // ...
-    if (to.name != 'fund-index' && to.name != 'home') {
-        require('@/utils/common')
-    }
-    next()
-})
-
+import '@/utils/common'
 // mock
 // import '@/mock/index.js'
 

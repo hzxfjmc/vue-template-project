@@ -34,7 +34,6 @@ import { jsBridge, uSmartInit, htmlUtils, DOMAIN } from 'yx-base-h5'
 
 const { isYouxinIos, isYouxinApp, appType, setTitle } = htmlUtils
 // 友信证券初始化方法
-uSmartInit()
 
 // import { isYouxinIos, isYouxinApp, appType, setTitle } from '../html-utils.js'
 // import jsBridge from '../js-bridge'
@@ -133,6 +132,11 @@ Vue.mixin({
                     if (vm.$t && vm.$t(title)) {
                         title = vm.$t(title)
                     }
+                    //基金主页不需要关闭下拉刷新
+                    if (to.name != 'fund-index' && to.name != 'home') {
+                        uSmartInit()
+                    }
+
                     // 香港app开户隐藏title
                     if (
                         appType.Hk &&
