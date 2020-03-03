@@ -990,6 +990,7 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
+
             if (!this.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
@@ -1026,19 +1027,19 @@ export default {
                     }
                 })
             } else {
+                if (this.userInfo.damagedStatus === 1) {
+                    return this.$router.push({
+                        path: '/risk-assessment-result',
+                        query: {
+                            id: this.$route.query.id || this.id,
+                            fundRiskType: this.fundRiskType
+                        }
+                    })
+                }
                 if (
                     this.userInfo.assessResult <
                     this.fundHeaderInfoVO.fundRiskType
                 ) {
-                    if (this.userInfo.damagedStatus === 1) {
-                        return this.$router.push({
-                            path: '/risk-assessment-result',
-                            query: {
-                                id: this.$route.query.id || this.id,
-                                fundRiskType: this.fundRiskType
-                            }
-                        })
-                    }
                     if (
                         this.fundHeaderInfoVO.derivativeType === 2 ||
                         this.fundHeaderInfoVO.derivativeType === 3
@@ -1050,7 +1051,11 @@ export default {
                                 fundRiskType: this.fundRiskType
                             }
                         })
-                    } else {
+                    }
+                    if (
+                        this.fundHeaderInfoVO.derivativeType != 2 &&
+                        this.fundHeaderInfoVO.derivativeType != 3
+                    ) {
                         let riskTipContent = this.$t([
                             `该产品为中高风险（R${this.fundHeaderInfoVO.fundRiskType}），超出您当前的风险承受能力平衡性（A${this.userInfo.assessResult}）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
                             `該產品為中高風險（R${this.fundHeaderInfoVO.fundRiskType}），超出您當前的風險承受能力平衡性（A${this.userInfo.assessResult}）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
@@ -1087,6 +1092,21 @@ export default {
                                 // on cancel
                             })
                     }
+                } else {
+                    let data = {
+                        query: {
+                            id: this.$route.query.id || this.id,
+                            assessResult: this.userInfo.assessResult,
+                            currencyType: this.fundTradeInfoVO.currency.type,
+                            fundCode: this.fundCode
+                        }
+                    }
+                    data.path =
+                        // eslint-disable-next-line no-constant-condition
+                        (this.userInfo.extendStatusBit & 16) > 0
+                            ? '/fund-subscribe'
+                            : '/open-permissions'
+                    this.$router.push(data)
                 }
             }
         },

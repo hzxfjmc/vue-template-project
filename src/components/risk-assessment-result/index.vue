@@ -18,7 +18,7 @@
                 @click="handleAction"
             )
         van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
-            .title {{$t('resultTitle') }}
+            .title {{isExpried? $t('expired') : assessResultName}}
             .msg-info {{assessDefinition}}
             .msg-result {{$t('resultCus')}}
             .msg-title {{$t('msgTitle')}}
