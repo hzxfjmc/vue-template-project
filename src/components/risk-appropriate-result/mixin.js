@@ -38,6 +38,7 @@ export default {
         console.log(window.location.href)
         if (!this.$route.query.fundRiskType) {
             this.handleGetBondDetail()
+            this.fundType = 1
         }
         this.handleSetupResult()
     },
@@ -57,6 +58,7 @@ export default {
             number: 0, //剩余测评次数
             showRemainingNum: false, //剩余次数弹窗
             resetTime: '', //重置时间
+            fundType: 0, //0基金1债券
             damagedStatus: 0 //是否为易受损用户
         }
     },
@@ -130,8 +132,8 @@ export default {
                 displayLocation: 1,
                 fundId: this.$route.query.id
             })
-            console.log(this.$route.query.id, 'id')
-            this.bondRiskLevel = res.fundHeaderInfoVO.fundRiskType
+            this.fundType = 0
+            this.bondRiskLevel = `${res.fundHeaderInfoVO.fundRisk}(R${res.fundHeaderInfoVO.fundRiskType})`
         },
         // 操作按钮
         handleAction() {
