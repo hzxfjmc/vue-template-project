@@ -267,18 +267,18 @@ export default {
             openAccountBtn: 'Open account',
             openAccount: 'Please open your account to continue the trade',
             timeTranslation: {
-                oneWeek: 'Last 1 week',
-                oneMonth: 'Last 1 month',
-                threeMonth: 'Last 3 month',
-                sixMonth: 'Last 6 month',
-                oneYear: 'Last 1 year',
-                twoYear: 'Last 2 year',
-                threeYear: 'Last 3 year',
-                fiveYear: 'Last 5 year',
-                all: 'ALL'
+                oneWeek: 'Last 1-Week',
+                oneMonth: 'Last 1-Month',
+                threeMonth: 'Last 3-Month',
+                sixMonth: 'Last 6-Month',
+                oneYear: 'Last 1-Year',
+                twoYear: 'Last 2-Year',
+                threeYear: 'Last 3-Year',
+                fiveYear: 'Last 5-Year',
+                all: 'SInce Inception'
             },
             msg:
-                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.',
+                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
             Subscribenow: 'Subscribe now'
@@ -686,7 +686,7 @@ export default {
                         `認購後，好友參與「同行優惠」，可享認購費低至${this
                             .discount / 10}折`,
                         `Share with friends, up to ${100 -
-                            this.discount}% discount on subs. fee `
+                            this.discount}% discount on subs. fee`
                     ])
                     this.actionInfo.describeDiscount = this.$t([
                         `拼团成功，根据团队规模最高可返${100 -
@@ -1181,7 +1181,7 @@ export default {
                     apy = this.revenue
                 } else {
                     tenKRTN = this.$t([
-                        '近一年收益率:',
+                        '近一年漲跌幅:',
                         '近一年表現:',
                         'Past Year:'
                     ])
@@ -1232,6 +1232,7 @@ export default {
     p {
         font-size: 12px;
         line-height: 17px;
+        text-align: justify;
         color: #999999;
     }
 }

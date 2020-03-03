@@ -58,7 +58,7 @@ export default {
         },
         en: {
             orderStatus: 'Order Status',
-            estimate: 'Predict',
+            estimate: 'Estimate',
             surePosition: 'Allocate Fund Units in X Days',
             checkProfit: 'Check Earnings in X Days'
         }

@@ -56,7 +56,7 @@ export default {
         zhCHS: {
             title: '人气之选',
             subtitle: '众多投资者的选择',
-            oneYearRate: '近一年收益率',
+            oneYearRate: '近一年涨跌幅',
             yieldInLast7d: '近七日年化',
             holdPosition: '已持仓'
         },

@@ -22,7 +22,7 @@
                                 :disabled="disabledInput"
                                 @input="changeNumber"
                                 :placeHolder="`${initialInvestAmount}${currency.type == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
-                    .buy-row-item(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
+                    .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
@@ -253,7 +253,7 @@ export default {
                 this.descrbeDiscount = this.$t([
                     `拼团最高可返${100 - this.discount}%`,
                     `「同行優惠」最高可以費用${100 - this.discount}%折扣`,
-                    `Up to ${100 - this.discount}% discount on subscription fee`
+                    `Up to ${100 - this.discount}% discount on subs. fee`
                 ])
                 this.descrbeDiscountHk = this.$t([
                     `申购费低至${this.discount / 10}折`,
@@ -793,7 +793,7 @@ export default {
             availableBalance: 'Available Balance',
             buyBalance: 'Investment Amount',
             minBugBalance: 'Initial',
-            buyMoneyNumber: 'Amount of Purchasing',
+            buyMoneyNumber: 'Investment Amount',
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
             predict: 'Estimated',
