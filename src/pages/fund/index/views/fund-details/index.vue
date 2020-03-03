@@ -220,7 +220,34 @@ export default {
             Subscribenow: '立即认购',
             riskTip: '风险提示',
             continueButton: '继续操作',
-            cancelButton: '取消'
+            cancelButton: '取消',
+            resultList: {
+                1: {
+                    registration: 'A1',
+                    riskStyle: '保守型',
+                    suitPro: '低风险产品'
+                },
+                2: {
+                    registration: 'A2',
+                    riskStyle: '稳健型',
+                    suitPro: '中低风险产品'
+                },
+                3: {
+                    registration: 'A3',
+                    riskStyle: '均衡型',
+                    suitPro: '中风险产品'
+                },
+                4: {
+                    registration: 'A4',
+                    riskStyle: '增长型',
+                    suitPro: '中高风险产品'
+                },
+                5: {
+                    registration: 'A5',
+                    riskStyle: '进取型',
+                    suitPro: '高风险产品'
+                }
+            }
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -254,7 +281,34 @@ export default {
             Subscribenow: '立即認購',
             riskTip: '風險提示',
             continueButton: '繼續操作',
-            cancelButton: '取消'
+            cancelButton: '取消',
+            resultList: {
+                1: {
+                    registration: 'A1',
+                    riskStyle: '保守型',
+                    suitPro: '低風險產品'
+                },
+                2: {
+                    registration: 'A2',
+                    riskStyle: '穩健型',
+                    suitPro: '中低風險產品'
+                },
+                3: {
+                    registration: 'A3',
+                    riskStyle: '均衡型',
+                    suitPro: '中風險產品'
+                },
+                4: {
+                    registration: 'A4',
+                    riskStyle: '增長型',
+                    suitPro: '中高風險產品'
+                },
+                5: {
+                    registration: 'A5',
+                    riskStyle: '進取型',
+                    suitPro: '高風險產品'
+                }
+            }
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -290,7 +344,34 @@ export default {
             Subscribenow: 'Subscribe now',
             riskTip: 'Risk Tip',
             continueButton: 'Continue',
-            cancelButton: 'Cancel'
+            cancelButton: 'Cancel',
+            resultList: {
+                1: {
+                    registration: 'A1',
+                    riskStyle: 'Conservative',
+                    suitPro: 'Low Risk Products'
+                },
+                2: {
+                    registration: 'A2',
+                    riskStyle: 'Stable',
+                    suitPro: 'Low - Medium Risk Products'
+                },
+                3: {
+                    registration: 'A3',
+                    riskStyle: 'Balanced',
+                    suitPro: 'Medium Risk Products'
+                },
+                4: {
+                    registration: 'A4',
+                    riskStyle: 'Growth',
+                    suitPro: 'Medium - High Risk Products'
+                },
+                5: {
+                    registration: 'A5',
+                    riskStyle: 'Aggressive',
+                    suitPro: 'High Risk Products'
+                }
+            }
         }
     },
     keepalive: true,
@@ -1056,10 +1137,37 @@ export default {
                         this.fundHeaderInfoVO.derivativeType != 2 &&
                         this.fundHeaderInfoVO.derivativeType != 3
                     ) {
+                        console.log(this.$t('resultList'))
                         let riskTipContent = this.$t([
-                            `该产品为中高风险（R${this.fundHeaderInfoVO.fundRiskType}），超出您当前的风险承受能力平衡性（A${this.userInfo.assessResult}）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
-                            `該產品為中高風險（R${this.fundHeaderInfoVO.fundRiskType}），超出您當前的風險承受能力平衡性（A${this.userInfo.assessResult}）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
-                            `The risk level of this product is R${this.fundHeaderInfoVO.fundRiskType}(Medium High), which exceeds your current risk tolerance is A${this.userInfo.assessResult}(Conservative). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
+                            `该产品为中${this.fundHeaderInfoVO.fundRisk}（R${
+                                this.fundHeaderInfoVO.fundRiskType
+                            }），超出您当前的风险承受能力${
+                                this.$t('resultList')[
+                                    this.userInfo.assessResult
+                                ].riskStyle
+                            }（A${
+                                this.userInfo.assessResult
+                            }）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
+                            `該產品為中高風險（R${
+                                this.fundHeaderInfoVO.fundRiskType
+                            }），超出您當前的風險承受能力${
+                                this.$t('resultList')[
+                                    this.userInfo.assessResult
+                                ].riskStyle
+                            }（A${
+                                this.userInfo.assessResult
+                            }）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
+                            `The risk level of this product is R${
+                                this.fundHeaderInfoVO.fundRiskType
+                            }(${
+                                this.fundHeaderInfoVO.fundRisk
+                            }), which exceeds your current risk tolerance is A${
+                                this.userInfo.assessResult
+                            }(${
+                                this.$t('resultList')[
+                                    this.userInfo.assessResult
+                                ].riskStyle
+                            }). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
                         ])
                         this.$dialog
                             .confirm({
