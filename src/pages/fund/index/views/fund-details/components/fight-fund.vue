@@ -288,7 +288,7 @@ export default {
                 text-overflow: ellipsis;
             }
             .block__vant--p {
-                width: 70%;
+                width: 68%;
             }
         }
     }

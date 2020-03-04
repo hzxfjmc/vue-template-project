@@ -497,13 +497,24 @@ export default {
                 }
                 let tempArr = []
                 order_list.forEach((e, i) => {
-                    tempArr.push({
-                        headImg:
-                            e.user_info.head_img ||
-                            require('@/assets/img/fund/share/avat.png'),
-                        nickName: e.user_info.nick_name,
-                        order_count: e.group.order_count,
-                        discribe: this.$t([
+                    let discribe, discribeHk
+                    let rule_detail = JSON.parse(e.action.rule_detail)
+                    let num =
+                        rule_detail.rule_list[0].start_user_count -
+                        e.group.order_count
+                    if (num > 0) {
+                        discribe = this.$t([
+                            `拼团申购中，还差${num}人成团 `,
+                            `拼团申购中，还差${num}人成团 `,
+                            `拼团申购中，还差${num}人成团 `
+                        ])
+                        discribeHk = this.$t([
+                            `拼团申购中，还差${num}人成团 `,
+                            `拼团申购中，还差${num}人成团 `,
+                            `拼团申购中，还差${num}人成团 `
+                        ])
+                    } else {
+                        discribe = this.$t([
                             `拼团成功，团队规模${
                                 e.group.order_count
                             }人，尊享${100 -
@@ -521,8 +532,8 @@ export default {
                                     JSON.parse(e.action.rule_detail).rule_list
                                         .length - 1
                                 ].discount}% discount on subscription fee.`
-                        ]),
-                        discribeHk: this.$t([
+                        ])
+                        discribeHk = this.$t([
                             `${
                                 e.group.order_count
                             }人同行成功，尊享申购费${JSON.parse(
@@ -542,7 +553,16 @@ export default {
                                     JSON.parse(e.action.rule_detail).rule_list
                                         .length - 1
                                 ].discount}% discount on subs. fee`
-                        ]),
+                        ])
+                    }
+                    tempArr.push({
+                        headImg:
+                            e.user_info.head_img ||
+                            require('@/assets/img/fund/share/avat.png'),
+                        nickName: e.user_info.nick_name,
+                        order_count: e.group.order_count,
+                        discribe: discribe,
+                        discribeHk: discribeHk,
                         rule_detail: JSON.parse(e.action.rule_detail).rule_list[
                             JSON.parse(e.action.rule_detail).rule_list.length -
                                 1
