@@ -345,7 +345,6 @@ export default {
                             })
                     }
                 } else {
-                    alert(132)
                     let data = {
                         query: {
                             id: this.fundId,

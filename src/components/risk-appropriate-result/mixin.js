@@ -40,6 +40,7 @@ export default {
             this.handleGetBondDetail()
             this.fundType = 1
         }
+        this.getCurrentUser()
         this.handleSetupResult()
     },
     data() {
@@ -177,11 +178,15 @@ export default {
                             fundCode: this.fundCode
                         }
                     }
+                    console.log(this.userInfo)
+                    console.log(this.userInfo.extendStatusBit)
+                    console.log((this.userInfo.extendStatusBit & 16) > 0)
                     data.path =
                         (this.userInfo.extendStatusBit & 16) > 0
                             ? '/fund-subscribe'
                             : '/open-permissions'
-                    this.$router.push(data)
+                    console.log(data)
+                    // this.$router.push(data)
                 }
             }
         },
@@ -190,6 +195,7 @@ export default {
             try {
                 const res = await getCurrentUser()
                 this.userInfo = res
+                console.log(res)
                 console.log(this.userInfo)
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)
