@@ -1098,7 +1098,7 @@ export default {
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
             ) {
-                return this.$router.push({
+                this.$router.push({
                     path: '/risk-assessment',
                     query: {
                         id: this.$route.query.id || this.id,
@@ -1107,6 +1107,7 @@ export default {
                         currencyType: this.fundTradeInfoVO.currency.type
                     }
                 })
+                return
             } else {
                 if (
                     this.userInfo.assessResult <
@@ -1126,7 +1127,7 @@ export default {
                         this.fundHeaderInfoVO.derivativeType === 3
                     ) {
                         this.$router.push({
-                            path: '/prisk-appropriate-result',
+                            path: '/risk-assessment-result',
                             query: {
                                 id: this.$route.query.id || this.id,
                                 fundRiskType: this.fundRiskType

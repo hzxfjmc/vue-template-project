@@ -12,7 +12,7 @@
                 .risk-cell
                     span {{$t('proRisk')}}
                     strong(v-if="fundType === 1") {{ $t('riskTypeList')[bondRiskLevel] && $t('riskTypeList')[bondRiskLevel]  }}
-                    strong(v-else) {{fundRiskTypeLevel }}
+                    strong(v-else) {{fundRiskTypeLevel}}
             .risk-result__tips(v-if="riskMatchResult === 1")
                 h2
                     span {{$t('riskMeans')}}
