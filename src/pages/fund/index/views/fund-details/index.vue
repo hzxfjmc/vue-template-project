@@ -1137,7 +1137,7 @@ export default {
                     }
                     if (this.fundHeaderInfoVO.derivativeType === 1) {
                         let riskTipContent = this.$t([
-                            `该产品为中${this.fundHeaderInfoVO.fundRisk}（R${
+                            `该产品为${this.fundHeaderInfoVO.fundRisk}（R${
                                 this.fundHeaderInfoVO.fundRiskType
                             }），超出您当前的风险承受能力${
                                 this.$t('resultList')[

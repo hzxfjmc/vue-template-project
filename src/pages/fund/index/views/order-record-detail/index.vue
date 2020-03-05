@@ -127,7 +127,8 @@ export default {
             userInfo: {},
             fundRiskType: '',
             fundTradeInfoVO: {},
-            fundHeaderInfoVO: {}
+            fundHeaderInfoVO: {},
+            fundOverviewInfoVO: {}
         }
     },
     filters: {
@@ -156,6 +157,7 @@ export default {
                     isin: isin
                 })
                 this.fundRiskType = fundOverviewInfoVO.fundRiskType
+                this.fundOverviewInfoVO = fundOverviewInfoVO
                 this.fundTradeInfoVO = fundTradeInfoVO
                 this.fundHeaderInfoVO = fundHeaderInfoVO
             } catch (e) {
@@ -265,8 +267,8 @@ export default {
                         })
                     }
                     if (
-                        this.fundHeaderInfoVO.derivativeType === 2 ||
-                        this.fundHeaderInfoVO.derivativeType === 3
+                        this.fundOverviewInfoVO.derivativeType === 2 ||
+                        this.fundOverviewInfoVO.derivativeType === 3
                     ) {
                         return this.$router.push({
                             path: '/risk-appropriate-result',
@@ -276,7 +278,7 @@ export default {
                             }
                         })
                     }
-                    if (this.fundHeaderInfoVO.derivativeType === 1) {
+                    if (this.fundOverviewInfoVO.derivativeType === 1) {
                         let riskTipContent = this.$t([
                             `该产品为中${this.fundHeaderInfoVO.fundRisk}（R${
                                 this.fundHeaderInfoVO.fundRiskType
@@ -343,6 +345,7 @@ export default {
                             })
                     }
                 } else {
+                    alert(132)
                     let data = {
                         query: {
                             id: this.fundId,
