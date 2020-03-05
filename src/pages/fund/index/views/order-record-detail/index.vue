@@ -276,10 +276,7 @@ export default {
                             }
                         })
                     }
-                    if (
-                        this.fundHeaderInfoVO.derivativeType != 2 &&
-                        this.fundHeaderInfoVO.derivativeType != 3
-                    ) {
+                    if (this.fundHeaderInfoVO.derivativeType === 1) {
                         let riskTipContent = this.$t([
                             `该产品为中${this.fundHeaderInfoVO.fundRisk}（R${
                                 this.fundHeaderInfoVO.fundRiskType
