@@ -33,8 +33,10 @@
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
                                 span {{item.value}}
-                    span.block__fund-tip {{tips}}
-                    span.block__fund--button(@click="toExchangePage") {{$t('Exchange')}}
+                    span.block__fund-tip(v-if="tipShow") {{tips}}
+                    span.block__fund--button(
+                        v-if="tipShow" 
+                        @click="toExchangePage") {{$t('Exchange')}}
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
@@ -104,9 +106,9 @@ import {
 } from '@/service/zt-group-apiserver.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
-import { jumpUrl } from '@/utils/tools.js'
+import { jumpUrl, compareVersion } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
-import { appType, langType } from '@/utils/html-utils.js'
+import { appType, langType, getUaValue } from '@/utils/html-utils.js'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
@@ -160,6 +162,7 @@ export default {
             groupRestUsers: 5,
             discount: null,
             derivativeType: null,
+            tipShow: false,
             tips: ''
         }
     },
@@ -194,6 +197,7 @@ export default {
         if (LS.get('groupId') != undefined) {
             this.groupId = LS.get('groupId')
         }
+        this.compareVersionFund()
         this.getSource()
         this.getFundUserInfo()
         this.getGroupOrders()
@@ -224,6 +228,18 @@ export default {
         }
     },
     methods: {
+        //大陆版 IOS  3.4.0 版本（包括）之前 的都不展示 点次去换汇
+        compareVersionFund() {
+            const isIos = /(ipad)|(iphone)/i.test(navigator.userAgent)
+            const appVersion = getUaValue('appVersion')
+            const flag = compareVersion(appVersion, '3.4.0')
+            if (!isIos || this.appType.Hk) {
+                this.tipShow = true
+            }
+            if (!this.appType.Hk && flag === 1) {
+                this.tipShow = true
+            }
+        },
         //跳转协议
         toExchangePage() {
             jumpUrl(5, 'yxzq_goto://fund_history_record?type=3')
@@ -528,7 +544,6 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
-                console.log(this.appVersion)
                 this.tips = this.$t([
                     `*友信暂不支持使用${
                         this.currency.type == 1
@@ -558,6 +573,7 @@ export default {
                             : this.$t('usd')
                     } funds, If there is a need, you can manually exchange and then purchase the funds. Click here to Exchange`
                 ])
+
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 this.setCosUrl(
