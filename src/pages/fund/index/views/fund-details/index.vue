@@ -505,13 +505,13 @@ export default {
                     if (num > 0) {
                         discribe = this.$t([
                             `拼团申购中，还差${num}人成团 `,
-                            `拼团申购中，还差${num}人成团 `,
-                            `拼团申购中，还差${num}人成团 `
+                            `拼團申購中，還差${num}人成團 `,
+                            `${num}people needed for the Group Discount Subscription`
                         ])
                         discribeHk = this.$t([
                             `拼团申购中，还差${num}人成团 `,
-                            `拼团申购中，还差${num}人成团 `,
-                            `拼团申购中，还差${num}人成团 `
+                            `拼團申購中，還差${num}人成團 `,
+                            `${num}people needed for the Group Discount Subscription`
                         ])
                     } else {
                         discribe = this.$t([
