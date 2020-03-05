@@ -66,7 +66,6 @@ export default {
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            alert(123)
             await Promise.all([
                 this.getFundDetailFun(),
                 this.handleRiskAssessResult()

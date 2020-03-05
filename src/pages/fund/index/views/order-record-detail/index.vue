@@ -242,7 +242,7 @@ export default {
                     new Date(this.userInfo.validTime).getTime()
             ) {
                 return this.$router.push({
-                    path: '/risk-assessment',
+                    path: '/risk-assessment-result',
                     query: {
                         id: this.fundId,
                         extendStatusBit: this.userInfo.extendStatusBit,
@@ -257,7 +257,7 @@ export default {
                 ) {
                     if (this.userInfo.damagedStatus === 1) {
                         return this.$router.push({
-                            path: '/risk-assessment-result',
+                            path: '/risk-appropriate-result',
                             query: {
                                 id: this.fundId,
                                 fundRiskType: this.fundRiskType

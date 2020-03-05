@@ -1127,7 +1127,7 @@ export default {
                         this.fundHeaderInfoVO.derivativeType === 3
                     ) {
                         this.$router.push({
-                            path: '/risk-assessment-result',
+                            path: '/risk-appropriate-result',
                             query: {
                                 id: this.$route.query.id || this.id,
                                 fundRiskType: this.fundRiskType
