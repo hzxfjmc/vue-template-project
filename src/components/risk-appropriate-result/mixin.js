@@ -51,6 +51,7 @@ export default {
             userRiskLevel: 0, // 用户风险测评等级
             assessResultName: '', //测评结果文案
             bondRiskLevel: this.$route.query.fundRiskType || 100, // 债券/基金风险等级
+            fundRiskTypeLevel: this.$route.query.fundRiskType || 100,
             // btnText: '',
             isShowPage: false,
             userInfo: '',
@@ -133,7 +134,8 @@ export default {
                 fundId: this.$route.query.id
             })
             this.fundType = 0
-            this.bondRiskLevel = `${res.fundHeaderInfoVO.fundRisk}(R${res.fundHeaderInfoVO.fundRiskType})`
+            this.fundRiskTypeLevel = `${res.fundHeaderInfoVO.fundRisk}(R${res.fundHeaderInfoVO.fundRiskType})`
+            this.bondRiskLevel = `${res.fundHeaderInfoVO.fundRiskType}`
         },
         // 操作按钮
         handleAction() {

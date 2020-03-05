@@ -1125,19 +1125,16 @@ export default {
                         this.fundHeaderInfoVO.derivativeType === 2 ||
                         this.fundHeaderInfoVO.derivativeType === 3
                     ) {
-                        return this.$router.push({
-                            path: '/risk-appropriate-result',
+                        this.$router.push({
+                            path: '/prisk-appropriate-result',
                             query: {
                                 id: this.$route.query.id || this.id,
                                 fundRiskType: this.fundRiskType
                             }
                         })
+                        return
                     }
-                    if (
-                        this.fundHeaderInfoVO.derivativeType != 2 &&
-                        this.fundHeaderInfoVO.derivativeType != 3
-                    ) {
-                        console.log(this.$t('resultList'))
+                    if (this.fundHeaderInfoVO.derivativeType === 1) {
                         let riskTipContent = this.$t([
                             `该产品为中${this.fundHeaderInfoVO.fundRisk}（R${
                                 this.fundHeaderInfoVO.fundRiskType

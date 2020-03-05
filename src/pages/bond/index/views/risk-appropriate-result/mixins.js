@@ -18,6 +18,7 @@ export default {
         [Button.name]: Button
     },
     created() {
+        alert(123)
         // 等待预定请求完成后，执行下一步操作
         this.handleSetupResult()
     },
