@@ -178,15 +178,11 @@ export default {
                             fundCode: this.fundCode
                         }
                     }
-                    console.log(this.userInfo)
-                    console.log(this.userInfo.extendStatusBit)
-                    console.log((this.userInfo.extendStatusBit & 16) > 0)
                     data.path =
                         (this.userInfo.extendStatusBit & 16) > 0
                             ? '/fund-subscribe'
                             : '/open-permissions'
-                    console.log(data)
-                    // this.$router.push(data)
+                    this.$router.push(data)
                 }
             }
         },
