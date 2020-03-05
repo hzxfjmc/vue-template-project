@@ -13,7 +13,7 @@
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('buyMoneyNumber')}}
                         .block__fund--input(@click="focusEvent")
-                            span.usaspan(v-if="currency.type == 1") $
+                            span.usaspan(v-if="currency.type == 1") US$
                             span.hkspan(v-else) HK$
                             p {{money}}
                             input(
@@ -33,6 +33,8 @@
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
                                 span {{item.value}}
+                    span.block__fund-tip {{tips}}
+                    span.block__fund--button(@click="toExchangePage") {{$t('Exchange')}}
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
@@ -158,7 +160,7 @@ export default {
             groupRestUsers: 5,
             discount: null,
             derivativeType: null,
-            appType: null
+            tips: ''
         }
     },
     filters: {
@@ -199,7 +201,13 @@ export default {
         this.getWithdrawBalance()
     },
     computed: {
-        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount']),
+        ...mapGetters([
+            'appType',
+            'lang',
+            'isLogin',
+            'openedAccount',
+            'appVersion'
+        ]),
         // 预计完成时间多语言配置
         predictDay() {
             return {
@@ -216,6 +224,10 @@ export default {
         }
     },
     methods: {
+        //跳转协议
+        toExchangePage() {
+            jumpUrl(5, 'yxzq_goto://fund_history_record?type=3')
+        },
         //获取用户归属 1大陆 2香港
         async getSource() {
             try {
@@ -516,6 +528,36 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
+                console.log(this.appVersion)
+                this.tips = this.$t([
+                    `*友信暂不支持使用${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }购买${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }基金，如有需要，您可以手动换汇后进行申购 点此去换汇`,
+                    `*友信暫不支持使用${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }購買${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }基金，如有需要，您可以手動換匯後進行申購 點此去換匯`,
+                    `*uSMART does not support the use of ${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    } to purchase ${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    } funds, If there is a need, you can manually exchange and then purchase the funds. Click here to Exchange`
+                ])
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 this.setCosUrl(
@@ -730,6 +772,7 @@ export default {
             subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购',
             cancel: '取消',
             continue: '继续申购',
+            Exchange: '点此去换汇',
             content:
                 '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
         },
@@ -774,6 +817,7 @@ export default {
             subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購',
             cancel: '取消',
             continue: '繼續申購',
+            Exchange: '點此去換匯',
             content:
                 '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。'
         },
@@ -820,6 +864,7 @@ export default {
                 'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit',
             cancel: 'cancel',
             continue: 'Continue ',
+            Exchange: 'Click here to Exchange',
             content:
                 'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
         }
