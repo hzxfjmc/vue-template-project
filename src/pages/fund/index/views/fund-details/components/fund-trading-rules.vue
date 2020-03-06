@@ -40,7 +40,7 @@ export default {
             redemptionFee: '赎回费',
             managementFee: '基金管理费',
             platformManagementFee: '平台管理费',
-            buySubmit: '买入提交',
+            buySubmit: '申购提交',
             buyConfirm: '确认份额',
             buyProfitLoss: '查看盈亏'
         },
@@ -52,7 +52,7 @@ export default {
             redemptionFee: '贖回費',
             managementFee: '基金管理費',
             platformManagementFee: '平台管理費',
-            buySubmit: '買入提交',
+            buySubmit: '認購提交',
             buyConfirm: '確認份額',
             buyProfitLoss: '查看盈虧'
         },
