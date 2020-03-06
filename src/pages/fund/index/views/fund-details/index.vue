@@ -1114,25 +1114,16 @@ export default {
                     this.fundHeaderInfoVO.fundRiskType
                 ) {
                     if (this.userInfo.damagedStatus === 1) {
-                        return this.$router.push({
-                            path: '/risk-assessment-result',
-                            query: {
-                                id: this.$route.query.id || this.id,
-                                fundRiskType: this.fundRiskType
-                            }
-                        })
+                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
+                        jumpUrl(3, url)
+                        return
                     }
                     if (
                         this.fundHeaderInfoVO.derivativeType === 2 ||
                         this.fundHeaderInfoVO.derivativeType === 3
                     ) {
-                        this.$router.push({
-                            path: '/risk-appropriate-result',
-                            query: {
-                                id: this.$route.query.id || this.id,
-                                fundRiskType: this.fundRiskType
-                            }
-                        })
+                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-appropriate-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
+                        jumpUrl(3, url)
                         return
                     }
                     if (this.fundHeaderInfoVO.derivativeType === 1) {
@@ -1175,22 +1166,30 @@ export default {
                                 cancelButtonText: this.$t('cancelButton')
                             })
                             .then(() => {
-                                let data = {
-                                    query: {
-                                        id: this.$route.query.id || this.id,
-                                        assessResult: this.userInfo
-                                            .assessResult,
-                                        currencyType: this.fundTradeInfoVO
-                                            .currency.type,
-                                        fundCode: this.fundCode
-                                    }
+                                // let data = {
+                                //     query: {
+                                //         id: this.$route.query.id || this.id,
+                                //         assessResult: this.userInfo
+                                //             .assessResult,
+                                //         currencyType: this.fundTradeInfoVO
+                                //             .currency.type,
+                                //         fundCode: this.fundCode
+                                //     }
+                                // }
+                                // data.path =
+                                //     // eslint-disable-next-line no-constant-condition
+                                //     (this.userInfo.extendStatusBit & 16) > 0
+                                //         ? '/fund-subscribe'
+                                //         : '/open-permissions'
+                                let url
+                                let extendStatusBit =
+                                    this.userInfo.extendStatusBit & 16
+                                if (extendStatusBit > 0) {
+                                    url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                } else {
+                                    url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
                                 }
-                                data.path =
-                                    // eslint-disable-next-line no-constant-condition
-                                    (this.userInfo.extendStatusBit & 16) > 0
-                                        ? '/fund-subscribe'
-                                        : '/open-permissions'
-                                this.$router.push(data)
+                                jumpUrl(3, url)
                                 // on confirm
                             })
                             .catch(() => {
@@ -1199,20 +1198,14 @@ export default {
                             })
                     }
                 } else {
-                    let data = {
-                        query: {
-                            id: this.$route.query.id || this.id,
-                            assessResult: this.userInfo.assessResult,
-                            currencyType: this.fundTradeInfoVO.currency.type,
-                            fundCode: this.fundCode
-                        }
+                    let url
+                    let extendStatusBit = this.userInfo.extendStatusBit & 16
+                    if (extendStatusBit > 0) {
+                        url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                    } else {
+                        url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
                     }
-                    data.path =
-                        // eslint-disable-next-line no-constant-condition
-                        (this.userInfo.extendStatusBit & 16) > 0
-                            ? '/fund-subscribe'
-                            : '/open-permissions'
-                    this.$router.push(data)
+                    jumpUrl(3, url)
                 }
             }
         },
