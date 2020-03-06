@@ -13,7 +13,7 @@
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('buyMoneyNumber')}}
                         .block__fund--input(@click="focusEvent")
-                            span.usaspan(v-if="currency.type == 1") $
+                            span.usaspan(v-if="currency.type == 1") US$
                             span.hkspan(v-else) HK$
                             p {{money}}
                             input(
@@ -33,6 +33,10 @@
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
                                 span {{item.value}}
+                    span.block__fund-tip(v-if="tipShow") {{tips}}
+                        em.block__fund--button(
+                            v-if="tipShow" 
+                            @click="toExchangePage") {{Exchange}}
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
@@ -102,9 +106,9 @@ import {
 } from '@/service/zt-group-apiserver.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
-import { jumpUrl } from '@/utils/tools.js'
+import { jumpUrl, compareVersion } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
-import { appType, langType } from '@/utils/html-utils.js'
+import { appType, langType, getUaValue } from '@/utils/html-utils.js'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
@@ -158,7 +162,9 @@ export default {
             groupRestUsers: 5,
             discount: null,
             derivativeType: null,
-            appType: null
+            tipShow: false,
+            tips: '',
+            Exchange: ''
         }
     },
     filters: {
@@ -192,6 +198,7 @@ export default {
         if (LS.get('groupId') != undefined) {
             this.groupId = LS.get('groupId')
         }
+        this.compareVersionFund()
         this.getSource()
         this.getFundUserInfo()
         this.getGroupOrders()
@@ -199,7 +206,13 @@ export default {
         this.getWithdrawBalance()
     },
     computed: {
-        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount']),
+        ...mapGetters([
+            'appType',
+            'lang',
+            'isLogin',
+            'openedAccount',
+            'appVersion'
+        ]),
         // 预计完成时间多语言配置
         predictDay() {
             return {
@@ -216,6 +229,22 @@ export default {
         }
     },
     methods: {
+        //大陆版 IOS  3.4.0 版本（包括）之前 的都不展示 点次去换汇
+        compareVersionFund() {
+            const isIos = /(ipad)|(iphone)/i.test(navigator.userAgent)
+            const appVersion = getUaValue('appVersion')
+            const flag = compareVersion(appVersion, '3.4.0')
+            if (!isIos || this.appType.Hk) {
+                this.tipShow = true
+            }
+            if (!this.appType.Hk && flag === 1) {
+                this.tipShow = true
+            }
+        },
+        //跳转协议
+        toExchangePage() {
+            jumpUrl(5, 'yxzq_goto://currency_exchange')
+        },
         //获取用户归属 1大陆 2香港
         async getSource() {
             try {
@@ -340,8 +369,24 @@ export default {
                     (langType.Hk && 2) ||
                     (langType.En && 3) ||
                     1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let link = `${
+                    this.$appOrigin
+                }/hqzx/marketing/group.html?appType=${
+                    this.appType.Ch ? 1 : 2
+                }&langType=${lt}&biz_type=0&biz_id=${
+                    this.$route.query.id
+                }&group_id=${this.groupId}&invitationCode=${
+                    this.userInfo.invitationCode
+                }&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${
+                    window.location.origin
+                }/hqzx/marketing/group.html?appType=${
+                    this.appType.Ch ? 1 : 2
+                }&langType=${lt}&biz_type=0&biz_id=${
+                    this.$route.query.id
+                }&group_id=${this.groupId}&invitationCode=${
+                    this.userInfo.invitationCode
+                }&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
@@ -516,6 +561,36 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
+                this.tips = this.$t([
+                    `*友信暂不支持使用${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }购买${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }基金，如有需要，您可以手动换汇后进行申购`,
+                    `*友信暫不支持使用${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }購買${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }基金，如有需要，您可以手動換匯後進行申購`,
+                    `*uSMART does not support the use of ${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    } to purchase ${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    } funds, If there is a need, you can manually exchange and then purchase the funds.`
+                ])
+                this.Exchange = this.$t('Exchange')
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 this.setCosUrl(
@@ -713,11 +788,11 @@ export default {
             dayDone: '日完成',
             day: '日',
             balanceRule: '申购规则',
-            stepOne: '买入提交',
+            stepOne: '申购提交',
             stepTwo: '确认份额',
             stepThree: '查看盈亏',
             confirmTheShare: '确认份额并开始计算收益',
-            earnings: '查看收益',
+            earnings: '查看份额、收益',
             money: '金额',
             done: '完成',
             iKnow: '我知道了',
@@ -730,6 +805,7 @@ export default {
             subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购',
             cancel: '取消',
             continue: '继续申购',
+            Exchange: '点此去换汇',
             content:
                 '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
         },
@@ -757,11 +833,11 @@ export default {
             dayDone: '日完成',
             day: '日',
             balanceRule: '申購規則',
-            stepOne: '買入提交',
+            stepOne: '認購提交',
             stepTwo: '確認份額',
             stepThree: '查看盈虧',
             confirmTheShare: '確認份額並開始計算收益',
-            earnings: '查看收益',
+            earnings: '查看份額、收益',
             money: '金額',
             done: '完成',
             iKnow: '我知道了',
@@ -774,6 +850,7 @@ export default {
             subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購',
             cancel: '取消',
             continue: '繼續申購',
+            Exchange: '點此去換匯',
             content:
                 '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。'
         },
@@ -805,7 +882,7 @@ export default {
             stepTwo: 'Fund Units Allocation',
             stepThree: 'Check P/L',
             confirmTheShare: 'Fund Units Allocation',
-            earnings: 'Check P/L',
+            earnings: 'Check P/L and Units',
             money: 'Amount',
             done: 'Completed',
             iKnow: 'Got it',
@@ -820,6 +897,7 @@ export default {
                 'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit',
             cancel: 'cancel',
             continue: 'Continue ',
+            Exchange: 'Click here to Exchange',
             content:
                 'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
         }
