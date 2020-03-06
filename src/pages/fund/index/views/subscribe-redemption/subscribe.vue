@@ -36,7 +36,7 @@
                     span.block__fund-tip(v-if="tipShow") {{tips}}
                     span.block__fund--button(
                         v-if="tipShow" 
-                        @click="toExchangePage") {{$t('Exchange')}}
+                        @click="toExchangePage") {{Exchange}}
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
@@ -163,7 +163,8 @@ export default {
             discount: null,
             derivativeType: null,
             tipShow: false,
-            tips: ''
+            tips: '',
+            Exchange: ''
         }
     },
     filters: {
@@ -242,7 +243,7 @@ export default {
         },
         //跳转协议
         toExchangePage() {
-            jumpUrl(5, 'yxzq_goto://fund_history_record?type=3')
+            jumpUrl(5, 'yxzq_goto://currency_exchange')
         },
         //获取用户归属 1大陆 2香港
         async getSource() {
@@ -573,7 +574,7 @@ export default {
                             : this.$t('usd')
                     } funds, If there is a need, you can manually exchange and then purchase the funds. Click here to Exchange`
                 ])
-
+                this.Exchange = this.$t('Exchange')
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 this.setCosUrl(
