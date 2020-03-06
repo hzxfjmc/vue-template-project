@@ -1146,7 +1146,7 @@ export default {
                             }（A${
                                 this.userInfo.assessResult
                             }）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
-                            `該產品為中高風險（R${
+                            `該產品為${this.fundHeaderInfoVO.fundRisk}（R${
                                 this.fundHeaderInfoVO.fundRiskType
                             }），超出您當前的風險承受能力${
                                 this.$t('resultList')[
