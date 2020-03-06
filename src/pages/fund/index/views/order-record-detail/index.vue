@@ -364,15 +364,6 @@ export default {
                     this.$router.push(data)
                 }
             }
-            // let data = {
-            //     path: '/fund-subscribe',
-            //     query: {
-            //         id: this.fundId,
-            //         currencyType: this.$route.query.currencyType
-            //     }
-            // }
-
-            // this.$router.push(data)
         },
         // 撤销
         showBackOutHandle() {
