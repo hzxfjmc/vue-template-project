@@ -588,7 +588,7 @@ export default {
                         this.currency.type == 2
                             ? this.$t('hkd')
                             : this.$t('usd')
-                    } funds, If there is a need, you can manually exchange and then purchase the funds. Click here to Exchange`
+                    } funds, If there is a need, you can manually exchange and then purchase the funds.`
                 ])
                 this.Exchange = this.$t('Exchange')
                 this.subscribeObj.subscriptionFee.value =
