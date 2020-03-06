@@ -379,7 +379,7 @@ export default {
             dayDone: 'Complete in X days',
             balanceRule: 'Redemption Rules',
             day: 'days',
-            stepOne: 'Submit Redemption Application',
+            stepOne: 'Submit',
             stepTwo: 'CFMD NAV',
             stepThree: 'Funds Credited to Securities Account',
             confirmTheShare: 'CFMD NAV',

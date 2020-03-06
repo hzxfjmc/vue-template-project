@@ -170,7 +170,7 @@ export const i18nTrudeRuleData = {
         buyConfirm: { label: 'Allocate Fund Units' },
         buyProfitLoss: { label: 'Check P/L' },
         sellSubmit: {
-            label: 'Submit Redemption Application'
+            label: 'Submit'
         },
         sellConfirm: {
             label: 'CFMD NAV'
