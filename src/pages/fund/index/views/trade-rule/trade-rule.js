@@ -3,11 +3,11 @@ export const tradeList = {
         label: '交易频率',
         value: ''
     },
-    dividend: {
-        label: '最新派息',
-        value: '',
-        cname: 'HKD'
-    },
+    // dividend: {
+    //     label: '最新派息',
+    //     value: '',
+    //     cname: 'HKD'
+    // },
     initialInvestAmount: {
         label: '起投额',
         value: '',
@@ -56,7 +56,7 @@ export const i18nTrudeRuleData = {
         tradeSubTitle: '申购流程',
         redeemTitle: '赎回',
         redeemSubtitle: '赎回规则',
-        buySubmit: { label: '买入提交' },
+        buySubmit: { label: '申购提交' },
         buyConfirm: { label: '确认份额' },
         buyProfitLoss: { label: '查看盈亏' },
         tradeList: {
@@ -94,7 +94,7 @@ export const i18nTrudeRuleData = {
             }
         },
         sellSubmit: {
-            label: '提交赎回申请'
+            label: '赎回提交'
         },
         sellConfirm: {
             label: '确认净值'
@@ -111,11 +111,11 @@ export const i18nTrudeRuleData = {
         tradeSubTitle: '申購流程',
         redeemTitle: '贖回',
         redeemSubtitle: '贖回規則',
-        buySubmit: { label: '買入提交' },
+        buySubmit: { label: '認購提交' },
         buyConfirm: { label: '確認份額' },
         buyProfitLoss: { label: '查看盈虧' },
         sellSubmit: {
-            label: '提交贖回申請'
+            label: '贖回提交'
         },
         sellConfirm: {
             label: '確認凈值'

@@ -73,9 +73,9 @@ export default {
         // 申购时确认份额日多语言
         sureNetWorthBeginTime() {
             return {
-                zhCHS: `${this.beginTime}日确认份额并开始计算收益`,
-                zhCHT: `${this.beginTime}日確認份額並開始計算收益`,
-                en: `Fund Units Allocation in ${this.beginTime} Days `
+                zhCHS: `${this.beginTime}日查看份额、收益`,
+                zhCHT: `${this.beginTime}日查看份額、收益`,
+                en: `Estimate Check P/L and Units in ${this.beginTime}`
             }[this.$i18n.lang]
         },
         sureNetWorthEndTime() {

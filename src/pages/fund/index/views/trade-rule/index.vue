@@ -126,9 +126,9 @@ export default {
                 })
 
                 this.currency = fundTradeInfoVO.currency.name
-                this.tradeList['dividend'].value = Number(
-                    fundTradeInfoVO['dividend']
-                ).toFixed(2)
+                // this.tradeList['dividend'].value = Number(
+                //     fundTradeInfoVO['dividend']
+                // ).toFixed(2)
                 this.tradeList['tradeFrequencyName'].value =
                     fundTradeInfoVO.tradeFrequencyName
                 this.tradeList[
