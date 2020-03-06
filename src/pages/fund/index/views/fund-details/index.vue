@@ -532,11 +532,10 @@ export default {
                         discribeHk = this.$t([
                             `${
                                 e.group.order_count
-                            }人同行成功，尊享申购费${(100 - discount) /
-                                10}折扣 `,
+                            }人同行成功，尊享申购费${discount / 10}折扣 `,
                             `${
                                 e.group.order_count
-                            }人同行成功，尊享申購費${(100 - discount) / 10}折 `,
+                            }人同行成功，尊享申購費${discount / 10}折 `,
                             `Groups with ${e.group.order_count} ppl, ${100 -
                                 discount}% discount on subs. fee`
                         ])
