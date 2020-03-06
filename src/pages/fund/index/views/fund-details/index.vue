@@ -514,37 +514,31 @@ export default {
                             `${num}people needed for the Group Discount Subscription`
                         ])
                     } else {
+                        let discount
+                        rule_detail.rule_list.map(item => {
+                            if (e.group.order_count >= item.start_user_count) {
+                                discount = item.discount
+                            }
+                        })
                         discribe = this.$t([
                             `拼团成功，团队规模${
                                 e.group.order_count
-                            }人，尊享${100 -
-                                rule_detail.rule_list[
-                                    rule_detail.rule_list.length - 1
-                                ].discount}%申购费返还`,
+                            }人，尊享${100 - discount}%申购费返还`,
                             `${e.group.order_count}人「同行」成功，尊享${100 -
-                                rule_detail.rule_list[
-                                    rule_detail.rule_list.length - 1
-                                ].discount}%申購費折扣`,
+                                discount}%申購費折扣`,
                             `You entitled Group Discount, you will get ${100 -
-                                rule_detail.rule_list[
-                                    rule_detail.rule_list.length - 1
-                                ].discount}% discount on subscription fee.`
+                                discount}% discount on subscription fee.`
                         ])
                         discribeHk = this.$t([
                             `${
                                 e.group.order_count
-                            }人同行成功，尊享申购费${rule_detail.rule_list[
-                                rule_detail.rule_list.length - 1
-                            ].discount / 10}折扣 `,
-                            `${e.group.order_count}人同行成功，尊享申購費${100 -
-                                rule_detail.rule_list[
-                                    rule_detail.rule_list.length - 1
-                                ].discount /
-                                    10}折 `,
+                            }人同行成功，尊享申购费${(100 - discount) /
+                                10}折扣 `,
+                            `${
+                                e.group.order_count
+                            }人同行成功，尊享申購費${(100 - discount) / 10}折 `,
                             `Groups with ${e.group.order_count} ppl, ${100 -
-                                rule_detail.rule_list[
-                                    rule_detail.rule_list.length - 1
-                                ].discount}% discount on subs. fee`
+                                discount}% discount on subs. fee`
                         ])
                     }
                     tempArr.push({
