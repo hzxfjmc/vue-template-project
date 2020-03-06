@@ -82,7 +82,10 @@
         }
         .block__fund--button{
             font-size:12px;
-            color:#2F79FF
+            color:#2F79FF;
+            font-style: normal;
+            text-align:justify;
+            margin:0 0 0 6px;
         }
         .text-color3 {
             color: $text-color3 !important;

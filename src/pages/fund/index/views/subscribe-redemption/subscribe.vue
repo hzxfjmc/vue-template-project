@@ -34,9 +34,9 @@
                             .right-item-other(v-else)
                                 span {{item.value}}
                     span.block__fund-tip(v-if="tipShow") {{tips}}
-                    span.block__fund--button(
-                        v-if="tipShow" 
-                        @click="toExchangePage") {{Exchange}}
+                        em.block__fund--button(
+                            v-if="tipShow" 
+                            @click="toExchangePage") {{Exchange}}
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
