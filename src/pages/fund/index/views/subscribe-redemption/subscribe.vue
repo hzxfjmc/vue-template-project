@@ -554,7 +554,7 @@ export default {
                         this.currency.type == 2
                             ? this.$t('hkd')
                             : this.$t('usd')
-                    }基金，如有需要，您可以手动换汇后进行申购 点此去换汇`,
+                    }基金，如有需要，您可以手动换汇后进行申购`,
                     `*友信暫不支持使用${
                         this.currency.type == 1
                             ? this.$t('hkd')
@@ -563,7 +563,7 @@ export default {
                         this.currency.type == 2
                             ? this.$t('hkd')
                             : this.$t('usd')
-                    }基金，如有需要，您可以手動換匯後進行申購 點此去換匯`,
+                    }基金，如有需要，您可以手動換匯後進行申購`,
                     `*uSMART does not support the use of ${
                         this.currency.type == 1
                             ? this.$t('hkd')
@@ -772,7 +772,7 @@ export default {
             dayDone: '日完成',
             day: '日',
             balanceRule: '申购规则',
-            stepOne: '买入提交',
+            stepOne: '申购提交',
             stepTwo: '确认份额',
             stepThree: '查看盈亏',
             confirmTheShare: '确认份额并开始计算收益',
@@ -817,7 +817,7 @@ export default {
             dayDone: '日完成',
             day: '日',
             balanceRule: '申購規則',
-            stepOne: '買入提交',
+            stepOne: '認購提交',
             stepTwo: '確認份額',
             stepThree: '查看盈虧',
             confirmTheShare: '確認份額並開始計算收益',
