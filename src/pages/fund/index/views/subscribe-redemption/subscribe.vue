@@ -340,8 +340,24 @@ export default {
                     (langType.Hk && 2) ||
                     (langType.En && 3) ||
                     1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let link = `${
+                    this.$appOrigin
+                }/hqzx/marketing/group.html?appType=${
+                    this.appType.Ch ? 1 : 2
+                }&langType=${lt}&biz_type=0&biz_id=${
+                    this.$route.query.id
+                }&group_id=${this.groupId}&invitationCode=${
+                    this.userInfo.invitationCode
+                }&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${
+                    window.location.origin
+                }/hqzx/marketing/group.html?appType=${
+                    this.appType.Ch ? 1 : 2
+                }&langType=${lt}&biz_type=0&biz_id=${
+                    this.$route.query.id
+                }&group_id=${this.groupId}&invitationCode=${
+                    this.userInfo.invitationCode
+                }&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
