@@ -14,7 +14,7 @@
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
             :stepTimes="[fundTradeInfoVO.buySubmit,fundTradeInfoVO.buyConfirm ,fundTradeInfoVO.buyProfitLoss ]")
         .block__list--item
-            p.block__list--left {{$t('subscriptionFee')}}
+            p.block__list--left {{fundTradeInfoVO.code ? $t('subscriptionFee') : $t('subscriptionFeeHk')}}
             p.block__list--right {{fundTradeInfoVO.subscriptionFee*100|transNumToThousandMark(2)}}%
         .block__list--item
             p.block__list--left {{$t('redemptionFee')}}
@@ -36,10 +36,11 @@ export default {
             rule: '交易规则',
             tips: '交易流程、费率',
             subscriptionFee: '申购费',
+            subscriptionFeeHk: '申购费',
             redemptionFee: '赎回费',
             managementFee: '基金管理费',
             platformManagementFee: '平台管理费',
-            buySubmit: '买入提交',
+            buySubmit: '申购提交',
             buyConfirm: '确认份额',
             buyProfitLoss: '查看盈亏'
         },
@@ -47,17 +48,19 @@ export default {
             rule: '交易規則',
             tips: '交易流程、費率',
             subscriptionFee: '申購費',
+            subscriptionFeeHk: '認購費',
             redemptionFee: '贖回費',
             managementFee: '基金管理費',
             platformManagementFee: '平台管理費',
-            buySubmit: '買入提交',
+            buySubmit: '認購提交',
             buyConfirm: '確認份額',
             buyProfitLoss: '查看盈虧'
         },
         en: {
             rule: 'Trading Rules',
-            tips: 'Process、Fees',
+            tips: 'Process,Fees',
             subscriptionFee: 'Subscription Fee',
+            subscriptionFeeHk: 'Subscription Fee',
             redemptionFee: 'Redemption Fee',
             managementFee: 'Management Fee',
             platformManagementFee: 'Platform Fee',

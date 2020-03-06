@@ -58,7 +58,7 @@ export default {
         },
         en: {
             orderStatus: 'Order Status',
-            estimate: 'Predict',
+            estimate: 'Estimate',
             surePosition: 'Allocate Fund Units in X Days',
             checkProfit: 'Check Earnings in X Days'
         }
@@ -73,16 +73,16 @@ export default {
         // 申购时确认份额日多语言
         sureNetWorthBeginTime() {
             return {
-                zhCHS: `${this.beginTime}日确认份额并开始计算收益`,
-                zhCHT: `${this.beginTime}日確認份額並開始計算收益`,
-                en: `Fund Units Allocation in ${this.beginTime} Days `
+                zhCHS: `${this.beginTime}确认份额并开始计算收益`,
+                zhCHT: `${this.beginTime}確認份額並開始計算收益`,
+                en: `Fund Units Allocation in ${this.beginTime}`
             }[this.$i18n.lang]
         },
         sureNetWorthEndTime() {
             return {
-                zhCHS: `${this.endTime}日查看收益 `,
-                zhCHT: `${this.endTime}日查看收益`,
-                en: `Check Earnings in ${this.endTime} Days `
+                zhCHS: `${this.endTime}查看份额、收益 `,
+                zhCHT: `${this.endTime}查看份額、收益`,
+                en: `Check P/L and Units in ${this.endTime} `
             }[this.$i18n.lang]
         },
         // 赎回时确认份额日多语言

@@ -3,11 +3,11 @@ export const tradeList = {
         label: '交易频率',
         value: ''
     },
-    dividend: {
-        label: '最新派息',
-        value: '',
-        cname: 'HKD'
-    },
+    // dividend: {
+    //     label: '最新派息',
+    //     value: '',
+    //     cname: 'HKD'
+    // },
     initialInvestAmount: {
         label: '起投额',
         value: '',
@@ -20,6 +20,7 @@ export const tradeList = {
     },
     subscriptionFee: {
         label: '申购费',
+        labelHk: '',
         value: ''
     }
 }
@@ -50,10 +51,12 @@ export const i18nTrudeRuleData = {
     zhCHS: {
         managermentLabel: '管理费',
         tradeTitle: '申购',
+        tradeTitleHk: '申购',
+        tradeSubTitleHk: '申购流程',
         tradeSubTitle: '申购流程',
         redeemTitle: '赎回',
         redeemSubtitle: '赎回规则',
-        buySubmit: { label: '买入提交' },
+        buySubmit: { label: '申购提交' },
         buyConfirm: { label: '确认份额' },
         buyProfitLoss: { label: '查看盈亏' },
         tradeList: {
@@ -70,7 +73,8 @@ export const i18nTrudeRuleData = {
                 label: '续投金额'
             },
             subscriptionFee: {
-                label: '申购费'
+                label: '申购费',
+                labelHk: '申购费'
             }
         },
         redeemList: {
@@ -90,7 +94,7 @@ export const i18nTrudeRuleData = {
             }
         },
         sellSubmit: {
-            label: '提交赎回申请'
+            label: '赎回提交'
         },
         sellConfirm: {
             label: '确认净值'
@@ -102,14 +106,16 @@ export const i18nTrudeRuleData = {
     zhCHT: {
         tradeTitle: '申購',
         managermentLabel: '管理費',
+        tradeTitleHk: '認購',
+        tradeSubTitleHk: '認購流程',
         tradeSubTitle: '申購流程',
         redeemTitle: '贖回',
         redeemSubtitle: '贖回規則',
-        buySubmit: { label: '買入提交' },
+        buySubmit: { label: '認購提交' },
         buyConfirm: { label: '確認份額' },
         buyProfitLoss: { label: '查看盈虧' },
         sellSubmit: {
-            label: '提交贖回申請'
+            label: '贖回提交'
         },
         sellConfirm: {
             label: '確認凈值'
@@ -131,7 +137,8 @@ export const i18nTrudeRuleData = {
                 label: '續投金額'
             },
             subscriptionFee: {
-                label: '申購費'
+                label: '申購費',
+                labelHk: '認購費'
             }
         },
         redeemList: {
@@ -154,6 +161,8 @@ export const i18nTrudeRuleData = {
     en: {
         tradeTitle: 'Subscription',
         managermentLabel: 'Management Fee',
+        tradeTitleHk: 'Subscription',
+        tradeSubTitleHk: 'Subscription Process',
         tradeSubTitle: 'Subscription Process',
         redeemTitle: 'Redemption',
         redeemSubtitle: 'Workflow',
@@ -161,7 +170,7 @@ export const i18nTrudeRuleData = {
         buyConfirm: { label: 'Allocate Fund Units' },
         buyProfitLoss: { label: 'Check P/L' },
         sellSubmit: {
-            label: 'Submit Redemption Application'
+            label: 'Submit'
         },
         sellConfirm: {
             label: 'CFMD NAV'
@@ -183,7 +192,8 @@ export const i18nTrudeRuleData = {
                 label: 'Incremental Amount'
             },
             subscriptionFee: {
-                label: 'Subscription Fee'
+                label: 'Subscription Fee',
+                labelHk: 'Subscription Fee'
             }
         },
         redeemList: {

@@ -45,7 +45,7 @@ export const subscribeObji18n = {
 
             hkd: '港幣',
             usd: '美元',
-            subscriptionFee: '申購費（預計）',
+            subscriptionFee: '認購費（預計）',
             totalOrderAmount: '訂單總金額',
             readyXieyi: '已閱讀並同意服務協議及風險提示，並查閱相關信息'
         },

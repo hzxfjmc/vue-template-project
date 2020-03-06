@@ -75,7 +75,18 @@
         flex-direction: column;
         padding: 10px 12px;
         padding-bottom: 10px;
-        
+        .block__fund-tip{
+            margin:10px 0 0 0;
+            font-size:12px;
+            color:rgba(25, 25, 25, 0.5);
+        }
+        .block__fund--button{
+            font-size:12px;
+            color:#2F79FF;
+            font-style: normal;
+            text-align:justify;
+            margin:0 0 0 6px;
+        }
         .text-color3 {
             color: $text-color3 !important;
         }
@@ -194,6 +205,30 @@
             .right-item{
                 text-align: right;
                 width:50%;
+                position: relative;
+                span{
+                    display:block;
+                    width:100%;
+                }
+                .msg{
+                    color:#FF7127;
+                }
+            }
+        }
+        .buy-row-item-fund{
+            margin:0;
+            width:100%;
+            display: flex;
+            line-height: 30px;
+            // height:40px;
+            padding: 5px 0;
+            .left-item{
+                width:30%;
+                color: $text-color5;
+            }
+            .right-item{
+                text-align: right;
+                width:70%;
                 position: relative;
                 span{
                     display:block;

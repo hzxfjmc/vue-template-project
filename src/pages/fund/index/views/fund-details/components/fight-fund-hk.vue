@@ -59,13 +59,13 @@ export default {
         zhCHS: {
             competition: '参与「同行优惠」享折扣',
             rule: '详细规则',
-            subscription: '成功认购',
+            subscription: '成功申购',
             target: '组团参与',
             target1: '[同行优惠]',
             teamSuccess: '达到目标',
-            discountReturn: '认购费',
+            discountReturn: '是申购费',
             discountReturn1: '折扣返还',
-            describe: '拼团未满达成目标，视为拼团失败不影响基金申购',
+            describe: '未达成目标，不影响基金正常申购',
             describe1: '根据团队规模最高可返60%申购费',
             describe2: '人正在助力'
         },
@@ -80,7 +80,7 @@ export default {
             discountReturn1: '折扣返還',
             describe: '未達成目標，不影響基金正常認購',
             describe1: '根據團隊規模最高可享申購費60%折扣',
-            describe2: '人正在申購'
+            describe2: '人正在認購'
         },
         en: {
             competition: 'Subs. with Group Discount',
@@ -92,7 +92,7 @@ export default {
             discountReturn: 'Get fees discount ',
             discountReturn1: '',
             describe:
-                "You will fail to get the Group Discount if you do not gather enough people, but it doesn't affect funds subscription.",
+                'You will not be eligible for the Group Discount if you fail to gather enough people, but it won’t affect funds subscription',
             describe1:
                 'If you meet the Group Discount requirements, group leader can get subs. fee 90% off, other members can enjoy 80% discount on subs. fee. ',
             describe2: ' ppl subscribing now'

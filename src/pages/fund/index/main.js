@@ -23,7 +23,6 @@ Vue.use(i18n, {
 })
 
 import '@/utils/common'
-
 // mock
 // import '@/mock/index.js'
 

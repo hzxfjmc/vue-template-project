@@ -71,7 +71,7 @@ export default {
         en: {
             fundHkdType: 'HKD Fund',
             fundUsdType: 'USD Fund',
-            nomore: 'No Position'
+            nomore: 'No Holdings'
         }
     },
     components: {

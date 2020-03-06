@@ -13,7 +13,7 @@
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('buyMoneyNumber')}}
                         .block__fund--input(@click="focusEvent")
-                            span.usaspan(v-if="currency.type == 1") $
+                            span.usaspan(v-if="currency.type == 1") US$
                             span.hkspan(v-else) HK$
                             p {{money}}
                             input(
@@ -21,8 +21,8 @@
                                 type="text"
                                 :disabled="disabledInput"
                                 @input="changeNumber"
-                                :placeHolder="`${initialInvestAmount}${$route.query.currencyType == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
-                    .buy-row-item(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
+                                :placeHolder="`${initialInvestAmount}${currency.type == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
+                    .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
@@ -33,6 +33,10 @@
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
                                 span {{item.value}}
+                    span.block__fund-tip(v-if="tipShow") {{tips}}
+                        em.block__fund--button(
+                            v-if="tipShow" 
+                            @click="toExchangePage") {{Exchange}}
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
@@ -93,7 +97,11 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
+import {
+    generateUUID,
+    transNumToThousandMark,
+    debounce
+} from '@/utils/tools.js'
 import { getSource } from '@/service/customer-relationship-server'
 import {
     createGroupOrder,
@@ -102,9 +110,9 @@ import {
 } from '@/service/zt-group-apiserver.js'
 import { subscribeObj, subscribeObji18n } from './subscribe.js'
 import protocolPopup from './components/protocol-popup'
-import { jumpUrl } from '@/utils/tools.js'
+import { jumpUrl, compareVersion } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
-import { appType, langType } from '@/utils/html-utils.js'
+import { appType, langType, getUaValue } from '@/utils/html-utils.js'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
@@ -157,7 +165,10 @@ export default {
             userInfo: {},
             groupRestUsers: 5,
             discount: null,
-            derivativeType: null
+            derivativeType: null,
+            tipShow: false,
+            tips: '',
+            Exchange: ''
         }
     },
     filters: {
@@ -187,18 +198,31 @@ export default {
             }
         }
     },
+
     async created() {
         if (LS.get('groupId') != undefined) {
             this.groupId = LS.get('groupId')
         }
+        this.compareVersionFund()
         this.getSource()
-        this.getFundUserInfo()
-        this.getGroupOrders()
-        this.getFundPositionV2Fun()
-        this.getWithdrawBalance()
+
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.getSource, 300)
     },
     computed: {
-        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount']),
+        ...mapGetters([
+            'appType',
+            'lang',
+            'isLogin',
+            'openedAccount',
+            'appVersion'
+        ]),
         // 预计完成时间多语言配置
         predictDay() {
             return {
@@ -212,8 +236,28 @@ export default {
         }
     },
     methods: {
+        //大陆版 IOS  3.4.0 版本（包括）之前 的都不展示 点次去换汇
+        compareVersionFund() {
+            const isIos = /(ipad)|(iphone)/i.test(navigator.userAgent)
+            const appVersion = getUaValue('appVersion')
+            const flag = compareVersion(appVersion, '3.4.0')
+            if (!isIos || this.appType.Hk) {
+                this.tipShow = true
+            }
+            if (!this.appType.Hk && flag === 1) {
+                this.tipShow = true
+            }
+        },
+        //跳转协议
+        toExchangePage() {
+            jumpUrl(5, 'yxzq_goto://currency_exchange')
+        },
         //获取用户归属 1大陆 2香港
         async getSource() {
+            this.getFundUserInfo()
+            this.getGroupOrders()
+            this.getFundPositionV2Fun()
+            this.getWithdrawBalance()
             try {
                 const { code } = await getSource()
                 this.code = code
@@ -236,6 +280,7 @@ export default {
                 })
                 let mostNum
                 let restNum
+                this.appType = data.action.app_type
                 if (data.action && data.action.rule_detail) {
                     mostNum = JSON.parse(data.action.rule_detail).most_user
 
@@ -248,11 +293,11 @@ export default {
                 this.descrbeDiscount = this.$t([
                     `拼团最高可返${100 - this.discount}%`,
                     `「同行優惠」最高可以費用${100 - this.discount}%折扣`,
-                    `Up to ${100 - this.discount}% discount on subscription fee`
+                    `Up to ${100 - this.discount}% discount on subs. fee`
                 ])
                 this.descrbeDiscountHk = this.$t([
-                    `最多可享${100 - this.discount}%认购费折扣`,
-                    `最多可享${100 - this.discount}%認購費折扣`,
+                    `申购费低至${this.discount / 10}折`,
+                    `認購費低至${this.discount / 10}折`,
                     `Up to ${100 - this.discount}% discount on subs. fee`
                 ])
                 if (!this.groupId) return
@@ -267,13 +312,13 @@ export default {
                 }
 
                 this.shareTitle = this.$t([
-                    `<p>认购申请已提交</p>`,
+                    `<p>申购申请已提交</p>`,
                     `<p>認購申請已提交</p>`,
                     `<p>Subscription submitted</p>`
                 ])
                 if (orderList.length === mostNum) {
                     this.shareTitle += this.$t([
-                        `<p>同行认购成功，团队已满员</p>`,
+                        `<p>同行申购成功，团队已满员</p>`,
                         `<p>同行認購成功，團隊已滿</p>`,
                         `<p>Your group is full, you have got the Group Discount offer. </p>`
                     ])
@@ -335,28 +380,58 @@ export default {
                     (langType.Hk && 2) ||
                     (langType.En && 3) ||
                     1
-
-                let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.$route.query.id}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let link = `${
+                    this.$appOrigin
+                }/hqzx/marketing/group.html?appType=${
+                    this.appType.Ch ? 1 : 2
+                }&langType=${lt}&biz_type=0&biz_id=${
+                    this.$route.query.id
+                }&group_id=${this.groupId}&invitationCode=${
+                    this.userInfo.invitationCode
+                }&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${
+                    window.location.origin
+                }/hqzx/marketing/group.html?appType=${
+                    this.appType.Ch ? 1 : 2
+                }&langType=${lt}&biz_type=0&biz_id=${
+                    this.$route.query.id
+                }&group_id=${this.groupId}&invitationCode=${
+                    this.userInfo.invitationCode
+                }&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
                 let shortPageUrl = await getShortUrl({
                     long: encodeURIComponent(pageUrl)
                 })
+                let title =
+                    this.code === 1
+                        ? this.$t([
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
+                              `I am subscribing${this.fundName}， join me now!`
+                          ])
+                        : this.$t([
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
+                              `I am subscribing${this.fundName}， join me now!`
+                          ])
+                let description =
+                    this.code === 1
+                        ? this.$t([
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                              '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
+                              'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
+                          ])
+                        : this.$t([
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                              '一同購買更享「同行優惠」，尊享認購費折扣！點擊了解詳情>>>',
+                              'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
+                          ])
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
-                    title: this.$t([
-                        `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                        `我正在申購${this.fundName}，就差你一個了！`,
-                        `I am subscribing${this.fundName}， join me now!`
-                    ]),
-                    description: this.$t([
-                        '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
-                        '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
-                        'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
-                    ]),
+                    title: title,
+                    description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     overseaPageUrl: `${this.$appOrigin}/${shortUrl.url}`,
@@ -497,6 +572,36 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
+                this.tips = this.$t([
+                    `*友信暂不支持使用${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }购买${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }基金，如有需要，您可以手动换汇后进行申购`,
+                    `*友信暫不支持使用${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }購買${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    }基金，如有需要，您可以手動換匯後進行申購`,
+                    `*uSMART does not support the use of ${
+                        this.currency.type == 1
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    } to purchase ${
+                        this.currency.type == 2
+                            ? this.$t('hkd')
+                            : this.$t('usd')
+                    } funds, If there is a need, you can manually exchange and then purchase the funds.`
+                ])
+                this.Exchange = this.$t('Exchange')
                 this.subscribeObj.subscriptionFee.value =
                     fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 this.setCosUrl(
@@ -627,18 +732,22 @@ export default {
                         this.orderTotalAmount = re.orderTotalAmount
                         console.log('申购页面-fundPurchaseData:', re)
                     } else {
-                        const { body, group_id } = await createGroupOrder({
-                            group_id: Number(this.groupId) || 0,
-                            biz_type: 0,
-                            biz_id: this.$route.query.id,
-                            order_detail: JSON.stringify({
-                                displayLocation: 1,
-                                fundId: this.$route.query.id,
-                                purchaseAmount: this.purchaseAmount,
-                                requestId: generateUUID(),
-                                tradeToken: token
-                            })
-                        })
+                        const requestId = generateUUID()
+                        const { body, group_id } = await createGroupOrder(
+                            {
+                                group_id: Number(this.groupId) || 0,
+                                biz_type: 0,
+                                biz_id: this.$route.query.id,
+                                order_detail: JSON.stringify({
+                                    displayLocation: 1,
+                                    fundId: this.$route.query.id,
+                                    purchaseAmount: this.purchaseAmount,
+                                    requestId: requestId,
+                                    tradeToken: token
+                                })
+                            },
+                            { requestId: requestId }
+                        )
                         this.groupId = group_id
                         await this.getGroupOrders()
 
@@ -677,11 +786,11 @@ export default {
     i18n: {
         zhCHS: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申购成功',
             buyMoney: '购买金额',
@@ -699,11 +808,11 @@ export default {
             dayDone: '日完成',
             day: '日',
             balanceRule: '申购规则',
-            stepOne: '买入提交',
+            stepOne: '申购提交',
             stepTwo: '确认份额',
             stepThree: '查看盈亏',
             confirmTheShare: '确认份额并开始计算收益',
-            earnings: '查看收益',
+            earnings: '查看份额、收益',
             money: '金额',
             done: '完成',
             iKnow: '我知道了',
@@ -716,16 +825,17 @@ export default {
             subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购',
             cancel: '取消',
             continue: '继续申购',
+            Exchange: '点此去换汇',
             content:
                 '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
         },
         zhCHT: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: '申購成功',
             buyMoney: '購買金額',
@@ -735,7 +845,7 @@ export default {
             availableBalance: '可用餘額',
             buyBalance: '购买金额',
             minBugBalance: '最小申購金額',
-            buyMoneyNumber: '申購金額',
+            buyMoneyNumber: '認購金額',
             continueBalance: '續投金額',
             redemption: '申購費',
             predict: '預計',
@@ -743,11 +853,11 @@ export default {
             dayDone: '日完成',
             day: '日',
             balanceRule: '申購規則',
-            stepOne: '買入提交',
+            stepOne: '認購提交',
             stepTwo: '確認份額',
             stepThree: '查看盈虧',
             confirmTheShare: '確認份額並開始計算收益',
-            earnings: '查看收益',
+            earnings: '查看份額、收益',
             money: '金額',
             done: '完成',
             iKnow: '我知道了',
@@ -760,16 +870,17 @@ export default {
             subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購',
             cancel: '取消',
             continue: '繼續申購',
+            Exchange: '點此去換匯',
             content:
                 '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。'
         },
         en: {
             FundReturn: '拼团最低可返',
-            subscribeApply: '认购申请已提交',
-            subscribeSuccess: '同行认购成功，团队已满员',
+            subscribeApply: '申购申请已提交',
+            subscribeSuccess: '同行申购成功，团队已满员',
             invitation: '还差 5人，赶快邀请好友来拼团吧',
             invitationInfo: '团队已达到标，还可以邀请 999 人',
-            startGroup: '我正在认购，老司机开团，就差你上车啦！',
+            startGroup: '我已申购，老司机开团，就差你上车啦！',
             groupBuy: '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
             buySuccess: 'Subscription Successful',
             buyMoney: 'Investment Amount',
@@ -779,7 +890,7 @@ export default {
             availableBalance: 'Available Balance',
             buyBalance: 'Investment Amount',
             minBugBalance: 'Initial',
-            buyMoneyNumber: 'Amount of Purchasing',
+            buyMoneyNumber: 'Investment Amount',
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
             predict: 'Estimated',
@@ -791,7 +902,7 @@ export default {
             stepTwo: 'Fund Units Allocation',
             stepThree: 'Check P/L',
             confirmTheShare: 'Fund Units Allocation',
-            earnings: 'Check P/L',
+            earnings: 'Check P/L and Units',
             money: 'Amount',
             done: 'Completed',
             iKnow: 'Got it',
@@ -806,6 +917,7 @@ export default {
                 'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit',
             cancel: 'cancel',
             continue: 'Continue ',
+            Exchange: 'Click here to Exchange',
             content:
                 'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
         }

@@ -58,8 +58,7 @@ import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import {
     handlerBatchgetUserGroupOrder,
-    getGroupOrders,
-    getGroupAction
+    getGroupOrders
 } from '@/service/zt-group-apiserver.js'
 import { List } from 'vant'
 import shareWay from '@/biz-components/share-way/index'
@@ -124,83 +123,13 @@ export default {
             shareTitle: '',
             groupRestUsers: 5,
             orderNo: '',
-            fundName: ''
+            fundName: '',
+            appType: null
         }
     },
     methods: {
         //查询拼团订单
-        async getGroupOrders() {
-            try {
-                let data = await getGroupAction({
-                    biz_id: this.bizId,
-                    biz_type: 0,
-                    action_status: 2
-                })
-                let mostNum
-                let restNum
-                if (data.action && data.action.rule_detail) {
-                    mostNum = JSON.parse(data.action.rule_detail).most_user
-
-                    this.discount = JSON.parse(
-                        data.action.rule_detail
-                    ).rule_list[
-                        JSON.parse(data.action.rule_detail).rule_list.length - 1
-                    ].discount
-                }
-                if (!this.groupId && this.groupId === 0) {
-                    this.discountShow = true
-                    return
-                }
-                if (!this.groupId) return
-                let grdersData = await getGroupOrders({
-                    group_id: +this.groupId
-                })
-                let orderList = grdersData.order_list || []
-                if (data.action && data.action.rule_detail) {
-                    restNum =
-                        JSON.parse(data.action.rule_detail).rule_list[0]
-                            .start_user_count - orderList.length
-                }
-
-                this.shareTitle = this.$t([
-                    `<p>认购申请已提交</p>`,
-                    `<p>認購申請已提交</p>`,
-                    `<p>Subscription submitted</p>`
-                ])
-                if (orderList.length === mostNum) {
-                    this.shareTitle += this.$t([
-                        `<p>同行认购成功，团队已满员</p>`,
-                        `<p>同行認購成功，團隊已滿</p>`,
-                        `<p>Your group is full, you have got the Group Discount offer. </p>`
-                    ])
-                } else {
-                    let mostRest = mostNum - orderList.length
-
-                    // 未成团
-                    if (restNum > 0) {
-                        this.shareTitle += this.$t([
-                            `<p>还差 ${restNum} 人成团，赶快邀请好友来拼团吧</p>`,
-                            `<p>還差${restNum}人，趕緊邀請好友一同參與「同行優惠」</p>`,
-                            `<p>${restNum} people needed to get the ${mostRest}% discount on subscription fee.</p>`
-                        ])
-                    } else {
-                        this.shareTitle += this.$t([
-                            `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`,
-                            `<p>「同行優惠」已達成目標，還可以再多${mostRest}人一同參與</p>`,
-                            `<p>You have entitled Group Discount, you can have ${mostRest} more people to join your group.</p>`
-                        ])
-                    }
-                }
-
-                if (data.action && data.action.rule_detail) {
-                    this.groupRestUsers = this.discount =
-                        JSON.parse(data.action.rule_detail).rule_list[0]
-                            .start_user_count - orderList.length
-                }
-            } catch (e) {
-                console.log('getGroupOrders:error:>>>', e)
-            }
-        },
+        async getGroupOrders() {},
         //获取用户信息
         async getFundUserInfo() {
             try {
@@ -211,15 +140,93 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
-        handlerShareBtn(item) {
+        async handlerShareBtn(item) {
             this.bizId = item.actionInfo.action.biz_id
             this.groupId = item.actionInfo.group.group_id
             this.orderNo = item.orderNo
             this.fundName = item.fundBaseInfoVO.fundName
             this.maxNumberPeople =
                 item.actionInfo.action.rule_detail.most_user - item.countNumber
-            this.getGroupOrders()
-            this.showShare = true
+            try {
+                let mostNum
+                let restNum
+                this.appType = item.actionInfo.action.app_type
+                if (
+                    item.actionInfo.action &&
+                    item.actionInfo.action.rule_detail
+                ) {
+                    mostNum = item.actionInfo.action.rule_detail.most_user
+
+                    this.discount =
+                        item.actionInfo.action.rule_detail.rule_list[
+                            item.actionInfo.action.rule_detail.rule_list
+                                .length - 1
+                        ].discount
+                }
+                if (!this.groupId && this.groupId === 0) {
+                    this.discountShow = true
+                    return
+                }
+                if (!this.groupId) return
+                let grdersData = await getGroupOrders({
+                    group_id: +this.groupId
+                })
+                let orderList = grdersData.order_list || []
+                if (
+                    item.actionInfo.action &&
+                    item.actionInfo.action.rule_detail
+                ) {
+                    restNum =
+                        item.actionInfo.action.rule_detail.rule_list[0]
+                            .start_user_count - orderList.length
+                }
+
+                this.shareTitle = this.$t([
+                    `<p>申购申请已提交</p>`,
+                    `<p>認購申請已提交</p>`,
+                    `<p>Subscription submitted</p>`
+                ])
+                if (orderList.length === mostNum) {
+                    this.shareTitle += this.$t([
+                        `<p>同行申购成功，团队已满员</p>`,
+                        `<p>同行認購成功，團隊已滿</p>`,
+                        `<p>Your group is full, you have got the Group Discount offer. </p>`
+                    ])
+                } else {
+                    let mostRest = mostNum - orderList.length
+
+                    // 未成团
+                    if (restNum > 0) {
+                        let subscribeMsg =
+                            restNum > 1
+                                ? `${restNum} people`
+                                : `${restNum} person`
+                        this.shareTitle += this.$t([
+                            `<p>还差 ${restNum} 人成团，赶快邀请好友来拼团吧</p>`,
+                            `<p>還差${restNum}人，趕緊邀請好友一同參與「同行優惠」</p>`,
+                            `<p>${subscribeMsg} needed to get the ${mostRest}% discount on subscription fee.</p>`
+                        ])
+                    } else {
+                        this.shareTitle += this.$t([
+                            `<p>团队已达到标，还可以邀请 ${mostRest} 人</p>`,
+                            `<p>「同行優惠」已達成目標，還可以再多${mostRest}人一同參與</p>`,
+                            `<p>You have entitled Group Discount, you can have ${mostRest} more people to join your group.</p>`
+                        ])
+                    }
+                }
+
+                if (
+                    item.actionInfo.action &&
+                    item.actionInfo.action.rule_detail
+                ) {
+                    this.groupRestUsers = this.discount =
+                        item.actionInfo.action.rule_detail.rule_list[0]
+                            .start_user_count - orderList.length
+                }
+                this.showShare = true
+            } catch (e) {
+                console.log('getGroupOrders:error:>>>', e)
+            }
         },
 
         async handleShare(_index) {
@@ -241,27 +248,42 @@ export default {
                     (langType.En && 3) ||
                     1
 
-                let at = appType.Hk ? 2 : 1
-                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
-                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${at}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let link = `${this.$appOrigin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
+                let pageUrl = `${window.location.origin}/hqzx/marketing/group.html?appType=${this.appType}&langType=${lt}&biz_type=0&biz_id=${this.bizId}&group_id=${this.groupId}&invitationCode=${this.userInfo.invitationCode}&order_id=${this.orderNo}#/invite`
                 let shortUrl = await getShortUrl({
                     long: encodeURIComponent(link)
                 })
                 let shortPageUrl = await getShortUrl({
                     long: encodeURIComponent(pageUrl)
                 })
+                let title =
+                    this.code === 1
+                        ? this.$t([
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
+                              `I am subscribing${this.fundName}， join me now!`
+                          ])
+                        : this.$t([
+                              `我已申购${this.fundName}，老司机开团，就差你上车啦！`,
+                              `我已認購${this.fundName}，就差你一個了！`,
+                              `I am subscribing${this.fundName}， join me now!`
+                          ])
+                let description =
+                    this.code === 1
+                        ? this.$t([
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                              '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
+                              'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
+                          ])
+                        : this.$t([
+                              '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
+                              '一同購買更享「同行優惠」，尊享認購費折扣！點擊了解詳情>>>',
+                              'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
+                          ])
                 await jsBridge.callApp('command_share', {
                     shareType: shareType,
-                    title: this.$t([
-                        `我正在申购${this.fundName}，老司机开团，就差你上车啦！`,
-                        `我正在申購${this.fundName}，就差你一個了！`,
-                        `I am subscribing${this.fundName}， join me now!`
-                    ]),
-                    description: this.$t([
-                        '和我一起拼团买，尊享申购费折扣返还！点击了解详情>>>',
-                        '一同購買更享「同行優惠」，尊享申購費折扣！點擊了解詳情>>>',
-                        'Subscribe together to get the Group Discount on the subscription fee. Click here for details >>>'
-                    ]),
+                    title: title,
+                    description: description,
                     pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
                     shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
                     overseaPageUrl: `${this.$appOrigin}/${shortUrl.url}`,
@@ -364,7 +386,7 @@ export default {
                                         0
                                     ) {
                                         orderItem.discribe = this.$t([
-                                            `同行认购成功，团队已满`,
+                                            `同行申购成功，团队已满`,
                                             `同行認購成功，團隊已滿`,
                                             `Your group is full, you have got the Group Discount offer.`
                                         ])

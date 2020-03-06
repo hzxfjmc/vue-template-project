@@ -104,7 +104,7 @@ export default {
             dayChg: '日涨幅',
             timeMore: '时间区间',
             navChg: '单位净值',
-            incomeRate: '收益率',
+            incomeRate: '涨跌幅',
             more1: '查看更多',
             yieldInLast7d: '近七日年化',
             list: {
@@ -123,7 +123,7 @@ export default {
         },
         zhCHT: {
             fundTrade: '基金業績走勢',
-            incomeRate: '收益率',
+            incomeRate: '漲跌幅',
             timeMore: '時間區間',
             more1: '查看更多',
             dayChg: '日漲幅',
@@ -150,7 +150,7 @@ export default {
             navChg: 'NAV',
             timeMore: 'Period',
             more1: 'More',
-            incomeRate: ' Return',
+            incomeRate: ' Rtn(Cum)',
             fundTrade: 'Trend Charts',
             time: 'Time',
             nav: 'Chg%',
@@ -161,13 +161,13 @@ export default {
                 2: { date: '6M' },
                 3: { date: '1Y' },
                 4: { date: '3Y' },
-                9: { date: 'All' }
+                9: { date: 'Max' }
             },
             trendCharts: 'Trend Charts',
-            historicalRTN: 'Historical RTN',
+            historicalRTN: 'Historical Rtn',
             NAVHistory: 'NAV History',
-            tenKRTN: '10K RTN',
-            RTNDetail: 'RTN Details'
+            tenKRTN: '10K Rtn',
+            RTNDetail: 'Rtn Details'
         }
     },
     filters: {

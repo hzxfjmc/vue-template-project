@@ -1,10 +1,10 @@
 <template lang="pug">
 .tarde-rule
     FundListItem(
-        :title="$t('tradeTitle')"
+        :title="code === 1 ? $t('tradeTitle') : $t('tradeTitleHk')"
         :cellList="tradeList"
         :currency = "currency"
-        :subtitle="$t('tradeSubTitle')")
+        :subtitle="code ===1 ? $t('tradeSubTitle') : $t('tradeSubTitleHk')")
         FundSteps(
             slot="fundStep"
             style="margin-top: -5px;"
@@ -37,7 +37,8 @@ import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
 
 import { transNumToThousandMark } from '@/utils/tools.js'
-// import FundStep from './components/common/fund-step'
+import { getSource } from '@/service/customer-relationship-server'
+import { mapGetters } from 'vuex'
 import FundSteps from '@/biz-components/fond-steps'
 import {
     tradeList,
@@ -53,11 +54,15 @@ export default {
         FunCell,
         FundSteps
     },
+    computed: {
+        ...mapGetters(['isLogin', 'appType', 'openedAccount'])
+    },
     data() {
         return {
             tradeList: tradeList,
             redeemList: redeemList,
             currency: '',
+            code: null,
             tradeSubTitle: '423432423',
             managementList: managementList,
             buySubmit: {
@@ -89,7 +94,14 @@ export default {
     methods: {
         InitI18nState() {
             for (let key in this.tradeList) {
-                this.tradeList[key].label = this.$t('tradeList')[key].label
+                if (key != 'subscriptionFee') {
+                    this.tradeList[key].label = this.$t('tradeList')[key].label
+                } else {
+                    this.tradeList[key].label =
+                        this.code === 1
+                            ? this.$t('tradeList')[key].label
+                            : this.$t('tradeList')[key].labelHk
+                }
             }
             for (let key in this.redeemList) {
                 this.redeemList[key].label = this.$t('redeemList')[key].label
@@ -114,9 +126,9 @@ export default {
                 })
 
                 this.currency = fundTradeInfoVO.currency.name
-                this.tradeList['dividend'].value = Number(
-                    fundTradeInfoVO['dividend']
-                ).toFixed(2)
+                // this.tradeList['dividend'].value = Number(
+                //     fundTradeInfoVO['dividend']
+                // ).toFixed(2)
                 this.tradeList['tradeFrequencyName'].value =
                     fundTradeInfoVO.tradeFrequencyName
                 this.tradeList[
@@ -155,9 +167,21 @@ export default {
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+                if (!this.isLogin) {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
-    mounted() {
+    created() {
         this.InitState()
         this.InitI18nState()
     }

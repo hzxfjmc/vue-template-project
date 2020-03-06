@@ -55,7 +55,7 @@ export default {
         en: {
             unit: 'B ',
             survey: 'Fund Overview',
-            surveytips: 'Details、Dividend、DOC',
+            surveytips: 'Details,Dividend,Docs',
             fundCompanyName: 'Fund Company',
             assetSubType: 'Asset Class',
             investArea: 'Geographical Allocation',

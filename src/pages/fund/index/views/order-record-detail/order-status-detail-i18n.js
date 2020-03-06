@@ -90,7 +90,7 @@ export const i18nOrderStatusData = {
         }
     },
     en: {
-        amount: 'Amount',
+        amount: 'Investment Amount',
         againBuy: 'One More Order',
         dialogMsg: 'Would you like to cancel the order?',
         orderTime: 'Order Time',

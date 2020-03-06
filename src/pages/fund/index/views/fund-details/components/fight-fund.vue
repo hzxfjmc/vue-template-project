@@ -61,7 +61,7 @@ export default {
         zhCHS: {
             competition: '参与拼团',
             rule: '详细规则',
-            subscription: '拼团认购',
+            subscription: '拼团申购',
             target: '达到目标',
             teamSuccess: '拼团成功',
             discountReturn: '申购费折扣返还',

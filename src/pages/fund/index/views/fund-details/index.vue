@@ -22,13 +22,13 @@
             :initState="holdInitState")
 
         FightFundHk(
-            v-if="!fightShow && code ==2"
+            v-if="!fightShow && code ===2"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
         FightFund(
-            v-if="!fightShow && code == 1"
+            v-if="!fightShow && code === 1"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
@@ -51,9 +51,6 @@
         fundCardList(
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
-
-        
-        
         .fund___list--p
             p {{$t('msg')}}
     .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
@@ -65,7 +62,7 @@
         van-button(
             class="fund-footer btn button-width"
             @click="handleBuyOrSell(1)" 
-            :disabled="disabled") {{$t('buy')}}
+            :disabled="disabled") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
         van-button(
@@ -170,7 +167,8 @@ import {
     getGroupAction,
     getGroupOrder,
     getAdGroupOrders,
-    addGroupFollow
+    addGroupFollow,
+    checkWhetherGroup
 } from '@/service/zt-group-apiserver.js'
 import { getSource } from '@/service/customer-relationship-server'
 import LS from '@/utils/local-storage'
@@ -180,7 +178,6 @@ import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
-import { enablePullRefresh } from '@/utils/js-bridge.js'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
@@ -190,11 +187,12 @@ export default {
     i18n: {
         zhCHS: {
             format: 'DD天 HH:mm:ss',
-            aloneScribe: '独自认购',
-            togetherScribe: '[同行认购]',
+            aloneScribe: '独自申购',
+            togetherScribe: '[同行申购]',
             Surplus: '剩余',
             describe: '还差5人,申购费最高可返50%',
             buy: '申购',
+            buyHk: '申购',
             redeem: '赎回',
             risk: '风险提示',
             append: '追加',
@@ -256,6 +254,7 @@ export default {
             Surplus: '剩餘',
             describe: '還差5人，最高可享申購費50%折扣',
             buy: '申購',
+            buyHk: '認購',
             redeem: '贖回',
             risk: '風險提示',
             append: '續投',
@@ -318,6 +317,7 @@ export default {
             describe:
                 'X people needed to get the 50% discounton subscription fee.',
             buy: 'Subscribe',
+            buyHk: 'Subscribe',
             redeem: 'Redemption',
             risk: 'Risk Disclosure',
             trade: 'Transaction Records',
@@ -327,18 +327,18 @@ export default {
             openAccountBtn: 'Open account',
             openAccount: 'Please open your account to continue the trade',
             timeTranslation: {
-                oneWeek: 'Last 1 week',
-                oneMonth: 'Last 1 month',
-                threeMonth: 'Last 3 month',
-                sixMonth: 'Last 6 month',
-                oneYear: 'Last 1 year',
-                twoYear: 'Last 2 year',
-                threeYear: 'Last 3 year',
-                fiveYear: 'Last 5 year',
-                all: 'ALL'
+                oneWeek: 'Last 1-Week',
+                oneMonth: 'Last 1-Month',
+                threeMonth: 'Last 3-Month',
+                sixMonth: 'Last 6-Month',
+                oneYear: 'Last 1-Year',
+                twoYear: 'Last 2-Year',
+                threeYear: 'Last 3-Year',
+                fiveYear: 'Last 5-Year',
+                all: 'Since Inception'
             },
             msg:
-                'The above information comes from the fund company and third-party data provides.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information，before making any investment strategy.',
+                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
             Subscribenow: 'Subscribe now',
@@ -435,7 +435,7 @@ export default {
             fightShow: true,
             contentmsg: '',
             time: 30 * 60 * 60 * 1000,
-            code: '',
+            code: null,
             has_joined: true,
             tagsShow: false,
             tagShow: false,
@@ -613,16 +613,20 @@ export default {
                                 ].discount}% discount on subscription fee.`
                         ]),
                         discribeHk: this.$t([
+                            `${
+                                e.group.order_count
+                            }人同行成功，尊享申购费${JSON.parse(
+                                e.action.rule_detail
+                            ).rule_list[
+                                JSON.parse(e.action.rule_detail).rule_list
+                                    .length - 1
+                            ].discount / 10}折扣 `,
                             `${e.group.order_count}人同行成功，尊享申購費${100 -
                                 JSON.parse(e.action.rule_detail).rule_list[
                                     JSON.parse(e.action.rule_detail).rule_list
                                         .length - 1
-                                ].discount}%折扣 `,
-                            `${e.group.order_count}人同行成功，尊享申購費${100 -
-                                JSON.parse(e.action.rule_detail).rule_list[
-                                    JSON.parse(e.action.rule_detail).rule_list
-                                        .length - 1
-                                ].discount}%折扣 `,
+                                ].discount /
+                                    10}折 `,
                             `Groups with ${e.group.order_count} ppl, ${100 -
                                 JSON.parse(e.action.rule_detail).rule_list[
                                     JSON.parse(e.action.rule_detail).rule_list
@@ -670,14 +674,16 @@ export default {
                 const res = await getGroupAction({
                     biz_id: this.id,
                     biz_type: 0,
-                    action_status: 2,
-                    group_id: this.$route.query.group_id
+                    action_status: 2
                 })
 
+                if (res.group) {
+                    this.group_id = res.group.group_id
+                }
                 this.orderList = res.order_list || []
                 this.orderList.map(item => {
                     if (item.user_info.is_invite_user) {
-                        this.group_id = item.group_order.group_id
+                        // this.group_id = item.group_order.group_id
                         this.avatImg =
                             item.user_info.head_img ||
                             require('@/assets/img/fund/share/avat.png')
@@ -685,6 +691,14 @@ export default {
                 })
                 if (res !== null && res.action.status === 3) {
                     this.fightShow = false
+                }
+                if (this.$route.query.group_id) {
+                    const data = await checkWhetherGroup({
+                        group_id: this.$route.query.group_id
+                    })
+                    if (data.flag) {
+                        this.fightShow = true
+                    }
                 }
 
                 if (res.order_list.length > 0 && !res.has_joined) {
@@ -748,8 +762,8 @@ export default {
                     if (this.orderList.length > 0 && !res.has_joined) {
                         this.subscribeButtonShow = true
                         this.subscribeButtonHk = this.$t([
-                            `最多可享${100 - this.discount}%认购费折扣`,
-                            `最多可享${100 - this.discount}%認購費折扣`,
+                            `立即享申购费低至${this.discount / 10}折`,
+                            `立即享認購費低至${this.discount / 10}折`,
                             `Up to ${100 -
                                 this.discount}% discount on subs. fee`
                         ])
@@ -757,29 +771,30 @@ export default {
                         this.subscribeButtonShow = false
                     }
                     this.applyAfter = this.$t([
-                        `认购后，好友参与[同行优惠]，最多可省${100 -
-                            this.discount}%的认购费`,
-                        `認購後，好友參與「同行優惠」，最享${100 -
-                            this.discount}%認購費折扣`,
+                        `申购后，好友参与[同行优惠]，可享申购费低至${this
+                            .discount / 10}折`,
+                        `認購後，好友參與「同行優惠」，可享認購費低至${this
+                            .discount / 10}折`,
                         `Share with friends, up to ${100 -
-                            this.discount}% discount on subs. fee `
+                            this.discount}% discount on subs. fee`
                     ])
                     this.actionInfo.describeDiscount = this.$t([
                         `拼团成功，根据团队规模最高可返${100 -
                             this.discount}%申购费`,
                         `「同行」成功，根據團隊規模最高可享申購費${100 -
                             this.discount}%折扣`,
-                        `You entitled Group Discount,Up to ${100 -
+                        `If you meet the Group Discount requirements, you can get up to ${100 -
                             this
-                                .discount}% discount on handling fee if you meet the Group Discount requirement.`
+                                .discount}% discount on subs. fee. depending on the group size.`
                     ])
                     this.actionInfo.describeDiscountHk = this.$t([
-                        `成功后发起人可享认购费90%折扣，其他成员可享认购费80%折扣`,
-                        `成功後發起人可享認購費${100 -
-                            this.discount}%折扣，其他成員可享認購費80%折扣`,
-                        `If you meet the Group Discount requirements, group leader can get subs. fee ${100 -
+                        `「同行」成功后，根据团队人数最多可享申购费${this
+                            .discount / 10}折`,
+                        `「同行」成功後，根據團隊人數最多可享認購費${this
+                            .discount / 10}折`,
+                        `If you meet the Group Discount requirements, you can get up to ${100 -
                             this
-                                .discount}% off, other members can enjoy 80% discount on subs. fee `
+                                .discount}% discount on subs. fee. depending on the group size.`
                     ])
                 }
                 this.time = (res.action.action_end_time - res.unix_time) * 1000
@@ -1248,6 +1263,9 @@ export default {
             try {
                 const { code } = await getSource()
                 this.code = code
+                this.fundHeaderInfoVO.code = code
+                this.fundTradeInfoVO.code = code
+                this.holdInitState.code = code
                 if (!this.isLogin) {
                     this.code = this.appType.Hk ? 2 : 1
                 }
@@ -1273,7 +1291,6 @@ export default {
         this.shareIcon = env.isMainlandBlack
             ? require('@/assets/img/fund/icon/icon-share.png')
             : require('@/assets/img/fund/icon/icon-share-hk.png')
-        enablePullRefresh(true)
         this.init18inState()
         await this.getFundDetail()
         this.getFundNetPriceHistoryV1()
@@ -1325,13 +1342,13 @@ export default {
                 let tenKRTN
                 let apy
                 if (this.fundHeaderInfoVO.assetType === 4) {
-                    tenKRTN = this.$t(['万元收益', '萬元收益', '10K RTN'])
+                    tenKRTN = this.$t(['万元收益:', '萬元收益:', '10K RTN:'])
                     apy = this.revenue
                 } else {
                     tenKRTN = this.$t([
-                        '近一年收益率',
-                        '近一年表現',
-                        'Past Year'
+                        '近一年漲跌幅:',
+                        '近一年表現:',
+                        'Past Year:'
                     ])
                     apy =
                         this.fundHeaderInfoVO.apy > 0
@@ -1380,6 +1397,7 @@ export default {
     p {
         font-size: 12px;
         line-height: 17px;
+        text-align: justify;
         color: #999999;
     }
 }
