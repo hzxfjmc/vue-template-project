@@ -509,9 +509,9 @@ export default {
                             `${num}people needed for the Group Discount Subscription`
                         ])
                         discribeHk = this.$t([
-                            `拼团申购中，还差${num}人成团 `,
-                            `拼團申購中，還差${num}人成團 `,
-                            `${num}people needed for the Group Discount Subscription`
+                            `拼团认购中，还差${num}人成团 `,
+                            `拼團認購中，還差${num}人成團 `,
+                            `${num} people needed for the Group Discount Subscription`
                         ])
                     } else {
                         let discount
@@ -532,10 +532,10 @@ export default {
                         discribeHk = this.$t([
                             `${
                                 e.group.order_count
-                            }人同行成功，尊享申购费${discount / 10}折扣 `,
+                            }人同行成功，尊享认购费${discount / 10}折扣 `,
                             `${
                                 e.group.order_count
-                            }人同行成功，尊享申購費${discount / 10}折 `,
+                            }人同行成功，尊享认购費${discount / 10}折 `,
                             `Groups with ${e.group.order_count} ppl, ${100 -
                                 discount}% discount on subs. fee`
                         ])
