@@ -509,7 +509,7 @@ export default {
                             `${num}people needed for the Group Discount Subscription`
                         ])
                         discribeHk = this.$t([
-                            `同行认购中，还差${num}人成团 `,
+                            `同行申购中，还差${num}人成团 `,
                             `同行認購中，還差${num}人成團 `,
                             `${num} people needed for the Group Discount Subscription`
                         ])
