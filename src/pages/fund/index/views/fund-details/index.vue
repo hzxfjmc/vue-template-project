@@ -980,12 +980,22 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
-            clickFundDetails(
-                'fund_detail',
-                '申购',
-                this.fundHeaderInfoVO.fundId,
-                this.fundHeaderInfoVO.fundName
-            )
+            if (params === 1) {
+                clickFundDetails(
+                    'fund_detail',
+                    '申购',
+                    this.fundHeaderInfoVO.fundId,
+                    this.fundHeaderInfoVO.fundName
+                )
+            } else {
+                clickFundDetails(
+                    'fund_detail',
+                    '拼团',
+                    this.fundHeaderInfoVO.fundId,
+                    this.fundHeaderInfoVO.fundName
+                )
+            }
+
             if (!this.flag2) return this.$toast(this.forbidPrompt)
             // 未登录或未开户
             if (!this.isLogin) {
