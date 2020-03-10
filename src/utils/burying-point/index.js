@@ -118,3 +118,22 @@ export function clickFundDetails(page, propViewName, id, name) {
         prop_fund_name: name
     })
 }
+
+//我的拼团邀请点击
+export function clickFundOrderShare(page, propViewName, id, name) {
+    sensors.track('yxstock_web_share', {
+        prop_view_page: page,
+        prop_fund_id: id,
+        prop_fund_name: name
+    })
+}
+
+//点击我的拼团邀请成功
+export function clickFundOrder(page, propViewName, id, name) {
+    sensors.track('yxstock_web_view_click', {
+        prop_view_page: page,
+        prop_view_name: propViewName,
+        prop_fund_id: id,
+        prop_fund_name: name
+    })
+}

@@ -61,6 +61,7 @@ import {
     getGroupOrders
 } from '@/service/zt-group-apiserver.js'
 import { List } from 'vant'
+import { clickFundOrder, clickFundOrderShare } from '@/utils/burying-point'
 import shareWay from '@/biz-components/share-way/index'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
@@ -145,6 +146,8 @@ export default {
             this.groupId = item.actionInfo.group.group_id
             this.orderNo = item.orderNo
             this.fundName = item.fundBaseInfoVO.fundName
+            //拼团点击埋点
+            clickFundOrderShare('fund-order-list', this.bizId, this.fundName)
             this.maxNumberPeople =
                 item.actionInfo.action.rule_detail.most_user - item.countNumber
             try {
@@ -241,6 +244,13 @@ export default {
                 : ['wechat_friend', 'wechat_friends_circle', 'qq', 'weibo']
 
             let shareType = shareTypeMap[_index]
+            //拼团分享成功埋点
+            clickFundOrder(
+                'fund-order-list',
+                shareType,
+                this.bizId,
+                this.fundName
+            )
             try {
                 let lt =
                     (langType.Ch && 1) ||
