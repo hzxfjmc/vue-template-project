@@ -879,7 +879,6 @@ export default {
                 this.tabObj.label = this.timeList['oneMonth'].label
                 this.tabObj.value = this.timeList['oneMonth'].value
             } catch (e) {
-                console.log(e)
                 this.$toast(e.msg)
             }
         },
