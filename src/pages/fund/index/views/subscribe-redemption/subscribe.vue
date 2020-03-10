@@ -572,6 +572,10 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
+                console.log(this.$t('hkd'))
+                console.log(
+                    this.currency.type == 1 ? this.$t('hkd') : this.$t('usd')
+                )
                 this.tips = this.$t([
                     `*友信暂不支持使用${
                         this.currency.type == 1
@@ -826,6 +830,8 @@ export default {
             cancel: '取消',
             continue: '继续申购',
             Exchange: '点此去换汇',
+            hkd: '港币',
+            usd: '美元',
             content:
                 '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
         },
@@ -849,6 +855,8 @@ export default {
             continueBalance: '續投金額',
             redemption: '申購費',
             predict: '預計',
+            hkd: '港幣',
+            usd: '美元',
             submitButtonText: '同意協議並提交',
             dayDone: '日完成',
             day: '日',
@@ -918,6 +926,8 @@ export default {
             cancel: 'cancel',
             continue: 'Continue ',
             Exchange: 'Click here to Exchange',
+            hkd: 'HKD',
+            usd: 'USD',
             content:
                 'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
         }
