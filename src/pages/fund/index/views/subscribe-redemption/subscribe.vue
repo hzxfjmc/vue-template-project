@@ -21,7 +21,7 @@
                                 type="text"
                                 :disabled="disabledInput"
                                 @input="changeNumber"
-                                :placeHolder="`${initialInvestAmount}${currency.type == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
+                                :placeHolder="`${initialInvestAmount}${currency.type == 1 ? $t('usd') : $t('hkd') }${$t('buyMoneyPlaceHolder')} `" )
                     .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
