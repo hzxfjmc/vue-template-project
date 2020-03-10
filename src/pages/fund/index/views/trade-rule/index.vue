@@ -158,7 +158,6 @@ export default {
                 this.sellSubmit.value = fundTradeInfoVO.sellSubmit
                 this.sellConfirm.value = fundTradeInfoVO.sellConfirm
                 this.sellProfitLoss.value = fundTradeInfoVO.sellProfitLoss
-                console.log(fundTradeInfoVO.managementFee * 100)
                 this.managementList.managementFee.value = `${Math.floor(
                     Number(fundTradeInfoVO.managementFee * 10000)
                 ) / 100}%`
