@@ -1113,15 +1113,8 @@ export default {
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
             ) {
-                this.$router.push({
-                    path: '/risk-assessment',
-                    query: {
-                        id: this.$route.query.id || this.id,
-                        extendStatusBit: this.userInfo.extendStatusBit,
-                        fundRiskType: this.fundRiskType,
-                        currencyType: this.fundTradeInfoVO.currency.type
-                    }
-                })
+                let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment?id=${this.id}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                jumpUrl(3, url)
                 return
             } else {
                 if (
