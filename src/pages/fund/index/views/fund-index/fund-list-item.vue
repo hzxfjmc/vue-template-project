@@ -6,8 +6,10 @@
             @click="goNext(item)"
             v-for="(item,index) in fundlist.data" 
             :key="index")
-                .element--right
-                    img(:src="item.imgUrl")
+                canvas.canvas-element--right(
+                    :id="'chartId'+item.fundId" 
+                    :ref="item.fundId"
+                )
                 .element--fund--content
                     span.title.ellipse {{item.title}}
                     .element--content-sub-content
@@ -35,6 +37,8 @@ import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { debounce } from '@/utils/tools.js'
+import dayjs from 'dayjs'
+import F2 from '@antv/f2'
 export default {
     computed: {
         stockColorType() {
@@ -44,6 +48,11 @@ export default {
     },
     components: {
         'fund-tag': fundTag
+    },
+    updated() {
+        this.fundlist.data.forEach(item => {
+            this.draw(`chartId${item.fundId}`, item.fundHomepagePointList)
+        })
     },
     i18n: {
         zhCHS: {
@@ -86,6 +95,51 @@ export default {
         }
     },
     methods: {
+        draw(canvasId, data) {
+            const chart = new F2.Chart({
+                id: canvasId,
+                pixelRatio: window.devicePixelRatio
+            })
+            data.map(item => {
+                item.pointData = Number(item.pointData)
+            })
+            chart.source(data, {
+                pointData: {
+                    formatter: function formatter(val) {
+                        return Number(val).toFixed(2)
+                    }
+                },
+                belongDay: {
+                    type: 'timeCat',
+                    range: [0, 1],
+                    tickCount: 3000,
+                    formatter: function formatter(val) {
+                        return dayjs(val).format('YYYY-MM-DD')
+                    }
+                }
+            })
+            chart.tooltip({
+                custom: true,
+                showXTip: true,
+                showYTip: true,
+                snap: true,
+                crosshairsType: 'xy',
+                crosshairsStyle: {
+                    lineDash: [2]
+                }
+            })
+            chart.axis(false)
+            chart
+                .line()
+                .position('belongDay*pointData')
+                .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
+                .shape('smooth')
+                .style({
+                    lineWidth: 13
+                })
+
+            chart.render()
+        },
         goNext(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             debounce(gotoNewWebView(url), 300)
@@ -123,7 +177,7 @@ export default {
             display: flex;
             flex-direction: column;
             margin: 0 0 0 30px;
-            width: 75%;
+            width: 420px;
             .title {
                 font-size: 16px;
                 width: 100%;
@@ -162,13 +216,9 @@ export default {
                 flex-direction: row;
             }
         }
-        .element--right {
-            width: 70px;
-            height: 65px;
-            img {
-                width: 70px;
-                height: 65px;
-            }
+        .canvas-element--right {
+            width: 700px;
+            zoom: 0.1;
         }
     }
 }

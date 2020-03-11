@@ -7,9 +7,11 @@
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .element--fund--content
+                    canvas.casvas-element--right(
+                        :id="'chartId'+item.fundId" 
+                        :ref="item.fundId"
+                    )
                     //- span.title.ellipse {{item.title}}
-                    .element--right
-                        img(:src="item.imgUrl")
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.apy)<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(item.apy*100).toFixed(2)}}%
@@ -40,6 +42,8 @@ import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { debounce } from '@/utils/tools.js'
+import dayjs from 'dayjs'
+import F2 from '@antv/f2'
 export default {
     props: {
         fundlist: {
@@ -94,6 +98,11 @@ export default {
     components: {
         'fund-tag': fundTag
     },
+    updated() {
+        this.fundlist.data.forEach(item => {
+            this.draw(`chartId${item.fundId}`, item.fundHomepagePointList)
+        })
+    },
     computed: {
         stockColorType() {
             console.log(getStockColorType())
@@ -102,6 +111,50 @@ export default {
         ...mapGetters(['appType', 'lang'])
     },
     methods: {
+        draw(canvasId, data) {
+            const chart = new F2.Chart({
+                id: canvasId,
+                pixelRatio: window.devicePixelRatio
+            })
+            data.map(item => {
+                item.pointData = Number(item.pointData)
+            })
+            chart.source(data, {
+                pointData: {
+                    formatter: function formatter(val) {
+                        return Number(val).toFixed(2)
+                    }
+                },
+                belongDay: {
+                    type: 'timeCat',
+                    tickCount: 3000,
+                    formatter: function formatter(val) {
+                        return dayjs(val).format('YYYY-MM-DD')
+                    }
+                }
+            })
+            chart.tooltip({
+                custom: true,
+                showXTip: true,
+                showYTip: true,
+                snap: true,
+                crosshairsType: 'xy',
+                crosshairsStyle: {
+                    lineDash: [2]
+                }
+            })
+            chart.axis(false)
+            chart
+                .line()
+                .position('belongDay*pointData')
+                .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
+                .shape('smooth')
+                .style({
+                    lineWidth: 13
+                })
+
+            chart.render()
+        },
         goNext(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             debounce(gotoNewWebView(url), 300)
@@ -163,7 +216,7 @@ export default {
                 }
             }
             .element--content-bottom {
-                width: 59%;
+                width: 420px;
                 .tag-title {
                     span {
                         width: 100%;
@@ -194,16 +247,11 @@ export default {
                 }
             }
         }
-        .element--right {
-            width: 40px;
-            height: 40px;
-            img {
-                width: 40px;
-
-                height: 40px;
-            }
-        }
     }
+}
+.casvas-element--right {
+    width: 180px;
+    zoom: 0.1;
 }
 .block__fund-hk {
     padding: 10px 0;
