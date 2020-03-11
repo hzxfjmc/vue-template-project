@@ -120,7 +120,7 @@ export function clickFundDetails(page, propViewName, id, name) {
 }
 
 //我的拼团邀请点击
-export function clickFundOrderShare(page, propViewName, id, name) {
+export function clickFundOrderShare(page, id, name) {
     sensors.track('yxstock_web_share', {
         prop_view_page: page,
         prop_fund_id: id,
