@@ -147,7 +147,7 @@ export default {
             this.orderNo = item.orderNo
             this.fundName = item.fundBaseInfoVO.fundName
             //拼团点击埋点
-            clickFundOrderShare('fund-order-list', this.bizId, this.fundName)
+            clickFundOrderShare('我的拼团-邀请', this.bizId, this.fundName)
             this.maxNumberPeople =
                 item.actionInfo.action.rule_detail.most_user - item.countNumber
             try {
@@ -246,7 +246,7 @@ export default {
             let shareType = shareTypeMap[_index]
             //拼团分享成功埋点
             clickFundOrder(
-                'fund-order-list',
+                '我的拼团-邀请',
                 shareType,
                 this.bizId,
                 this.fundName
