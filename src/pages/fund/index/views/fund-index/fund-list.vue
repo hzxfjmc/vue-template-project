@@ -250,13 +250,13 @@ export default {
     }
 }
 .casvas-element--right {
-    width: 100px;
+    width: 70px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     canvas {
-        width: 300px;
+        width: 210px;
         zoom: 0.15;
     }
 }
