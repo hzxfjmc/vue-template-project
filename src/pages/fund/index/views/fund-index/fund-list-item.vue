@@ -217,11 +217,11 @@ export default {
             }
         }
         .canvas-element--right {
-            width: 100px;
+            width: 70px;
             display: flex;
             align-items: center;
             canvas {
-                width: 300px;
+                width: 210px;
                 zoom: 0.15;
             }
         }
