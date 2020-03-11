@@ -54,15 +54,14 @@
         .fund___list--p
             p {{$t('msg')}}
     .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
-        van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-        van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        van-button(:class="[!disabled && flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+        van-button(:class="[!disabled && flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
     
     
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate !== 'share'")
         van-button(
-            class="fund-footer btn button-width"
-            @click="handleBuyOrSell(1)" 
-            :disabled="disabled") {{code === 1 ? $t('buy'):$t('buyHk')}}
+            :class="[!disabled && flag2? 'fund-footer':'fund-no','btn button-width']"
+            @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
     .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
         van-button(
@@ -1074,6 +1073,7 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
+            if (this.disabled) return
             clickFundDetails(
                 'fund_detail',
                 '申购',
