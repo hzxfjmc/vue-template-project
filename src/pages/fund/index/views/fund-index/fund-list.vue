@@ -202,7 +202,7 @@ export default {
                 display: flex;
                 height: 100%;
                 flex-direction: column;
-                width: 120px;
+                width: 140px;
                 margin: 0 0 0 10px;
                 .number {
                     font-size: 20px;
@@ -216,7 +216,6 @@ export default {
                 }
             }
             .element--content-bottom {
-                padding-left: 14px;
                 width: 420px;
                 .tag-title {
                     span {

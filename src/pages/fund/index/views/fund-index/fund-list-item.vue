@@ -176,7 +176,7 @@ export default {
         .element--fund--content {
             display: flex;
             flex-direction: column;
-            margin: 0 0 0 14px;
+            margin: 0 0 0 30px;
             width: 420px;
             .title {
                 font-size: 16px;
