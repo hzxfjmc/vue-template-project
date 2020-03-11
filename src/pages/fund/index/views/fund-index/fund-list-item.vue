@@ -50,8 +50,10 @@ export default {
         'fund-tag': fundTag
     },
     updated() {
-        this.fundlist.data.forEach(item => {
-            this.draw(`chartId${item.fundId}`, item.fundHomepagePointList)
+        this.$nextTick(() => {
+            this.fundlist.data.forEach(item => {
+                this.draw(`chartId${item.fundId}`, item.fundHomepagePointList)
+            })
         })
     },
     i18n: {
