@@ -92,9 +92,9 @@
             van-button(
                 class="fund-footer btn button-width1"
                 @click="handleBuyOrSell(1)" 
-                :disabled="disabled") {{$t('buy')}}
+                :class="[!disabled && flag2 ? 'fund-footer':'fund-no','btn button-width']") {{$t('buy')}}
             .block__fight--btn.btn(
-                :class="[disabled?'fund-footer2':'fund-footer1']" 
+                :class="[!disabled && flag2 ?'fund-footer1':'fund-footer2']" 
                 @click="handleBuyOrSell(2)")
                 span 发起拼团申购
                 em 申购费最高可返{{100-discount}}%
@@ -1073,6 +1073,8 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
+            if (!this.flag2 || !this.flag1)
+                return this.$toast(this.forbidPrompt)
             if (this.disabled) return
             clickFundDetails(
                 'fund_detail',
@@ -1080,7 +1082,7 @@ export default {
                 this.fundHeaderInfoVO.fundId,
                 this.fundHeaderInfoVO.fundName
             )
-            if (!this.flag2) return this.$toast(this.forbidPrompt)
+
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
