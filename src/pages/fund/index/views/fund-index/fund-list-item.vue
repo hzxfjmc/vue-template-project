@@ -135,7 +135,7 @@ export default {
                 .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
                 .shape('smooth')
                 .style({
-                    lineWidth: 15
+                    lineWidth: 10
                 })
 
             chart.render()
@@ -176,7 +176,7 @@ export default {
         .element--fund--content {
             display: flex;
             flex-direction: column;
-            margin: 0 0 0 30px;
+            margin: 0 0 0 14px;
             width: 420px;
             .title {
                 font-size: 16px;
@@ -217,7 +217,7 @@ export default {
             }
         }
         .canvas-element--right {
-            width: 70px;
+            width: 100px;
             display: flex;
             align-items: center;
             canvas {

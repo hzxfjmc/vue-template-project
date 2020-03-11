@@ -150,7 +150,7 @@ export default {
                 .position('belongDay*pointData')
                 .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
                 .style({
-                    lineWidth: 15
+                    lineWidth: 10
                 })
 
             chart.render()
@@ -202,7 +202,7 @@ export default {
                 display: flex;
                 height: 100%;
                 flex-direction: column;
-                width: 90px;
+                width: 120px;
                 margin: 0 0 0 10px;
                 .number {
                     font-size: 20px;
@@ -216,6 +216,7 @@ export default {
                 }
             }
             .element--content-bottom {
+                padding-left: 14px;
                 width: 420px;
                 .tag-title {
                     span {
