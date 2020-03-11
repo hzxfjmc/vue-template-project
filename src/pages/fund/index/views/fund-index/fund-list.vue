@@ -216,6 +216,7 @@ export default {
                 }
             }
             .element--content-bottom {
+                padding-left: 10px;
                 width: 420px;
                 .tag-title {
                     span {
