@@ -6,10 +6,11 @@
             @click="goNext(item)"
             v-for="(item,index) in fundlist.data" 
             :key="index")
-                canvas.canvas-element--right(
-                    :id="'chartId'+item.fundId" 
-                    :ref="item.fundId"
-                )
+                .canvas-element--right
+                    canvas(
+                        :id="'chartId'+item.fundId" 
+                        :ref="item.fundId"
+                    )
                 .element--fund--content
                     span.title.ellipse {{item.title}}
                     .element--content-sub-content
@@ -99,8 +100,7 @@ export default {
     methods: {
         draw(canvasId, data) {
             const chart = new F2.Chart({
-                id: canvasId,
-                pixelRatio: window.devicePixelRatio
+                id: canvasId
             })
             data.map(item => {
                 item.pointData = Number(item.pointData)
@@ -113,8 +113,6 @@ export default {
                 },
                 belongDay: {
                     type: 'timeCat',
-                    range: [0, 1],
-                    tickCount: 3000,
                     formatter: function formatter(val) {
                         return dayjs(val).format('YYYY-MM-DD')
                     }
@@ -137,7 +135,7 @@ export default {
                 .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
                 .shape('smooth')
                 .style({
-                    lineWidth: 13
+                    lineWidth: 10
                 })
 
             chart.render()
@@ -219,8 +217,13 @@ export default {
             }
         }
         .canvas-element--right {
-            width: 700px;
-            zoom: 0.1;
+            width: 100px;
+            display: flex;
+            align-items: center;
+            canvas {
+                width: 300px;
+                zoom: 0.15;
+            }
         }
     }
 }

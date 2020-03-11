@@ -7,10 +7,10 @@
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .element--fund--content
-                    canvas.casvas-element--right(
-                        :id="'chartId'+item.fundId" 
-                        :ref="item.fundId"
-                    )
+                    .casvas-element--right
+                        canvas(
+                            :id="'chartId'+item.fundId" 
+                        )
                     //- span.title.ellipse {{item.title}}
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(item.apy*100).toFixed(2)}}%
@@ -115,8 +115,7 @@ export default {
     methods: {
         draw(canvasId, data) {
             const chart = new F2.Chart({
-                id: canvasId,
-                pixelRatio: window.devicePixelRatio
+                id: canvasId
             })
             data.map(item => {
                 item.pointData = Number(item.pointData)
@@ -150,9 +149,8 @@ export default {
                 .line()
                 .position('belongDay*pointData')
                 .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
-                .shape('smooth')
                 .style({
-                    lineWidth: 13
+                    lineWidth: 10
                 })
 
             chart.render()
@@ -252,8 +250,15 @@ export default {
     }
 }
 .casvas-element--right {
-    width: 180px;
-    zoom: 0.1;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    canvas {
+        width: 300px;
+        zoom: 0.15;
+    }
 }
 .block__fund-hk {
     padding: 10px 0;
