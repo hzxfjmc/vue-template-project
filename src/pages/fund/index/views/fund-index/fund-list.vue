@@ -150,7 +150,7 @@ export default {
                 .position('belongDay*pointData')
                 .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
                 .style({
-                    lineWidth: 10
+                    lineWidth: 15
                 })
 
             chart.render()
@@ -256,8 +256,8 @@ export default {
     align-items: center;
     position: relative;
     canvas {
-        width: 210px;
-        zoom: 0.15;
+        width: 100%;
+        zoom: 0.1;
     }
 }
 .block__fund-hk {
