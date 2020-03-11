@@ -177,7 +177,7 @@ export default {
             display: flex;
             flex-direction: column;
             margin: 0 0 0 30px;
-            width: 420px;
+            width: 69%;
             .title {
                 font-size: 16px;
                 width: 100%;
