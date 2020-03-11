@@ -715,6 +715,7 @@ export default {
                 token = data && data.token
                 submitStep = 1
             } catch (error) {
+                this.$toast(error.desc.errorMessage)
                 console.log('申购页面-tradeErrorMsg :', error)
             }
 
