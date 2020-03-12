@@ -19,7 +19,6 @@
                             input(
                                 v-model="purchaseAmount" 
                                 type="text"
-                                :disabled="disabledInput"
                                 @input="changeNumber"
                                 :placeHolder="`${initialInvestAmount}${currency.type == 1 ? $t('usd') : $t('hkd') }${$t('buyMoneyPlaceHolder')} `" )
                     .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
@@ -136,7 +135,6 @@ export default {
             subscribeObj: JSON.parse(JSON.stringify(subscribeObj)),
             buyMoneyBlur: false,
             buyMoney: null,
-            disabledInput: true,
             fundName: '',
             shareTitle: '',
             isin: '',
@@ -652,9 +650,6 @@ export default {
             try {
                 const hsInfo = await hsAccountInfo(currencyType)
                 this.withdrawBalance = hsInfo.withdrawBalance
-                if (this.withdrawBalance > 0) {
-                    this.disabledInput = false
-                }
                 this.subscribeObj.withdrawBalance.value = transNumToThousandMark(
                     hsInfo.withdrawBalance
                 )
