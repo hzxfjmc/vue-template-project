@@ -1516,7 +1516,7 @@ export default {
     position: fixed;
     // border: 1px solid red;
     z-index: 999999;
-    bottom: 90px;
+    bottom: 48px;
     left: 35%;
     border-radius: 5px;
     overflow: hidden;
