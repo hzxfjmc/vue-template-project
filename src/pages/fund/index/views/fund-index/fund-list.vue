@@ -202,8 +202,8 @@ export default {
                 display: flex;
                 height: 100%;
                 flex-direction: column;
-                width: 70px;
-                margin: 0 0 0 10px;
+                width: 80px;
+                padding: 0 10px;
                 .number {
                     font-size: 20px;
                     line-height: 23px;
