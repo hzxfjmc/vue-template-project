@@ -53,6 +53,11 @@
             :recommendList="recommendList")
         .fund___list--p
             p {{$t('msg')}}
+        .fund-footer-contentShare(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
+            van-button(
+                class="fund-footer btn button-width button-share"
+                @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
+
     .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
         van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
@@ -64,12 +69,7 @@
             @click="handleBuyOrSell(1)" 
             :disabled="disabled") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
-        van-button(
-            class="fund-footer btn button-width"
-            @click="handleShare()" 
-            :disabled="disabled") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
-
+    
     .fund-footer-content(
         v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1 && invate !== 'share'")
         .block__list--header(v-if="shareHeaderShow")
@@ -1509,6 +1509,23 @@ export default {
                 width: 100%;
             }
         }
+    }
+}
+.fund-footer-contentShare {
+    width: 30%;
+    position: fixed;
+    // border: 1px solid red;
+    z-index: 999999;
+    bottom: 90px;
+    left: 35%;
+    border-radius: 5px;
+    overflow: hidden;
+    right: 35%;
+    .fund-footer {
+        height: 40px !important;
+
+        font-size: 14px;
+        line-height: 40px;
     }
 }
 .block__button--list {
