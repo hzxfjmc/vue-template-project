@@ -77,12 +77,12 @@ export default {
         // },
         h2Style() {
             // 名称字体变化策略
-            // let fundName = this.info.fundName || ''
-            // if (fundName.length > 12) {
-            //     return {
-            //         fontSize: '0.28rem'
-            //     }
-            // }
+            let fundName = this.info.fundName || ''
+            if (fundName.length > 12) {
+                return {
+                    fontSize: '0.28rem'
+                }
+            }
             return {
                 fontSize: '0.32rem'
             }
