@@ -912,7 +912,7 @@ export default {
                 this.handleBuyOrSell(1)
             } else {
                 if (!this.flag) return this.$toast(this.forbidPrompt)
-                let url = `${window.location.origin}/wealth/fund/index.html#/${routerPath}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                let url = `${window.location.origin}/wealth/fund/index.html#${routerPath}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
                 jumpUrl(3, url)
             }
         },
