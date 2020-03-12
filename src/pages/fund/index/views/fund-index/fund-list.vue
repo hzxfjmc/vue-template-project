@@ -7,7 +7,7 @@
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .element--fund--content
-                    .casvas-element--right
+                    .canvas-element--right
                         canvas(
                             :id="'chartId'+item.fundId" 
                         )
@@ -202,7 +202,7 @@ export default {
                 display: flex;
                 height: 100%;
                 flex-direction: column;
-                width: 140px;
+                width: 70px;
                 margin: 0 0 0 10px;
                 .number {
                     font-size: 20px;
@@ -217,10 +217,10 @@ export default {
             }
             .element--content-bottom {
                 padding-left: 10px;
-                width: 59%;
+                flex: 1;
                 .tag-title {
+                    max-width: 200px;
                     span {
-                        width: 100%;
                         height: 22px;
                         // margin: 10px 0 0 0;
                         display: inline-block;
@@ -250,14 +250,14 @@ export default {
         }
     }
 }
-.casvas-element--right {
-    width: 70px;
+.canvas-element--right {
+    width: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
     canvas {
-        width: 100%;
+        width: 700px;
         zoom: 0.1;
     }
 }

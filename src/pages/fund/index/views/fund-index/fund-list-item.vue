@@ -176,11 +176,11 @@ export default {
         .element--fund--content {
             display: flex;
             flex-direction: column;
-            margin: 0 0 0 30px;
-            width: 69%;
+            margin: 0 0 0 25px;
+            flex: 1;
             .title {
                 font-size: 16px;
-                width: 100%;
+                max-width: 200px;
             }
             .element--content-sub-content {
                 display: flex;
@@ -217,11 +217,11 @@ export default {
             }
         }
         .canvas-element--right {
-            width: 100px;
+            width: 80px;
             display: flex;
             align-items: center;
             canvas {
-                width: 100%;
+                width: 1000px;
                 zoom: 0.1;
             }
         }
