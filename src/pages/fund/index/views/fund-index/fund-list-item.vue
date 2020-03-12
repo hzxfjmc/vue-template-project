@@ -180,7 +180,7 @@ export default {
             flex: 1;
             .title {
                 font-size: 16px;
-                max-width: 200px;
+                max-width: 230px;
             }
             .element--content-sub-content {
                 display: flex;

@@ -216,7 +216,7 @@ export default {
                 }
             }
             .element--content-bottom {
-                padding-left: 10px;
+                padding-left: 15px;
                 flex: 1;
                 .tag-title {
                     max-width: 200px;
