@@ -18,7 +18,7 @@
                             p {{money}}
                             input(
                                 v-model="purchaseAmount" 
-                                type="number"
+                                type="text"
                                 :disabled="disabledInput"
                                 @input="changeNumber"
                                 :placeHolder="`${initialInvestAmount}${currency.type == 1 ? $t('usd') : $t('hkd') }${$t('buyMoneyPlaceHolder')} `" )
