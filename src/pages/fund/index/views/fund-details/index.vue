@@ -53,7 +53,7 @@
             :recommendList="recommendList")
         .fund___list--p
             p {{$t('msg')}}
-    .fund__block--btn(v-if="!disabled")
+    .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
             van-button.button-5width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
@@ -443,17 +443,6 @@ export default {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
         },
-        disabled() {
-            // 接口返回数据后才允许点击
-            if (!this.isLogin) {
-                return false
-            }
-            //tradeAuth 基金权限可能为0 使用flag、flag1、flag2来控制申购、赎回、追加
-            if (!this.userInfo.grayStatusBit) {
-                return true
-            }
-            return false
-        },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
             if (!this.isLogin) {
@@ -471,6 +460,7 @@ export default {
     },
     data() {
         return {
+            loading: true,
             swipeShow: false,
             shareHeaderShow: true,
             figthComeShow: false,
@@ -1114,7 +1104,6 @@ export default {
         async handleBuyOrSell(params) {
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
-            if (this.disabled) return
             clickFundDetails(
                 'fund_detail',
                 '申购',
@@ -1311,21 +1300,23 @@ export default {
         }
     },
     async created() {
-        this.shareIcon = env.isMainlandBlack
-            ? require('@/assets/img/fund/icon/icon-share.png')
-            : require('@/assets/img/fund/icon/icon-share-hk.png')
-        this.init18inState()
-        await this.getFundDetail()
-        this.getFundNetPriceHistoryV1()
-        this.getFundPositionV2()
-        this.getFundRecommendList()
-        this.getFundPerformanceHistory()
-        this.getFundApyPointV1()
-
-        if (this.isLogin) {
-            await this.getFundUserInfo()
+        try {
+            this.shareIcon = env.isMainlandBlack
+                ? require('@/assets/img/fund/icon/icon-share.png')
+                : require('@/assets/img/fund/icon/icon-share-hk.png')
+            this.init18inState()
+            await this.getFundDetail()
+            await this.getFundPositionV2()
+            this.getFundNetPriceHistoryV1()
+            this.getFundRecommendList()
+            this.getFundPerformanceHistory()
+            this.getFundApyPointV1()
+            if (this.isLogin) {
+                await this.getFundUserInfo()
+            }
+        } finally {
+            this.loading = false
         }
-
         this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
