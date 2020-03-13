@@ -192,6 +192,7 @@ export default {
         .element--fund--content {
             display: flex;
             flex-direction: row;
+            width: 100%;
             // padding: 0 0 0 10px;
             .title {
                 font-size: 16px;
@@ -201,7 +202,7 @@ export default {
                 display: flex;
                 height: 100%;
                 flex-direction: column;
-                width: 120px;
+                width: 105px;
                 padding: 0 10px;
                 .number {
                     font-size: 0.4rem;
@@ -217,7 +218,7 @@ export default {
             .element--content-bottom {
                 flex: 1;
                 .tag-title {
-                    max-width: 200px;
+                    max-width: 180px;
                     span {
                         height: 22px;
                         // margin: 10px 0 0 0;
