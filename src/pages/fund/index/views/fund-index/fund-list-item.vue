@@ -60,7 +60,7 @@ export default {
     i18n: {
         zhCHS: {
             described: '起',
-            described1: '起购',
+            described1: '起',
             unit: '亿',
             fundSizeIndex: '规模',
             day: '涨跌幅'
