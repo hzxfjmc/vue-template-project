@@ -53,87 +53,89 @@
             :recommendList="recommendList")
         .fund___list--p
             p {{$t('msg')}}
-    .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
-        van-button(:class="[!disabled && flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-        van-button(:class="[!disabled && flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
-    
-    
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate !== 'share'")
-        van-button(
-            :class="[!disabled && flag2? 'fund-footer':'fund-no','btn button-width']"
-            @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+    .fund__block--btn(v-if="!disabled")
+        .fund-footer-content(v-if="RedemptionButton")
+            van-button.button-5width.button-left.btn(
+                :class="[flag?'fund-check':'fund-no']" 
+                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+            van-button.btn.button-5width(
+                :class="[flag1?'fund-buy':'fund-no']" 
+                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        
+        
+        .fund-footer-content(v-if="PurchaseButton")
+            van-button.btn.button-width(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
-        van-button(
-            class="fund-footer btn button-width"
-            @click="handleShare()" 
-            :disabled="disabled") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
-
-    .fund-footer-content(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1 && invate !== 'share'")
-        .block__list--header(v-if="shareHeaderShow")
-            .block__footer-avat
-                img(:src="avatImg") 
-            .block__footer--content
-                .block__footer--bottom {{contentmsg}}
-                .block__footer--top
-                    span 剩余
-                    .vant-count-down
-                        CountDown( 
-                            millisecond
-                            :time="time"
-                            format="DD天 HH:mm:ss")
-                
-            .block__footer-right(v-if="figthComeShow")
-                van-button(
-                    @click="handleBuyOrSell(3)"
-                    :disabled="disabled || differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
-        .block__button--list(v-if="figthBtnShow")
+        .fund-footer-content(v-if="invate === 'share'")
             van-button(
-                class="fund-footer btn button-width1"
-                @click="handleBuyOrSell(1)" 
-                :class="[!disabled && flag2 ? 'fund-footer':'fund-no','btn button-width']") {{$t('buy')}}
-            .block__fight--btn.btn(
-                :class="[!disabled && flag2 ?'fund-footer1':'fund-footer2']" 
-                @click="handleBuyOrSell(2)")
-                span 发起拼团申购
-                em 申购费最高可返{{100-discount}}%
-        .block__button--list(v-if="!figthBtnShow")
-            .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
-                span 参与拼团申购
-                em 申购费最高可返{{100-discount}}%
+                class="fund-footer btn button-width"
+                @click="handleShare()") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
 
-    .fund-footer-content.fund-footer-hk(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2 && invate !== 'share'")
-        .block__list--header-hk(v-if="subscribeButtonShow")
-            .block__footer-left
-               p {{applyAfter}}
-            .block__footer-right
-                van-button(
-                    class="van-button"
-                    @click="handleBuyOrSell(2)"
-                    :disabled="disabled") {{$t('aloneScribe')}}
-        .block__button--list-hk(v-if="subscribeButtonShow")
-            .block__fight--btn-hk( @click="handleBuyOrSell(3)")
-                .block__fight--left
-                    img(:src="avatImg")
-                .block__fight--right
-                    .block__fight--top
-                        p  {{$t('togetherScribe')}}
-                        p ({{$t('Surplus')}}
+        .fund-footer-content(
+            v-if="chsFightButton")
+            .block__list--header(v-if="shareHeaderShow")
+                .block__footer-avat
+                    img(:src="avatImg") 
+                .block__footer--content
+                    .block__footer--bottom {{contentmsg}}
+                    .block__footer--top
+                        span 剩余
                         .vant-count-down
                             CountDown( 
                                 millisecond
                                 :time="time"
-                                :format="$t('format')")
-                        p )
-                    .block__fight--bottom {{subscribeButtonHk}}
-        .block__button--list-hk(v-if="!subscribeButtonShow")
-            .block__buy-hk
+                                format="DD天 HH:mm:ss")
+                    
+                .block__footer-right(v-if="figthComeShow")
+                    van-button(
+                        @click="handleBuyOrSell(3)"
+                        :disabled="differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
+            .block__button--list(v-if="figthBtnShow")
                 van-button(
-                    class="btn"
-                    @click="handleBuyOrSell(2)"
-                    :disabled="disabled") {{$t('Subscribenow')}}
+                    class="fund-footer btn button-width1"
+                    @click="handleBuyOrSell(1)" 
+                    :class="[flag2 ? 'fund-footer':'fund-no']") {{$t('buy')}}
+                .block__fight--btn.btn(
+                    :class="[flag2 ?'fund-footer1':'fund-footer2']" 
+                    @click="handleBuyOrSell(2)")
+                    span 发起拼团申购
+                    em 申购费最高可返{{100-discount}}%
+            .block__button--list(v-if="!figthBtnShow")
+                .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
+                    span 参与拼团申购
+                    em 申购费最高可返{{100-discount}}%
+
+        .fund-footer-content.fund-footer-hk(
+            v-if="chtFightButton")
+            .block__list--header-hk(v-if="subscribeButtonShow")
+                .block__footer-left
+                p {{applyAfter}}
+                .block__footer-right
+                    van-button(
+                        class="van-button"
+                        @click="handleBuyOrSell(2)") {{$t('aloneScribe')}}
+            .block__button--list-hk(v-if="subscribeButtonShow")
+                .block__fight--btn-hk( @click="handleBuyOrSell(3)")
+                    .block__fight--left
+                        img(:src="avatImg")
+                    .block__fight--right
+                        .block__fight--top
+                            p  {{$t('togetherScribe')}}
+                            p ({{$t('Surplus')}}
+                            .vant-count-down
+                                CountDown( 
+                                    millisecond
+                                    :time="time"
+                                    :format="$t('format')")
+                            p )
+                        .block__fight--bottom {{subscribeButtonHk}}
+            .block__button--list-hk(v-if="!subscribeButtonShow")
+                .block__buy-hk
+                    van-button(
+                        class="btn"
+                        @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
 
     img(
         v-show="false"
@@ -389,6 +391,50 @@ export default {
         FightFundHk
     },
     computed: {
+        RedemptionButton() {
+            /*
+             * btnShow 是否持仓
+             * isGrayAuthority 灰度
+             * invate 是否是邀请
+             */
+            return (
+                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
+            )
+        },
+        /*
+         * fightShow 是否拼团
+         * isGrayAuthority 灰度
+         * invate 是否是邀请
+         */
+        PurchaseButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                this.fightShow &&
+                this.invate !== 'share'
+            )
+        },
+        chsFightButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                !this.fightShow &&
+                this.code == 1 &&
+                this.invate !== 'share'
+            )
+        },
+        chtFightButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                !this.fightShow &&
+                this.code == 2 &&
+                this.invate !== 'share'
+            )
+        },
         stockColorType() {
             return +getStockColorType()
         },
@@ -1175,21 +1221,6 @@ export default {
                                 cancelButtonText: this.$t('cancelButton')
                             })
                             .then(() => {
-                                // let data = {
-                                //     query: {
-                                //         id: this.$route.query.id || this.id,
-                                //         assessResult: this.userInfo
-                                //             .assessResult,
-                                //         currencyType: this.fundTradeInfoVO
-                                //             .currency.type,
-                                //         fundCode: this.fundCode
-                                //     }
-                                // }
-                                // data.path =
-                                //     // eslint-disable-next-line no-constant-condition
-                                //     (this.userInfo.extendStatusBit & 16) > 0
-                                //         ? '/fund-subscribe'
-                                //         : '/open-permissions'
                                 let url
                                 let extendStatusBit =
                                     this.userInfo.extendStatusBit & 16
