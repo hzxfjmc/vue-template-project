@@ -107,8 +107,6 @@ import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getStockColorType } from '@/utils/html-utils.js'
-import dayjs from 'dayjs'
-import F2 from '@antv/f2'
 import jsBridge from '@/utils/js-bridge'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
@@ -430,79 +428,22 @@ export default {
                     CURRENCY_NAME[this.lang][item.tradeCurrency]
                 item.fundSizeCurrency =
                     CURRENCY_NAME[this.lang][item.fundSizeCurrency]
-                let cavas = document.createElement('canvas')
-                cavas.style.position = 'fixed'
-                cavas.style.top = '0'
-                cavas.style.zIndex = '-1'
-                cavas.style.opacity = 0
-                cavas.id = `chartId${item.fundId}`
-                this.$refs.renderEchartlist.appendChild(cavas)
-                this.draw(
-                    `chartId${item.fundId}`,
-                    item.fundHomepagePointList,
-                    res => {
-                        item.imgUrl = res
-                        //设置异步队列进行canvas绘制
-                        setTimeout(() => {
-                            this.choiceFundListShow = !obj.flag
-                            this.blueChipFundListShow = !obj.flag2
-                            this.robustFundListShow = !obj.flag1
-                        }, 200)
-                    }
-                )
+                // this.draw(
+                //     `chartId${item.fundId}`,
+                //     item.fundHomepagePointList,
+                //     () => {
+                //         // item.imgUrl = res
+                //         //设置异步队列进行canvas绘制
+                //         setTimeout(() => {
+                this.choiceFundListShow = !obj.flag
+                this.blueChipFundListShow = !obj.flag2
+                this.robustFundListShow = !obj.flag1
+                //         }, 200)
+                //     }
+                // )
             })
         },
         //创建echart图并生成图片回调出来
-        draw(canvasId, data, callback) {
-            const chart = new F2.Chart({
-                id: canvasId,
-                pixelRatio: window.devicePixelRatio
-            })
-            data.map(item => {
-                item.pointData = Number(item.pointData)
-            })
-            chart.source(data, {
-                pointData: {
-                    tickCount: 5,
-                    min: 0,
-                    formatter: function formatter(val) {
-                        return Number(val).toFixed(2)
-                    }
-                },
-                belongDay: {
-                    type: 'timeCat',
-                    range: [0, 1],
-                    tickCount: 3,
-                    formatter: function formatter(val) {
-                        return dayjs(val).format('YYYY-MM-DD')
-                    }
-                }
-            })
-            chart.tooltip({
-                custom: true,
-                showXTip: true,
-                showYTip: true,
-                snap: true,
-                crosshairsType: 'xy',
-                crosshairsStyle: {
-                    lineDash: [2]
-                }
-            })
-            chart.axis(false)
-            chart
-                .line()
-                .position('belongDay*pointData')
-                .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
-
-            chart.render()
-            //异步执行canvas回调图片等待canvas绘制完成
-            setTimeout(() => {
-                let imgUrl = document
-                    .getElementById(canvasId)
-                    .toDataURL('image/png')
-                callback(imgUrl)
-            }, 500)
-        },
         initI18n() {
             this.tabList.map(item => {
                 item.label = this.$t(item.key)
@@ -527,8 +468,6 @@ export default {
                 if (this.isLogin) {
                     this.getFundPositionListV3(flag)
                 } else {
-                    this.positionAmount = '0.00'
-                    this.weekEarnings = '0.00'
                     this.code = this.appType.Hk ? 2 : 1
                 }
                 this.bannerAdvertisement(flag)
@@ -541,8 +480,7 @@ export default {
             }
         }
     },
-    async mounted() {
-        this.$refs.renderEchartlist.innerHTML = ''
+    async created() {
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
@@ -561,4 +499,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import './index.scss';
+.fund-echart-render {
+    height: 65px;
+    width: 70px;
+}
 </style>

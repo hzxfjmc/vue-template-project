@@ -1343,8 +1343,8 @@ export default {
                     apy = this.revenue
                 } else {
                     tenKRTN = this.$t([
+                        '近一年涨跌幅:',
                         '近一年漲跌幅:',
-                        '近一年表現:',
                         'Past Year:'
                     ])
                     apy =
