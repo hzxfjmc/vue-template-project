@@ -149,16 +149,16 @@ export default {
                 }
             })
             chart.axis(false)
+            let stockColor
+            if (this.stockColorType === 1) {
+                stockColor = Number(apy) >= 0 ? '#ea3d3d' : '#04ba60'
+            } else {
+                stockColor = Number(apy) >= 0 ? '#04ba60' : '#ea3d3d'
+            }
             chart
                 .line()
                 .position('belongDay*pointData')
-                .color(
-                    `${
-                        this.stockColorType === 1 && Number(apy) >= 0
-                            ? '#ea3d3d'
-                            : '#04ba60'
-                    }`
-                )
+                .color(`${stockColor}`)
                 .style({
                     lineWidth: 10
                 })
