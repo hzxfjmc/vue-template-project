@@ -202,21 +202,21 @@ export default {
                 display: flex;
                 height: 100%;
                 flex-direction: column;
-                width: 80px;
+                width: 120px;
                 padding: 0 10px;
                 .number {
-                    font-size: 20px;
+                    font-size: 0.4rem;
                     line-height: 23px;
                     font-family: yxFontDINPro-Medium;
                 }
                 .tag {
-                    font-size: 12px;
+                    font-size: 0.24rem;
                     line-height: 25px;
                     color: $text-color5; // 次标题颜色
                 }
             }
             .element--content-bottom {
-                padding-left: 15px;
+                padding-left: 10px;
                 flex: 1;
                 .tag-title {
                     max-width: 200px;
@@ -251,7 +251,7 @@ export default {
     }
 }
 .canvas-element--right {
-    width: 60px;
+    width: 50px;
     display: flex;
     justify-content: center;
     align-items: center;
