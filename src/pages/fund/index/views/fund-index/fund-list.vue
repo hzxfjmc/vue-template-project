@@ -192,7 +192,6 @@ export default {
         .element--fund--content {
             display: flex;
             flex-direction: row;
-            width: 100%;
             // padding: 0 0 0 10px;
             .title {
                 font-size: 16px;
@@ -216,7 +215,6 @@ export default {
                 }
             }
             .element--content-bottom {
-                padding-left: 10px;
                 flex: 1;
                 .tag-title {
                     max-width: 200px;
