@@ -136,6 +136,7 @@ export default {
             subscribeObj: JSON.parse(JSON.stringify(subscribeObj)),
             buyMoneyBlur: false,
             buyMoney: null,
+            disabledInput: true,
             fundName: '',
             shareTitle: '',
             isin: '',
