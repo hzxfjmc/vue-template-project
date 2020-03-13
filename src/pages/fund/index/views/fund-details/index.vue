@@ -1512,18 +1512,14 @@ export default {
     }
 }
 .fund-footer-contentShare {
-    // width: 30%;
     position: fixed;
-    // border: 1px solid red;
     z-index: 999;
     bottom: 48px;
     left: 35%;
     border-radius: 5px;
     overflow: hidden;
-    // right: 35%;
     .fund-footer {
         height: 40px !important;
-
         font-size: 14px;
         line-height: 40px;
     }
