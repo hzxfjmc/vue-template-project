@@ -330,6 +330,13 @@
             width:60%;
 
         }
+        input:disabled{
+            background-color:#fff;
+            color:#666;
+            opacity:1;
+            -webkit-text-fill-color:#666;
+        //     -webkit-opacity:1;
+        } 
         .block__allsell{
             font-size:14px;
             width:30%;
