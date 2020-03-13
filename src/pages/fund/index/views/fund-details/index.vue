@@ -1515,7 +1515,7 @@ export default {
     // width: 30%;
     position: fixed;
     // border: 1px solid red;
-    z-index: 999999;
+    z-index: 999;
     bottom: 48px;
     left: 35%;
     border-radius: 5px;

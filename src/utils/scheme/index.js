@@ -109,7 +109,7 @@ const scheme = {
     // 显示引导下载
     showLeadin() {
         const root = document.createElement('div')
-        root.style.zIndex = 999
+        root.style.zIndex = 99999
         root.style.position = 'fixed'
         root.style.left = 0
         root.style.right = 0
