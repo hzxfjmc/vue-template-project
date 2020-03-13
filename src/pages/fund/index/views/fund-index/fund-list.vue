@@ -79,7 +79,7 @@ export default {
             AUS: '澳元',
             KRW: '韩元',
             JPY: '日元',
-            day: '表現'
+            day: '漲跌幅'
         },
         en: {
             described: 'Min. ',

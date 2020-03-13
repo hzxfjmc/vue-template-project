@@ -25,7 +25,7 @@ export default {
             USD: '美元'
         },
         zhCHT: {
-            annualRateOfReturn: '近一年表現',
+            annualRateOfReturn: '近一年漲跌幅',
             yieldInLast7d: '近七日年化',
             HKD: '港幣',
             USD: '美元'

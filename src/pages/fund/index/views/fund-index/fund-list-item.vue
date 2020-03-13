@@ -70,7 +70,7 @@ export default {
             described1: '起購',
             unit: '億',
             fundSizeIndex: '規模',
-            day: '表現'
+            day: '漲跌幅'
         },
         en: {
             described: 'Min. ',
