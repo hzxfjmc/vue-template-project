@@ -63,11 +63,10 @@
         van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
     
     
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate !== 'share'")
+    .fund-footer-content(v-if="invate !== 'share'")
         van-button(
             class="fund-footer btn button-width"
-            @click="handleBuyOrSell(1)" 
-            :disabled="disabled") {{code === 1 ? $t('buy'):$t('buyHk')}}
+            @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
     
     .fund-footer-content(
