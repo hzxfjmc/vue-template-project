@@ -448,10 +448,8 @@ export default {
             if (!this.isLogin) {
                 return false
             }
-            if (
-                !this.userInfo.grayStatusBit ||
-                !this.fundOverviewInfoVO.tradeAuth
-            ) {
+            //tradeAuth 基金权限可能为0 使用flag、flag1、flag2来控制申购、赎回、追加
+            if (!this.userInfo.grayStatusBit) {
                 return true
             }
             return false
