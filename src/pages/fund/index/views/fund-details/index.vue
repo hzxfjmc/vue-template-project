@@ -53,9 +53,9 @@
             :recommendList="recommendList")
         .fund___list--p
             p {{$t('msg')}}
-        .fund-footer-contentShare(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
+        .fund-footer-contentShare(v-if="invate === 'share'")
             van-button(
-                class="fund-footer btn button-width button-share"
+                class="fund-footer btn button-width"
                 @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
 
     .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
