@@ -52,89 +52,91 @@
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
         .fund___list--p
-            p {{$t('msg')}}
-    .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
-        van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-        van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
-    
-    
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && fightShow && invate !== 'share'")
-        van-button(
-            class="fund-footer btn button-width"
-            @click="handleBuyOrSell(1)" 
-            :disabled="disabled") {{code === 1 ? $t('buy'):$t('buyHk')}}
+            p {{$t('msg1')}}
+            p {{$t('msg2')}}
+    .fund__block--btn(v-if="!loading")
+        .fund-footer-content(v-if="RedemptionButton")
+            van-button.button-5width.button-left.btn(
+                :class="[flag?'fund-check':'fund-no']" 
+                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+            van-button.btn.button-5width(
+                :class="[flag1?'fund-buy':'fund-no']" 
+                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        
+        
+        .fund-footer-content(v-if="PurchaseButton")
+            van-button.btn.button-width(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
-    .fund-footer-content(v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && invate === 'share'")
-        van-button(
-            class="fund-footer btn button-width"
-            @click="handleShare()" 
-            :disabled="disabled") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
-
-    .fund-footer-content(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1 && invate !== 'share'")
-        .block__list--header(v-if="shareHeaderShow")
-            .block__footer-avat
-                img(:src="avatImg") 
-            .block__footer--content
-                .block__footer--bottom {{contentmsg}}
-                .block__footer--top
-                    span 剩余
-                    .vant-count-down
-                        CountDown( 
-                            millisecond
-                            :time="time"
-                            format="DD天 HH:mm:ss")
-                
-            .block__footer-right(v-if="figthComeShow")
-                van-button(
-                    @click="handleBuyOrSell(3)"
-                    :disabled="disabled || differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
-        .block__button--list(v-if="figthBtnShow")
+        .fund-footer-content(v-if="invate === 'share'")
             van-button(
-                class="fund-footer btn button-width1"
-                @click="handleBuyOrSell(1)" 
-                :disabled="disabled") {{$t('buy')}}
-            .block__fight--btn.btn(
-                :class="[disabled?'fund-footer2':'fund-footer1']" 
-                @click="handleBuyOrSell(2)")
-                span 发起拼团申购
-                em 申购费最高可返{{100-discount}}%
-        .block__button--list(v-if="!figthBtnShow")
-            .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
-                span 参与拼团申购
-                em 申购费最高可返{{100-discount}}%
+                class="fund-footer btn button-width"
+                @click="handleShare()") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
 
-    .fund-footer-content.fund-footer-hk(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2 && invate !== 'share'")
-        .block__list--header-hk(v-if="subscribeButtonShow")
-            .block__footer-left
-               p {{applyAfter}}
-            .block__footer-right
-                van-button(
-                    class="van-button"
-                    @click="handleBuyOrSell(2)"
-                    :disabled="disabled") {{$t('aloneScribe')}}
-        .block__button--list-hk(v-if="subscribeButtonShow")
-            .block__fight--btn-hk( @click="handleBuyOrSell(3)")
-                .block__fight--left
-                    img(:src="avatImg")
-                .block__fight--right
-                    .block__fight--top
-                        p  {{$t('togetherScribe')}}
-                        p ({{$t('Surplus')}}
+        .fund-footer-content(
+            v-if="chsFightButton")
+            .block__list--header(v-if="shareHeaderShow")
+                .block__footer-avat
+                    img(:src="avatImg") 
+                .block__footer--content
+                    .block__footer--bottom {{contentmsg}}
+                    .block__footer--top
+                        span 剩余
                         .vant-count-down
                             CountDown( 
                                 millisecond
                                 :time="time"
-                                :format="$t('format')")
-                        p )
-                    .block__fight--bottom {{subscribeButtonHk}}
-        .block__button--list-hk(v-if="!subscribeButtonShow")
-            .block__buy-hk
+                                format="DD天 HH:mm:ss")
+                    
+                .block__footer-right(v-if="figthComeShow")
+                    van-button(
+                        @click="handleBuyOrSell(3)"
+                        :disabled="differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
+            .block__button--list(v-if="figthBtnShow")
                 van-button(
-                    class="btn"
-                    @click="handleBuyOrSell(2)"
-                    :disabled="disabled") {{$t('Subscribenow')}}
+                    class="fund-footer btn button-width1"
+                    @click="handleBuyOrSell(1)" 
+                    :class="[flag2 ? 'fund-footer':'fund-no']") {{$t('buy')}}
+                .block__fight--btn.btn(
+                    :class="[flag2 ?'fund-footer1':'fund-footer2']" 
+                    @click="handleBuyOrSell(2)")
+                    span 发起拼团申购
+                    em 申购费最高可返{{100-discount}}%
+            .block__button--list(v-if="!figthBtnShow")
+                .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
+                    span 参与拼团申购
+                    em 申购费最高可返{{100-discount}}%
+
+        .fund-footer-content.fund-footer-hk(
+            v-if="chtFightButton")
+            .block__list--header-hk(v-if="subscribeButtonShow")
+                .block__footer-left
+                p {{applyAfter}}
+                .block__footer-right
+                    van-button(
+                        class="van-button"
+                        @click="handleBuyOrSell(2)") {{$t('aloneScribe')}}
+            .block__button--list-hk(v-if="subscribeButtonShow")
+                .block__fight--btn-hk( @click="handleBuyOrSell(3)")
+                    .block__fight--left
+                        img(:src="avatImg")
+                    .block__fight--right
+                        .block__fight--top
+                            p  {{$t('togetherScribe')}}
+                            p ({{$t('Surplus')}}
+                            .vant-count-down
+                                CountDown( 
+                                    millisecond
+                                    :time="time"
+                                    :format="$t('format')")
+                            p )
+                        .block__fight--bottom {{subscribeButtonHk}}
+            .block__button--list-hk(v-if="!subscribeButtonShow")
+                .block__buy-hk
+                    van-button(
+                        class="btn"
+                        @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
 
     img(
         v-show="false"
@@ -212,8 +214,10 @@ export default {
                 fiveYear: '近五年',
                 all: '成立来'
             },
-            msg:
-                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
+            msg1:
+                '*本页面资料来源于基金管理公司、基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。',
+            msg2:
+                '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
             Subscribenow: '立即认购',
             riskTip: '风险提示',
@@ -274,8 +278,10 @@ export default {
                 fiveYear: '近五年',
                 all: '成立来'
             },
-            msg:
-                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎',
+            msg1:
+                '*本頁面資料來源於基金管理公司、基金服務提供供應商。所有數據截至最新淨值日期（除特殊標註外）,友信對基金的業績表現計算是按該時期的資產淨值、相關類別貨幣計算。如有未顯示年度/時期的表現，則指該年度/時期未有足夠資料計算。',
+            msg2:
+                '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
             Subscribenow: '立即認購',
             riskTip: '風險提示',
@@ -337,8 +343,10 @@ export default {
                 fiveYear: 'Last 5-Year',
                 all: 'Since Inception'
             },
-            msg:
-                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.',
+            msg1:
+                "* The information on this page comes from fund management companies and fund service providers. All data are up to the date of the latest net worth (unless otherwise specified). uSMART calculates the fund's performance on a NAV-to-NAV basis in the relevant share class currency. Whenever there is no past performance shown, no sufficient data available in that year to calculate performance.",
+            msg2:
+                'The relevant data is for reference only. This page is not a legal document. Please carefully read the fund’s prospectus before investing. Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
             Subscribenow: 'Subscribe now',
@@ -390,6 +398,50 @@ export default {
         FightFundHk
     },
     computed: {
+        RedemptionButton() {
+            /*
+             * btnShow 是否持仓
+             * isGrayAuthority 灰度
+             * invate 是否是邀请
+             */
+            return (
+                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
+            )
+        },
+        /*
+         * fightShow 是否拼团
+         * isGrayAuthority 灰度
+         * invate 是否是邀请
+         */
+        PurchaseButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                this.fightShow &&
+                this.invate !== 'share'
+            )
+        },
+        chsFightButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                !this.fightShow &&
+                this.code == 1 &&
+                this.invate !== 'share'
+            )
+        },
+        chtFightButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                !this.fightShow &&
+                this.code == 2 &&
+                this.invate !== 'share'
+            )
+        },
         stockColorType() {
             return +getStockColorType()
         },
@@ -397,19 +449,6 @@ export default {
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
-        },
-        disabled() {
-            // 接口返回数据后才允许点击
-            if (!this.isLogin) {
-                return false
-            }
-            if (
-                !this.userInfo.grayStatusBit ||
-                !this.fundOverviewInfoVO.tradeAuth
-            ) {
-                return true
-            }
-            return false
         },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
@@ -428,6 +467,7 @@ export default {
     },
     data() {
         return {
+            loading: true,
             swipeShow: false,
             shareHeaderShow: true,
             figthComeShow: false,
@@ -913,13 +953,8 @@ export default {
                 this.handleBuyOrSell(1)
             } else {
                 if (!this.flag) return this.$toast(this.forbidPrompt)
-                this.$router.push({
-                    path: routerPath,
-                    query: {
-                        id: this.$route.query.id || this.id,
-                        currencyType: this.fundTradeInfoVO.currency.type
-                    }
-                })
+                let url = `${window.location.origin}/wealth/fund/index.html#${routerPath}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                jumpUrl(3, url)
             }
         },
         //获取基金详情
@@ -1074,13 +1109,15 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
+            if (!this.flag2 || !this.flag1)
+                return this.$toast(this.forbidPrompt)
             clickFundDetails(
                 'fund_detail',
                 '申购',
                 this.fundHeaderInfoVO.fundId,
                 this.fundHeaderInfoVO.fundName
             )
-            if (!this.flag2) return this.$toast(this.forbidPrompt)
+
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
@@ -1178,21 +1215,6 @@ export default {
                                 cancelButtonText: this.$t('cancelButton')
                             })
                             .then(() => {
-                                // let data = {
-                                //     query: {
-                                //         id: this.$route.query.id || this.id,
-                                //         assessResult: this.userInfo
-                                //             .assessResult,
-                                //         currencyType: this.fundTradeInfoVO
-                                //             .currency.type,
-                                //         fundCode: this.fundCode
-                                //     }
-                                // }
-                                // data.path =
-                                //     // eslint-disable-next-line no-constant-condition
-                                //     (this.userInfo.extendStatusBit & 16) > 0
-                                //         ? '/fund-subscribe'
-                                //         : '/open-permissions'
                                 let url
                                 let extendStatusBit =
                                     this.userInfo.extendStatusBit & 16
@@ -1285,21 +1307,23 @@ export default {
         }
     },
     async created() {
-        this.shareIcon = env.isMainlandBlack
-            ? require('@/assets/img/fund/icon/icon-share.png')
-            : require('@/assets/img/fund/icon/icon-share-hk.png')
-        this.init18inState()
-        await this.getFundDetail()
-        this.getFundNetPriceHistoryV1()
-        this.getFundPositionV2()
-        this.getFundRecommendList()
-        this.getFundPerformanceHistory()
-        this.getFundApyPointV1()
-
-        if (this.isLogin) {
-            await this.getFundUserInfo()
+        try {
+            this.shareIcon = env.isMainlandBlack
+                ? require('@/assets/img/fund/icon/icon-share.png')
+                : require('@/assets/img/fund/icon/icon-share-hk.png')
+            this.init18inState()
+            await this.getFundDetail()
+            await this.getFundPositionV2()
+            this.getFundNetPriceHistoryV1()
+            this.getFundRecommendList()
+            this.getFundPerformanceHistory()
+            this.getFundApyPointV1()
+            if (this.isLogin) {
+                await this.getFundUserInfo()
+            }
+        } finally {
+            this.loading = false
         }
-
         this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
@@ -1343,8 +1367,8 @@ export default {
                     apy = this.revenue
                 } else {
                     tenKRTN = this.$t([
+                        '近一年涨跌幅:',
                         '近一年漲跌幅:',
-                        '近一年表現:',
                         'Past Year:'
                     ])
                     apy =
@@ -1396,6 +1420,7 @@ export default {
         line-height: 17px;
         text-align: justify;
         color: #999999;
+        margin-bottom: 10px;
     }
 }
 .fund-footer-hk {
