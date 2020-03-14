@@ -133,9 +133,9 @@ Vue.mixin({
                         title = vm.$t(title)
                     }
                     //基金主页不需要关闭下拉刷新
-                    if (to.name != 'fund-index' && to.name != 'home') {
-                        uSmartInit()
-                    }
+                    // if (to.name != 'fund-index' && to.name != 'home') {
+                    uSmartInit()
+                    // }
 
                     // 香港app开户隐藏title
                     if (
