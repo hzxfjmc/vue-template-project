@@ -1104,9 +1104,11 @@ export default {
         async handleBuyOrSell(params) {
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
+            //拼团埋点描述
+            let fundDesc = params === 1 ? '申购' : '拼团'
             clickFundDetails(
                 'fund_detail',
-                '申购',
+                fundDesc,
                 this.fundHeaderInfoVO.fundId,
                 this.fundHeaderInfoVO.fundName
             )
