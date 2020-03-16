@@ -453,7 +453,6 @@ export default {
             }
             await this.$store.dispatch('initAction')
             this.stockColorType = +getStockColorType()
-            console.log(this.stockColorType)
             this.getSource(true)
         },
         //获取用户归属 1大陆 2香港
