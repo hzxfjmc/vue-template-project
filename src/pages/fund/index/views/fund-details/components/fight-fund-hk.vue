@@ -67,7 +67,7 @@ export default {
             discountReturn1: '折扣返还',
             describe: '未达成目标，不影响基金正常申购',
             describe1: '根据团队规模最高可返60%申购费',
-            describe2: '人正在助力'
+            describe2: '人正在申购'
         },
         zhCHT: {
             competition: '參與「同行優惠」享折扣',

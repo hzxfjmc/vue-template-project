@@ -84,7 +84,7 @@ export default {
             Complex: '複雜產品',
             fundPrice: '基金價格',
             minInvestment: '起投金額',
-            oneYearShow: '近一年表現',
+            oneYearShow: '近一年漲跌幅',
             yieldInLast7d: '近七日年化',
             hkd: '港幣',
             usd: '美元',

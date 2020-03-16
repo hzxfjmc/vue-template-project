@@ -63,7 +63,7 @@ export default {
         zhCHT: {
             title: '人氣之選',
             subtitle: '眾多投資者的選擇',
-            oneYearRate: '近一年表現',
+            oneYearRate: '近一年漲跌幅',
             yieldInLast7d: '近七日年化',
             holdPosition: '已持倉'
         },

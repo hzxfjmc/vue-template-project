@@ -551,6 +551,7 @@ export default {
                 display: -webkit-box;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 1;
+                opacity: 0.5;
                 overflow: hidden;
             }
             .fund-name {
@@ -560,6 +561,7 @@ export default {
                 overflow: hidden;
                 display: block;
                 white-space: nowrap;
+                opacity: 1;
                 line-height: 25px;
             }
         }

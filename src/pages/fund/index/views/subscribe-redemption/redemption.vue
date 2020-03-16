@@ -271,6 +271,7 @@ export default {
                 token = data && data.token
                 submitStep = 1
             } catch (error) {
+                this.$toast(error.desc.errorMessage)
                 console.log('tradeErrorMsg :', error)
             }
 
