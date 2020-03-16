@@ -85,6 +85,7 @@
             :code = "code"
             :fundlist="blueChipFundList"
             :title="blueChipFundList.masterTitle"
+            :stockColorType ="stockColorType"
             v-if="blueChipFundListShow"
             :bgColor="code != 1 ? '#F1B92D':'#FFBF32'")
 
@@ -452,6 +453,7 @@ export default {
             }
             await this.$store.dispatch('initAction')
             this.stockColorType = +getStockColorType()
+            console.log(this.stockColorType)
             this.getSource(true)
         },
         //获取用户归属 1大陆 2香港
