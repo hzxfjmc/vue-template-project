@@ -64,6 +64,7 @@
     .block__container
         FundList(
             :code = "code"
+            :stockColorType ="stockColorType"
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
         .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
@@ -77,6 +78,7 @@
             :code = "code"
             :bgColor="code !=1 ? '#2B4F80':'#2F79FF'"
             :title="robustFundList.masterTitle"
+            :stockColorType ="stockColorType"
             v-if="robustFundListShow"
             :fundlist="robustFundList")
         FundListItem(
@@ -181,14 +183,15 @@ export default {
         }
     },
     computed: {
-        stockColorType() {
-            return +getStockColorType()
-        },
+        // stockColorType() {
+        //     return +getStockColorType()
+        // },
         ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount'])
     },
     data() {
         return {
             currencyTab: 0,
+            stockColorType: 1,
             moneyShow: true,
             barnnarList: [],
             barnnarUsList: [],
@@ -428,19 +431,9 @@ export default {
                     CURRENCY_NAME[this.lang][item.tradeCurrency]
                 item.fundSizeCurrency =
                     CURRENCY_NAME[this.lang][item.fundSizeCurrency]
-                // this.draw(
-                //     `chartId${item.fundId}`,
-                //     item.fundHomepagePointList,
-                //     () => {
-                //         // item.imgUrl = res
-                //         //设置异步队列进行canvas绘制
-                //         setTimeout(() => {
                 this.choiceFundListShow = !obj.flag
                 this.blueChipFundListShow = !obj.flag2
                 this.robustFundListShow = !obj.flag1
-                //         }, 200)
-                //     }
-                // )
             })
         },
         //创建echart图并生成图片回调出来
@@ -458,6 +451,7 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
+            this.stockColorType = +getStockColorType()
             this.getSource(true)
         },
         //获取用户归属 1大陆 2香港
@@ -481,6 +475,7 @@ export default {
         }
     },
     async created() {
+        this.stockColorType = +getStockColorType()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()

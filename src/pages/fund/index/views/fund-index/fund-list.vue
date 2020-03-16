@@ -40,12 +40,14 @@
 import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
-import { getStockColorType } from '@/utils/html-utils.js'
 import { debounce } from '@/utils/tools.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
 export default {
     props: {
+        stockColorType: {
+            type: Number
+        },
         fundlist: {
             type: Object,
             default: () => {}
@@ -110,10 +112,6 @@ export default {
         })
     },
     computed: {
-        stockColorType() {
-            console.log(getStockColorType())
-            return +getStockColorType()
-        },
         ...mapGetters(['appType', 'lang'])
     },
     methods: {
@@ -162,7 +160,6 @@ export default {
                 .style({
                     lineWidth: 10
                 })
-            console.log(this.stockColorType)
             chart.render()
         },
         goNext(item) {
