@@ -6,27 +6,51 @@
             .block__yxbao--num ****
             .block__yxbao--numtip 
                 p 昨日收益 
-                    em ****
+                    em.num ****
                     em 元
             .block__yxbao--list
                 .block__yxbao--item
-                    p 万元收益
-                    p ****
+                    p.top 万元收益
+                    p.bottom ****
                 .block__yxbao--item
-                    p 七日年化(%)
-                    p 2.0304
+                    p.top 七日年化(%)
+                    p.bottom 2.0304
                 .block__yxbao--item
-                    p 累计收益
-                    p ****
+                    p.top 累计收益
+                    p.bottom ****
             .block__yxbao-btn
-                van-button 转出
-                van-button 转入
-               
+                van-button.btn-color-l 转出
+                van-button.btn-color-r 转入
+    .block__yx-tab
+        .block__list--item
+            em
+            span 入金       
+        .block__list--item
+            em
+            span 收益明细        
+        .block__list--item
+            em
+            span 资金记录                
+
+    .block-bannar-swiper
+        van-swipe(:autoplay="3000")  
+            van-swipe-item(
+                v-for="(item, index) in barnnarList" 
+                @click="goBanner(item)"
+                :key="index") 
+                img(:src="item.picture_url") 
 </template>
 <script>
+import { Swipe, SwipeItem } from 'vant'
 export default {
+    components: {
+        [Swipe.name]: Swipe,
+        [SwipeItem.name]: SwipeItem
+    },
     data() {
-        return {}
+        return {
+            barnnarList: []
+        }
     }
 }
 </script>
@@ -60,11 +84,95 @@ export default {
             align-items: center;
             justify-content: space-around;
             .block__yxbao--item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                .top {
+                    font-size: 14px;
+                }
+                .bottom {
+                    font-size: 20px;
+                    font-family: yxFontDINPro-Medium;
+                }
             }
         }
+        .block__yxbao--list {
+            margin: 30px 0 0 0;
+        }
         .block__yxbao-btn {
-            margin: 20px 0 0 0;
+            margin: 30px 0 0 0;
+            .van-button {
+                width: 157px;
+                padding: 0;
+                border: none;
+                font-size: 16px;
+                color: rgba(255, 255, 255, 1);
+            }
+            .btn-color-l {
+                background: rgba(4, 89, 162, 0.49);
+            }
+            .btn-color-r {
+                background: rgba(255, 113, 39, 1);
+            }
+        }
+        .block__yxbao--num {
+            height: 49px;
+            font-size: 38px;
+            font-family: DINPro-Medium, DINPro;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 1);
+            line-height: 49px;
+        }
+        .block__yxbao--tip {
+            margin: 18px 0 0 0;
+        }
+        .block__yxbao--numtip {
+            height: 26px;
+            padding: 2px 10px;
+            background: rgba(255, 255, 255, 0.19);
+            border-radius: 2px 0px 0px 0px;
+            line-height: 24px;
+            font-size: 12px;
+            position: relative;
+            em {
+                font-style: normal;
+            }
+            .num {
+                color: #ff7127;
+            }
+        }
+        .block__yxbao--numtip:after {
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid rgba(255, 255, 255, 0.19);
+            content: '';
+            position: absolute;
+            width: 0;
+            left: 50%;
+            top: -6px;
+            transform: translateX(-6px);
         }
     }
+}
+.block__yx-tab {
+    width: 351px;
+    height: 92px;
+    background: rgba(255, 255, 255, 1);
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    margin: -41px 12px 0 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+}
+.block-bannar-swiper {
+    width: 351px;
+    height: 70px;
+    border-radius: 4px;
+    display: flex;
+    margin: 14px 12px;
+    overflow: hidden;
+    border: 1px solid red;
 }
 </style>

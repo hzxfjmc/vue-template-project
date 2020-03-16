@@ -12,6 +12,13 @@ export default new Router({
             path: '/',
             meta: { title: 'home', auth: true, cs: true },
             component: () => import(`@/pages/yxbao/index/views/home/index.vue`)
+        },
+        {
+            name: 'fund-details',
+            path: '/fund-details',
+            meta: { title: 'fundDetails', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/yxbao/index/views/fund-details/index.vue`)
         }
     ]
 })
