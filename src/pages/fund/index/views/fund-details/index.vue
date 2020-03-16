@@ -1104,22 +1104,14 @@ export default {
         async handleBuyOrSell(params) {
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
-
-            if (params === 1) {
-                clickFundDetails(
-                    'fund_detail',
-                    '申购',
-                    this.fundHeaderInfoVO.fundId,
-                    this.fundHeaderInfoVO.fundName
-                )
-            } else {
-                clickFundDetails(
-                    'fund_detail',
-                    '拼团',
-                    this.fundHeaderInfoVO.fundId,
-                    this.fundHeaderInfoVO.fundName
-                )
-            }
+            //拼团埋点描述
+            let fundDesc = params === 1 ? '申购' : '拼团'
+            clickFundDetails(
+                'fund_detail',
+                fundDesc,
+                this.fundHeaderInfoVO.fundId,
+                this.fundHeaderInfoVO.fundName
+            )
 
             // 未登录或未开户
             if (!this.isLogin) {
