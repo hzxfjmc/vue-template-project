@@ -32,7 +32,16 @@ export default new Router({
             path: '/order-details',
             meta: { title: 'orderDetails', auth: true, cs: true },
             component: () =>
-                import(`@/pages/yxbao/index/views/order-details/index.vue`)
+                import(`@/pages/yxbao/index/views/yxbao-details/index.vue`)
+        },
+        {
+            name: 'accountDetails',
+            path: '/account-details',
+            meta: { title: 'accountDetails', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/yxbao/index/views/yxbao-details/account-details.vue`
+                )
         }
     ]
 })
