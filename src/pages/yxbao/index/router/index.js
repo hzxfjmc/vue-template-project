@@ -42,6 +42,13 @@ export default new Router({
                 import(
                     `@/pages/yxbao/index/views/yxbao-details/account-details.vue`
                 )
+        },
+        {
+            name: 'tradeRule',
+            path: '/trade-rule',
+            meta: { title: 'tradeRule', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/yxbao/index/views/trade-rule/index.vue`)
         }
     ]
 })
