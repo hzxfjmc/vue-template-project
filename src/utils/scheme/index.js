@@ -129,9 +129,9 @@ const scheme = {
         p.style.lineHeight = '26px'
         let obj = {
             zhCHS:
-                '查看更多详情，打开uSMART友信智投客户端点击右上角，选择在浏览器中打开',
+                '查看更多详情，打开uSMART友信智投客户端，点击右上角，选择在浏览器中打开',
             zhCHT:
-                '查看更多詳情，打開uSMART友信智投客戶端點擊右上角，選擇在瀏覽器中打開',
+                '查看更多詳情，打開uSMART友信智投客戶端，點擊右上角，選擇在瀏覽器中打開',
             en:
                 'For more details, open the uSMART Client Click on here and select open in the browser'
         }
@@ -158,8 +158,8 @@ const scheme = {
         button.style.fontSize = '14px'
         button.style.position = 'absolute'
         button.style.right = '0'
-        button.style.left = '-10px'
-        button.style.bottom = '20px'
+        button.style.left = '0px'
+        button.style.bottom = '80px'
         let returnObj = {
             zhCHS: '返回',
             zhCHT: '返回',

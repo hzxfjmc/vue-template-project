@@ -1511,11 +1511,12 @@ export default {
     }
 }
 .fund-footer-contentShare {
-    position: fixed;
+    position: absolute;
     z-index: 999;
     bottom: 48px;
-    left: 35%;
     border-radius: 5px;
+    transform: translateX(-50%);
+    left: 50%;
     overflow: hidden;
     .fund-footer {
         height: 40px !important;
