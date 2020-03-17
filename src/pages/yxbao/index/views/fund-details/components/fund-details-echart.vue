@@ -3,13 +3,13 @@
     .block__fund--echart.border-bottom
         .block__fund--item(
             :class="activeTab==1?'activeItem':''"
-            @click="handlerActiveTab(1)") {{isMMF?$t('yieldInLast7d'):$t('trendCharts')}}
-        .block__fund--item(
-            :class="activeTab==2?'activeItem':''"
-            @click="handlerActiveTab(2)") {{$t('historicalRTN')}}
+            @click="handlerActiveTab(1)") {{$t('yieldInLast7d')}}
+        //- .block__fund--item(
+        //-     :class="activeTab==2?'activeItem':''"
+        //-     @click="handlerActiveTab(2)") {{$t('historicalRTN')}}
         .block__fund--item(
             :class="activeTab==3?'activeItem':''"
-            @click="handlerActiveTab(3)") {{isMMF?$t('tenKRTN'):$t('NAVHistory')}}
+            @click="handlerActiveTab(3)") {{$t('tenKRTN')}}
     .fund-echart-content2(v-show ="activeTab ==2")
         .block__fund--yj
             .block__list--item.fund__list--headerjy
@@ -456,8 +456,8 @@ export default {
         display: flex;
         flex-direction: row;
         height: 40px;
+        justify-content: space-around;
         .block__fund--item {
-            width: 33.33%;
             font-size: 16px;
             display: flex;
             color: #666666;

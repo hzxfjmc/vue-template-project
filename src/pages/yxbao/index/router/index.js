@@ -19,6 +19,20 @@ export default new Router({
             meta: { title: 'fundDetails', auth: true, cs: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/fund-details/index.vue`)
+        },
+        {
+            name: 'orderList',
+            path: '/order-list',
+            meta: { title: 'orderList', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/yxbao/index/views/order-list/index.vue`)
+        },
+        {
+            name: 'orderDetails',
+            path: '/order-details',
+            meta: { title: 'orderDetails', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/yxbao/index/views/order-details/index.vue`)
         }
     ]
 })

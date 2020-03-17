@@ -4,7 +4,13 @@
             .fund-introduce
                 .fund-name {{fundIntro}}
                 .fund-detail(v-if="fundDetail") ISIN: {{fundDetail}}
-            order-status-about(:orderStatus='orderStatus' :orderStatusValue='orderStatusValue' :beginTime='beginTime' :endTime='endTime' :tradeType='tradeType' v-if="[1,2].includes(orderStatus)")
+            order-status-about(
+                :orderStatus='orderStatus' 
+                :orderStatusValue='orderStatusValue' 
+                :beginTime='beginTime' 
+                :endTime='endTime' 
+                :tradeType='tradeType' 
+                v-if="[1,2].includes(orderStatus)")
             van-cell-group(class="order-group")
                 van-cell(class="order-time")
                     .order-item.flex(v-if="![1,2].includes(orderStatus)")
