@@ -158,8 +158,8 @@ const scheme = {
         button.style.fontSize = '14px'
         button.style.position = 'absolute'
         button.style.right = '0'
-        button.style.left = '0'
-        button.style.bottom = '60px'
+        button.style.left = '-10px'
+        button.style.bottom = '20px'
         let returnObj = {
             zhCHS: '返回',
             zhCHT: '返回',
