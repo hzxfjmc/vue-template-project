@@ -34,6 +34,7 @@
 </template>
 <script>
 import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { debounce } from '@/utils/tools.js'
@@ -41,6 +42,9 @@ import dayjs from 'dayjs'
 import F2 from '@antv/f2'
 export default {
     computed: {
+        stockColorType() {
+            return +getStockColorType()
+        },
         ...mapGetters(['appType', 'lang'])
     },
     components: {
@@ -81,9 +85,6 @@ export default {
         }
     },
     props: {
-        stockColorType: {
-            type: Number
-        },
         bgColor: {
             type: String,
             default: ''

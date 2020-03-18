@@ -41,13 +41,11 @@ import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { debounce } from '@/utils/tools.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
 export default {
     props: {
-        stockColorType: {
-            type: Number
-        },
         fundlist: {
             type: Object,
             default: () => {}
@@ -112,6 +110,9 @@ export default {
         })
     },
     computed: {
+        stockColorType() {
+            return +getStockColorType()
+        },
         ...mapGetters(['appType', 'lang'])
     },
     methods: {

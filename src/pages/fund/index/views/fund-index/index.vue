@@ -64,7 +64,6 @@
     .block__container
         FundList(
             :code = "code"
-            :stockColorType ="stockColorType"
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
         .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
@@ -78,14 +77,12 @@
             :code = "code"
             :bgColor="code !=1 ? '#2B4F80':'#2F79FF'"
             :title="robustFundList.masterTitle"
-            :stockColorType ="stockColorType"
             v-if="robustFundListShow"
             :fundlist="robustFundList")
         FundListItem(
             :code = "code"
             :fundlist="blueChipFundList"
             :title="blueChipFundList.masterTitle"
-            :stockColorType ="stockColorType"
             v-if="blueChipFundListShow"
             :bgColor="code != 1 ? '#F1B92D':'#FFBF32'")
 
@@ -109,7 +106,6 @@ import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
-import { getStockColorType } from '@/utils/html-utils.js'
 import jsBridge from '@/utils/js-bridge'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
@@ -184,15 +180,11 @@ export default {
         }
     },
     computed: {
-        // stockColorType() {
-        //     return +getStockColorType()
-        // },
         ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount'])
     },
     data() {
         return {
             currencyTab: 0,
-            stockColorType: 1,
             moneyShow: true,
             barnnarList: [],
             barnnarUsList: [],
@@ -452,7 +444,6 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            this.stockColorType = +getStockColorType()
             this.getSource(true)
         },
         //获取用户归属 1大陆 2香港
@@ -476,7 +467,6 @@ export default {
         }
     },
     async created() {
-        this.stockColorType = +getStockColorType()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
