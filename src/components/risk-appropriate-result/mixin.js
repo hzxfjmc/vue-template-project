@@ -16,7 +16,8 @@ export default {
         allowSubscribeShow() {
             return (
                 this.userInfo.damagedStatus != 1 &&
-                this.fundOverviewInfoVO.derivativeType != 1
+                this.fundOverviewInfoVO.derivativeType != 1 &&
+                this.userInfo.assessResult
             )
         },
         resetTimes() {
@@ -123,7 +124,7 @@ export default {
             }
         },
         //去申购页面
-        toSubscribePage() {
+        async toSubscribePage() {
             let riskTipContent = this.$t([
                 `该产品为${this.fundHeaderInfoVO.fundRisk}（R${
                     this.fundHeaderInfoVO.fundRiskType
@@ -149,8 +150,8 @@ export default {
                     this.$t('resultList')[this.userInfo.assessResult].riskStyle
                 }). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
             ])
-            this.$dialog
-                .confirm({
+            try {
+                await this.$confirm({
                     title: this.$t('riskTip'),
                     message: riskTipContent,
                     confirmButtonText: this.$t('continueButton'),
@@ -158,23 +159,20 @@ export default {
                     confirmButtonColor: '#0D50D8',
                     cancelButtonColor: '#D1D1D1'
                 })
-                .then(() => {
-                    this.$router.push({
-                        name: 'fund-subscribe',
-                        query: {
-                            id: this.$route.query.id,
-                            currencyType: this.$route.query.currencyType,
-                            assessResult:
-                                this.userInfo && this.userInfo.assessResult,
-                            fundCode: this.fundCode
-                        }
-                    })
-                    // on confirm
+                this.$router.push({
+                    name: 'fund-subscribe',
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.$route.query.currencyType,
+                        assessResult:
+                            this.userInfo && this.userInfo.assessResult,
+                        fundCode: this.fundCode
+                    }
                 })
-                .catch(() => {
-                    return
-                    // on cancel
-                })
+            } catch (e) {
+                console.log(e)
+                return
+            }
         },
         // 获取债券信息
         async handleGetBondDetail() {
@@ -256,9 +254,8 @@ export default {
             try {
                 const res = await getFundUserInfo()
                 this.userInfo = res
-                console.log(res)
-                console.log(this.userInfo.assessResult)
             } catch (e) {
+                this.$toast(e.msg)
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
