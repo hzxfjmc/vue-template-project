@@ -265,7 +265,7 @@ export default {
                     this.code = this.appType.Hk ? 2 : 1
                 }
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         },
         //查询拼团订单
@@ -358,7 +358,7 @@ export default {
                 this.userInfo = res
                 this.loading = false
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
@@ -439,7 +439,7 @@ export default {
                 })
                 this.$toast(this.$t([`分享成功`, `分享成功`, `Successful`]))
             } catch (e) {
-                e.msg && this.$toast(e.msg)
+                e.msg && this.$toast(e.msg, 'middle')
             }
             // }
         },

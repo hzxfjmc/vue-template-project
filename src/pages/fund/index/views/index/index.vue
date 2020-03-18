@@ -194,7 +194,7 @@ export default {
                     this.changeBannarTitle()
                 }
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         },
         handlerCuenrry(data) {
@@ -230,7 +230,7 @@ export default {
                 this.list = list
                 this.load = this.list.length == 0
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
                 console.log('getListFundInfo:error:>>>', e)
             }
         },

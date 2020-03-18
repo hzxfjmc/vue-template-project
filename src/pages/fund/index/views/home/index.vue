@@ -66,7 +66,7 @@ export default {
                 const { banner_list } = await bannerAdvertisement(this.showPage)
                 this.bannerList = banner_list
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         },
         //查询基金列表
@@ -86,7 +86,7 @@ export default {
                     item.apy = item.apy * 100
                 })
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
                 console.log('getFundListV2:error:>>> ', e)
             }
         },
@@ -118,7 +118,7 @@ export default {
                     currency: this.currency
                 }
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
                 console.log('getFundPositionList:error:>>> ', e)
             }
         },

@@ -335,7 +335,7 @@ export default {
                 if (flag) {
                     return
                 }
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         },
         //获取持仓
@@ -363,7 +363,7 @@ export default {
                 if (flag) {
                     return
                 }
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         },
         handlerCurrency() {
@@ -403,7 +403,7 @@ export default {
                 this.factoryMap_('blueChipFundList', obj)
                 this.factoryMap_('robustFundList', obj)
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         },
         //工厂模式批量生成图片并插入数组中
@@ -476,7 +476,7 @@ export default {
                 if (flag) {
                     return
                 }
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         }
     },

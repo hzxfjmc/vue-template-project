@@ -161,7 +161,7 @@ export default {
                 this.fundTradeInfoVO = fundTradeInfoVO
                 this.fundHeaderInfoVO = fundHeaderInfoVO
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
                 console.log('getFundDetail:error:>>>', e)
             }
         },
@@ -171,7 +171,7 @@ export default {
                 const res = await getFundUserInfo()
                 this.userInfo = res
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
@@ -315,7 +315,9 @@ export default {
                                 title: this.$t('riskTip'),
                                 message: riskTipContent,
                                 confirmButtonText: this.$t('continueButton'),
-                                cancelButtonText: this.$t('cancelButton')
+                                cancelButtonText: this.$t('cancelButton'),
+                                confirmButtonColor: '#0D50D8',
+                                cancelButtonColor: '#D1D1D1'
                             })
                             .then(() => {
                                 let data = {

@@ -200,7 +200,7 @@ export default {
                 const { code } = await getSource()
                 this.code = code
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         }
     },

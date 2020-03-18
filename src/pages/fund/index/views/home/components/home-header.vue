@@ -168,7 +168,7 @@ export default {
                     }
                 })
             } catch (e) {
-                this.$toast(e.msg)
+                this.$toast(e.msg, 'middle')
             }
         },
         appVisibleHandle(data) {
