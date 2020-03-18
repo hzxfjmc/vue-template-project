@@ -7,9 +7,11 @@
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .element--fund--content
+                    .canvas-element--right
+                        canvas(
+                            :id="'chartId'+item.fundId" 
+                        )
                     //- span.title.ellipse {{item.title}}
-                    .element--right
-                        img(:src="item.imgUrl")
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.apy)<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(item.apy*100).toFixed(2)}}%
@@ -40,6 +42,8 @@ import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { debounce } from '@/utils/tools.js'
+import dayjs from 'dayjs'
+import F2 from '@antv/f2'
 export default {
     props: {
         fundlist: {
@@ -75,7 +79,7 @@ export default {
             AUS: '澳元',
             KRW: '韩元',
             JPY: '日元',
-            day: '表現'
+            day: '漲跌幅'
         },
         en: {
             described: 'Min. ',
@@ -94,6 +98,13 @@ export default {
     components: {
         'fund-tag': fundTag
     },
+    updated() {
+        this.$nextTick(() => {
+            this.fundlist.data.forEach(item => {
+                this.draw(`chartId${item.fundId}`, item.fundHomepagePointList)
+            })
+        })
+    },
     computed: {
         stockColorType() {
             console.log(getStockColorType())
@@ -102,6 +113,48 @@ export default {
         ...mapGetters(['appType', 'lang'])
     },
     methods: {
+        draw(canvasId, data) {
+            const chart = new F2.Chart({
+                id: canvasId
+            })
+            data.map(item => {
+                item.pointData = Number(item.pointData)
+            })
+            chart.source(data, {
+                pointData: {
+                    formatter: function formatter(val) {
+                        return Number(val).toFixed(2)
+                    }
+                },
+                belongDay: {
+                    type: 'timeCat',
+                    tickCount: 3000,
+                    formatter: function formatter(val) {
+                        return dayjs(val).format('YYYY-MM-DD')
+                    }
+                }
+            })
+            chart.tooltip({
+                custom: true,
+                showXTip: true,
+                showYTip: true,
+                snap: true,
+                crosshairsType: 'xy',
+                crosshairsStyle: {
+                    lineDash: [2]
+                }
+            })
+            chart.axis(false)
+            chart
+                .line()
+                .position('belongDay*pointData')
+                .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
+                .style({
+                    lineWidth: 10
+                })
+
+            chart.render()
+        },
         goNext(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             debounce(gotoNewWebView(url), 300)
@@ -149,24 +202,24 @@ export default {
                 display: flex;
                 height: 100%;
                 flex-direction: column;
-                width: 90px;
-                margin: 0 0 0 10px;
+                width: 105px;
+                padding: 0 10px;
                 .number {
-                    font-size: 20px;
+                    font-size: 0.4rem;
                     line-height: 23px;
                     font-family: yxFontDINPro-Medium;
                 }
                 .tag {
-                    font-size: 12px;
+                    font-size: 0.24rem;
                     line-height: 25px;
                     color: $text-color5; // 次标题颜色
                 }
             }
             .element--content-bottom {
-                width: 59%;
+                flex: 1;
                 .tag-title {
+                    max-width: 180px;
                     span {
-                        width: 100%;
                         height: 22px;
                         // margin: 10px 0 0 0;
                         display: inline-block;
@@ -194,16 +247,17 @@ export default {
                 }
             }
         }
-        .element--right {
-            width: 40px;
-            height: 40px;
-            // margin: 15px 0;
-            img {
-                width: 40px;
-
-                height: 40px;
-            }
-        }
+    }
+}
+.canvas-element--right {
+    width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    canvas {
+        width: 700px;
+        zoom: 0.1;
     }
 }
 .block__fund-hk {

@@ -35,10 +35,12 @@ export default {
     created() {
         console.log(this.bondRiskLevel, '0000')
         // 等待预定请求完成后，执行下一步操作
-        this.getCurrentUser()
+        console.log(window.location.href)
         if (!this.$route.query.fundRiskType) {
             this.handleGetBondDetail()
+            this.fundType = 1
         }
+        this.getCurrentUser()
         this.handleSetupResult()
     },
     data() {
@@ -50,6 +52,7 @@ export default {
             userRiskLevel: 0, // 用户风险测评等级
             assessResultName: '', //测评结果文案
             bondRiskLevel: this.$route.query.fundRiskType || 100, // 债券/基金风险等级
+            fundRiskTypeLevel: this.$route.query.fundRiskType || 100,
             // btnText: '',
             isShowPage: false,
             userInfo: '',
@@ -57,6 +60,7 @@ export default {
             number: 0, //剩余测评次数
             showRemainingNum: false, //剩余次数弹窗
             resetTime: '', //重置时间
+            fundType: 0, //0基金1债券
             damagedStatus: 0 //是否为易受损用户
         }
     },
@@ -130,8 +134,9 @@ export default {
                 displayLocation: 1,
                 fundId: this.$route.query.id
             })
-            console.log(this.$route.query.id, 'id')
-            this.bondRiskLevel = res.fundHeaderInfoVO.fundRiskType
+            this.fundType = 0
+            this.fundRiskTypeLevel = `${res.fundHeaderInfoVO.fundRisk}(R${res.fundHeaderInfoVO.fundRiskType})`
+            this.bondRiskLevel = `${res.fundHeaderInfoVO.fundRiskType}`
         },
         // 操作按钮
         handleAction() {
@@ -186,6 +191,7 @@ export default {
             try {
                 const res = await getCurrentUser()
                 this.userInfo = res
+                console.log(res)
                 console.log(this.userInfo)
             } catch (e) {
                 console.log('getCurrentUser:error:>>>', e)

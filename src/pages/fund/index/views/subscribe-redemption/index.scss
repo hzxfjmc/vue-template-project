@@ -330,6 +330,13 @@
             width:60%;
 
         }
+        input:disabled{
+            background-color:#fff;
+            color:#666;
+            opacity:1;
+            -webkit-text-fill-color:#666;
+        //     -webkit-opacity:1;
+        } 
         .block__allsell{
             font-size:14px;
             width:30%;
@@ -417,13 +424,14 @@
 .protocol{
   display: flex;
   justify-content: space-around;
-  padding: 14px 0;
+  padding: 14px 18px;
   background-color: #fff;
     .protocol__button{
         padding: 0 3px;
     }
   .protocol__text{
     line-height: 24px;
+    font-size:12px;
   }
     .checked{
         color:$primary-color;

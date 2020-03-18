@@ -21,7 +21,7 @@
                                 type="text"
                                 :disabled="disabledInput"
                                 @input="changeNumber"
-                                :placeHolder="`${initialInvestAmount}${currency.type == 2?$t('hkd') : $t('usd')}${$t('buyMoneyPlaceHolder')} `" )
+                                :placeHolder="`${initialInvestAmount}${currency.type == 1 ? $t('usd') : $t('hkd') }${$t('buyMoneyPlaceHolder')} `" )
                     .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
@@ -49,7 +49,7 @@
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
-                van-button(:disabled="disabled" @click="handlerSubmitFilter") {{$t('submitButtonText')}}
+                van-button(@click="handlerSubmitFilter") {{$t('submitButtonText')}}
         template(v-else-if="step === 2")
             .fond-buy.border-bottom
                 .buy-row
@@ -97,7 +97,11 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
+import {
+    generateUUID,
+    transNumToThousandMark,
+    debounce
+} from '@/utils/tools.js'
 import { getSource } from '@/service/customer-relationship-server'
 import {
     createGroupOrder,
@@ -194,16 +198,22 @@ export default {
             }
         }
     },
+
     async created() {
         if (LS.get('groupId') != undefined) {
             this.groupId = LS.get('groupId')
         }
         this.compareVersionFund()
         this.getSource()
-        this.getFundUserInfo()
-        this.getGroupOrders()
-        this.getFundPositionV2Fun()
-        this.getWithdrawBalance()
+
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.getSource, 300)
     },
     computed: {
         ...mapGetters([
@@ -223,9 +233,6 @@ export default {
         },
         subscriptionFeeScale() {
             return NP.times(+this.subscriptionFee, 100)
-        },
-        disabled() {
-            return !this.isCheckedProtocol || !this.purchaseAmount
         }
     },
     methods: {
@@ -247,6 +254,10 @@ export default {
         },
         //获取用户归属 1大陆 2香港
         async getSource() {
+            this.getFundUserInfo()
+            this.getGroupOrders()
+            this.getFundPositionV2Fun()
+            this.getWithdrawBalance()
             try {
                 const { code } = await getSource()
                 this.code = code
@@ -561,6 +572,10 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
+                console.log(this.$t('hkd'))
+                console.log(
+                    this.currency.type == 1 ? this.$t('hkd') : this.$t('usd')
+                )
                 this.tips = this.$t([
                     `*友信暂不支持使用${
                         this.currency.type == 1
@@ -660,6 +675,15 @@ export default {
             }
         },
         handlerSubmitFilter() {
+            if (this.purchaseAmount <= 0) {
+                return this.$toast(
+                    this.$t([
+                        '请输入申购金额',
+                        '請輸入申購金額',
+                        'Please Enter The Purchase Amount'
+                    ])
+                )
+            }
             if (
                 this.purchaseAmount / this.withdrawBalance >= 0.5 &&
                 this.derivativeType != 1
@@ -691,6 +715,7 @@ export default {
                 token = data && data.token
                 submitStep = 1
             } catch (error) {
+                this.$toast(error.desc.errorMessage)
                 console.log('申购页面-tradeErrorMsg :', error)
             }
 
@@ -806,6 +831,8 @@ export default {
             cancel: '取消',
             continue: '继续申购',
             Exchange: '点此去换汇',
+            hkd: '港币',
+            usd: '美元',
             content:
                 '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
         },
@@ -829,6 +856,8 @@ export default {
             continueBalance: '續投金額',
             redemption: '申購費',
             predict: '預計',
+            hkd: '港幣',
+            usd: '美元',
             submitButtonText: '同意協議並提交',
             dayDone: '日完成',
             day: '日',
@@ -898,6 +927,8 @@ export default {
             cancel: 'cancel',
             continue: 'Continue ',
             Exchange: 'Click here to Exchange',
+            hkd: 'HKD',
+            usd: 'USD',
             content:
                 'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
         }

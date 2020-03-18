@@ -53,87 +53,89 @@
             :recommendList="recommendList")
         .fund___list--p
             p {{$t('msg')}}
-        .fund-footer-contentShare(v-if="invate === 'share'")
+    .fund__block--btn(v-if="!loading")
+        .fund-footer-content(v-if="RedemptionButton")
+            van-button.button-5width.button-left.btn(
+                :class="[flag?'fund-check':'fund-no']" 
+                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+            van-button.btn.button-5width(
+                :class="[flag1?'fund-buy':'fund-no']" 
+                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        
+        
+        .fund-footer-content(v-if="PurchaseButton")
+            van-button.btn.button-width(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+
+        .fund-footer-content(v-if="invate === 'share'")
             van-button(
                 class="fund-footer btn button-width"
                 @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
 
-    .fund-footer-content(v-if="btnShow && isGrayAuthority && invate !== 'share'")
-        van-button(:class="[flag?'fund-check':'fund-no','btn','button-5width','button-left']" @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-        van-button(:class="[flag1?'fund-buy':'fund-no','btn','button-5width']" @click="toRouter('/fund-subscribe')") {{$t('append')}}
-    
-    
-    .fund-footer-content(v-if="invate !== 'share'")
-        van-button(
-            class="fund-footer btn button-width"
-            @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
-
-    
-    .fund-footer-content(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code == 1 && invate !== 'share'")
-        .block__list--header(v-if="shareHeaderShow")
-            .block__footer-avat
-                img(:src="avatImg") 
-            .block__footer--content
-                .block__footer--bottom {{contentmsg}}
-                .block__footer--top
-                    span 剩余
-                    .vant-count-down
-                        CountDown( 
-                            millisecond
-                            :time="time"
-                            format="DD天 HH:mm:ss")
-                
-            .block__footer-right(v-if="figthComeShow")
-                van-button(
-                    @click="handleBuyOrSell(3)"
-                    :disabled="disabled || differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
-        .block__button--list(v-if="figthBtnShow")
-            van-button(
-                class="fund-footer btn button-width1"
-                @click="handleBuyOrSell(1)" 
-                :disabled="disabled") {{$t('buy')}}
-            .block__fight--btn.btn(
-                :class="[disabled?'fund-footer2':'fund-footer1']" 
-                @click="handleBuyOrSell(2)")
-                span 发起拼团申购
-                em 申购费最高可返{{100-discount}}%
-        .block__button--list(v-if="!figthBtnShow")
-            .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
-                span 参与拼团申购
-                em 申购费最高可返{{100-discount}}%
-
-    .fund-footer-content.fund-footer-hk(
-        v-if="!btnShow && isGrayAuthority && !userInfo.orgEmailLoginFlag && !fightShow && code==2 && invate !== 'share'")
-        .block__list--header-hk(v-if="subscribeButtonShow")
-            .block__footer-left
-               p {{applyAfter}}
-            .block__footer-right
-                van-button(
-                    class="van-button"
-                    @click="handleBuyOrSell(2)"
-                    :disabled="disabled") {{$t('aloneScribe')}}
-        .block__button--list-hk(v-if="subscribeButtonShow")
-            .block__fight--btn-hk( @click="handleBuyOrSell(3)")
-                .block__fight--left
-                    img(:src="avatImg")
-                .block__fight--right
-                    .block__fight--top
-                        p  {{$t('togetherScribe')}}
-                        p ({{$t('Surplus')}}
+        .fund-footer-content(
+            v-if="chsFightButton")
+            .block__list--header(v-if="shareHeaderShow")
+                .block__footer-avat
+                    img(:src="avatImg") 
+                .block__footer--content
+                    .block__footer--bottom {{contentmsg}}
+                    .block__footer--top
+                        span 剩余
                         .vant-count-down
                             CountDown( 
                                 millisecond
                                 :time="time"
-                                :format="$t('format')")
-                        p )
-                    .block__fight--bottom {{subscribeButtonHk}}
-        .block__button--list-hk(v-if="!subscribeButtonShow")
-            .block__buy-hk
+                                format="DD天 HH:mm:ss")
+                    
+                .block__footer-right(v-if="figthComeShow")
+                    van-button(
+                        @click="handleBuyOrSell(3)"
+                        :disabled="differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
+            .block__button--list(v-if="figthBtnShow")
                 van-button(
-                    class="btn"
-                    @click="handleBuyOrSell(2)"
-                    :disabled="disabled") {{$t('Subscribenow')}}
+                    class="fund-footer btn button-width1"
+                    @click="handleBuyOrSell(1)" 
+                    :class="[flag2 ? 'fund-footer':'fund-no']") {{$t('buy')}}
+                .block__fight--btn.btn(
+                    :class="[flag2 ?'fund-footer1':'fund-footer2']" 
+                    @click="handleBuyOrSell(2)")
+                    span 发起拼团申购
+                    em 申购费最高可返{{100-discount}}%
+            .block__button--list(v-if="!figthBtnShow")
+                .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
+                    span 参与拼团申购
+                    em 申购费最高可返{{100-discount}}%
+
+        .fund-footer-content.fund-footer-hk(
+            v-if="chtFightButton")
+            .block__list--header-hk(v-if="subscribeButtonShow")
+                .block__footer-left
+                p {{applyAfter}}
+                .block__footer-right
+                    van-button(
+                        class="van-button"
+                        @click="handleBuyOrSell(2)") {{$t('aloneScribe')}}
+            .block__button--list-hk(v-if="subscribeButtonShow")
+                .block__fight--btn-hk( @click="handleBuyOrSell(3)")
+                    .block__fight--left
+                        img(:src="avatImg")
+                    .block__fight--right
+                        .block__fight--top
+                            p  {{$t('togetherScribe')}}
+                            p ({{$t('Surplus')}}
+                            .vant-count-down
+                                CountDown( 
+                                    millisecond
+                                    :time="time"
+                                    :format="$t('format')")
+                            p )
+                        .block__fight--bottom {{subscribeButtonHk}}
+            .block__button--list-hk(v-if="!subscribeButtonShow")
+                .block__buy-hk
+                    van-button(
+                        class="btn"
+                        @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
 
     img(
         v-show="false"
@@ -214,7 +216,37 @@ export default {
             msg:
                 '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
-            Subscribenow: '立即申购'
+            Subscribenow: '立即认购',
+            riskTip: '风险提示',
+            continueButton: '继续操作',
+            cancelButton: '取消',
+            resultList: {
+                1: {
+                    registration: 'A1',
+                    riskStyle: '保守型',
+                    suitPro: '低风险产品'
+                },
+                2: {
+                    registration: 'A2',
+                    riskStyle: '稳健型',
+                    suitPro: '中低风险产品'
+                },
+                3: {
+                    registration: 'A3',
+                    riskStyle: '均衡型',
+                    suitPro: '中风险产品'
+                },
+                4: {
+                    registration: 'A4',
+                    riskStyle: '增长型',
+                    suitPro: '中高风险产品'
+                },
+                5: {
+                    registration: 'A5',
+                    riskStyle: '进取型',
+                    suitPro: '高风险产品'
+                }
+            }
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -246,7 +278,37 @@ export default {
             msg:
                 '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
-            Subscribenow: '立即認購'
+            Subscribenow: '立即認購',
+            riskTip: '風險提示',
+            continueButton: '繼續操作',
+            cancelButton: '取消',
+            resultList: {
+                1: {
+                    registration: 'A1',
+                    riskStyle: '保守型',
+                    suitPro: '低風險產品'
+                },
+                2: {
+                    registration: 'A2',
+                    riskStyle: '穩健型',
+                    suitPro: '中低風險產品'
+                },
+                3: {
+                    registration: 'A3',
+                    riskStyle: '均衡型',
+                    suitPro: '中風險產品'
+                },
+                4: {
+                    registration: 'A4',
+                    riskStyle: '增長型',
+                    suitPro: '中高風險產品'
+                },
+                5: {
+                    registration: 'A5',
+                    riskStyle: '進取型',
+                    suitPro: '高風險產品'
+                }
+            }
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -280,7 +342,37 @@ export default {
                 'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
-            Subscribenow: 'Subscribe now'
+            Subscribenow: 'Subscribe now',
+            riskTip: 'Risk Tip',
+            continueButton: 'Continue',
+            cancelButton: 'Cancel',
+            resultList: {
+                1: {
+                    registration: 'A1',
+                    riskStyle: 'Conservative',
+                    suitPro: 'Low Risk Products'
+                },
+                2: {
+                    registration: 'A2',
+                    riskStyle: 'Stable',
+                    suitPro: 'Low - Medium Risk Products'
+                },
+                3: {
+                    registration: 'A3',
+                    riskStyle: 'Balanced',
+                    suitPro: 'Medium Risk Products'
+                },
+                4: {
+                    registration: 'A4',
+                    riskStyle: 'Growth',
+                    suitPro: 'Medium - High Risk Products'
+                },
+                5: {
+                    registration: 'A5',
+                    riskStyle: 'Aggressive',
+                    suitPro: 'High Risk Products'
+                }
+            }
         }
     },
     keepalive: true,
@@ -299,6 +391,50 @@ export default {
         FightFundHk
     },
     computed: {
+        RedemptionButton() {
+            /*
+             * btnShow 是否持仓
+             * isGrayAuthority 灰度
+             * invate 是否是邀请
+             */
+            return (
+                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
+            )
+        },
+        /*
+         * fightShow 是否拼团
+         * isGrayAuthority 灰度
+         * invate 是否是邀请
+         */
+        PurchaseButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                this.fightShow &&
+                this.invate !== 'share'
+            )
+        },
+        chsFightButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                !this.fightShow &&
+                this.code == 1 &&
+                this.invate !== 'share'
+            )
+        },
+        chtFightButton() {
+            return (
+                !this.btnShow &&
+                this.isGrayAuthority &&
+                !this.userInfo.orgEmailLoginFlag &&
+                !this.fightShow &&
+                this.code == 2 &&
+                this.invate !== 'share'
+            )
+        },
         stockColorType() {
             return +getStockColorType()
         },
@@ -306,19 +442,6 @@ export default {
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
-        },
-        disabled() {
-            // 接口返回数据后才允许点击
-            if (!this.isLogin) {
-                return false
-            }
-            if (
-                !this.userInfo.grayStatusBit ||
-                !this.fundOverviewInfoVO.tradeAuth
-            ) {
-                return true
-            }
-            return false
         },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
@@ -337,6 +460,7 @@ export default {
     },
     data() {
         return {
+            loading: true,
             swipeShow: false,
             shareHeaderShow: true,
             figthComeShow: false,
@@ -496,56 +620,61 @@ export default {
                 }
                 let tempArr = []
                 order_list.forEach((e, i) => {
+                    let discribe, discribeHk
+                    let rule_detail = JSON.parse(e.action.rule_detail)
+                    let num =
+                        rule_detail.rule_list[0].start_user_count -
+                        e.group.order_count
+                    if (num > 0) {
+                        discribe = this.$t([
+                            `拼团申购中，还差${num}人成团 `,
+                            `同行認購中，還差${num}人成團 `,
+                            `${num}people needed for the Group Discount Subscription`
+                        ])
+                        discribeHk = this.$t([
+                            `同行申购中，还差${num}人成团 `,
+                            `同行認購中，還差${num}人成團 `,
+                            `${num} people needed for the Group Discount Subscription`
+                        ])
+                    } else {
+                        let discount
+                        rule_detail.rule_list.map(item => {
+                            if (e.group.order_count >= item.start_user_count) {
+                                discount = item.discount
+                            }
+                        })
+                        discribe = this.$t([
+                            `拼团成功，团队规模${
+                                e.group.order_count
+                            }人，尊享${100 - discount}%申购费返还`,
+                            `${e.group.order_count}人「同行」成功，尊享${100 -
+                                discount}%申購費折扣`,
+                            `You entitled Group Discount, you will get ${100 -
+                                discount}% discount on subscription fee.`
+                        ])
+                        discribeHk = this.$t([
+                            `${
+                                e.group.order_count
+                            }人同行成功，尊享申购费${discount / 10}折扣 `,
+                            `${
+                                e.group.order_count
+                            }人同行成功，尊享認購費${discount / 10}折 `,
+                            `Groups with ${e.group.order_count} ppl, ${100 -
+                                discount}% discount on subs. fee`
+                        ])
+                    }
                     tempArr.push({
                         headImg:
                             e.user_info.head_img ||
                             require('@/assets/img/fund/share/avat.png'),
                         nickName: e.user_info.nick_name,
                         order_count: e.group.order_count,
-                        discribe: this.$t([
-                            `拼团成功，团队规模${
-                                e.group.order_count
-                            }人，尊享${100 -
-                                JSON.parse(e.action.rule_detail).rule_list[
-                                    JSON.parse(e.action.rule_detail).rule_list
-                                        .length - 1
-                                ].discount}%申购费返还`,
-                            `${e.group.order_count}人「同行」成功，尊享${100 -
-                                JSON.parse(e.action.rule_detail).rule_list[
-                                    JSON.parse(e.action.rule_detail).rule_list
-                                        .length - 1
-                                ].discount}%申購費折扣`,
-                            `You entitled Group Discount, you will get ${100 -
-                                JSON.parse(e.action.rule_detail).rule_list[
-                                    JSON.parse(e.action.rule_detail).rule_list
-                                        .length - 1
-                                ].discount}% discount on subscription fee.`
-                        ]),
-                        discribeHk: this.$t([
-                            `${
-                                e.group.order_count
-                            }人同行成功，尊享申购费${JSON.parse(
-                                e.action.rule_detail
-                            ).rule_list[
-                                JSON.parse(e.action.rule_detail).rule_list
-                                    .length - 1
-                            ].discount / 10}折扣 `,
-                            `${e.group.order_count}人同行成功，尊享申購費${100 -
-                                JSON.parse(e.action.rule_detail).rule_list[
-                                    JSON.parse(e.action.rule_detail).rule_list
-                                        .length - 1
-                                ].discount /
-                                    10}折 `,
-                            `Groups with ${e.group.order_count} ppl, ${100 -
-                                JSON.parse(e.action.rule_detail).rule_list[
-                                    JSON.parse(e.action.rule_detail).rule_list
-                                        .length - 1
-                                ].discount}% discount on subs. fee`
-                        ]),
-                        rule_detail: JSON.parse(e.action.rule_detail).rule_list[
-                            JSON.parse(e.action.rule_detail).rule_list.length -
-                                1
-                        ].discount
+                        discribe: discribe,
+                        discribeHk: discribeHk,
+                        rule_detail:
+                            rule_detail.rule_list[
+                                rule_detail.rule_list.length - 1
+                            ].discount
                     })
                     if (
                         tempArr.length === 2 ||
@@ -783,7 +912,6 @@ export default {
                 this.tabObj.label = this.timeList['oneMonth'].label
                 this.tabObj.value = this.timeList['oneMonth'].value
             } catch (e) {
-                console.log(e)
                 this.$toast(e.msg)
             }
         },
@@ -818,13 +946,8 @@ export default {
                 this.handleBuyOrSell(1)
             } else {
                 if (!this.flag) return this.$toast(this.forbidPrompt)
-                this.$router.push({
-                    path: routerPath,
-                    query: {
-                        id: this.$route.query.id || this.id,
-                        currencyType: this.fundTradeInfoVO.currency.type
-                    }
-                })
+                let url = `${window.location.origin}/wealth/fund/index.html#${routerPath}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                jumpUrl(3, url)
             }
         },
         //获取基金详情
@@ -979,13 +1102,17 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
+            if (!this.flag2 || !this.flag1)
+                return this.$toast(this.forbidPrompt)
+            //拼团埋点描述
+            let fundDesc = params === 1 ? '申购' : '拼团'
             clickFundDetails(
                 'fund_detail',
-                '申购',
+                fundDesc,
                 this.fundHeaderInfoVO.fundId,
                 this.fundHeaderInfoVO.fundName
             )
-            if (!this.flag2) return this.$toast(this.forbidPrompt)
+
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
@@ -995,6 +1122,7 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
+
             if (!this.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
@@ -1021,41 +1149,93 @@ export default {
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
             ) {
-                return this.$router.push({
-                    path: '/risk-assessment',
-                    query: {
-                        id: this.$route.query.id || this.id,
-                        extendStatusBit: this.userInfo.extendStatusBit,
-                        fundRiskType: this.fundRiskType,
-                        currencyType: this.fundTradeInfoVO.currency.type
-                    }
-                })
+                let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment?id=${this.id}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                jumpUrl(3, url)
+                return
             } else {
                 if (
                     this.userInfo.assessResult <
                     this.fundHeaderInfoVO.fundRiskType
                 ) {
-                    return this.$router.push({
-                        path: '/risk-appropriate-result',
-                        query: {
-                            id: this.$route.query.id || this.id
-                        }
-                    })
-                }
-                let data = {
-                    query: {
-                        id: this.$route.query.id || this.id,
-                        assessResult: this.userInfo.assessResult,
-                        currencyType: this.fundTradeInfoVO.currency.type,
-                        fundCode: this.fundCode
+                    if (this.userInfo.damagedStatus === 1) {
+                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
+                        jumpUrl(3, url)
+                        return
                     }
+                    if (
+                        this.fundHeaderInfoVO.derivativeType === 2 ||
+                        this.fundHeaderInfoVO.derivativeType === 3
+                    ) {
+                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-appropriate-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
+                        jumpUrl(3, url)
+                        return
+                    }
+                    if (this.fundHeaderInfoVO.derivativeType === 1) {
+                        let riskTipContent = this.$t([
+                            `该产品为${this.fundHeaderInfoVO.fundRisk}（R${
+                                this.fundHeaderInfoVO.fundRiskType
+                            }），超出您当前的风险承受能力${
+                                this.$t('resultList')[
+                                    this.userInfo.assessResult
+                                ].riskStyle
+                            }（A${
+                                this.userInfo.assessResult
+                            }）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
+                            `該產品為${this.fundHeaderInfoVO.fundRisk}（R${
+                                this.fundHeaderInfoVO.fundRiskType
+                            }），超出您當前的風險承受能力${
+                                this.$t('resultList')[
+                                    this.userInfo.assessResult
+                                ].riskStyle
+                            }（A${
+                                this.userInfo.assessResult
+                            }）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
+                            `The risk level of this product is R${
+                                this.fundHeaderInfoVO.fundRiskType
+                            }(${
+                                this.fundHeaderInfoVO.fundRisk
+                            }), which exceeds your current risk tolerance is A${
+                                this.userInfo.assessResult
+                            }(${
+                                this.$t('resultList')[
+                                    this.userInfo.assessResult
+                                ].riskStyle
+                            }). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
+                        ])
+                        this.$dialog
+                            .confirm({
+                                title: this.$t('riskTip'),
+                                message: riskTipContent,
+                                confirmButtonText: this.$t('continueButton'),
+                                cancelButtonText: this.$t('cancelButton')
+                            })
+                            .then(() => {
+                                let url
+                                let extendStatusBit =
+                                    this.userInfo.extendStatusBit & 16
+                                if (extendStatusBit > 0) {
+                                    url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                } else {
+                                    url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                }
+                                jumpUrl(3, url)
+                                // on confirm
+                            })
+                            .catch(() => {
+                                return
+                                // on cancel
+                            })
+                    }
+                } else {
+                    let url
+                    let extendStatusBit = this.userInfo.extendStatusBit & 16
+                    if (extendStatusBit > 0) {
+                        url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                    } else {
+                        url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                    }
+                    jumpUrl(3, url)
                 }
-                data.path =
-                    // eslint-disable-next-line no-constant-condition
-                    (this.userInfo.extendStatusBit & 16) > 0
-                        ? '/fund-subscribe'
-                        : '/open-permissions'
-                this.$router.push(data)
             }
         },
         async appVisibleHandle(data) {
@@ -1122,21 +1302,23 @@ export default {
         }
     },
     async created() {
-        this.shareIcon = env.isMainlandBlack
-            ? require('@/assets/img/fund/icon/icon-share.png')
-            : require('@/assets/img/fund/icon/icon-share-hk.png')
-        this.init18inState()
-        await this.getFundDetail()
-        this.getFundNetPriceHistoryV1()
-        this.getFundPositionV2()
-        this.getFundRecommendList()
-        this.getFundPerformanceHistory()
-        this.getFundApyPointV1()
-
-        if (this.isLogin) {
-            await this.getFundUserInfo()
+        try {
+            this.shareIcon = env.isMainlandBlack
+                ? require('@/assets/img/fund/icon/icon-share.png')
+                : require('@/assets/img/fund/icon/icon-share-hk.png')
+            this.init18inState()
+            await this.getFundDetail()
+            await this.getFundPositionV2()
+            this.getFundNetPriceHistoryV1()
+            this.getFundRecommendList()
+            this.getFundPerformanceHistory()
+            this.getFundApyPointV1()
+            if (this.isLogin) {
+                await this.getFundUserInfo()
+            }
+        } finally {
+            this.loading = false
         }
-
         this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
@@ -1180,8 +1362,8 @@ export default {
                     apy = this.revenue
                 } else {
                     tenKRTN = this.$t([
+                        '近一年涨跌幅:',
                         '近一年漲跌幅:',
-                        '近一年表現:',
                         'Past Year:'
                     ])
                     apy =
