@@ -159,8 +159,7 @@ export default {
                     confirmButtonColor: '#0D50D8',
                     cancelButtonColor: '#D1D1D1'
                 })
-                this.$router.push({
-                    name: 'fund-subscribe',
+                let data = {
                     query: {
                         id: this.$route.query.id,
                         currencyType: this.$route.query.currencyType,
@@ -168,7 +167,12 @@ export default {
                             this.userInfo && this.userInfo.assessResult,
                         fundCode: this.fundCode
                     }
-                })
+                }
+                data.path =
+                    (this.userInfo.extendStatusBit & 16) > 0
+                        ? '/fund-subscribe'
+                        : '/open-permissions'
+                this.$router.push(data)
             } catch (e) {
                 console.log(e)
                 return
