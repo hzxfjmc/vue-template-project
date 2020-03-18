@@ -882,7 +882,7 @@ export default {
                 this.revenue = list[0].revenue
                 this.historyList = list.slice(0, 5)
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         },
         toRouterGenerator(data) {
@@ -912,7 +912,7 @@ export default {
                 this.tabObj.label = this.timeList['oneMonth'].label
                 this.tabObj.value = this.timeList['oneMonth'].value
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         },
         //获取用户信息
@@ -936,7 +936,7 @@ export default {
                     this.getAdGroupOrders()
                 }
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
@@ -1008,7 +1008,7 @@ export default {
                     res.fundHeaderInfoVO.fundName
                 )
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
             }
         },
@@ -1041,7 +1041,7 @@ export default {
                     this.holdDetailsShow = false
                 }
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
                 console.log('getFundPositionV2:error:>>>', e)
             }
         },
@@ -1258,7 +1258,7 @@ export default {
                     item.apy = Math.floor(item.apy * 10000) / 100
                 })
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
                 console.log('getFundRecommendList:error:>>>', e)
             }
         },
@@ -1274,7 +1274,7 @@ export default {
                     this.code = this.appType.Hk ? 2 : 1
                 }
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         },
         //设置app分享按钮

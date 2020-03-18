@@ -177,7 +177,7 @@ export default {
                     this.code = this.appType.Hk ? 2 : 1
                 }
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         }
     },

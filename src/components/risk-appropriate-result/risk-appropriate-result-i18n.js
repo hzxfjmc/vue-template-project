@@ -31,6 +31,34 @@ export const i18nAppropriateData = {
             3: '均衡型(A3)及以上可购买',
             4: '增长型(A4)及以上可购买',
             5: '进取型(A5)'
+        },
+        subscribe: '仍要继续申购>',
+        resultList: {
+            1: {
+                registration: 'A1',
+                riskStyle: '保守型',
+                suitPro: '低风险产品'
+            },
+            2: {
+                registration: 'A2',
+                riskStyle: '稳健型',
+                suitPro: '中低风险产品'
+            },
+            3: {
+                registration: 'A3',
+                riskStyle: '均衡型',
+                suitPro: '中风险产品'
+            },
+            4: {
+                registration: 'A4',
+                riskStyle: '增长型',
+                suitPro: '中高风险产品'
+            },
+            5: {
+                registration: 'A5',
+                riskStyle: '进取型',
+                suitPro: '高风险产品'
+            }
         }
     },
     zhCHT: {
@@ -65,6 +93,34 @@ export const i18nAppropriateData = {
             3: '均衡型(A3)及以上可購買',
             4: '增長型(A4)及以上可購買',
             5: '進取型(A5)'
+        },
+        subscribe: '仍要繼續申購>',
+        resultList: {
+            1: {
+                registration: 'A1',
+                riskStyle: '保守型',
+                suitPro: '低風險產品'
+            },
+            2: {
+                registration: 'A2',
+                riskStyle: '穩健型',
+                suitPro: '中低風險產品'
+            },
+            3: {
+                registration: 'A3',
+                riskStyle: '均衡型',
+                suitPro: '中風險產品'
+            },
+            4: {
+                registration: 'A4',
+                riskStyle: '增長型',
+                suitPro: '中高風險產品'
+            },
+            5: {
+                registration: 'A5',
+                riskStyle: '進取型',
+                suitPro: '高風險產品'
+            }
         }
     },
     en: {
@@ -100,6 +156,34 @@ export const i18nAppropriateData = {
             3: 'Available for balanced (or more aggressive) investor',
             4: 'Available for growth (or more aggressive) investor',
             5: 'Aggressive'
+        },
+        subscribe: 'Still Want to Continue Sub>',
+        resultList: {
+            1: {
+                registration: 'A1',
+                riskStyle: 'Conservative',
+                suitPro: 'Low Risk Products'
+            },
+            2: {
+                registration: 'A2',
+                riskStyle: 'Stable',
+                suitPro: 'Low - Medium Risk Products'
+            },
+            3: {
+                registration: 'A3',
+                riskStyle: 'Balanced',
+                suitPro: 'Medium Risk Products'
+            },
+            4: {
+                registration: 'A4',
+                riskStyle: 'Growth',
+                suitPro: 'Medium - High Risk Products'
+            },
+            5: {
+                registration: 'A5',
+                riskStyle: 'Aggressive',
+                suitPro: 'High Risk Products'
+            }
         }
     }
 }

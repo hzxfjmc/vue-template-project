@@ -265,7 +265,7 @@ export default {
                     this.code = this.appType.Hk ? 2 : 1
                 }
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         },
         //查询拼团订单
@@ -358,7 +358,7 @@ export default {
                 this.userInfo = res
                 this.loading = false
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
@@ -439,7 +439,7 @@ export default {
                 })
                 this.$toast(this.$t([`分享成功`, `分享成功`, `Successful`]))
             } catch (e) {
-                e.msg && this.$toast(e.msg, 'middle')
+                e.msg && this.$toast(e.msg)
             }
             // }
         },
@@ -681,7 +681,8 @@ export default {
                         '请输入申购金额',
                         '請輸入申購金額',
                         'Please Enter The Purchase Amount'
-                    ])
+                    ]),
+                    'middle'
                 )
             }
             if (

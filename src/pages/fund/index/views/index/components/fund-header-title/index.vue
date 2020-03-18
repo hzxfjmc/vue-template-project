@@ -226,7 +226,7 @@ export default {
                 this.chShow = this.code === 1
                 this.initI18n()
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         }
     },

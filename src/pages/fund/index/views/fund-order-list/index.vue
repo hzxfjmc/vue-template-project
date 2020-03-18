@@ -137,7 +137,7 @@ export default {
                 const res = await getFundUserInfo()
                 this.userInfo = res
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
@@ -301,7 +301,7 @@ export default {
                 })
                 this.$toast('分享成功')
             } catch (e) {
-                e.msg && this.$toast(e.msg, 'middle')
+                e.msg && this.$toast(e.msg)
             }
             // }
         },
@@ -464,7 +464,7 @@ export default {
                 this.finishedText = this.total == 0 ? '' : this.finishedText
                 this.handlerBatchgetUserGroupOrder()
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         },
         //获取用户归属 1大陆 2香港
@@ -476,7 +476,7 @@ export default {
                     this.code = this.appType.Hk ? 2 : 1
                 }
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         }
     },

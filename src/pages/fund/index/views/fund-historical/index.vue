@@ -151,7 +151,7 @@ export default {
                 this.noMoreShow = this.total == 0
                 this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         }
     },

@@ -22,6 +22,9 @@
                 .title {{$t('leastNum')}} {{number}} {{$t('times')}}
                 .years-info(v-if="number!==0") {{resetTimes}}
                 .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
+            .block__btn(
+                v-if="allowSubscribeShow"
+                @click="toSubscribePage") {{$t('subscribe')}}
         .van-bottom-btn(slot="bottom")
             van-button.btn(type="info" round size="large"
                 :disabled="isDisabled"
@@ -172,6 +175,13 @@ export default {
         margin-bottom: 20px;
         padding: 0 10px;
     }
+}
+.block__btn {
+    display: flex;
+    margin: 20px 0 0 0;
+    justify-content: center;
+    color: #2f79ff;
+    width: 100%;
 }
 .van-bottom-btn {
     height: 48px;

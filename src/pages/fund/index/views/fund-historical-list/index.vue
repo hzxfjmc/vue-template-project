@@ -144,7 +144,7 @@ export default {
                     }
                 }
             } catch (e) {
-                this.$toast(e.msg, 'middle')
+                this.$toast(e.msg)
             }
         },
         init18InState() {
