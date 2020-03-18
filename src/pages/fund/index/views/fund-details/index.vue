@@ -68,7 +68,7 @@
                 :class="[flag2? 'fund-footer':'fund-no']"
                 @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
-        .fund-footer-content(v-if="invate === 'share'")
+        .fund-footer-contentShare(v-if="invate === 'share'")
             van-button(
                 class="fund-footer btn button-width"
                 @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
