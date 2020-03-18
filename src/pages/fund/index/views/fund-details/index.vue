@@ -71,7 +71,7 @@
         .fund-footer-content(v-if="invate === 'share'")
             van-button(
                 class="fund-footer btn button-width"
-                @click="handleShare()") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
+                @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
 
         .fund-footer-content(
             v-if="chsFightButton")
@@ -1377,17 +1377,17 @@ export default {
                         this.fundOverviewInfoVO.currency.name
                     } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
                         2
-                    )}亿,更新时间${this.fundHeaderInfoVO.belongDay}`,
+                    )}亿,更新时间:${this.fundHeaderInfoVO.belongDay}`,
                     `${tenKRTN}${apy},基金規模:${
                         this.fundOverviewInfoVO.currency.name
                     } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
                         2
-                    )}億,更新時間${this.fundHeaderInfoVO.belongDay}`,
+                    )}億,更新時間:${this.fundHeaderInfoVO.belongDay}`,
                     `${tenKRTN}${apy},AUM:${
                         this.fundOverviewInfoVO.currency.name
                     } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
                         2
-                    )}B,Update Time${this.fundHeaderInfoVO.belongDay}`
+                    )}B,Update Time:${this.fundHeaderInfoVO.belongDay}`
                 ])
                 const title = `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`
                 jsBridge.callApp('command_share', {
@@ -1690,6 +1690,20 @@ export default {
                 width: 100%;
             }
         }
+    }
+}
+.fund-footer-contentShare {
+    position: absolute;
+    z-index: 999;
+    bottom: 48px;
+    border-radius: 5px;
+    transform: translateX(-50%);
+    left: 50%;
+    overflow: hidden;
+    .fund-footer {
+        height: 40px !important;
+        font-size: 14px;
+        line-height: 40px;
     }
 }
 .block__button--list {
