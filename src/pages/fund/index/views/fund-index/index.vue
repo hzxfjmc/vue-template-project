@@ -106,6 +106,7 @@ import { getFundPositionListV3 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import jsBridge from '@/utils/js-bridge'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
@@ -180,6 +181,9 @@ export default {
         }
     },
     computed: {
+        stockColorType() {
+            return +getStockColorType()
+        },
         ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount'])
     },
     data() {
@@ -424,9 +428,19 @@ export default {
                     CURRENCY_NAME[this.lang][item.tradeCurrency]
                 item.fundSizeCurrency =
                     CURRENCY_NAME[this.lang][item.fundSizeCurrency]
+                // this.draw(
+                //     `chartId${item.fundId}`,
+                //     item.fundHomepagePointList,
+                //     () => {
+                //         // item.imgUrl = res
+                //         //设置异步队列进行canvas绘制
+                //         setTimeout(() => {
                 this.choiceFundListShow = !obj.flag
                 this.blueChipFundListShow = !obj.flag2
                 this.robustFundListShow = !obj.flag1
+                //         }, 200)
+                //     }
+                // )
             })
         },
         //创建echart图并生成图片回调出来
