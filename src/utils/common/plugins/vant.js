@@ -9,8 +9,10 @@ import {
     Row,
     Col,
     Dialog,
-    Field
+    Field,
+    NumberKeyboard
 } from 'vant'
+
 import { lang } from '@/utils/html-utils'
 const langMap = {
     zhCHS: {
@@ -34,6 +36,7 @@ const langMap = {
 }
 
 Vue.use(Dialog)
+Vue.use(NumberKeyboard)
 export const closeModule = () => {
     Toast.clear()
 }
