@@ -24,7 +24,7 @@
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
-            img(src="@/assets/img/fund/tip.png" class="tipWarning" @click="yieldInLast7dClick")
+            img(v-if="isMonetaryFund" src="@/assets/img/fund/tip.png" class="tipWarning" @click="yieldInLast7dClick")
             p(
                 v-if="fundHeaderInfoVO.apy >0" 
                 :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
@@ -165,8 +165,10 @@ export default {
         },
         yieldInLast7dClick() {
             this.$dialog.alert({
+                title: this.$t('yieldInLast7d'),
                 message: this.$t('yieldInLast7dTips'),
-                confirmButtonText: this.$t('iknow')
+                confirmButtonText: this.$t('iknow'),
+                messageAlign: 'left'
             })
         }
     },
@@ -299,9 +301,9 @@ export default {
         .header-left {
             margin: 0 40px 0 0;
             .tipWarning {
-                width: 23px;
-                height: 23px;
-                padding: 4px;
+                width: 20px;
+                height: 20px;
+                padding: 3px;
             }
         }
     }

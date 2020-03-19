@@ -96,11 +96,7 @@ div
                         :key="index"  
                         @click="goBanner(item)") 
                         img(:src="item.picture_url") 
-        .fund-echart-render(ref="renderEchartlist")
-    .block__bottom--p
-        img(:src="appType === '1'?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
-        p {{$t('bottomMsg1')}}
-        p {{$t('bottomMsg2')}}
+        //- .fund-echart-render(ref="renderEchartlist")
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
