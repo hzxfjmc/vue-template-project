@@ -16,7 +16,7 @@ export default {
         allowSubscribeShow() {
             return (
                 this.userInfo.damagedStatus != 1 &&
-                this.fundOverviewInfoVO.derivativeType != 1 &&
+                this.fundOverviewInfoVO.derivativeType === 1 &&
                 this.userInfo.assessResult
             )
         },
