@@ -3,21 +3,28 @@
     .block__yxbao--header
         .block__yxbao--content
             .block__yxbao--tip 持有资产(港币)
-            .block__yxbao--num ****
+                em.iconfont(
+                    @click="changeHidePadShow"
+                    :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
+            .block__yxbao--num(v-if="hidePadShow") 543545
+            .block__yxbao--num(v-else) ****
             .block__yxbao--numtip 
                 p 昨日收益 
-                    em.num ****
+                    em.num(v-if="hidePadShow") 5435
+                    em.num(v-else) ****
                     em 元
             .block__yxbao--list
                 .block__yxbao--item
                     p.top 万元收益
-                    p.bottom ****
+                    p.bottom(v-if="hidePadShow") 4324
+                    p.bottom(v-else) ****
                 .block__yxbao--item
                     p.top 七日年化(%)
                     p.bottom 2.0304
                 .block__yxbao--item
                     p.top 累计收益
-                    p.bottom ****
+                    p.bottom(v-if="hidePadShow") 43243
+                    p.bottom(v-else) ****
             .block__yxbao-btn
                 van-button.btn-color-l 转出
                 van-button.btn-color-r 转入
@@ -26,7 +33,7 @@
             em
             span 入金       
         .block__list--item
-            em
+            em.iconfont.icon-icon-money
             span 收益明细        
         .block__list--item
             em
@@ -49,7 +56,13 @@ export default {
     },
     data() {
         return {
-            barnnarList: []
+            barnnarList: [],
+            hidePadShow: true
+        }
+    },
+    methods: {
+        changeHidePadShow() {
+            this.hidePadShow = !this.hidePadShow
         }
     }
 }
@@ -125,6 +138,10 @@ export default {
         }
         .block__yxbao--tip {
             margin: 18px 0 0 0;
+            .iconfont {
+                font-size: 15px;
+                margin: 0 5px;
+            }
         }
         .block__yxbao--numtip {
             height: 26px;
@@ -165,6 +182,14 @@ export default {
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
+    .block__list--item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .iconfont {
+            color: #1078c5;
+        }
+    }
 }
 .block-bannar-swiper {
     width: 351px;

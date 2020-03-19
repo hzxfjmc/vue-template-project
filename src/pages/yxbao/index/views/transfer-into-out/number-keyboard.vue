@@ -4,7 +4,6 @@
         span.label HKD
         span.number-board(
             v-if="show"
-           
             :class="[amount>0 || amount === '0.'?'number':'word']") {{amount}}
         span.number-board(
             v-else
@@ -12,7 +11,6 @@
         span.block__all--out(v-if="showAllSellBtn.show") 全部转出
     van-number-keyboard(
         :show="show"
-        theme="custom"
         extra-key="."
         delete-button-text="删除1"
         close-button-text="完成1"
@@ -60,7 +58,6 @@ export default {
         onInput(val) {
             let re = /^(([1-9]{1}\d*)|(0{1}))(\.\d{2})$/
             if (re.test(this.amount)) return
-
             if (this.amount === this.placeholder && (val == 0 || val === '.')) {
                 return (this.amount = '0.')
             }
