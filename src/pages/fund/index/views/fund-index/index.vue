@@ -98,7 +98,7 @@ div
                         img(:src="item.picture_url") 
         //- .fund-echart-render(ref="renderEchartlist")
         .block__bottom--p
-            img(:src="appType === '1'?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
+            img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
             p {{$t('bottomMsg1')}}
             p {{$t('bottomMsg2')}}
 </template>
@@ -503,6 +503,7 @@ export default {
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
+        console.log(this.appType)
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
