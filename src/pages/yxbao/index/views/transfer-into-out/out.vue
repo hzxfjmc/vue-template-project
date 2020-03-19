@@ -2,19 +2,10 @@
 .block__element-wrapper
     .block__out--header
         p.title 转出金额
-        .block__out--wrapper.border-bottom
-            span.label HKD
-            van-number-keyboard(
-                :show="show"
-                theme="custom"
-                extra-key="."
-                close-button-text="完成"
-                @blur="show = false"
-                @input="onInput"
-                @delete="onDelete"
-                )
-            //- input(placeholder="请输入转出金额")
-            span.block__all--out 全部转出
+        NumberKeyboard(
+            placeholder="请输入转入金额"
+            :showAllSellBtn="showAllSellBtn"
+        )
         p.desc 预计02-05开始收益
         .block__list
             .block__list--item.common-flex-space-between
@@ -33,96 +24,75 @@
         p.tips 转出方式及额度规则
             em.iconfont.icon-iconEBgengduoCopy
     .block__out--content
-        .block__out--list
-            .left.iconfont.icon-unchecked
+        .block__out--list(@click="chooseType")
+            .left.iconfont(
+                :class="[check ?'icon-icon-checkbox-selected':'icon-unchecked']")
             .right
                 p 普通转出
-                p.desc 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
-        .block__out--list
-            .left.iconfont.icon-icon-checkbox-selected
+                p.desc 预计
+                    em 03-09(星期四)10:00
+                    em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
+        .block__out--list(@click="chooseType")
+            .left.iconfont(
+                :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
+                )
             .right
                 p 普通转出
-                p.desc 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
+                p.desc 赎回资金立即到达证券账户，手续费0.08%，每人每日限额10万港币：您今日剩余额度：99,987.00港币
+    van-button.btn() 转出
 
 </template>
 <script>
-import { NumberKeyboard } from 'vant-fork'
+import NumberKeyboard from './number-keyboard'
 export default {
     components: {
         NumberKeyboard
     },
     data() {
         return {
-            show: true,
-            value: ''
+            check: true,
+            showAllSellBtn: {
+                show: false,
+                desc: '全部转出'
+            }
         }
     },
     methods: {
-        onInput(val) {
-            console.log(val)
-        },
-        onDelete() {}
+        chooseType() {
+            this.check = !this.check
+        }
     }
 }
 </script>
 <style lang="scss" scoped>
+.btn {
+    background: #0d50d8;
+    color: #fff;
+    width: 343px;
+    height: 48px;
+    font-size: 16px;
+    margin: 20px 16px;
+    border-radius: 6px;
+}
 .title {
     font-size: 16px;
 }
 .block__out--header {
     padding: 20px 12px;
     background: #fff;
-
-    .block__out--wrapper {
-        margin: 14px 0 0 0;
-        padding: 0 0 9px 0;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        .label {
-            font-size: 24px;
-        }
-        input {
-            margin: 3px 10px 0 10px;
-            font-size: 24px;
-            // border: none;
-            height: 40px;
-            line-height: 40px;
-            width: 220px;
-        }
-        input::-webkit-input-placeholder {
-            font-size: 14px; /*WebKit browsers*/
-            // line-height: 40px;
-        }
-        input::-moz-placeholder {
-            font-size: 14px; /*Mozilla Firefox 4 to 18 */
-            line-height: 40px;
-        }
-        input::-moz-placeholder {
-            font-size: 14; /*Mozilla Firefox 19+ */
-            line-height: 40px;
-        }
-        input::-ms-input-placeholder {
-            font-size: 14px; /*Internet Explorer 10+*/
-            line-height: 40px;
-        }
-        .block__all--out {
-            font-size: 14px;
-            flex: 1;
-            text-align: right;
-        }
-    }
     .desc {
         font-size: 12px;
         margin: 9px 0;
         color: $text-color6;
     }
+
     .block__list {
         display: flex;
         flex-direction: column;
         .block__list--item {
             color: $text-color6;
             margin: 20px 0 0 0;
+
             .block__list--right {
                 color: $text-color;
                 font-size: 16px;
@@ -173,13 +143,20 @@ export default {
         }
     }
 }
+.icon-icon-checkbox-selected {
+    color: #0d50d8;
+}
 .block__out--content {
     background: #fff;
     padding: 0 12px 14px 12px;
     .block__out--list {
         display: flex;
         padding: 14px 0 0 0;
+        font-size: 12px;
         flex-direction: row;
+        em {
+            font-style: normal;
+        }
         .left {
             width: 20px;
         }
