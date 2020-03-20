@@ -71,6 +71,9 @@ export default {
                     9: '亿'
                 }
             }
+            if (this.amount === this.placeholder) {
+                return ''
+            }
             if (this.amount.indexOf('.') > 0) {
                 return obj[this.lang][this.amount.split('.')[0].length]
             } else {
@@ -136,7 +139,7 @@ export default {
     }
     .number1 {
         margin: 0 10px;
-        font-size: 14px;
+        // font-size: 14px;
         font-size: 24px;
     }
     .word1 {
@@ -164,7 +167,6 @@ export default {
     }
     .word {
         margin: 0 10px;
-        font-size: 14px;
         font-size: 16px;
         color: #d1d1d1;
         position: relative;
