@@ -119,3 +119,8 @@ export const getFundRecommendList = params => {
         params
     )
 }
+
+//获取友信宝基金详情
+export const getBaoFundInfo = params => {
+    return axios.post(`/finance-info-server/api/get-bao-fund-info/v1`, params)
+}

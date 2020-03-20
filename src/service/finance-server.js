@@ -119,3 +119,11 @@ export const openBondFeePackage = () => {
 export const getFundPositionListV3 = () => {
     return axios.post(`/finance-server/api/get-fund-position-list/v3`)
 }
+
+//友信获取客户持仓
+export const getBaoPostion = params => {
+    return axios.post(
+        `/finance-server/doc/finance-server/api/get-bao-position/v1`,
+        params
+    )
+}

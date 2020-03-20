@@ -6,24 +6,24 @@
                 em.iconfont(
                     @click="changeHidePadShow"
                     :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
-            .block__yxbao--num.block__amount(v-if="hidePadShow") 543545
+            .block__yxbao--num.block__amount(v-if="hidePadShow") {{positionMarketValue}}
             .block__yxbao--num(v-else) ****
             .block__yxbao--numtip 
                 p 昨日收益 
-                    em.num(v-if="hidePadShow") 5435
+                    em.num(v-if="hidePadShow") {{yesterdayEarnings}}
                     em.num(v-else) ****
                     em 元
             .block__yxbao--list
                 .block__yxbao--item
                     p.top 万元收益
-                    p.bottom(v-if="hidePadShow") 4324
+                    p.bottom(v-if="hidePadShow") {{tenThousandApy}}
                     p.bottom(v-else) ****
                 .block__yxbao--item
                     p.top 七日年化(%)
-                    p.bottom 2.0304
+                    p.bottom {{sevenDaysApy}}
                 .block__yxbao--item
                     p.top 累计收益
-                    p.bottom(v-if="hidePadShow") 43243
+                    p.bottom(v-if="hidePadShow") {{totalEarnings}}
                     p.bottom(v-else) ****
             .block__yxbao-btn
                 van-button.btn-color-l 转出
@@ -61,6 +61,8 @@
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
+import { getBaoPostion } from '@/service/finance-server.js'
+import { getBaoFundInfo } from '@/service/finance-info-server.js'
 import fundCard from './fund-card.vue'
 export default {
     components: {
@@ -72,10 +74,54 @@ export default {
         return {
             barnnarList: [],
             list: [],
-            hidePadShow: true
+            hidePadShow: true,
+            positionMarketValue: '',
+            yesterdayEarnings: '',
+            totalEarnings: '',
+            fundId: '',
+            tenThousandApy: '',
+            sevenDaysApy: ''
         }
     },
+    created() {
+        this.getBaoPostion()
+        this.getBaoFundInfo()
+    },
     methods: {
+        //获取持仓数据
+        async getBaoPostion() {
+            try {
+                const {
+                    positionMarketValue,
+                    yesterdayEarnings,
+                    totalEarnings
+                } = await getBaoPostion({
+                    currency: 2
+                })
+                this.positionMarketValue = positionMarketValue
+                this.yesterdayEarnings = yesterdayEarnings
+                this.totalEarnings = totalEarnings
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
+        //获取友信宝详情
+        async getBaoFundInfo() {
+            try {
+                const {
+                    sevenDaysApy,
+                    tenThousandApy,
+                    fundId
+                } = await getBaoFundInfo({
+                    currency: 2
+                })
+                this.fundId = fundId
+                this.tenThousandApy = tenThousandApy
+                this.sevenDaysApy = (sevenDaysApy * 100).toFixed(4)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         changeHidePadShow() {
             this.hidePadShow = !this.hidePadShow
         }
