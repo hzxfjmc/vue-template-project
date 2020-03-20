@@ -1,6 +1,6 @@
 <template lang="pug">
 .block__numberkeyboard--wrapper
-    .block__out--wrapper.border-bottom(@click="showNumberKeyboard")
+    .block__out--wrapper.border-bottom(@touchstart.stop="showNumberKeyboard")
         span.label HKD
         span.block__tip--number {{unit}}
         span.number-board(
@@ -11,11 +11,14 @@
             :class="[amount>0 || amount === '0.'?'number1':'word1']") {{amount}}
         span.block__all--out(v-if="showAllSellBtn.show") 全部转出
     van-number-keyboard(
+        
         :show="show"
         extra-key="."
-        delete-button-text="删除1"
-        close-button-text="完成1"
+        delete-button-text="删除"
+        close-button-text="完成"
+        :show-delete-key = "false"
         @close="close"
+        @blur="show = false"
         @hide = "handlerAmount"
         @input="onInput"
         @delete="onDelete"
@@ -38,8 +41,8 @@ export default {
     },
     data() {
         return {
-            show: false,
-            amount: '请输入转出金额'
+            show: true,
+            amount: ''
         }
     },
     created() {
@@ -93,7 +96,6 @@ export default {
         close() {
             this.show = false
         },
-
         onInput(val) {
             let re = /^(([1-9]{1}\d*)|(0{1}))(\.\d{2})$/
             if (re.test(this.amount)) return
