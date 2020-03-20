@@ -1,13 +1,13 @@
 <template lang="pug">
  .block__status--list
     .block__status--item
-        .block__status--icon
+        em.iconfont.icon-icon-checkbox-selected
         .block__status--right
             p 提交转出申请成功，可立即购买股票
             p 2020-03-09 12:20:29
         
     .block__status--item
-        .block__status--icon
+        em.iconfont.icon-icon-money
         .block__status--right
             p 提交转出申请成功，可立即购买股票
             p 2020-03-09 12:20:29
@@ -27,24 +27,24 @@ export default {
         display: flex;
         flex-direction: row;
     }
-    .block__status--icon {
+    em {
         width: 15px;
+        color: #2f79ff;
         margin: 4px 10px 0 0;
-        height: 15px;
-        border: 1px solid red;
+        display: inline-block;
     }
     .block__status--item:last-child {
         margin: 46px 0 0 0;
     }
-    .block__status--item:first-child:after {
+    .block__status--item:last-child:after {
         content: '';
         position: absolute;
         height: 56px;
         width: 1px;
         left: 7px;
-        top: 26px;
+        top: -55px;
         display: inline-block;
-        background: red;
+        background: #2f79ff;
     }
 }
 </style>

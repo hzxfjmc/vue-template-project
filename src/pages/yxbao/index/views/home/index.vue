@@ -30,13 +30,13 @@
                 van-button.btn-color-r 转入
     .block__yx-tab
         .block__list--item
-            em
+            em.iconfont.icon-rujin
             span 入金       
         .block__list--item
-            em.iconfont.icon-icon-money
+            em.iconfont.icon-shouru
             span 收益明细        
         .block__list--item
-            em
+            em.iconfont.icon-zijin
             span 资金记录                
 
     .block-bannar-swiper
@@ -188,6 +188,7 @@ export default {
         align-items: center;
         .iconfont {
             color: #1078c5;
+            font-size: 25px;
         }
     }
 }
