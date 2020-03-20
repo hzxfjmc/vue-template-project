@@ -11,7 +11,7 @@
             :class="[amount>0 || amount === '0.'?'number1':'word1']") {{amount}}
         span.block__all--out(v-if="showAllSellBtn.show") 全部转出
     van-number-keyboard(
-        
+        theme="custom"
         :show="show"
         extra-key="."
         delete-button-text="删除"
