@@ -24,7 +24,7 @@
         @delete="onDelete"
         )
         div(slot="delete")
-            span.iconfont.icon-rujin
+            span.iconfont.icon-delet
 </template>
 <script>
 import { mapGetters } from 'vuex'
