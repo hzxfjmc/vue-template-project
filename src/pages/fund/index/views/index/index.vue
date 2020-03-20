@@ -30,7 +30,11 @@
                 v-for="(item, index) in list"
                 :key="index"
             )
-                Card(:info="item" :assetType="assetType" :currency="currency" @click.native="goNext(item.fundId)")
+                Card(
+                    :info="item" 
+                    :assetType="assetType" 
+                    :currency="currency" 
+                    @click.native="goNext(item.fundId)")
         .no-bond-box(v-if="load")
             .no-bond {{ $t('noFund') }}
 </template>

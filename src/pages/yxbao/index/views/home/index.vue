@@ -46,17 +46,32 @@
                 @click="goBanner(item)"
                 :key="index") 
                 img(:src="item.picture_url") 
+
+    .block__fund--list
+        .block__title 精选基金
+        .block__list--wrapper(
+            v-for="item in list" 
+            :key="item.id")
+            fundCard(
+                :info="item" 
+                :assetType="item.assetType" 
+                :currency="item.currency" 
+                @click.native="goNext(item.fundId)"
+            )
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
+import fundCard from './fund-card.vue'
 export default {
     components: {
         [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem
+        [SwipeItem.name]: SwipeItem,
+        fundCard
     },
     data() {
         return {
             barnnarList: [],
+            list: [],
             hidePadShow: true
         }
     },
@@ -68,6 +83,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__fund--list {
+    padding: 0 12px;
+}
 .block__yxbao--header {
     width: 100%;
     height: 381px;
