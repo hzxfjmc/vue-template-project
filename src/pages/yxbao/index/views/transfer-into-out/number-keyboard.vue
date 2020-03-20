@@ -23,6 +23,8 @@
         @input="onInput"
         @delete="onDelete"
         )
+        div(slot="delete")
+            span.iconfont.icon-rujin
 </template>
 <script>
 import { mapGetters } from 'vuex'
