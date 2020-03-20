@@ -25,6 +25,7 @@
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
+import { getUaValue } from '@/utils/html-utils'
 import { mapGetters } from 'vuex'
 export default {
     computed: {
@@ -70,7 +71,8 @@ export default {
     },
     methods: {
         tofundSurvey() {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}`
+            let params = getUaValue('langType')
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}`
             jumpUrl(3, url)
         }
     }
