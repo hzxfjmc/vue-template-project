@@ -63,6 +63,13 @@ export default new Router({
             meta: { title: 'transferOut', auth: true, cs: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/transfer-into-out/out.vue`)
+        },
+        {
+            name: 'incomeDetails',
+            path: '/income-details',
+            meta: { title: 'incomeDetails', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/yxbao/index/views/income-details/index.vue`)
         }
     ]
 })
