@@ -2,6 +2,7 @@
 .block__numberkeyboard--wrapper
     .block__out--wrapper.border-bottom(@click="showNumberKeyboard")
         span.label HKD
+        span.block__tip--number {{unit}}
         span.number-board(
             v-if="show"
             :class="[amount>0 || amount === '0.'?'number':'word']") {{amount}}
@@ -21,6 +22,7 @@
         )
 </template>
 <script>
+import { mapGetters } from 'vuex'
 export default {
     props: {
         showAllSellBtn: {
@@ -43,6 +45,39 @@ export default {
     created() {
         this.amount = this.placeholder
     },
+    computed: {
+        ...mapGetters(['lang']),
+        unit() {
+            let obj = {
+                en: {
+                    5: 'Ten Thousand',
+                    6: 'Hundred Thousand',
+                    7: 'Million',
+                    8: 'Ten Million',
+                    9: 'Hundred Million'
+                },
+                zhCHT: {
+                    5: '萬',
+                    6: '十萬',
+                    7: '百萬',
+                    8: '千萬',
+                    9: '億'
+                },
+                zhCHS: {
+                    5: '万',
+                    6: '十万',
+                    7: '百万',
+                    8: '千万',
+                    9: '亿'
+                }
+            }
+            if (this.amount.indexOf('.') > 0) {
+                return obj[this.lang][this.amount.split('.')[0].length]
+            } else {
+                return obj[this.lang][this.amount.length]
+            }
+        }
+    },
     methods: {
         showNumberKeyboard() {
             if (!this.show) {
@@ -55,6 +90,7 @@ export default {
         close() {
             this.show = false
         },
+
         onInput(val) {
             let re = /^(([1-9]{1}\d*)|(0{1}))(\.\d{2})$/
             if (re.test(this.amount)) return
@@ -89,6 +125,12 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    position: relative;
+    .block__tip--number {
+        left: 60px;
+        top: -15px;
+        position: absolute;
+    }
     .label {
         font-size: 24px;
     }

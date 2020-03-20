@@ -574,11 +574,6 @@ export default {
                 if (!isWhiteUserBit) {
                     this.fightShow = true
                     return
-                } else {
-                    await this.addGroupFollow()
-                    await this.getGroupAction()
-                    this.getGroupOrder()
-                    this.getAdGroupOrders()
                 }
             } catch (e) {
                 this.$toast(e.msg)
@@ -934,7 +929,6 @@ export default {
             await this.getFundDetail()
             await this.getFundPositionV2()
             this.getFundNetPriceHistoryV1()
-            this.getFundRecommendList()
             this.getFundPerformanceHistory()
             this.getFundApyPointV1()
             if (this.isLogin) {

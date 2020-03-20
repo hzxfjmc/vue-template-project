@@ -6,7 +6,7 @@
                 em.iconfont(
                     @click="changeHidePadShow"
                     :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
-            .block__yxbao--num(v-if="hidePadShow") 543545
+            .block__yxbao--num.block__amount(v-if="hidePadShow") 543545
             .block__yxbao--num(v-else) ****
             .block__yxbao--numtip 
                 p 昨日收益 
@@ -153,6 +153,9 @@ export default {
             font-weight: 500;
             color: rgba(255, 255, 255, 1);
             line-height: 49px;
+        }
+        .block__amount {
+            font-size: 30px;
         }
         .block__yxbao--tip {
             margin: 18px 0 0 0;
