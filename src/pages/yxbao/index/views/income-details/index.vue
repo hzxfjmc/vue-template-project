@@ -31,8 +31,8 @@ export default {
         async getBaoCapitalTradeList() {
             try {
                 const res = await getBaoCapitalTradeList({
-                    currency: 1,
-                    recordType: 3
+                    currency: 2,
+                    recordType: 1
                 })
                 console.log(res)
             } catch (e) {

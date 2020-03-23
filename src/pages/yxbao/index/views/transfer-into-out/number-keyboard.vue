@@ -136,7 +136,7 @@ export default {
     align-items: center;
     position: relative;
     .block__tip--number {
-        left: 60px;
+        left: 70px;
         top: -15px;
         font-size: 12px;
         position: absolute;
@@ -151,14 +151,14 @@ export default {
         font-size: 24px;
     }
     .word1 {
-        margin: 0 10px;
+        margin: 0 10px 0 20px;
         font-size: 14px;
         font-size: 16px;
         color: #d1d1d1;
     }
     .number {
         font-family: 'yxFontDINPro-Medium';
-        margin: 0 10px;
+        margin: 0 10px 0 20px;
         font-size: 14px;
         font-size: 24px;
         position: relative;
@@ -175,8 +175,8 @@ export default {
         }
     }
     .word {
-        margin: 0 10px;
-        font-size: 16px;
+        margin: 0 10px 0 20px;
+        font-size: 14px;
         color: #d1d1d1;
         position: relative;
         &:after {

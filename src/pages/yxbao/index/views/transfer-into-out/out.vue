@@ -1,7 +1,7 @@
 <template lang="pug">
 .block__element-wrapper
     .block__out--header
-        p.title 转出金额
+        h1 转出金额
         NumberKeyboard(
             placeholder="请输入转入金额"
             :showAllSellBtn="showAllSellBtn"
@@ -21,7 +21,7 @@
                 .block__list--right.expectedAmount {{expectedAmount}}
 
     .block__out--title.common-flex-space-between.border-bottom.common-marge-top
-        p.title 转出方式
+        h1 转出方式
         p.tips 转出方式及额度规则
             em.iconfont.icon-iconEBgengduoCopy
     .block__out--content
@@ -145,10 +145,10 @@ export default {
     margin: 20px 16px;
     border-radius: 6px;
 }
-.title {
+h1 {
     font-size: 16px;
-    font-family: yxFontPingFang-Medium;
-    font-weight: bold;
+    font-family: yxFont;
+    font-weight: 700;
 }
 .block__out--header {
     padding: 20px 12px;
