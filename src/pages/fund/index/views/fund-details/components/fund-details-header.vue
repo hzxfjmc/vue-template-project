@@ -168,6 +168,7 @@ export default {
                 title: this.$t('yieldInLast7d'),
                 message: this.$t('yieldInLast7dTips'),
                 confirmButtonText: this.$t('iknow'),
+                confirmButtonColor: '#3c78fa',
                 messageAlign: 'left'
             })
         }
