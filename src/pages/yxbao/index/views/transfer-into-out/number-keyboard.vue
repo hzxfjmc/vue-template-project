@@ -119,10 +119,10 @@ export default {
             if (this.amount === this.placeholder) return
             if (this.amount === '0.') return (this.amount = this.placeholder)
             this.amount = this.amount.substr(0, this.amount.length - 1)
+            this.$emit('handlerAmount', this.amount)
             if (this.amount.length === 0 || this.amount === this.placeholder) {
                 return (this.amount = this.placeholder)
             }
-            this.$emit('handlerAmount', this.amount)
         }
     }
 }
@@ -138,6 +138,7 @@ export default {
     .block__tip--number {
         left: 60px;
         top: -15px;
+        font-size: 12px;
         position: absolute;
     }
     .label {
@@ -146,6 +147,7 @@ export default {
     .number1 {
         margin: 0 10px;
         // font-size: 14px;
+        font-family: 'yxFontDINPro-Medium';
         font-size: 24px;
     }
     .word1 {
@@ -155,6 +157,7 @@ export default {
         color: #d1d1d1;
     }
     .number {
+        font-family: 'yxFontDINPro-Medium';
         margin: 0 10px;
         font-size: 14px;
         font-size: 24px;

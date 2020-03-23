@@ -13,12 +13,12 @@
                 .block__list--left 手续费(预计)
                 .block__list--right.common-flex-center
                     span.block__tips.common-flex-center 
-                        em.num 0.00 
-                        em 港币
-                    p.border-rotate 50.00港币
+                        em.num {{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%
+                        //- em 港币
+                    p.border-rotate {{Number(fundTradeInfoVO.fastRedemptionFee*100+0.5).toFixed(2)}}%
             .block__list--item.common-flex-space-between
                 .block__list--left 预计到账金额
-                .block__list--right 9995.00
+                .block__list--right.expectedAmount {{expectedAmount}}
 
     .block__out--title.common-flex-space-between.border-bottom.common-marge-top
         p.title 转出方式
@@ -48,6 +48,7 @@
 <script>
 import NumberKeyboard from './number-keyboard'
 import { getBaoCapitalTrade } from '@/service/finance-server.js'
+import { getFundDetail } from '@/service/finance-info-server.js'
 import { generateUUID } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 export default {
@@ -57,18 +58,36 @@ export default {
     computed: {
         disabled() {
             return this.amount == 0
+        },
+        expectedAmount() {
+            if (
+                isNaN(
+                    this.amount -
+                        this.amount * this.fundTradeInfoVO.fastRedemptionFee
+                )
+            ) {
+                return '0.00'
+            }
+            return (
+                this.amount -
+                this.amount * this.fundTradeInfoVO.fastRedemptionFee
+            ).toFixed(2)
         }
     },
     data() {
         return {
-            check: true,
+            check: false,
             outType: '',
-            amount: '',
+            amount: 0,
             showAllSellBtn: {
                 show: false,
                 desc: '全部转出'
-            }
+            },
+            fundTradeInfoVO: {}
         }
+    },
+    created() {
+        this.getFundDetail()
     },
     methods: {
         handlerAmount(amount) {
@@ -76,6 +95,17 @@ export default {
         },
         chooseType() {
             this.check = !this.check
+        },
+        async getFundDetail() {
+            try {
+                const { fundTradeInfoVO } = await getFundDetail({
+                    displayLocation: 3,
+                    fundId: this.$route.query.id || this.id
+                })
+                this.fundTradeInfoVO = fundTradeInfoVO
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         },
         async getBaoCapitalTrade() {
             try {
@@ -117,6 +147,8 @@ export default {
 }
 .title {
     font-size: 16px;
+    font-family: yxFontPingFang-Medium;
+    font-weight: bold;
 }
 .block__out--header {
     padding: 20px 12px;
@@ -126,14 +158,12 @@ export default {
         margin: 9px 0;
         color: $text-color6;
     }
-
     .block__list {
         display: flex;
         flex-direction: column;
         .block__list--item {
             color: $text-color6;
             margin: 20px 0 0 0;
-
             .block__list--right {
                 color: $text-color;
                 font-size: 16px;
@@ -144,7 +174,7 @@ export default {
                     content: '';
                     position: absolute;
                     background: #191919;
-                    width: 70px;
+                    width: 100%;
                     height: 1px;
                     top: 10px;
                     left: 0;
@@ -183,6 +213,9 @@ export default {
                         position: absolute;
                     }
                 }
+            }
+            .expectedAmount {
+                font-family: 'yxFontDINPro-Medium';
             }
         }
     }
