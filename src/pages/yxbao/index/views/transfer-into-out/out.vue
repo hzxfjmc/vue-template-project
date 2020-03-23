@@ -15,7 +15,7 @@
                     span.block__tips.common-flex-center 
                         em.num 0.00 
                         em 港币
-                    p 50.00港币
+                    p.border-rotate 50.00港币
             .block__list--item.common-flex-space-between
                 .block__list--left 预计到账金额
                 .block__list--right 9995.00
@@ -40,7 +40,9 @@
             .right
                 p 快速转出
                 p.desc 赎回资金立即到达证券账户，手续费0.08%，每人每日限额10万港币：您今日剩余额度：99,987.00港币
-    van-button.btn(:disabled="disabled") 转出
+    van-button.btn(
+        @getBaoCapitalTrade="getBaoCapitalTrade"
+        :disabled="disabled") 转出
 
 </template>
 <script>
@@ -135,6 +137,19 @@ export default {
             .block__list--right {
                 color: $text-color;
                 font-size: 16px;
+                .border-rotate {
+                    position: relative;
+                }
+                .border-rotate:after {
+                    content: '';
+                    position: absolute;
+                    background: #191919;
+                    width: 70px;
+                    height: 1px;
+                    top: 10px;
+                    left: 0;
+                    transform: rotate(5deg);
+                }
                 span {
                     width: 65px;
                     font-size: 14px;

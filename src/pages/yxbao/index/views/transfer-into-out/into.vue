@@ -14,7 +14,9 @@
         .tips 
             p.tips--top uSMART证券账户
             p.tips--bottom 可用余额：单笔{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}港币
-    van-button.btn(:disabled="disabled") 转入
+    van-button.btn(
+        @getBaoCapitalTrade="getBaoCapitalTrade"
+        :disabled="disabled") 转入
 
 </template>
 <script>
