@@ -26,8 +26,8 @@
                     p.bottom(v-if="hidePadShow") {{totalEarnings}}
                     p.bottom(v-else) ****
             .block__yxbao-btn
-                van-button.btn-color-l 转出
-                van-button.btn-color-r 转入
+                van-button.btn-color-l(@click="jumpPage('transfer-out')") 转出
+                van-button.btn-color-r(@click="jumpPage('transfer-into')") 转入
     .block__yx-tab
         .block__list--item
             em.iconfont.icon-rujin
@@ -88,6 +88,15 @@ export default {
         this.getFundRecommendList()
     },
     methods: {
+        //跳转
+        jumpPage(path) {
+            this.$router.push({
+                name: path,
+                query: {
+                    id: this.fundId
+                }
+            })
+        },
         async bannerAdvertisement() {
             try {
                 const res = await bannerAdvertisement(26)

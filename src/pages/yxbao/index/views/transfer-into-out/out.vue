@@ -5,9 +5,10 @@
         NumberKeyboard(
             placeholder="请输入转入金额"
             :showAllSellBtn="showAllSellBtn"
+            @handlerAmount="handlerAmount"
         )
         p.desc 预计02-05开始收益
-        .block__list
+        .block__list(v-if="!check")
             .block__list--item.common-flex-space-between
                 .block__list--left 手续费(预计)
                 .block__list--right.common-flex-center
@@ -37,20 +38,30 @@
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
                 )
             .right
-                p 普通转出
+                p 快速转出
                 p.desc 赎回资金立即到达证券账户，手续费0.08%，每人每日限额10万港币：您今日剩余额度：99,987.00港币
-    van-button.btn() 转出
+    van-button.btn(:disabled="disabled") 转出
 
 </template>
 <script>
 import NumberKeyboard from './number-keyboard'
+import { getBaoCapitalTrade } from '@/service/finance-server.js'
+import { generateUUID } from '@/utils/tools.js'
+import jsBridge from '@/utils/js-bridge.js'
 export default {
     components: {
         NumberKeyboard
     },
+    computed: {
+        disabled() {
+            return this.amount == 0
+        }
+    },
     data() {
         return {
             check: true,
+            outType: '',
+            amount: '',
             showAllSellBtn: {
                 show: false,
                 desc: '全部转出'
@@ -58,8 +69,36 @@ export default {
         }
     },
     methods: {
+        handlerAmount(amount) {
+            this.amount = amount
+        },
         chooseType() {
             this.check = !this.check
+        },
+        async getBaoCapitalTrade() {
+            try {
+                let data = await jsBridge.callApp('command_trade_login', {
+                    needToken: true
+                })
+                if (!data && !data.token) {
+                    this.getBaoCapitalTrade()
+                    return
+                }
+                let outType = this.check ? 1 : 2
+                await getBaoCapitalTrade({
+                    amount: this.amount,
+                    fundId: this.$route.query.id,
+                    outType: outType,
+                    recordType: 1,
+                    requestId: generateUUID(),
+                    tradeToken: data.token
+                })
+            } catch (error) {
+                if (error.desc.errorMessage)
+                    return this.$toast(error.desc.errorMessage)
+                if (error.msg) return this.$toast(error.msg)
+                console.log('申购页面-tradeErrorMsg :', error)
+            }
         }
     }
 }

@@ -93,7 +93,7 @@ export default {
             }
         },
         handlerAmount() {
-            console.log(this.amount)
+            this.$emit('handlerAmount', this.amount)
         },
         close() {
             this.show = false
@@ -113,6 +113,7 @@ export default {
                 if (this.amount === this.placeholder) this.amount = ''
                 this.amount = this.amount.toString() + val.toString()
             }
+            this.$emit('handlerAmount', this.amount)
         },
         onDelete() {
             if (this.amount === this.placeholder) return
@@ -121,6 +122,7 @@ export default {
             if (this.amount.length === 0 || this.amount === this.placeholder) {
                 return (this.amount = this.placeholder)
             }
+            this.$emit('handlerAmount', this.amount)
         }
     }
 }

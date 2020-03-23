@@ -51,14 +51,14 @@ export default new Router({
                 import(`@/pages/yxbao/index/views/trade-rule/index.vue`)
         },
         {
-            name: 'transferInto',
+            name: 'transfer-into',
             path: '/transfer-into',
             meta: { title: 'transferInto', auth: true, cs: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/transfer-into-out/into.vue`)
         },
         {
-            name: 'transferOut',
+            name: 'transfer-out',
             path: '/transfer-out',
             meta: { title: 'transferOut', auth: true, cs: true },
             component: () =>

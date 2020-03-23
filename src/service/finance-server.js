@@ -135,3 +135,11 @@ export const getBaoCapitalTradeList = params => {
         params
     )
 }
+
+//友信宝转入转出
+export const getBaoCapitalTrade = params => {
+    return axios.post(
+        `/finance-server/doc/finance-server/api/bao-capital-trade/v1`,
+        params
+    )
+}
