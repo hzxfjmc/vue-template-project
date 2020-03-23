@@ -104,7 +104,7 @@ export default {
     },
     methods: {
         tofundTrade() {
-            let url = `${window.location.origin}/wealth/fund/index.html#/trade-rule?id=${this.fundTradeInfoVO.fundId}&assetType=${this.fundTradeInfoVO.assetType}`
+            let url = `${window.location.origin}/wealth/fund/index.html#/trade-rule?id=${this.fundTradeInfoVO.fundId}&assetType=${this.fundTradeInfoVO.assetType}&displayLocation=${this.$route.query.displayLocation}`
             jumpUrl(3, url)
         }
     }

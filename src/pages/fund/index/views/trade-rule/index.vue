@@ -121,14 +121,11 @@ export default {
         async InitState() {
             try {
                 const { fundTradeInfoVO } = await getFundDetail({
-                    displayLocation: 1,
+                    displayLocation: this.$route.query.displayLocation || 1,
                     fundId: this.$route.query.id
                 })
 
                 this.currency = fundTradeInfoVO.currency.name
-                // this.tradeList['dividend'].value = Number(
-                //     fundTradeInfoVO['dividend']
-                // ).toFixed(2)
                 this.tradeList['tradeFrequencyName'].value =
                     fundTradeInfoVO.tradeFrequencyName
                 this.tradeList[

@@ -70,7 +70,7 @@ export default {
     },
     methods: {
         tofundSurvey() {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}`
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}&displayLocation=${this.$route.query.displayLocation}`
             jumpUrl(3, url)
         }
     }

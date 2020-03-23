@@ -4,9 +4,6 @@
         .block__fund--item(
             :class="activeTab==1?'activeItem':''"
             @click="handlerActiveTab(1)") {{$t('yieldInLast7d')}}
-        //- .block__fund--item(
-        //-     :class="activeTab==2?'activeItem':''"
-        //-     @click="handlerActiveTab(2)") {{$t('historicalRTN')}}
         .block__fund--item(
             :class="activeTab==3?'activeItem':''"
             @click="handlerActiveTab(3)") {{$t('tenKRTN')}}

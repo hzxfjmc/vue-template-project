@@ -17,10 +17,6 @@
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
-        HoldfundDetails(
-            v-if="holdDetailsShow"
-            :initState="holdInitState")
-
         .block__fundheader--tips(
             v-if="isLogin"
             @click="toRouterGenerator('/order-record')")
@@ -37,14 +33,9 @@
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
 
-    .fund__block--btn(v-if="!loading")
-        .fund-footer-content(v-if="RedemptionButton")
-            van-button.button-5width.button-left.btn(
-                :class="[flag?'fund-check':'fund-no']" 
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-            van-button.btn.button-5width(
-                :class="[flag1?'fund-buy':'fund-no']" 
-                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        .block__tips--msg
+            p *以上资料来源于基金公司第三方数据商，相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现，不构成投资建议，市场有风险投资需谨慎 
+   
         
            
     
@@ -52,7 +43,6 @@
 <script>
 import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
-import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
@@ -67,7 +57,6 @@ import {
 } from '@/service/finance-info-server.js'
 import { getSource } from '@/service/customer-relationship-server'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
-import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
@@ -271,7 +260,6 @@ export default {
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
-        HoldfundDetails,
         fundDetailsList,
         Button,
         Dialog,
@@ -281,58 +269,10 @@ export default {
         fundTradingRules
     },
     computed: {
-        RedemptionButton() {
-            /*
-             * btnShow 是否持仓
-             * isGrayAuthority 灰度
-             * invate 是否是邀请
-             */
-            return (
-                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
-            )
-        },
-        /*
-         * fightShow 是否拼团
-         * isGrayAuthority 灰度
-         * invate 是否是邀请
-         */
-        PurchaseButton() {
-            return (
-                !this.btnShow &&
-                this.isGrayAuthority &&
-                !this.userInfo.orgEmailLoginFlag &&
-                this.fightShow &&
-                this.invate !== 'share'
-            )
-        },
-        chsFightButton() {
-            return (
-                !this.btnShow &&
-                this.isGrayAuthority &&
-                !this.userInfo.orgEmailLoginFlag &&
-                !this.fightShow &&
-                this.code == 1 &&
-                this.invate !== 'share'
-            )
-        },
-        chtFightButton() {
-            return (
-                !this.btnShow &&
-                this.isGrayAuthority &&
-                !this.userInfo.orgEmailLoginFlag &&
-                !this.fightShow &&
-                this.code == 2 &&
-                this.invate !== 'share'
-            )
-        },
         stockColorType() {
             return +getStockColorType()
         },
         ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
-        showPositionInfo() {
-            // 登陆且已开户才展示持仓信息
-            return this.isLogin && this.openedAccount
-        },
         isGrayAuthority() {
             // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
             if (!this.isLogin) {
@@ -350,7 +290,6 @@ export default {
     },
     data() {
         return {
-            loading: true,
             swipeShow: false,
             shareHeaderShow: true,
             figthComeShow: false,
@@ -385,19 +324,9 @@ export default {
                 positionEarnings: null,
                 inTransitAmount: null
             },
-            positionStatus: {
-                type: -1
-            },
-            holdDetailsShow: false,
-            btnShow: false,
-            btnShow1: false,
             fundCode: '',
             userInfo: {},
-            scroll: 0,
             fundRiskType: '',
-            flag: true, //赎回
-            flag1: true, //追加
-            flag2: true, //申购
             price: '',
             revenue: '',
             step: 0,
@@ -406,15 +335,6 @@ export default {
             orderList: [],
             actionId: '',
             userList: [],
-            group_id: null,
-            discount: null,
-            subscribeButton: null,
-            subscribeButtonHk: null,
-            subscribeButtonShow: false,
-            applyAfter: null,
-            differenceNumer: 5,
-            avatImg: require('@/assets/img/fund/share/avat.png'),
-            invate: this.$route.query.type,
             timeList: {
                 oneWeek: {
                     label: '近一周',
@@ -580,16 +500,6 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
-        //跳转
-        toRouter(routerPath) {
-            if (routerPath == '/fund-subscribe') {
-                this.handleBuyOrSell(1)
-            } else {
-                if (!this.flag) return this.$toast(this.forbidPrompt)
-                let url = `${window.location.origin}/wealth/fund/index.html#${routerPath}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
-                jumpUrl(3, url)
-            }
-        },
         //获取基金详情
         async getFundDetail() {
             try {
@@ -642,15 +552,6 @@ export default {
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.fundOverviewInfoVO.currencyName = this.fundOverviewInfoVO.currency.name
-                //赎回按钮是否置灰
-                this.flag =
-                    (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
-                //追加按钮是否置灰
-                this.flag1 =
-                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
-                //申购按钮是否置灰
-                this.flag2 =
-                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
                 //合规信息
                 this.tagShow = this.fundHeaderInfoVO.derivativeType !== 1
                 this.tagsShow = this.fundHeaderInfoVO.derivativeType !== 3
@@ -662,39 +563,6 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
-            }
-        },
-        //获取持仓数据
-        async getFundPositionV2() {
-            if (!this.showPositionInfo) return false
-            try {
-                const res = await getFundPositionV2({
-                    fundId: this.id
-                })
-                this.holdInitState = res
-                this.positionStatus = res.positionStatus
-                this.btnShow1 = false //申购按钮显示
-                this.btnShow = false //追加赎回按钮显示
-                if (
-                    this.positionStatus.type === 1 &&
-                    this.holdInitState.availableShare > 0
-                ) {
-                    this.btnShow = true
-                } else {
-                    this.btnShow1 = true
-                }
-                //持仓显示
-                if (
-                    this.positionStatus.type != 0 &&
-                    this.positionStatus.type != -1
-                ) {
-                    this.holdDetailsShow = true
-                } else {
-                    this.holdDetailsShow = false
-                }
-            } catch (e) {
-                this.$toast(e.msg)
-                console.log('getFundPositionV2:error:>>>', e)
             }
         },
         //echart图的数据获取
@@ -740,141 +608,7 @@ export default {
                 console.log('getFundApyPointV1:error:>>>', e)
             }
         },
-        //用户是否能申购或者是否需要测评
-        async handleBuyOrSell(params) {
-            if (!this.flag2 || !this.flag1)
-                return this.$toast(this.forbidPrompt)
 
-            if (params === 1) {
-                clickFundDetails(
-                    'fund_detail',
-                    '申购',
-                    this.fundHeaderInfoVO.fundId,
-                    this.fundHeaderInfoVO.fundName
-                )
-            } else {
-                clickFundDetails(
-                    'fund_detail',
-                    '拼团',
-                    this.fundHeaderInfoVO.fundId,
-                    this.fundHeaderInfoVO.fundName
-                )
-            }
-
-            // 未登录或未开户
-            if (!this.isLogin) {
-                await this.$dialog.alert({
-                    message: this.$t('login'),
-                    confirmButtonText: this.$t('loginBtn')
-                })
-                jsBridge.gotoNativeModule('yxzq_goto://user_login')
-                return
-            }
-
-            if (!this.openedAccount) {
-                // 跳转到开户页面
-                await this.$dialog.alert({
-                    message: this.$t('openAccount'),
-                    confirmButtonText: this.$t('openAccountBtn')
-                })
-                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
-                return
-            }
-
-            if (
-                !this.userInfo.assessResult ||
-                new Date().getTime() >
-                    new Date(this.userInfo.validTime).getTime()
-            ) {
-                let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment?id=${this.id}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}`
-                jumpUrl(3, url)
-                return
-            } else {
-                if (
-                    this.userInfo.assessResult <
-                    this.fundHeaderInfoVO.fundRiskType
-                ) {
-                    if (this.userInfo.damagedStatus === 1) {
-                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
-                        jumpUrl(3, url)
-                        return
-                    }
-                    if (
-                        this.fundHeaderInfoVO.derivativeType === 2 ||
-                        this.fundHeaderInfoVO.derivativeType === 3
-                    ) {
-                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-appropriate-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
-                        jumpUrl(3, url)
-                        return
-                    }
-                    if (this.fundHeaderInfoVO.derivativeType === 1) {
-                        let riskTipContent = this.$t([
-                            `该产品为${this.fundHeaderInfoVO.fundRisk}（R${
-                                this.fundHeaderInfoVO.fundRiskType
-                            }），超出您当前的风险承受能力${
-                                this.$t('resultList')[
-                                    this.userInfo.assessResult
-                                ].riskStyle
-                            }（A${
-                                this.userInfo.assessResult
-                            }）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
-                            `該產品為${this.fundHeaderInfoVO.fundRisk}（R${
-                                this.fundHeaderInfoVO.fundRiskType
-                            }），超出您當前的風險承受能力${
-                                this.$t('resultList')[
-                                    this.userInfo.assessResult
-                                ].riskStyle
-                            }（A${
-                                this.userInfo.assessResult
-                            }）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
-                            `The risk level of this product is R${
-                                this.fundHeaderInfoVO.fundRiskType
-                            }(${
-                                this.fundHeaderInfoVO.fundRisk
-                            }), which exceeds your current risk tolerance is A${
-                                this.userInfo.assessResult
-                            }(${
-                                this.$t('resultList')[
-                                    this.userInfo.assessResult
-                                ].riskStyle
-                            }). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
-                        ])
-                        this.$dialog
-                            .confirm({
-                                title: this.$t('riskTip'),
-                                message: riskTipContent,
-                                confirmButtonText: this.$t('continueButton'),
-                                cancelButtonText: this.$t('cancelButton')
-                            })
-                            .then(() => {
-                                let url
-                                let extendStatusBit =
-                                    this.userInfo.extendStatusBit & 16
-                                if (extendStatusBit > 0) {
-                                    url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
-                                } else {
-                                    url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
-                                }
-                                jumpUrl(3, url)
-                                // on confirm
-                            })
-                            .catch(() => {
-                                return
-                                // on cancel
-                            })
-                    }
-                } else {
-                    let url
-                    let extendStatusBit = this.userInfo.extendStatusBit & 16
-                    if (extendStatusBit > 0) {
-                        url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
-                    } else {
-                        url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
-                    }
-                    jumpUrl(3, url)
-                }
-            }
-        },
         async appVisibleHandle(data) {
             let re = data
             if (typeof data === 'string') {
@@ -908,34 +642,16 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
-        },
-        //设置app分享按钮
-        async setShareButton() {
-            const base64 = this.$refs.titlebarIcon.src.replace(
-                /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
-                ''
-            )
-            jsBridge.callApp('command_set_titlebar_button', {
-                position: 1, //position取值1、2
-                clickCallback: 'handlerFundShare',
-                type: 'custom_icon',
-                custom_icon: base64
-            })
         }
     },
     async created() {
-        try {
-            this.init18inState()
-            await this.getFundDetail()
-            await this.getFundPositionV2()
-            this.getFundNetPriceHistoryV1()
-            this.getFundPerformanceHistory()
-            this.getFundApyPointV1()
-            if (this.isLogin) {
-                await this.getFundUserInfo()
-            }
-        } finally {
-            this.loading = false
+        this.init18inState()
+        await this.getFundDetail()
+        this.getFundNetPriceHistoryV1()
+        this.getFundPerformanceHistory()
+        this.getFundApyPointV1()
+        if (this.isLogin) {
+            await this.getFundUserInfo()
         }
         this.getSource()
         jsBridge.callAppNoPromise(
@@ -944,13 +660,17 @@ export default {
             'appVisible',
             'appInvisible'
         )
-        this.setShareButton()
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
     }
 }
 </script>
 <style lang="scss" scoped>
+.block__tips--msg {
+    margin: 20px 12px 17px 12px;
+    color: $text-color5;
+    font-size: 12px;
+}
 .fund___list--p {
     width: 90%;
     margin: 20px 5%;
