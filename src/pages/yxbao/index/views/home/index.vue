@@ -14,11 +14,11 @@
                     em.num(v-else) ****
                     em 元
             .block__yxbao--list
-                .block__yxbao--item
+                .block__yxbao--item(@click="toYxbaoPage")
                     p.top 万元收益
                     p.bottom(v-if="hidePadShow") {{tenThousandApy}}
                     p.bottom(v-else) ****
-                .block__yxbao--item
+                .block__yxbao--item(@click="toYxbaoPage")
                     p.top 七日年化(%)
                     p.bottom {{sevenDaysApy}}
                 .block__yxbao--item
@@ -42,27 +42,25 @@
     .block-bannar-swiper
         van-swipe(:autoplay="3000")  
             van-swipe-item(
-                v-for="(item, index) in barnnarList" 
+                v-for="(item, index) in banner_list" 
                 @click="goBanner(item)"
                 :key="index") 
                 img(:src="item.picture_url") 
 
     .block__fund--list
         .block__title 精选基金
-        .block__list--wrapper(
-            v-for="item in list" 
-            :key="item.id")
-            fundCard(
-                :info="item" 
-                :assetType="item.assetType" 
-                :currency="item.currency" 
-                @click.native="goNext(item.fundId)"
-            )
+        fundCard(
+            v-if="recommendList.length != 0"
+            :recommendList="recommendList")
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
 import { getBaoPostion } from '@/service/finance-server.js'
-import { getBaoFundInfo } from '@/service/finance-info-server.js'
+import {
+    getBaoFundInfo,
+    getFundRecommendList
+} from '@/service/finance-info-server.js'
+import { bannerAdvertisement } from '@/service/news-configserver.js'
 import fundCard from './fund-card.vue'
 export default {
     components: {
@@ -72,8 +70,8 @@ export default {
     },
     data() {
         return {
-            barnnarList: [],
-            list: [],
+            banner_list: [],
+            recommendList: [],
             hidePadShow: true,
             positionMarketValue: '',
             yesterdayEarnings: '',
@@ -83,11 +81,43 @@ export default {
             sevenDaysApy: ''
         }
     },
-    created() {
+    async created() {
         this.getBaoPostion()
-        this.getBaoFundInfo()
+        this.bannerAdvertisement()
+        await this.getBaoFundInfo()
+        this.getFundRecommendList()
     },
     methods: {
+        async bannerAdvertisement() {
+            try {
+                const res = await bannerAdvertisement(26)
+                this.banner_list = res.banner_list
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
+        toYxbaoPage() {
+            this.$router.push({
+                name: 'fund-details',
+                query: { id: this.fundId, displayLocation: 3 }
+            })
+        },
+        //获取推荐基金
+        async getFundRecommendList() {
+            try {
+                const res = await getFundRecommendList({
+                    displayLocation: this.$route.query.displayLocation || 1,
+                    fundId: this.fundId
+                })
+                this.recommendList = res
+                this.recommendList.map(item => {
+                    item.apy = Math.floor(item.apy * 10000) / 100
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundRecommendList:error:>>>', e)
+            }
+        },
         //获取持仓数据
         async getBaoPostion() {
             try {
@@ -131,7 +161,9 @@ export default {
 <style lang="scss" scoped>
 .block__fund--list {
     padding: 0 12px;
+    margin: 0 0 20px 0;
 }
+
 .block__yxbao--header {
     width: 100%;
     height: 381px;
@@ -153,6 +185,12 @@ export default {
         flex-direction: column;
         align-items: center;
         color: #fff;
+        .block__tab--header {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            align-items: center;
+        }
         .block__yxbao--list,
         .block__yxbao-btn {
             display: flex;

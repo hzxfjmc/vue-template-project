@@ -1,144 +1,167 @@
 <template lang="pug">
-    .fund-card
-        .left
-            .rate-num(v-if="apy > 0" :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{ apy }}%
-            .rate-num(v-else-if="apy < 0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") {{ apy }}%
-            .rate-num(v-else) {{ apy }}%
-            .annualized-returns {{ isMonetaryFund ? $t('yieldInLast7d') : $t('annualRateOfReturn') }}
-        .right
-            h2(:style="h2Style") {{ info.fundName }}
-            .labels 
-                fund-tag(:title="info.fundRisk")
-                fund-tag(:title="$t(info.currency.name)")
-            .feature {{ info.feature }}
-</template>
+.fund__details--list   
+    .fund__list--content
+        .fund__list--item(
+            @click="goNext(item.fundId)"
+            v-for="(item,index) in recommendList" 
+            :key="item.fundId")
+            .block__left
+                .fund_time {{$t('oneYear')}}
+                .fund_number(
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    v-if="item.apy>0") +{{Number(item.apy).toFixed(2)}}%
+                .fund_number(
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                    v-else-if="item.apy<0") {{Number(item.apy).toFixed(2)}}%
+                .fund_number(v-else) {{Number(item.apy).toFixed(2)}}%
+            .block__right
+                .fund_name {{item.fundName}}
+                .fund__list--tag
+                    .fund_tag
+                        em.iconfont.icon-iconsjijinfengxiancopy-copy 
+                        span {{item.assetType}}
+                    .fund_tag
+                        em.iconfont.icon-iconsjijinfengxian
+                        span {{item.fundRisk}}
+                    .fund_tag
+                        em.iconfont.icon-iconsjijinfengxiancopy-copy1
+                        span {{item.earningsTypeName}}
+                p {{item.feature}}
+                    
 
+    
+</template>
 <script>
-import fundTag from '@/biz-components/fund-tag/index.vue'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { jumpUrl } from '@/utils/tools.js'
 export default {
-    i18n: {
-        zhCHS: {
-            annualRateOfReturn: '近一年涨跌幅',
-            yieldInLast7d: '近七日年化',
-            HKD: '港币',
-            USD: '美元'
-        },
-        zhCHT: {
-            annualRateOfReturn: '近一年漲跌幅',
-            yieldInLast7d: '近七日年化',
-            HKD: '港幣',
-            USD: '美元'
-        },
-        en: {
-            annualRateOfReturn: '1-Year Rtn(Cum)',
-            yieldInLast7d: 'Yield in Last 7d',
-            HKD: 'HKD',
-            USD: 'USD'
-        }
-    },
-    name: 'BondCard',
-    components: {
-        'fund-tag': fundTag
-    },
-    props: {
-        info: {
-            type: Object,
-            default: () => {}
-        },
-        assetType: {
-            type: String,
-            default: ''
-        },
-        currency: {
-            type: [String, Number],
-            default: null
-        }
-    },
     computed: {
         stockColorType() {
             return +getStockColorType()
         },
         isMonetaryFund() {
-            return Number(this.info.assetType) === 4 // 货币型基金
+            return Number(this.fundHeaderInfoVO.assetType) === 4 // 货币型基金
+        }
+    },
+    props: {
+        recommendList: {
+            type: Array,
+            default: () => {}
+        }
+    },
+    i18n: {
+        zhCHS: {
+            oneYear: '近一年涨跌幅',
+            more: '更多基金',
+            msg:
+                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎'
         },
-        apy() {
-            const func = this.info && this.info.apy > 0 ? Math.floor : Math.ceil
-            let apyNum =
-                this.info.assetType === 4
-                    ? (func((this.info.apy - 0) * 1000000) / 10000).toFixed(4)
-                    : (func((this.info.apy - 0) * 10000) / 100).toFixed(2)
-            return this.info && apyNum
+        zhCHT: {
+            oneYear: '近一年漲跌幅',
+            more: '更多基金',
+            msg:
+                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎'
         },
-        h2Style() {
-            // 名称字体变化策略
-            let fundName = this.info.fundName || ''
-            if (fundName.length > 12) {
-                return {
-                    fontSize: '0.28rem'
-                }
-            }
-            return {
-                fontSize: '0.32rem'
-            }
+        en: {
+            oneYear: '1-Year Rtn(Cum)',
+            more: 'More',
+            msg:
+                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.'
+        }
+    },
+    methods: {
+        goNext(fundId) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+            jumpUrl(3, url)
         }
     }
 }
 </script>
-
 <style lang="scss" scoped>
-.fund-card {
-    height: 110px;
-    margin-top: 10px;
-    padding: 15px 12px 22px;
-    background-color: $background-color;
-    border-radius: 4px;
+.number-red {
+    color: rgba(234, 61, 61, 1);
+}
+
+.number-green {
+    color: #04ba60;
+}
+.fund__list--item {
     display: flex;
-    align-items: center;
-    .left {
-        width: 40%;
+    flex-direction: row;
+    margin: 10px 0 0 0;
+    border-radius: 4px;
+    background: #fff;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    padding: 4px 10px 10px 10px;
+    .block__left {
+        width: 38%;
         display: flex;
         flex-direction: column;
-        .rate-num {
-            margin-bottom: 4px;
-            color: $text-color;
-            font-size: 0.48rem;
-            // font-weight: bold;
+        justify-content: center;
+        .fund_time {
+            font-size: 12px;
+            color: #999999;
+            line-height: 20px;
+            margin: 10px 0 0 0;
+        }
+        .fund_number {
+            font-size: 26px;
             font-family: yxFontDINPro-Medium;
-            line-height: 31px;
-        }
-        .color-green {
-            color: #04ba60;
-        }
-        .color-red {
-            color: #ea3d3d;
-        }
-        .annualized-returns {
-            font-size: 0.24rem;
-            color: $text-color3;
+            padding: 2px 0 0 0;
         }
     }
-    .right {
+    .block__right {
+        width: 62%;
         display: flex;
-        width: 60%;
         flex-direction: column;
-        h2 {
+        .fund_name {
+            font-size: 14px;
             overflow: hidden;
-            margin-bottom: 6px;
-            width: 100%;
-            color: $title-color;
             text-overflow: ellipsis;
             white-space: nowrap;
+            margin: 10px 0 0 0;
         }
-        .feature {
-            color: $text-color5;
-            font-size: 0.24rem;
-        }
-        .labels {
+        .fund__list--tag {
             display: flex;
-            justify-content: flex-start;
-            margin-bottom: 6px;
+            font-size: 10px;
+            color: #666666;
+            margin: 5px 0;
+            flex-wrap: wrap;
+            .fund_tag {
+                margin: 0 3px 0 0;
+                display: flex;
+                span {
+                    line-height: 25px;
+                }
+            }
+            .iconfont {
+                font-size: 16px;
+            }
+            .icon-iconsjijinfengxiancopy-copy {
+                color: #b38c23;
+            }
+            .icon-iconsjijinfengxian {
+                color: #d0524a;
+            }
+            .icon-iconsjijinfengxiancopy-copy1 {
+                color: #f8d61c;
+            }
+        }
+        p {
+            font-size: 12px;
+            color: #666666;
         }
     }
+}
+.fund__list--item:first-child {
+    margin: 0;
+}
+.fund__details--list {
+    width: 100%;
+    margin: 6px 0 0 0;
+}
+.fund__list--title {
+    line-height: 50px;
+    text-align: center;
 }
 </style>

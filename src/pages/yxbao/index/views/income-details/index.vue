@@ -19,9 +19,26 @@
 
 </template>
 <script>
+import { getBaoCapitalTradeList } from '@/service/finance-server.js'
 export default {
     data() {
         return {}
+    },
+    created() {
+        this.getBaoCapitalTradeList()
+    },
+    methods: {
+        async getBaoCapitalTradeList() {
+            try {
+                const res = await getBaoCapitalTradeList({
+                    currency: 1,
+                    recordType: 3
+                })
+                console.log(res)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        }
     }
 }
 </script>
