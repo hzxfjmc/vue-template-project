@@ -5,7 +5,10 @@
         p 转入成功
     .block__order-status.border-bottom
         p.title 订单状态
-        transferStep
+        transferStep(
+            :stepOne="stepOne"
+            :stepTwo="stepTwo"
+        )
     .block__word--list.border-bottom
         .block__word--item
             p.word-color 转出方式
@@ -15,7 +18,7 @@
             p.num 4999.99港币
 
         .block__word--item
-            p.word-color 转入金额
+            p.word-color 手续费
             p.num 0.01港币
 
     .block__footer--btn
@@ -28,8 +31,19 @@ export default {
     components: {
         transferStep
     },
+    created() {
+        // console.log(this)
+    },
     data() {
         return {
+            stepOne: {
+                label: '提交转出申请成功，可立即购买股票',
+                time: '2020-03-09 12:20:29'
+            },
+            stepTwo: {
+                label: '资金到达证券账户',
+                time: '预计01-07(周三) 10:00前'
+            },
             img: `${window.location.origin}/wealth/yxbao/zhuan-succed.png`
         }
     }

@@ -3,14 +3,14 @@
     .block__status--item
         em.iconfont.icon-icon-checkbox-selected
         .block__status--right
-            p 提交转出申请成功，可立即购买股票
-            p 2020-03-09 12:20:29
+            p {{stepOne.label}}
+            p {{stepOne.time}}
         
     .block__status--item.block__after(v-if="successHide")
         em.iconfont.icon-icon-money
         .block__status--right
-            p 提交转出申请成功，可立即购买股票
-            p 2020-03-09 12:20:29
+            p {{stepTwo.label}}
+            p {{stepTwo.time}}
 </template>
 <script>
 export default {
@@ -18,6 +18,14 @@ export default {
         successHide: {
             type: Boolean,
             default: true
+        },
+        stepOne: {
+            type: Object,
+            default: () => {}
+        },
+        stepTwo: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
