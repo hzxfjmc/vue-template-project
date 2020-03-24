@@ -26,16 +26,16 @@
                     p.bottom(v-if="hidePadShow") {{totalEarnings}}
                     p.bottom(v-else) ****
             .block__yxbao-btn
-                van-button.btn-color-l(@click="jumpPage('transfer-out')") 转出
-                van-button.btn-color-r(@click="jumpPage('transfer-into')") 转入
+                van-button.btn-color-l(@click="jumpPage('transfer-out',1)") 转出
+                van-button.btn-color-r(@click="jumpPage('transfer-into',1)") 转入
     .block__yx-tab
-        .block__list--item
+        .block__list--item(@click="jumpPage('yxzq_goto://deposit',5)")
             em.iconfont.icon-rujin
             span 入金       
-        .block__list--item(@click="jumpPage('income-details')")
+        .block__list--item(@click="jumpPage('income-details',1)")
             em.iconfont.icon-shouru
             span 收益明细        
-        .block__list--item(@click="jumpPage('order-list')")
+        .block__list--item(@click="jumpPage('order-list',1)")
             em.iconfont.icon-zijin
             span 资金记录                
 
@@ -61,6 +61,7 @@ import {
     getFundRecommendList
 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { jumpUrl } from '@/utils/tools.js'
 import fundCard from './fund-card.vue'
 export default {
     components: {
@@ -89,13 +90,16 @@ export default {
     },
     methods: {
         //跳转
-        jumpPage(path) {
-            this.$router.push({
-                name: path,
-                query: {
-                    id: this.fundId
-                }
-            })
+        jumpPage(path, type) {
+            if (type == 1) {
+                return this.$router.push({
+                    name: path,
+                    query: {
+                        id: this.fundId
+                    }
+                })
+            }
+            jumpUrl(type, path)
         },
         async bannerAdvertisement() {
             try {
