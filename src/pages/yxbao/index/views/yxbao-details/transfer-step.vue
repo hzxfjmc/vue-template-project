@@ -6,7 +6,7 @@
             p 提交转出申请成功，可立即购买股票
             p 2020-03-09 12:20:29
         
-    .block__status--item
+    .block__status--item.block__after(v-if="successHide")
         em.iconfont.icon-icon-money
         .block__status--right
             p 提交转出申请成功，可立即购买股票
@@ -14,6 +14,12 @@
 </template>
 <script>
 export default {
+    props: {
+        successHide: {
+            type: Boolean,
+            default: true
+        }
+    },
     data() {
         return {}
     }
@@ -33,10 +39,10 @@ export default {
         margin: 4px 10px 0 0;
         display: inline-block;
     }
-    .block__status--item:last-child {
+    .block__after {
         margin: 46px 0 0 0;
     }
-    .block__status--item:last-child:after {
+    .block__after:after {
         content: '';
         position: absolute;
         height: 56px;

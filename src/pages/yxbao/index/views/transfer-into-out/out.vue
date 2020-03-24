@@ -39,7 +39,7 @@
                 )
             .right
                 p 快速转出
-                p.desc 赎回资金立即到达证券账户，手续费0.08%，每人每日限额10万港币：您今日剩余额度：99,987.00港币
+                p.desc 赎回资金立即到达证券账户，手续费0.08%，每人每日限额10万港币：您今日剩余额度：{{customerRemainderQuota}}港币
     van-button.btn(
         @click="getBaoCapitalTrade"
         :disabled="disabled") 转出
@@ -47,9 +47,9 @@
 </template>
 <script>
 import NumberKeyboard from './number-keyboard'
-import { getBaoCapitalTrade } from '@/service/finance-server.js'
+import { getBaoCapitalTrade, getBaoPostion } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
-import { generateUUID } from '@/utils/tools.js'
+import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 export default {
     components: {
@@ -85,13 +85,28 @@ export default {
             },
             fundTradeInfoVO: {
                 fastRedemptionFee: 0
-            }
+            },
+            customerRemainderQuota: ''
         }
     },
     created() {
+        this.getBaoPostion()
         this.getFundDetail()
     },
     methods: {
+        //获取持仓数据
+        async getBaoPostion() {
+            try {
+                const { customerRemainderQuota } = await getBaoPostion({
+                    currency: 2
+                })
+                this.customerRemainderQuota = transNumToThousandMark(
+                    customerRemainderQuota
+                )
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         handlerAmount(amount) {
             this.amount = amount
         },
