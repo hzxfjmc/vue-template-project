@@ -1139,6 +1139,9 @@ export default {
             }
         },
         async appVisibleHandle(data) {
+            if (this.isLogin) {
+                await this.getFundUserInfo()
+            }
             let re = data
             if (typeof data === 'string') {
                 re = JSON.parse(data)
