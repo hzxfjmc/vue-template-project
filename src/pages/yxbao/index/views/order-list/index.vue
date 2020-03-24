@@ -1,60 +1,364 @@
 <template lang="pug">
-    .block__order--content
-        .block__order--list.border-bottom
-            .block__order--left
-                p.title 普通转出
-                p.color 2019-07-10 15:55:08
-            .block__order--right
-                p.num -10.88
-                p.color 余额 1237.40
-        .block__no-more 没有更多啦
-
+.income-details-content
+    van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad")
+        .block-list(
+            class="border-bottom" 
+            v-for="(item,index) in list" 
+            :key="item.orderNo" 
+            )
+            .block__list--item(@click="toDetailHandle(item)")
+                .block-left 
+                    span.element-fund-name {{item.tradeTypeName}}
+                    span.element-fund-name1 {{$t('fundName')}}
+                    template(v-if="item.tradeType === 1")
+                        span.element-price {{$t('amountMoney')}}
+                    template(v-else)
+                        span.element-price {{$t('share')}}
+                    span.element-time {{$t('time')}}
+                .block-right 
+                    span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.externalName}}
+                    span.msg(class="element-fund-color")(v-if="item.externalStatus == 2") {{item.externalName}}
+                    span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.externalName}}
+                    span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
+                    span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
+                    span.element-time.fund-name {{item.fundBaseInfoVO.fundName}}
+                    template(v-if="item.tradeType === 1")
+                        span.element-price {{item.currency && item.currency.name}} {{item.orderAmount}}
+                    template(v-else)
+                        span.element-price {{item.orderShare |sliceFixedTwo(4)}}
+                    span.element-time {{item.orderTime}}
+            .block__footer(v-if="item.actionInfo && code != 2")
+                .block__footer--left {{item.discribe}}
+                .block__footer--right
+                    van-button(
+                        class="btn" 
+                        :disabled="item.actionInfo.action.rule_detail.most_user === item.actionInfo.group.order_count" 
+                        @click="handlerShareBtn(item)") 邀请拼团
+            .block__footer-hk(v-if="item.actionInfo && code != 1")
+                .block__footer--left 
+                    p {{item.discribe}}
+                .block__footer--right
+                    van-button(
+                        class="btn"
+                        :disabled="item.actionInfo.action.rule_detail.most_user === item.actionInfo.group.order_count"  
+                        @click="handlerShareBtn(item)") {{$t('shareActive')}}
+            share-way(
+                v-model="showShare"
+                @handleShare="handleShare"
+                :title="shareTitle"
+                )
+    .block-element-nomore(v-if="noMoreShow")
+        img.img(src="@/assets/img/fund/icon-norecord.png") 
+        .no-record-box {{$t('nomore')}}
+            
 </template>
 <script>
+import { getBaoCapitalTradeList } from '@/service/finance-server.js'
+import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
+import { List } from 'vant'
+import shareWay from '@/biz-components/share-way/index'
+import { getFundUserInfo } from '@/service/user-server.js'
+import { getSource } from '@/service/customer-relationship-server'
 export default {
+    components: {
+        [List.name]: List,
+        shareWay
+    },
+    i18n: {
+        zhCHS: {
+            shareActive: '分享活动',
+            fundName: '基金名称',
+            amountMoney: '金额',
+            share: '份额',
+            time: '时间',
+            nomore: '暂无订单记录',
+            nomore1: '无更多内容'
+        },
+        zhCHT: {
+            shareActive: '分享活動',
+            fundName: '基金名稱',
+            amountMoney: '金額',
+            share: '份額',
+            time: '時間',
+            nomore: '暫無訂單記錄',
+            nomore1: '無更多內容'
+        },
+        en: {
+            shareActive: 'Share',
+            fundName: 'Fund Name',
+            amountMoney: 'Amount',
+            share: 'Unit',
+            time: 'Time',
+            nomore: 'No Order Record',
+            nomore1: 'No More Content'
+        }
+    },
     data() {
-        return {}
+        return {
+            content: '还差人，赶快邀请好友来拼团把',
+            showShare: false,
+            list: [],
+            code: null,
+            noMoreShow: false,
+            pageSize: 20,
+            pageNum: 1,
+            total: 0,
+            loading: false,
+            finished: false,
+            finishedText: '无更多内容',
+            currency: this.$route.query.currency,
+            orderList: [],
+            bizId: '',
+            groupId: '',
+            userInfo: {},
+            maxNumberPeople: null,
+            shareTitle: '',
+            groupRestUsers: 5,
+            orderNo: '',
+            fundName: '',
+            appType: null
+        }
+    },
+    methods: {
+        //获取用户信息
+        async getFundUserInfo() {
+            try {
+                const res = await getFundUserInfo()
+                this.userInfo = res
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
+            }
+        },
+
+        // 跳转到详情
+        toDetailHandle(item) {
+            let data = {
+                name: 'order-record-detail',
+                query: {
+                    orderNo: item.orderNo,
+                    orderStatus: item.externalStatus,
+                    currencyType: this.$route.query.currency
+                }
+            }
+            this.$router.push(data)
+        },
+        //上拉加载更多
+        onLoad() {
+            if (this.list.length < this.total) {
+                this.pageNum = this.pageNum + 1
+                this.getBaoCapitalTradeList()
+            }
+        },
+        async getBaoCapitalTradeList() {
+            try {
+                const {
+                    list,
+                    pageSize,
+                    pageNum,
+                    total
+                } = await getBaoCapitalTradeList({
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    currency: 2
+                })
+                let arr = []
+                list.map(item => {
+                    item.orderAmount = transNumToThousandMark(item.orderAmount)
+                    item.orderTime = dayjs(item.orderTime).format(
+                        'YYYY-MM-DD HH:mm:ss'
+                    )
+                    let obj = {
+                        biz_id: item.fundBaseInfoVO.fundId,
+                        order_id: item.orderNo,
+                        biz_type: 0
+                    }
+                    arr.push(obj)
+                })
+
+                this.loading = false
+                this.list = this.list.concat(list)
+                this.pageNum = pageNum
+                this.total = total
+                this.pageSize = pageSize
+                this.noMoreShow = this.total == 0
+                if (this.list.length >= this.total) {
+                    this.finished = true
+                }
+                this.finishedText = this.$t('nomore1')
+                this.finishedText = this.total == 0 ? '' : this.finishedText
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
+        //获取用户归属 1大陆 2香港
+        async getSource() {
+            try {
+                const { code } = await getSource()
+                this.code = code
+                if (!this.isLogin) {
+                    this.code = this.appType.Hk ? 2 : 1
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        }
+    },
+    async created() {
+        this.getFundUserInfo()
+        this.getBaoCapitalTradeList()
+        this.getSource()
     }
 }
 </script>
 <style lang="scss" scoped>
-.block__order--content {
-    background: #fff;
-    width: 100%;
+.income-details-content {
+    display: flex;
+    flex-direction: column;
     height: 100%;
-    .block__order--list {
+    -webkit-overflow-scrolling: touch;
+    background: #fff;
+    overflow: hidden;
+    overflow-y: auto;
+    .block-list {
         width: 100%;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        height: 82px;
+        padding: 10px 2%;
+        // display: flex;
         align-items: center;
-        .block__order--left {
-            margin: 0 0 0 12px;
-            .title {
+        .block__list--item {
+            display: flex;
+            flex-direction: row;
+        }
+        .block-left {
+            display: flex;
+            width: 30%;
+            flex-direction: column;
+            span {
+                display: inline-block;
+                line-height: 25px;
+                color: $text-color5;
+            }
+            .element-fund-name {
                 font-size: 16px;
+                font-weight: 400;
+                line-height: 30px;
+                color: $text-color;
             }
         }
-        .block__order--right {
-            margin: 0 12px 0 0;
-            text-align: right;
-            .num {
-                font-size: 18px;
+        .block-right {
+            display: flex;
+            width: 70%;
+            justify-content: flex-end;
+            flex-direction: column;
+            align-items: flex-end;
+            span {
+                display: inline-block;
+                line-height: 25px;
+            }
+            .element-fund-name {
+                line-height: 30px;
+                color: #2177ff;
+            }
+            .element-fund-color {
+                color: #ffba00;
+            }
+            .element-fund-color1 {
+                color: #191919;
+            }
+            .element-fund-color2 {
+                color: #ff7127;
+            }
+            .element-fund-color3 {
+                color: #41ca1e;
+            }
+            .element-time {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 1;
+                opacity: 0.5;
+                overflow: hidden;
+            }
+            .fund-name {
+                width: 100%;
+                text-align: right;
+                text-overflow: ellipsis;
+                overflow: hidden;
+                display: block;
+                white-space: nowrap;
+                opacity: 1;
+                line-height: 25px;
             }
         }
-        p {
-            line-height: 26px;
+        .block__footer {
+            width: 100%;
+            padding: 0 12px;
+            margin: 5px 0 0 0;
+            display: flex;
+            flex-direction: row;
+            height: 60px;
+            background: rgba(234, 61, 61, 0.05);
+            border-radius: 4px;
+            align-items: center;
+            // line-height: 40px;
+            .block__footer--left {
+                color: #191919;
+                display: flex;
+                align-items: center;
+                width: 70%;
+                p {
+                    line-height: 20px;
+                }
+            }
+            .block__footer--right {
+                // height: 36px;
+                .btn {
+                    width: 104px;
+                    line-height: 32px;
+                    height: 36px !important;
+                    background: #ea3d3d;
+                    color: #fff;
+                }
+            }
         }
-        .color {
-            color: rgba(25, 25, 25, 0.65);
+        .block__footer-hk {
+            width: 100%;
+            padding: 0 12px;
+            margin: 5px 0 0 0;
+            display: flex;
+            flex-direction: row;
+            height: 60px;
+            border-radius: 4px;
+            align-items: center;
+            // line-height: 40px;
+            .block__footer--left {
+                color: #ff7127;
+                width: 70%;
+                margin: 0 4px 0 0;
+            }
+            .block__footer--right {
+                // height: 36px;
+                .btn {
+                    width: 104px;
+                    line-height: 32px;
+                    height: 36px !important;
+                    background: #1e93f3;
+                    color: #fff;
+                }
+            }
         }
     }
-    .block__no-more {
-        width: 100%;
-        text-align: center;
-        color: rgba(25, 25, 25, 0.45);
-        line-height: 20px;
-        margin: 20px 0 0 0;
+}
+.block-element-nomore {
+    width: 100%;
+    text-align: center;
+    margin: 150px 0 0 0;
+    img {
+        width: 130px;
+    }
+    .no-record-box {
+        color: rgba(25, 25, 25, 0.5);
+        margin: 10px 0 0 0;
     }
 }
 </style>

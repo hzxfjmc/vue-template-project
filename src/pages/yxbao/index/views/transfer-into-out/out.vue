@@ -7,7 +7,7 @@
             :showAllSellBtn="showAllSellBtn"
             @handlerAmount="handlerAmount"
         )
-        p.desc 预计02-05开始收益
+        p.desc 预计{{fundTradeInfoVO.buySubmit}}开始收益
         .block__list(v-if="!check")
             .block__list--item.common-flex-space-between
                 .block__list--left 手续费(预计)
@@ -41,7 +41,7 @@
                 p 快速转出
                 p.desc 赎回资金立即到达证券账户，手续费0.08%，每人每日限额10万港币：您今日剩余额度：99,987.00港币
     van-button.btn(
-        @getBaoCapitalTrade="getBaoCapitalTrade"
+        @click="getBaoCapitalTrade"
         :disabled="disabled") 转出
 
 </template>
@@ -83,7 +83,9 @@ export default {
                 show: false,
                 desc: '全部转出'
             },
-            fundTradeInfoVO: {}
+            fundTradeInfoVO: {
+                fastRedemptionFee: 0
+            }
         }
     },
     created() {

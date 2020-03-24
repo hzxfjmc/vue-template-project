@@ -21,14 +21,14 @@ export default new Router({
                 import(`@/pages/yxbao/index/views/fund-details/index.vue`)
         },
         {
-            name: 'orderList',
+            name: 'order-list',
             path: '/order-list',
             meta: { title: 'orderList', auth: true, cs: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/order-list/index.vue`)
         },
         {
-            name: 'orderDetails',
+            name: 'order-details',
             path: '/order-details',
             meta: { title: 'orderDetails', auth: true, cs: true },
             component: () =>
@@ -65,7 +65,7 @@ export default new Router({
                 import(`@/pages/yxbao/index/views/transfer-into-out/out.vue`)
         },
         {
-            name: 'incomeDetails',
+            name: 'income-details',
             path: '/income-details',
             meta: { title: 'incomeDetails', auth: true, cs: true },
             component: () =>

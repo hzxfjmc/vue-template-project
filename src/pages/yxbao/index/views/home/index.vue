@@ -32,10 +32,10 @@
         .block__list--item
             em.iconfont.icon-rujin
             span 入金       
-        .block__list--item
+        .block__list--item(@click="jumpPage('income-details')")
             em.iconfont.icon-shouru
             span 收益明细        
-        .block__list--item
+        .block__list--item(@click="jumpPage('order-list')")
             em.iconfont.icon-zijin
             span 资金记录                
 

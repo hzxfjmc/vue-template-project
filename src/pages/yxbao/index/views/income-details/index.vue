@@ -3,38 +3,64 @@
         .block__header--wrapper
             .block__left
                 .top 持仓金额(港币）
-                .bottom.block__amount 2.3456
+                .bottom.block__amount {{positionMarketValue}}
             .block__right
                 .top 累计收益
-                .bottom 110.48
+                .bottom {{totalEarnings}}
         hr
-        .block__order--list.border-bottom
+        .block__order--list.border-bottom(
+            v-for="(item,index) in list")
             .block__order--left
-                p.title 普通转出
+                p.title {{item.recordTypeName}}
                 p.color 2019-07-10 15:55:08
             .block__order--right
-                p.num -10.88
-                p.color 余额 1237.40
+                p.num(v-if="item.recordAmount>0") +{{item.recordAmount}}
+                p.num(v-else-if="item.recordAmount == 0") {{item.recordAmount}}
+                p.num(v-else) -{{item.recordAmount}}
+                p.color 余额 {{item.recordBalance}}
         .block__no-more 没有更多啦
 
 </template>
 <script>
-import { getBaoCapitalTradeList } from '@/service/finance-server.js'
+import {
+    getBaoCapitalTradeList,
+    getBaoPostion
+} from '@/service/finance-server.js'
 export default {
     data() {
-        return {}
+        return {
+            positionMarketValue: '',
+            list: [],
+            totalEarnings: ''
+        }
     },
     created() {
         this.getBaoCapitalTradeList()
+        this.getBaoPostion()
     },
     methods: {
+        //获取持仓数据
+        async getBaoPostion() {
+            try {
+                const {
+                    positionMarketValue,
+                    totalEarnings
+                } = await getBaoPostion({
+                    currency: 2
+                })
+                this.positionMarketValue = positionMarketValue
+                this.totalEarnings = totalEarnings
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         async getBaoCapitalTradeList() {
             try {
                 const res = await getBaoCapitalTradeList({
                     currency: 2,
                     recordType: 1
                 })
-                console.log(res)
+                this.list = res
             } catch (e) {
                 this.$toast(e.msg)
             }

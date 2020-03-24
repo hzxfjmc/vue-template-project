@@ -7,15 +7,14 @@
             @handlerAmount="handlerAmount"
         )
         p.desc 预计02-05开始收益
-       
-
+    
     .block__out--title.common-flex-space-between.common-marge-top
         p.title 转出方式
         .tips 
             p.tips--top uSMART证券账户
             p.tips--bottom 可用余额：单笔{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}港币
     van-button.btn(
-        @getBaoCapitalTrade="getBaoCapitalTrade"
+        @click="getBaoCapitalTrade"
         :disabled="disabled") 转入
 
 </template>
@@ -74,6 +73,9 @@ export default {
                     recordType: 1,
                     requestId: generateUUID(),
                     tradeToken: data.token
+                })
+                this.$router.push({
+                    name: 'order-details'
                 })
             } catch (error) {
                 if (error.desc.errorMessage)
