@@ -1,7 +1,9 @@
-.van-dialog__message {
-    text-align: justify !important;
-}
 
+.text-align-justify .van-dialog__message {
+    text-align: justify;
+    white-space:pre-line;
+    display: block;
+}
 .funds-details-header {
     background: $background-color;
     display: flex;

@@ -154,6 +154,7 @@ export default {
                     : this.$t('contentHk')
             this.$alert({
                 message: contentMessage,
+                className: 'text-align-justify',
                 confirmButtonText: this.$t('iknow'),
                 confirmButtonColor: '#0D50D8'
             })
