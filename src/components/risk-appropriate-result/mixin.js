@@ -1,6 +1,6 @@
 import { Checkbox, Button } from 'vant'
 import YxContainerBetter from '@/components/yx-container-better'
-import { riskAssessResult, getCurrentUser } from '@/service/user-server.js'
+import { riskAssessResult, getFundUserInfo } from '@/service/user-server.js'
 import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
@@ -13,6 +13,13 @@ export default {
         [Button.name]: Button
     },
     computed: {
+        allowSubscribeShow() {
+            return (
+                this.userInfo.damagedStatus != 1 &&
+                this.fundOverviewInfoVO.derivativeType === 1 &&
+                this.userInfo.assessResult
+            )
+        },
         resetTimes() {
             return {
                 zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
@@ -40,7 +47,7 @@ export default {
             this.handleGetBondDetail()
             this.fundType = 1
         }
-        this.getCurrentUser()
+        this.getFundUserInfo()
         this.handleSetupResult()
     },
     data() {
@@ -55,13 +62,16 @@ export default {
             fundRiskTypeLevel: this.$route.query.fundRiskType || 100,
             // btnText: '',
             isShowPage: false,
+            allowSubscribe: false,
+            fundOverviewInfoVO: {},
             userInfo: '',
             fundCode: '',
             number: 0, //剩余测评次数
             showRemainingNum: false, //剩余次数弹窗
             resetTime: '', //重置时间
             fundType: 0, //0基金1债券
-            damagedStatus: 0 //是否为易受损用户
+            damagedStatus: 0, //是否为易受损用户
+            fundHeaderInfoVO: {}
         }
     },
     methods: {
@@ -113,6 +123,61 @@ export default {
                 console.log('riskAssessResult:error:>>>', e)
             }
         },
+        //去申购页面
+        async toSubscribePage() {
+            let riskTipContent = this.$t([
+                `该产品为${this.fundHeaderInfoVO.fundRisk}（R${
+                    this.fundHeaderInfoVO.fundRiskType
+                }），超出您当前的风险承受能力${
+                    this.$t('resultList')[this.userInfo.assessResult].riskStyle
+                }（A${
+                    this.userInfo.assessResult
+                }）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
+                `該產品為${this.fundHeaderInfoVO.fundRisk}（R${
+                    this.fundHeaderInfoVO.fundRiskType
+                }），超出您當前的風險承受能力${
+                    this.$t('resultList')[this.userInfo.assessResult].riskStyle
+                }（A${
+                    this.userInfo.assessResult
+                }）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
+                `The risk level of this product is R${
+                    this.fundHeaderInfoVO.fundRiskType
+                }(${
+                    this.fundHeaderInfoVO.fundRisk
+                }), which exceeds your current risk tolerance is A${
+                    this.userInfo.assessResult
+                }(${
+                    this.$t('resultList')[this.userInfo.assessResult].riskStyle
+                }). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
+            ])
+            try {
+                await this.$confirm({
+                    title: this.$t('riskTip'),
+                    message: riskTipContent,
+                    confirmButtonText: this.$t('continueButton'),
+                    cancelButtonText: this.$t('cancelButton'),
+                    confirmButtonColor: '#0D50D8',
+                    cancelButtonColor: '#D1D1D1'
+                })
+                let data = {
+                    query: {
+                        id: this.$route.query.id,
+                        currencyType: this.$route.query.currencyType,
+                        assessResult:
+                            this.userInfo && this.userInfo.assessResult,
+                        fundCode: this.fundCode
+                    }
+                }
+                data.path =
+                    (this.userInfo.extendStatusBit & 16) > 0
+                        ? '/fund-subscribe'
+                        : '/open-permissions'
+                this.$router.push(data)
+            } catch (e) {
+                console.log(e)
+                return
+            }
+        },
         // 获取债券信息
         async handleGetBondDetail() {
             try {
@@ -135,6 +200,8 @@ export default {
                 fundId: this.$route.query.id
             })
             this.fundType = 0
+            this.fundOverviewInfoVO = res.fundOverviewInfoVO
+            this.fundHeaderInfoVO = res.fundHeaderInfoVO
             this.fundRiskTypeLevel = `${res.fundHeaderInfoVO.fundRisk}(R${res.fundHeaderInfoVO.fundRiskType})`
             this.bondRiskLevel = `${res.fundHeaderInfoVO.fundRiskType}`
         },
@@ -187,14 +254,13 @@ export default {
             }
         },
         //获取用户信息
-        async getCurrentUser() {
+        async getFundUserInfo() {
             try {
-                const res = await getCurrentUser()
+                const res = await getFundUserInfo()
                 this.userInfo = res
-                console.log(res)
-                console.log(this.userInfo)
             } catch (e) {
-                console.log('getCurrentUser:error:>>>', e)
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
             }
         },
         // 开始测评或拨打客服电话
