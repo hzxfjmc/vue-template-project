@@ -33,7 +33,7 @@
                                 span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
                                 span {{item.value}}
-                    span.block__fund-tip(v-if="tipShow") {{tips}}
+                    span.block__fund-tip {{tips}}
                         em.block__fund--button(
                             v-if="tipShow" 
                             @click="toExchangePage") {{Exchange}}
@@ -681,7 +681,8 @@ export default {
                         '请输入申购金额',
                         '請輸入申購金額',
                         'Please Enter The Purchase Amount'
-                    ])
+                    ]),
+                    'middle'
                 )
             }
             if (

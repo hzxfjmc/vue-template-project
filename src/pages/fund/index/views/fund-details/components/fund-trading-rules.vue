@@ -28,6 +28,7 @@
 </template>
 <script>
 import FundSteps from '@/biz-components/fond-steps'
+import { getUaValue } from '@/utils/html-utils'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 
 export default {
@@ -104,7 +105,8 @@ export default {
     },
     methods: {
         tofundTrade() {
-            let url = `${window.location.origin}/wealth/fund/index.html#/trade-rule?id=${this.fundTradeInfoVO.fundId}&assetType=${this.fundTradeInfoVO.assetType}`
+            let params = getUaValue('langType')
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/trade-rule?id=${this.fundTradeInfoVO.fundId}&assetType=${this.fundTradeInfoVO.assetType}`
             jumpUrl(3, url)
         }
     }

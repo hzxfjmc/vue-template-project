@@ -18,5 +18,35 @@ export const zhCHT = {
     fundAccount: '基金持倉',
     fundHistorical: '淨值歷史',
     fundHistoricalList: '歷史業績',
-    declareTitle: '免責聲明/風險披露'
+    declareTitle: '免責聲明/風險披露',
+    riskTip: '風險提示',
+    continueButton: '繼續操作',
+    cancelButton: '取消',
+    resultList: {
+        1: {
+            registration: 'A1',
+            riskStyle: '保守型',
+            suitPro: '低風險產品'
+        },
+        2: {
+            registration: 'A2',
+            riskStyle: '穩健型',
+            suitPro: '中低風險產品'
+        },
+        3: {
+            registration: 'A3',
+            riskStyle: '均衡型',
+            suitPro: '中風險產品'
+        },
+        4: {
+            registration: 'A4',
+            riskStyle: '增長型',
+            suitPro: '中高風險產品'
+        },
+        5: {
+            registration: 'A5',
+            riskStyle: '進取型',
+            suitPro: '高風險產品'
+        }
+    }
 }

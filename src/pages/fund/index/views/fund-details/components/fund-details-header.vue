@@ -26,12 +26,12 @@
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
             img(v-if="isMonetaryFund" src="@/assets/img/fund/tip.png" class="tipWarning" @click="yieldInLast7dClick")
             p(
-                v-if="fundHeaderInfoVO.apy >0" 
-                :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
+                v-if="apy >0" 
+                :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{apy}}%
             p(
-                v-else-if="fundHeaderInfoVO.apy<0" 
-                :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{fundHeaderInfoVO.apy}}%
-            p(v-else) {{fundHeaderInfoVO.apy}}%
+                v-else-if="apy<0" 
+                :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{apy}}%
+            p(v-else) {{apy}}%
         .header-right
             span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $t('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
@@ -55,6 +55,7 @@
 <script>
 import dayjs from 'dayjs'
 import { Tag } from 'vant'
+import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     components: {
@@ -115,7 +116,7 @@ export default {
             purchase: 'Min. Subs. Amount',
             pirchaseHk: 'Min. Subs. Amount',
             update: 'Update Time',
-            iknow: 'I get it',
+            iknow: 'Got it',
             content:
                 'This SFC authorized open-ended fund to be purchased is a derivative product and a complex product. Please note that investment in such products may cause huge losses, which might be greater than the original investment amount. Please cautiously evaluate your own risk appetite and risk tolerance prior to subscription. The SFC authorization does not imply official recommendation, or that SFC authorization is not a recommendation or endorsement of a product nor does it guarantee the commercial merits of a product or its performance.\nClicking on the operation will be deemed as voluntarily bearing the risks and losses of the product, and uSMART has made no recommendation of this product.\nIf you do not have knowledge of derivatives or other complex investments, please note that there may be risks and losses that you cannot understand when purchasing such products. Please evaluate your actual situation, risk tolerance, and risk appetite prior to making any investments, please be prudent and wise.',
             contentHk:
@@ -158,9 +159,11 @@ export default {
                 this.fundHeaderInfoVO.code === 1
                     ? this.$t('content')
                     : this.$t('contentHk')
-            this.$dialog.alert({
+            this.$alert({
                 message: contentMessage,
-                confirmButtonText: this.$t('iknow')
+                className: 'text-align-justify',
+                confirmButtonText: this.$t('iknow'),
+                confirmButtonColor: '#0D50D8'
             })
         },
         yieldInLast7dClick() {
@@ -179,156 +182,23 @@ export default {
         },
         isMonetaryFund() {
             return Number(this.fundHeaderInfoVO.assetType) === 4 // 货币型基金
+        },
+        apy() {
+            const func =
+                this.fundHeaderInfoVO.apy && this.fundHeaderInfoVO.apy > 0
+                    ? Math.floor
+                    : Math.ceil
+            let apyNum =
+                this.fundHeaderInfoVO.assetType === 4
+                    ? (
+                          func((this.fundHeaderInfoVO.apy - 0) * 1000000) /
+                          10000
+                      ).toFixed(4)
+                    : (
+                          func((this.fundHeaderInfoVO.apy - 0) * 10000) / 100
+                      ).toFixed(2)
+            return this.fundHeaderInfoVO && apyNum
         }
-        // tagShow() {
-        //     return this.fundHeaderInfoVO.derivativeType !== 1
-        // },
-        // tag1Show() {
-        //     return this.fundHeaderInfoVO.derivativeType !== 3
-        // }
     }
 }
 </script>
-<style lang="scss" scoped>
-.funds-details-header {
-    background: $background-color;
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    min-height: 174px;
-    background: #fff;
-    .fund-details-header-top {
-        width: 100%;
-        padding: 10px;
-        background: #fbfcfe;
-        position: relative;
-        .block__right--tag {
-            position: absolute;
-            width: 86px;
-            height: 38px;
-            border-top-left-radius: 32px;
-            border-bottom-left-radius: 32px;
-            border: 1px solid #edc92c;
-            border-right: none;
-            line-height: 32px;
-            display: flex;
-            align-items: center;
-            bottom: 14px;
-            right: 0;
-            .iconfont {
-                color: #edc92c;
-                margin: 0 0 0 10px;
-            }
-            .block__tag--right {
-                font-size: 9px;
-                font-weight: 400;
-                color: rgba(153, 153, 153, 1);
-                p {
-                    line-height: 16px;
-                    margin: 0 0 0 2px;
-                }
-            }
-        }
-    }
-    h3 {
-        font-size: 0.32rem;
-        color: $text-color;
-        margin: 10px 0 3px 0;
-        float: left;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-    }
-    .funds-details-subtitle {
-        color: $text-color3;
-        width: 100%;
-        display: flex;
-        font-size: 0.24rem;
-    }
-    .block-left {
-        display: flex;
-        .fund_tag {
-            margin: 0 8px 0 0;
-            display: flex;
-            flex-direction: row;
-            span {
-                font-size: 10px;
-                line-height: 25px;
-                color: #666666;
-            }
-        }
-        .iconfont {
-            font-size: 16px;
-        }
-        .icon-iconsjijinfengxiancopy-copy {
-            color: #b38c23;
-        }
-        .icon-iconsjijinfengxian {
-            color: #d0524a;
-        }
-        .icon-iconsjijinfengxiancopy-copy1 {
-            color: #f8d61c;
-        }
-    }
-    .funds-details-number {
-        width: 100%;
-        padding: 10px 10px 20px 10px;
-        background: #fff;
-        display: flex;
-        flex-direction: row;
-        .header-left,
-        .header-right {
-            p {
-                font-size: 0.56rem;
-                font-weight: 500;
-                font-family: yxFontDINPro-Medium;
-            }
-            .number-red {
-                color: rgba(234, 61, 61, 1);
-            }
-            .number-green {
-                color: #04ba60;
-            }
-            .number-black {
-                color: $text-color;
-            }
-            span {
-                color: $text-color5;
-                font-size: 0.24rem;
-            }
-        }
-        .header-left {
-            margin: 0 40px 0 0;
-            .tipWarning {
-                width: 20px;
-                height: 20px;
-                padding: 3px;
-            }
-        }
-    }
-    .funds-details-footer {
-        width: 100%;
-        background: #fff;
-        display: flex;
-        flex-direction: row;
-        padding: 10px;
-        font-size: 11px;
-        color: $text-color5;
-        .block__details--left {
-            width: 50%;
-        }
-        .number-red {
-            color: rgba(234, 61, 61, 1);
-        }
-        .number-green {
-            color: #04ba60;
-        }
-        .block__details--right {
-            width: 50%;
-            text-align: right;
-        }
-    }
-}
-</style>
