@@ -83,10 +83,10 @@ export default {
         }
     },
     async created() {
-        this.getBaoPostion()
-        this.bannerAdvertisement()
         await this.getBaoFundInfo()
+        this.getBaoPostion()
         this.getFundRecommendList()
+        this.bannerAdvertisement()
     },
     methods: {
         //跳转
@@ -151,16 +151,12 @@ export default {
         //获取友信宝详情
         async getBaoFundInfo() {
             try {
-                const {
-                    sevenDaysApy,
-                    tenThousandApy,
-                    fundId
-                } = await getBaoFundInfo({
+                const res = await getBaoFundInfo({
                     currency: 2
                 })
-                this.fundId = fundId
-                this.tenThousandApy = tenThousandApy
-                this.sevenDaysApy = (sevenDaysApy * 100).toFixed(4)
+                this.fundId = res.fundId
+                this.tenThousandApy = res.tenThousandApy
+                this.sevenDaysApy = (res.sevenDaysApy * 100).toFixed(4)
             } catch (e) {
                 this.$toast(e.msg)
             }

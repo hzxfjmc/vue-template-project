@@ -6,16 +6,30 @@
     .block__order-status.border-bottom
         p.title 订单状态
         transferStep(
+            v-if="intoShow"
+            :stepOne="intoStepOne"
+            :stepTwo="intoStepTwo"
+        )
+        transferStep(
+            v-else
             :stepOne="stepOne"
             :stepTwo="stepTwo"
         )
-    .block__word--list.border-bottom
+    .block__word--list.border-bottom(v-if="intoShow")
         .block__word--item
-            p.word-color 转出方式
-            p 普通转出
+            p.word-color 扣款方式
+            p uSMART证券账户
         .block__word--item
             p.word-color 转入金额
-            p.num 4999.99港币
+            p.num {{orderDetails.recordAmount}}港币
+
+    .block__word--list.border-bottom(v-else)
+        .block__word--item
+            p.word-color 转出方式
+            p {{orderDetails.recordTypeName}}
+        .block__word--item
+            p.word-color 转入金额
+            p.num {{orderDetails.recordAmount}}港币
 
         .block__word--item
             p.word-color 手续费
@@ -27,22 +41,51 @@
 </template>
 <script>
 import transferStep from './transfer-step'
+import dayjs from 'dayjs'
 export default {
     components: {
         transferStep
     },
     created() {
-        // console.log(this)
+        this.orderDetails = this.$route.params.data
+        //转入
+        if (this.orderDetails.recordType === 1) {
+            this.intoStepOne.time = dayjs(this.orderDetails.createTime).format(
+                'YYYY-MM-DD'
+            )
+            this.intoStepTwo.time = `预计${dayjs(
+                this.orderDetails.deliveryDate
+            ).format('MM-DD')}`
+        }
+        //转出
+        if (this.orderDetails.recordType === 2) {
+            this.intoStepOne.time = dayjs(this.orderDetails.createTime).format(
+                'YYYY-MM-DD'
+            )
+            this.intoStepTwo.time = `预计${dayjs(
+                this.orderDetails.deliveryDate
+            ).format('MM-DD')}`
+        }
     },
     data() {
         return {
+            intoShow: true,
+            orderDetails: {},
             stepOne: {
                 label: '提交转出申请成功，可立即购买股票',
-                time: '2020-03-09 12:20:29'
+                time: ''
             },
             stepTwo: {
                 label: '资金到达证券账户',
-                time: '预计01-07(周三) 10:00前'
+                time: ''
+            },
+            intoStepOne: {
+                label: '转入',
+                time: ''
+            },
+            intoStepTwo: {
+                label: '开始查看收益',
+                time: ''
             },
             img: `${window.location.origin}/wealth/yxbao/zhuan-succed.png`
         }

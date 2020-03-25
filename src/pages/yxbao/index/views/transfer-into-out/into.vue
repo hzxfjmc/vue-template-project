@@ -41,6 +41,7 @@ export default {
         }
     },
     created() {
+        console.log(this.$route.query.id)
         this.handleHsAccountInfo()
     },
     methods: {
@@ -66,16 +67,17 @@ export default {
                     this.getBaoCapitalTrade()
                     return
                 }
-                await getBaoCapitalTrade({
+                const res = await getBaoCapitalTrade({
                     amount: this.amount,
                     chargeType: this.chargeType,
-                    fundId: this.$route.query.id,
+                    fundId: 58,
                     recordType: 1,
                     requestId: generateUUID(),
                     tradeToken: data.token
                 })
                 this.$router.push({
-                    name: 'order-details'
+                    name: 'order-details',
+                    params: { data: res }
                 })
             } catch (error) {
                 if (error.desc.errorMessage)

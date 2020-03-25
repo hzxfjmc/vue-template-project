@@ -134,13 +134,17 @@ export default {
                     return
                 }
                 let outType = this.check ? 1 : 2
-                await getBaoCapitalTrade({
+                const res = await getBaoCapitalTrade({
                     amount: this.amount,
-                    fundId: this.$route.query.id,
+                    fundId: 58,
                     outType: outType,
-                    recordType: 1,
+                    recordType: 2,
                     requestId: generateUUID(),
                     tradeToken: data.token
+                })
+                this.$router.push({
+                    name: 'order-details',
+                    params: { data: res }
                 })
             } catch (error) {
                 if (error.desc.errorMessage)
