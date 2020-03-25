@@ -44,7 +44,7 @@ export default {
     em {
         width: 15px;
         color: #2f79ff;
-        margin: 4px 10px 0 0;
+        margin: 0px 10px 0 0;
         display: inline-block;
     }
     .block__after {

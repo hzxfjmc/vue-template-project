@@ -1,27 +1,88 @@
 <template lang="pug">
 .block__account--details
     .block__account--header.border-bottom
-        p.title 普通转出
-        p.num 2000000
+        p.title {{orderDetails.recordTypeName}}
+        p.num {{orderDetails.recordAmount}}
             em.money 港币
-    .block__account--list.border-bottom
+    .block__account--list.border-bottom(v-if="!successHide")
         .block__account--item
             p 手续费
-            p 0.01港币
+            p {{orderDetails.recordFee}}港币
         .block__account--item
             p 实际到账
-            p 49999.00港币
+            p {{orderDetails.recordAmount}}港币
     .block__status--step
-        transferStep
+        transferStep(
+            v-if="intoShow"
+            :stepOne="intoStepOne"
+            :stepTwo="intoStepTwo"
+            )
+        transferStep(
+            v-else
+            :stepOne="stepOne"
+            :successHide="successHide"
+            :stepTwo="stepTwo"
+            )
 </template>
 <script>
 import transferStep from './transfer-step'
+import dayjs from 'dayjs'
 export default {
     components: {
         transferStep
     },
     data() {
-        return {}
+        return {
+            intoShow: true,
+            successHide: true,
+            orderDetails: {},
+            stepOne: {
+                label: '提交转出申请成功，可立即购买股票',
+                time: ''
+            },
+            stepTwo: {
+                label: '资金到达证券账户',
+                time: ''
+            },
+            intoStepOne: {
+                label: '转入',
+                time: ''
+            },
+            intoStepTwo: {
+                label: '开始查看收益',
+                time: ''
+            }
+        }
+    },
+    created() {
+        this.InitState()
+    },
+    methods: {
+        InitState() {
+            this.orderDetails = this.$route.params.data
+            //转入
+            if (this.orderDetails.recordType === 1) {
+                this.intoStepOne.time = dayjs(
+                    this.orderDetails.createTime
+                ).format('YYYY-MM-DD hh:mm:ss')
+                this.intoStepTwo.time = `预计${dayjs(
+                    this.orderDetails.deliveryDate
+                ).format('MM-DD')}`
+            }
+            //转出
+            if (this.orderDetails.recordType === 2) {
+                this.intoShow = false
+                if (this.orderDetails.outType == 2) {
+                    this.successHide = false
+                }
+                this.stepOne.time = dayjs(this.orderDetails.createTime).format(
+                    'YYYY-MM-DD hh:mm:ss'
+                )
+                this.stepTwo.time = `预计${dayjs(
+                    this.orderDetails.deliveryDate
+                ).format('MM-DD')}`
+            }
+        }
     }
 }
 </script>

@@ -35,7 +35,7 @@ export default new Router({
                 import(`@/pages/yxbao/index/views/yxbao-details/index.vue`)
         },
         {
-            name: 'accountDetails',
+            name: 'account-details',
             path: '/account-details',
             meta: { title: 'accountDetails', auth: true, cs: true },
             component: () =>

@@ -86,7 +86,6 @@ export default {
                 console.log('申购页面-tradeErrorMsg :', error)
             }
         }
-        //转入
     }
 }
 </script>

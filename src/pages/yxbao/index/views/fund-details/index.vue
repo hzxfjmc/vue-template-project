@@ -43,7 +43,6 @@
 <script>
 import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
-import fundDetailsList from './components/fund-details-list'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
@@ -260,7 +259,6 @@ export default {
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
-        fundDetailsList,
         Button,
         Dialog,
         CountDown,
@@ -290,15 +288,8 @@ export default {
     },
     data() {
         return {
-            swipeShow: false,
-            shareHeaderShow: true,
-            figthComeShow: false,
-            figthBtnShow: true,
-            fightShow: true,
-            contentmsg: '',
             time: 30 * 60 * 60 * 1000,
             code: null,
-            has_joined: true,
             tagsShow: false,
             tagShow: false,
             tabObj: {
@@ -331,10 +322,6 @@ export default {
             revenue: '',
             step: 0,
             forbidPrompt: '',
-            actionInfo: {},
-            orderList: [],
-            actionId: '',
-            userList: [],
             timeList: {
                 oneWeek: {
                     label: '近一周',
