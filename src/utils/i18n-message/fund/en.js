@@ -17,5 +17,6 @@ export const en = {
     fundOrderList: 'Order Records',
     fundAccount: 'My Funds',
     fundHistorical: 'NAV History',
-    fundHistoricalList: 'Historical Rtn'
+    fundHistoricalList: 'Historical Rtn',
+    declareTitle: 'Disclaimer/Risk Disclosure'
 }

@@ -162,6 +162,15 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fund-historical-list/index.vue`
                 )
+        },
+        {
+            name: 'declare-agreement',
+            path: '/declare-agreement',
+            meta: { title: 'declareTitle', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fund-index/declare-agreement.vue`
+                )
         }
     ]
 })

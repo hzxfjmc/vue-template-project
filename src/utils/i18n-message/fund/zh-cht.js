@@ -17,5 +17,6 @@ export const zhCHT = {
     fundOrderList: '訂單記錄',
     fundAccount: '基金持倉',
     fundHistorical: '淨值歷史',
-    fundHistoricalList: '歷史業績'
+    fundHistoricalList: '歷史業績',
+    declareTitle: '免責聲明/風險披露'
 }
