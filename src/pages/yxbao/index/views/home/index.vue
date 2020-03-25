@@ -6,11 +6,11 @@
                 em.iconfont(
                     @click="changeHidePadShow"
                     :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
-            .block__yxbao--num.block__amount(v-if="hidePadShow") {{positionMarketValue}}
+            .block__yxbao--num.block__amount(v-if="hidePadShow") {{positionMarketValue|transNumToThousandMark}}
             .block__yxbao--num(v-else) ****
             .block__yxbao--numtip 
                 p 昨日收益 
-                    em.num(v-if="hidePadShow") {{yesterdayEarnings}}
+                    em.num(v-if="hidePadShow") {{yesterdayEarnings|transNumToThousandMark}}
                     em.num(v-else) ****
                     em 元
             .block__yxbao--list
@@ -61,13 +61,18 @@ import {
     getFundRecommendList
 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
-import { jumpUrl } from '@/utils/tools.js'
+import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import fundCard from './fund-card.vue'
 export default {
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
         fundCard
+    },
+    filters: {
+        transNumToThousandMark(value) {
+            return transNumToThousandMark(value)
+        }
     },
     data() {
         return {
