@@ -52,7 +52,8 @@
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
         .fund___list--p
-            p {{$t('msg')}}
+            p {{$t('msg1')}}
+            p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
             van-button.button-5width.button-left.btn(
@@ -213,8 +214,10 @@ export default {
                 fiveYear: '近五年',
                 all: '成立来'
             },
-            msg:
-                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
+            msg1:
+                '*本页面资料来源于基金管理公司、基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。',
+            msg2:
+                '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
             Subscribenow: '立即认购'
         },
@@ -245,8 +248,10 @@ export default {
                 fiveYear: '近五年',
                 all: '成立来'
             },
-            msg:
-                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎',
+            msg1:
+                '*本頁面資料來源於基金管理公司、基金服務提供供應商。所有數據截至最新淨值日期（除特殊標註外）,友信對基金的業績表現計算是按該時期的資產淨值、相關類別貨幣計算。如有未顯示年度/時期的表現，則指該年度/時期未有足夠資料計算。',
+            msg2:
+                '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
             Subscribenow: '立即認購'
         },
@@ -278,8 +283,10 @@ export default {
                 fiveYear: 'Last 5-Year',
                 all: 'Since Inception'
             },
-            msg:
-                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.',
+            msg1:
+                "* The information on this page comes from fund management companies and fund service providers. All data are up to the date of the latest net worth (unless otherwise specified). uSMART calculates the fund's performance on a NAV-to-NAV basis in the relevant share class currency. Whenever there is no past performance shown, no sufficient data available in that year to calculate performance.",
+            msg2:
+                'The relevant data is for reference only. This page is not a legal document. Please carefully read the fund’s prospectus before investing. Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
             Subscribenow: 'Subscribe now'
@@ -1318,6 +1325,7 @@ export default {
         line-height: 17px;
         text-align: justify;
         color: #999999;
+        margin-bottom: 10px;
     }
 }
 .fund-footer-hk {

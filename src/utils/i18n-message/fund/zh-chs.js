@@ -18,6 +18,7 @@ export const zhCHS = {
     fundAccount: '基金持仓',
     fundHistorical: '净值历史',
     fundHistoricalList: '历史业绩',
+    declareTitle: '免责声明/风险披露',
     riskTip: '风险提示',
     continueButton: '继续操作',
     cancelButton: '取消',

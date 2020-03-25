@@ -18,6 +18,7 @@ export const en = {
     fundAccount: 'My Funds',
     fundHistorical: 'NAV History',
     fundHistoricalList: 'Historical Rtn',
+    declareTitle: 'Disclaimer/Risk Disclosure',
     riskTip: 'Risk Tip',
     continueButton: 'Continue',
     cancelButton: 'Cancel',

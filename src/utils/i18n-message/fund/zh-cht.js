@@ -18,6 +18,7 @@ export const zhCHT = {
     fundAccount: '基金持倉',
     fundHistorical: '淨值歷史',
     fundHistoricalList: '歷史業績',
+    declareTitle: '免責聲明/風險披露',
     riskTip: '風險提示',
     continueButton: '繼續操作',
     cancelButton: '取消',
