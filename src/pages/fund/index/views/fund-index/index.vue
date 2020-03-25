@@ -508,10 +508,8 @@ export default {
             }
         },
         toDeclareAgreement() {
-            console.log(window.location.origin)
-            window.location.href =
-                window.location.origin +
-                '/wealth/fund/index.html#/declare-agreement'
+            let url = `${window.location.origin}/wealth/fund/index.html#/declare-agreement`
+            this.openWebView(url)
         }
     },
     async created() {
