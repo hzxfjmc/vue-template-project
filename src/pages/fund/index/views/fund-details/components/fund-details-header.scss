@@ -114,6 +114,11 @@
         }
         .header-left {
             margin: 0 40px 0 0;
+            .tipWarning {
+                width: 20px;
+                height: 20px;
+                padding: 3px;
+            }
         }
     }
     .funds-details-footer {
