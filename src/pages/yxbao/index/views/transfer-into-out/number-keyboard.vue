@@ -3,10 +3,10 @@
     .block__out--wrapper.border-bottom(@touchstart.stop="showNumberKeyboard")
         span.label HKD
         span.block__tip--number {{unit}}
-        span.number-board(
+        div.number-board(
             v-if="show"
             :class="[amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
-        span.number-board(
+        div.number-board(
             v-else
             :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
         span.block__all--out(v-if="showAllSellBtn.show") 全部转出
@@ -38,7 +38,7 @@ export default {
         },
         placeholder: {
             type: String,
-            default: ''
+            default: '请输入'
         }
     },
     watch: {
@@ -154,15 +154,14 @@ export default {
     }
     .number1 {
         margin: 0 10px;
-        // font-size: 14px;
         font-family: 'yxFontDINPro-Medium';
         font-size: 24px;
     }
     .word1 {
         margin: 0 10px 0 20px;
         font-size: 14px;
-        font-size: 16px;
         color: #d1d1d1;
+        display: block;
     }
     .number {
         font-family: 'yxFontDINPro-Medium';
@@ -185,6 +184,7 @@ export default {
     .word {
         margin: 0 10px 0 20px;
         font-size: 14px;
+        height: 20px;
         color: #d1d1d1;
         position: relative;
         &:after {

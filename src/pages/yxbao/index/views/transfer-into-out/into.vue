@@ -21,6 +21,7 @@
 <script>
 import NumberKeyboard from './number-keyboard'
 import { getBaoCapitalTrade } from '@/service/finance-server.js'
+import { getFundDetail } from '@/service/finance-info-server.js'
 import { generateUUID } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -36,26 +37,40 @@ export default {
     data() {
         return {
             amount: '',
-            placeholder: '请输入金额',
+            placeholder: '',
             chargeType: 1,
             accountInfo: {}
         }
     },
     created() {
-        console.log(this.$route.query.id)
         this.handleHsAccountInfo()
+        this.getFundDetail()
     },
     methods: {
         handlerAmount(amount) {
             this.amount = amount
+        },
+        //获取基金详情
+        async getFundDetail() {
+            try {
+                this.fundCorrelationFileList = []
+                const res = await getFundDetail({
+                    displayLocation: 3,
+                    fundId: this.$route.query.id || this.id,
+                    isin: this.$route.query.isin
+                })
+                console.log(res)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         },
         // 获取用户恒生资金账户信息
         async handleHsAccountInfo() {
             try {
                 let data = await hsAccountInfo(1)
                 this.accountInfo = data || {}
+                this.placeholder = `最低转入金额`
             } catch (error) {
-                this.placeholder = '最低1元申购'
                 this.$toast(error.msg)
                 console.log('hsAccountInfo:error:>>>', error)
             }

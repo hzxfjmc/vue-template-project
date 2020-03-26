@@ -25,7 +25,6 @@ export default {
                     userInfo.assessResult &&
                     !vm.$route.query.notFirstSubmit
                 ) {
-                    console.log(userInfo.assessResult)
                     window.location.replace(
                         location.origin +
                             '/wealth/fund/index.html#/risk-assessment-result'

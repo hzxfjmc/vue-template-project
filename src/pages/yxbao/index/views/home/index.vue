@@ -16,11 +16,11 @@
             .block__yxbao--list
                 .block__yxbao--item(@click="toYxbaoPage")
                     p.top {{$t('Rtn')}} 
-                    p.bottom(v-if="hidePadShow") {{tenThousandApy}}
+                    p.bottom(v-if="hidePadShow") {{tenThousandApy|transNumToThousandMark}}
                     p.bottom(v-else) ****
                 .block__yxbao--item(@click="toYxbaoPage")
                     p.top {{$t('Yield')}} 
-                    p.bottom {{sevenDaysApy}}
+                    p.bottom {{sevenDaysApy|| '0.00'}}
                 .block__yxbao--item
                     p.top {{$t('TotalRtn')}} 
                     p.bottom(v-if="hidePadShow") {{totalEarnings|transNumToThousandMark}}
@@ -63,6 +63,8 @@ import {
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import fundCard from './fund-card.vue'
+import { mapGetters } from 'vuex'
+import jsBridge from '@/utils/js-bridge'
 export default {
     components: {
         [Swipe.name]: Swipe,
@@ -79,7 +81,11 @@ export default {
             Redemption: '转出',
             Subscribe: '转入',
             ReturnDetails: '收益明细',
-            Return: '收益'
+            Return: '收益',
+            login: '请登录后进行操作 ',
+            loginBtn: '立即登录',
+            openAccountBtn: '立即开户',
+            openAccount: '您尚未开户，开户成功即可交易'
         },
         zhCHT: {
             total: '持有資產（港幣）',
@@ -90,7 +96,11 @@ export default {
             Redemption: '轉出',
             Subscribe: '轉入',
             ReturnDetails: '收益明細',
-            Return: '收益'
+            Return: '收益',
+            login: '請登陸後進行操作 ',
+            loginBtn: '立即登錄',
+            openAccountBtn: '立即開戶',
+            openAccount: '您尚未開戶，開戶成功即可交易'
         },
         en: {
             total: 'Total Asstes(HKD)',
@@ -101,9 +111,14 @@ export default {
             Redemption: 'Redemption',
             Subscribe: 'Subscribe',
             ReturnDetails: 'Return Details',
-            Return: 'Return'
+            Return: 'Return',
+            login: 'Please login in',
+            loginBtn: 'Login',
+            openAccountBtn: 'Open account',
+            openAccount: 'Please open your account to continue the trade'
         }
     },
+    ...mapGetters(['isLogin', 'openedAccount']),
     filters: {
         transNumToThousandMark(value) {
             return transNumToThousandMark(value)
@@ -129,8 +144,32 @@ export default {
         this.bannerAdvertisement()
     },
     methods: {
+        //权限判断
+        async handlerUserAuthority() {
+            // 未登录或未开户
+            if (!this.isLogin) {
+                await this.$dialog.alert({
+                    message: this.$t('login'),
+                    confirmButtonText: this.$t('loginBtn')
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+                return
+            }
+
+            if (!this.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: this.$t('openAccount'),
+                    confirmButtonText: this.$t('openAccountBtn')
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
+        },
         //跳转
-        jumpPage(path, type) {
+        async jumpPage(path, type) {
+            //权限拦截
+            // await this.handlerUserAuthority()
             if (type == 1) {
                 return this.$router.push({
                     name: path,
@@ -141,6 +180,7 @@ export default {
             }
             jumpUrl(type, path)
         },
+        //bannar图
         async bannerAdvertisement() {
             try {
                 const res = await bannerAdvertisement(26)
@@ -149,6 +189,7 @@ export default {
                 this.$toast(e.msg)
             }
         },
+        //跳转
         toYxbaoPage() {
             this.$router.push({
                 name: 'yxbao-details',
