@@ -26,7 +26,7 @@
                     p.bottom(v-if="hidePadShow") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
             .block__yxbao-btn(v-if="isLogin")
-                van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
+                van-button.btn-color-r.btn-width(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
             .block__yxbao-btn(v-else)
                 van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
                 van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
@@ -73,6 +73,9 @@ export default {
         [SwipeItem.name]: SwipeItem,
         fundCard
     },
+    computed: {
+        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang'])
+    },
     i18n: {
         zhCHS: {
             login: '请登录后进行操作 ',
@@ -93,7 +96,7 @@ export default {
             openAccount: 'Please open your account to continue the trade'
         }
     },
-    ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
+
     filters: {
         transNumToThousandMark(value) {
             return transNumToThousandMark(value)
@@ -292,6 +295,10 @@ export default {
                 border: none;
                 font-size: 16px;
                 color: rgba(255, 255, 255, 1);
+            }
+            .btn-width {
+                width: 90%;
+                margin: 0 5%;
             }
             .btn-color-l {
                 background: rgba(4, 89, 162, 0.49);
