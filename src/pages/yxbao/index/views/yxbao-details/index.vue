@@ -1,14 +1,14 @@
 <template lang="pug">
 .fund-details
     .fund-content(slot="main" ref="content")
-        fundDetailsHeader(
+        yxbaoDetailsHeader(
             :price="price"
             :revenue="revenue"
             :tagShow="tagShow"
             :tagsShow="tagsShow"
             :fundHeaderInfoVO="fundHeaderInfoVO")
         
-        fundDetailsEchart(
+        yxbaoDetailsEchart(
           @chooseTime = "getFundApyPointV1"
           :step="step"
           :timeList="timeList"
@@ -25,8 +25,8 @@
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
        
-        fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
-        fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
+        yxbaoSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
+        yxbaoTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
             em.iconfont.icon-iconEBshoucang2
             span.title {{$t('risk')}}
@@ -46,7 +46,6 @@ import yxbaoDetailsEchart from './components/yxbao-details-echart'
 import yxbaoSurvey from './components/yxbao-survey'
 import yxbaoTradingRules from './components/yxbao-trading-rules'
 import yxbaoCardList from './components/yxbao-card-list'
-import scheme from '@/utils/scheme'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
@@ -56,13 +55,11 @@ import {
 } from '@/service/finance-info-server.js'
 import { getSource } from '@/service/customer-relationship-server'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
-import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import jsBridge from '@/utils/js-bridge'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import { debounce } from '@/utils/tools.js'
-import { CountDown } from 'vant-fork'
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     i18n: {
@@ -261,7 +258,6 @@ export default {
         yxbaoDetailsEchart,
         Button,
         Dialog,
-        CountDown,
         yxbaoSurvey,
         yxbaoCardList,
         yxbaoTradingRules
@@ -270,25 +266,10 @@ export default {
         stockColorType() {
             return +getStockColorType()
         },
-        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
-        isGrayAuthority() {
-            // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
-            if (!this.isLogin) {
-                return true
-            } else {
-                if (this.fundHeaderInfoVO.isin === 'HK0000478930') {
-                    return (
-                        this.userInfo &&
-                        (this.userInfo.grayStatusBit & (1 << 3)) === 8
-                    )
-                }
-                return true
-            }
-        }
+        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang'])
     },
     data() {
         return {
-            time: 30 * 60 * 60 * 1000,
             code: null,
             tagsShow: false,
             tagShow: false,
@@ -385,14 +366,6 @@ export default {
         }
     },
     methods: {
-        handleShare() {
-            scheme.gotoWebview(
-                `${window.location.origin}/wealth/fund/index.html?appType=${
-                    this.appType.Ch ? 1 : 2
-                }#/fund-details?id=${this.$route.query.id}`
-            )
-        },
-
         sliceDeci(s, l) {
             let deci = s.split('.')[1].slice(0, l)
             return s.split('.')[0] + '.' + deci
@@ -465,26 +438,6 @@ export default {
                 this.tabObj.value = this.timeList['oneMonth'].value
             } catch (e) {
                 this.$toast(e.msg)
-            }
-        },
-        //获取用户信息
-        async getFundUserInfo() {
-            try {
-                const res = await getFundUserInfo()
-                this.userInfo = res
-                //白名单
-                let isWhiteUserBit = this.userInfo.grayStatusBit
-                    .toString(2)
-                    .split('')
-                    .reverse()
-                    .join('')[5]
-                if (!isWhiteUserBit) {
-                    this.fightShow = true
-                    return
-                }
-            } catch (e) {
-                this.$toast(e.msg)
-                console.log('getFundUserInfo:error:>>>', e)
             }
         },
         //获取基金详情
@@ -595,7 +548,6 @@ export default {
                 console.log('getFundApyPointV1:error:>>>', e)
             }
         },
-
         async appVisibleHandle(data) {
             let re = data
             if (typeof data === 'string') {
@@ -637,9 +589,6 @@ export default {
         this.getFundNetPriceHistoryV1()
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
-        if (this.isLogin) {
-            await this.getFundUserInfo()
-        }
         this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',

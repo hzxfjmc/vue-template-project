@@ -2,39 +2,39 @@
 .block__yxbao--page
     .block__yxbao--header
         .block__yxbao--content
-            .block__yxbao--tip {{$t('total')}}
+            .block__yxbao--tip {{$t('C3')}}
                 em.iconfont(
                     @click="changeHidePadShow"
                     :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
             .block__yxbao--num.block__amount(v-if="hidePadShow") {{positionMarketValue|transNumToThousandMark}}
             .block__yxbao--num(v-else) ****
             .block__yxbao--numtip 
-                p {{$t('YesterdayRtn')}} 
+                p {{$t('C4')}} 
                     em.num(v-if="hidePadShow") {{yesterdayEarnings|transNumToThousandMark}}
                     em.num(v-else) ****
                     em 元
             .block__yxbao--list
                 .block__yxbao--item(@click="toYxbaoPage")
-                    p.top {{$t('Rtn')}} 
+                    p.top {{$t('C6')}} 
                     p.bottom(v-if="hidePadShow") {{tenThousandApy|transNumToThousandMark}}
                     p.bottom(v-else) ****
                 .block__yxbao--item(@click="toYxbaoPage")
-                    p.top {{$t('Yield')}} 
+                    p.top {{$t('C7')}} 
                     p.bottom {{sevenDaysApy|| '0.00'}}
                 .block__yxbao--item
-                    p.top {{$t('TotalRtn')}} 
+                    p.top {{$t('C5')}} 
                     p.bottom(v-if="hidePadShow") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
             .block__yxbao-btn
-                van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('Redemption')}} 
-                van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('Subscribe')}} 
+                van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
+                van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
     .block__yx-tab
         .block__list--item(@click="jumpPage('yxzq_goto://deposit',5)")
             em.iconfont.icon-rujin
-            span 入金       
+            span {{$t('C17')}}     
         .block__list--item(@click="jumpPage('income-details',1)")
             em.iconfont.icon-shouru
-            span 收益明细        
+            span {{$t('C10')}}         
         .block__list--item(@click="jumpPage('order-list',1)")
             em.iconfont.icon-zijin
             span 资金记录                
@@ -73,45 +73,18 @@ export default {
     },
     i18n: {
         zhCHS: {
-            total: '持有资产（港币）',
-            YesterdayRtn: '昨日收益',
-            TotalRtn: '累计收益',
-            Rtn: '万元收益',
-            Yield: '七日年化(%)',
-            Redemption: '转出',
-            Subscribe: '转入',
-            ReturnDetails: '收益明细',
-            Return: '收益',
             login: '请登录后进行操作 ',
             loginBtn: '立即登录',
             openAccountBtn: '立即开户',
             openAccount: '您尚未开户，开户成功即可交易'
         },
         zhCHT: {
-            total: '持有資產（港幣）',
-            YesterdayRtn: '昨日收益',
-            TotalRtn: '累計收益',
-            Rtn: '萬元收益',
-            Yield: '七日年化(%)',
-            Redemption: '轉出',
-            Subscribe: '轉入',
-            ReturnDetails: '收益明細',
-            Return: '收益',
             login: '請登陸後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
             openAccount: '您尚未開戶，開戶成功即可交易'
         },
         en: {
-            total: 'Total Asstes(HKD)',
-            YesterdayRtn: 'Yesterday Rtn',
-            TotalRtn: 'Total Rtn',
-            Rtn: '10K Rtn',
-            Yield: 'Yield in Last 7d(%)',
-            Redemption: 'Redemption',
-            Subscribe: 'Subscribe',
-            ReturnDetails: 'Return Details',
-            Return: 'Return',
             login: 'Please login in',
             loginBtn: 'Login',
             openAccountBtn: 'Open account',

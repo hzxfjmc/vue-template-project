@@ -1,28 +1,28 @@
 <template lang="pug">
 .block__element-wrapper
     .block__out--header
-        p.title 转入金额
+        p.title {{$t('C27')}}   
         NumberKeyboard(
             :placeholder="placeholder"
             @handlerAmount="handlerAmount"
         )
-        p.desc 预计02-05开始收益
+        p.desc 预计{{fundTradeInfoVO.buyProfitLoss}}开始收益
     
     .block__out--title.common-flex-space-between.common-marge-top
-        p.title 转出方式
+        p.title {{$t('C37')}} 
         .tips 
             p.tips--top uSMART证券账户
             p.tips--bottom 可用余额：单笔{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}港币
     van-button.btn(
         @click="getBaoCapitalTrade"
-        :disabled="disabled") 转入
+        :disabled="disabled") {{$t('C9')}}
 
 </template>
 <script>
 import NumberKeyboard from './number-keyboard'
 import { getBaoCapitalTrade } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
-import { generateUUID } from '@/utils/tools.js'
+import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 export default {
@@ -39,7 +39,8 @@ export default {
             amount: '',
             placeholder: '',
             chargeType: 1,
-            accountInfo: {}
+            accountInfo: {},
+            fundTradeInfoVO: {}
         }
     },
     created() {
@@ -54,12 +55,15 @@ export default {
         async getFundDetail() {
             try {
                 this.fundCorrelationFileList = []
-                const res = await getFundDetail({
+                const { fundTradeInfoVO } = await getFundDetail({
                     displayLocation: 3,
                     fundId: this.$route.query.id || this.id,
                     isin: this.$route.query.isin
                 })
-                console.log(res)
+                this.fundTradeInfoVO = fundTradeInfoVO
+                this.placeholder = `最低转入金额${transNumToThousandMark(
+                    fundTradeInfoVO.initialInvestAmount
+                )}`
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -69,7 +73,6 @@ export default {
             try {
                 let data = await hsAccountInfo(1)
                 this.accountInfo = data || {}
-                this.placeholder = `最低转入金额`
             } catch (error) {
                 this.$toast(error.msg)
                 console.log('hsAccountInfo:error:>>>', error)

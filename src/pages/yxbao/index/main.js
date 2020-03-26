@@ -9,7 +9,7 @@ import vConsole from '@/utils/common/plugins/v-console.js'
 Vue.use(vConsole)
 
 import LS from '@/utils/local-storage.js'
-import { messages } from '@/utils/i18n-message/fund/index.js'
+import { messages } from '@/utils/i18n-message/yxbao/index.js'
 import storeMethod from '@/store/index.js'
 const store = storeMethod()
 // setTimeout(() => {
