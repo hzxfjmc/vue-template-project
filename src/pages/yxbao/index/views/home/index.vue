@@ -2,32 +2,32 @@
 .block__yxbao--page
     .block__yxbao--header
         .block__yxbao--content
-            .block__yxbao--tip 持有资产(港币)
+            .block__yxbao--tip {{$t('total')}}
                 em.iconfont(
                     @click="changeHidePadShow"
                     :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
             .block__yxbao--num.block__amount(v-if="hidePadShow") {{positionMarketValue|transNumToThousandMark}}
             .block__yxbao--num(v-else) ****
             .block__yxbao--numtip 
-                p 昨日收益 
+                p {{$t('YesterdayRtn')}} 
                     em.num(v-if="hidePadShow") {{yesterdayEarnings|transNumToThousandMark}}
                     em.num(v-else) ****
                     em 元
             .block__yxbao--list
                 .block__yxbao--item(@click="toYxbaoPage")
-                    p.top 万元收益
+                    p.top {{$t('Rtn')}} 
                     p.bottom(v-if="hidePadShow") {{tenThousandApy}}
                     p.bottom(v-else) ****
                 .block__yxbao--item(@click="toYxbaoPage")
-                    p.top 七日年化(%)
+                    p.top {{$t('Yield')}} 
                     p.bottom {{sevenDaysApy}}
                 .block__yxbao--item
-                    p.top 累计收益
-                    p.bottom(v-if="hidePadShow") {{totalEarnings}}
+                    p.top {{$t('TotalRtn')}} 
+                    p.bottom(v-if="hidePadShow") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
             .block__yxbao-btn
-                van-button.btn-color-l(@click="jumpPage('transfer-out',1)") 转出
-                van-button.btn-color-r(@click="jumpPage('transfer-into',1)") 转入
+                van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('Redemption')}} 
+                van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('Subscribe')}} 
     .block__yx-tab
         .block__list--item(@click="jumpPage('yxzq_goto://deposit',5)")
             em.iconfont.icon-rujin
@@ -68,6 +68,41 @@ export default {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
         fundCard
+    },
+    i18n: {
+        zhCHS: {
+            total: '持有资产（港币）',
+            YesterdayRtn: '昨日收益',
+            TotalRtn: '累计收益',
+            Rtn: '万元收益',
+            Yield: '七日年化(%)',
+            Redemption: '转出',
+            Subscribe: '转入',
+            ReturnDetails: '收益明细',
+            Return: '收益'
+        },
+        zhCHT: {
+            total: '持有資產（港幣）',
+            YesterdayRtn: '昨日收益',
+            TotalRtn: '累計收益',
+            Rtn: '萬元收益',
+            Yield: '七日年化(%)',
+            Redemption: '轉出',
+            Subscribe: '轉入',
+            ReturnDetails: '收益明細',
+            Return: '收益'
+        },
+        en: {
+            total: 'Total Asstes(HKD)',
+            YesterdayRtn: 'Yesterday Rtn',
+            TotalRtn: 'Total Rtn',
+            Rtn: '10K Rtn',
+            Yield: 'Yield in Last 7d(%)',
+            Redemption: 'Redemption',
+            Subscribe: 'Subscribe',
+            ReturnDetails: 'Return Details',
+            Return: 'Return'
+        }
     },
     filters: {
         transNumToThousandMark(value) {
@@ -174,7 +209,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block__fund--list {
-    padding: 0 12px;
+    padding: 0 12px 30px 12px;
     margin: 0 0 20px 0;
 }
 

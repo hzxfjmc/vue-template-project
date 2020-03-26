@@ -3,7 +3,7 @@
     .block__out--header
         p.title 转入金额
         NumberKeyboard(
-            placeholder="10000.00港币起"
+            :placeholder="placeholder"
             @handlerAmount="handlerAmount"
         )
         p.desc 预计02-05开始收益
@@ -36,6 +36,7 @@ export default {
     data() {
         return {
             amount: '',
+            placeholder: '请输入金额',
             chargeType: 1,
             accountInfo: {}
         }
@@ -54,6 +55,7 @@ export default {
                 let data = await hsAccountInfo(1)
                 this.accountInfo = data || {}
             } catch (error) {
+                this.placeholder = '最低1元申购'
                 this.$toast(error.msg)
                 console.log('hsAccountInfo:error:>>>', error)
             }

@@ -3,7 +3,7 @@
     .block__out--header
         h1 转出金额
         NumberKeyboard(
-            placeholder="请输入转入金额"
+            :placeholder="placeholder"
             :showAllSellBtn="showAllSellBtn"
             @handlerAmount="handlerAmount"
         )
@@ -12,13 +12,15 @@
             .block__list--item.common-flex-space-between
                 .block__list--left 手续费(预计)
                 .block__list--right.common-flex-center
-                    span.block__tips.common-flex-center 
-                        em.num {{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%
-                        //- em 港币
-                    p.border-rotate {{Number(fundTradeInfoVO.fastRedemptionFee*100+0.5).toFixed(2)}}%
+                    p.block__fee {{HandlingFee}}
+                    p {{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%
+                    //- span.block__tips.common-flex-center 
+                    //-     em.num {{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%
+                    //-     //- em 港币
+                    //- p.border-rotate {{Number(fundTradeInfoVO.fastRedemptionFee*100+0.5).toFixed(2)}}%
             .block__list--item.common-flex-space-between
                 .block__list--left 预计到账金额
-                .block__list--right.expectedAmount {{expectedAmount}}
+                .block__list--right.expectedAmount {{actulAmount}}
 
     .block__out--title.common-flex-space-between.border-bottom.common-marge-top
         h1 转出方式
@@ -56,6 +58,22 @@ export default {
         NumberKeyboard
     },
     computed: {
+        HandlingFee() {
+            return (
+                Number(this.fundTradeInfoVO.fastRedemptionFee * 100).toFixed(
+                    2
+                ) * this.expectedAmount
+            ).toFixed(2)
+        },
+        actulAmount() {
+            return (
+                this.expectedAmount -
+                Number(this.fundTradeInfoVO.fastRedemptionFee * 100).toFixed(
+                    2
+                ) *
+                    this.expectedAmount
+            ).toFixed(2)
+        },
         disabled() {
             return this.amount == 0
         },
@@ -76,11 +94,12 @@ export default {
     },
     data() {
         return {
-            check: false,
+            check: true,
             outType: '',
             amount: 0,
+            placeholder: '',
             showAllSellBtn: {
-                show: false,
+                show: true,
                 desc: '全部转出'
             },
             fundTradeInfoVO: {
@@ -97,9 +116,14 @@ export default {
         //获取持仓数据
         async getBaoPostion() {
             try {
-                const { customerRemainderQuota } = await getBaoPostion({
+                const {
+                    customerRemainderQuota,
+                    positionMarketValue
+                } = await getBaoPostion({
                     currency: 2
                 })
+                this.placeholder = `最大可取金额${positionMarketValue || 0}`
+                console.log(this.placeholder)
                 this.customerRemainderQuota = transNumToThousandMark(
                     customerRemainderQuota
                 )
@@ -201,6 +225,9 @@ h1 {
                     left: 0;
                     transform: rotate(5deg);
                 }
+                .block__fee {
+                    padding: 0 10px 0 0;
+                }
                 span {
                     width: 65px;
                     font-size: 14px;
@@ -235,6 +262,7 @@ h1 {
                     }
                 }
             }
+
             .expectedAmount {
                 font-family: 'yxFontDINPro-Medium';
             }

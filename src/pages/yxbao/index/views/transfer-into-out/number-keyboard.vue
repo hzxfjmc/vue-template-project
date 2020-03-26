@@ -5,10 +5,10 @@
         span.block__tip--number {{unit}}
         span.number-board(
             v-if="show"
-            :class="[amount>0 || amount === '0.'?'number':'word']") {{amount}}
+            :class="[amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
         span.number-board(
             v-else
-            :class="[amount>0 || amount === '0.'?'number1':'word1']") {{amount}}
+            :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
         span.block__all--out(v-if="showAllSellBtn.show") 全部转出
     van-number-keyboard(
         theme="custom"
@@ -38,17 +38,20 @@ export default {
         },
         placeholder: {
             type: String,
-            default: '请输入'
+            default: ''
+        }
+    },
+    watch: {
+        placeholder() {
+            this.amount = this.placeholder
         }
     },
     data() {
         return {
             show: true,
-            amount: ''
+            amount: '',
+            flag: false
         }
-    },
-    created() {
-        this.amount = this.placeholder
     },
     computed: {
         ...mapGetters(['lang']),
@@ -86,6 +89,9 @@ export default {
             }
         }
     },
+    created() {
+        this.amount = this.placeholder
+    },
     methods: {
         showNumberKeyboard() {
             if (!this.show) {
@@ -99,8 +105,13 @@ export default {
             this.show = false
         },
         onInput(val) {
-            let re = /^(([1-9]{1}\d*)|(0{1}))(\.\d{2})$/
-            if (re.test(this.amount)) return
+            let re = /^\d{0,9}(\.\d{0,1})?$/
+            // if (
+            //     !re.test(Number(this.amount)) &&
+            //     this.amount != this.placeholder
+            // )
+            //     return
+            if (this.flag) return
             if (this.amount === this.placeholder && (val == 0 || val === '.')) {
                 return (this.amount = '0.')
             }
@@ -112,10 +123,14 @@ export default {
             ) {
                 if (this.amount === this.placeholder) this.amount = ''
                 this.amount = this.amount.toString() + val.toString()
+                if (!re.test(Number(this.amount))) {
+                    this.flag = true
+                }
             }
             this.$emit('handlerAmount', this.amount)
         },
         onDelete() {
+            this.flag = false
             if (this.amount === this.placeholder) return
             if (this.amount === '0.') return (this.amount = this.placeholder)
             this.amount = this.amount.substr(0, this.amount.length - 1)
