@@ -151,7 +151,7 @@ export default {
         },
         toYxbaoPage() {
             this.$router.push({
-                name: 'fund-details',
+                name: 'yxbao-details',
                 query: { id: this.fundId, displayLocation: 3 }
             })
         },
@@ -181,7 +181,9 @@ export default {
                 } = await getBaoPostion({
                     currency: 2
                 })
-                this.positionMarketValue = positionMarketValue
+                this.positionMarketValue = Number(positionMarketValue).toFixed(
+                    2
+                )
                 this.yesterdayEarnings = yesterdayEarnings
                 this.totalEarnings = totalEarnings
             } catch (e) {

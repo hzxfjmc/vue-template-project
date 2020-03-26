@@ -14,11 +14,11 @@ export default new Router({
             component: () => import(`@/pages/yxbao/index/views/home/index.vue`)
         },
         {
-            name: 'fund-details',
-            path: '/fund-details',
+            name: 'yxbao-details',
+            path: '/yxbao-details',
             meta: { title: 'fundDetails', auth: true, cs: true },
             component: () =>
-                import(`@/pages/yxbao/index/views/fund-details/index.vue`)
+                import(`@/pages/yxbao/index/views/yxbao-details/index.vue`)
         },
         {
             name: 'order-list',
@@ -32,7 +32,9 @@ export default new Router({
             path: '/order-details',
             meta: { title: 'orderDetails', auth: true, cs: true },
             component: () =>
-                import(`@/pages/yxbao/index/views/yxbao-details/index.vue`)
+                import(
+                    `@/pages/yxbao/index/views/yxbao-order-details/index.vue`
+                )
         },
         {
             name: 'account-details',
@@ -40,7 +42,7 @@ export default new Router({
             meta: { title: 'accountDetails', auth: true, cs: true },
             component: () =>
                 import(
-                    `@/pages/yxbao/index/views/yxbao-details/account-details.vue`
+                    `@/pages/yxbao/index/views/yxbao-order-details/account-details.vue`
                 )
         },
         {
