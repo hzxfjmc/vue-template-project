@@ -105,13 +105,7 @@ export default {
             this.show = false
         },
         onInput(val) {
-            let re = /^\d{0,9}(\.\d{0,1})?$/
-            // if (
-            //     !re.test(Number(this.amount)) &&
-            //     this.amount != this.placeholder
-            // )
-            //     return
-            if (this.flag) return
+            let re = /^\d{0,9}(\.\d{0,2})?$/
             if (this.amount === this.placeholder && (val == 0 || val === '.')) {
                 return (this.amount = '0.')
             }
@@ -122,9 +116,8 @@ export default {
                 this.amount === '0.'
             ) {
                 if (this.amount === this.placeholder) this.amount = ''
-                this.amount = this.amount.toString() + val.toString()
-                if (!re.test(Number(this.amount))) {
-                    this.flag = true
+                if (re.test(Number(this.amount.toString() + val.toString()))) {
+                    this.amount = this.amount.toString() + val.toString()
                 }
             }
             this.$emit('handlerAmount', this.amount)
