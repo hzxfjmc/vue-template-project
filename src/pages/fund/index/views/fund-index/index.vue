@@ -553,7 +553,7 @@ export default {
     }
     a {
         text-align: center;
-        font-size: 14px;
+        font-size: 12px;
         display: block;
         padding-bottom: 20px;
         color: $hk-text-line-color;

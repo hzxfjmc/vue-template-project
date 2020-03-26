@@ -199,6 +199,7 @@ export default {
         color: #999999;
         p {
             margin-bottom: 10px;
+            text-align: justify;
         }
     }
 }
