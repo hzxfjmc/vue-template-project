@@ -29,11 +29,9 @@
 import { getBaoCapitalTradeList } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
 import { List } from 'vant'
-import shareWay from '@/biz-components/share-way/index'
 export default {
     components: {
-        [List.name]: List,
-        shareWay
+        [List.name]: List
     },
     i18n: {
         zhCHS: {

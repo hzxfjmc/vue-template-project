@@ -3,22 +3,29 @@
         .block__header--wrapper
             .block__left
                 .top 持仓金额(港币）
-                .bottom.block__amount {{positionMarketValue}}
+                .bottom.block__amount {{positionMarketValue|transNumToThousandMark}}
             .block__right
                 .top 累计收益
-                .bottom {{totalEarnings}}
+                .bottom {{totalEarnings|transNumToThousandMark}}
         hr
-        .block__order--list.border-bottom(
-            v-for="(item,index) in list")
-            .block__order--left
-                p.title {{item.recordTypeName}}
-                p.color 2019-07-10 15:55:08
-            .block__order--right
-                p.num(v-if="item.recordAmount>0") +{{item.recordAmount}}
-                p.num(v-else-if="item.recordAmount == 0") {{item.recordAmount}}
-                p.num(v-else) -{{item.recordAmount}}
-                p.color 余额 {{item.recordBalance}}
-        .block__no-more 没有更多啦
+        van-list.order-record-list(
+            v-model="loading" 
+            :finished="finished" 
+            :finished-text="finishedText" 
+            @load="onLoad")
+            .block__order--list.border-bottom(
+                v-for="(item,index) in list")
+                .block__order--left
+                    p.title {{item.recordTypeName}}
+                    p.color {{item.createTime}}
+                .block__order--right
+                    p.num(v-if="item.recordAmount>0") +{{item.recordAmount}}
+                    p.num(v-else-if="item.recordAmount == 0") {{item.recordAmount}}
+                    p.num(v-else) -{{item.recordAmount}}
+                    p.color 余额 {{item.recordBalance}}
+        .block-element-nomore(v-if="noMoreShow")
+            img.img(src="@/assets/img/fund/icon-norecord.png") 
+            .no-record-box {{$t('nomore')}}
 
 </template>
 <script>
@@ -26,12 +33,41 @@ import {
     getBaoCapitalTradeList,
     getBaoPostion
 } from '@/service/finance-server.js'
+import dayjs from 'dayjs'
+import { List } from 'vant'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
+    components: {
+        [List.name]: List
+    },
+    filters: {
+        transNumToThousandMark(value) {
+            return transNumToThousandMark(value)
+        }
+    },
+    i18n: {
+        zhCHS: {
+            nomore1: '无更多内容'
+        },
+        zhCHT: {
+            nomore1: '無更多內容'
+        },
+        en: {
+            nomore1: 'No More Content'
+        }
+    },
     data() {
         return {
             positionMarketValue: '',
+            totalEarnings: '',
             list: [],
-            totalEarnings: ''
+            noMoreShow: false,
+            pageSize: 20,
+            pageNum: 1,
+            total: 0,
+            loading: false,
+            finished: false,
+            finishedText: '无更多内容'
         }
     },
     created() {
@@ -39,6 +75,13 @@ export default {
         this.getBaoPostion()
     },
     methods: {
+        //上拉加载更多
+        onLoad() {
+            if (this.list.length < this.total) {
+                this.pageNum = this.pageNum + 1
+                this.getBaoCapitalTradeList()
+            }
+        },
         //获取持仓数据
         async getBaoPostion() {
             try {
@@ -56,11 +99,33 @@ export default {
         },
         async getBaoCapitalTradeList() {
             try {
-                const res = await getBaoCapitalTradeList({
+                const {
+                    list,
+                    pageSize,
+                    pageNum,
+                    total
+                } = await getBaoCapitalTradeList({
                     currency: 2,
-                    recordType: 1
+                    recordType: 1,
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize
                 })
-                this.list = res
+                list.map(item => {
+                    item.createTime = dayjs(item.createTime).format(
+                        'YYYY-MM-DD hh:mm:ss'
+                    )
+                })
+                this.loading = false
+                this.list = this.list.concat(list)
+                this.pageNum = pageNum
+                this.total = total
+                this.pageSize = pageSize
+                this.noMoreShow = this.total == 0
+                if (this.list.length >= this.total) {
+                    this.finished = true
+                }
+                this.finishedText = this.$t('nomore1')
+                this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
                 this.$toast(e.msg)
             }
