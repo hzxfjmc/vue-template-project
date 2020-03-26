@@ -1146,9 +1146,6 @@ export default {
             }
         },
         async appVisibleHandle(data) {
-            if (this.isLogin) {
-                await this.getFundUserInfo()
-            }
             let re = data
             if (typeof data === 'string') {
                 re = JSON.parse(data)
@@ -1157,6 +1154,9 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
+            if (this.isLogin) {
+                await this.getFundUserInfo()
+            }
         },
         init18inState() {
             for (let key in this.timeList) {
