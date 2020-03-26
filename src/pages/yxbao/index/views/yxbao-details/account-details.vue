@@ -27,6 +27,7 @@
 <script>
 import transferStep from './transfer-step'
 import dayjs from 'dayjs'
+import { getBaoCapitalTradeDetails } from '@/service/finance-server.js'
 export default {
     components: {
         transferStep
@@ -55,18 +56,29 @@ export default {
         }
     },
     created() {
-        this.InitState()
+        this.getBaoCapitalTradeDetails()
     },
     methods: {
+        //获取详情
+        async getBaoCapitalTradeDetails() {
+            try {
+                const res = await getBaoCapitalTradeDetails({
+                    recordNo: this.$route.params.data.recordNo
+                })
+                this.orderDetails = res
+                this.InitState()
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         InitState() {
-            this.orderDetails = this.$route.params.data
             //转入
             if (this.orderDetails.recordType === 1) {
                 this.intoStepOne.time = dayjs(
                     this.orderDetails.createTime
                 ).format('YYYY-MM-DD hh:mm:ss')
                 this.intoStepTwo.time = `预计${dayjs(
-                    this.orderDetails.deliveryDate
+                    this.orderDetails.earningsDate
                 ).format('MM-DD')}`
             }
             //转出
@@ -79,7 +91,7 @@ export default {
                     'YYYY-MM-DD hh:mm:ss'
                 )
                 this.stepTwo.time = `预计${dayjs(
-                    this.orderDetails.deliveryDate
+                    this.orderDetails.earningsDate
                 ).format('MM-DD')}`
             }
         }
