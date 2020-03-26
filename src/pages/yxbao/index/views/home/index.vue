@@ -25,7 +25,9 @@
                     p.top {{$t('C5')}} 
                     p.bottom(v-if="hidePadShow") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
-            .block__yxbao-btn
+            .block__yxbao-btn(v-if="isLogin")
+                van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
+            .block__yxbao-btn(v-else)
                 van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
                 van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
     .block__yx-tab
@@ -91,7 +93,7 @@ export default {
             openAccount: 'Please open your account to continue the trade'
         }
     },
-    ...mapGetters(['isLogin', 'openedAccount']),
+    ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
     filters: {
         transNumToThousandMark(value) {
             return transNumToThousandMark(value)
@@ -113,6 +115,7 @@ export default {
     async created() {
         await this.getBaoFundInfo()
         this.getBaoPostion()
+        console.log(this.lang)
         this.getFundRecommendList()
         this.bannerAdvertisement()
     },
@@ -142,7 +145,9 @@ export default {
         //跳转
         async jumpPage(path, type) {
             //权限拦截
-            // await this.handlerUserAuthority()
+            if (path != 'transfer-out') {
+                await this.handlerUserAuthority()
+            }
             if (type == 1) {
                 return this.$router.push({
                     name: path,
