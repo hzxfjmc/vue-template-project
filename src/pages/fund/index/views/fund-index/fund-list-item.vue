@@ -16,7 +16,7 @@
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0" :class="stockColorType === 1 ? 'color-red' : 'color-green'") + {{(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.apy)<0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}% 
-                        .number(v-if="Number(item.pay) === 0") {{item.apy}}
+                        .number(v-if="Number(item.apy) === 0") {{item.apy}}
                         .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom(v-if="code != 1")
                         //- span(v-if="lang != 'en'") {{item.assetTypeName}} 
@@ -232,7 +232,7 @@ export default {
     margin: 20px 5% 0 5%;
 }
 .block__fund-ch {
-    width: 96%;
-    margin: 20px 2% 0 2%;
+    width: 351px;
+    margin: 20px 12px 0 12px;
 }
 </style>

@@ -66,6 +66,7 @@
             :code = "code"
             v-if="choiceFundListShow"
             :fundlist="choiceFundList")
+
         .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
             van-swipe(:autoplay="3000")  
                 van-swipe-item(
@@ -79,6 +80,29 @@
             :title="robustFundList.masterTitle"
             v-if="robustFundListShow"
             :fundlist="robustFundList")
+
+        .block--yxbao-container
+            .block--title
+                h3 友信宝
+                em.iconfont.icon-icon_fund_index_2
+            p.block--desc 随存随取 闲置资金可挣钱
+            .block--bottom-content
+                .left
+                    .number(
+                        v-if="Number(apy)>0" 
+                        :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(apy*100).toFixed(4)}}%
+                    .number(
+                        v-if="Number(apy)<0" 
+                        :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(apy*100).toFixed(4)}}%
+                    .number(
+                        v-if="Number(apy) === 0") {{Number(apy).toFixed(4)}}%
+                    p.block--bottom--desc 近7日年华
+                .content
+                    p.number 1.4
+                    p.block--bottom--desc 万元收益
+                .right
+                    van-button(:round="true").block--subscribe 立即转入
+
         FundListItem(
             :code = "code"
             :fundlist="blueChipFundList"
@@ -240,7 +264,8 @@ export default {
             inTransitOrder: '0',
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
-            fundlist: []
+            fundlist: [],
+            apy: '0'
         }
     },
     methods: {
@@ -502,5 +527,62 @@ export default {
 .fund-echart-render {
     height: 65px;
     width: 70px;
+}
+.block--yxbao-container {
+    width: 351px;
+    height: 140px;
+    margin: 20px 12px;
+    background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
+    background-size: 100% 100%;
+    border-radius: 6px;
+    overflow: hidden;
+    padding: 10px 10px 10px 10px;
+    .block--title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        h3 {
+            // font-weight: 700;
+            font-size: 18px;
+            color: #fff;
+        }
+        .iconfont {
+            font-size: 14px;
+            margin: 5px 0 0 5px;
+            color: $text-color6;
+        }
+    }
+    .block--desc {
+        color: $text-color6;
+        line-height: 28px;
+    }
+    .block--bottom-content {
+        width: 331px;
+        height: 57px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin: 5px 0 0 0;
+        background: #fff;
+        .number {
+            font-size: 20px;
+            font-family: yxFontDINPro-Medium;
+            line-height: 26px;
+        }
+        .block--bottom--desc {
+            font-size: 12px;
+            color: $text-color5;
+        }
+        .van-button {
+            width: 80px;
+            height: 27px !important;
+            line-height: 27px;
+            font-size: 12px;
+            color: #fff;
+            border-radius: 27px !important;
+            background: #0d50d8;
+        }
+    }
 }
 </style>

@@ -7,7 +7,7 @@
                             span {{$t('orderStatus')}}
                             span(:class="differenceColor") {{orderStatusValue}}  
                         .begin-time
-                            img(src="@/assets/img/fund/pclock.png")
+                            img(src="@/assets/img/fund/clock.png")
                             span {{$t('estimate')}} 
                             span {{tradeType===1?sureNetWorthBeginTime:surePositionBeginTime}} 
                         .left-line
