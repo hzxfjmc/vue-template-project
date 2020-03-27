@@ -55,10 +55,12 @@ div
                         p 基金
                         p.num(v-if="moneyShow") 1000,000,00
                         p(v-else) ****
+                        em.iconfont.icon-previewright
                     .block__bottom-r(@click="toYxbao")
                         p 友信宝
                         p.num(v-if="moneyShow") 100,000,00 
                         p(v-else) ****
+                        em.iconfont.icon-previewright
                     //- span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
                     //- span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
            
