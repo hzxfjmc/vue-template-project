@@ -258,3 +258,9 @@
     position: fixed;
     top: 0;
 }
+.block--dialog {
+    .van-dialog__message{
+        text-align: justify;
+        white-space:pre-line;
+    }
+}

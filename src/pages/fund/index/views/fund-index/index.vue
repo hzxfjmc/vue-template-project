@@ -36,15 +36,11 @@
                     span(
                         @click="chooseCurrency(1)"
                         :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
-        
         .block__left__bottom
             span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
             span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-        .block__bottom--num.border-top(
-            v-if="inTransitOrder !== '0' && isLogin"
-            @click="toOrderList")
-            span {{inTransitOrder}}{{$t('fundmsg')}}
-            em(class="iconfont icon-previewright")
+        .block__bottom--num.border-top()
+           
 
     .block-bannar-sub-swiper(v-if="tabbarnnarList.length !== 0")
             van-swipe 
@@ -84,7 +80,7 @@
         .block--yxbao-container
             .block--title
                 h3 友信宝
-                em.iconfont.icon-icon_fund_index_2
+                em.iconfont.icon-icon_fund_index_2(@click="handlerDesc")
             p.block--desc 随存随取 闲置资金可挣钱
             .block--bottom-content
                 .left
@@ -122,6 +118,7 @@
     .fund-echart-render(ref="renderEchartlist")
 </template>
 <script>
+import './index.scss'
 import { Swipe, SwipeItem } from 'vant'
 import FundList from './fund-list'
 import FundListItem from './fund-list-item'
@@ -269,6 +266,16 @@ export default {
         }
     },
     methods: {
+        //描述
+        handlerDesc() {
+            this.$dialog.alert({
+                title: this.$t('riskTip'),
+                className: 'block--dialog',
+                message:
+                    '1.总资产是您基金资产和友信宝资产的总和\n2.你可选择港币或美元作为基金总资产基础货币。uSMART会将你所有基金市值按照基础货币来显示和计算。例子:当你的基础货币为港币时，你的基金总资产=港币基金市值+美元基金市值(按汇率转换成港币)\n3.基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。',
+                confirmButtonText: this.$t('confirm')
+            })
+        },
         toOrderList() {
             this.openWebView(
                 `${window.location.origin}/wealth/fund/index.html#/fund-order-list`
@@ -453,19 +460,9 @@ export default {
                     CURRENCY_NAME[this.lang][item.tradeCurrency]
                 item.fundSizeCurrency =
                     CURRENCY_NAME[this.lang][item.fundSizeCurrency]
-                // this.draw(
-                //     `chartId${item.fundId}`,
-                //     item.fundHomepagePointList,
-                //     () => {
-                //         // item.imgUrl = res
-                //         //设置异步队列进行canvas绘制
-                //         setTimeout(() => {
                 this.choiceFundListShow = !obj.flag
                 this.blueChipFundListShow = !obj.flag2
                 this.robustFundListShow = !obj.flag1
-                //         }, 200)
-                //     }
-                // )
             })
         },
         //创建echart图并生成图片回调出来
@@ -523,7 +520,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './index.scss';
 .fund-echart-render {
     height: 65px;
     width: 70px;
@@ -576,11 +572,11 @@ export default {
         }
         .van-button {
             width: 80px;
-            height: 27px !important;
-            line-height: 27px;
+            height: 32px !important;
+            line-height: 32px;
             font-size: 12px;
             color: #fff;
-            border-radius: 27px !important;
+            border-radius: 32px !important;
             background: #0d50d8;
         }
     }
