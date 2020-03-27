@@ -51,11 +51,11 @@ div
                         p.num(v-else) ****
                 
                 .block__left__bottom.border-top
-                    .block__bottom--l
+                    .block__bottom--l(@click="toRouterAccount")
                         p 基金
                         p.num(v-if="moneyShow") 1000,000,00
                         p(v-else) ****
-                    .block__bottom-r
+                    .block__bottom-r(@click="toYxbao")
                         p 友信宝
                         p.num(v-if="moneyShow") 100,000,00 
                         p(v-else) ****
@@ -67,11 +67,15 @@ div
                     .block--left
                         p 智选基金，
                         p 让你的钱聪明起来
-                    .block--right(v-if="!isLogin")
+                    .block--right(
+                        v-if="!isLogin" 
+                        @click="toRouterAccount")
                         .block--button
                             span 立即登录
                             em.iconfont.icon-iconEBgengduoCopy
-                    .block--right(v-else)
+                    .block--right(
+                        v-else 
+                        @click="toRouterAccount")
                         .block--button
                             span 立即开户
                             em.iconfont.icon-iconEBgengduoCopy
@@ -115,8 +119,8 @@ div
             .block--yxbao-container
                 .block--title
                     h3 友信宝
-                    em.iconfont.icon-icon_fund_index_2(@click="handlerDesc")
-                p.block--desc 随存随取 闲置资金可挣钱
+                    em.iconfont.icon-attention(@click="handlerDesc")
+                p.block--desc 闲置资金可赚钱，赎回立即可购买股票
                 .block--bottom-content
                     .left
                         .number(
@@ -132,7 +136,7 @@ div
                         p.number 1.4
                         p.block--bottom--desc 万元收益
                     .right
-                        van-button(:round="true").block--subscribe 立即转入
+                        van-button(@click="toYxbao").block--subscribe 立即转入
                         
             FundListItem(
                 :code = "code"
@@ -328,6 +332,11 @@ export default {
         }
     },
     methods: {
+        //跳转友信宝
+        toYxbao() {
+            let url = `${window.location.origin}/wealth/yxbao/index.html#/`
+            jumpUrl(3, url)
+        },
         //描述
         handlerDesc() {
             this.$dialog.alert({
