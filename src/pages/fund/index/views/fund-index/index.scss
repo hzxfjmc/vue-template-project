@@ -12,13 +12,14 @@
     background:rgba(251,252,254,1);
 }
 .block__assets {
-    width: 90%;
+    width: 351px;
+    height:162px;
     position: relative;
     z-index: 999;
     margin: -48px 5% 0 5%;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    background:linear-gradient(180deg,rgba(232,240,255,1) 0%,rgba(252,252,255,1) 100%);
+    box-shadow:0px 0px 10px 0px rgba(0,0,0,0.1);
+    border-radius:8px;
     display: flex;
     flex-direction: column;
     .block__bottom--num{
@@ -37,28 +38,25 @@
             margin:1px 0 0 5px;
         }
     }
-    .block__left__bottom{
-        width:100%;
-        padding:0px 15px 10px 15px;
-        // border:1px solid red;
-            span{
-                line-height:20px;
-                font-size:14px;
-                padding:0 0 0 4px;
-                color:$text-color5;
-            }
+    .block__right--yes{
+        text-align: right;
+        .num{
+            font-size:16px;
+            line-height:36px;
         }
-    .block__left {
+    }
+    .block__top {
         width: 100%;
         display: flex;
         flex-direction: row;
         padding:0 15px;
+        align-items: center;
+        justify-content: space-between;
         height: 40px;
         .block__left--label {
             font-size: 14px;
             width: 60%;
             display: flex;
-            margin: 10px 0 0 0;
             align-items: center;
             flex-direction: row;
             line-height: 20px;
@@ -71,29 +69,17 @@
         }
         .block__right {
             text-align: right;
-            width: 40%;
             height: 40px;
-            margin: 15px 0 0 0;
-            .block--hold {
-                width: 110px;
-                // height: 25px;
-                border-radius: 15px;
-                text-align: center;
-                float: right;
-                font-weight: 400;
-                color: rgba(0, 145, 255, 1);
-                line-height: 25px;
-                margin: 0 0 10px 0;
-                border: 1px solid rgba(0, 145, 255, 1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                span{
-                    margin:0 0 0 6px;
-                }
-                em {
-                    font-size: 18px;
-                }
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            span{
+                margin:0 0 0 6px;
+                color:rgba(25,25,25,0.45);
+                font-size:12px;
+            }
+            em {
+                font-size: 18px;
             }
             .block--label--list {
                 text-align: right;
@@ -112,13 +98,19 @@
     .block__left--number {
         display: flex;
         flex-direction: row;
-        padding:0 15px;
-        height: 40px;
+        justify-content: space-between;
+        // align-items: center;
+        padding:12px 15px;
         width: 100%;
+        .block__left--num{
+            display: flex;
+            flex-direction: column;
+            flex:1;
+        }
         .block--element--number {
-            font-size: 28px;
+            font-size: 22px;
             line-height: 40px;
-            font-weight: bold;
+            // font-weight: bold;
             font-family: yxFontDINPro-Medium;
            
         }
@@ -131,6 +123,11 @@
         .close--eye {
             line-height: 50px;
             
+        }
+        .block__list-es{
+            display: flex;
+            flex-direction: row;
+            line-height: 21px;
         }
         .block--element--select {
             line-height: 42px;
@@ -190,6 +187,21 @@
                 border-bottom: 10px solid #fff;
                 position: absolute;
             }
+        }
+    }
+    .block__left__bottom{
+        display: flex;
+        position: absolute;
+        bottom:0;
+        height:42px;
+        width:100%;
+        align-items: center;
+        padding:0 15px;
+        justify-content: space-between;
+        flex-direction: row;
+        .block__bottom--l,.block__bottom-r{
+            display: flex;
+            flex-direction: row;
         }
     }
 }

@@ -8,45 +8,64 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-        .block__assets
-            .block__left
-                .block__left--label 
-                    span {{$t('accountTotal')}}
-                    em(
-                        class="iconfont" 
-                        @click="hideNumber"
-                        :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
-                .block__right
-                    .block--hold(@click="toRouterAccount")  
-                        span {{$t('fundHold')}}
-                        em(class="iconfont icon-iconEBgengduoCopy")
-            .block__left--number
-                .block--element--number(:class="code != 1? 'color-blue':'color-black'" v-if="moneyShow") {{positionAmount}}
-                .block--element--number.close--eye(v-else) ******
-                .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
-                    span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
-                    em(class="iconfont icon-iconxiala" @click="handlerCurrency")
-                    em(class="iconfont icon-icon_fund_index_2" @click="handlerDialog")
-                    .block--master(
-                        v-if="chooseCurrencyShow" 
-                        @click="chooseCurrencyShow = !chooseCurrencyShow")
-                    .block__currey(v-if="chooseCurrencyShow")
-                        span.border-bottom(
-                            @click="chooseCurrency(0)"
-                            :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
-                        span(
-                            @click="chooseCurrency(1)"
-                            :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
-            
-            .block__left__bottom
-                span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-                span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-            .block__bottom--num.border-top(
-                v-if="inTransitOrder !== '0' && isLogin"
-                @click="toOrderList")
-                span {{inTransitOrder}}{{$t('fundmsg')}}
-                em(class="iconfont icon-previewright")
 
+        template
+            .block__assets(v-if="isLogin && openedAccount")
+                .block__top.border-bottom
+                    .block__left--label 
+                        span 我的理财资产
+                        em(
+                            class="iconfont" 
+                            @click="hideNumber"
+                            :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
+                    .block__right
+                        span 资产币种说明
+                        em(class="iconfont icon-iconEBgengduoCopy")
+                .block__left--number.border-bottom
+                    .block__left--num
+                        p 总资产
+                        .block__list-es
+                            .block--element--number(:class="code != 1? 'color-blue':'color-black'" v-if="moneyShow") {{positionAmount}}
+                            .block--element--number.close--eye(v-else) ******
+                            .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
+                                span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
+                                em(class="iconfont icon-iconxiala" @click="handlerCurrency")
+                                .block--master(
+                                    v-if="chooseCurrencyShow" 
+                                    @click="chooseCurrencyShow = !chooseCurrencyShow")
+                                .block__currey(v-if="chooseCurrencyShow")
+                                    span.border-bottom(
+                                        @click="chooseCurrency(0)"
+                                        :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
+                                    span(
+                                        @click="chooseCurrency(1)"
+                                        :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}]
+
+                    .block__right--yes
+                        p 近7日年化
+                        p.num +100,00000,000
+                
+                .block__left__bottom
+                    .block__bottom--l
+                        p 基金
+                        p 1000,000,00
+                    .block__bottom-r
+                        p 友信宝
+                        p 100,000,00
+                    //- span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+                    //- span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+           
+            .block__assets(v-else)
+                .block--assets--header
+                    .block--left
+                        p 智选基金，
+                        p 让你的钱聪明起来
+                    .block--right
+                        span 基金持仓
+                        em.iconfont
+                .block__assets--bottom
+                    p 多种种类，投资全球
+        
         .block-bannar-sub-swiper(v-if="tabbarnnarList.length !== 0")
                 van-swipe 
                     van-swipe-item(
