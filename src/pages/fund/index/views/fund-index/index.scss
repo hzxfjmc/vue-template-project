@@ -13,7 +13,7 @@
 }
 .block__assets {
     width: 351px;
-    height:162px;
+    height:160px;
     position: relative;
     z-index: 999;
     margin: -48px 5% 0 5%;
@@ -22,6 +22,48 @@
     border-radius:8px;
     display: flex;
     flex-direction: column;
+    .block--assets--header{
+        width:100%;
+        height:120px;
+        display: flex;
+        align-items: center;
+        padding:0 20px;
+        justify-content: space-between;
+        .block--left{
+            font-size:20px;
+            color:rgba(13,80,216,1);
+        }
+        .block--right{
+            width:142px;
+            height:77px;
+            background: url('~@/assets/img/fund/bgzoushi.png') no-repeat;
+            background-size:100% 100%;
+            position: relative;
+            margin:-20px 0 0 0;
+            .block--button{
+                width:101px;
+                height:30px;
+                color:#fff;
+                background:rgba(47,121,255,1);
+                border-radius:15px;
+                position: absolute;
+                right:0;
+                bottom:0;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+    .block__assets--bottom{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height:40px;
+        padding:0 20px;
+        color:rgba(13,80,216,1);
+    }
     .block__bottom--num{
         display: flex;
         justify-content: center;
@@ -66,6 +108,9 @@
                 margin: 0px 0 0 5px;
                 color:#8C8C8C;
             }
+            span{
+                color:rgba(25,25,25,1);
+            }
         }
         .block__right {
             text-align: right;
@@ -80,6 +125,11 @@
             }
             em {
                 font-size: 18px;
+            }
+            .icon-icon_fund_index_2{
+                font-size:15px;
+                margin:0 0 0 8px;
+                color:rgba(25,25,25,0.45);
             }
             .block--label--list {
                 text-align: right;
@@ -202,6 +252,20 @@
         .block__bottom--l,.block__bottom-r{
             display: flex;
             flex-direction: row;
+            width:100%;
+            height:100%;
+            align-items: center;
+            font-size:12px;
+            .num{
+                font-size:14px;
+                margin:0 0 0 10px;
+            }
+        }
+        .block__bottom--l{
+            border-right:1px solid #e1e1e1;
+        }
+        .block__bottom-r{
+            margin:0 0 0 11px;
         }
     }
 }
@@ -337,4 +401,11 @@
             background: #0d50d8;
         }
     }
+}
+
+.color-green {
+    color: #04ba60;
+}
+.color-red {
+    color: #ea3d3d;
 }

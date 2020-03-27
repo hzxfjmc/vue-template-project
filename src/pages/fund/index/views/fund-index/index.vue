@@ -8,9 +8,9 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-
+        //isLogin && openedAccount
         template
-            .block__assets(v-if="isLogin && openedAccount")
+            .block__assets(v-if="true")
                 .block__top.border-bottom
                     .block__left--label 
                         span 我的理财资产
@@ -18,14 +18,16 @@ div
                             class="iconfont" 
                             @click="hideNumber"
                             :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
-                    .block__right
+                    .block__right(@click="handlerDialog")
                         span 资产币种说明
-                        em(class="iconfont icon-iconEBgengduoCopy")
-                .block__left--number.border-bottom
+                        em(class="iconfont icon-icon_fund_index_2")
+                .block__left--number
                     .block__left--num
                         p 总资产
                         .block__list-es
-                            .block--element--number(:class="code != 1? 'color-blue':'color-black'" v-if="moneyShow") {{positionAmount}}
+                            .block--element--number(
+                                :class="code != 1? 'color-blue':'color-black'" 
+                                v-if="moneyShow") {{positionAmount}}
                             .block--element--number.close--eye(v-else) ******
                             .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
                                 span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
@@ -42,27 +44,37 @@ div
                                         :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}]
 
                     .block__right--yes
-                        p 近7日年化
-                        p.num +100,00000,000
+                        p 近7日收益
+                        p.num(v-if="moneyShow && weekEarnings>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{weekEarnings}}
+                        p.num(v-if="moneyShow && weekEarnings<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{weekEarnings}}
+                        p.num(v-if="moneyShow && weekEarnings==0") {{weekEarnings}}
+                        p.num(v-else) ****
                 
-                .block__left__bottom
+                .block__left__bottom.border-top
                     .block__bottom--l
                         p 基金
-                        p 1000,000,00
+                        p.num(v-if="moneyShow") 1000,000,00
+                        p(v-else) ****
                     .block__bottom-r
                         p 友信宝
-                        p 100,000,00
+                        p.num(v-if="moneyShow") 100,000,00 
+                        p(v-else) ****
                     //- span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
                     //- span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
            
             .block__assets(v-else)
-                .block--assets--header
+                .block--assets--header.border-bottom
                     .block--left
                         p 智选基金，
                         p 让你的钱聪明起来
-                    .block--right
-                        span 基金持仓
-                        em.iconfont
+                    .block--right(v-if="!isLogin")
+                        .block--button
+                            span 立即登录
+                            em.iconfont.icon-iconEBgengduoCopy
+                    .block--right(v-else)
+                        .block--button
+                            span 立即开户
+                            em.iconfont.icon-iconEBgengduoCopy
                 .block__assets--bottom
                     p 多种种类，投资全球
         
@@ -560,7 +572,6 @@ export default {
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
-        console.log(this.appType)
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
