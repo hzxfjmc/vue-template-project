@@ -19,7 +19,7 @@
                     p.num(v-if="item.recordAmount>0") +{{item.recordAmount}}
                     p.num(v-else-if="item.recordAmount<0") -{{item.recordAmount}}
                     p.num(v-else) {{item.recordAmount}}
-                    p.color 余额 {{item.recordBalance}}
+                    p.color {{$t('Balance')}} {{item.recordBalance}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
         .no-record-box {{$t('nomore')}}
@@ -35,12 +35,15 @@ export default {
     },
     i18n: {
         zhCHS: {
+            Balance: '余额',
             nomore1: '无更多内容'
         },
         zhCHT: {
+            Balance: '餘額',
             nomore1: '無更多內容'
         },
         en: {
+            Balance: 'Balance',
             nomore1: 'No More Content'
         }
     },

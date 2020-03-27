@@ -39,7 +39,7 @@
             span {{$t('C10')}}         
         .block__list--item(@click="jumpPage('order-list',1)")
             em.iconfont.icon-zijin
-            span 资金记录                
+            span {{$t('C12')}}                 
 
     .block-bannar-swiper
         van-swipe(:autoplay="3000")  
@@ -50,7 +50,7 @@
                 img(:src="item.picture_url") 
 
     .block__fund--list
-        .block__title 精选基金
+        .block__title {{$t('more')}}
         fundCard(
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
@@ -81,18 +81,21 @@ export default {
             login: '请登录后进行操作 ',
             loginBtn: '立即登录',
             openAccountBtn: '立即开户',
+            more: '更多基金',
             openAccount: '您尚未开户，开户成功即可交易'
         },
         zhCHT: {
             login: '請登陸後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
+            more: '更多基金',
             openAccount: '您尚未開戶，開戶成功即可交易'
         },
         en: {
             login: 'Please login in',
             loginBtn: 'Login',
             openAccountBtn: 'Open account',
+            more: 'More',
             openAccount: 'Please open your account to continue the trade'
         }
     },

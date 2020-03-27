@@ -105,6 +105,8 @@ export default {
                     this.orderDetails.deliveryDate
                 ).format('MM-DD')}`
             }
+            //初始化多语言
+            this.stepTwo.label = this.$t('C25')
         },
         toHomePage() {
             this.$router.push({

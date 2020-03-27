@@ -6,10 +6,10 @@
             em.money 港币
     .block__account--list.border-bottom(v-if="!successHide")
         .block__account--item
-            p 手续费
+            p {{$t('C22')}}
             p {{orderDetails.recordFee}}港币
         .block__account--item
-            p 实际到账
+            p {{$t('C23')}}
             p {{orderDetails.recordAmount}}港币
     .block__status--step
         transferStep(
