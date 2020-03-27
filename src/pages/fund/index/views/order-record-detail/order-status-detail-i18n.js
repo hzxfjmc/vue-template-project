@@ -15,34 +15,7 @@ export const i18nOrderStatusData = {
         backoutBtnText: '撤销',
         orderFree: '费用',
         beConfirmed: '待确认',
-        failedRemark: '订单失败原因',
-        resultList: {
-            1: {
-                registration: 'A1',
-                riskStyle: '保守型',
-                suitPro: '低风险产品'
-            },
-            2: {
-                registration: 'A2',
-                riskStyle: '稳健型',
-                suitPro: '中低风险产品'
-            },
-            3: {
-                registration: 'A3',
-                riskStyle: '均衡型',
-                suitPro: '中风险产品'
-            },
-            4: {
-                registration: 'A4',
-                riskStyle: '增长型',
-                suitPro: '中高风险产品'
-            },
-            5: {
-                registration: 'A5',
-                riskStyle: '进取型',
-                suitPro: '高风险产品'
-            }
-        }
+        failedRemark: '订单失败原因'
     },
     zhCHT: {
         amount: '金額',
@@ -60,34 +33,7 @@ export const i18nOrderStatusData = {
         backoutBtnText: '撤銷',
         orderFree: '費用',
         beConfirmed: '待確認',
-        failedRemark: '訂單失敗原因',
-        resultList: {
-            1: {
-                registration: 'A1',
-                riskStyle: '保守型',
-                suitPro: '低風險產品'
-            },
-            2: {
-                registration: 'A2',
-                riskStyle: '穩健型',
-                suitPro: '中低風險產品'
-            },
-            3: {
-                registration: 'A3',
-                riskStyle: '均衡型',
-                suitPro: '中風險產品'
-            },
-            4: {
-                registration: 'A4',
-                riskStyle: '增長型',
-                suitPro: '中高風險產品'
-            },
-            5: {
-                registration: 'A5',
-                riskStyle: '進取型',
-                suitPro: '高風險產品'
-            }
-        }
+        failedRemark: '訂單失敗原因'
     },
     en: {
         amount: 'Investment Amount',
@@ -105,33 +51,6 @@ export const i18nOrderStatusData = {
         backoutBtnText: 'Cancel',
         orderFree: 'Cost',
         beConfirmed: 'To Be Confirmed',
-        failedRemark: 'Reason',
-        resultList: {
-            1: {
-                registration: 'A1',
-                riskStyle: 'Conservative',
-                suitPro: 'Low Risk Products'
-            },
-            2: {
-                registration: 'A2',
-                riskStyle: 'Stable',
-                suitPro: 'Low - Medium Risk Products'
-            },
-            3: {
-                registration: 'A3',
-                riskStyle: 'Balanced',
-                suitPro: 'Medium Risk Products'
-            },
-            4: {
-                registration: 'A4',
-                riskStyle: 'Growth',
-                suitPro: 'Medium - High Risk Products'
-            },
-            5: {
-                registration: 'A5',
-                riskStyle: 'Aggressive',
-                suitPro: 'High Risk Products'
-            }
-        }
+        failedRemark: 'Reason'
     }
 }

@@ -209,15 +209,6 @@ export default {
                         dayjs(res.deliveryDate).format('MM.DD')) ||
                     '--'
                 this.orderShare = res.orderShare
-                // if (
-                //     res.orderShare === null ||
-                //     ([1, 2].includes(res.externalStatus) &&
-                //         res.orderShare * 1 === 0)
-                // ) {
-                //     this.orderShare = this.$t('beConfirmed')
-                // } else {
-                //     this.orderShare = transNumToThousandMark(res.orderShare, 4)
-                // }
                 this.netPrice = res.netPrice
                 this.orderFinishValue =
                     (res.finishTime &&
@@ -258,117 +249,109 @@ export default {
                         currencyType: this.fundTradeInfoVO.currency.type
                     }
                 })
-            } else {
-                if (
-                    this.userInfo.assessResult <
-                    this.fundHeaderInfoVO.fundRiskType
-                ) {
-                    if (this.userInfo.damagedStatus === 1) {
-                        return this.$router.push({
-                            path: '/risk-appropriate-result',
-                            query: {
-                                id: this.fundId,
-                                fundRiskType: this.fundRiskType
-                            }
-                        })
-                    }
-                    if (
-                        this.fundOverviewInfoVO.derivativeType === 2 ||
-                        this.fundOverviewInfoVO.derivativeType === 3
-                    ) {
-                        return this.$router.push({
-                            path: '/risk-appropriate-result',
-                            query: {
-                                id: this.fundId,
-                                fundRiskType: this.fundRiskType
-                            }
-                        })
-                    }
-                    if (this.fundOverviewInfoVO.derivativeType === 1) {
-                        let riskTipContent = this.$t([
-                            `该产品为${this.fundHeaderInfoVO.fundRisk}（R${
-                                this.fundHeaderInfoVO.fundRiskType
-                            }），超出您当前的风险承受能力${
-                                this.$t('resultList')[
-                                    this.userInfo.assessResult
-                                ].riskStyle
-                            }（A${
-                                this.userInfo.assessResult
-                            }）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
-                            `該產品為${this.fundHeaderInfoVO.fundRisk}（R${
-                                this.fundHeaderInfoVO.fundRiskType
-                            }），超出您當前的風險承受能力${
-                                this.$t('resultList')[
-                                    this.userInfo.assessResult
-                                ].riskStyle
-                            }（A${
-                                this.userInfo.assessResult
-                            }）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
-                            `The risk level of this product is R${
-                                this.fundHeaderInfoVO.fundRiskType
-                            }(${
-                                this.fundHeaderInfoVO.fundRisk
-                            }), which exceeds your current risk tolerance is A${
-                                this.userInfo.assessResult
-                            }(${
-                                this.$t('resultList')[
-                                    this.userInfo.assessResult
-                                ].riskStyle
-                            }). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
-                        ])
-                        this.$dialog
-                            .confirm({
-                                title: this.$t('riskTip'),
-                                message: riskTipContent,
-                                confirmButtonText: this.$t('continueButton'),
-                                cancelButtonText: this.$t('cancelButton')
-                            })
-                            .then(() => {
-                                let data = {
-                                    query: {
-                                        id: this.fundId,
-                                        assessResult: this.userInfo
-                                            .assessResult,
-                                        currencyType: this.fundTradeInfoVO
-                                            .currency.type,
-                                        fundCode: this.fundCode
-                                    }
-                                }
-                                if (this.$route.query.groupId) {
-                                    data.query.groupId = 0
-                                }
-                                data.path =
-                                    // eslint-disable-next-line no-constant-condition
-                                    (this.userInfo.extendStatusBit & 16) > 0
-                                        ? '/fund-subscribe'
-                                        : '/open-permissions'
-                                this.$router.push(data)
-                                // on confirm
-                            })
-                            .catch(() => {
-                                return
-                                // on cancel
-                            })
-                    }
-                } else {
-                    let data = {
+            }
+            if (
+                this.userInfo.assessResult < this.fundHeaderInfoVO.fundRiskType
+            ) {
+                if (this.userInfo.damagedStatus === 1) {
+                    return this.$router.push({
+                        path: '/risk-appropriate-result',
                         query: {
                             id: this.fundId,
-                            assessResult: this.userInfo.assessResult,
-                            currencyType: this.fundTradeInfoVO.currency.type,
-                            fundCode: this.fundCode
+                            fundRiskType: this.fundRiskType
                         }
-                    }
-                    data.path =
-                        // eslint-disable-next-line no-constant-condition
-                        (this.userInfo.extendStatusBit & 16) > 0
-                            ? '/fund-subscribe'
-                            : '/open-permissions'
-                    if (this.$route.query.groupId) {
-                        data.query.groupId = 0
-                    }
-                    this.$router.push(data)
+                    })
                 }
+                if (this.fundOverviewInfoVO.derivativeType != 1) {
+                    return this.$router.push({
+                        path: '/risk-appropriate-result',
+                        query: {
+                            id: this.fundId,
+                            fundRiskType: this.fundRiskType
+                        }
+                    })
+                } else {
+                    let riskTipContent = this.$t([
+                        `该产品为${this.fundHeaderInfoVO.fundRisk}（R${
+                            this.fundHeaderInfoVO.fundRiskType
+                        }），超出您当前的风险承受能力${
+                            this.$t('resultList')[this.userInfo.assessResult]
+                                .riskStyle
+                        }（A${
+                            this.userInfo.assessResult
+                        }）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
+                        `該產品為${this.fundHeaderInfoVO.fundRisk}（R${
+                            this.fundHeaderInfoVO.fundRiskType
+                        }），超出您當前的風險承受能力${
+                            this.$t('resultList')[this.userInfo.assessResult]
+                                .riskStyle
+                        }（A${
+                            this.userInfo.assessResult
+                        }）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
+                        `The risk level of this product is R${
+                            this.fundHeaderInfoVO.fundRiskType
+                        }(${
+                            this.fundHeaderInfoVO.fundRisk
+                        }), which exceeds your current risk tolerance is A${
+                            this.userInfo.assessResult
+                        }(${
+                            this.$t('resultList')[this.userInfo.assessResult]
+                                .riskStyle
+                        }). Click Continue to operate as if you confirm that you voluntarily bear the risk of this product, and uSMART does not actively recommend this product to you.`
+                    ])
+                    this.$dialog
+                        .confirm({
+                            title: this.$t('riskTip'),
+                            message: riskTipContent,
+                            confirmButtonText: this.$t('continueButton'),
+                            cancelButtonText: this.$t('cancelButton'),
+                            confirmButtonColor: '#0D50D8',
+                            cancelButtonColor: '#D1D1D1'
+                        })
+                        .then(() => {
+                            let data = {
+                                query: {
+                                    id: this.fundId,
+                                    assessResult: this.userInfo.assessResult,
+                                    currencyType: this.fundTradeInfoVO.currency
+                                        .type,
+                                    fundCode: this.fundCode
+                                }
+                            }
+                            if (this.$route.query.groupId) {
+                                data.query.groupId = 0
+                            }
+                            data.path =
+                                // eslint-disable-next-line no-constant-condition
+                                (this.userInfo.extendStatusBit & 16) > 0
+                                    ? '/fund-subscribe'
+                                    : '/open-permissions'
+                            this.$router.push(data)
+                            // on confirm
+                        })
+                        .catch(() => {
+                            return
+                            // on cancel
+                        })
+                }
+            } else {
+                let data = {
+                    query: {
+                        id: this.fundId,
+                        assessResult: this.userInfo.assessResult,
+                        currencyType: this.fundTradeInfoVO.currency.type,
+                        fundCode: this.fundCode
+                    }
+                }
+                data.path =
+                    // eslint-disable-next-line no-constant-condition
+                    (this.userInfo.extendStatusBit & 16) > 0
+                        ? '/fund-subscribe'
+                        : '/open-permissions'
+                if (this.$route.query.groupId) {
+                    data.query.groupId = 0
+                }
+                this.$router.push(data)
             }
         },
         // 撤销

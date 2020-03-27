@@ -17,5 +17,36 @@ export const zhCHS = {
     fundOrderList: '订单记录',
     fundAccount: '基金持仓',
     fundHistorical: '净值历史',
-    fundHistoricalList: '历史业绩'
+    fundHistoricalList: '历史业绩',
+    declareTitle: '免责声明/风险披露',
+    riskTip: '风险提示',
+    continueButton: '继续操作',
+    cancelButton: '取消',
+    resultList: {
+        1: {
+            registration: 'A1',
+            riskStyle: '保守型',
+            suitPro: '低风险产品'
+        },
+        2: {
+            registration: 'A2',
+            riskStyle: '稳健型',
+            suitPro: '中低风险产品'
+        },
+        3: {
+            registration: 'A3',
+            riskStyle: '均衡型',
+            suitPro: '中风险产品'
+        },
+        4: {
+            registration: 'A4',
+            riskStyle: '增长型',
+            suitPro: '中高风险产品'
+        },
+        5: {
+            registration: 'A5',
+            riskStyle: '进取型',
+            suitPro: '高风险产品'
+        }
+    }
 }

@@ -31,7 +31,8 @@ export const i18nAppropriateData = {
             3: '均衡型(A3)及以上可购买',
             4: '增长型(A4)及以上可购买',
             5: '进取型(A5)'
-        }
+        },
+        subscribe: '仍要继续申购>'
     },
     zhCHT: {
         matching: '匹配',
@@ -65,7 +66,8 @@ export const i18nAppropriateData = {
             3: '均衡型(A3)及以上可購買',
             4: '增長型(A4)及以上可購買',
             5: '進取型(A5)'
-        }
+        },
+        subscribe: '仍要繼續申購>'
     },
     en: {
         matching: 'Matched',
@@ -100,6 +102,7 @@ export const i18nAppropriateData = {
             3: 'Available for balanced (or more aggressive) investor',
             4: 'Available for growth (or more aggressive) investor',
             5: 'Aggressive'
-        }
+        },
+        subscribe: 'Still Want to Continue Sub>'
     }
 }

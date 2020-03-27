@@ -109,42 +109,67 @@ const scheme = {
     // 显示引导下载
     showLeadin() {
         const root = document.createElement('div')
-        root.style.zIndex = 999
+        root.style.zIndex = 99999
         root.style.position = 'fixed'
         root.style.left = 0
         root.style.right = 0
         root.style.top = 0
         root.style.bottom = 0
         root.style.backgroundColor = 'rgba(0, 0, 0, 0.7)'
-        root.style.backgroundImage = `url(${require('./download-hands-tip.png')})`
+        // root.style.backgroundImage = `url(${require('./download-hands-tip.png')})`
         root.style.backgroundPosition = 'right top'
         root.style.backgroundRepeat = 'no-repeat'
         root.style.textAlign = 'center'
         const p = document.createElement('p')
         p.style.color = '#fff'
-        p.style.fontSize = '24px'
-        p.style.marginTop = '300px'
-        p.innerText = '请在浏览器中打开'
+        p.style.fontSize = '16px'
+        p.style.marginTop = '170px'
+        p.style.width = '90%'
+        p.style.marginLeft = '5%'
+        p.style.lineHeight = '26px'
+        let obj = {
+            zhCHS:
+                '查看更多详情，打开uSMART友信智投客户端，点击右上角，选择在浏览器中打开',
+            zhCHT:
+                '查看更多詳情，打開uSMART友信智投客戶端，點擊右上角，選擇在瀏覽器中打開',
+            en:
+                'For more details, open the uSMART Client Click on here and select open in the browser'
+        }
+        p.innerText = obj[env.lang]
+        const img = document.createElement('img')
+        img.style.position = 'fixed'
+        img.style.right = '10px'
+        img.style.top = '10px'
+        img.style.height = '150px'
+        img.src = `${require('./Icon_up.png')}`
         const button = document.createElement('button')
         button.style.display = 'block'
         button.style.background = 'transparent'
-        button.style.border = '2px solid #fff'
-        button.style.borderRadius = '30px'
+        button.style.border = '1px solid #fff'
+        button.style.borderRadius = '5px'
         button.style.color = '#fff'
         button.style.outline = 'none'
         button.style.cursor = 'pointer'
         button.style.textAlign = 'center'
-        button.style.width = '200px'
+        button.style.width = '94px'
         button.style.margin = '0 auto 30px'
-        button.style.height = '60px'
-        button.style.lineHeight = '58px'
-        button.style.fontSize = '24px'
-        button.style.marginTop = '50px'
-        button.innerText = '知道了'
+        button.style.height = '36px'
+        button.style.lineHeight = '32px'
+        button.style.fontSize = '14px'
+        button.style.position = 'absolute'
+        button.style.right = '0'
+        button.style.left = '0px'
+        button.style.bottom = '80px'
+        let returnObj = {
+            zhCHS: '返回',
+            zhCHT: '返回',
+            en: 'Cancel'
+        }
+        button.innerText = returnObj[env.lang]
         root.appendChild(p)
+        root.appendChild(img)
         root.appendChild(button)
         document.body.appendChild(root)
-
         button.onclick = () => {
             root.parentNode.removeChild(root)
         }

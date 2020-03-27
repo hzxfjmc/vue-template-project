@@ -1,121 +1,129 @@
 <template lang="pug">
-.block-fund-index
-    .block__swiper.block__fund_index_swiper
-        van-swipe(:autoplay="3000") 
-            van-swipe-item(
-                v-for="(item, index) in barnnarHkList" 
-                :key="index"  
-                @click="goBanner(item)") 
-                img(:src="item.picture_url") 
-    .block__assets
-        .block__left
-            .block__left--label 
-                span {{$t('accountTotal')}}
-                em(
-                    class="iconfont" 
-                    @click="hideNumber"
-                    :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
-            .block__right
-                .block--hold(@click="toRouterAccount")  
-                    span {{$t('fundHold')}}
-                    em(class="iconfont icon-iconEBgengduoCopy")
-        .block__left--number
-            .block--element--number(:class="code != 1? 'color-blue':'color-black'" v-if="moneyShow") {{positionAmount}}
-            .block--element--number.close--eye(v-else) ******
-            .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
-                span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
-                em(class="iconfont icon-iconxiala" @click="handlerCurrency")
-                em(class="iconfont icon-icon_fund_index_2" @click="handlerDialog")
-                .block--master(
-                    v-if="chooseCurrencyShow" 
-                    @click="chooseCurrencyShow = !chooseCurrencyShow")
-                .block__currey(v-if="chooseCurrencyShow")
-                    span.border-bottom(
-                        @click="chooseCurrency(0)"
-                        :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
-                    span(
-                        @click="chooseCurrency(1)"
-                        :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
-        .block__left__bottom
-            span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-            span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-        .block__bottom--num.border-top()
-           
-
-    .block-bannar-sub-swiper(v-if="tabbarnnarList.length !== 0")
-            van-swipe 
-                van-swipe-item(
-                    v-for="(item, index) in tabbarnnarList" 
-                    @click="goBanner(item)"
-                    :key="index") 
-                    img(:src="item.picture_url") 
-    .block__tab
-        .block__tab--list
-            .block__tab--Item(
-                @click="handlerNavItem(item)"
-                v-for="(item,index) in tabList" 
-                :key="index") 
-                img(:src="code !=1 ? item.imgUrl:item.imgUrl1") 
-                span {{item.label}}
-    .block__container
-        FundList(
-            :code = "code"
-            v-if="choiceFundListShow"
-            :fundlist="choiceFundList")
-
-        .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
-            van-swipe(:autoplay="3000")  
-                van-swipe-item(
-                    v-for="(item, index) in barnnarList" 
-                    @click="goBanner(item)"
-                    :key="index") 
-                    img(:src="item.picture_url") 
-        FundListItem(
-            :code = "code"
-            :bgColor="code !=1 ? '#2B4F80':'#2F79FF'"
-            :title="robustFundList.masterTitle"
-            v-if="robustFundListShow"
-            :fundlist="robustFundList")
-
-        .block--yxbao-container
-            .block--title
-                h3 友信宝
-                em.iconfont.icon-icon_fund_index_2(@click="handlerDesc")
-            p.block--desc 随存随取 闲置资金可挣钱
-            .block--bottom-content
-                .left
-                    .number(
-                        v-if="Number(apy)>0" 
-                        :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(apy*100).toFixed(4)}}%
-                    .number(
-                        v-if="Number(apy)<0" 
-                        :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(apy*100).toFixed(4)}}%
-                    .number(
-                        v-if="Number(apy) === 0") {{Number(apy).toFixed(4)}}%
-                    p.block--bottom--desc 近7日年华
-                .content
-                    p.number 1.4
-                    p.block--bottom--desc 万元收益
-                .right
-                    van-button(:round="true").block--subscribe 立即转入
-
-        FundListItem(
-            :code = "code"
-            :fundlist="blueChipFundList"
-            :title="blueChipFundList.masterTitle"
-            v-if="blueChipFundListShow"
-            :bgColor="code != 1 ? '#F1B92D':'#FFBF32'")
-
-        .block-bannar-sub(
-            :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']"
-            v-if="barnnarUsList.length !== 0")
+div
+    .block-fund-index
+        .block__swiper.block__fund_index_swiper
             van-swipe(:autoplay="3000") 
                 van-swipe-item(
-                    v-for="(item, index) in barnnarUsList" 
+                    v-for="(item, index) in barnnarHkList" 
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-    .fund-echart-render(ref="renderEchartlist")
+        .block__assets
+            .block__left
+                .block__left--label 
+                    span {{$t('accountTotal')}}
+                    em(
+                        class="iconfont" 
+                        @click="hideNumber"
+                        :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
+                .block__right
+                    .block--hold(@click="toRouterAccount")  
+                        span {{$t('fundHold')}}
+                        em(class="iconfont icon-iconEBgengduoCopy")
+            .block__left--number
+                .block--element--number(:class="code != 1? 'color-blue':'color-black'" v-if="moneyShow") {{positionAmount}}
+                .block--element--number.close--eye(v-else) ******
+                .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
+                    span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
+                    em(class="iconfont icon-iconxiala" @click="handlerCurrency")
+                    em(class="iconfont icon-icon_fund_index_2" @click="handlerDialog")
+                    .block--master(
+                        v-if="chooseCurrencyShow" 
+                        @click="chooseCurrencyShow = !chooseCurrencyShow")
+                    .block__currey(v-if="chooseCurrencyShow")
+                        span.border-bottom(
+                            @click="chooseCurrency(0)"
+                            :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
+                        span(
+                            @click="chooseCurrency(1)"
+                            :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
+            
+            .block__left__bottom
+                span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+                span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
+            .block__bottom--num.border-top(
+                v-if="inTransitOrder !== '0' && isLogin"
+                @click="toOrderList")
+                span {{inTransitOrder}}{{$t('fundmsg')}}
+                em(class="iconfont icon-previewright")
+
+        .block-bannar-sub-swiper(v-if="tabbarnnarList.length !== 0")
+                van-swipe 
+                    van-swipe-item(
+                        v-for="(item, index) in tabbarnnarList" 
+                        @click="goBanner(item)"
+                        :key="index") 
+                        img(:src="item.picture_url") 
+        .block__tab
+            .block__tab--list
+                .block__tab--Item(
+                    @click="handlerNavItem(item)"
+                    v-for="(item,index) in tabList" 
+                    :key="index") 
+                    img(:src="code !=1 ? item.imgUrl:item.imgUrl1") 
+                    span {{item.label}}
+        .block__container
+            FundList(
+                :code = "code"
+                v-if="choiceFundListShow"
+                :fundlist="choiceFundList")
+            .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
+                van-swipe(:autoplay="3000")  
+                    van-swipe-item(
+                        v-for="(item, index) in barnnarList" 
+                        @click="goBanner(item)"
+                        :key="index") 
+                        img(:src="item.picture_url") 
+            FundListItem(
+                :code = "code"
+                :bgColor="code !=1 ? '#F1B92D':'#FFBF32'"
+                :title="robustFundList.masterTitle"
+                v-if="robustFundListShow"
+                :fundlist="robustFundList")
+                
+            .block--yxbao-container
+                .block--title
+                    h3 友信宝
+                    em.iconfont.icon-icon_fund_index_2(@click="handlerDesc")
+                p.block--desc 随存随取 闲置资金可挣钱
+                .block--bottom-content
+                    .left
+                        .number(
+                            v-if="Number(apy)>0" 
+                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(apy*100).toFixed(4)}}%
+                        .number(
+                            v-if="Number(apy)<0" 
+                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(apy*100).toFixed(4)}}%
+                        .number(
+                            v-if="Number(apy) === 0") {{Number(apy).toFixed(4)}}%
+                        p.block--bottom--desc 近7日年华
+                    .content
+                        p.number 1.4
+                        p.block--bottom--desc 万元收益
+                    .right
+                        van-button(:round="true").block--subscribe 立即转入
+                        
+            FundListItem(
+                :code = "code"
+                :fundlist="blueChipFundList"
+                :title="blueChipFundList.masterTitle"
+                v-if="blueChipFundListShow"
+                :bgColor="code != 1 ? '#2B4F80':'#2F79FF'")
+
+            .block-bannar-sub(
+                :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']"
+                v-if="barnnarUsList.length !== 0")
+                van-swipe(:autoplay="3000") 
+                    van-swipe-item(
+                        v-for="(item, index) in barnnarUsList" 
+                        :key="index"  
+                        @click="goBanner(item)") 
+                        img(:src="item.picture_url") 
+        //- .fund-echart-render(ref="renderEchartlist")
+        .block__bottom--p
+            img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
+            p {{$t('bottomMsg')}}
+            a(href="javascript:void(0);" @click="toDeclareAgreement") {{$t('bottomHref')}}
 </template>
 <script>
 import './index.scss'
@@ -158,7 +166,14 @@ export default {
             fundmsg: '笔交易确认中',
             openAccount: '您尚未开户，开户成功即可交易',
             msg:
-                '1. 你可选择港币或美元作为基金总资产基础货币。\n2. uSMART会将你所有基金市值按照基础货币来显示和计算。例子: 当你的基础货币为港币时，你的基金总资产 = 港币基金市值 + 美元基金市值(按汇率转换成港币)\n3. 基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。'
+                '1. 你可选择港币或美元作为基金总资产基础货币。\n2. uSMART会将你所有基金市值按照基础货币来显示和计算。例子: 当你的基础货币为港币时，你的基金总资产 = 港币基金市值 + 美元基金市值(按汇率转换成港币)\n3. 基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。',
+            bottomMsg:
+                '基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。内容未经证券及期货事务监察委员会审阅。',
+            bottomHref: '免责声明/风险披露',
+            bottomMsg1:
+                '*本网页所载有及/或提供之数据仅供一般参考之用, 并不构成, 亦无意作为, 也不应被诠释为专业意见、要约、招揽或建议投资于此资料内所述之任何基金或投资产品。投资者须注意, 所有投资涉及风险(包括可能会失投资本金), 基金及投资产品之价格可升可跌, 而所呈列的过往表现资料并不表示将来亦会有类似的表现。投资者在作出任何投资决定前, 应详细阅读相关基金及投资产品之销售文件及条款细则(包括当中所载之风险因素之全文)。',
+            bottomMsg2:
+                '投资者须基于本身的财政状况、投资经验、投资目标及预期回报而做出投资决定, 在有需要的情况下, 作任何投资前咨询独立专业顾问。本网页信息由友信证券有限公司(“友信证券”) 提供，保留随时修改而不作另行通知, 内容未经证券及期货事务监察委员会审阅。'
         },
         zhCHT: {
             fundHold: '基金持倉',
@@ -178,7 +193,14 @@ export default {
             openAccountBtn: '立即開戶',
             openAccount: '您尚未開戶，開戶成功即可交易',
             msg:
-                '1. 你可選擇港幣或美元作為基金總資產基礎貨幣。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。'
+                '1. 你可選擇港幣或美元作為基金總資產基礎貨幣。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。',
+            bottomMsg:
+                '基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。內容未經證券及期貨事務監察委員會審閱。',
+            bottomHref: '免責聲明/風險披露',
+            bottomMsg1:
+                '*本網頁所載有及/或提供之數據僅供一般參考之用, 並不構成, 亦無意作為, 也不應被詮釋為專業意見、要約、招攬或建議投資於此資料內所述之任何基金或投資產品。投資者須注意, 所有投資涉及風險(包括可能會失投資本金), 基金及投資產品之價格可升可跌, 而所呈列的過往表現資料並不表示將來亦會有類似的表現。投資者在作出任何投資決定前, 應詳細閱讀相關基金及投資產品之銷售文件及條款細則(包括當中所載之風險因素之全文)。',
+            bottomMsg2:
+                '投資者須基於本身的財政狀況、投資經驗、投資目標及預期回報而做出投資決定, 在有需要的情況下, 作任何投資前諮詢獨立專業顧問。本網頁信息由友信證券有限公司(“友信證券”) 提供，保留隨時修改而不作另行通知, 內容未經證券及期貨事務監察委員會審閱。'
         },
         en: {
             unit: 'B ',
@@ -198,7 +220,14 @@ export default {
             confirm: 'Confirm',
             fundmsg: ' Processing Order',
             msg:
-                '1. You can choose HKD or USD as the base currencyTab of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currencyTab.Example: When your base currencyTab is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currencyTab is only used as a display of uSMART fund asset calculations. Does not affect the fund currencyTab of each fund.'
+                '1. You can choose HKD or USD as the base currencyTab of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currencyTab.Example: When your base currencyTab is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currencyTab is only used as a display of uSMART fund asset calculations. Does not affect the fund currencyTab of each fund.',
+            bottomMsg:
+                'Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.The contents have not been reviewed by the Securities and Futures Commission.',
+            bottomHref: 'Disclaimer/Risk Disclosure',
+            bottomMsg1:
+                'Information provided on these webpages is for general information and reference only and does not constitute nor is it intended to be construed as any professional advice, offer, solicitation, or recommendation to deal in any funds or investment products. Investors should note that all investments involve risks (including the possibility of loss of the capital invested), prices of funds and investment products may go up as well as down and past performance is not indicative of future performance. Investors should read the relevant investment offering documents and terms and conditions (including the full text of the risk factors stated therein) in detail before making any investment decision.',
+            bottomMsg2:
+                'Investors should make investment decision(s) based on his/her own financial situation, investment experience, investment objectives, and expected return; and if necessary, should seek independent professional advice before making any investment decision(s). This webpage is issued by uSmart Securities Limited and uSmart reserves the rights to make any amendments without prior notice.  The contents have not been reviewed by the Securities and Futures Commission.'
         }
     },
     computed: {
@@ -262,7 +291,9 @@ export default {
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: [],
-            apy: '0'
+            apy: '0',
+            bottomMsgLogoUsmart: require('@/assets/img/fund/uSmart.png'),
+            bottomMsgLogoYxzt: require('@/assets/img/fund/yxzt.png')
         }
     },
     methods: {
@@ -500,12 +531,17 @@ export default {
                 }
                 this.$toast(e.msg)
             }
+        },
+        toDeclareAgreement() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/declare-agreement`
+            this.openWebView(url)
         }
     },
     async created() {
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
+        console.log(this.appType)
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
@@ -519,4 +555,33 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+@import './index.scss';
+.fund-echart-render {
+    height: 65px;
+    width: 70px;
+}
+.block__bottom--p {
+    width: 90%;
+    margin: 20px 5%;
+    img {
+        height: 12px;
+        margin: 0 auto 20px;
+        display: block;
+    }
+    p {
+        font-size: 12px;
+        line-height: 17px;
+        text-align: justify;
+        color: #999999;
+        margin-bottom: 20px;
+    }
+    a {
+        text-align: center;
+        font-size: 12px;
+        display: block;
+        padding-bottom: 20px;
+        color: $hk-text-line-color;
+    }
+}
+</style>

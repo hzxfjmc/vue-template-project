@@ -52,7 +52,8 @@
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
         .fund___list--p
-            p {{$t('msg')}}
+            p {{$t('msg1')}}
+            p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
             van-button.button-5width.button-left.btn(
@@ -68,10 +69,10 @@
                 :class="[flag2? 'fund-footer':'fund-no']"
                 @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
-        .fund-footer-content(v-if="invate === 'share'")
+        .fund-footer-contentShare(v-if="invate === 'share'")
             van-button(
                 class="fund-footer btn button-width"
-                @click="handleShare()") {{$t(['到uSMART查看更多內容','到uSMART查看更多內容','View More In uSMART'])}}
+                @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
 
         .fund-footer-content(
             v-if="chsFightButton")
@@ -213,40 +214,12 @@ export default {
                 fiveYear: '近五年',
                 all: '成立来'
             },
-            msg:
-                '以上资料来源于基金公司及第三方数据商，相关数据仅供参考本页面非任何法律文件，投资前请阅读基金合同，招募说明书基金过往业绩不预示未来表现不构成投资建议，市场有风险投资需谨慎',
+            msg1:
+                '*本页面资料来源于基金管理公司、基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。',
+            msg2:
+                '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
-            Subscribenow: '立即认购',
-            riskTip: '风险提示',
-            continueButton: '继续操作',
-            cancelButton: '取消',
-            resultList: {
-                1: {
-                    registration: 'A1',
-                    riskStyle: '保守型',
-                    suitPro: '低风险产品'
-                },
-                2: {
-                    registration: 'A2',
-                    riskStyle: '稳健型',
-                    suitPro: '中低风险产品'
-                },
-                3: {
-                    registration: 'A3',
-                    riskStyle: '均衡型',
-                    suitPro: '中风险产品'
-                },
-                4: {
-                    registration: 'A4',
-                    riskStyle: '增长型',
-                    suitPro: '中高风险产品'
-                },
-                5: {
-                    registration: 'A5',
-                    riskStyle: '进取型',
-                    suitPro: '高风险产品'
-                }
-            }
+            Subscribenow: '立即认购'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -275,40 +248,12 @@ export default {
                 fiveYear: '近五年',
                 all: '成立来'
             },
-            msg:
-                '以上資料基金會基金公司及第三方數據商，相關數據另有參考本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書基金過往業績不預示未來表現不構成投資建議，市場有風險投資需謹慎',
+            msg1:
+                '*本頁面資料來源於基金管理公司、基金服務提供供應商。所有數據截至最新淨值日期（除特殊標註外）,友信對基金的業績表現計算是按該時期的資產淨值、相關類別貨幣計算。如有未顯示年度/時期的表現，則指該年度/時期未有足夠資料計算。',
+            msg2:
+                '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
-            Subscribenow: '立即認購',
-            riskTip: '風險提示',
-            continueButton: '繼續操作',
-            cancelButton: '取消',
-            resultList: {
-                1: {
-                    registration: 'A1',
-                    riskStyle: '保守型',
-                    suitPro: '低風險產品'
-                },
-                2: {
-                    registration: 'A2',
-                    riskStyle: '穩健型',
-                    suitPro: '中低風險產品'
-                },
-                3: {
-                    registration: 'A3',
-                    riskStyle: '均衡型',
-                    suitPro: '中風險產品'
-                },
-                4: {
-                    registration: 'A4',
-                    riskStyle: '增長型',
-                    suitPro: '中高風險產品'
-                },
-                5: {
-                    registration: 'A5',
-                    riskStyle: '進取型',
-                    suitPro: '高風險產品'
-                }
-            }
+            Subscribenow: '立即認購'
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -338,41 +283,13 @@ export default {
                 fiveYear: 'Last 5-Year',
                 all: 'Since Inception'
             },
-            msg:
-                'The above information comes from the fund company and third-party data providers.This page is not a legal document. Please read the fund contract and prospectus before investing.Past performance is not indicative of future performance.All investments involve risk. Investors should consult all available information,before making any investment.',
+            msg1:
+                "* The information on this page comes from fund management companies and fund service providers. All data are up to the date of the latest net worth (unless otherwise specified). uSMART calculates the fund's performance on a NAV-to-NAV basis in the relevant share class currency. Whenever there is no past performance shown, no sufficient data available in that year to calculate performance.",
+            msg2:
+                'The relevant data is for reference only. This page is not a legal document. Please carefully read the fund’s prospectus before investing. Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
-            Subscribenow: 'Subscribe now',
-            riskTip: 'Risk Tip',
-            continueButton: 'Continue',
-            cancelButton: 'Cancel',
-            resultList: {
-                1: {
-                    registration: 'A1',
-                    riskStyle: 'Conservative',
-                    suitPro: 'Low Risk Products'
-                },
-                2: {
-                    registration: 'A2',
-                    riskStyle: 'Stable',
-                    suitPro: 'Low - Medium Risk Products'
-                },
-                3: {
-                    registration: 'A3',
-                    riskStyle: 'Balanced',
-                    suitPro: 'Medium Risk Products'
-                },
-                4: {
-                    registration: 'A4',
-                    riskStyle: 'Growth',
-                    suitPro: 'Medium - High Risk Products'
-                },
-                5: {
-                    registration: 'A5',
-                    riskStyle: 'Aggressive',
-                    suitPro: 'High Risk Products'
-                }
-            }
+            Subscribenow: 'Subscribe now'
         }
     },
     keepalive: true,
@@ -965,22 +882,10 @@ export default {
                 this.fundHeaderInfoVO.derivativeType =
                     res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
-                let flag = this.fundHeaderInfoVO.apy < 0
-                this.fundHeaderInfoVO.apy =
-                    this.fundHeaderInfoVO.assetType === 4
-                        ? (
-                              Math.floor(
-                                  Math.abs(this.fundHeaderInfoVO.apy) * 1000000
-                              ) / 10000
-                          ).toFixed(4)
-                        : (
-                              Math.floor(
-                                  Math.abs(this.fundHeaderInfoVO.apy) * 10000
-                              ) / 100
-                          ).toFixed(2)
-                this.fundHeaderInfoVO.apy = flag
-                    ? -this.fundHeaderInfoVO.apy
-                    : this.fundHeaderInfoVO.apy
+                // this.fundHeaderInfoVO.apy =
+                //     this.fundHeaderInfoVO.assetType === 4
+                //         ? Number(this.fundHeaderInfoVO.apy * 100).toFixed(4)
+                //         : Number(this.fundHeaderInfoVO.apy * 100).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice,
                     4
@@ -1104,9 +1009,11 @@ export default {
         async handleBuyOrSell(params) {
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
+            //拼团埋点描述
+            let fundDesc = params === 1 ? '申购' : '拼团'
             clickFundDetails(
                 'fund_detail',
-                '申购',
+                fundDesc,
                 this.fundHeaderInfoVO.fundId,
                 this.fundHeaderInfoVO.fundName
             )
@@ -1205,7 +1112,9 @@ export default {
                                 title: this.$t('riskTip'),
                                 message: riskTipContent,
                                 confirmButtonText: this.$t('continueButton'),
-                                cancelButtonText: this.$t('cancelButton')
+                                cancelButtonText: this.$t('cancelButton'),
+                                confirmButtonColor: '#0D50D8',
+                                cancelButtonColor: '#D1D1D1'
                             })
                             .then(() => {
                                 let url
@@ -1237,6 +1146,9 @@ export default {
             }
         },
         async appVisibleHandle(data) {
+            if (this.isLogin) {
+                await this.getFundUserInfo()
+            }
             let re = data
             if (typeof data === 'string') {
                 re = JSON.parse(data)
@@ -1375,17 +1287,17 @@ export default {
                         this.fundOverviewInfoVO.currency.name
                     } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
                         2
-                    )}亿,更新时间${this.fundHeaderInfoVO.belongDay}`,
+                    )}亿,更新时间:${this.fundHeaderInfoVO.belongDay}`,
                     `${tenKRTN}${apy},基金規模:${
                         this.fundOverviewInfoVO.currency.name
                     } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
                         2
-                    )}億,更新時間${this.fundHeaderInfoVO.belongDay}`,
+                    )}億,更新時間:${this.fundHeaderInfoVO.belongDay}`,
                     `${tenKRTN}${apy},AUM:${
                         this.fundOverviewInfoVO.currency.name
                     } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
                         2
-                    )}B,Update Time${this.fundHeaderInfoVO.belongDay}`
+                    )}B,Update Time:${this.fundHeaderInfoVO.belongDay}`
                 ])
                 const title = `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`
                 jsBridge.callApp('command_share', {
@@ -1413,6 +1325,7 @@ export default {
         line-height: 17px;
         text-align: justify;
         color: #999999;
+        margin-bottom: 10px;
     }
 }
 .fund-footer-hk {
@@ -1688,6 +1601,20 @@ export default {
                 width: 100%;
             }
         }
+    }
+}
+.fund-footer-contentShare {
+    position: absolute;
+    z-index: 999;
+    bottom: 48px;
+    border-radius: 5px;
+    transform: translateX(-50%);
+    left: 50%;
+    overflow: hidden;
+    .fund-footer {
+        height: 40px !important;
+        font-size: 14px;
+        line-height: 40px;
     }
 }
 .block__button--list {
