@@ -15,7 +15,7 @@
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.apy)<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(item.apy*100).toFixed(2)}}%
-                        .number(v-if="Number(item.pay) === 0") {{item.apy}}
+                        .number(v-if="Number(item.apy) === 0") {{Number(item.apy).toFixed(2)}}%
                         .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom
                         .tag-title 
