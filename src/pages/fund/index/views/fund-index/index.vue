@@ -67,22 +67,22 @@ div
             .block__assets(v-else)
                 .block--assets--header.border-bottom
                     .block--left
-                        p 智选基金，
-                        p 让你的钱聪明起来
+                        p {{$t('descFund')}}
+                        p {{$t('descFund1')}}
                     .block--right(
                         v-if="!isLogin" 
                         @click="toRouterAccount")
                         .block--button
-                            span 立即登录
+                            span {{$t('LoginNow')}}
                             em.iconfont.icon-iconEBgengduoCopy
                     .block--right(
                         v-else 
                         @click="toRouterAccount")
                         .block--button
-                            span 立即开户
+                            span {{$t('OpenAccount')}}
                             em.iconfont.icon-iconEBgengduoCopy
                 .block__assets--bottom
-                    p 多种种类，投资全球
+                    p {{$t('types')}}
         
         .block-bannar-sub-swiper(v-if="tabbarnnarList.length !== 0")
                 van-swipe 
@@ -120,9 +120,9 @@ div
                 
             .block--yxbao-container
                 .block--title
-                    h3 友信宝
+                    h3 {{$t('uMoney')}}
                     em.iconfont.icon-attention(@click="handlerDesc")
-                p.block--desc 闲置资金可赚钱，赎回立即可购买股票
+                p.block--desc {{$t('stockRedemption')}}
                 .block--bottom-content
                     .left
                         .number(
@@ -136,9 +136,9 @@ div
                         p.block--bottom--desc 近7日年华
                     .content
                         p.number 1.4
-                        p.block--bottom--desc 万元收益
+                        p.block--bottom--desc {{$t('tenKRtn')}}
                     .right
-                        van-button(@click="toYxbao").block--subscribe 立即转入
+                        van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}
                         
             FundListItem(
                 :code = "code"
@@ -210,7 +210,16 @@ export default {
             bottomMsg1:
                 '*本网页所载有及/或提供之数据仅供一般参考之用, 并不构成, 亦无意作为, 也不应被诠释为专业意见、要约、招揽或建议投资于此资料内所述之任何基金或投资产品。投资者须注意, 所有投资涉及风险(包括可能会失投资本金), 基金及投资产品之价格可升可跌, 而所呈列的过往表现资料并不表示将来亦会有类似的表现。投资者在作出任何投资决定前, 应详细阅读相关基金及投资产品之销售文件及条款细则(包括当中所载之风险因素之全文)。',
             bottomMsg2:
-                '投资者须基于本身的财政状况、投资经验、投资目标及预期回报而做出投资决定, 在有需要的情况下, 作任何投资前咨询独立专业顾问。本网页信息由友信证券有限公司(“友信证券”) 提供，保留随时修改而不作另行通知, 内容未经证券及期货事务监察委员会审阅。'
+                '投资者须基于本身的财政状况、投资经验、投资目标及预期回报而做出投资决定, 在有需要的情况下, 作任何投资前咨询独立专业顾问。本网页信息由友信证券有限公司(“友信证券”) 提供，保留随时修改而不作另行通知, 内容未经证券及期货事务监察委员会审阅。',
+            SubsNow: '立即转入',
+            tenKRtn: '万元收益',
+            uMoney: '友信宝',
+            stockRedemption: '闲置资金可赚钱，赎回立即可购买股票',
+            descFund: '智选基金，',
+            descFund1: '让你的钱聪明起来',
+            LoginNow: '立即登录',
+            OpenAccount: '立即开户',
+            types: '多种类型，投资全球'
         },
         zhCHT: {
             fundHold: '基金持倉',
@@ -237,7 +246,16 @@ export default {
             bottomMsg1:
                 '*本網頁所載有及/或提供之數據僅供一般參考之用, 並不構成, 亦無意作為, 也不應被詮釋為專業意見、要約、招攬或建議投資於此資料內所述之任何基金或投資產品。投資者須注意, 所有投資涉及風險(包括可能會失投資本金), 基金及投資產品之價格可升可跌, 而所呈列的過往表現資料並不表示將來亦會有類似的表現。投資者在作出任何投資決定前, 應詳細閱讀相關基金及投資產品之銷售文件及條款細則(包括當中所載之風險因素之全文)。',
             bottomMsg2:
-                '投資者須基於本身的財政狀況、投資經驗、投資目標及預期回報而做出投資決定, 在有需要的情況下, 作任何投資前諮詢獨立專業顧問。本網頁信息由友信證券有限公司(“友信證券”) 提供，保留隨時修改而不作另行通知, 內容未經證券及期貨事務監察委員會審閱。'
+                '投資者須基於本身的財政狀況、投資經驗、投資目標及預期回報而做出投資決定, 在有需要的情況下, 作任何投資前諮詢獨立專業顧問。本網頁信息由友信證券有限公司(“友信證券”) 提供，保留隨時修改而不作另行通知, 內容未經證券及期貨事務監察委員會審閱。',
+            SubsNow: '立即轉入',
+            tenKRtn: '萬元收益',
+            uMoney: '友信寶',
+            stockRedemption: '閒置資金可賺錢，贖回立即可購買股票',
+            descFund: '智選基金，',
+            descFund1: '讓你的錢聰明起來',
+            LoginNow: '立即登錄',
+            OpenAccount: '立即開戶',
+            types: '多種類型，投資全球'
         },
         en: {
             unit: 'B ',
@@ -264,7 +282,16 @@ export default {
             bottomMsg1:
                 'Information provided on these webpages is for general information and reference only and does not constitute nor is it intended to be construed as any professional advice, offer, solicitation, or recommendation to deal in any funds or investment products. Investors should note that all investments involve risks (including the possibility of loss of the capital invested), prices of funds and investment products may go up as well as down and past performance is not indicative of future performance. Investors should read the relevant investment offering documents and terms and conditions (including the full text of the risk factors stated therein) in detail before making any investment decision.',
             bottomMsg2:
-                'Investors should make investment decision(s) based on his/her own financial situation, investment experience, investment objectives, and expected return; and if necessary, should seek independent professional advice before making any investment decision(s). This webpage is issued by uSmart Securities Limited and uSmart reserves the rights to make any amendments without prior notice.  The contents have not been reviewed by the Securities and Futures Commission.'
+                'Investors should make investment decision(s) based on his/her own financial situation, investment experience, investment objectives, and expected return; and if necessary, should seek independent professional advice before making any investment decision(s). This webpage is issued by uSmart Securities Limited and uSmart reserves the rights to make any amendments without prior notice.  The contents have not been reviewed by the Securities and Futures Commission.',
+            SubsNow: 'Subs. Now',
+            tenKRtn: '10K Rtn',
+            uMoney: 'uMoney',
+            stockRedemption: 'It can buy stock immediately after redemption',
+            descFund: 'Smart Fund，',
+            descFund1: 'Make your money smart',
+            LoginNow: 'Login Now',
+            OpenAccount: 'Open Account',
+            types: 'Multiple types, Invest globally'
         }
     },
     computed: {
