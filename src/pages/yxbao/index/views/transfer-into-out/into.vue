@@ -14,8 +14,7 @@
             p.tips--top uSMART证券账户
             p.tips--bottom 可用余额：单笔{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}港币
     van-button.btn(
-        @click="getBaoCapitalTrade"
-        :disabled="disabled") {{$t('C9')}}
+        @click="getBaoCapitalTrade") {{$t('C9')}}
 
 </template>
 <script>
@@ -28,11 +27,6 @@ import { hsAccountInfo } from '@/service/stock-capital-server.js'
 export default {
     components: {
         NumberKeyboard
-    },
-    computed: {
-        disabled() {
-            return this.amount == 0
-        }
     },
     data() {
         return {
@@ -74,12 +68,24 @@ export default {
                 let data = await hsAccountInfo(1)
                 this.accountInfo = data || {}
             } catch (error) {
-                this.$toast(error.msg)
+                this.$toast(error.msg, 'middle')
                 console.log('hsAccountInfo:error:>>>', error)
             }
         },
         async getBaoCapitalTrade() {
             try {
+                if (this.amount == 0 || this.amount === this.placeholder)
+                    return this.$toast('请输入金额', 'middle')
+                if (this.amount < this.fundTradeInfoVO.initialInvestAmount)
+                    return this.$toast(
+                        [
+                            `最低转出${this.fundTradeInfoVO.initialInvestAmount}港币`,
+                            `最低轉出${this.fundTradeInfoVO.initialInvestAmount}港幣`,
+                            `Mini. Redemption HKD ${this.fundTradeInfoVO.initialInvestAmount}`
+                        ],
+                        'middle'
+                    )
+
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
@@ -87,6 +93,7 @@ export default {
                     this.getBaoCapitalTrade()
                     return
                 }
+                this.$loading()
                 const res = await getBaoCapitalTrade({
                     amount: this.amount,
                     chargeType: this.chargeType,
@@ -95,14 +102,16 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: data.token
                 })
+                this.$close()
                 this.$router.push({
                     name: 'order-details',
                     params: { data: res }
                 })
             } catch (error) {
-                if (error.desc.errorMessage)
-                    return this.$toast(error.desc.errorMessage)
-                if (error.msg) return this.$toast(error.msg)
+                this.$close()
+                if (error.desc && error.desc.errorMessage)
+                    return this.$toast(error.desc.errorMessage, 'middle')
+                if (error.msg) return this.$toast(error.msg, 'middle')
                 console.log('申购页面-tradeErrorMsg :', error)
             }
         }

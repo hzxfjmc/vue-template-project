@@ -25,7 +25,7 @@
                     p.top {{$t('C5')}} 
                     p.bottom(v-if="hidePadShow") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
-            .block__yxbao-btn(v-if="isLogin")
+            .block__yxbao-btn(v-if="isLogin && positionMarketValue !=0")
                 van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
                 van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
             .block__yxbao-btn(v-else)
@@ -154,15 +154,8 @@ export default {
             if (path != 'transfer-out') {
                 await this.handlerUserAuthority()
             }
-            if (type == 1) {
-                return this.$router.push({
-                    name: path,
-                    query: {
-                        id: this.fundId
-                    }
-                })
-            }
-            jumpUrl(type, path)
+            let url = `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.fundId}`
+            jumpUrl(type, url)
         },
         //bannar图
         async bannerAdvertisement() {
@@ -175,10 +168,8 @@ export default {
         },
         //跳转
         toYxbaoPage() {
-            this.$router.push({
-                name: 'yxbao-details',
-                query: { id: this.fundId, displayLocation: 3 }
-            })
+            let url = `${window.location.origin}/wealth/yxbao/index.html#/yxbao-details?id=${this.fundId}&displayLocation=3`
+            jumpUrl(3, url)
         },
         //获取推荐基金
         async getFundRecommendList() {

@@ -6,7 +6,6 @@
             :placeholder="placeholder"
             :showAllSellBtn="showAllSellBtn"
             @handlerAmount="handlerAmount"
-            @allSell= "allSell"
         )
         p.desc 预计{{fundTradeInfoVO.buySubmit}}开始收益
         .block__list(v-if="!check")
@@ -44,8 +43,7 @@
                 p {{$t('C19')}}
                 p.desc 赎回资金立即到达证券账户，手续费{{fundTradeInfoVO.fastRedemptionFee*100}}%，每人每日限额10万港币：您今日剩余额度：{{customerRemainderQuota}}港币
     van-button.btn(
-        @click="getBaoCapitalTrade"
-        :disabled="disabled") {{$t('C8')}}
+        @click="getBaoCapitalTrade") {{$t('C8')}}
 
 </template>
 <script>
@@ -75,9 +73,6 @@ export default {
                     this.expectedAmount
             ).toFixed(2)
         },
-        disabled() {
-            return this.amount == 0
-        },
         expectedAmount() {
             if (
                 isNaN(
@@ -101,7 +96,8 @@ export default {
             placeholder: '',
             showAllSellBtn: {
                 show: true,
-                desc: '全部转出'
+                desc: '全部转出',
+                maxAmount: ''
             },
             fundTradeInfoVO: {
                 fastRedemptionFee: 0
@@ -115,11 +111,6 @@ export default {
         this.getFundDetail()
     },
     methods: {
-        allSell() {
-            if (this.positionMarketValue == 0) return
-            this.placeholder = this.positionMarketValue
-            this.amount = this.placeholder
-        },
         //获取持仓数据
         async getBaoPostion() {
             try {
@@ -130,6 +121,7 @@ export default {
                     currency: 2
                 })
                 this.positionMarketValue = positionMarketValue
+                this.showAllSellBtn.maxAmount = positionMarketValue
                 this.placeholder = `最大可取金额${positionMarketValue || 0}`
                 this.customerRemainderQuota = transNumToThousandMark(
                     customerRemainderQuota
@@ -157,6 +149,17 @@ export default {
         },
         async getBaoCapitalTrade() {
             try {
+                if (this.amount == 0 || this.amount === this.placeholder)
+                    return this.$toast('请输入金额', 'middle')
+                if (this.amount < this.fundTradeInfoVO.minFastRedemptionAmount)
+                    return this.$toast(
+                        [
+                            `最低转出${this.fundTradeInfoVO.minFastRedemptionAmount}港币`,
+                            `最低轉出${this.fundTradeInfoVO.minFastRedemptionAmount}港幣`,
+                            `Mini. Subs HKD ${this.fundTradeInfoVO.minFastRedemptionAmount}`
+                        ],
+                        'middle'
+                    )
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
@@ -164,6 +167,7 @@ export default {
                     this.getBaoCapitalTrade()
                     return
                 }
+                this.$loading()
                 let outType = this.check ? 1 : 2
                 const res = await getBaoCapitalTrade({
                     amount: this.amount,
@@ -173,14 +177,16 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: data.token
                 })
+                this.$close()
                 this.$router.push({
                     name: 'order-details',
                     params: { data: res }
                 })
             } catch (error) {
-                if (error.desc.errorMessage)
-                    return this.$toast(error.desc.errorMessage)
-                if (error.msg) return this.$toast(error.msg)
+                this.$close()
+                if (error.desc && error.desc.errorMessage)
+                    return this.$toast(error.desc.errorMessage, 'middle')
+                if (error.msg) return this.$toast(error.msg, 'middle')
                 console.log('申购页面-tradeErrorMsg :', error)
             }
         }

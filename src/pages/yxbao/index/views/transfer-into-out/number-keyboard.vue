@@ -11,7 +11,7 @@
             :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
         span.block__all--out(
             @click="allSell"
-            v-if="showAllSellBtn.show") 全部转出
+            v-if="showAllSellBtn.show") {{$t('all')}}
     van-number-keyboard(
         theme="custom"
         :show="show"
@@ -41,6 +41,17 @@ export default {
         placeholder: {
             type: String,
             default: '请输入'
+        }
+    },
+    i18n: {
+        zhCHS: {
+            all: '全部转出'
+        },
+        zhCHT: {
+            all: '全部轉出'
+        },
+        en: {
+            all: 'ALL'
         }
     },
     watch: {
@@ -101,7 +112,8 @@ export default {
         },
         //全部卖出
         allSell() {
-            this.$emit('allSell')
+            this.amount = this.showAllSellBtn.maxAmount
+            this.$emit('handlerAmount', this.amount)
         },
         handlerAmount() {
             this.$emit('handlerAmount', this.amount)

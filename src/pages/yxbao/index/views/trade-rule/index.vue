@@ -67,7 +67,7 @@
                             .block__list--item
                                 p.label {{$t('C55')}}
                                 p.value {{(fundTradeInfoVO.fastRedemptionFee*100)|transNumToThousandMark}}% 
-                                    em (原{{(fundTradeInfoVO.fastRedemptionFee*100+0.5)|transNumToThousandMark}}%)
+                                    //- em (原{{(fundTradeInfoVO.fastRedemptionFee*100+0.5)|transNumToThousandMark}}%)
                             .block__list--item
                                 p.label 最小转出金额
                                 p.value 0.0%
