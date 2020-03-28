@@ -130,16 +130,16 @@ div
                 .block--bottom-content
                     .left
                         .number(
-                            v-if="Number(apy)>0" 
-                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(apy*100).toFixed(4)}}%
+                            v-if="Number(tenThousandApy)>0" 
+                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(tenThousandApy*100).toFixed(4)}}%
                         .number(
-                            v-if="Number(apy)<0" 
-                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(apy*100).toFixed(4)}}%
+                            v-if="Number(tenThousandApy)<0" 
+                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(tenThousandApy*100).toFixed(4)}}%
                         .number(
-                            v-if="Number(apy) === 0") {{Number(apy).toFixed(4)}}%
+                            v-if="Number(tenThousandApy) === 0") {{Number(tenThousandApy).toFixed(4)}}%
                         p.block--bottom--desc 近7日年华
                     .content
-                        p.number 1.4
+                        p.number {{sevenDaysApy}}
                         p.block--bottom--desc {{$t('tenKRtn')}}
                     .right
                         van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}
@@ -160,7 +160,7 @@ div
                         :key="index"  
                         @click="goBanner(item)") 
                         img(:src="item.picture_url") 
-        //- .fund-echart-render(ref="renderEchartlist")
+                        
         .block__bottom--p
             img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
             p {{$t('bottomMsg')}}
@@ -171,7 +171,10 @@ import './index.scss'
 import { Swipe, SwipeItem } from 'vant'
 import FundList from './fund-list'
 import FundListItem from './fund-list-item'
-import { getFundHomepageInfo } from '@/service/finance-info-server'
+import {
+    getFundHomepageInfo,
+    getBaoFundInfo
+} from '@/service/finance-info-server'
 import { getFundTotalPosition } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
@@ -379,10 +382,24 @@ export default {
             fundlist: [],
             apy: '0',
             bottomMsgLogoUsmart: require('@/assets/img/fund/uSmart.png'),
-            bottomMsgLogoYxzt: require('@/assets/img/fund/yxzt.png')
+            bottomMsgLogoYxzt: require('@/assets/img/fund/yxzt.png'),
+            tenThousandApy: '',
+            sevenDaysApy: ''
         }
     },
     methods: {
+        //获取友信宝详情
+        async getBaoFundInfo() {
+            try {
+                const res = await getBaoFundInfo({
+                    currency: 2
+                })
+                this.tenThousandApy = res.tenThousandApy
+                this.sevenDaysApy = (res.sevenDaysApy * 100).toFixed(4)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         //跳转友信宝
         toYxbao() {
             let url = `${window.location.origin}/wealth/yxbao/index.html#/`
@@ -611,6 +628,7 @@ export default {
         }
     },
     async created() {
+        this.getBaoFundInfo()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
