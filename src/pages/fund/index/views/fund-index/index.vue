@@ -8,22 +8,21 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-        //isLogin && openedAccount
         template
-            .block__assets(v-if="true")
+            .block__assets(v-if="isLogin && openedAccount")
                 .block__top.border-bottom
                     .block__left--label 
-                        span 我的理财资产
+                        span {{$t('protfolloAssets')}}
                         em(
                             class="iconfont" 
                             @click="hideNumber"
                             :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
                     .block__right(@click="handlerDialog")
-                        span 资产币种说明
+                        span {{$t('aboutAssets')}}
                         em(class="iconfont icon-icon_fund_index_2")
                 .block__left--number
                     .block__left--num
-                        p 总资产
+                        p {{$t('TotalAssets')}}
                         .block__list-es
                             .block--element--number(
                                 :class="code != 1? 'color-blue':'color-black'" 
@@ -44,7 +43,7 @@ div
                                         :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}]
 
                     .block__right--yes
-                        p 近7日收益
+                        p {{$t('SevenDayIncome')}}
                         p.num(v-if="moneyShow && weekEarnings>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{weekEarnings}}
                         p.num(v-if="moneyShow && weekEarnings<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{weekEarnings}}
                         p.num(v-if="moneyShow && weekEarnings==0") {{weekEarnings}}
@@ -52,12 +51,12 @@ div
                 
                 .block__left__bottom.border-top
                     .block__bottom--l(@click="toRouterAccount")
-                        p 基金
+                        p {{$t('fund')}}
                         p.num(v-if="moneyShow") 1000,000,00
                         p(v-else) ****
                         em.iconfont.icon-previewright
                     .block__bottom-r(@click="toYxbao")
-                        p 友信宝
+                        p {{$t('uMoney')}}
                         p.num(v-if="moneyShow") 100,000,00 
                         p(v-else) ****
                         em.iconfont.icon-previewright
@@ -219,7 +218,11 @@ export default {
             descFund1: '让你的钱聪明起来',
             LoginNow: '立即登录',
             OpenAccount: '立即开户',
-            types: '多种类型，投资全球'
+            types: '多种类型，投资全球',
+            protfolloAssets: '我的组合资产',
+            aboutAssets: '资产币种说明',
+            TotalAssets: '总资产',
+            fund: '基金'
         },
         zhCHT: {
             fundHold: '基金持倉',
@@ -255,7 +258,11 @@ export default {
             descFund1: '讓你的錢聰明起來',
             LoginNow: '立即登錄',
             OpenAccount: '立即開戶',
-            types: '多種類型，投資全球'
+            types: '多種類型，投資全球',
+            protfolloAssets: '我的組合資產',
+            aboutAssets: '資產幣種說明',
+            TotalAssets: '總資產',
+            fund: '基金'
         },
         en: {
             unit: 'B ',
@@ -291,7 +298,11 @@ export default {
             descFund1: 'Make your money smart',
             LoginNow: 'Login Now',
             OpenAccount: 'Open Account',
-            types: 'Multiple types, Invest globally'
+            types: 'Multiple types, Invest globally',
+            protfolloAssets: 'My Portfolio Assets',
+            aboutAssets: 'About Your Assets',
+            TotalAssets: 'Total Assets',
+            fund: 'Fund'
         }
     },
     computed: {
