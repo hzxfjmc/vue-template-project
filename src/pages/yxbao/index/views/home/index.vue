@@ -121,7 +121,6 @@ export default {
     async created() {
         await this.getBaoFundInfo()
         this.getBaoPostion()
-        console.log(this.lang)
         this.getFundRecommendList()
         this.bannerAdvertisement()
     },
