@@ -67,6 +67,7 @@ import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import fundCard from './fund-card.vue'
 import { mapGetters } from 'vuex'
 import jsBridge from '@/utils/js-bridge'
+import { debounce } from '@/utils/tools.js'
 export default {
     components: {
         [Swipe.name]: Swipe,
@@ -123,6 +124,8 @@ export default {
         this.getBaoPostion()
         this.getFundRecommendList()
         this.bannerAdvertisement()
+        // 返回刷新页面
+        window.appVisible = debounce(this.getBaoPostion, 300)
     },
     methods: {
         //权限判断
