@@ -156,7 +156,10 @@ export default {
             if (path != 'transfer-out') {
                 await this.handlerUserAuthority()
             }
-            let url = `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.fundId}`
+            let url =
+                type === 5
+                    ? path
+                    : `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.fundId}`
             jumpUrl(type, url)
         },
         //bannar图

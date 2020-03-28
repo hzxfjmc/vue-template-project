@@ -52,7 +52,7 @@ div
                             :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{currentPostion.weekEarnings|transNumToThousandMark}}
                         p.num(
                             v-if="moneyShow && currentPostion.weekEarnings==0") {{currentPostion.weekEarnings|transNumToThousandMark}}
-                        p.num(v-else) ****
+                        p.num(v-if="!moneyShow") ****
                 
                 .block__left__bottom.border-top
                     .block__bottom--l(@click="toRouterAccount")
