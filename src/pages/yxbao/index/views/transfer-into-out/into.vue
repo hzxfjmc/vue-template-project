@@ -97,7 +97,7 @@ export default {
                 const res = await getBaoCapitalTrade({
                     amount: this.amount,
                     chargeType: this.chargeType,
-                    fundId: 58,
+                    fundId: this.$route.query.id,
                     recordType: 1,
                     requestId: generateUUID(),
                     tradeToken: data.token

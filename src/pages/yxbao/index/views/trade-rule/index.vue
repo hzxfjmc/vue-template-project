@@ -151,7 +151,7 @@ export default {
         async getFundHoliday() {
             try {
                 const res = await getFundHoliday({
-                    fundId: 58
+                    fundId: this.$route.query.id
                 })
                 this.list = res
                 this.list.map(item => {
@@ -166,7 +166,7 @@ export default {
             try {
                 const { fundTradeInfoVO } = await getFundDetail({
                     displayLocation: this.$route.query.displayLocation || 3,
-                    fundId: 58
+                    fundId: this.$route.query.id
                 })
                 this.fundTradeInfoVO = fundTradeInfoVO
                 this.buyProfitLoss.value = this.fundTradeInfoVO.buyProfitLoss

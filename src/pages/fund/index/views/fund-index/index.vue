@@ -26,7 +26,7 @@ div
                         .block__list-es
                             .block--element--number(
                                 :class="code != 1? 'color-blue':'color-black'" 
-                                v-if="moneyShow") {{positionAmount}}
+                                v-if="moneyShow") {{currentPostion.positionTotalAmount|transNumToThousandMark}}
                             .block--element--number.close--eye(v-else) ******
                             .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
                                 span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
@@ -44,20 +44,25 @@ div
 
                     .block__right--yes
                         p {{$t('SevenDayIncome')}}
-                        p.num(v-if="moneyShow && weekEarnings>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{weekEarnings}}
-                        p.num(v-if="moneyShow && weekEarnings<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{weekEarnings}}
-                        p.num(v-if="moneyShow && weekEarnings==0") {{weekEarnings}}
+                        p.num(
+                            v-if="moneyShow && currentPostion.weekEarnings>0" 
+                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{currentPostion.weekEarnings|transNumToThousandMark}}
+                        p.num(
+                            v-if="moneyShow && currentPostion.weekEarnings<0" 
+                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{currentPostion.weekEarnings|transNumToThousandMark}}
+                        p.num(
+                            v-if="moneyShow && currentPostion.weekEarnings==0") {{currentPostion.weekEarnings|transNumToThousandMark}}
                         p.num(v-else) ****
                 
                 .block__left__bottom.border-top
                     .block__bottom--l(@click="toRouterAccount")
                         p {{$t('fund')}}
-                        p.num(v-if="moneyShow") 1000,000,00
+                        p.num(v-if="moneyShow") {{currentPostion.fundPositionAmount|transNumToThousandMark}}
                         p(v-else) ****
                         em.iconfont.icon-previewright
                     .block__bottom-r(@click="toYxbao")
                         p {{$t('uMoney')}}
-                        p.num(v-if="moneyShow") 100,000,00 
+                        p.num(v-if="moneyShow") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
                         p(v-else) ****
                         em.iconfont.icon-previewright
                     //- span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
@@ -167,7 +172,7 @@ import { Swipe, SwipeItem } from 'vant'
 import FundList from './fund-list'
 import FundListItem from './fund-list-item'
 import { getFundHomepageInfo } from '@/service/finance-info-server'
-import { getFundPositionListV3 } from '@/service/finance-server'
+import { getFundTotalPosition } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
@@ -308,6 +313,11 @@ export default {
             iKnow: 'Got it'
         }
     },
+    filters: {
+        transNumToThousandMark(value) {
+            return transNumToThousandMark(value)
+        }
+    },
     computed: {
         stockColorType() {
             return +getStockColorType()
@@ -362,10 +372,8 @@ export default {
             robustFundList: {}, //稳健基金
             hkSummary: {},
             usSummary: {},
-            positionAmount: '0.00',
-            weekEarnings: '0.00',
+            currentPostion: {},
             code: null,
-            inTransitOrder: '0',
             imgUrl:
                 'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: [],
@@ -485,26 +493,13 @@ export default {
             }
         },
         //获取持仓
-        async getFundPositionListV3(flag) {
+        async getFundTotalPosition(flag) {
             try {
-                const {
-                    usSummary,
-                    hkSummary,
-                    inTransitOrder
-                } = await getFundPositionListV3()
-                this.hkSummary = hkSummary
-                this.usSummary = usSummary
-                let positionAmout =
-                    this.currencyTab === 0
-                        ? hkSummary.positionAmount
-                        : usSummary.positionAmount
-                let weekEarnings =
-                    this.currencyTab === 0
-                        ? hkSummary.weekEarnings
-                        : usSummary.weekEarnings
-                this.inTransitOrder = inTransitOrder || '0'
-                this.positionAmount = transNumToThousandMark(positionAmout, 2)
-                this.weekEarnings = transNumToThousandMark(weekEarnings, 2)
+                const { usdSummary, hkdSummary } = await getFundTotalPosition()
+                this.hkSummary = hkdSummary
+                this.usSummary = usdSummary
+                this.currentPostion =
+                    this.currencyTab === 0 ? hkdSummary : usdSummary
             } catch (e) {
                 if (flag) {
                     return
@@ -518,14 +513,9 @@ export default {
         chooseCurrency(data) {
             this.currencyTab = data
             LS.put('activeTab', data)
-            this.positionAmount =
-                data === 0
-                    ? transNumToThousandMark(this.hkSummary.positionAmount, 2)
-                    : transNumToThousandMark(this.usSummary.positionAmount, 2)
-            this.weekEarnings =
-                data === 0
-                    ? transNumToThousandMark(this.hkSummary.weekEarnings, 2)
-                    : transNumToThousandMark(this.usSummary.weekEarnings, 2)
+            this.currentPostion =
+                this.currencyTab === 0 ? this.hkSummary : this.usSummary
+
             this.chooseCurrencyShow = false
         },
         async getFundHomepageInfo() {
@@ -602,7 +592,7 @@ export default {
                 const { code } = await getSource()
                 this.code = code
                 if (this.isLogin) {
-                    this.getFundPositionListV3(flag)
+                    this.getFundTotalPosition(flag)
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
                 }

@@ -171,7 +171,7 @@ export default {
                 let outType = this.check ? 1 : 2
                 const res = await getBaoCapitalTrade({
                     amount: this.amount,
-                    fundId: 58,
+                    fundId: this.$route.query.id,
                     outType: outType,
                     recordType: 2,
                     requestId: generateUUID(),
