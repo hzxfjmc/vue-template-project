@@ -26,10 +26,10 @@
                     p.bottom(v-if="hidePadShow") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
             .block__yxbao-btn(v-if="isLogin")
-                van-button.btn-color-r.btn-width(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
-            .block__yxbao-btn(v-else)
                 van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
                 van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
+            .block__yxbao-btn(v-else)
+                van-button.btn-color-r.btn-width(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
     .block__yx-tab
         .block__list--item(@click="jumpPage('yxzq_goto://deposit',5)")
             em.iconfont.icon-rujin

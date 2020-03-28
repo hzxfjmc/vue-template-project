@@ -6,6 +6,7 @@
             :placeholder="placeholder"
             :showAllSellBtn="showAllSellBtn"
             @handlerAmount="handlerAmount"
+            @allSell= "allSell"
         )
         p.desc 预计{{fundTradeInfoVO.buySubmit}}开始收益
         .block__list(v-if="!check")
@@ -23,28 +24,28 @@
                 .block__list--right.expectedAmount {{actulAmount}}
 
     .block__out--title.common-flex-space-between.border-bottom.common-marge-top
-        h1 转出方式
-        p.tips 转出方式及额度规则
+        h1 {{$t('C37')}}
+        p.tips {{$t('C42')}}
             em.iconfont.icon-iconEBgengduoCopy
     .block__out--content
         .block__out--list(@click="chooseType")
             .left.iconfont(
                 :class="[check ?'icon-icon-checkbox-selected':'icon-unchecked']")
             .right
-                p 普通转出
+                p {{$t('C18')}}
                 p.desc 预计
-                    em 03-09(星期四)10:00
+                    em {{fundTradeInfoVO.buyProfitLoss}}10:00
                     em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
         .block__out--list(@click="chooseType")
             .left.iconfont(
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
                 )
             .right
-                p 快速转出
-                p.desc 赎回资金立即到达证券账户，手续费0.08%，每人每日限额10万港币：您今日剩余额度：{{customerRemainderQuota}}港币
+                p {{$t('C19')}}
+                p.desc 赎回资金立即到达证券账户，手续费{{fundTradeInfoVO.fastRedemptionFee*100}}%，每人每日限额10万港币：您今日剩余额度：{{customerRemainderQuota}}港币
     van-button.btn(
         @click="getBaoCapitalTrade"
-        :disabled="disabled") 转出
+        :disabled="disabled") {{$t('C8')}}
 
 </template>
 <script>
@@ -105,14 +106,20 @@ export default {
             fundTradeInfoVO: {
                 fastRedemptionFee: 0
             },
-            customerRemainderQuota: ''
+            customerRemainderQuota: '',
+            positionMarketValue: ''
         }
     },
-    created() {
-        this.getBaoPostion()
+    async created() {
+        await this.getBaoPostion()
         this.getFundDetail()
     },
     methods: {
+        allSell() {
+            if (this.positionMarketValue == 0) return
+            this.placeholder = this.positionMarketValue
+            this.amount = this.placeholder
+        },
         //获取持仓数据
         async getBaoPostion() {
             try {
@@ -122,8 +129,8 @@ export default {
                 } = await getBaoPostion({
                     currency: 2
                 })
+                this.positionMarketValue = positionMarketValue
                 this.placeholder = `最大可取金额${positionMarketValue || 0}`
-                console.log(this.placeholder)
                 this.customerRemainderQuota = transNumToThousandMark(
                     customerRemainderQuota
                 )

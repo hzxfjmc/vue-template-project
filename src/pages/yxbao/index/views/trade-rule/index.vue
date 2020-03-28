@@ -31,7 +31,7 @@
                     p.title {{$t('C51')}}
                 .block__table--content
                     .block__table--header
-                        .left 日期
+                        .left {{$t('time')}}
                         .right 说明
                     .block__table--container.border-bottom(v-for="(item,index) in list")
                         .left {{item.date}}
@@ -55,7 +55,7 @@
                                 p.value 0.0%
                     hr.hr-border
                     .block__tab-one
-                        p.title 快速转出
+                        p.title {{$t('C19')}}
                         .block__step
                             FundSteps( 
                                 :curStep="3"
@@ -73,10 +73,10 @@
                                 p.value 0.0%
                     hr.hr-border
                     .block__tab-one.block__tab-table
-                        p.title 基金节假日
+                        p.title {{$t('C51')}}
                     .block__table--content
                         .block__table--header
-                            .left 日期
+                            .left {{$t('time')}}
                             .right 说明
                         .block__table--container.border-bottom(v-for="(item,index) in list")
                             .left {{item.date}}

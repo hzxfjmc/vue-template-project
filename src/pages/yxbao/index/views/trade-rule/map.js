@@ -52,7 +52,8 @@ export const trudeRuleNume = {
         },
         sellProfitLoss: {
             label: '资金到账'
-        }
+        },
+        time: '日期'
     },
     zhCHT: {
         tradeTitle: '申購',
@@ -107,7 +108,8 @@ export const trudeRuleNume = {
             platformManagementFee: {
                 label: '平台管理費'
             }
-        }
+        },
+        time: '日期'
     },
     en: {
         tradeTitle: 'Subscription',
@@ -162,6 +164,7 @@ export const trudeRuleNume = {
             platformManagementFee: {
                 label: 'Platform Fee'
             }
-        }
+        },
+        time: 'Time'
     }
 }

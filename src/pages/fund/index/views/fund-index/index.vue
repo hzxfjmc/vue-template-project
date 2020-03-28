@@ -222,7 +222,8 @@ export default {
             protfolloAssets: '我的组合资产',
             aboutAssets: '资产币种说明',
             TotalAssets: '总资产',
-            fund: '基金'
+            fund: '基金',
+            iKnow: '我知道了'
         },
         zhCHT: {
             fundHold: '基金持倉',
@@ -262,7 +263,8 @@ export default {
             protfolloAssets: '我的組合資產',
             aboutAssets: '資產幣種說明',
             TotalAssets: '總資產',
-            fund: '基金'
+            fund: '基金',
+            iKnow: '我知道了'
         },
         en: {
             unit: 'B ',
@@ -302,7 +304,8 @@ export default {
             protfolloAssets: 'My Portfolio Assets',
             aboutAssets: 'About Your Assets',
             TotalAssets: 'Total Assets',
-            fund: 'Fund'
+            fund: 'Fund',
+            iKnow: 'Got it'
         }
     },
     computed: {
@@ -380,11 +383,11 @@ export default {
         //描述
         handlerDesc() {
             this.$dialog.alert({
-                title: this.$t('riskTip'),
+                title: this.$t('aboutAssets'),
                 className: 'block--dialog',
                 message:
                     '1.总资产是您基金资产和友信宝资产的总和\n2.你可选择港币或美元作为基金总资产基础货币。uSMART会将你所有基金市值按照基础货币来显示和计算。例子:当你的基础货币为港币时，你的基金总资产=港币基金市值+美元基金市值(按汇率转换成港币)\n3.基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。',
-                confirmButtonText: this.$t('confirm')
+                confirmButtonText: this.$t('iKnow')
             })
         },
         toOrderList() {

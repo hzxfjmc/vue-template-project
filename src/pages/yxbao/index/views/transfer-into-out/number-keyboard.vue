@@ -9,7 +9,9 @@
         div.number-board(
             v-else
             :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
-        span.block__all--out(v-if="showAllSellBtn.show") 全部转出
+        span.block__all--out(
+            @click="allSell"
+            v-if="showAllSellBtn.show") 全部转出
     van-number-keyboard(
         theme="custom"
         :show="show"
@@ -49,8 +51,7 @@ export default {
     data() {
         return {
             show: true,
-            amount: '',
-            flag: false
+            amount: ''
         }
     },
     computed: {
@@ -98,12 +99,17 @@ export default {
                 this.show = true
             }
         },
+        //全部卖出
+        allSell() {
+            this.$emit('allSell')
+        },
         handlerAmount() {
             this.$emit('handlerAmount', this.amount)
         },
         close() {
             this.show = false
         },
+        //输入
         onInput(val) {
             let re = /^\d{0,9}(\.\d{0,2})?$/
             if (this.amount === this.placeholder && (val == 0 || val === '.')) {
@@ -122,8 +128,8 @@ export default {
             }
             this.$emit('handlerAmount', this.amount)
         },
+        //删除
         onDelete() {
-            this.flag = false
             if (this.amount === this.placeholder) return
             if (this.amount === '0.') return (this.amount = this.placeholder)
             this.amount = this.amount.substr(0, this.amount.length - 1)
@@ -174,7 +180,7 @@ export default {
             position: absolute;
             right: -5px;
             height: 25px;
-            top: 3px;
+            top: 5px;
             width: 2px;
             display: inline-block;
             background: #3c78fa;
@@ -192,7 +198,7 @@ export default {
             position: absolute;
             left: 0;
             height: 22px;
-            top: 0px;
+            top: -2px;
             display: inline-block;
             width: 2px;
             background: #3c78fa;
