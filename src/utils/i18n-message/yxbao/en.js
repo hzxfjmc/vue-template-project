@@ -66,5 +66,6 @@ export const en = {
     C57:
         'Return Explain： if you redeem before the release of return, you will not enjoy the day of the release of return.',
     C58: 'Now',
-    C59: 'Right Now'
+    C59: 'Right Now',
+    uMoney: 'uMoney'
 }

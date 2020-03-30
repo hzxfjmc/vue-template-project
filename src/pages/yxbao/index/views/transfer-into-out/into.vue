@@ -11,8 +11,8 @@
     .block__out--title.common-flex-space-between.common-marge-top
         p.title {{$t('C37')}} 
         .tips 
-            p.tips--top uSMART证券账户
-            p.tips--bottom 可用余额：单笔{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}港币
+            p.tips--top {{$t('C31')}}
+            p.tips--bottom {{$t('C32')}}：{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}港币
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C9')}}
 

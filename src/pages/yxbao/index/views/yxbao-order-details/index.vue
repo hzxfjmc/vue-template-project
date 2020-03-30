@@ -4,7 +4,7 @@
         img(:src="img") 
         p {{orderDetails.recordTypeName}}{{orderDetails.recordStatusName}}
     .block__order-status.border-bottom
-        p.title 订单状态
+        p.title {{$t('orderStatus')}}
         transferStep(
             v-if="intoShow"
             :stepOne="intoStepOne"
@@ -18,22 +18,22 @@
         )
     .block__word--list.border-bottom(v-if="intoShow")
         .block__word--item
-            p.word-color 扣款方式
-            p uSMART证券账户
+            p.word-color {{$t('C30')}}
+            p {{$t('C31')}}
         .block__word--item
-            p.word-color 转入金额
+            p.word-color {{$t('C27')}}
             p.num {{orderDetails.recordAmount|transNumToThousandMark}}港币
 
     .block__word--list.border-bottom(v-else)
         .block__word--item
-            p.word-color 转出方式
+            p.word-color {{$t('C37')}}
             p {{orderDetails.recordTypeName}}
         .block__word--item
-            p.word-color 转入金额
+            p.word-color {{$t('C27')}}
             p.num {{orderDetails.recordAmount|transNumToThousandMark}}港币
 
         .block__word--item
-            p.word-color 手续费
+            p.word-color {{$t('C22')}}
             p.num {{orderDetails.recordFee|transNumToThousandMark}}港币
 
     .block__footer--btn
@@ -47,6 +47,17 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
         transferStep
+    },
+    i18n: {
+        zhCHS: {
+            orderStatus: '订单状态'
+        },
+        zhCHT: {
+            orderStatus: '訂單狀態'
+        },
+        en: {
+            orderStatus: 'Order Status'
+        }
     },
     filters: {
         transNumToThousandMark(value) {
@@ -89,7 +100,7 @@ export default {
                     this.orderDetails.createTime
                 ).format('YYYY-MM-DD hh:mm:ss')
                 this.intoStepTwo.time = `预计${dayjs(
-                    this.orderDetails.deliveryDate
+                    this.orderDetails.earningsDate
                 ).format('MM-DD')}`
             }
             //转出

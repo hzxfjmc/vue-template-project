@@ -2,7 +2,7 @@
     .block__order--content
         .block__header--wrapper
             .block__left
-                .top 持仓金额(港币）
+                .top {{$t('C3')}}
                 .bottom.block__amount {{positionMarketValue|transNumToThousandMark}}
             .block__right
                 .top {{$t('C5')}}

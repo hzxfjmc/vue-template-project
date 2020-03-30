@@ -10,7 +10,7 @@ export default new Router({
         {
             name: 'home',
             path: '/',
-            meta: { title: 'home', auth: true, cs: true },
+            meta: { title: 'uMoney', auth: true, cs: true },
             component: () => import(`@/pages/yxbao/index/views/home/index.vue`)
         },
         {

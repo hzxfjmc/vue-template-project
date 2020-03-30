@@ -105,8 +105,12 @@ export default {
                     item.createTime = dayjs(item.createTime).format(
                         'YYYY-MM-DD hh:mm:ss'
                     )
-                    item.recordTypeName =
-                        item.outType === 2 ? fastOutTypeName : outTypeName
+                    if (item.outType === 2) {
+                        item.recordTypeName = fastOutTypeName
+                    }
+                    if (item.outType === 1) {
+                        item.recordTypeName = outTypeName
+                    }
                 })
                 this.list = this.list.concat(list)
                 this.pageNum = pageNum

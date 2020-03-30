@@ -76,10 +76,14 @@ export default {
                     '快速轉出',
                     'Redemption（Common）'
                 ])
-                this.orderDetails.recordTypeName =
-                    this.orderDetails.outType === 1
-                        ? outTypeName
-                        : fastOutTypeName
+
+                if (this.orderDetails.outType === 1) {
+                    this.orderDetails.recordTypeName = outTypeName
+                }
+                if (this.orderDetails.outType === 2) {
+                    this.orderDetails.recordTypeName = fastOutTypeName
+                }
+
                 this.InitState()
             } catch (e) {
                 this.$toast(e.msg)
