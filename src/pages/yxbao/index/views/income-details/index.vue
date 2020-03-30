@@ -109,7 +109,7 @@ export default {
                     total
                 } = await getBaoCapitalTradeList({
                     currency: 2,
-                    recordType: 1,
+                    recordTypes: [3],
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
@@ -195,6 +195,18 @@ hr {
         color: rgba(25, 25, 25, 0.45);
         line-height: 20px;
         margin: 20px 0 0 0;
+    }
+}
+.block-element-nomore {
+    width: 100%;
+    text-align: center;
+    margin: 150px 0 0 0;
+    img {
+        width: 130px;
+    }
+    .no-record-box {
+        color: rgba(25, 25, 25, 0.5);
+        margin: 10px 0 0 0;
     }
 }
 </style>

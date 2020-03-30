@@ -87,13 +87,26 @@ export default {
                 } = await getBaoCapitalTradeList({
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    currency: 2
+                    currency: 2,
+                    recordTypes: [1, 2]
                 })
                 this.loading = false
+                let outTypeName = this.$t([
+                    '普通转出',
+                    '普通轉出',
+                    'Redemption（Fast）'
+                ])
+                let fastOutTypeName = this.$t([
+                    '快速转出',
+                    '快速轉出',
+                    'Redemption（Common）'
+                ])
                 list.map(item => {
                     item.createTime = dayjs(item.createTime).format(
                         'YYYY-MM-DD hh:mm:ss'
                     )
+                    item.recordTypeName =
+                        item.outType === 2 ? fastOutTypeName : outTypeName
                 })
                 this.list = this.list.concat(list)
                 this.pageNum = pageNum

@@ -66,6 +66,20 @@ export default {
                     recordNo: this.$route.params.data.recordNo
                 })
                 this.orderDetails = res
+                let outTypeName = this.$t([
+                    '普通转出',
+                    '普通轉出',
+                    'Redemption（Fast）'
+                ])
+                let fastOutTypeName = this.$t([
+                    '快速转出',
+                    '快速轉出',
+                    'Redemption（Common）'
+                ])
+                this.orderDetails.recordTypeName =
+                    this.orderDetails.outType === 1
+                        ? outTypeName
+                        : fastOutTypeName
                 this.InitState()
             } catch (e) {
                 this.$toast(e.msg)
