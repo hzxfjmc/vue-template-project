@@ -54,6 +54,16 @@
         fundCard(
             v-if="recommendList.length != 0"
             :recommendList="recommendList")
+
+    protocol-popup(
+        v-model="protocolVisible"
+        :protocolFileList="buyProtocolFileList",
+        :fundId="fundId"
+        )
+    img(
+        v-show="false"
+        :src="shareIcon"
+        ref="moreIcon")
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -68,11 +78,13 @@ import fundCard from './fund-card.vue'
 import { mapGetters } from 'vuex'
 import jsBridge from '@/utils/js-bridge'
 import { debounce } from '@/utils/tools.js'
+import protocolPopup from './components/protocol-popup'
 export default {
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
-        fundCard
+        fundCard,
+        protocolPopup
     },
     computed: {
         ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang'])
@@ -116,16 +128,29 @@ export default {
             totalEarnings: '',
             fundId: '',
             tenThousandApy: '',
-            sevenDaysApy: ''
+            sevenDaysApy: '',
+            shareIcon: require('@/assets/img/yxbao/icon/icon-more.png'),
+            protocolVisible: false,
+            buyProtocolFileList: [
+                { fileName: '交易规则', filePath: 'trade-rule' },
+                { fileName: '基金详情', filePath: 'yxbao-details' },
+                { fileName: '关于友信宝', filePath: '' }
+            ]
         }
     },
     async created() {
+        this.bannerAdvertisement()
         await this.getBaoFundInfo()
         this.getBaoPostion()
         this.getFundRecommendList()
-        this.bannerAdvertisement()
+        this.setShareButton()
         // 返回刷新页面
         window.appVisible = debounce(this.getBaoPostion, 300)
+        //点击按钮的回调
+        //app点击分享按钮回调
+        window.handlerYxbaoShare = async () => {
+            this.protocolVisible = true
+        }
     },
     methods: {
         //权限判断
@@ -223,6 +248,19 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        //设置app分享按钮
+        async setShareButton() {
+            const base64 = this.$refs.moreIcon.src.replace(
+                /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
+                ''
+            )
+            jsBridge.callApp('command_set_titlebar_button', {
+                position: 1, //position取值1、2
+                clickCallback: 'handlerYxbaoShare',
+                type: 'custom_icon',
+                custom_icon: base64
+            })
         },
         changeHidePadShow() {
             this.hidePadShow = !this.hidePadShow

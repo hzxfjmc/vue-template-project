@@ -46,7 +46,7 @@ export default new Router({
                 )
         },
         {
-            name: 'tradeRule',
+            name: 'trade-rule',
             path: '/trade-rule',
             meta: { title: 'tradeRule', auth: true, cs: true },
             component: () =>
