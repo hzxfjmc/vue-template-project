@@ -12,7 +12,7 @@
                 p {{$t('C4')}} 
                     em.num(v-if="hidePadShow") {{yesterdayEarnings|transNumToThousandMark}}
                     em.num(v-else) ****
-                    em 元
+                    //- em 元
             .block__yxbao--list
                 .block__yxbao--item(@click="toYxbaoPage")
                     p.top {{$t('C6')}} 
@@ -25,11 +25,12 @@
                     p.top {{$t('C5')}} 
                     p.bottom(v-if="hidePadShow") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
-            .block__yxbao-btn(v-if="isLogin && positionMarketValue !=0")
-                van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
-                van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
-            .block__yxbao-btn(v-else)
-                van-button.btn-color-r.btn-width(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
+            template(v-if="fundId")
+                .block__yxbao-btn(v-if="isLogin && positionMarketValue !=0")
+                    van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
+                    van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
+                .block__yxbao-btn(v-else)
+                    van-button.btn-color-r.btn-width(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
     .block__yx-tab
         .block__list--item(@click="jumpPage('yxzq_goto://deposit',5)")
             em.iconfont.icon-rujin
@@ -210,8 +211,19 @@ export default {
                 console.log('getFundRecommendList:error:>>>', e)
             }
         },
+        async appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            await this.$store.dispatch('initAction')
+        },
         //获取持仓数据
         async getBaoPostion() {
+            this.appVisibleHandle()
             try {
                 const {
                     positionMarketValue,

@@ -6,6 +6,7 @@
             :placeholder="placeholder"
             :withdrawBalance="accountInfo.withdrawBalance"
             @handlerAmount="handlerAmount"
+            :openTips="true"
         )
         p.desc {{desc}}
     
@@ -64,7 +65,7 @@ export default {
                     `最低转入金额${transNumToThousandMark(
                         fundTradeInfoVO.initialInvestAmount
                     )}`,
-                    `最低轉出金額${transNumToThousandMark(
+                    `最低轉入金額${transNumToThousandMark(
                         fundTradeInfoVO.initialInvestAmount
                     )}`,
                     `Mini. Subs Amounts${transNumToThousandMark(
@@ -100,13 +101,13 @@ export default {
                 if (this.amount < this.fundTradeInfoVO.initialInvestAmount)
                     return this.$toast(
                         this.$t([
-                            `最低转出${Number(
+                            `最低转入${Number(
                                 this.fundTradeInfoVO.initialInvestAmount
                             ).toFixed(2)}港币`,
-                            `最低轉出${Number(
+                            `最低轉入${Number(
                                 this.fundTradeInfoVO.initialInvestAmount
                             ).toFixed(2)}港幣`,
-                            `Mini. Redemption HKD ${Number(
+                            `Mini. Subs HKD ${Number(
                                 this.fundTradeInfoVO.initialInvestAmount
                             ).toFixed(2)}`
                         ]),

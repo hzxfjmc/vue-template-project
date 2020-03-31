@@ -45,6 +45,10 @@ export default {
         withdrawBalance: {
             type: String,
             default: ''
+        },
+        openTips: {
+            type: Boolean,
+            default: false
         }
     },
     i18n: {
@@ -121,7 +125,7 @@ export default {
     methods: {
         //跳转入金
         focusEvent() {
-            if (this.withdrawBalance <= 0) {
+            if (this.withdrawBalance <= 0 && this.placeholder) {
                 this.$dialog
                     .confirm({
                         message: this.$t('subscribemsg'),
@@ -143,7 +147,9 @@ export default {
             }
         },
         async showNumberKeyboard() {
-            await this.focusEvent()
+            if (this.openTips) {
+                await this.focusEvent()
+            }
             if (!this.show) {
                 this.show = true
             }
