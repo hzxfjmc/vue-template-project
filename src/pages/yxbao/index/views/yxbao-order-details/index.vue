@@ -22,7 +22,7 @@
             p {{$t('C31')}}
         .block__word--item
             p.word-color {{$t('C27')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}}港币
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{$t('hkd')}}
 
     .block__word--list.border-bottom(v-else)
         .block__word--item
@@ -30,11 +30,11 @@
             p {{orderDetails.recordTypeName}}
         .block__word--item
             p.word-color {{$t('C27')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}}港币
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{$t('hkd')}}
 
         .block__word--item
             p.word-color {{$t('C22')}}
-            p.num {{orderDetails.recordFee|transNumToThousandMark}}港币
+            p.num {{orderDetails.recordFee|transNumToThousandMark}}{{$t('hkd')}}
 
     .block__footer--btn
         van-button(@click="toHomePage") 完成

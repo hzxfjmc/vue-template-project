@@ -6,13 +6,13 @@
             :placeholder="placeholder"
             @handlerAmount="handlerAmount"
         )
-        p.desc 预计{{fundTradeInfoVO.buyProfitLoss}}开始收益
+        p.desc {{desc}}
     
     .block__out--title.common-flex-space-between.common-marge-top
         p.title {{$t('C37')}} 
         .tips 
             p.tips--top {{$t('C31')}}
-            p.tips--bottom {{$t('C32')}}：{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}港币
+            p.tips--bottom {{$t('C32')}}：{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C9')}}
 
@@ -33,13 +33,17 @@ export default {
             amount: '',
             placeholder: '',
             chargeType: 1,
-            accountInfo: {},
-            fundTradeInfoVO: {}
+            accountInfo: {
+                withdrawBalance: ''
+            },
+            fundTradeInfoVO: {},
+            currencyType: 0,
+            desc: ''
         }
     },
-    created() {
+    async created() {
+        await this.getFundDetail()
         this.handleHsAccountInfo()
-        this.getFundDetail()
     },
     methods: {
         handlerAmount(amount) {
@@ -55,9 +59,25 @@ export default {
                     isin: this.$route.query.isin
                 })
                 this.fundTradeInfoVO = fundTradeInfoVO
-                this.placeholder = `最低转入金额${transNumToThousandMark(
-                    fundTradeInfoVO.initialInvestAmount
-                )}`
+                let placeholder = this.$t([
+                    `最低转入金额${transNumToThousandMark(
+                        fundTradeInfoVO.initialInvestAmount
+                    )}`,
+                    `最低轉出金額${transNumToThousandMark(
+                        fundTradeInfoVO.initialInvestAmount
+                    )}`,
+                    `Mini. Subs Amounts${transNumToThousandMark(
+                        fundTradeInfoVO.initialInvestAmount
+                    )}`
+                ])
+                this.placeholder = placeholder
+                let desc = this.$t([
+                    `预计${fundTradeInfoVO.buyProfitLoss}查看收益`,
+                    `預計${fundTradeInfoVO.buyProfitLoss}開始查看收益`,
+                    `Check Return on ${fundTradeInfoVO.buyProfitLoss}（Estimated）`
+                ])
+                this.desc = desc
+                this.currencyType = fundTradeInfoVO.currency.type
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -65,7 +85,7 @@ export default {
         // 获取用户恒生资金账户信息
         async handleHsAccountInfo() {
             try {
-                let data = await hsAccountInfo(1)
+                let data = await hsAccountInfo(this.currencyType)
                 this.accountInfo = data || {}
             } catch (error) {
                 this.$toast(error.msg, 'middle')

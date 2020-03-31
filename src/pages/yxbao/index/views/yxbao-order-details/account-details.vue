@@ -3,14 +3,14 @@
     .block__account--header.border-bottom
         p.title {{orderDetails.recordTypeName}}
         p.num {{orderDetails.recordAmount}}
-            em.money 港币
+            em.money {{$t('hkd')}}
     .block__account--list.border-bottom(v-if="!successHide")
         .block__account--item
             p {{$t('C22')}}
-            p {{orderDetails.recordFee}}港币
+            p {{orderDetails.recordFee}}{{$t('hkd')}}
         .block__account--item
             p {{$t('C23')}}
-            p {{orderDetails.recordAmount}}港币
+            p {{orderDetails.recordAmount}}{{$t('hkd')}}
     .block__status--step
         transferStep(
             v-if="intoShow"

@@ -9,12 +9,12 @@
         )
         .block__list(v-if="!check")
             .block__list--item.common-flex-space-between
-                .block__list--left 手续费(预计)
+                .block__list--left {{$t('C22')}}
                 .block__list--right.common-flex-center
                     p.block__fee {{HandlingFee}}
                     p {{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%
             .block__list--item.common-flex-space-between
-                .block__list--left 预计到账金额
+                .block__list--left {{$t('C23')}}
                 .block__list--right.expectedAmount {{actulAmount}}
 
     .block__out--title.common-flex-space-between.border-bottom.common-marge-top
@@ -27,9 +27,9 @@
                 :class="[check ?'icon-icon-checkbox-selected':'icon-unchecked']")
             .right
                 p {{$t('C18')}}
-                p.desc 预计
-                    em {{fundTradeInfoVO.buyProfitLoss}}10:00
-                    em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
+                p.desc {{buyProfitLoss}}
+                    //- em {{fundTradeInfoVO.buyProfitLoss}}10:00
+                    //- em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
         .block__out--list(@click="chooseType")
             .left.iconfont(
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
@@ -97,7 +97,8 @@ export default {
             },
             customerRemainderQuota: '',
             positionMarketValue: '',
-            contentDesc: ''
+            contentDesc: '',
+            buyProfitLoss: ''
         }
     },
     async created() {
@@ -115,7 +116,12 @@ export default {
                 })
                 this.positionMarketValue = positionMarketValue
                 this.showAllSellBtn.maxAmount = positionMarketValue
-                this.placeholder = `可转出${positionMarketValue || 0}港币`
+                this.placeholder = this.$t([
+                    `可转出金额${positionMarketValue || 0}`,
+                    `可轉出金額${positionMarketValue || 0}`,
+                    `Transferable Amount${positionMarketValue || 0}`
+                ])
+
                 this.customerRemainderQuota = transNumToThousandMark(
                     customerRemainderQuota
                 )
@@ -153,6 +159,12 @@ export default {
                         this.customerRemainderQuota
                     }.`
                 ])
+                let buyProfitLoss = this.$t([
+                    `预计${fundTradeInfoVO.buyProfitLoss}10:00前到账，转出后可立即购买股票，无额度限制，期间正常享受收益`,
+                    `預計${fundTradeInfoVO.buyProfitLoss}10:00前到賬，轉出後可立即購買股票，無額度限制，期間正常享受收益`,
+                    `The funds will deposit to your account on ${fundTradeInfoVO.buyProfitLoss} (Estimated)，It can buy stock immediately after redemption. Unlimited amount,.You can get the daily return befor the it deposit.`
+                ])
+                this.buyProfitLoss = buyProfitLoss
             } catch (e) {
                 this.$toast(e.msg)
             }

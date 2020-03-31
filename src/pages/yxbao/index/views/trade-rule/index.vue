@@ -11,7 +11,7 @@
         title-active-color="#2F79FF")
             van-tab(:title="$t('C43')" :name="0")
                 .block__tab-one
-                    p.title 转入流程
+                    p.title {{$t('C60')}}
                     .block__step
                         FundSteps( 
                             :curStep="3"
@@ -51,7 +51,7 @@
                                 p.label {{$t('C55')}}
                                 p.value 0.0%
                             .block__list--item
-                                p.label 最小转出金额
+                                p.label {{$t('C86')}}
                                 p.value 0.0%
                     hr.hr-border
                     .block__tab-one
@@ -69,7 +69,7 @@
                                 p.value {{(fundTradeInfoVO.fastRedemptionFee*100)|transNumToThousandMark}}% 
                                     //- em (原{{(fundTradeInfoVO.fastRedemptionFee*100+0.5)|transNumToThousandMark}}%)
                             .block__list--item
-                                p.label 最小转出金额
+                                p.label {{$t('C86')}}
                                 p.value 0.0%
                     hr.hr-border
                     .block__tab-one.block__tab-table
