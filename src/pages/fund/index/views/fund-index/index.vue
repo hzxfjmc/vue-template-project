@@ -40,7 +40,7 @@ div
                                         :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
                                     span(
                                         @click="chooseCurrency(1)"
-                                        :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}]
+                                        :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
 
                     .block__right--yes
                         p {{$t('SevenDayIncome')}}
