@@ -30,7 +30,9 @@
                 p.desc {{buyProfitLoss}}
                     //- em {{fundTradeInfoVO.buyProfitLoss}}10:00
                     //- em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
-        .block__out--list(@click="chooseType")
+        .block__out--list(
+            v-if="fundTradeInfoVO.fastRedemptionFee != 0"
+            @click="chooseType")
             .left.iconfont(
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
                 )
@@ -91,7 +93,7 @@ export default {
     },
     data() {
         return {
-            check: false,
+            check: true,
             outType: '',
             amount: 0,
             placeholder: '',

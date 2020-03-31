@@ -4,6 +4,7 @@
         p.title {{$t('C27')}}   
         NumberKeyboard(
             :placeholder="placeholder"
+            :withdrawBalance="accountInfo.withdrawBalance"
             @handlerAmount="handlerAmount"
         )
         p.desc {{desc}}
@@ -12,7 +13,7 @@
         p.title {{$t('C30')}} 
         .tips 
             p.tips--top {{$t('C31')}}
-            p.tips--bottom {{$t('C32')}}：{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}
+            p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C9')}}
 
@@ -98,11 +99,17 @@ export default {
                     return this.$toast('请输入金额', 'middle')
                 if (this.amount < this.fundTradeInfoVO.initialInvestAmount)
                     return this.$toast(
-                        [
-                            `最低转出${this.fundTradeInfoVO.initialInvestAmount}港币`,
-                            `最低轉出${this.fundTradeInfoVO.initialInvestAmount}港幣`,
-                            `Mini. Redemption HKD ${this.fundTradeInfoVO.initialInvestAmount}`
-                        ],
+                        this.$t([
+                            `最低转出${Number(
+                                this.fundTradeInfoVO.initialInvestAmount
+                            ).toFixed(2)}港币`,
+                            `最低轉出${Number(
+                                this.fundTradeInfoVO.initialInvestAmount
+                            ).toFixed(2)}港幣`,
+                            `Mini. Redemption HKD ${Number(
+                                this.fundTradeInfoVO.initialInvestAmount
+                            ).toFixed(2)}`
+                        ]),
                         'middle'
                     )
 

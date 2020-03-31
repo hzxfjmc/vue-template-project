@@ -16,7 +16,6 @@
         theme="custom"
         :show="show"
         extra-key="."
-        delete-button-text="删除"
         close-button-text="完成"
         :show-delete-key = "false"
         @close="close"
@@ -30,6 +29,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import { jumpUrl } from '@/utils/tools.js'
 export default {
     props: {
         showAllSellBtn: {
@@ -41,17 +41,31 @@ export default {
         placeholder: {
             type: String,
             default: '请输入'
+        },
+        withdrawBalance: {
+            type: String,
+            default: ''
         }
     },
     i18n: {
         zhCHS: {
-            all: '全部转出'
+            all: '全部转出',
+            iknow: '我知道了',
+            confirm: '立即入金',
+            subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购'
         },
         zhCHT: {
-            all: '全部轉出'
+            all: '全部轉出',
+            iknow: '我知道了',
+            confirm: '立即存款',
+            subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購'
         },
         en: {
-            all: 'ALL'
+            all: 'ALL',
+            iknow: 'I Get It',
+            confirm: 'Deposit Now',
+            subscribemsg:
+                'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit'
         }
     },
     watch: {
@@ -61,7 +75,7 @@ export default {
     },
     data() {
         return {
-            show: true,
+            show: false,
             amount: ''
         }
     },
@@ -105,7 +119,31 @@ export default {
         this.amount = this.placeholder
     },
     methods: {
-        showNumberKeyboard() {
+        //跳转入金
+        focusEvent() {
+            if (this.withdrawBalance <= 0) {
+                this.$dialog
+                    .confirm({
+                        message: this.$t('subscribemsg'),
+                        confirmButtonText: this.$t('confirm'),
+                        closeOnClickOverlay: true,
+                        cancelButtonText: this.$t('iknow')
+                    })
+                    .then(() => {
+                        jumpUrl(
+                            3,
+                            `${window.location.origin}/webapp/open-account/deposit.html#/`
+                        )
+                    })
+                    .catch(() => {
+                        // on cancel
+                    })
+
+                return
+            }
+        },
+        async showNumberKeyboard() {
+            await this.focusEvent()
             if (!this.show) {
                 this.show = true
             }

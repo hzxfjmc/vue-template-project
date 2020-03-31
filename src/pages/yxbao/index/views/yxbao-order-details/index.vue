@@ -29,7 +29,7 @@
             p.word-color {{$t('C37')}}
             p {{orderDetails.recordTypeName}}
         .block__word--item
-            p.word-color {{$t('C27')}}
+            p.word-color {{$t('Amounts')}}
             p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{$t('hkd')}}
 
         .block__word--item
@@ -50,13 +50,16 @@ export default {
     },
     i18n: {
         zhCHS: {
-            orderStatus: '订单状态'
+            orderStatus: '订单状态',
+            Amounts: '转出金额'
         },
         zhCHT: {
-            orderStatus: '訂單狀態'
+            orderStatus: '訂單狀態',
+            Amounts: '轉出金額'
         },
         en: {
-            orderStatus: 'Order Status'
+            orderStatus: 'Order Status',
+            Amounts: 'Redemption Amounts'
         }
     },
     filters: {
