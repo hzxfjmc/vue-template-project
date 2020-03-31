@@ -115,7 +115,7 @@ export default {
                 })
                 list.map(item => {
                     item.createTime = dayjs(item.createTime).format(
-                        'YYYY-MM-DD hh:mm:ss'
+                        'YYYY-MM-DD HH:mm:ss'
                     )
                 })
                 this.loading = false

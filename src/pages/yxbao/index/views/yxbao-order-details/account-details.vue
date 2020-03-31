@@ -94,7 +94,7 @@ export default {
             if (this.orderDetails.recordType === 1) {
                 this.intoStepOne.time = dayjs(
                     this.orderDetails.createTime
-                ).format('YYYY-MM-DD hh:mm:ss')
+                ).format('YYYY-MM-DD HH:mm:ss')
                 this.intoStepTwo.time = `预计${dayjs(
                     this.orderDetails.earningsDate
                 ).format('MM-DD')}`
@@ -106,7 +106,7 @@ export default {
                     this.successHide = false
                 }
                 this.stepOne.time = dayjs(this.orderDetails.createTime).format(
-                    'YYYY-MM-DD hh:mm:ss'
+                    'YYYY-MM-DD HH:mm:ss'
                 )
                 this.stepTwo.time = `预计${dayjs(
                     this.orderDetails.earningsDate

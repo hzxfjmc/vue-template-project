@@ -7,17 +7,12 @@
             :showAllSellBtn="showAllSellBtn"
             @handlerAmount="handlerAmount"
         )
-        p.desc 预计{{fundTradeInfoVO.buySubmit}}开始收益
         .block__list(v-if="!check")
             .block__list--item.common-flex-space-between
                 .block__list--left 手续费(预计)
                 .block__list--right.common-flex-center
                     p.block__fee {{HandlingFee}}
                     p {{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%
-                    //- span.block__tips.common-flex-center 
-                    //-     em.num {{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%
-                    //-     //- em 港币
-                    //- p.border-rotate {{Number(fundTradeInfoVO.fastRedemptionFee*100+0.5).toFixed(2)}}%
             .block__list--item.common-flex-space-between
                 .block__list--left 预计到账金额
                 .block__list--right.expectedAmount {{actulAmount}}
@@ -59,9 +54,7 @@ export default {
     computed: {
         HandlingFee() {
             return (
-                Number(this.fundTradeInfoVO.fastRedemptionFee * 100).toFixed(
-                    2
-                ) * this.expectedAmount
+                this.fundTradeInfoVO.fastRedemptionFee * this.amount
             ).toFixed(2)
         },
         actulAmount() {
@@ -90,7 +83,7 @@ export default {
     },
     data() {
         return {
-            check: true,
+            check: false,
             outType: '',
             amount: 0,
             placeholder: '',
@@ -112,7 +105,6 @@ export default {
         this.getFundDetail()
     },
     methods: {
-        //获取持仓数据
         async getBaoPostion() {
             try {
                 const {

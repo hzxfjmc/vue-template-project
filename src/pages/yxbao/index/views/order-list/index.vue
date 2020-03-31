@@ -103,7 +103,7 @@ export default {
                 ])
                 list.map(item => {
                     item.createTime = dayjs(item.createTime).format(
-                        'YYYY-MM-DD hh:mm:ss'
+                        'YYYY-MM-DD HH:mm:ss'
                     )
                     if (item.outType === 2) {
                         item.recordTypeName = fastOutTypeName
