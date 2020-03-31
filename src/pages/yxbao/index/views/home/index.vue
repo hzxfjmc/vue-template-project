@@ -153,8 +153,8 @@ export default {
         }
     },
     methods: {
-        //权限判断
-        async handlerUserAuthority() {
+        //跳转
+        async jumpPage(path, type) {
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
@@ -173,13 +173,6 @@ export default {
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
-            }
-        },
-        //跳转
-        async jumpPage(path, type) {
-            //权限拦截
-            if (path != 'transfer-out') {
-                await this.handlerUserAuthority()
             }
             let url =
                 type === 5
