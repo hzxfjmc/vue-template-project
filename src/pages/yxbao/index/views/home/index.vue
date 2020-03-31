@@ -224,6 +224,7 @@ export default {
         //获取持仓数据
         async getBaoPostion() {
             this.appVisibleHandle()
+            if (!this.isLogin) return
             try {
                 const {
                     positionMarketValue,
