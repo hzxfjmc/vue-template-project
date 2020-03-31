@@ -97,8 +97,8 @@ export default {
         async getBaoCapitalTrade() {
             try {
                 if (this.amount == 0 || this.amount === this.placeholder)
-                    return this.$toast('请输入金额', 'middle')
-                if (this.amount <= this.fundTradeInfoVO.initialInvestAmount)
+                    return this.$toast(this.$t('C34'), 'middle')
+                if (this.amount > this.fundTradeInfoVO.initialInvestAmount)
                     return this.$toast(
                         this.$t([
                             `最低转入${Number(
@@ -113,7 +113,9 @@ export default {
                         ]),
                         'middle'
                     )
-
+                if (this.amount > this.withdrawBalance) {
+                    return this.$toast(this.$t('C83'), 'middle')
+                }
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
