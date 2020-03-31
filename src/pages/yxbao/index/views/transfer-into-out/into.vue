@@ -9,7 +9,7 @@
         p.desc {{desc}}
     
     .block__out--title.common-flex-space-between.common-marge-top
-        p.title {{$t('C37')}} 
+        p.title {{$t('C30')}} 
         .tips 
             p.tips--top {{$t('C31')}}
             p.tips--bottom {{$t('C32')}}：{{Number(this.accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}

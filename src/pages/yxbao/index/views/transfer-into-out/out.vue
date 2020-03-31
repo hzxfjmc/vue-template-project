@@ -53,17 +53,25 @@ export default {
     },
     computed: {
         HandlingFee() {
+            if (isNaN(this.fundTradeInfoVO.fastRedemptionFee * this.amount)) {
+                return '0.00'
+            }
             return (
                 this.fundTradeInfoVO.fastRedemptionFee * this.amount
             ).toFixed(2)
         },
         actulAmount() {
+            if (
+                isNaN(
+                    this.amount -
+                        this.fundTradeInfoVO.fastRedemptionFee * this.amount
+                )
+            ) {
+                return '0.00'
+            }
             return (
-                this.expectedAmount -
-                Number(this.fundTradeInfoVO.fastRedemptionFee * 100).toFixed(
-                    2
-                ) *
-                    this.expectedAmount
+                this.amount -
+                this.fundTradeInfoVO.fastRedemptionFee * this.amount
             ).toFixed(2)
         },
         expectedAmount() {
