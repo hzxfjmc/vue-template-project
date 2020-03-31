@@ -182,9 +182,9 @@ export default {
         async getBaoCapitalTrade() {
             try {
                 if (this.amount == 0 || this.amount === this.placeholder)
-                    return this.$toast('请输入金额', 'middle')
+                    return this.$toast(this.$t('C34'), 'middle')
                 if (this.amount > this.positionMarketValue) {
-                    return this.$toast('可转出金额不足', 'middle')
+                    return this.$toast('C84', 'middle')
                 }
 
                 if (this.amount < this.fundTradeInfoVO.minFastRedemptionAmount)
@@ -197,10 +197,10 @@ export default {
                         'middle'
                     )
                 if (this.amount > this.customerRemainderQuota && !this.check) {
-                    return this.$toast('剩余快赎额度不足', 'middle')
+                    return this.$toast(this.$t('C85'), 'middle')
                 }
                 if (this.amount > this.actulAmount) {
-                    return this.$toast('转出金额需大于手续费', 'middle')
+                    return this.$toast(this.$t('C41'), 'middle')
                 }
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
