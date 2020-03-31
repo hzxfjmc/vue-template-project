@@ -93,7 +93,15 @@ export default {
     },
     created() {
         this.InitState()
+        this.$nextTick(() => {
+            let title =
+                this.orderDetails.recordType === 1
+                    ? this.$t(['转入结果', '轉入結果', 'Subs. Resluts'])
+                    : this.$t(['转出结果', '轉出結果', 'Redemption Resluts'])
+            document.title = title
+        })
     },
+    mounted() {},
     methods: {
         InitState() {
             this.orderDetails = this.$route.params.data

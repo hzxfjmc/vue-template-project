@@ -30,7 +30,7 @@ export default new Router({
         {
             name: 'order-details',
             path: '/order-details',
-            meta: { title: 'orderDetails', auth: true, cs: true },
+            meta: { title: 'accountDetails', auth: true, cs: true },
             component: () =>
                 import(
                     `@/pages/yxbao/index/views/yxbao-order-details/index.vue`
@@ -39,7 +39,7 @@ export default new Router({
         {
             name: 'account-details',
             path: '/account-details',
-            meta: { title: 'accountDetails', auth: true, cs: true },
+            meta: { title: 'orderDetails', auth: true, cs: true },
             component: () =>
                 import(
                     `@/pages/yxbao/index/views/yxbao-order-details/account-details.vue`
