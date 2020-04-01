@@ -170,9 +170,9 @@ export default {
                     }.`
                 ])
                 let buyProfitLoss = this.$t([
-                    `预计${fundTradeInfoVO.buyProfitLoss}10:00前到账，转出后可立即购买股票，无额度限制，期间正常享受收益`,
-                    `預計${fundTradeInfoVO.buyProfitLoss}10:00前到賬，轉出後可立即購買股票，無額度限制，期間正常享受收益`,
-                    `The funds will deposit to your account on ${fundTradeInfoVO.buyProfitLoss} (Estimated)，It can buy stock immediately after redemption. Unlimited amount,.You can get the daily return befor the it deposit.`
+                    `预计${fundTradeInfoVO.buyProfitLoss}10:00前到账，转出后可以立即认购新股和购买股票，无额度限制，期间正常享受收益`,
+                    `預計${fundTradeInfoVO.buyProfitLoss}10:00前到賬，轉出後可以立即認購新股和購買股票，無額度限制，期間正常享受收益`,
+                    `The funds will deposit to your account on ${fundTradeInfoVO.buyProfitLoss} (Estimated)，It can use to  IPO subscription and stock trading immediately after redemption. Unlimited amount. You can get the daily return befor the it deposit.`
                 ])
                 this.buyProfitLoss = buyProfitLoss
             } catch (e) {

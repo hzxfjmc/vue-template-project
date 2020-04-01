@@ -8,8 +8,9 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
+        // && openedAccount
         template
-            .block__assets(v-if="isLogin && openedAccount")
+            .block__assets(v-if="isLogin")
                 .block__top.border-bottom
                     .block__left--label 
                         span {{$t('protfolloAssets')}}
@@ -57,13 +58,14 @@ div
                 .block__left__bottom.border-top
                     .block__bottom--l(@click="toRouterAccount")
                         p {{$t('fund')}}
-                        p.num(v-if="moneyShow") {{currentPostion.fundPositionAmount|transNumToThousandMark}}
-                        p(v-else) ****
+                            em.num(v-if="moneyShow") {{currentPostion.fundPositionAmount|transNumToThousandMark}}
+                            em(v-else) ****
                         em.iconfont.icon-previewright
                     .block__bottom-r(@click="toYxbao")
+                    
                         p {{$t('uMoney')}}
-                        p.num(v-if="moneyShow") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
-                        p(v-else) ****
+                            em.num(v-if="moneyShow") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
+                            em(v-else) ****
                         em.iconfont.icon-previewright
                     //- span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
                     //- span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}

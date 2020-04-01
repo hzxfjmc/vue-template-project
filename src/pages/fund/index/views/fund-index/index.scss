@@ -256,9 +256,16 @@
             height:100%;
             align-items: center;
             font-size:12px;
+            justify-content: space-between;
             .num{
                 font-size:14px;
                 margin:0 0 0 10px;
+            }
+            em{
+                font-style: normal;
+            }
+            .iconfont{
+                float:right;
             }
         }
         .icon-previewright{
@@ -270,7 +277,7 @@
             border-right:1px solid #e1e1e1;
         }
         .block__bottom-r{
-            margin:0 0 0 11px;
+            padding:0 0 0 11px;
         }
     }
 }

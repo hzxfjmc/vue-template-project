@@ -22,7 +22,7 @@ export const en = {
     C21: 'Billing details',
     C22: 'Handling Fee',
     C23: 'Amount Received(Actual)',
-    C24: 'Redemption of success\nIt can buy stock immediately. ',
+    C24: 'Redemption of success It can use to  IPO Subs. and stock trading now',
     C25: 'Deposit to uSMART Account',
     C26: 'Check Return',
     C27: 'Subscribe Amount',
@@ -35,7 +35,8 @@ export const en = {
     C34: 'Please Entry Amount',
     C35:
         '“Your account number is not enough\r\n\r\nYou can select deposit now”',
-    C36: 'It can buy stock immediately after redemption',
+    C36:
+        'It can use to  IPO Subs. and stock trading immediately after redemption.',
     C37: 'Redemption Way',
     C38:
         'The funds will deposit to your account on 03-09(Fri.) (Estimated)，It can buy stock immediately after redemption. Unlimited amount,.You can get the daily return befor the it deposit.',
@@ -57,7 +58,7 @@ export const en = {
     C51: 'Fund Holiday（2020）',
     C52: 'Funds Deposit',
     C53:
-        'It can buy stock immediately after redemption. Fund deposit to your account before T+1 Day 10:00 am (Estimated)，It can buy stock immediately after redemption. You can IPO、subscribe other funds 、withdraw and so on befor the it deposit.',
+        'It can use to  IPO subscription and stock trading immediately after redemption. Fund deposit to your account before T+1 Day 10:00 am (Estimated)，It can buy the stock immediately after redemption. You can subscribe other funds 、withdraw and so on before the it deposit.',
     C54:
         'Return Explain：The return generated before ordinary transfer to the account will be transferred to your securities account together with your funds.',
     C55: 'Redemption Fee',
