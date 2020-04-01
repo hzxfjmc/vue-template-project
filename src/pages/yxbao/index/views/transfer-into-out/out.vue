@@ -192,7 +192,7 @@ export default {
                 )
                     return this.$toast(
                         this.$t([
-                            (`最低转出${Number(
+                            `最低转出${Number(
                                 this.fundTradeInfoVO.minFastRedemptionAmount
                             ).toFixed(2)}港币`,
                             `最低轉出${Number(
@@ -200,10 +200,11 @@ export default {
                             ).toFixed(2)}港幣`,
                             `Mini. Subs HKD ${Number(
                                 this.fundTradeInfoVO.minFastRedemptionAmount
-                            ).toFixed(2)}`)
+                            ).toFixed(2)}`
                         ]),
                         'middle'
                     )
+
                 if (this.amount > this.customerRemainderQuota && !this.check) {
                     return this.$toast(this.$t('C85'), 'middle')
                 }

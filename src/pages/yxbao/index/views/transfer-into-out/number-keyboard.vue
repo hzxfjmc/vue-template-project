@@ -215,7 +215,7 @@ export default {
         font-size: 24px;
     }
     .number1 {
-        margin: 0 10px;
+        margin: 0 10px 0 20px;
         font-family: 'yxFontDINPro-Medium';
         font-size: 24px;
     }
