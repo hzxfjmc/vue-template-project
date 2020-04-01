@@ -289,7 +289,6 @@ export default {
         },
         //设置app分享按钮
         async setShareButton() {
-            alert(12)
             const base64 = this.$refs.moreIcon.src.replace(
                 /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
                 ''
