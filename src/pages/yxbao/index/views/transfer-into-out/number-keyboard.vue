@@ -219,6 +219,9 @@ export default {
         font-family: 'yxFontDINPro-Medium';
         font-size: 24px;
     }
+    // .number-board {
+    //     width: 200px;
+    // }
     .word1 {
         margin: 0 10px 0 20px;
         font-size: 14px;
@@ -263,7 +266,11 @@ export default {
     }
     .block__all--out {
         font-size: 14px;
-        flex: 1;
+        float: right;
+        position: absolute;
+        right: 0;
+        width: 80px;
+        display: inline-block;
         color: #2f79ff;
         text-align: right;
     }
