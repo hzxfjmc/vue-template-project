@@ -184,16 +184,24 @@ export default {
                 if (this.amount == 0 || this.amount === this.placeholder)
                     return this.$toast(this.$t('C34'), 'middle')
                 if (this.amount > this.positionMarketValue) {
-                    return this.$toast('C84', 'middle')
+                    return this.$toast(this.$t('C84'), 'middle')
                 }
-
-                if (this.amount < this.fundTradeInfoVO.minFastRedemptionAmount)
+                if (
+                    this.amount <
+                    Number(this.fundTradeInfoVO.minFastRedemptionAmount)
+                )
                     return this.$toast(
-                        [
-                            `最低转出${this.fundTradeInfoVO.minFastRedemptionAmount}港币`,
-                            `最低轉出${this.fundTradeInfoVO.minFastRedemptionAmount}港幣`,
-                            `Mini. Subs HKD ${this.fundTradeInfoVO.minFastRedemptionAmount}`
-                        ],
+                        this.$t([
+                            (`最低转出${Number(
+                                this.fundTradeInfoVO.minFastRedemptionAmount
+                            ).toFixed(2)}港币`,
+                            `最低轉出${Number(
+                                this.fundTradeInfoVO.minFastRedemptionAmount
+                            ).toFixed(2)}港幣`,
+                            `Mini. Subs HKD ${Number(
+                                this.fundTradeInfoVO.minFastRedemptionAmount
+                            ).toFixed(2)}`)
+                        ]),
                         'middle'
                     )
                 if (this.amount > this.customerRemainderQuota && !this.check) {
