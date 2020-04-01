@@ -266,7 +266,6 @@ export default {
     }
     .block__all--out {
         font-size: 14px;
-        float: right;
         position: absolute;
         right: 0;
         width: 80px;
