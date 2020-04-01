@@ -1,0 +1,49 @@
+<template lang="pug">
+    .risk-assessment-wrapper
+        risk-assessment(v-show='isriskAssessment')
+</template>
+
+<script>
+import riskAssessment from '@/components/risk-assessment'
+import { getFundUserInfo } from '@/service/user-server.js'
+export default {
+    components: {
+        riskAssessment
+    },
+    data() {
+        return {
+            isriskAssessment: false
+        }
+    },
+    beforeRouteEnter(to, from, next) {
+        next(async vm => {
+            try {
+                const res = await getFundUserInfo()
+                const userInfo = res
+                if (
+                    !vm.$route.query.id &&
+                    userInfo.assessResult &&
+                    !vm.$route.query.notFirstSubmit
+                ) {
+                    window.location.replace(
+                        location.origin +
+                            '/wealth/fund/index.html#/risk-assessment-result'
+                    )
+                } else {
+                    vm.isriskAssessment = true
+                }
+            } catch (e) {
+                console.log('getFundUserInfo:error:>>>', e)
+            }
+        })
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+.risk-assessment-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+</style>

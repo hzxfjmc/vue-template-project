@@ -74,6 +74,7 @@ import {
     getFundRecommendList
 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import fundCard from './fund-card.vue'
 import { mapGetters } from 'vuex'
@@ -140,6 +141,7 @@ export default {
         }
     },
     async created() {
+        this.getFundUserInfo()
         this.bannerAdvertisement()
         await this.getBaoFundInfo()
         this.getBaoPostion()
@@ -154,6 +156,27 @@ export default {
         }
     },
     methods: {
+        //获取用户信息
+        async getFundUserInfo() {
+            if (!this.isLogin) return
+            try {
+                const res = await getFundUserInfo()
+                this.userInfo = res
+                //白名单
+                let isWhiteUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[5]
+                if (!isWhiteUserBit) {
+                    this.fightShow = true
+                    return
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
+            }
+        },
         //跳转
         async jumpPage(path, type) {
             // 未登录或未开户
@@ -173,6 +196,15 @@ export default {
                     confirmButtonText: this.$t('openAccountBtn')
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
+            if (
+                !this.userInfo.assessResult ||
+                new Date().getTime() >
+                    new Date(this.userInfo.validTime).getTime()
+            ) {
+                let url = `${window.location.origin}/wealth/yxbao/index.html#/risk-assessment?id=${this.fundId}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                jumpUrl(3, url)
                 return
             }
             let url =
@@ -236,7 +268,8 @@ export default {
                 this.positionMarketValue = Number(positionMarketValue).toFixed(
                     2
                 )
-                this.yesterdayEarnings = yesterdayEarnings
+                this.yesterdayEarnings = Number(yesterdayEarnings).toFixed(2)
+
                 this.totalEarnings = totalEarnings
             } catch (e) {
                 this.$toast(e.msg)

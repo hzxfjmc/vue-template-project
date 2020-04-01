@@ -304,7 +304,6 @@ export default {
                 inTransitAmount: null
             },
             fundCode: '',
-            userInfo: {},
             fundRiskType: '',
             price: '',
             revenue: '',

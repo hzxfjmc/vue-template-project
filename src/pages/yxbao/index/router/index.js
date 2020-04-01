@@ -72,6 +72,38 @@ export default new Router({
             meta: { title: 'incomeDetails', auth: true, cs: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/income-details/index.vue`)
+        },
+        {
+            name: 'risk-assessment',
+            path: '/risk-assessment',
+            meta: { title: 'riskAssessment', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/yxbao/index/views/risk-assessment/index.vue`)
+        },
+        {
+            name: 'risk-assessment-result',
+            path: '/risk-assessment-result',
+            meta: { title: 'riskAsessmentResult', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/yxbao/index/views/risk-assessment-result/index.vue`
+                )
+        },
+        {
+            name: 'risk-appropriate-result',
+            path: '/risk-appropriate-result',
+            meta: { title: 'riskAppropriateResult', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/yxbao/index/views/risk-appropriate-result/index.vue`
+                )
+        },
+        {
+            name: 'open-permissions',
+            path: '/open-permissions',
+            meta: { title: 'openPermissions', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/yxbao/index/views/open-permissions/index.vue`)
         }
     ]
 })
