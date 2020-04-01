@@ -136,7 +136,7 @@ export default {
             buyProtocolFileList: [
                 { fileName: '交易规则', filePath: 'trade-rule' },
                 { fileName: '基金详情', filePath: 'yxbao-details' },
-                { fileName: '关于友信宝', filePath: '' }
+                { fileName: '关于友信宝', filePath: 'yxbao-desc' }
             ]
         }
     },
@@ -255,7 +255,6 @@ export default {
         },
         //获取持仓数据
         async getBaoPostion() {
-            this.appVisibleHandle()
             if (!this.isLogin) return
             try {
                 const {

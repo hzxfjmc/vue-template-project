@@ -104,6 +104,13 @@ export default new Router({
             meta: { title: 'openPermissions', auth: true, cs: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/open-permissions/index.vue`)
+        },
+        {
+            name: 'yxbao-desc',
+            path: '/yxbao-desc',
+            meta: { title: 'yxbaoDesc', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/yxbao/index/views/yxbao-desc/index.vue`)
         }
     ]
 })
