@@ -81,6 +81,7 @@ import { mapGetters } from 'vuex'
 import jsBridge from '@/utils/js-bridge'
 import { debounce } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
+import env from '@/utils/scheme/env'
 export default {
     components: {
         [Swipe.name]: Swipe,
@@ -141,6 +142,9 @@ export default {
         }
     },
     async created() {
+        this.shareIcon = env.isMainlandBlack
+            ? require('@/assets/img/yxbao/icon/icon-more-hk.png')
+            : require('@/assets/img/yxbao/icon/icon-more.png')
         this.getFundUserInfo()
         this.bannerAdvertisement()
         await this.getBaoFundInfo()
