@@ -138,7 +138,8 @@ export default {
                 { fileName: '交易规则', filePath: 'trade-rule' },
                 { fileName: '基金详情', filePath: 'yxbao-details' },
                 { fileName: '关于友信宝', filePath: 'yxbao-desc' }
-            ]
+            ],
+            userInfo: {}
         }
     },
     async created() {
@@ -188,13 +189,6 @@ export default {
         },
         //跳转
         async jumpPage(path, type) {
-            alert(!this.isLogin)
-            alert(!this.openedAccount)
-            alert(
-                !this.userInfo.assessResult ||
-                    new Date().getTime() >
-                        new Date(this.userInfo.validTime).getTime()
-            )
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
@@ -214,6 +208,7 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
+            alert(this.userInfo.assessResult)
             if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >
@@ -227,7 +222,6 @@ export default {
                 type === 5
                     ? path
                     : `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.fundId}`
-            alert(url)
             jumpUrl(type, url)
         },
         //bannar图
@@ -270,6 +264,7 @@ export default {
             }
             await this.$store.dispatch('initAction')
             this.getBaoPostion()
+            this.getFundUserInfo()
         },
         //获取持仓数据
         async getBaoPostion() {
