@@ -117,8 +117,10 @@ export default {
             //转出
             if (this.orderDetails.recordType === 2) {
                 this.intoShow = false
+                this.orderDetails.recordTypeName = this.$t('C18')
                 if (this.orderDetails.outType == 2) {
                     this.successHide = false
+                    this.orderDetails.recordTypeName = this.$t('C19')
                 }
                 this.stepOne.time = dayjs(this.orderDetails.createTime).format(
                     'YYYY-MM-DD HH:mm:ss'

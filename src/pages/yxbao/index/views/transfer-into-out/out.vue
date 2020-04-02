@@ -182,7 +182,7 @@ export default {
         async getBaoCapitalTrade() {
             try {
                 if (this.amount == 0 || this.amount === this.placeholder)
-                    return this.$toast(this.$t('C34'), 'middle')
+                    return this.$toast(this.$t('C40'), 'middle')
                 if (this.amount > Number(this.positionMarketValue)) {
                     return this.$toast(this.$t('C84'), 'middle')
                 }
