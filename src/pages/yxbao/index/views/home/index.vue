@@ -212,7 +212,8 @@ export default {
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
             ) {
-                let url = `${window.location.origin}/wealth/yxbao/index.html#/risk-assessment?id=${this.fundId}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                let url = `${window.location.origin}/wealth/yxbao/index.html#/risk-assessment?id=${this.fundId}&fundRiskType=1&currencyType=2`
+                console.log(url)
                 jumpUrl(3, url)
                 return
             }
