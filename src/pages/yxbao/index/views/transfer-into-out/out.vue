@@ -183,7 +183,7 @@ export default {
             try {
                 if (this.amount == 0 || this.amount === this.placeholder)
                     return this.$toast(this.$t('C34'), 'middle')
-                if (this.amount > this.positionMarketValue) {
+                if (this.amount > Number(this.positionMarketValue)) {
                     return this.$toast(this.$t('C84'), 'middle')
                 }
                 if (
@@ -205,7 +205,10 @@ export default {
                         'middle'
                     )
 
-                if (this.amount > this.customerRemainderQuota && !this.check) {
+                if (
+                    this.amount > Number(this.customerRemainderQuota) &&
+                    !this.check
+                ) {
                     return this.$toast(this.$t('C85'), 'middle')
                 }
                 if (
