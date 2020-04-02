@@ -16,8 +16,8 @@
                     p.title {{item.recordTypeName}}
                     p.color {{item.createTime}}
                 .block__order--right
-                    p.num(v-if="item.recordAmount>0") +{{item.recordAmount}}
-                    p.num(v-else-if="item.recordAmount<0") -{{item.recordAmount}}
+                    p.num(v-if="item.recordType === 1") +{{item.recordAmount}}
+                    p.num(v-else-if="item.recordType === 2") -{{item.recordAmount}}
                     p.num(v-else) {{item.recordAmount}}
                     p.color {{$t('Balance')}} {{item.recordBalance}}
     .block-element-nomore(v-if="noMoreShow")
