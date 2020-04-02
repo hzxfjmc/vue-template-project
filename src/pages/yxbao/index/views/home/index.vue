@@ -158,8 +158,7 @@ export default {
             'appInvisible'
         )
         // 返回刷新页面
-        window.appVisible = debounce(this.getBaoPostion, 300)
-        //点击按钮的回调
+        window.appVisible = debounce(this.appVisibleHandle, 300)
         //app点击分享按钮回调
         window.handlerYxbaoShare = async () => {
             this.protocolVisible = true
@@ -262,6 +261,7 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
+            this.getBaoPostion()
         },
         //获取持仓数据
         async getBaoPostion() {
