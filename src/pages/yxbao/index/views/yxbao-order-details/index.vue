@@ -37,7 +37,7 @@
             p.num {{orderDetails.recordFee|transNumToThousandMark}}{{$t('hkd')}}
 
     .block__footer--btn
-        van-button(@click="toHomePage") 完成
+        van-button(@click="toHomePage") {{$t('done')}}
         
 </template>
 <script>
@@ -51,15 +51,18 @@ export default {
     i18n: {
         zhCHS: {
             orderStatus: '订单状态',
-            Amounts: '转出金额'
+            Amounts: '转出金额',
+            done: '完成'
         },
         zhCHT: {
             orderStatus: '訂單狀態',
-            Amounts: '轉出金額'
+            Amounts: '轉出金額',
+            done: '完成'
         },
         en: {
             orderStatus: 'Order Status',
-            Amounts: 'Redemption Amounts'
+            Amounts: 'Redemption Amounts',
+            done: 'Completed'
         }
     },
     filters: {

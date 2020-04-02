@@ -153,19 +153,21 @@ export default {
                 })
                 this.fundTradeInfoVO = fundTradeInfoVO
                 this.contentDesc = this.$t([
-                    `赎回资金立即到达证券账户，手续费${this.fundTradeInfoVO
-                        .fastRedemptionFee *
-                        100}%，每人每日限额10万港币；您今日剩余额度：${
+                    `赎回资金立即到达证券账户，手续费${(
+                        this.fundTradeInfoVO.fastRedemptionFee * 100
+                    ).toFixed(2)}%，每人每日限额10万港币；您今日剩余额度：${
                         this.customerRemainderQuota
                     }港币`,
-                    `贖回資金立即到達證券賬戶，手續費${this.fundTradeInfoVO
-                        .fastRedemptionFee *
-                        100}%，每人每日限額10萬港幣；您今日剩餘額度：${
+                    `贖回資金立即到達證券賬戶，手續費${(
+                        this.fundTradeInfoVO.fastRedemptionFee * 100
+                    ).toFixed(2)}%，每人每日限額10萬港幣；您今日剩餘額度：${
                         this.customerRemainderQuota
                     }港幣`,
-                    `The funds will deposit to your account immediately, Handling Fee: ${this
-                        .fundTradeInfoVO.fastRedemptionFee *
-                        100}%, Limited: 10,000.00HKD Every Day/ Per person; Your remaining amount: HKD ${
+                    `The funds will deposit to your account immediately, Handling Fee: ${(
+                        this.fundTradeInfoVO.fastRedemptionFee * 100
+                    ).toFixed(
+                        2
+                    )}%, Limited: 10,000.00HKD Every Day/ Per person; Your remaining amount: HKD ${
                         this.customerRemainderQuota
                     }.`
                 ])
