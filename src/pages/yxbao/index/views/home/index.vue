@@ -151,6 +151,12 @@ export default {
         this.getBaoPostion()
         this.getFundRecommendList()
         this.setShareButton()
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
         // 返回刷新页面
         window.appVisible = debounce(this.getBaoPostion, 300)
         //点击按钮的回调
