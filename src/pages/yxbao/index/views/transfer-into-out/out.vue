@@ -17,7 +17,7 @@
                 .block__list--left {{$t('C23')}}
                 .block__list--right.expectedAmount {{actulAmount}}
 
-    .block__out--title.common-flex-space-between.border-bottom.common-marge-top
+    .block__out--title.common-flex-space-between.border-bottom.common-marge-top(@click="goTradeRule")
         h1 {{$t('C37')}}
         p.tips {{$t('C42')}}
             em.iconfont.icon-iconEBgengduoCopy
@@ -116,6 +116,12 @@ export default {
         this.getFundDetail()
     },
     methods: {
+        goTradeRule() {
+            this.$router.push({
+                name: 'trade-rule',
+                query: { id: this.$route.query.id, displayLocation: 3 }
+            })
+        },
         async getBaoPostion() {
             try {
                 const {
@@ -191,22 +197,26 @@ export default {
                 if (
                     this.amount <
                     Number(this.fundTradeInfoVO.minFastRedemptionAmount)
-                )
+                ) {
+                    let minFastRedemptionAmount = this.check
+                        ? this.fundTradeInfoVO.minFastRedemptionAmount
+                        : this.fundTradeInfoVO.minFastRedemptionAmount
+
                     return this.$toast(
                         this.$t([
-                            `最低转出${Number(
-                                this.fundTradeInfoVO.minFastRedemptionAmount
-                            ).toFixed(2)}港币`,
-                            `最低轉出${Number(
-                                this.fundTradeInfoVO.minFastRedemptionAmount
-                            ).toFixed(2)}港幣`,
+                            `最低转出${Number(minFastRedemptionAmount).toFixed(
+                                2
+                            )}港币`,
+                            `最低轉出${Number(minFastRedemptionAmount).toFixed(
+                                2
+                            )}港幣`,
                             `Mini. Subs HKD ${Number(
-                                this.fundTradeInfoVO.minFastRedemptionAmount
+                                minFastRedemptionAmount
                             ).toFixed(2)}`
                         ]),
                         'middle'
                     )
-
+                }
                 if (
                     this.amount > Number(this.customerRemainderQuota) &&
                     !this.check

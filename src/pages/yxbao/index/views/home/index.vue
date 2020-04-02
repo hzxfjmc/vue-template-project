@@ -98,21 +98,30 @@ export default {
             loginBtn: '立即登录',
             openAccountBtn: '立即开户',
             more: '更多基金',
-            openAccount: '您尚未开户，开户成功即可交易'
+            openAccount: '您尚未开户，开户成功即可交易',
+            TradingRules: '交易规则',
+            FundDetails: '基金详情',
+            AboutuMoeny: '关于友信宝'
         },
         zhCHT: {
             login: '請登陸後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
             more: '更多基金',
-            openAccount: '您尚未開戶，開戶成功即可交易'
+            openAccount: '您尚未開戶，開戶成功即可交易',
+            TradingRules: '交易規則',
+            FundDetails: '基金詳情',
+            AboutuMoeny: '關於友信寶'
         },
         en: {
             login: 'Please login in',
             loginBtn: 'Login',
             openAccountBtn: 'Open account',
             more: 'More',
-            openAccount: 'Please open your account to continue the trade'
+            openAccount: 'Please open your account to continue the trade',
+            TradingRules: 'Trading Rules',
+            FundDetails: 'Fund Details',
+            AboutuMoeny: 'About uMoeny'
         }
     },
 
@@ -135,9 +144,9 @@ export default {
             shareIcon: require('@/assets/img/yxbao/icon/icon-more.png'),
             protocolVisible: false,
             buyProtocolFileList: [
-                { fileName: '交易规则', filePath: 'trade-rule' },
-                { fileName: '基金详情', filePath: 'yxbao-details' },
-                { fileName: '关于友信宝', filePath: 'yxbao-desc' }
+                { fileName: 'TradingRules', filePath: 'trade-rule' },
+                { fileName: 'FundDetails', filePath: 'yxbao-details' },
+                { fileName: 'AboutuMoeny', filePath: 'yxbao-desc' }
             ],
             userInfo: {}
         }

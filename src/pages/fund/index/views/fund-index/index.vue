@@ -139,7 +139,7 @@ div
                             :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(tenThousandApy*100).toFixed(4)}}%
                         .number(
                             v-if="Number(tenThousandApy) === 0") {{Number(tenThousandApy).toFixed(4)}}%
-                        p.block--bottom--desc 近7日年华
+                        p.block--bottom--desc {{$t('yieldInLast7d')}}
                     .content
                         p.number {{sevenDaysApy}}
                         p.block--bottom--desc {{$t('tenKRtn')}}
@@ -233,7 +233,8 @@ export default {
             aboutAssets: '资产币种说明',
             TotalAssets: '总资产',
             fund: '基金',
-            iKnow: '我知道了'
+            iKnow: '我知道了',
+            yieldInLast7d: '近七日年化'
         },
         zhCHT: {
             fundHold: '基金持倉',
@@ -274,7 +275,8 @@ export default {
             aboutAssets: '資產幣種說明',
             TotalAssets: '總資產',
             fund: '基金',
-            iKnow: '我知道了'
+            iKnow: '我知道了',
+            yieldInLast7d: '近七日年化'
         },
         en: {
             unit: 'B ',
@@ -315,7 +317,8 @@ export default {
             aboutAssets: 'About Your Assets',
             TotalAssets: 'Total Assets',
             fund: 'Fund',
-            iKnow: 'Got it'
+            iKnow: 'Got it',
+            yieldInLast7d: 'Yield in Last 7d'
         }
     },
     filters: {
