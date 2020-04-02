@@ -208,7 +208,6 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
             }
-            alert(this.userInfo.assessResult)
             if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >
