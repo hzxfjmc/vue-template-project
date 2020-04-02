@@ -188,6 +188,13 @@ export default {
         },
         //跳转
         async jumpPage(path, type) {
+            alert(!this.isLogin)
+            alert(!this.openedAccount)
+            alert(
+                !this.userInfo.assessResult ||
+                    new Date().getTime() >
+                        new Date(this.userInfo.validTime).getTime()
+            )
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
@@ -220,6 +227,7 @@ export default {
                 type === 5
                     ? path
                     : `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.fundId}`
+            alert(url)
             jumpUrl(type, url)
         },
         //bannar图
