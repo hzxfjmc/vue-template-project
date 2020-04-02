@@ -28,9 +28,9 @@
             template(v-if="fundId")
                 .block__yxbao-btn(v-if="isLogin && positionMarketValue !=0")
                     van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
-                    van-button.btn-color-r(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
+                    van-button.btn-color-r(@click="jumpPage('fund-subscribe',1)") {{$t('C9')}} 
                 .block__yxbao-btn(v-else)
-                    van-button.btn-color-r.btn-width(@click="jumpPage('transfer-into',1)") {{$t('C9')}} 
+                    van-button.btn-color-r.btn-width(@click="jumpPage('fund-subscribe',1)") {{$t('C9')}} 
     .block__yx-tab
         .block__list--item(@click="jumpPage('yxzq_goto://deposit',5)")
             em.iconfont.icon-rujin
@@ -212,8 +212,7 @@ export default {
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
             ) {
-                let url = `${window.location.origin}/wealth/yxbao/index.html#/risk-assessment?id=${this.fundId}&fundRiskType=1&currencyType=2`
-                console.log(url)
+                let url = `${window.location.origin}/wealth/yxbao/index.html#/risk-assessment?id=${this.fundId}&fundRiskType=1&currencyType=2&displayLocation=3`
                 jumpUrl(3, url)
                 return
             }

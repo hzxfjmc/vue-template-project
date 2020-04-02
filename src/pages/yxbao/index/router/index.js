@@ -54,7 +54,7 @@ export default new Router({
         },
         {
             name: 'transfer-into',
-            path: '/transfer-into',
+            path: '/fund-subscribe',
             meta: { title: 'transferInto', auth: true, cs: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/transfer-into-out/into.vue`)

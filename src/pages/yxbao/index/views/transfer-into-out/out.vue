@@ -208,7 +208,10 @@ export default {
                 if (this.amount > this.customerRemainderQuota && !this.check) {
                     return this.$toast(this.$t('C85'), 'middle')
                 }
-                if (this.amount > this.actulAmount) {
+                if (
+                    this.amount <
+                    this.amount * this.fundTradeInfoVO.fastRedemptionFee
+                ) {
                     return this.$toast(this.$t('C41'), 'middle')
                 }
                 let data = await jsBridge.callApp('command_trade_login', {
