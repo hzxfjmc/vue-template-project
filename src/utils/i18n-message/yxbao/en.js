@@ -104,5 +104,9 @@ export const en = {
     C84: 'Insufficient in Transferable Amount',
     C85: ' Insufficient quota in Redemption(Fast) Amount',
     C86: 'Mini. Subs Amounts',
-    C87: 'Transferable Amount'
+    C87: 'Transferable Amount',
+    riskAssessment: 'Risk Assessment',
+    riskAsessmentResult: 'Assessment Result',
+    riskAppropriateResult: 'Product Matching',
+    openPermissions: 'Open A Fund Account'
 }

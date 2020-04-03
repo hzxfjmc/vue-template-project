@@ -237,6 +237,25 @@ export default {
         },
         //跳转
         async jumpPage(path, type) {
+            // 未登录或未开户
+            if (!this.isLogin) {
+                await this.$dialog.alert({
+                    message: this.$t('login'),
+                    confirmButtonText: this.$t('loginBtn')
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+                return
+            }
+
+            if (!this.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: this.$t('openAccount'),
+                    confirmButtonText: this.$t('openAccountBtn')
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
             let url =
                 type === 5
                     ? path

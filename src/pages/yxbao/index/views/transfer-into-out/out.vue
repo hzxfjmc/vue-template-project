@@ -197,7 +197,11 @@ export default {
                 }
                 if (
                     this.amount <
-                    Number(this.fundTradeInfoVO.minFastRedemptionAmount)
+                    Number(
+                        this.check
+                            ? this.fundTradeInfoVO.minTradeAmount
+                            : this.fundTradeInfoVO.minFastRedemptionAmount
+                    )
                 ) {
                     let minFastRedemptionAmount = this.check
                         ? this.fundTradeInfoVO.minTradeAmount

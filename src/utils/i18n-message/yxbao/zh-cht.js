@@ -101,5 +101,9 @@ export const zhCHT = {
     C84: '可轉出金額不足',
     C85: '剩餘快速轉出額度不足',
     C86: '最低轉出金額',
-    C87: '可轉出金額'
+    C87: '可轉出金額',
+    riskAssessment: '風險評估',
+    riskAsessmentResult: '測評結果',
+    riskAppropriateResult: '產品匹配',
+    openPermissions: '基金權限開通'
 }

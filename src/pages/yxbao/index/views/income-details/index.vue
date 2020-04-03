@@ -19,8 +19,12 @@
                     p.title {{item.recordTypeName}}
                     p.color {{item.createTime}}
                 .block__order--right
-                    p.num(v-if="item.recordAmount>0") +{{item.recordAmount}}
-                    p.num(v-else-if="item.recordAmount == 0") {{item.recordAmount}}
+                    p.num(
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                        v-if="item.recordAmount>0") +{{item.recordAmount}}
+                    p.num(
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        v-else-if="item.recordAmount == 0") {{item.recordAmount}}
                     p.num(v-else) -{{item.recordAmount}}
                     p.color {{$t('Balance')}} {{item.recordBalance}}
         .block-element-nomore(v-if="noMoreShow")
@@ -34,6 +38,7 @@ import {
     getBaoPostion
 } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
+import { getStockColorType } from '@/utils/html-utils.js'
 import { List } from 'vant'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
@@ -43,6 +48,11 @@ export default {
     filters: {
         transNumToThousandMark(value) {
             return transNumToThousandMark(value)
+        }
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
         }
     },
     i18n: {
@@ -208,5 +218,11 @@ hr {
         color: rgba(25, 25, 25, 0.5);
         margin: 10px 0 0 0;
     }
+}
+.number-red {
+    color: #ea3d3d;
+}
+.number-green {
+    color: #04ba60;
 }
 </style>
