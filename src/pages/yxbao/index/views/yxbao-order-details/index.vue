@@ -104,7 +104,6 @@ export default {
             document.title = title
         })
     },
-    mounted() {},
     methods: {
         //计算周末公式
         getWeek(data) {
@@ -122,7 +121,6 @@ export default {
         },
         InitState() {
             this.orderDetails = this.$route.params.data
-
             let date =
                 this.orderDetails.recordType === 1
                     ? this.orderDetails.earningsDate

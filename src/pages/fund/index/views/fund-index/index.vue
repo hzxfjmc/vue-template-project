@@ -132,16 +132,16 @@ div
                 .block--bottom-content
                     .left
                         .number(
-                            v-if="Number(tenThousandApy)>0" 
-                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(tenThousandApy*100).toFixed(4)}}%
+                            v-if="Number(sevenDaysApy)>0" 
+                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(sevenDaysApy*100).toFixed(4)}}%
                         .number(
-                            v-if="Number(tenThousandApy)<0" 
-                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(tenThousandApy*100).toFixed(4)}}%
+                            v-if="Number(sevenDaysApy)<0" 
+                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(sevenDaysApy*100).toFixed(4)}}%
                         .number(
-                            v-if="Number(tenThousandApy) === 0") {{Number(tenThousandApy).toFixed(4)}}%
+                            v-if="Number(sevenDaysApy) === 0") {{Number(sevenDaysApy).toFixed(4)}}%
                         p.block--bottom--desc {{$t('yieldInLast7d')}}
                     .content
-                        p.number {{sevenDaysApy}}
+                        p.number {{tenThousandApy}}
                         p.block--bottom--desc {{$t('tenKRtn')}}
                     .right
                         van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}

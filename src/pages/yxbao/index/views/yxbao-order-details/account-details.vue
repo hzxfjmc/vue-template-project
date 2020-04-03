@@ -90,28 +90,74 @@ export default {
                 this.$toast(e.msg)
             }
         },
+        //计算周末公式
+        getWeek(data) {
+            let index = new Date(data).getDay()
+            let i18nObj = {
+                1: this.$t([`周一`, `週一`, `Mon.`]),
+                2: this.$t([`周二`, `週二`, `Tues.`]),
+                3: this.$t([`周三`, `週三`, `Wed.`]),
+                4: this.$t([`周四`, `週四`, `Thur.`]),
+                5: this.$t([`周五`, `週五`, `Fri.`]),
+                6: this.$t([`周六`, `週六`, `Sat.`]),
+                7: this.$t([`周天`, `週天`, `Sun.`])
+            }
+            return i18nObj[index]
+        },
         InitState() {
+            let date =
+                this.orderDetails.recordType === 1
+                    ? this.orderDetails.earningsDate
+                    : this.orderDetails.deliveryDate
+            let week = this.getWeek(date)
+            let datei18n = this.$t([
+                `预计${dayjs(date).format('MM-DD')}(${week})`,
+                `預計${dayjs(date).format('MM-DD')}(${week})`,
+                `The funds will deposit to your account on ${dayjs(date).format(
+                    'MM-DD'
+                )}(${week}) (Estimated)`
+            ])
             //转入
             if (this.orderDetails.recordType === 1) {
+                console.log(123)
                 this.intoStepOne.time = dayjs(
                     this.orderDetails.createTime
                 ).format('YYYY-MM-DD HH:mm:ss')
-                this.intoStepTwo.time = `预计${dayjs(
-                    this.orderDetails.earningsDate
-                ).format('MM-DD')}`
+                this.intoStepTwo.time = this.$t([
+                    `预计${dayjs(date).format('MM-DD')}(${week})开始查看收益`,
+                    `預計${dayjs(date).format('MM-DD')}(${week})開始查看收益`,
+                    `The funds will deposit to your account on ${dayjs(
+                        date
+                    ).format('MM-DD')}(${week}) (Estimated)`
+                ])
+                console.log(this.intoStepTwo.time)
             }
             //转出
             if (this.orderDetails.recordType === 2) {
                 this.intoShow = false
+                this.orderDetails.recordTypeName = this.$t('C18')
+                let desc =
+                    this.orderDetails.outType == 1
+                        ? this.$t([
+                              `预计${dayjs(
+                                  this.orderDetails.deliveryDate
+                              ).format('MM-DD')}(${week})10:00前到账`,
+                              `預計${dayjs(
+                                  this.orderDetails.deliveryDate
+                              ).format('MM-DD')}(${week})10:00前到賬`,
+                              `The funds will deposit to your account on ${dayjs(
+                                  this.orderDetails.deliveryDate
+                              ).format('MM-DD')}(${week}) (Estimated)`
+                          ])
+                        : datei18n
+                this.stepTwo.time = desc
                 if (this.orderDetails.outType == 2) {
                     this.successHide = false
+                    this.orderDetails.recordTypeName = this.$t('C19')
                 }
                 this.stepOne.time = dayjs(this.orderDetails.createTime).format(
                     'YYYY-MM-DD HH:mm:ss'
                 )
-                this.stepTwo.time = `预计${dayjs(
-                    this.orderDetails.earningsDate
-                ).format('MM-DD')}`
             }
         }
     }
