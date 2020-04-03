@@ -133,12 +133,12 @@ div
                     .left
                         .number(
                             v-if="Number(sevenDaysApy)>0" 
-                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(sevenDaysApy*100).toFixed(4)}}%
+                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{sevenDaysApy}}%
                         .number(
                             v-if="Number(sevenDaysApy)<0" 
-                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(sevenDaysApy*100).toFixed(4)}}%
+                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{sevenDaysApy}}%
                         .number(
-                            v-if="Number(sevenDaysApy) === 0") {{Number(sevenDaysApy).toFixed(4)}}%
+                            v-if="Number(sevenDaysApy) === 0") {{sevenDaysApy}}%
                         p.block--bottom--desc {{$t('yieldInLast7d')}}
                     .content
                         p.number {{tenThousandApy}}
