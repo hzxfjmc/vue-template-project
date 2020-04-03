@@ -106,6 +106,7 @@ export default {
                 fastRedemptionFee: 0
             },
             customerRemainderQuota: '',
+            customerRemainderQuotaNum: '',
             positionMarketValue: '',
             contentDesc: '',
             buyProfitLoss: ''
@@ -137,7 +138,7 @@ export default {
                     `可轉出金額${positionMarketValue || 0}`,
                     `Transferable Amount${positionMarketValue || 0}`
                 ])
-
+                this.customerRemainderQuotaNum = customerRemainderQuota
                 this.customerRemainderQuota = transNumToThousandMark(
                     customerRemainderQuota
                 )
@@ -218,7 +219,7 @@ export default {
                     )
                 }
                 if (
-                    this.amount > Number(this.customerRemainderQuota) &&
+                    this.amount > Number(this.customerRemainderQuotaNum) &&
                     !this.check
                 ) {
                     return this.$toast(this.$t('C85'), 'middle')
