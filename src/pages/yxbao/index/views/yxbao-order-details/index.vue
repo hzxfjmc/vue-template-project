@@ -139,8 +139,8 @@ export default {
                     this.orderDetails.createTime
                 ).format('YYYY-MM-DD HH:mm:ss')
                 this.intoStepTwo.time = this.$t([
-                    `预计${dayjs(date).format('MM-DD')}(${week})开始查看收益`,
-                    `預計${dayjs(date).format('MM-DD')}(${week})開始查看收益`,
+                    `预计${dayjs(date).format('MM-DD')}(${week})`,
+                    `預計${dayjs(date).format('MM-DD')}(${week})`,
                     `The funds will deposit to your account on ${dayjs(
                         date
                     ).format('MM-DD')}(${week}) (Estimated)`
