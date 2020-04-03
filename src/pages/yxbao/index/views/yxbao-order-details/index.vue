@@ -122,24 +122,31 @@ export default {
         },
         InitState() {
             this.orderDetails = this.$route.params.data
-            let week = this.getWeek(this.orderDetails.earningsDate)
+
+            let date =
+                this.orderDetails.recordType === 1
+                    ? this.orderDetails.earningsDate
+                    : this.orderDetails.deliveryDate
+            let week = this.getWeek(date)
             let datei18n = this.$t([
-                `预计${dayjs(this.orderDetails.deliveryDate).format(
+                `预计${dayjs(date).format('MM-DD')}(${week})`,
+                `預計${dayjs(date).format('MM-DD')}(${week})`,
+                `The funds will deposit to your account on ${dayjs(date).format(
                     'MM-DD'
-                )}(${week})10:00前到账`,
-                `預計${dayjs(this.orderDetails.deliveryDate).format(
-                    'MM-DD'
-                )}(${week})10:00前到賬`,
-                `The funds will deposit to your account on ${dayjs(
-                    this.orderDetails.deliveryDate
-                ).format('MM-DD')}(${week}) (Estimated)`
+                )}(${week}) (Estimated)`
             ])
-            //转入da
+            //转入
             if (this.orderDetails.recordType === 1) {
                 this.intoStepOne.time = dayjs(
                     this.orderDetails.createTime
                 ).format('YYYY-MM-DD HH:mm:ss')
-                this.intoStepTwo.time = datei18n
+                this.intoStepTwo.time = this.$t([
+                    `预计${dayjs(date).format('MM-DD')}(${week})开始查看收益`,
+                    `預計${dayjs(date).format('MM-DD')}(${week})開始查看收益`,
+                    `The funds will deposit to your account on ${dayjs(
+                        date
+                    ).format('MM-DD')}(${week}) (Estimated)`
+                ])
             }
             //转出
             if (this.orderDetails.recordType === 2) {

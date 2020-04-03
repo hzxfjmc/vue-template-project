@@ -70,7 +70,7 @@
                                     //- em (原{{(fundTradeInfoVO.fastRedemptionFee*100+0.5)|transNumToThousandMark}}%)
                             .block__list--item
                                 p.label {{$t('C86')}}
-                                p.value 0.0%
+                                p.value {{Number(fundTradeInfoVO.minFastRedemptionAmount).toFixed(2)}} HKD
                     hr.hr-border
                     .block__tab-one.block__tab-table
                         p.title {{$t('C51')}}
