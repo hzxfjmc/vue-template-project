@@ -16,8 +16,8 @@
             .block__yxbao--list
                 .block__yxbao--item(@click="toYxbaoPage")
                     p.top {{$t('C6')}} 
-                    p.bottom(v-if="hidePadShow") {{tenThousandApy|transNumToThousandMark}}
-                    p.bottom(v-else) ****
+                    p.bottom {{tenThousandApy|transNumToThousandMark}}
+                    //- p.bottom(v-else) ****
                 .block__yxbao--item(@click="toYxbaoPage")
                     p.top {{$t('C7')}} 
                     p.bottom {{sevenDaysApy|| '0.00'}}
@@ -27,10 +27,10 @@
                     p.bottom(v-else) ****
             template(v-if="fundId")
                 .block__yxbao-btn(v-if="isLogin && positionMarketValue !=0")
-                    van-button.btn-color-l(@click="jumpPage('transfer-out',1)") {{$t('C8')}} 
-                    van-button.btn-color-r(@click="jumpPage('fund-subscribe',1)") {{$t('C9')}} 
+                    van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 
+                    van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}} 
                 .block__yxbao-btn(v-else)
-                    van-button.btn-color-r.btn-width(@click="jumpPage('fund-subscribe',1)") {{$t('C9')}} 
+                    van-button.btn-color-r.btn-width(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}} 
     .block__yx-tab
         .block__list--item(@click="jumpPage('yxzq_goto://deposit',5)")
             em.iconfont.icon-rujin
@@ -196,8 +196,7 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
-        //跳转
-        async jumpPage(path, type) {
+        async jumpPageIntoOut(path, type) {
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
@@ -226,6 +225,18 @@ export default {
                 jumpUrl(3, url)
                 return
             }
+
+            let url =
+                (this.userInfo.extendStatusBit & 16) > 0
+                    ? path
+                    : `open-permissions`
+            jumpUrl(
+                type,
+                `${window.location.origin}/wealth/yxbao/index.html#/${url}?id=${this.fundId}`
+            )
+        },
+        //跳转
+        async jumpPage(path, type) {
             let url =
                 type === 5
                     ? path
@@ -371,6 +382,7 @@ export default {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
+                width: 33.33%;
                 .top {
                     font-size: 14px;
                 }

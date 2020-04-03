@@ -41,7 +41,13 @@
                 p.list__left {{item.belongDay}}
                 p.list__content {{item.netPrice}}
                 template(v-if="isMMF")
-                    p.list__right {{item.revenue}}
+                    p.list__right(
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                        v-if="item.revenue>0") +{{item.revenue}}
+                    p.list__right(
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        v-else-if="item.revenue<0") {{item.revenue}}
+                    p.list__right(v-else) {{item.revenue}}
                 template(v-else)
                     p.list__right(
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"

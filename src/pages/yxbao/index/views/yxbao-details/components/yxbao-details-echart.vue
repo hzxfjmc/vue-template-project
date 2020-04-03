@@ -7,25 +7,6 @@
         .block__fund--item(
             :class="activeTab==3?'activeItem':''"
             @click="handlerActiveTab(3)") {{$t('tenKRTN')}}
-    .fund-echart-content2(v-show ="activeTab ==2")
-        .block__fund--yj
-            .block__list--item.fund__list--headerjy
-                p.list__left {{$t('timeMore')}}
-                p.list__right {{$t('nav')}}
-            .block__list--item.border-bottom(
-                v-for="(item,index) in timeList" 
-                :key="index")
-                p.list__left {{item.label}}
-                p.list__right(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="item.value>0") +{{item.value|transNumToThousandMark(2)}}%
-                p.list__right(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="item.value<0") {{item.value|transNumToThousandMark(2)}}%
-                p.list__right(v-if="item.value==='--'") {{item.value}}
-                p.list__right(v-if="item.value==0") {{item.value}}%
-            .block__list--more(@click="toFundHistorylist")
-                span {{$t('more1')}}
     .fund-echart-content2(v-show ="activeTab ==3")
         .block__fund--yj
             .block__list--item.fund__list--headerjy.fund__list--content
@@ -38,7 +19,13 @@
                 p.list__left {{item.belongDay}}
                 p.list__content {{item.netPrice}}
                 template(v-if="isMMF")
-                    p.list__right {{item.revenue}}
+                    p.list__right(
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                        v-if="item.revenue>0") +{{item.revenue}}
+                    p.list__right(
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        v-else-if="item.revenue<0") {{item.revenue}}
+                    p.list__right(v-else) {{item.revenue}}
                 template(v-else)
                     p.list__right(
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"

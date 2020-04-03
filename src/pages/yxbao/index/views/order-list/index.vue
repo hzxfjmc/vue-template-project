@@ -21,7 +21,7 @@
                     p.num(v-else) {{item.recordAmount}}
                     p.color {{$t('Balance')}} {{item.recordBalance}}
     .block-element-nomore(v-if="noMoreShow")
-        img.img(src="@/assets/img/fund/icon-norecord.png") 
+        img.img(src="@/assets/img/yxbao/data.png") 
         .no-record-box {{$t('nomore')}}
             
 </template>
@@ -36,15 +36,15 @@ export default {
     i18n: {
         zhCHS: {
             Balance: '余额',
-            nomore1: '无更多内容'
+            nomore: '暂无数据'
         },
         zhCHT: {
             Balance: '餘額',
-            nomore1: '無更多內容'
+            nomore: '暫無數據'
         },
         en: {
             Balance: 'Balance',
-            nomore1: 'No More Content'
+            nomore: 'No Data'
         }
     },
     data() {
@@ -62,6 +62,7 @@ export default {
     methods: {
         // 跳转到详情
         toDetailHandle(item) {
+            if (item.recordType === 3) return
             let data = {
                 name: 'account-details',
                 params: {
@@ -88,7 +89,7 @@ export default {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
                     currency: 2,
-                    recordTypes: [1, 2]
+                    recordTypes: [1, 2, 3]
                 })
                 this.loading = false
                 let outTypeName = this.$t([

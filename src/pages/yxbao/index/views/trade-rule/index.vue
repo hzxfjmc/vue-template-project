@@ -52,7 +52,7 @@
                                 p.value 0.0%
                             .block__list--item
                                 p.label {{$t('C86')}}
-                                p.value 0.0%
+                                p.value {{Number(fundTradeInfoVO.minTradeAmount).toFixed(2)}} HKD
                     hr.hr-border
                     .block__tab-one
                         p.title {{$t('C19')}}
@@ -66,7 +66,7 @@
                         .block__list
                             .block__list--item
                                 p.label {{$t('C55')}}
-                                p.value {{(fundTradeInfoVO.fastRedemptionFee*100)|transNumToThousandMark}}% 
+                                p.value {{(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}% 
                                     //- em (原{{(fundTradeInfoVO.fastRedemptionFee*100+0.5)|transNumToThousandMark}}%)
                             .block__list--item
                                 p.label {{$t('C86')}}

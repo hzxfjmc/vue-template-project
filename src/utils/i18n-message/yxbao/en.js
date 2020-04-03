@@ -102,7 +102,7 @@ export const en = {
     C82: 'Redemption Resluts',
     C83: 'Insufficient in Available Balance',
     C84: 'Insufficient in Transferable Amount',
-    C85: 'Insufficient in Redemption(Fast) Amount',
+    C85: ' Insufficient quota in Redemption(Fast) Amount',
     C86: 'Mini. Subs Amounts',
     C87: 'Transferable Amount'
 }
