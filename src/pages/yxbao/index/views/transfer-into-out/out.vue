@@ -199,7 +199,7 @@ export default {
                     Number(this.fundTradeInfoVO.minFastRedemptionAmount)
                 ) {
                     let minFastRedemptionAmount = this.check
-                        ? this.fundTradeInfoVO.minFastRedemptionAmount
+                        ? this.fundTradeInfoVO.minTradeAmount
                         : this.fundTradeInfoVO.minFastRedemptionAmount
 
                     return this.$toast(
