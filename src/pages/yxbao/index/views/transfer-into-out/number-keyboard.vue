@@ -150,6 +150,7 @@ export default {
             if (this.openTips) {
                 await this.focusEvent()
             }
+            if (this.withdrawBalance <= 0 && this.openTips) return
             if (!this.show) {
                 this.show = true
             }

@@ -19,7 +19,7 @@
                     p.num(v-if="item.recordType === 1 || item.recordType === 3") +{{item.recordAmount}}
                     p.num(v-else-if="item.recordType === 2") -{{item.recordAmount}}
                     p.num(v-else) {{item.recordAmount}}
-                    p.color {{$t('Balance')}} {{item.recordBalance}}
+                    p.color(v-if="item.recordType !== 3") {{$t('Balance')}} {{item.recordBalance}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/yxbao/data.png") 
         .no-record-box {{$t('nomore')}}

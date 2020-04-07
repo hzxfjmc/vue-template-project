@@ -54,7 +54,7 @@
                                 p.label {{$t('C86')}}
                                 p.value {{Number(fundTradeInfoVO.minTradeAmount).toFixed(2)}} HKD
                     hr.hr-border
-                    .block__tab-one
+                    .block__tab-one(v-if="fundTradeInfoVO.fastRedemptionFee != 0")
                         p.title {{$t('C19')}}
                         .block__step
                             FundSteps( 
@@ -71,7 +71,7 @@
                             .block__list--item
                                 p.label {{$t('C86')}}
                                 p.value {{Number(fundTradeInfoVO.minFastRedemptionAmount).toFixed(2)}} HKD
-                    hr.hr-border
+                    hr.hr-border(v-if="fundTradeInfoVO.fastRedemptionFee != 0")
                     .block__tab-one.block__tab-table
                         p.title {{$t('C51')}}
                     .block__table--content
