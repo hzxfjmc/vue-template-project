@@ -22,7 +22,7 @@
         p.tips {{$t('C42')}}
             em.iconfont.icon-iconEBgengduoCopy
     .block__out--content
-        .block__out--list(@click="chooseType")
+        .block__out--list(@click="chooseType(1)")
             .left.iconfont(
                 :class="[check ?'icon-icon-checkbox-selected':'icon-unchecked']")
             .right
@@ -32,7 +32,7 @@
                     //- em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
         .block__out--list(
             v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit"
-            @click="chooseType")
+            @click="chooseType(2)")
             .left.iconfont(
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
                 )
@@ -117,6 +117,7 @@ export default {
     async created() {
         await this.getBaoPostion()
         this.getFundDetail()
+        this.getFundUserInfo()
     },
     methods: {
         //灰度
@@ -171,8 +172,8 @@ export default {
         handlerAmount(amount) {
             this.amount = amount
         },
-        chooseType() {
-            this.check = !this.check
+        chooseType(type) {
+            this.check = type === 1
         },
         async getFundDetail() {
             try {

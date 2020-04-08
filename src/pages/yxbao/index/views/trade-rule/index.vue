@@ -149,6 +149,7 @@ export default {
     created() {
         this.getFundDetail()
         this.getFundHoliday()
+        this.getFundUserInfo()
     },
     methods: {
         //灰度
