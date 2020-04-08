@@ -265,7 +265,7 @@ export default {
         //bannar图
         async bannerAdvertisement() {
             try {
-                const res = await bannerAdvertisement(26)
+                const res = await bannerAdvertisement(106)
                 this.banner_list = res.banner_list
             } catch (e) {
                 this.$toast(e.msg)
@@ -369,21 +369,22 @@ export default {
     display: flex;
     background: linear-gradient(
         360deg,
-        rgba(31, 95, 155, 1) 0%,
-        rgba(28, 99, 161, 1) 15%,
-        rgba(15, 123, 196, 1) 100%
+        rgba(254, 150, 98, 0) 0%,
+        rgba(255, 161, 133, 1) 13%,
+        rgba(255, 138, 102, 1) 18%,
+        rgba(254, 113, 39, 1) 100%
     );
     .block__yxbao--content {
         width: 351px;
         margin: 22px 12px;
         height: 299px;
-        background: rgba(186, 211, 255, 0.22);
+        background: rgba(255, 255, 255, 1);
         box-shadow: -1px 1px 1px 0px rgba(255, 255, 255, 0.29);
         border-radius: 8px;
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: #fff;
+        color: rgba(25, 25, 25, 1);
         .block__tab--header {
             display: flex;
             flex-direction: column;
@@ -428,10 +429,11 @@ export default {
                 margin: 0 5%;
             }
             .btn-color-l {
-                background: rgba(4, 89, 162, 0.49);
+                background: #ffe9df;
+                color: #fe7329;
             }
             .btn-color-r {
-                background: rgba(255, 113, 39, 1);
+                background: rgba(254, 115, 41, 1);
             }
         }
         .block__yxbao--num {
@@ -439,7 +441,6 @@ export default {
             font-size: 38px;
             font-family: DINPro-Medium, DINPro;
             font-weight: 500;
-            color: rgba(255, 255, 255, 1);
             line-height: 49px;
         }
         .block__amount {
@@ -455,8 +456,8 @@ export default {
         .block__yxbao--numtip {
             height: 26px;
             padding: 2px 10px;
-            background: rgba(255, 255, 255, 0.19);
-            border-radius: 2px 0px 0px 0px;
+            background: #fdf1e5;
+            border-radius: 2px 2px 0px 0px;
             line-height: 24px;
             font-size: 12px;
             position: relative;
@@ -470,7 +471,7 @@ export default {
         .block__yxbao--numtip:after {
             border-left: 6px solid transparent;
             border-right: 6px solid transparent;
-            border-bottom: 6px solid rgba(255, 255, 255, 0.19);
+            border-bottom: 6px solid #fdf1e5;
             content: '';
             position: absolute;
             width: 0;
@@ -496,7 +497,7 @@ export default {
         flex-direction: column;
         align-items: center;
         .iconfont {
-            color: #1078c5;
+            color: #ff7024;
             font-size: 25px;
         }
     }
@@ -508,6 +509,5 @@ export default {
     display: flex;
     margin: 14px 12px;
     overflow: hidden;
-    border: 1px solid red;
 }
 </style>
