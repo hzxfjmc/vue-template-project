@@ -16,14 +16,6 @@
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
-
-        .block__fundheader--tips(
-            v-if="isLogin"
-            @click="toRouterGenerator('/order-record')")
-            em.iconfont.icon-iconEBshoucang
-            span.title {{$t('trade')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
        
         yxbaoSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         yxbaoTradingRules(:fundTradeInfoVO="fundTradeInfoVO")

@@ -13,18 +13,6 @@
             :curStep="3"
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
             :stepTimes="[fundTradeInfoVO.buySubmit,fundTradeInfoVO.buyConfirm ,fundTradeInfoVO.buyProfitLoss ]")
-        .block__list--item
-            p.block__list--left {{fundTradeInfoVO.code ? $t('subscriptionFee') : $t('subscriptionFeeHk')}}
-            p.block__list--right {{fundTradeInfoVO.subscriptionFee*100|transNumToThousandMark(2)}}%
-        .block__list--item
-            p.block__list--left {{$t('redemptionFee')}}
-            p.block__list--right {{fundTradeInfoVO.redemptionFee*100|transNumToThousandMark(2)}}%
-        .block__list--item
-            p.block__list--left {{$t('managementFee')}}
-            p.block__list--right {{fundTradeInfoVO.managementFee*100|transNumToThousandMark(2)}}%
-        .block__list--item
-            p.block__list--left {{$t('platformManagementFee')}}
-            p.block__list--right {{fundTradeInfoVO.platformManagementFee*100|transNumToThousandMark(2)}}%
 </template>
 <script>
 import FundSteps from '@/biz-components/fond-steps'
@@ -112,6 +100,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block__fundcontent--list {
+    padding: 0 0 10px 0;
     .block__list--item {
         display: flex;
         flex-direction: row;

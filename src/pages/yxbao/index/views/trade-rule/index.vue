@@ -32,7 +32,7 @@
                 .block__table--content
                     .block__table--header
                         .left {{$t('time')}}
-                        .right 说明
+                        .right {{$t('Description')}}
                     .block__table--container.border-bottom(v-for="(item,index) in list")
                         .left {{item.date}}
                         .right {{item.explanation}}
@@ -79,7 +79,7 @@
                     .block__table--content
                         .block__table--header
                             .left {{$t('time')}}
-                            .right 说明
+                            .right {{$t('Description')}}
                         .block__table--container.border-bottom(v-for="(item,index) in list")
                             .left {{item.date}}
                             .right {{item.explanation}}
