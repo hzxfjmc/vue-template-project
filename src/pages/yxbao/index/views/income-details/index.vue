@@ -26,10 +26,10 @@
                         :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                         v-else-if="item.recordAmount == 0") {{item.recordAmount}}
                     p.num(v-else) -{{item.recordAmount}}
-                    p.color {{$t('Balance')}} {{item.recordBalance}}
+                    //- p.color {{$t('Balance')}} {{item.recordBalance}}
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/data.png") 
-            .no-record-box {{$t('nomore')}}
+            .no-record-box {{$t('nomore1')}}
 
 </template>
 <script>
@@ -172,6 +172,7 @@ hr {
     background: #fff;
     width: 100%;
     height: 100%;
+    overflow-y: auto;
     .block__order--list {
         width: 100%;
         display: flex;
