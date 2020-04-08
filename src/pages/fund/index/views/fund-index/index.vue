@@ -125,7 +125,7 @@ div
                 v-if="robustFundListShow"
                 :fundlist="robustFundList")
                 
-            .block--yxbao-container(v-if="isWhiteUserBit")
+            .block--yxbao-container(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
                     em.iconfont.icon-attention(@click="handlerDesc")
@@ -266,7 +266,7 @@ export default {
             bottomMsgLogoYxzt: require('@/assets/img/fund/yxzt.png'),
             tenThousandApy: '',
             sevenDaysApy: '',
-            isWhiteUserBit: false
+            isWhiteUserBit: true
         }
     },
     methods: {
@@ -276,13 +276,20 @@ export default {
                 const res = await getFundUserInfo()
                 this.userInfo = res
                 //白名单
+                console.log(
+                    this.userInfo.grayStatusBit
+                        .toString(2)
+                        .split('')
+                        .reverse()
+                        .join('')
+                )
                 let isWhiteUserBit = this.userInfo.grayStatusBit
                     .toString(2)
                     .split('')
                     .reverse()
-                    .join('')[5]
-                if (!isWhiteUserBit) {
-                    this.isWhiteUserBit = true
+                    .join('')[7]
+                if (isWhiteUserBit == 1) {
+                    this.isWhiteUserBit = false
                     return
                 }
             } catch (e) {
@@ -304,7 +311,7 @@ export default {
         },
         //跳转友信宝
         toYxbao() {
-            if (!this.isWhiteUserBit)
+            if (this.isWhiteUserBit)
                 return this.$dialog.alert({
                     message: this.$t('tips1'),
                     confirmButtonText: this.$t('confirm')

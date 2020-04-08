@@ -54,7 +54,7 @@
                                 p.label {{$t('C86')}}
                                 p.value {{Number(fundTradeInfoVO.minTradeAmount).toFixed(2)}} HKD
                     hr.hr-border
-                    .block__tab-one(v-if="fundTradeInfoVO.fastRedemptionFee != 0")
+                    .block__tab-one(v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit")
                         p.title {{$t('C19')}}
                         .block__step
                             FundSteps( 
@@ -92,6 +92,7 @@ import dayjs from 'dayjs'
 import { getFundDetail, getFundHoliday } from '@/service/finance-info-server.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 import { trudeRuleNume } from './map'
 export default {
     components: {
@@ -141,7 +142,8 @@ export default {
                 value: '立刻'
             },
             fundTradeInfoVO: {},
-            list: []
+            list: [],
+            isWhiteUserBit: false
         }
     },
     created() {
@@ -149,6 +151,26 @@ export default {
         this.getFundHoliday()
     },
     methods: {
+        //灰度
+        async getFundUserInfo() {
+            try {
+                const res = await getFundUserInfo()
+                this.userInfo = res
+                //白名单
+                let isWhiteUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[8]
+                if (isWhiteUserBit == 1) {
+                    this.isWhiteUserBit = true
+                    return
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
+            }
+        },
         //获取基金节假日
         async getFundHoliday() {
             try {

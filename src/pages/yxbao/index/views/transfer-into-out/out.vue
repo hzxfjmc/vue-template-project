@@ -1,7 +1,7 @@
 <template lang="pug">
 .block__element-wrapper
     .block__out--header
-        h1 转出金额
+        h1 {{$t('C88')}}
         NumberKeyboard(
             :placeholder="placeholder"
             :showAllSellBtn="showAllSellBtn"
@@ -31,7 +31,7 @@
                     //- em {{fundTradeInfoVO.buyProfitLoss}}10:00
                     //- em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
         .block__out--list(
-            v-if="fundTradeInfoVO.fastRedemptionFee != 0"
+            v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit"
             @click="chooseType")
             .left.iconfont(
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
@@ -49,6 +49,7 @@ import { getBaoCapitalTrade, getBaoPostion } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 export default {
     components: {
         NumberKeyboard
@@ -109,7 +110,8 @@ export default {
             customerRemainderQuotaNum: '',
             positionMarketValue: '',
             contentDesc: '',
-            buyProfitLoss: ''
+            buyProfitLoss: '',
+            isWhiteUserBit: false
         }
     },
     async created() {
@@ -117,6 +119,26 @@ export default {
         this.getFundDetail()
     },
     methods: {
+        //灰度
+        async getFundUserInfo() {
+            try {
+                const res = await getFundUserInfo()
+                this.userInfo = res
+                //白名单
+                let isWhiteUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[8]
+                if (isWhiteUserBit == 1) {
+                    this.isWhiteUserBit = true
+                    return
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
+            }
+        },
         goTradeRule() {
             this.$router.push({
                 name: 'trade-rule',

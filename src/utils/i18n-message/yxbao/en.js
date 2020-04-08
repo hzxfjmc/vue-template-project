@@ -106,6 +106,7 @@ export const en = {
     C85: ' Insufficient quota in Redemption(Fast) Amount',
     C86: 'Mini. Subs Amounts',
     C87: 'Transferable Amount',
+    C88: 'Redemption Amounts',
     riskAssessment: 'Risk Assessment',
     riskAsessmentResult: 'Assessment Result',
     riskAppropriateResult: 'Product Matching',
