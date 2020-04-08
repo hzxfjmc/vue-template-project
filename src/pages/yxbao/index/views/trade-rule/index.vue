@@ -62,12 +62,14 @@
                                 :stepNames="[fastSellSubmit.label,'',fastSellProfitLoss.label ]"
                                 :stepTimes="[fastSellSubmit.value,'' ,fastSellProfitLoss.value ]")
                         p.desc {{$t('C56')}}
+                        p.desc.border-bottom-none {{$t('C57')}}
                         p.desc.border-bottom.color {{$t('C48')}}
                         .block__list
                             .block__list--item
                                 p.label {{$t('C55')}}
                                 p.value {{(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}% 
                                     //- em (原{{(fundTradeInfoVO.fastRedemptionFee*100+0.5)|transNumToThousandMark}}%)
+                            
                             .block__list--item
                                 p.label {{$t('C86')}}
                                 p.value {{Number(fundTradeInfoVO.minFastRedemptionAmount).toFixed(2)}} HKD
