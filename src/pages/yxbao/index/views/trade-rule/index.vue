@@ -36,7 +36,7 @@
                     .block__table--container.border-bottom(v-for="(item,index) in list")
                         .left {{item.date}}
                         .right {{item.explanation}}
-            van-tab(title="转出规则" :name="1")
+            van-tab(:title="$t('RedemptionRules')" :name="1")
                     .block__tab-one
                         p.title {{$t('C18')}}
                         .block__step

@@ -54,7 +54,8 @@ export const trudeRuleNume = {
             label: '资金到账'
         },
         time: '日期',
-        Description: '说明'
+        Description: '说明',
+        RedemptionRules: '转出规则'
     },
     zhCHT: {
         tradeTitle: '申購',
@@ -111,7 +112,8 @@ export const trudeRuleNume = {
             }
         },
         time: '日期',
-        Description: '說明'
+        Description: '說明',
+        RedemptionRules: '轉出規則'
     },
     en: {
         tradeTitle: 'Subscription',
@@ -168,6 +170,7 @@ export const trudeRuleNume = {
             }
         },
         time: 'Time',
-        Description: 'Description'
+        Description: 'Description',
+        RedemptionRules: 'Redemption Rules'
     }
 }
