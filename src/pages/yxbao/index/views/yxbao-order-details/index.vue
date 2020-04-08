@@ -44,6 +44,7 @@
 import transferStep from './transfer-step'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import jsBridge from '@/utils/js-bridge.js'
 export default {
     components: {
         transferStep
@@ -177,9 +178,13 @@ export default {
             this.stepTwo.label = this.$t('C25')
         },
         toHomePage() {
-            this.$router.push({
-                name: 'home'
-            })
+            if (jsBridge.isYouxinApp) {
+                jsBridge.callApp('command_close_webview')
+            } else {
+                this.$router.push({
+                    name: 'home'
+                })
+            }
         }
     }
 }
