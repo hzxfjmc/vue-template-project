@@ -64,10 +64,10 @@ div
                     .block__bottom-r(@click="toYxbao")
                     
                         p {{$t('uMoney')}}
-                            em.num(v-if="moneyShow && isWhiteUserBit") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
-                            em(v-if="!moneyShow && isWhiteUserBit") ****
-                            em.word(v-if="!isWhiteUserBit") :{{$t('tips')}}
-                        em.iconfont.icon-previewright(v-if="isWhiteUserBit")
+                            em.num(v-if="moneyShow && !isWhiteUserBit") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
+                            em(v-if="!moneyShow && !isWhiteUserBit") ****
+                            em.word(v-if="isWhiteUserBit") :{{$t('tips')}}
+                        em.iconfont.icon-previewright(v-if="!isWhiteUserBit")
                     //- span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
                     //- span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
            
