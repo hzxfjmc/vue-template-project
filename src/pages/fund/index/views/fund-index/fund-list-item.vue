@@ -34,9 +34,9 @@
 </template>
 <script>
 import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
-import { getStockColorType } from '@/utils/html-utils.js'
 import { debounce } from '@/utils/tools.js'
 import dayjs from 'dayjs'
 import F2 from '@antv/f2'
@@ -53,7 +53,11 @@ export default {
     updated() {
         this.$nextTick(() => {
             this.fundlist.data.forEach(item => {
-                this.draw(`chartId${item.fundId}`, item.fundHomepagePointList)
+                this.draw(
+                    `chartId${item.fundId}`,
+                    item.fundHomepagePointList,
+                    item.apy
+                )
             })
         })
     },
@@ -98,7 +102,7 @@ export default {
         }
     },
     methods: {
-        draw(canvasId, data) {
+        draw(canvasId, data, apy) {
             const chart = new F2.Chart({
                 id: canvasId
             })
@@ -129,15 +133,20 @@ export default {
                 }
             })
             chart.axis(false)
+            let stockColor
+            if (this.stockColorType === 1) {
+                stockColor = Number(apy) >= 0 ? '#ea3d3d' : '#04ba60'
+            } else {
+                stockColor = Number(apy) >= 0 ? '#04ba60' : '#ea3d3d'
+            }
             chart
                 .line()
                 .position('belongDay*pointData')
-                .color(`${this.stockColorType === 1 ? '#ea3d3d' : '#04ba60'}`)
+                .color(`${stockColor}`)
                 .shape('smooth')
                 .style({
                     lineWidth: 10
                 })
-
             chart.render()
         },
         goNext(item) {
