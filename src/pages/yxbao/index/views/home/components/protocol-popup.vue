@@ -14,6 +14,7 @@
 </template>
 
 <script>
+import './index.scss'
 import { jumpUrl } from '@/utils/tools.js'
 export default {
     name: 'protocol-popup',
@@ -64,39 +65,4 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-.yx-popup.protocol-popup {
-    .van-popup--bottom {
-        width: 100%;
-        top: auto;
-        bottom: 0px;
-        right: auto;
-        border-radius: unset;
-    }
-}
-.protocol-list {
-    background: $background-bottom-color;
-    .protocol-list__body {
-        .protocol-list__text {
-            font-size: 16px;
-            line-height: 36px;
-            padding: 7px 0;
-            text-align: center;
-            background: #fff;
-            &:last-child {
-                border-bottom: none;
-            }
-        }
-    }
-    .protocol-list__footer {
-        .protocol-list__button {
-            background: #fff;
-            margin-top: 10px;
-            font-size: 16px;
-            line-height: 36px;
-            padding: 7px 0;
-            text-align: center;
-        }
-    }
-}
-</style>
+<style scoped lang="scss"></style>
