@@ -174,8 +174,8 @@ export default {
                           ])
                         : this.$t([
                               `快速转出成功，资金到达证券账户`,
-                              `資金到達證券賬戶`,
-                              `Deposit to uSMART Account`
+                              `快速轉出成功，資金到達證券賬戶`,
+                              `Redemption（Fast）of success, Deposit to uSMART Account`
                           ])
                 this.stepTwo.time = desc
                 if (this.orderDetails.outType == 2) {
