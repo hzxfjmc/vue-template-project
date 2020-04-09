@@ -183,16 +183,6 @@ export default {
             try {
                 const res = await getFundUserInfo()
                 this.userInfo = res
-                //白名单
-                let isWhiteUserBit = this.userInfo.grayStatusBit
-                    .toString(2)
-                    .split('')
-                    .reverse()
-                    .join('')[5]
-                if (!isWhiteUserBit) {
-                    this.fightShow = true
-                    return
-                }
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundUserInfo:error:>>>', e)
