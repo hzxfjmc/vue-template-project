@@ -82,6 +82,7 @@ import jsBridge from '@/utils/js-bridge'
 import { debounce } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
 import env from '@/utils/scheme/env'
+import LS from '@/utils/local-storage'
 export default {
     components: {
         [Swipe.name]: Swipe,
@@ -161,6 +162,7 @@ export default {
         this.getBaoPostion()
         this.getFundRecommendList()
         this.setShareButton()
+        this.showPsd = LS.get('showMoney')
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
@@ -354,6 +356,7 @@ export default {
         },
         changeHidePadShow() {
             this.hidePadShow = !this.hidePadShow
+            LS.put('showMoney', this.hidePadShow)
         }
     }
 }
@@ -362,6 +365,9 @@ export default {
 .block__fund--list {
     padding: 0 12px 30px 12px;
     margin: 0 0 20px 0;
+    .block__title {
+        padding: 10px 0 0 0;
+    }
 }
 
 .block__yxbao--header {
@@ -509,7 +515,7 @@ export default {
     border-radius: 4px;
     position: relative;
     z-index: 99;
-    margin: 14px 12px;
+    margin: 14px 12px 4px 12px;
     overflow: hidden;
     img {
         width: 100%;
