@@ -284,6 +284,8 @@ export default {
                 if (isWhiteUserBit == 1) {
                     this.isWhiteUserBit = false
                     return
+                } else {
+                    this.isWhiteUserBit = true
                 }
             } catch (e) {
                 this.$toast(e.msg)
