@@ -105,7 +105,7 @@ export const i18n = {
         confirm: 'Confirm',
         fundmsg: ' Processing Order',
         msg:
-            '1. You can choose HKD or USD as the base currencyTab of total fund assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currencyTab.Example: When your base currencyTab is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currencyTab is only used as a display of uSMART fund asset calculations. Does not affect the fund currencyTab of each fund.',
+            '1. Total assets are the sum of your fund assets and uMoeny assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currencyTab.Example: When your base currencyTab is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currencyTab is only used as a display of uSMART fund asset calculations. Does not affect the fund currencyTab of each fund.',
         bottomMsg:
             'Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.The contents have not been reviewed by the Securities and Futures Commission.',
         bottomHref: 'Disclaimer/Risk Disclosure',
