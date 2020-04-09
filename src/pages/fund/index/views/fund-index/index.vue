@@ -258,8 +258,6 @@ export default {
             usSummary: {},
             currentPostion: {},
             code: null,
-            imgUrl:
-                'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: [],
             apy: '0',
             bottomMsgLogoUsmart: require('@/assets/img/fund/uSmart.png'),
