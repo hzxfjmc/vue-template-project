@@ -276,13 +276,6 @@ export default {
                 const res = await getFundUserInfo()
                 this.userInfo = res
                 //白名单
-                console.log(
-                    this.userInfo.grayStatusBit
-                        .toString(2)
-                        .split('')
-                        .reverse()
-                        .join('')
-                )
                 let isWhiteUserBit = this.userInfo.grayStatusBit
                     .toString(2)
                     .split('')
@@ -516,7 +509,6 @@ export default {
             }
             await this.$store.dispatch('initAction')
             this.getSource(true)
-            this.getFundUserInfo()
         },
         //获取用户归属 1大陆 2香港
         async getSource(flag) {
@@ -524,6 +516,7 @@ export default {
                 const { code } = await getSource()
                 this.code = code
                 if (this.isLogin) {
+                    this.getFundUserInfo()
                     this.getFundTotalPosition(flag)
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
