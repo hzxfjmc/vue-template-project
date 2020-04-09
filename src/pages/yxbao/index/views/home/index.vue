@@ -42,7 +42,7 @@
             em.iconfont.icon-zijin
             span {{$t('C12')}}                 
 
-    .block-bannar-swiper
+    .block__swiper.block-bannar-swiper(v-if="banner_list.length!=0")
         van-swipe(:autoplay="3000")  
             van-swipe-item(
                 v-for="(item, index) in banner_list" 
@@ -267,6 +267,7 @@ export default {
             try {
                 const res = await bannerAdvertisement(106)
                 this.banner_list = res.banner_list
+                console.log(this.banner_list)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -502,12 +503,16 @@ export default {
         }
     }
 }
-.block-bannar-swiper {
+.block__swiper {
     width: 351px;
     height: 70px;
     border-radius: 4px;
-    display: flex;
+    position: relative;
+    z-index: 99;
     margin: 14px 12px;
     overflow: hidden;
+    img {
+        width: 100%;
+    }
 }
 </style>
