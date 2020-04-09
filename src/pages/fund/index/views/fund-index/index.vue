@@ -281,7 +281,6 @@ export default {
                     .split('')
                     .reverse()
                     .join('')[7]
-                alert(132)
                 this.isWhiteUserBit = true
                 if (isWhiteUserBit == 1) {
                     this.isWhiteUserBit = false
