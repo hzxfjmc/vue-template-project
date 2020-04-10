@@ -151,10 +151,23 @@ export default {
                           ])
                         : datei18n
                 this.stepTwo.time = desc
+                let desc1 =
+                    this.orderDetails.outType == 1
+                        ? this.$t([
+                              `提交转出申请成功，可立即购买股票`,
+                              `提交轉出申請成功，立即可以購買股票`,
+                              `Redemption of success It can buy stock immediately`
+                          ])
+                        : this.$t([
+                              `快速转出成功，资金到达证券账户`,
+                              `快速轉出成功，資金到達證券賬戶`,
+                              `Redemption（Fast）of success, Deposit to uSMART Account`
+                          ])
                 if (this.orderDetails.outType == 2) {
                     this.successHide = false
                     this.orderDetails.recordTypeName = this.$t('C19')
                 }
+                this.stepOne.label = desc1
                 this.stepOne.time = dayjs(this.orderDetails.createTime).format(
                     'YYYY-MM-DD HH:mm:ss'
                 )

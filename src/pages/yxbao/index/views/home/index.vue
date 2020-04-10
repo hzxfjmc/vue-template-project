@@ -178,6 +178,9 @@ export default {
         }
     },
     methods: {
+        goBanner(item) {
+            jumpUrl(item.news_jump_type, item.jump_url)
+        },
         //获取用户信息
         async getFundUserInfo() {
             if (!this.isLogin) return
