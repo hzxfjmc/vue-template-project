@@ -6,7 +6,7 @@
     )
         .protocol-list
             .protocol-list__body
-                .protocol-list__text.border-bottom(@click="openProtocol(item.filePath)" 
+                .protocol-list__text.border-bottom(@click="openProtocol(item.filePath,item)" 
                 v-for="item in protocolFileList" 
                 :key="item.createTime") {{$t(item.fileName)}}
             .protocol-list__footer
@@ -54,8 +54,13 @@ export default {
         }
     },
     methods: {
-        async openProtocol(params) {
-            let url = `${window.location.origin}/wealth/yxbao/index.html#/${params}?id=${this.fundId}&displayLocation=3`
+        async openProtocol(params, item) {
+            let url
+            if (item.fileName === 'AboutuMoeny') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+            } else {
+                url = `${window.location.origin}/wealth/yxbao/index.html#/${params}?id=${this.fundId}&displayLocation=3`
+            }
             jumpUrl(3, url)
         },
         hidePopup() {
