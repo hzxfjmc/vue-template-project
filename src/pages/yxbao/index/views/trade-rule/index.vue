@@ -94,11 +94,15 @@ import FundSteps from '@/biz-components/fond-steps'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { trudeRuleNume } from './map'
+import { mapGetters } from 'vuex'
 export default {
     components: {
         [Tab.name]: Tab,
         [Tabs.name]: Tabs,
         FundSteps
+    },
+    computed: {
+        ...mapGetters(['lang'])
     },
     i18n: trudeRuleNume,
     filters: {
@@ -181,6 +185,8 @@ export default {
                 this.list = res
                 this.list.map(item => {
                     item.date = dayjs(item.date).format('YYYY-MM-DD')
+                    console.log(this.lang)
+                    // item.explanation = item.explanation[this.lang]
                 })
             } catch (e) {
                 this.$toast(e.msg)
