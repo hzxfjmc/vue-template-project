@@ -11,20 +11,16 @@
             .block__yxbao--numtip 
                 p {{$t('C4')}} 
                     em.num(
-                        v-if="hidePadShow && yesterdayEarnings<0") -{{yesterdayEarnings|transNumToThousandMark}}
-                    em.num(
-                        v-else-if="hidePadShow && yesterdayEarnings>=0") {{yesterdayEarnings|transNumToThousandMark}}
+                        v-if="hidePadShow") {{yesterdayEarnings|transNumToThousandMark}}
                     em.num(v-else) ****
             .block__yxbao--list
                 .block__yxbao--item(@click="toYxbaoPage")
                     p.top {{$t('C6')}} 
-                    p.bottom(v-if="tenThousandApy < 0") -{{tenThousandApy|transNumToThousandMark}}
-                    p.bottom(v-else) {{tenThousandApy|transNumToThousandMark}}
+                    p.bottom {{tenThousandApy|transNumToThousandMark}}
                     //- p.bottom(v-else) ****
                 .block__yxbao--item(@click="toYxbaoPage")
                     p.top {{$t('C7')}} 
-                    p.bottom(v-if="sevenDaysApy < 0") -{{sevenDaysApy|| '0.00'}}
-                    p.bottom(v-else) {{sevenDaysApy|| '0.00'}}
+                    p.bottom {{sevenDaysApy|| '0.00'}}
                 .block__yxbao--item
                     p.top {{$t('C5')}} 
                     p.bottom(v-if="hidePadShow && totalEarnings<0") -{{totalEarnings|transNumToThousandMark}}

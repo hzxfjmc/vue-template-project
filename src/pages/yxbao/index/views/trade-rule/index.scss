@@ -69,6 +69,16 @@
             border: none;
         }
     }
+    .block__table--header{
+        .left,
+        .right {
+            width: 50%;
+            height:100%;
+            padding:0;
+            text-align: center;
+            border-right: 1px solid rgba(25, 25, 25, 0.2);
+        }
+    }
     .block__table--container {
         align-items: center;
         line-height: 22px;
