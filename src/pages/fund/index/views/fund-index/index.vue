@@ -111,6 +111,7 @@ div
                 :code = "code"
                 v-if="choiceFundListShow"
                 :fundlist="choiceFundList")
+
             .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
                 van-swipe(:autoplay="3000")  
                     van-swipe-item(
@@ -118,7 +119,7 @@ div
                         @click="goBanner(item)"
                         :key="index") 
                         img(:src="item.picture_url") 
-                        
+
             .block--yxbao-container(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
@@ -140,7 +141,7 @@ div
                         p.block--bottom--desc {{$t('tenKRtn')}}
                     .right
                         van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}
-                        
+
             FundListItem(
                 :code = "code"
                 :bgColor="code !=1 ? '#F1B92D':'#FFBF32'"
@@ -260,6 +261,9 @@ export default {
             usSummary: {},
             currentPostion: {},
             code: null,
+            inTransitOrder: '0',
+            imgUrl:
+                'http://pic11.nipic.com/20101204/6349502_104413074997_2.jpg',
             fundlist: [],
             apy: '0',
             bottomMsgLogoUsmart: require('@/assets/img/fund/uSmart.png'),

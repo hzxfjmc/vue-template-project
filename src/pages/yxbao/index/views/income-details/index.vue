@@ -24,9 +24,8 @@
                         v-if="item.recordAmount>0") +{{item.recordAmount}}
                     p.num(
                         :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                        v-else-if="item.recordAmount == 0") {{item.recordAmount}}
-                    p.num(v-else) -{{item.recordAmount}}
-                    //- p.color {{$t('Balance')}} {{item.recordBalance}}
+                        v-else-if="item.recordAmount < 0") {{item.recordAmount}}
+                    p.num(v-else) {{item.recordAmount}}
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/data.png") 
             .no-record-box {{$t('nomore1')}}
