@@ -49,14 +49,14 @@
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
-                van-button(@click="handlerSubmitFilter") {{$t('submitButtonText')}}
+                van-button(@click="handlerSubmitFilter") 同意协议并提交
         
         protocol-popup(
             v-model="protocolVisible"
             :protocolFileList="buyProtocolFileList"
             )
       
-        twoPicker
+        twoPicker( v-model="protocolShow")
         .block__footer--loading(v-if="loading")
             Loading(type="spinner" color="#2F79FF")
 </template>
@@ -81,6 +81,7 @@ export default {
     },
     data() {
         return {
+            protocolShow: false,
             loading: false,
             check: true,
             fundName: '',

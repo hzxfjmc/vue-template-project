@@ -14,9 +14,28 @@
 </template>
 <script>
 export default {
+    props: {
+        value: {
+            type: Boolean,
+            default: false
+        },
+        protocolFileList: {
+            type: Array,
+            default: () => []
+        }
+    },
+    computed: {
+        popupVisible: {
+            get() {
+                return this.value
+            },
+            set(val) {
+                this.$emit('input', val)
+            }
+        }
+    },
     data() {
         return {
-            popupVisible: true,
             columns: [
                 // 第一列
                 {

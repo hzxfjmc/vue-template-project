@@ -7,7 +7,7 @@
         .protocol-wrapper
             .protocol-list__header.border-bottom
                 .protocol--block--left 请选择转账账户
-                .protocol--block--right 取消
+                .protocol--block--right(@click="hidePopup") 取消
                 //- .protocol-list__button(@click="hidePopup") {{$t('cancel')}}
             .protocol-list__body
                 .protocol-list--item
