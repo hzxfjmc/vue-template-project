@@ -171,6 +171,15 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fund-index/declare-agreement.vue`
                 )
+        },
+        {
+            name: 'fixed-investment',
+            path: '/fixed-investment',
+            meta: { title: 'fixed-investment', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fixed-investment/subscribe.vue`
+                )
         }
     ]
 })
