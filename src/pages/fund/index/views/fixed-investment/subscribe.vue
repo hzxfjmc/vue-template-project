@@ -5,13 +5,45 @@
 
         .fund--block-content
             .fund-content
-                .fund--header-title
-                    .fund-title 定投金额
-                    .fund-desc 交易规则
-                .fund--header--input
-                    NumberKeyboard( 
-                        :placeholder="placeholder"
-                        @handlerAmount="handlerAmount")
+                .fund--block--top
+                    .fund--header-title
+                        .fund-title 定投金额
+                        .fund-desc 交易规则
+                    .fund--header--input.border-bottom
+                        NumberKeyboard( 
+                            :placeholder="placeholder"
+                            @handlerAmount="handlerAmount")
+                    .fund--header--footer
+                        .fund--header--list
+                            .fund-left 申购费(预计)
+                            .fund-right 0.00
+                                em 1.00港币
+                        .fund--header--list
+                            .fund-left 订单总金额
+                            .fund-right 9995.00
+                
+                .fund--block--exchange
+                    .fund--blcok--etop
+                        span 当金额不足时，自动换汇
+                            em.iconfont.icon-iconEBshoucang2
+                        span.iconfont(:class="[check?'icon-selected':'icon-unchecked']")
+                    p 定投日自动于银行扣款AAAA港币。并于证券账户扣款时按实时汇率兑换BBBB美元。兑换后剩余的港币会留存于你的证券账户
+                .fund--block--floor
+                    .fund--list--item.border-bottom
+                        .item--top 扣款方式
+                            em.iconfont.icon-iconEBshoucang2
+                        .item--bottom
+                            .item--left 点此选择扣款方式
+                            .item--right.iconfont.icon-iconEBgengduoCopy
+
+                    .fund--list--item
+                        .item--top 定投周期
+                        .item--content 
+                            .item--left.item--block--wrapper 每周 周一
+                                .item--right.iconfont.icon-iconEBgengduoCopy
+                            p 下个转入日02月12日，如遇非交易日顺延
+                           
+                        
             .fund-footer-content
                 .protocol
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
@@ -24,7 +56,7 @@
             :protocolFileList="buyProtocolFileList"
             )
       
-
+        twoPicker
         .block__footer--loading(v-if="loading")
             Loading(type="spinner" color="#2F79FF")
 </template>
@@ -37,17 +69,20 @@ import { mapGetters } from 'vuex'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
 import NumberKeyboard from './components/number-keyboard'
+import twoPicker from './components/two-picker'
 import './index.scss'
 export default {
     name: 'subscribe',
     components: {
         protocolPopup,
         Loading,
+        twoPicker,
         NumberKeyboard
     },
     data() {
         return {
-            loading: true,
+            loading: false,
+            check: true,
             fundName: '',
             buyProtocolFileList: [],
             protocolVisible: false,
