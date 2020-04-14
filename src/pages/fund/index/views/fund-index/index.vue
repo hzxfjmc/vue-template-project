@@ -319,12 +319,8 @@ export default {
         },
         //描述
         handlerDesc() {
-            this.$dialog.alert({
-                title: this.$t('aboutAssets'),
-                className: 'block--dialog',
-                message: this.$t('msg'),
-                firmButtonText: this.$t('iKnow')
-            })
+            let url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+            jumpUrl(3, url)
         },
         toOrderList() {
             this.openWebView(
