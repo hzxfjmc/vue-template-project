@@ -49,8 +49,8 @@
                         .top 扣款金额
                         .bottom 5,0000.00
     .inverstment--footer--btn
-        van-button.btn-left() 123
-        van-button.btn-right 453
+        van-button.btn-left() 发现更多定投机会
+        van-button.btn-right 我的持仓
 </template>
 <script>
 export default {
