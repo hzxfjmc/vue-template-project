@@ -86,24 +86,7 @@ export default {
             ) {
                 return '0.00'
             }
-            return (
-                this.amount -
-                this.fundTradeInfoVO.fastRedemptionFee * this.amount
-            ).toFixed(2)
-        },
-        expectedAmount() {
-            if (
-                isNaN(
-                    this.amount -
-                        this.amount * this.fundTradeInfoVO.fastRedemptionFee
-                )
-            ) {
-                return '0.00'
-            }
-            return (
-                this.amount -
-                this.amount * this.fundTradeInfoVO.fastRedemptionFee
-            ).toFixed(2)
+            return (this.amount - this.HandlingFee).toFixed(2)
         }
     },
     data() {
