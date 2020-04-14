@@ -4,6 +4,9 @@
             van-cell(v-for="(item,index) in dividendDetailList" :key="index" class="van-cell-item" )
                 template(slot-scope='scope')
                     .dividend-item.flex
+                        span(class="left-title") {{$t('list')['recordDate'].label}}
+                        span(class="right-value") {{item.recordDate}}
+                    .dividend-item.flex
                         span(class="left-title") {{$t('list')['dividendDate'].label}}
                         span(class="right-value") {{item.dividendDate}}
                     .dividend-item.flex
@@ -46,10 +49,17 @@ export default {
                 let res = await getFundDividendList(params)
                 this.total = res.total
                 res.list.map(item => {
+                    let recordDate
+                    if (item.recordDate) {
+                        recordDate = dayjs(item.recordDate).format('YYYY-MM-DD')
+                    } else {
+                        recordDate = '--'
+                    }
                     this.dividendDetailList.push({
                         dividendDate: dayjs(item.dividendPaymentDate).format(
                             'YYYY-MM-DD'
                         ),
+                        recordDate: recordDate,
                         dividendRecord: item.dividendPerShare
                     })
                 })
