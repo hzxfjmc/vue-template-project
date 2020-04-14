@@ -82,5 +82,8 @@ export default {
         color: rgba($text-color, 0.5);
         margin-bottom: 5px;
     }
+    .van-hairline--top-bottom {
+        position: absolute;
+    }
 }
 </style>
