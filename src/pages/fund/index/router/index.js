@@ -187,6 +187,13 @@ export default new Router({
             meta: { title: 'investment-result', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/investment-result/index.vue`)
+        },
+        {
+            name: 'my-investment',
+            path: '/my-investment',
+            meta: { title: 'my-investment', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/my-investment/index.vue`)
         }
     ]
 })
