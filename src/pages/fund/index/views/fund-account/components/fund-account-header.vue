@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-account-header
-    .block-account-header(:class="[code != 1 ? 'bg-hk' : 'bg-ch']")
+    .block-account-header
         .header-content
             .header-content-left
                 span.title 
@@ -22,11 +22,11 @@
                             span(
                                 @click="chooseCurrency(1)"
                                 :class="[currencyNum === 1 ? 'active' :'']") {{$t('usd')}}
-            .block__footer--hold(
-                v-if="inTransitOrder!=='0'"
-                @click="toRouterPath('/fund-order-list')")
-                span {{inTransitOrder}}{{$t('fundmsg')}}
-                em(class="iconfont icon-previewright")
+                .block__footer--hold(
+                    v-if="inTransitOrder!=='0'"
+                    @click="toRouterPath('/fund-order-list')")
+                    span {{inTransitOrder}}{{$t('fundmsg')}}
+                //- em(class="iconfont icon-previewright")
             .header-content-right
                 .block__content--left
                     span.block__content--subtitle {{$t('SevenDayIncome')}} 
@@ -37,8 +37,17 @@
                     span.block__content--p(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
                     span.block__content--p(v-else) ****
         .header-footer-tab.border-top(class="border-bottom-active")
-            span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
-            span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
+            .nav--item
+                em.iconfont.icon-shouru
+                span 收益明细
+            .nav--item
+                em.iconfont.icon-zijin
+                span 订单记录
+            .nav--item
+                em.iconfont.icon-dingtou
+                span  我的定投
+            //- span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
+            //- span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
         
     slot(name="fundList")
 </template>
@@ -186,7 +195,6 @@ export default {
 <style lang="scss" scoped>
 // @import './index.scss';
 .fund-account-header {
-    // background: #2f79ff;
     color: #fff;
     width: 100%;
 }
@@ -201,7 +209,15 @@ export default {
 }
 .block-account-header {
     width: 100%;
-    padding: 20px 0 0 0;
+    position: relative;
+    height: 284px;
+    background: linear-gradient(
+        360deg,
+        rgba(47, 121, 255, 0) 0%,
+        rgba(43, 116, 250, 0.67) 14%,
+        rgba(41, 113, 247, 0.89) 25%,
+        rgba(13, 80, 216, 1) 100%
+    );
 }
 .bg-hk {
     background: linear-gradient(
@@ -225,7 +241,6 @@ export default {
         top: 0;
         left: 0;
         border-top: 1px solid #5e97ff;
-
         @media only screen and (min-resolution: 2dppx) {
             // 非标准的
             -webkit-transform: scaleY(0.5);
@@ -238,6 +253,7 @@ export default {
     display: flex;
     padding: 0 3% 20px 3%;
     float: left;
+    margin: 30px 0 0 0;
     flex-direction: column;
     .header-content-left {
         width: 100%;
@@ -247,7 +263,7 @@ export default {
             display: flex;
             justify-content: center;
             width: 100%;
-            font-size: 0.24rem;
+            font-size: 14px;
             em {
                 float: left;
             }
@@ -262,9 +278,10 @@ export default {
             height: 40px;
             justify-content: center;
             width: 100%;
+            margin: 10px 0;
             flex-direction: row;
             .number-price {
-                font-size: 30px;
+                font-size: 32px;
                 font-family: 'yxFontDINPro-Medium';
                 em {
                     font-size: 0.4rem;
@@ -344,6 +361,7 @@ export default {
     .header-content-right {
         display: flex;
         flex-direction: row;
+        margin: 5px 0 0 0;
         width: 100%;
         .block__content--left,
         .block__content--right {
@@ -356,7 +374,7 @@ export default {
                 line-height: 30px;
             }
             .block__content--p {
-                font-size: 16px;
+                font-size: 20px;
                 color: #fff;
                 font-family: yxFontDINPro-Medium;
             }
@@ -380,45 +398,60 @@ export default {
     }
 }
 .header-footer-tab {
-    width: 100%;
-    padding: 0 3% 0 3%;
-    height: 40px;
-    // border: 1px solid red;
-    margin: 30px 0 0 0;
-    line-height: 40px;
+    margin: 0 12px;
+    width: 351px;
+    position: absolute;
+    height: 80px;
+    bottom: -40px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    background: #fff;
     display: flex;
-    font-size: 0.28rem;
-    span {
-        display: inline-block;
-        width: 50%;
-        height: 40px;
-        line-height: 40px;
-        text-align: center;
-    }
-    .header-footer-left {
-        position: relative;
-    }
-    .header-footer-left:after {
-        content: '';
-        height: 20px;
-        position: absolute;
-        top: 10px;
-        border-right: 1px solid rgba(255, 255, 255, 0.2);
-        right: 0;
+    flex-direction: row;
+    justify-content: space-around;
+    .nav--item {
+        color: #000;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        em {
+            color: #3278f9;
+            font-size: 26px;
+        }
     }
 }
 .block__footer--hold {
-    line-height: 40px;
+    height: 32px;
+    line-height: 32px;
+    margin: 10px auto;
     display: flex;
     justify-content: center;
     color: rgba(255, 255, 255, 0.6);
     span {
         font-size: 14px;
-        // color: rgba(255, 255, 255, 1);
+        display: inline-block;
+        background: rgba(255, 255, 255, 0.15);
+        position: relative;
+        padding: 0 10px;
+        border-radius: 2px 0px 0px 0px;
+    }
+    span:after {
+        content: '';
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid rgba(255, 255, 255, 0.15);
+        border-top: 5px solid transparent;
+        position: absolute;
+        width: 0;
+        height: 0;
+        top: -11px;
+        left: 50%;
+        transform: translateX(-3px);
     }
     em {
         font-size: 20px;
-        // color: rgba(255, 255, 255, 1);
         line-height: 40px;
         margin: 1px 0 0 5px;
     }

@@ -180,6 +180,13 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fixed-investment/subscribe.vue`
                 )
+        },
+        {
+            name: 'investment-result',
+            path: '/investment-result',
+            meta: { title: 'investment-result', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/investment-result/index.vue`)
         }
     ]
 })
