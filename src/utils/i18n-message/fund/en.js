@@ -22,6 +22,7 @@ export const en = {
     riskTip: 'Risk Tip',
     continueButton: 'Continue',
     cancelButton: 'Cancel',
+    investmentDetail: 'Investment Detail',
     resultList: {
         1: {
             registration: 'A1',

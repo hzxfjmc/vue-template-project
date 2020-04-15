@@ -22,6 +22,7 @@ export const zhCHT = {
     riskTip: '風險提示',
     continueButton: '繼續操作',
     cancelButton: '取消',
+    investmentDetail: '定投詳情',
     resultList: {
         1: {
             registration: 'A1',
