@@ -158,7 +158,7 @@ export default {
                 this.placeholder = this.$t([
                     `可转出${positionMarketValue || 0}港币`,
                     `可轉出金額${positionMarketValue || 0}港幣`,
-                    `Transferable Amount HKD${positionMarketValue || 0}`
+                    `Transferable Amount HKD ${positionMarketValue || 0}`
                 ])
                 this.customerDailyQuota = customerDailyQuota / 10000
                 this.customerRemainderQuotaNum = customerRemainderQuota
