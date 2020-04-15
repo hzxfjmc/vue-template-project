@@ -170,6 +170,7 @@ export default {
         //输入
         onInput(val) {
             let re = /^\d{0,9}(\.\d{0,2})?$/
+            if (this.amount === '0.0' && val === 0) return
             if (this.amount === this.placeholder && (val == 0 || val === '.')) {
                 return (this.amount = '0.')
             }
@@ -177,7 +178,8 @@ export default {
             if (
                 this.amount >= 0 ||
                 this.amount === this.placeholder ||
-                this.amount === '0.'
+                this.amount === '0.' ||
+                this.amount === '0.0'
             ) {
                 if (this.amount === this.placeholder) this.amount = ''
                 if (re.test(Number(this.amount.toString() + val.toString()))) {
