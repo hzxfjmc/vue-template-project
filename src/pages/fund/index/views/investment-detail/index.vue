@@ -40,6 +40,7 @@
 </template>
 <script>
 import record from './record'
+import { getFundFixedPlanDetail } from '@/service/finance-server'
 export default {
     components: {
         record
@@ -75,6 +76,7 @@ export default {
         }
     },
     created() {
+        this.getFundFixedPlanDetail()
         this.init()
     },
     methods: {
@@ -136,6 +138,18 @@ export default {
             } else if (this.fixedPlanStatus === 3) {
                 this.statusValue = '已终止'
                 this.isNotStop = false
+            }
+        },
+        // 查询定投详情
+        async getFundFixedPlanDetail() {
+            try {
+                let params = {
+                    fixedPlanCode: 'USAIP00001000013'
+                }
+                let res = await getFundFixedPlanDetail(params)
+                console.log(res)
+            } catch (e) {
+                e.msg && this.$toast(e.msg)
             }
         }
     }
