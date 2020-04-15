@@ -49,16 +49,21 @@ export default {
                 let res = await getFundDividendList(params)
                 this.total = res.total
                 res.list.map(item => {
-                    let recordDate
+                    let recordDate, dividendDate
                     if (item.recordDate) {
                         recordDate = dayjs(item.recordDate).format('YYYY-MM-DD')
                     } else {
                         recordDate = '--'
                     }
-                    this.dividendDetailList.push({
-                        dividendDate: dayjs(item.dividendPaymentDate).format(
+                    if (item.dividendDate) {
+                        dividendDate = dayjs(item.dividendDate).format(
                             'YYYY-MM-DD'
-                        ),
+                        )
+                    } else {
+                        dividendDate = '--'
+                    }
+                    this.dividendDetailList.push({
+                        dividendDate: dividendDate,
                         recordDate: recordDate,
                         dividendRecord: item.dividendPerShare
                     })
