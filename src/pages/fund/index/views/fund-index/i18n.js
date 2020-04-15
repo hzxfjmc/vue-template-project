@@ -128,7 +128,7 @@ export const i18n = {
         fund: 'Fund',
         iKnow: 'Got it',
         yieldInLast7d: 'Yield in Last 7d',
-        tips: 'Not open yet, stay tuned！',
-        tips1: 'uMoeny Service not open yet！'
+        tips: 'Not open yet！',
+        tips1: 'uMoeny Service not open yet, stay tuned！'
     }
 }

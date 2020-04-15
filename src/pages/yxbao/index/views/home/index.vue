@@ -18,7 +18,7 @@
                     p.top {{$t('C6')}} 
                     p.bottom {{tenThousandApy|transNumToThousandMark}}
                     //- p.bottom(v-else) ****
-                .block__yxbao--item(@click="toYxbaoPage")
+                .block__yxbao--item.block__yxbao--flex(@click="toYxbaoPage")
                     p.top {{$t('C7')}} 
                     p.bottom {{sevenDaysApy|| '0.00'}}
                 .block__yxbao--item
@@ -51,10 +51,9 @@
                 :key="index") 
                 img(:src="item.picture_url") 
 
-    .block__fund--list
+    .block__fund--list(v-if="recommendList.length != 0")
         .block__title {{$t('more')}}
         fundCard(
-            v-if="recommendList.length != 0"
             :recommendList="recommendList")
 
     protocol-popup(
@@ -403,7 +402,6 @@ export default {
                 display: flex;
                 flex-direction: column;
                 align-items: center;
-                width: 33.33%;
                 .top {
                     font-size: 14px;
                 }
