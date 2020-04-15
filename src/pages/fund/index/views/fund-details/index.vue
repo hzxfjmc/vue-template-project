@@ -65,7 +65,10 @@
         
         
         .fund-footer-content(v-if="PurchaseButton")
-            van-button.btn.button-width(
+            van-button.btn.button-width1.colorbg(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") 定投
+            van-button.btn.button-width1(
                 :class="[flag2? 'fund-footer':'fund-no']"
                 @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
@@ -1472,6 +1475,7 @@ export default {
     .button-width {
         width: 100%;
     }
+
     .button-width1 {
         width: 50%;
     }
@@ -1484,6 +1488,7 @@ export default {
     .fund-footer2 {
         background: #c7c7c7;
     }
+
     .btn {
         height: 50px;
         color: #fff;
@@ -1492,6 +1497,10 @@ export default {
         font-size: 0.32rem;
         border-radius: 0;
         border: none;
+    }
+    .colorbg {
+        background: #fff;
+        color: #2f79ff;
     }
     .block__fight--btn {
         width: 50%;

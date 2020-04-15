@@ -48,6 +48,12 @@
                     .flex-item
                         .top 扣款金额
                         .bottom 5,0000.00
+        .nomore(v-if="list.length === 0 && active === 0")
+            img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
+            p 暂无定投计划
+        .nomore(v-if="list.length === 0 && active === 1")
+            img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
+            p 暂无历史计划
     .inverstment--footer--btn
         van-button.btn-left() 发现更多定投机会
         van-button.btn-right 我的持仓
@@ -58,7 +64,7 @@ export default {
         return {
             width: 28,
             active: 1,
-            list: [{}, {}, {}, {}]
+            list: []
         }
     }
 }
@@ -68,6 +74,7 @@ export default {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    background: #fff;
     width: 100%;
     height: 100%;
     .inverstment--footer--btn {
@@ -150,5 +157,20 @@ export default {
 }
 .inverstment--block--list:last-child {
     margin: 12px 12px 80px 12px;
+}
+.nomore {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 50px 0 0 0;
+    img {
+        width: 130px;
+    }
+    p {
+        padding: 10px 0 0 0;
+        color: rgba(25, 25, 25, 0.65);
+        line-height: 20px;
+    }
 }
 </style>
