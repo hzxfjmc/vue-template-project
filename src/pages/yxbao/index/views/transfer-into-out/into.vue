@@ -62,15 +62,15 @@ export default {
                 })
                 this.fundTradeInfoVO = fundTradeInfoVO
                 let placeholder = this.$t([
-                    `最低转入金额${transNumToThousandMark(
+                    `${transNumToThousandMark(
                         fundTradeInfoVO.initialInvestAmount
-                    )}`,
-                    `最低轉入金額${transNumToThousandMark(
+                    )}港币起`,
+                    `${transNumToThousandMark(
                         fundTradeInfoVO.initialInvestAmount
-                    )}`,
-                    `Mini. Subs Amounts${transNumToThousandMark(
+                    )}港幣起`,
+                    `${transNumToThousandMark(
                         fundTradeInfoVO.initialInvestAmount
-                    )}`
+                    )}HKD initial Subs`
                 ])
                 this.placeholder = placeholder
                 let desc = this.$t([
@@ -98,6 +98,9 @@ export default {
             try {
                 if (this.amount == 0 || this.amount === this.placeholder)
                     return this.$toast(this.$t('C34'), 'middle')
+                if (Number(this.amount) > this.accountInfo.withdrawBalance) {
+                    return this.$toast(this.$t('C83'), 'middle')
+                }
                 if (
                     this.amount <
                     Number(this.fundTradeInfoVO.initialInvestAmount)

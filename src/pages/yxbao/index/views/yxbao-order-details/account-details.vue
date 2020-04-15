@@ -130,6 +130,8 @@ export default {
                         date
                     ).format('MM-DD')}(${week}) (Estimated)`
                 ])
+                this.intoStepOne.label = this.$t('C9')
+                this.intoStepTwo.label = this.$t('C29')
                 console.log(this.intoStepTwo.time)
             }
             //转出
@@ -151,6 +153,7 @@ export default {
                           ])
                         : datei18n
                 this.stepTwo.time = desc
+                this.stepTwo.label = this.$t('C25')
                 let desc1 =
                     this.orderDetails.outType == 1
                         ? this.$t([

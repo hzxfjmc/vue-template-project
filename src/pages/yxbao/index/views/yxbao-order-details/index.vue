@@ -2,7 +2,7 @@
 .block__order--details
     .block__order--header.border-bottom
         img(:src="img") 
-        p {{orderDetails.recordTypeName}}{{orderDetails.recordStatusName}}
+        p {{orderDetails.recordTypeName}} {{orderDetails.recordStatusName}}
     .block__order-status.border-bottom
         p.title {{$t('orderStatus')}}
         transferStep(
@@ -22,7 +22,7 @@
             p {{$t('C31')}}
         .block__word--item
             p.word-color {{$t('C27')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{$t('hkd')}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{$t('hkd')}}
 
     .block__word--list.border-bottom(v-else)
         .block__word--item
@@ -30,11 +30,11 @@
             p {{orderDetails.recordTypeName}}
         .block__word--item
             p.word-color {{$t('Amounts')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{$t('hkd')}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{$t('hkd')}}
 
         .block__word--item
             p.word-color {{$t('C22')}}
-            p.num {{orderDetails.recordFee|transNumToThousandMark}}{{$t('hkd')}}
+            p.num {{orderDetails.recordFee|transNumToThousandMark}} {{$t('hkd')}}
 
     .block__footer--btn
         van-button(@click="toHomePage") {{$t('done')}}
@@ -146,6 +146,8 @@ export default {
                         date
                     ).format('MM-DD')}(${week}) (Estimated)`
                 ])
+                this.intoStepOne.label = this.$t('C9')
+                this.intoStepTwo.label = this.$t('C29')
             }
             //转出
             if (this.orderDetails.recordType === 2) {
