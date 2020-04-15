@@ -28,7 +28,7 @@
                 .detail__amount_title 金额
                 .detail__amount_content HKD 10,000.00
         .transaction__record__detail__btn
-                van-button(type="info" round  size="large" @click="buyMoreHandle") 再买一笔
+                van-button(type="info" round size="large" @click="buyMoreHandle") 再买一笔
 </template>
 
 <script>

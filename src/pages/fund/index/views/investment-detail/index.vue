@@ -1,7 +1,7 @@
 <template lang="pug">
 .investment__detail__wrapper
     .investment__detail__header(:class="!isNotStop?'no-color':'has-color'")
-        .investment__detail__header_info
+        .investment__detail__header_info(@click="toFundDetailHandle")
             .header_info_left(:class="!isNotStop?'header_info_gray-left':''")
                 .name Pimco 亚洲投资级债券基金-A2
                 .code ISIN:LU0538203018
@@ -14,8 +14,8 @@
             .header_amount.right
                 .title(:class="!isNotStop?'gray-color':''") 已投期数
                 .content(:class="!isNotStop?'black-color':''") 15
-            .header_amount.tag(v-if="!isNotStop")
-                .span 已终止
+            .header_amount.tag(v-if="fixedPlanStatus!==1" :class="fixedPlanStatus===2?'yellow':'orange'")
+                .span {{statusValue}}
     .investment__detail__card.card
         .card_title
             img(:src="!isNotStop?require('@/assets/img/fund/dingtou2@2x.png'):require('@/assets/img/fund/dingtou@2x.png')")
@@ -31,19 +31,12 @@
                 .left 下次扣款日期
                 .right 2020-02-12，如遇非交易日顺延
     .investment__detail__tag.card(v-if="isNotStop")
-        .investment__detail__tag_item(v-for="(item,index) in tagImgList" :key="index")
+        .investment__detail__tag_item(v-for="(item,index) in tagImgList" :key="index" @click="clickHandle(item.val)")
             img(:src="item.url")
             span {{item.text}}
     .investment__detail__record.card(:class="!isNotStop?'mt5':''")
         record(:isNotStop="isNotStop")
-
-
-                
-
-            
-
-    
-
+    van-dialog(v-model='isShowDialog' :title="dialogTitle" :message="dialogMessage" :showCancelButton='true'  :cancelButtonText="cancelButtonText"  :confirmButtonText="confirmButtonText" @confirm='confirmDialogHandle')
 </template>
 <script>
 import record from './record'
@@ -55,19 +48,95 @@ export default {
         return {
             tagImgList: [
                 {
+                    val: 1,
                     url: require('@/assets/img/fund/icon-set.png'),
                     text: '修改计划'
                 },
                 {
+                    val: 2,
                     url: require('@/assets/img/fund/icon-pause.png'),
                     text: '暂停定投'
                 },
                 {
+                    val: 3,
                     url: require('@/assets/img/fund/icon-close.png'),
                     text: '终止定投'
                 }
             ],
-            isNotStop: true
+            isNotStop: true,
+            fundId: '56',
+            fixedPlanStatus: 3, //定投状态 1：有效 2 暂停 3 终止
+            isShowDialog: false,
+            dialogTitle: '',
+            dialogMessage: '',
+            cancelButtonText: '取消',
+            confirmButtonText: '确认',
+            statusValue: ''
+        }
+    },
+    created() {
+        this.init()
+    },
+    methods: {
+        toFundDetailHandle() {
+            this.$router.push({
+                name: 'fund-details',
+                query: {
+                    id: this.fundId
+                }
+            })
+        },
+        // 点击tab
+        clickHandle(val) {
+            if (val === 1) {
+                // 修改计划 跳定投申购页面
+                this.$router.push({
+                    name: 'fund-details',
+                    query: {
+                        id: this.fundId
+                    }
+                })
+            } else if (val === 2) {
+                // 暂停定投
+                this.isShowDialog = true
+                this.dialogTitle = '暂停定投'
+                this.dialogMessage =
+                    '定投是一种良好的投资习惯，确定暂停定投吗？'
+            } else if (val === 3) {
+                // 终止定投
+                this.isShowDialog = true
+                this.dialogTitle = '终止定投'
+                this.dialogMessage =
+                    '定投是一种良好的投资习惯，终止定投后不可恢复确定终止定投吗？'
+            } else if (val === 4) {
+                // 恢复定投
+                this.isShowDialog = true
+                this.dialogTitle = '恢复定投'
+                this.dialogMessage =
+                    '恢复定投后将会执行扣款操作，请注意下次扣款日期，确保扣款时您的账户中有足够金额'
+            }
+        },
+        confirmDialogHandle() {},
+        init() {
+            if (this.fixedPlanStatus === 2) {
+                // 暂停状态
+                this.statusValue = '暂停中'
+                this.tagImgList = [
+                    {
+                        val: 4,
+                        url: require('@/assets/img/fund/icon-start.png'),
+                        text: '恢复定投'
+                    },
+                    {
+                        val: 3,
+                        url: require('@/assets/img/fund/icon-close.png'),
+                        text: '终止定投'
+                    }
+                ]
+            } else if (this.fixedPlanStatus === 3) {
+                this.statusValue = '已终止'
+                this.isNotStop = false
+            }
         }
     }
 }
@@ -238,5 +307,11 @@ export default {
 }
 .black-color {
     color: $text-color !important;
+}
+.orange {
+    background: $stop-tag-color !important;
+}
+.yellow {
+    background: $sell-color !important;
 }
 </style>

@@ -205,7 +205,7 @@ export default new Router({
         {
             name: 'transaction-record',
             path: '/transaction-record',
-            meta: { title: 'transactionRecord', auth: true, cs: true },
+            meta: { title: 'transactionRecord', auth: true },
             component: () =>
                 import(`@/pages/fund/index/views/transaction-record/index.vue`)
         }
