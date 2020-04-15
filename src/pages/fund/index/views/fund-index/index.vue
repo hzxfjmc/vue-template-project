@@ -8,6 +8,7 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
+                    // 
         template
             .block__assets(v-if="isLogin && openedAccount")
                 .block__top.border-bottom

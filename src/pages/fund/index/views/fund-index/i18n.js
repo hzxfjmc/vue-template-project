@@ -129,6 +129,6 @@ export const i18n = {
         iKnow: 'Got it',
         yieldInLast7d: 'Yield in Last 7d',
         tips: 'Not open yet, stay tuned！',
-        tips1: 'uMoeny Service not open yet, stay tuned！'
+        tips1: 'uMoeny Service not open yet！'
     }
 }
