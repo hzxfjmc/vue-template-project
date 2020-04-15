@@ -549,7 +549,9 @@ export default {
         window.appVisible = debounce(this.appVisibleHandle, 300)
         await this.getFundHomepageInfo()
         this.getSource(false)
-        this.getFundUserInfo()
+        if (this.isLogin) {
+            this.getFundUserInfo()
+        }
     }
 }
 </script>
