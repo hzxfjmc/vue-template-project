@@ -14,13 +14,58 @@
             .header_amount.right
                 .title 已投期数
                 .content 15
+    .investment__detail__card.card
+        .card_title
+            img(src="@/assets/img/fund/dingtou@2x.png")
+            span 定投计划
+        .card_content
+            .card_content_item
+                .left 时间金额
+                .right 每周周三 定投 500.00 港币
+            .card_content_item
+                .left 扣款方式
+                .right 汇丰银行(1234) 自动换汇
+            .card_content_item
+                .left 下次扣款日期
+                .right 2020-02-12，如遇非交易日顺延
+    .investment__detail__tag.card
+        .investment__detail__tag_item(v-for="(item,index) in tagImgList" :key="index")
+            img(:src="item.url")
+            span {{item.text}}
+    .investment__detail__record.card
+        record
+
+
+                
+
+            
 
     
+
 </template>
 <script>
+import record from './record'
 export default {
+    components: {
+        record
+    },
     data() {
-        return {}
+        return {
+            tagImgList: [
+                {
+                    url: require('@/assets/img/fund/icon-set.png'),
+                    text: '修改计划'
+                },
+                {
+                    url: require('@/assets/img/fund/icon-pause.png'),
+                    text: '暂停定投'
+                },
+                {
+                    url: require('@/assets/img/fund/icon-close.png'),
+                    text: '终止定投'
+                }
+            ]
+        }
     }
 }
 </script>
@@ -29,8 +74,8 @@ export default {
     display: flex;
     width: 100%;
     flex-direction: column;
-    height: 100%;
-    background: $background-color;
+    // height: 100%;
+    background: $background-bottom-color;
     .investment__detail__header {
         padding: 0 12px;
         height: 240px;
@@ -66,7 +111,7 @@ export default {
         }
         .investment__detail__header_amount {
             display: flex;
-            padding-top: 14px;
+            padding: 14px 0;
             .title {
                 font-size: 12px;
                 color: rgba($background-color, 0.6);
@@ -80,5 +125,68 @@ export default {
             }
         }
     }
+    .investment__detail__card {
+        padding: 12px;
+        min-height: 107px;
+        z-index: 999;
+        margin: -85px 12px 10px;
+        .card_title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            img {
+                width: 17px;
+                height: 19px;
+                margin-right: 6px;
+            }
+            span {
+                font-size: 16px;
+                color: $text-link-color;
+                font-weight: 500;
+            }
+        }
+        .card_content {
+            .card_content_item {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 10px;
+                .left {
+                    color: $text-color6;
+                }
+                .right {
+                    color: $text-color;
+                }
+                &:last-of-type {
+                    margin-bottom: 0;
+                }
+            }
+        }
+    }
+    .investment__detail__tag {
+        margin: 0 12px;
+        display: flex;
+        justify-content: space-around;
+        .investment__detail__tag_item {
+            display: flex;
+            align-items: center;
+            height: 48px;
+            img {
+                width: 15px;
+                height: 15px;
+                margin-right: 6px;
+            }
+            span {
+                color: $text-link-color;
+            }
+        }
+    }
+    .investment__detail__record {
+        margin: 15px 12px;
+    }
+}
+.card {
+    background: $background-color;
+    box-shadow: 0px 0px 4px 0px rgba(#000, 0.05);
+    border-radius: 6px;
 }
 </style>
