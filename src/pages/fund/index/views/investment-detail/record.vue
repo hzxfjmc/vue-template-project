@@ -11,7 +11,7 @@
                     .list_item_time {{item.time}}
                     .list_item_amount {{item.amount}}
                     .list_item_status 
-                        span(:class="!isNotStop?statusMap[item.status].color:statusMap[3].color") {{statusMap[item.status].value}}
+                        span(:class="isNotStop?statusMap[item.status].color:statusMap[3].color") {{statusMap[item.status].value}}
                         img(src="@/assets/img/fund/icon-more.png")
     .investment__norecord__container(v-if="hasRecord==='no'")
         img(src="@/assets/img/fund/icon-norecord.png")

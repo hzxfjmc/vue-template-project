@@ -201,6 +201,13 @@ export default new Router({
             meta: { title: 'investmentDetail', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/investment-detail/index.vue`)
+        },
+        {
+            name: 'transaction-record',
+            path: '/transaction-record',
+            meta: { title: 'transactionRecord', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/transaction-record/index.vue`)
         }
     ]
 })
