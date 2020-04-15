@@ -8,20 +8,28 @@
         van-picker(
             show-toolbar 
             title="标题" 
+            :value="monthDay"
             confirm-button-text="确认"
             cancel-button-text="取消"
+            @change="onChange"
             :columns="columns")
 </template>
 <script>
+import { MonthDay } from './two-picker'
 export default {
     props: {
         value: {
             type: Boolean,
             default: false
-        },
-        protocolFileList: {
-            type: Array,
-            default: () => []
+        }
+    },
+    data() {
+        return {
+            monthDay: '',
+            columns: [
+                { values: Object.keys(MonthDay) },
+                { values: MonthDay['每周'] }
+            ]
         }
     },
     computed: {
@@ -34,20 +42,9 @@ export default {
             }
         }
     },
-    data() {
-        return {
-            columns: [
-                // 第一列
-                {
-                    values: ['周一', '周二', '周三', '周四', '周五'],
-                    defaultIndex: 2
-                },
-                // 第二列
-                {
-                    values: ['上午', '下午', '晚上'],
-                    defaultIndex: 1
-                }
-            ]
+    methods: {
+        onChange(picker, values) {
+            picker.setColumnValues(1, MonthDay[values[0]])
         }
     }
 }

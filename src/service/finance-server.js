@@ -119,3 +119,28 @@ export const openBondFeePackage = () => {
 export const getFundPositionListV3 = () => {
     return axios.post(`/finance-server/api/get-fund-position-list/v3`)
 }
+
+//创建定投计划
+export const hanlderCreateFundFixedPlan = () => {
+    return axios.post(`/finance-server/api/create-fund-fixed-plan/v1`)
+}
+
+//定投计划列表详情
+export const getFundFixedPlanDetail = () => {
+    return axios.post(`/finance-server/api/fund-fixed-plan-detail/v1`)
+}
+
+//定投计划列表
+export const getFundFixedPlanPage = () => {
+    return axios.post(`/finance-server/api/fund-fixed-plan-page/v1`)
+}
+
+//定投计划列表
+export const getUpdateFundFixedPlanInfo = () => {
+    return axios.post(`/finance-server/api/update-fund-fixed-plan-info/v1`)
+}
+
+//修改定投计划状态
+export const getUpdateFundFixedPlanStatus = () => {
+    return axios.post(`/finance-server/api/update-fund-fixed-plan-status/v1`)
+}

@@ -10,9 +10,9 @@ import {
     Col,
     Dialog,
     Field,
-    NumberKeyboard,
-    Picker
+    NumberKeyboard
 } from 'vant'
+import { Picker } from 'vant-fork'
 import { lang } from '@/utils/html-utils'
 const langMap = {
     zhCHS: {

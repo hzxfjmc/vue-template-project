@@ -4,28 +4,13 @@
         position="bottom"
         class="protocol-popup"
     )
-        .protocol-wrapper
-            .protocol-list__header.border-bottom
-                .protocol--block--left 请选择转账账户
-                .protocol--block--right(@click="hidePopup") 取消
-                //- .protocol-list__button(@click="hidePopup") {{$t('cancel')}}
+        .protocol-list
             .protocol-list__body
-                .protocol-list--item
-                    .list--left.iconfont.icon-unchecked
-                    .list--right
-                        p.title uSMART证券账户
-                        p.desc 请保证扣款日当天证券账户中有足够资金
-                            em 点此修改
-                .protocol-list--item
-                    .list--left.iconfont.icon-unchecked
-                    .list--right
-                        p.title uSMART证券账户
-                        p.desc 请保证扣款日当天证券账户中有足够资金
-                        p.desc 请保证扣款日当天证券账户中有足够资金
-                .protocol-list--item.footer--add
-                    .list--left.iconfont.icon-add
-                    .list--right
-                        p.title 新增银行账户(EDDA)
+                .protocol-list__text.border-bottom(@click="openProtocol(item.filePath)" 
+                v-for="item in protocolFileList" 
+                :key="item.createTime") 《{{item.fileName}}》
+            .protocol-list__footer
+                .protocol-list__button(@click="hidePopup") {{$t('cancel')}}
 </template>
 
 <script>
@@ -90,35 +75,29 @@ export default {
         border-radius: unset;
     }
 }
-.protocol-list__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    line-height: 40px;
-    padding: 0 20px;
-}
-.protocol-list--item {
-    display: flex;
-    flex-direction: row;
-    padding: 12px 12px;
-    align-items: center;
-    .list--left {
-        font-size: 20px;
-    }
-    .list--right {
-        margin: 0 0 0 6px;
-        .desc {
-            color: rgba(25, 25, 25, 0.65);
-            font-size: 12px;
-            em {
-                color: #2f79ff;
-                font-style: normal;
-                margin: 0 0 0 6px;
+.protocol-list {
+    background: $background-bottom-color;
+    .protocol-list__body {
+        .protocol-list__text {
+            font-size: 16px;
+            line-height: 36px;
+            padding: 7px 0;
+            text-align: center;
+            background: #fff;
+            &:last-child {
+                border-bottom: none;
             }
         }
     }
-}
-.footer--add {
-    margin: 0 0 20px 0;
+    .protocol-list__footer {
+        .protocol-list__button {
+            background: #fff;
+            margin-top: 10px;
+            font-size: 16px;
+            line-height: 36px;
+            padding: 7px 0;
+            text-align: center;
+        }
+    }
 }
 </style>

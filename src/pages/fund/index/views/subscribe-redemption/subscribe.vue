@@ -572,10 +572,6 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
-                console.log(this.$t('hkd'))
-                console.log(
-                    this.currency.type == 1 ? this.$t('hkd') : this.$t('usd')
-                )
                 this.tips = this.$t([
                     `*友信暂不支持使用${
                         this.currency.type == 1
