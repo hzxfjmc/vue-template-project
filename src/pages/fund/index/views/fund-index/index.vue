@@ -8,9 +8,8 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-                    // && openedAccount
         template
-            .block__assets(v-if="isLogin ")
+            .block__assets(v-if="isLogin && openedAccount")
                 .block__top.border-bottom
                     .block__left--label 
                         span {{$t('protfolloAssets')}}
@@ -112,14 +111,6 @@ div
                 v-if="choiceFundListShow"
                 :fundlist="choiceFundList")
 
-            .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
-                van-swipe(:autoplay="3000")  
-                    van-swipe-item(
-                        v-for="(item, index) in barnnarList" 
-                        @click="goBanner(item)"
-                        :key="index") 
-                        img(:src="item.picture_url") 
-
             .block--yxbao-container(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
@@ -142,6 +133,13 @@ div
                     .right
                         van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}
 
+            .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
+                van-swipe(:autoplay="3000")  
+                    van-swipe-item(
+                        v-for="(item, index) in barnnarList" 
+                        @click="goBanner(item)"
+                        :key="index") 
+                        img(:src="item.picture_url") 
             FundListItem(
                 :code = "code"
                 :bgColor="code !=1 ? '#F1B92D':'#FFBF32'"
