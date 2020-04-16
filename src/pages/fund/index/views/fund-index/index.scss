@@ -13,7 +13,7 @@
 }
 .block__assets {
     width: 351px;
-    height:160px;
+    // height:160px;
     position: relative;
     z-index: 999;
     margin: -48px 12px 0 12px;
@@ -252,8 +252,6 @@
     }
     .block__left__bottom{
         display: flex;
-        position: absolute;
-        bottom:0;
         height:42px;
         width:100%;
         align-items: center;
