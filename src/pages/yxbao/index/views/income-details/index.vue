@@ -147,7 +147,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block__header--wrapper {
-    padding: 24px 12px 16px 12px;
+    padding: 20px 12px 14px 12px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -164,6 +164,8 @@ export default {
 }
 hr {
     height: 6px;
+    margin: 0;
+    padding: 0;
     border: none;
     background: rgba(25, 25, 25, 0.05);
 }
