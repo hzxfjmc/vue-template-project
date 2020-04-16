@@ -23,8 +23,6 @@
                         span {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
                         span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                     .element--content-bottom-ch(v-else)
-                        //- fund-tag(
-                        //-     :title="item.assetTypeName")
                         fund-tag(
                             :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described1'):''}`")
                         fund-tag(
@@ -241,7 +239,7 @@ export default {
     margin: 20px 5% 0 5%;
 }
 .block__fund-ch {
-    width: 96%;
-    margin: 20px 2% 0 2%;
+    width: 351px;
+    margin: 20px 12px 0 12px;
 }
 </style>

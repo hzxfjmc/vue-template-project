@@ -12,15 +12,58 @@
     background:rgba(251,252,254,1);
 }
 .block__assets {
-    width: 90%;
+    width: 351px;
+    height:160px;
     position: relative;
     z-index: 999;
-    margin: -48px 5% 0 5%;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    margin: -48px 12px 0 12px;
+    background:linear-gradient(180deg,rgba(232,240,255,1) 0%,rgba(252,252,255,1) 100%);
+    box-shadow:0px 0px 10px 0px rgba(0,0,0,0.1);
+    border-radius:8px;
     display: flex;
     flex-direction: column;
+    .block--assets--header{
+        width:100%;
+        height:120px;
+        display: flex;
+        align-items: center;
+        padding:0 20px;
+        justify-content: space-between;
+        .block--left{
+            font-size:20px;
+            color:rgba(13,80,216,1);
+        }
+        .block--right{
+            width:142px;
+            height:77px;
+            background: url('~@/assets/img/fund/bgzoushi.png') no-repeat;
+            background-size:100% 100%;
+            position: relative;
+            margin:-20px 0 0 0;
+            .block--button{
+                height:30px;
+                color:#fff;
+                padding:0 5px;
+                background:rgba(47,121,255,1);
+                border-radius:15px;
+                position: absolute;
+                right:0;
+                bottom:0;
+                text-align: center;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+    .block__assets--bottom{
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        height:40px;
+        padding:0 20px;
+        color:rgba(13,80,216,1);
+    }
     .block__bottom--num{
         display: flex;
         justify-content: center;
@@ -37,63 +80,60 @@
             margin:1px 0 0 5px;
         }
     }
-    .block__left__bottom{
-        width:100%;
-        padding:0px 15px 10px 15px;
-        // border:1px solid red;
-            span{
-                line-height:20px;
-                font-size:14px;
-                padding:0 0 0 4px;
-                color:$text-color5;
-            }
+    .block__right--yes{
+        text-align: right;
+        .num{
+            font-size:16px;
+            line-height:36px;
         }
-    .block__left {
+        .subtitle{
+            color:rgba(25,25,25,0.45);
+        }
+       
+    }
+    .block__top {
         width: 100%;
         display: flex;
         flex-direction: row;
         padding:0 15px;
+        align-items: center;
+        justify-content: space-between;
         height: 40px;
         .block__left--label {
             font-size: 14px;
-            width: 60%;
+            width: 50%;
             display: flex;
-            margin: 10px 0 0 0;
             align-items: center;
             flex-direction: row;
             line-height: 20px;
             color:$text-color5;
             em {
-                font-size: 20px;
+                font-size: 15px;
                 margin: 0px 0 0 5px;
                 color:#8C8C8C;
+            }
+            span{
+                color:rgba(25,25,25,1);
             }
         }
         .block__right {
             text-align: right;
-            width: 40%;
             height: 40px;
-            margin: 15px 0 0 0;
-            .block--hold {
-                width: 110px;
-                // height: 25px;
-                border-radius: 15px;
-                text-align: center;
-                float: right;
-                font-weight: 400;
-                color: rgba(0, 145, 255, 1);
-                line-height: 25px;
-                margin: 0 0 10px 0;
-                border: 1px solid rgba(0, 145, 255, 1);
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                span{
-                    margin:0 0 0 6px;
-                }
-                em {
-                    font-size: 18px;
-                }
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            span{
+                margin:0 0 0 6px;
+                color:rgba(25,25,25,0.45);
+                font-size:12px;
+            }
+            em {
+                font-size: 18px;
+            }
+            .icon-icon_fund_index_2{
+                font-size:15px;
+                margin:0 0 0 8px;
+                color:rgba(25,25,25,0.45);
             }
             .block--label--list {
                 text-align: right;
@@ -112,13 +152,22 @@
     .block__left--number {
         display: flex;
         flex-direction: row;
-        padding:0 15px;
-        height: 40px;
+        justify-content: space-between;
+        // align-items: center;
+        padding:12px 15px;
         width: 100%;
+        .block__left--num{
+            display: flex;
+            flex-direction: column;
+            flex:1;
+            p{
+                color:rgba(25,25,25,0.45);
+            }
+        }
         .block--element--number {
-            font-size: 28px;
+            font-size: 22px;
             line-height: 40px;
-            font-weight: bold;
+            // font-weight: bold;
             font-family: yxFontDINPro-Medium;
            
         }
@@ -132,11 +181,20 @@
             line-height: 50px;
             
         }
+        .block__list-es{
+            display: flex;
+            flex-direction: row;
+            line-height: 21px;
+        }
         .block--element--select {
-            line-height: 42px;
+            line-height: 18px;
+            height:21px;
+            border-radius:5px;
+            border:1px solid #e1e1e1;
             font-size: 14px;
+            padding:0 5px;
             font-weight: 600;
-            margin: 0 0 0 5px;
+            margin: 10px 0 0 5px;
             position: relative;
             .icon-iconxiala {
                 margin: 0 0 0 5px;
@@ -190,6 +248,53 @@
                 border-bottom: 10px solid #fff;
                 position: absolute;
             }
+        }
+    }
+    .block__left__bottom{
+        display: flex;
+        position: absolute;
+        bottom:0;
+        height:42px;
+        width:100%;
+        align-items: center;
+        padding:0 10px;
+        justify-content: space-between;
+        flex-direction: row;
+        .block__bottom--l,.block__bottom-r{
+            display: flex;
+            flex-direction: row;
+            width:100%;
+            height:100%;
+            align-items: center;
+            font-size:12px;
+            justify-content: space-between;
+            .num{
+                font-size:14px;
+                margin:0 0 0 10px;
+            }
+            p{
+                white-space: nowrap;
+            }
+            .word{
+                font-size:12px;
+            }
+            em{
+                font-style: normal;
+            }
+            .iconfont{
+                float:right;
+            }
+        }
+        .icon-previewright{
+            font-size:15px;
+            margin:0px 0 0 3px;
+            color:$text-color5;
+        }
+        .block__bottom--l{
+            // border-right:1px solid #ebedf0;
+        }
+        .block__bottom-r{
+            padding:0 0 0 11px;
         }
     }
 }
@@ -249,12 +354,88 @@
 
     }
     .block__fund-ch {
-        width:96%;
-        margin: 20px 2% 0 2%;
+        width:351px;
+        margin: 20px 12px 0 12px;
     }
 }
 .canvas-list {
     opacity: 0;
     position: fixed;
     top: 0;
+}
+.block--dialog {
+    .van-dialog__message{
+        text-align: justify;
+        white-space:pre-line;
+    }
+}
+
+.fund-echart-render {
+    height: 65px;
+    width: 70px;
+}
+.block--yxbao-container {
+    width: 351px;
+    height: 140px;
+    margin: 20px 12px;
+    background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
+    background-size: 100% 100%;
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px 10px 10px 10px;
+    .block--title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        h3 {
+            font-size: 18px;
+            color: #fff;
+        }
+        .iconfont {
+            font-size: 14px;
+            margin: 5px 0 0 5px;
+            color: rgba(255, 255, 255, 0.6);
+        }
+    }
+    .block--desc {
+        color: rgba(255, 255, 255, 0.6);
+        line-height: 28px;
+    }
+    .block--bottom-content {
+        width: 331px;
+        height: 57px;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        margin: 7px 0 0 0;
+        border-radius:4px;
+        background: #fff;
+        .number {
+            font-size: 20px;
+            font-family: yxFontDINPro-Medium;
+            line-height: 26px;
+        }
+        .block--bottom--desc {
+            font-size: 12px;
+            color: $text-color5;
+        }
+        .van-button {
+            // width: 80px;
+            height: 32px !important;
+            line-height: 32px;
+            font-size: 12px;
+            color: #fff;
+            border-radius: 32px !important;
+            background: #0d50d8;
+        }
+    }
+}
+
+.color-green {
+    color: #04ba60;
+}
+.color-red {
+    color: #ea3d3d;
 }

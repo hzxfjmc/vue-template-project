@@ -119,3 +119,28 @@ export const openBondFeePackage = () => {
 export const getFundPositionListV3 = () => {
     return axios.post(`/finance-server/api/get-fund-position-list/v3`)
 }
+
+//友信获取客户持仓
+export const getBaoPostion = params => {
+    return axios.post(`/finance-server/api/get-bao-position/v1`, params)
+}
+
+//友信宝转入转出列表
+export const getBaoCapitalTradeList = params => {
+    return axios.post(`/finance-server/api/bao-capital-trade-page/v1`, params)
+}
+
+//友信宝转入转出
+export const getBaoCapitalTrade = params => {
+    return axios.post(`/finance-server/api/bao-capital-trade/v1`, params)
+}
+
+//友信宝转入转出详情
+export const getBaoCapitalTradeDetails = params => {
+    return axios.post(`/finance-server/api/bao-capital-trade-detail/v1`, params)
+}
+
+//获取当前客户基金总持仓(包含余额宝)
+export const getFundTotalPosition = params => {
+    return axios.post(`/finance-server/api/get-fund-total-position/v1`, params)
+}

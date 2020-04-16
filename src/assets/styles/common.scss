@@ -130,3 +130,21 @@ html {
         }
     }
 }
+
+.common-marge-top{
+    margin:6px 0 0 0;
+}
+
+.common-flex-space-between{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.common-flex-center{
+    display: flex;
+    align-items:center;
+    flex-direction: row;
+    justify-content: center;
+}

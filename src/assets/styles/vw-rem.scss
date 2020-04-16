@@ -25,6 +25,26 @@ html {
         }
     }
 }
+
+.border-right {
+    position: relative;
+    &::after {
+        position: absolute;
+        box-sizing: border-box;
+        content: ' ';
+        pointer-events: none;
+        right: 0;
+        bottom: 0;
+        top:0;
+        border-right: 1px solid #ebedf0;
+        @media only screen and (min-resolution: 2dppx) {
+            // 非标准的
+            -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+        }
+    }
+}
+
 .border-top {
     position: relative;
     &::after {

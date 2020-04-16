@@ -28,12 +28,6 @@
                             span {{item.assetTypeName}}
                             span {{`${item.initialInvestAmount}${item.tradeCurrency}${$t('described1')}`}}
                             span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
-                            //- fund-tag(:title="item.assetTypeName")
-                            //- fund-tag(
-                            //-     :title="`${item.initialInvestAmount}${item.tradeCurrency}起购`")
-                            //- fund-tag(
-                            //-     v-if="item.fundSize != 0"
-                            //-     :title="`${item.fundSize}亿${item.fundSizeCurrency}`")
                 
 </template>
 <script>
@@ -272,6 +266,6 @@ export default {
     padding: 10px 0;
 }
 .block__fund-ch {
-    padding: 10px 2%;
+    padding: 10px 12px;
 }
 </style>
