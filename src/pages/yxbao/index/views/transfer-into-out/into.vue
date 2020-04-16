@@ -17,6 +17,9 @@
             p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C9')}}
+    
+    .block__footer--loading(v-if="loading")
+        Loading(type="spinner" color="#2F79FF")
 
 </template>
 <script>
@@ -26,9 +29,11 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
+import { Loading } from 'vant'
 export default {
     components: {
-        NumberKeyboard
+        NumberKeyboard,
+        Loading
     },
     data() {
         return {
@@ -40,7 +45,8 @@ export default {
             },
             fundTradeInfoVO: {},
             currencyType: 0,
-            desc: ''
+            desc: '',
+            loading: true
         }
     },
     async created() {
@@ -89,8 +95,11 @@ export default {
             try {
                 let data = await hsAccountInfo(this.currencyType)
                 this.accountInfo = data || {}
+                this.loading = false
+                this.$close()
             } catch (error) {
                 this.$toast(error.msg, 'middle')
+                this.loading = false
                 console.log('hsAccountInfo:error:>>>', error)
             }
         },
@@ -190,6 +199,22 @@ export default {
             font-size: 12px;
             padding: 6px 0 0 0;
         }
+    }
+}
+.block__footer--loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 0;
+    .van-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
     }
 }
 </style>

@@ -42,6 +42,9 @@
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C8')}}
 
+    .block__footer--loading(v-if="loading")
+            Loading(type="spinner" color="#2F79FF")
+
 </template>
 <script>
 import NumberKeyboard from './number-keyboard'
@@ -50,9 +53,11 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { getFundUserInfo } from '@/service/user-server.js'
+import { Loading } from 'vant'
 export default {
     components: {
-        NumberKeyboard
+        NumberKeyboard,
+        Loading
     },
     computed: {
         HandlingFee() {
@@ -91,6 +96,7 @@ export default {
     },
     data() {
         return {
+            loading: true,
             check: true,
             outType: '',
             amount: 0,
@@ -123,6 +129,7 @@ export default {
             try {
                 const res = await getFundUserInfo()
                 this.userInfo = res
+                this.loading = false
                 //白名单
                 let isWhiteUserBit = this.userInfo.grayStatusBit
                     .toString(2)
@@ -135,6 +142,7 @@ export default {
                 }
             } catch (e) {
                 this.$toast(e.msg)
+                this.loading = false
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
@@ -156,9 +164,12 @@ export default {
                 this.positionMarketValue = positionMarketValue
                 this.showAllSellBtn.maxAmount = positionMarketValue
                 this.placeholder = this.$t([
-                    `可转出${positionMarketValue || 0}港币`,
-                    `可轉出金額${positionMarketValue || 0}港幣`,
-                    `Transferable Amount HKD ${positionMarketValue || 0}`
+                    `可转出${Number(positionMarketValue).toFixed(2) || 0}港币`,
+                    `可轉出金額${Number(positionMarketValue).toFixed(2) ||
+                        0}港幣`,
+                    `Transferable Amount HKD ${Number(
+                        positionMarketValue
+                    ).toFixed(2) || 0}`
                 ])
                 this.customerDailyQuota = customerDailyQuota / 10000
                 this.customerRemainderQuotaNum = customerRemainderQuota
@@ -413,6 +424,22 @@ h1 {
         .right {
             flex: 1;
         }
+    }
+}
+.block__footer--loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.2);
+    top: 0;
+    left: 0;
+    .van-loading {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        margin: auto;
     }
 }
 </style>

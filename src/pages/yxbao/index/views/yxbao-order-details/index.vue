@@ -147,7 +147,6 @@ export default {
                     ).format('MM-DD')}(${week}) (Estimated)`
                 ])
                 this.intoStepOne.label = this.$t('C9')
-                this.intoStepTwo.label = this.$t('C29')
             }
             //转出
             if (this.orderDetails.recordType === 2) {

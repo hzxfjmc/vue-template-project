@@ -25,7 +25,7 @@
                             p.value HKD {{fundTradeInfoVO.initialInvestAmount | transNumToThousandMark}}
                         .block__list--item
                             p.label {{$t('C50')}}
-                            p.value {{fundTradeInfoVO.redemptionFee | transNumToThousandMark}}%
+                            p.value {{fundTradeInfoVO.subscriptionFee | transNumToThousandMark}}%
                 hr.hr-border
                 .block__tab-one.block__tab-table
                     p.title {{$t('C51')}}
@@ -49,7 +49,7 @@
                         .block__list
                             .block__list--item
                                 p.label {{$t('C55')}}
-                                p.value 0.0%
+                                p.value 0.00%
                             .block__list--item
                                 p.label {{$t('C86')}}
                                 p.value {{Number(fundTradeInfoVO.minTradeAmount).toFixed(2)}} HKD
