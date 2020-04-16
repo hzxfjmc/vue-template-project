@@ -54,14 +54,13 @@ div
                             v-if="moneyShow && currentPostion.weekEarnings==0") {{currentPostion.weekEarnings|transNumToThousandMark}}
                         p.num(v-if="!moneyShow") ****
                 
-                .block__left__bottom.border-top
+                .block__left__bottom.border-top(v-if="!isWhiteUserBit") 
                     .block__bottom--l.border-right(@click="toRouterAccount")
                         p {{$t('fund')}}
                             em.num(v-if="moneyShow") {{currentPostion.fundPositionAmount|transNumToThousandMark}}
                             em(v-else) ****
                         em.iconfont.icon-previewright
                     .block__bottom-r(@click="toYxbao")
-                    
                         p {{$t('uMoney')}}
                             em.num(v-if="moneyShow && !isWhiteUserBit") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
                             em(v-if="!moneyShow && !isWhiteUserBit") ****
