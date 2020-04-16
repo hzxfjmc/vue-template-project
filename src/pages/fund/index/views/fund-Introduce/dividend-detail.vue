@@ -3,15 +3,16 @@
         van-list.dividend-record-list(v-model="loading" :finished="finished" :finished-text="$t('list')['noMore'].label" @load="onLoad")
             van-cell(v-for="(item,index) in dividendDetailList" :key="index" class="van-cell-item" )
                 template(slot-scope='scope')
-                    .dividend-item.flex
-                        span(class="left-title") {{$t('list')['recordDate'].label}}
-                        span(class="right-value") {{item.recordDate}}
-                    .dividend-item.flex
-                        span(class="left-title") {{$t('list')['dividendDate'].label}}
-                        span(class="right-value") {{item.dividendDate}}
-                    .dividend-item.flex
-                        span(class="left-title") {{$t('list')['dividendRecord'].label}}
-                        span(class="right-value") {{item.dividendRecord}}
+                    .dividend-list
+                        .dividend-item.flex
+                            span(class="left-title") {{$t('list')['recordDate'].label}}
+                            span(class="right-value") {{item.recordDate}}
+                        .dividend-item.flex
+                            span(class="left-title") {{$t('list')['dividendDate'].label}}
+                            span(class="right-value") {{item.dividendDate}}
+                        .dividend-item.flex
+                            span(class="left-title") {{$t('list')['dividendRecord'].label}}
+                            span(class="right-value") {{item.dividendRecord}}
 </template>
 
 <script>
@@ -96,6 +97,15 @@ export default {
     .left-title {
         color: rgba($text-color, 0.5);
         margin-bottom: 5px;
+    }
+}
+.dividend-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .flex {
+        display: flex;
+        flex-direction: column;
     }
 }
 </style>
