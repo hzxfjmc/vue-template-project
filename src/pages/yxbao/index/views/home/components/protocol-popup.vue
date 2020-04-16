@@ -16,6 +16,7 @@
 <script>
 import './index.scss'
 import { jumpUrl } from '@/utils/tools.js'
+import { mapGetters } from 'vuex'
 export default {
     name: 'protocol-popup',
     i18n: {
@@ -44,6 +45,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['lang']),
         popupVisible: {
             get() {
                 return this.value
@@ -57,7 +59,12 @@ export default {
         async openProtocol(params, item) {
             let url
             if (item.fileName === 'AboutuMoeny') {
-                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+                console.log(this.lang)
+                if (this.lang === 'zhCHS') {
+                    url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+                } else {
+                    url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbaogang`
+                }
             } else {
                 url = `${window.location.origin}/wealth/yxbao/index.html#/${params}?id=${this.fundId}&displayLocation=3`
             }
