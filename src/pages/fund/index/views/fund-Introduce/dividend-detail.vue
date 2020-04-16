@@ -3,12 +3,16 @@
         van-list.dividend-record-list(v-model="loading" :finished="finished" :finished-text="$t('list')['noMore'].label" @load="onLoad")
             van-cell(v-for="(item,index) in dividendDetailList" :key="index" class="van-cell-item" )
                 template(slot-scope='scope')
-                    .dividend-item.flex
-                        span(class="left-title") {{$t('list')['dividendDate'].label}}
-                        span(class="right-value") {{item.dividendDate}}
-                    .dividend-item.flex
-                        span(class="left-title") {{$t('list')['dividendRecord'].label}}
-                        span(class="right-value") {{item.dividendRecord}}
+                    .dividend-list
+                        .dividend-item.flex
+                            span(class="left-title") {{$t('list')['recordDate'].label}}
+                            span(class="right-value") {{item.recordDate}}
+                        .dividend-item.flex
+                            span(class="left-title") {{$t('list')['dividendDate'].label}}
+                            span(class="right-value") {{item.dividendDate}}
+                        .dividend-item.flex
+                            span(class="left-title") {{$t('list')['dividendRecord'].label}}
+                            span(class="right-value") {{item.dividendRecord}}
 </template>
 
 <script>
@@ -46,10 +50,22 @@ export default {
                 let res = await getFundDividendList(params)
                 this.total = res.total
                 res.list.map(item => {
-                    this.dividendDetailList.push({
-                        dividendDate: dayjs(item.dividendPaymentDate).format(
+                    let recordDate, dividendDate
+                    if (item.recordDate) {
+                        recordDate = dayjs(item.recordDate).format('YYYY-MM-DD')
+                    } else {
+                        recordDate = '--'
+                    }
+                    if (item.dividendDate) {
+                        dividendDate = dayjs(item.dividendDate).format(
                             'YYYY-MM-DD'
-                        ),
+                        )
+                    } else {
+                        dividendDate = '--'
+                    }
+                    this.dividendDetailList.push({
+                        dividendDate: dividendDate,
+                        recordDate: recordDate,
                         dividendRecord: item.dividendPerShare
                     })
                 })
@@ -84,6 +100,15 @@ export default {
     }
     .van-hairline--top-bottom {
         position: absolute;
+    }
+}
+.dividend-list {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .flex {
+        display: flex;
+        flex-direction: column;
     }
 }
 </style>
