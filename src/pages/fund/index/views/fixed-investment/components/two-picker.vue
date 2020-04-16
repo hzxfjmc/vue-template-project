@@ -15,7 +15,7 @@
             :columns="columns")
 </template>
 <script>
-import { MonthDay } from './two-picker'
+import { MonthDay } from './map'
 export default {
     props: {
         value: {
