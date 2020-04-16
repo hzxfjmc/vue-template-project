@@ -23,6 +23,7 @@ export const zhCHS = {
     continueButton: '继续操作',
     cancelButton: '取消',
     investmentDetail: '定投详情',
+    transactionRecord: '交易记录',
     resultList: {
         1: {
             registration: 'A1',

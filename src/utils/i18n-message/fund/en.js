@@ -23,6 +23,7 @@ export const en = {
     continueButton: 'Continue',
     cancelButton: 'Cancel',
     investmentDetail: 'Investment Detail',
+    transactionRecord: 'Transaction Record',
     resultList: {
         1: {
             registration: 'A1',
