@@ -171,6 +171,7 @@ export default {
         text-align: right;
         .num {
             font-size: 18px;
+            font-weight: 420;
         }
     }
     p {

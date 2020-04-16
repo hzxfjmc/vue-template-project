@@ -69,6 +69,7 @@
             border: none;
         }
     }
+   
     .block__table--header{
         .left,
         .right {
@@ -79,13 +80,22 @@
             border-right: 1px solid rgba(25, 25, 25, 0.2);
         }
     }
+    .block__table--header{
+        .right{
+            border:none;
+        }
+    }
     .block__table--container {
         align-items: center;
         line-height: 22px;
-        border: none;
+        border-bottom:0.02rem solid rgba(25, 25, 25, 0.2);
+        // border: none;
         .right {
             padding: 5px 2px;
         }
+    }
+    .block__table--container:last-child{
+        border:none;
     }
 }
 .block__list {

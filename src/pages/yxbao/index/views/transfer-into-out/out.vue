@@ -26,7 +26,7 @@
             .left.iconfont(
                 :class="[check ?'icon-icon-checkbox-selected':'icon-unchecked']")
             .right
-                p {{$t('C18')}}
+                p.sub-title {{$t('C18')}}
                 p.desc {{buyProfitLoss}}
                     //- em {{fundTradeInfoVO.buyProfitLoss}}10:00
                     //- em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
@@ -37,7 +37,7 @@
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
                 )
             .right
-                p {{$t('C19')}}
+                p.sub-title {{$t('C19')}}
                 p.desc {{contentDesc}}
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C8')}}
@@ -401,6 +401,7 @@ h1 {
         color: $text-color6;
         em {
             font-size: 15px;
+            padding: 0 0 0 6px;
         }
     }
 }
@@ -423,6 +424,13 @@ h1 {
         }
         .right {
             flex: 1;
+            .sub-title {
+                font-size: 14px;
+            }
+            .desc {
+                margin: 6px 0 0 0;
+                color: $text-color6;
+            }
         }
     }
 }

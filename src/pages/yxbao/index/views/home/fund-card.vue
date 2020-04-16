@@ -6,7 +6,6 @@
             v-for="(item,index) in recommendList" 
             :key="item.fundId")
             .block__left
-                .fund_time {{$t('oneYear')}}
                 .fund_number(
                     :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                     v-if="item.apy>0") +{{Number(item.apy).toFixed(2)}}%
@@ -14,6 +13,8 @@
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                     v-else-if="item.apy<0") {{Number(item.apy).toFixed(2)}}%
                 .fund_number(v-else) {{Number(item.apy).toFixed(2)}}%
+                .fund_time {{$t('oneYear')}}
+                
             .block__right
                 .fund_name {{item.fundName}}
                 .fund__list--tag
@@ -101,11 +102,11 @@ export default {
         .fund_time {
             font-size: 12px;
             color: #999999;
-            line-height: 20px;
-            margin: 10px 0 0 0;
+            line-height: 17px;
         }
         .fund_number {
             font-size: 26px;
+            line-height: 31px;
             font-family: yxFontDINPro-Medium;
             padding: 2px 0 0 0;
         }
@@ -115,7 +116,7 @@ export default {
         display: flex;
         flex-direction: column;
         .fund_name {
-            font-size: 14px;
+            font-size: 16px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;

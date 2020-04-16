@@ -23,7 +23,7 @@
                     p.bottom {{sevenDaysApy|| '0.00'}}
                 .block__yxbao--item
                     p.top {{$t('C5')}} 
-                    p.bottom(v-if="hidePadShow && totalEarnings<0") -{{totalEarnings|transNumToThousandMark}}
+                    p.bottom(v-if="hidePadShow && totalEarnings<0") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else-if="hidePadShow && totalEarnings>=0") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
             template(v-if="fundId")
@@ -438,7 +438,7 @@ export default {
         .block__yxbao--num {
             height: 49px;
             font-size: 38px;
-            font-family: DINPro-Medium, DINPro;
+            font-family: yxFontDINPro-Medium;
             font-weight: 500;
             line-height: 49px;
         }
@@ -450,6 +450,7 @@ export default {
             .iconfont {
                 font-size: 15px;
                 margin: 0 5px;
+                color: #8c8c8c;
             }
         }
         .block__yxbao--numtip {
@@ -492,9 +493,11 @@ export default {
     justify-content: space-around;
     align-items: center;
     .block__list--item {
+        width: 33.33%;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         .iconfont {
             color: #ff7024;
             font-size: 25px;

@@ -41,9 +41,9 @@
             position: relative;
             margin:-20px 0 0 0;
             .block--button{
-                width:101px;
                 height:30px;
                 color:#fff;
+                padding:0 5px;
                 background:rgba(47,121,255,1);
                 border-radius:15px;
                 position: absolute;
@@ -105,7 +105,7 @@
             line-height: 20px;
             color:$text-color5;
             em {
-                font-size: 20px;
+                font-size: 15px;
                 margin: 0px 0 0 5px;
                 color:#8C8C8C;
             }
@@ -181,10 +181,14 @@
             line-height: 21px;
         }
         .block--element--select {
-            line-height: 42px;
+            line-height: 24px;
+            height:28px;
+            border-radius:5px;
+            border:1px solid #e1e1e1;
             font-size: 14px;
+            padding:0 2px;
             font-weight: 600;
-            margin: 0 0 0 5px;
+            margin: 5px 0 0 5px;
             position: relative;
             .icon-iconxiala {
                 margin: 0 0 0 5px;
@@ -281,7 +285,7 @@
             color:$text-color5;
         }
         .block__bottom--l{
-            border-right:1px solid #e1e1e1;
+            // border-right:1px solid #ebedf0;
         }
         .block__bottom-r{
             padding:0 0 0 11px;
@@ -412,7 +416,7 @@
             color: $text-color5;
         }
         .van-button {
-            width: 80px;
+            // width: 80px;
             height: 32px !important;
             line-height: 32px;
             font-size: 12px;

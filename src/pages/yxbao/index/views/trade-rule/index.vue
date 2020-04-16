@@ -33,7 +33,7 @@
                     .block__table--header
                         .left {{$t('time')}}
                         .right {{$t('Description')}}
-                    .block__table--container.border-bottom(v-for="(item,index) in list")
+                    .block__table--container(v-for="(item,index) in list")
                         .left {{item.date}}
                         .right {{item.explanation}}
             van-tab(:title="$t('RedemptionRules')" :name="1")
@@ -53,7 +53,7 @@
                             .block__list--item
                                 p.label {{$t('C86')}}
                                 p.value {{Number(fundTradeInfoVO.minTradeAmount).toFixed(2)}} HKD
-                    hr.hr-border
+                    hr.hr-border(v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit")
                     .block__tab-one(v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit")
                         p.title {{$t('C19')}}
                         .block__step
@@ -80,7 +80,7 @@
                         .block__table--header
                             .left {{$t('time')}}
                             .right {{$t('Description')}}
-                        .block__table--container.border-bottom(v-for="(item,index) in list")
+                        .block__table--container(v-for="(item,index) in list")
                             .left {{item.date}}
                             .right {{item.explanation}}
     
@@ -208,10 +208,13 @@ export default {
                 this.sellProfitLoss.label = this.$t('sellProfitLoss.label')
                 this.sellConfirm.label = this.$t('sellConfirm.label')
                 this.buySubmit.label = this.$t('buySubmit.label')
+                this.buySubmit.value = this.$t([`此刻`, `此刻`, `Now`])
                 this.buyConfirm.label = this.$t('buyConfirm.label')
                 this.sellSubmit.label = this.$t('sellSubmit.label')
+                this.sellSubmit.value = this.$t([`此刻`, `此刻`, `Now`])
                 this.buyProfitLoss.label = this.$t('buyProfitLoss.label')
                 this.fastSellSubmit.label = this.$t('sellSubmit.label')
+                this.fastSellSubmit.value = this.$t([`此刻`, `此刻`, `Now`])
                 this.fastSellProfitLoss.label = this.$t('sellProfitLoss.label')
             } catch (e) {
                 this.$toast(e.msg)

@@ -142,11 +142,10 @@ export default {
                 this.intoStepTwo.time = this.$t([
                     `预计${dayjs(date).format('MM-DD')}(${week})`,
                     `預計${dayjs(date).format('MM-DD')}(${week})`,
-                    `The funds will deposit to your account on ${dayjs(
-                        date
-                    ).format('MM-DD')}(${week}) (Estimated)`
+                    `${dayjs(date).format('MM-DD')}(${week}) (Estimated)`
                 ])
                 this.intoStepOne.label = this.$t('C9')
+                this.intoStepTwo.label = this.$t('C26')
             }
             //转出
             if (this.orderDetails.recordType === 2) {

@@ -3,14 +3,14 @@
     .block__status--item
         em.iconfont.icon-icon-checkbox-selected
         .block__status--right
-            p {{stepOne.label}}
-            p {{stepOne.time}}
+            p.title {{stepOne.label}}
+            p.subtitle {{stepOne.time}}
         
     .block__status--item.block__after(v-if="successHide")
         em.iconfont.icon-icon-money
         .block__status--right
-            p {{stepTwo.label}}
-            p {{stepTwo.time}}
+            p.title {{stepTwo.label}}
+            p.subtitle {{stepTwo.time}}
 </template>
 <script>
 export default {
@@ -40,11 +40,18 @@ export default {
         position: relative;
         display: flex;
         flex-direction: row;
+        .block__status--right {
+            .subtitle {
+                font-size: 12px;
+                margin: 6px 0 0 0;
+                color: $text-color6;
+            }
+        }
     }
     em {
         width: 15px;
         color: #2f79ff;
-        margin: 0px 10px 0 0;
+        margin: -2px 10px 0 0;
         display: inline-block;
     }
     .block__after {
@@ -56,7 +63,7 @@ export default {
         height: 56px;
         width: 1px;
         left: 7px;
-        top: -55px;
+        top: -62px;
         display: inline-block;
         background: #2f79ff;
     }

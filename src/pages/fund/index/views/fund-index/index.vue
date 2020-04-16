@@ -56,7 +56,7 @@ div
                         p.num(v-if="!moneyShow") ****
                 
                 .block__left__bottom.border-top
-                    .block__bottom--l(@click="toRouterAccount")
+                    .block__bottom--l.border-right(@click="toRouterAccount")
                         p {{$t('fund')}}
                             em.num(v-if="moneyShow") {{currentPostion.fundPositionAmount|transNumToThousandMark}}
                             em(v-else) ****

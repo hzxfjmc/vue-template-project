@@ -203,7 +203,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block__out--wrapper {
-    margin: 14px 0 0 0;
+    margin: 16px 0 0 0;
     padding: 0 0 9px 0;
     display: flex;
     flex-direction: row;
@@ -211,9 +211,10 @@ export default {
     position: relative;
     .block__tip--number {
         left: 70px;
-        top: -15px;
+        top: -13px;
         font-size: 12px;
         position: absolute;
+        color: $text-color6;
     }
     .label {
         font-size: 24px;
@@ -222,20 +223,21 @@ export default {
         margin: 0 10px 0 20px;
         font-family: 'yxFontDINPro-Medium';
         font-size: 24px;
+        line-height: 14px;
     }
     // .number-board {
     //     width: 200px;
     // }
     .word1 {
         margin: 0 10px 0 20px;
-        font-size: 14px;
+        font-size: 16px;
         color: #d1d1d1;
         display: block;
     }
     .number {
         font-family: 'yxFontDINPro-Medium';
-        margin: 0 10px 0 20px;
-        font-size: 14px;
+        margin: -4px 10px 0 20px;
+        // font-size: 14px;
         font-size: 24px;
         position: relative;
         &:after {
@@ -251,10 +253,11 @@ export default {
         }
     }
     .word {
-        margin: 0 10px 0 20px;
-        font-size: 14px;
+        margin: 0px 10px 0 20px;
+        font-size: 16px;
         height: 20px;
         color: #d1d1d1;
+        line-height: 20px;
         position: relative;
         &:after {
             content: '';

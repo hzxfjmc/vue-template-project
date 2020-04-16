@@ -1,7 +1,7 @@
 <template lang="pug">
 .block__element-wrapper
     .block__out--header
-        p.title {{$t('C27')}}   
+        h1.title {{$t('C27')}}   
         NumberKeyboard(
             :placeholder="placeholder"
             :withdrawBalance="accountInfo.withdrawBalance"
@@ -175,6 +175,8 @@ export default {
 }
 .title {
     font-size: 16px;
+    font-family: yxFont;
+    font-weight: 700;
 }
 .block__out--header {
     padding: 20px 12px 0 12px;
@@ -188,6 +190,8 @@ export default {
 .block__out--title {
     background: #fff;
     padding: 15px 12px 14px 12px;
+    .title {
+    }
     .tips {
         text-align: right;
         .tips--top {
