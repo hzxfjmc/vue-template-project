@@ -81,6 +81,9 @@ export const i18nIntroducelist = {
             investObjective: {
                 label: '投资目标'
             },
+            recordDate: {
+                label: '权益登记日'
+            },
             dividendDate: {
                 label: '派息日期'
             },
@@ -141,6 +144,9 @@ export const i18nIntroducelist = {
             investObjective: {
                 label: '投資目標'
             },
+            recordDate: {
+                label: '權益登記日'
+            },
             dividendDate: {
                 label: '派息日期'
             },
@@ -200,6 +206,9 @@ export const i18nIntroducelist = {
             },
             investObjective: {
                 label: 'Investment Objective'
+            },
+            recordDate: {
+                label: 'Date of record'
             },
             dividendDate: {
                 label: 'Dividend Date'

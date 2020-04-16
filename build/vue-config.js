@@ -3,14 +3,14 @@ const commonConfig = require('./vue-common-config')
 const { getPages, getCommandParam } = require('./utils')
 const fs = require('fs')
 const path = require('path')
-// const mockModule = require(path.resolve(__dirname, '../src/mock/modules/index.js'))
-// console.log('mockModule :', mockModule);
+    // const mockModule = require(path.resolve(__dirname, '../src/mock/modules/index.js'))
+    // console.log('mockModule :', mockModule);
 const project = getCommandParam('project')
-/**
- * 把相对于src目录的路径转换成绝对路径
- * @param sub_path
- * @returns {string}
- */
+    /**
+     * 把相对于src目录的路径转换成绝对路径
+     * @param sub_path
+     * @returns {string}
+     */
 const absoluteSrcPath = sub_path => {
     return path.resolve(__dirname, `../src/${sub_path}`)
 }
@@ -30,7 +30,7 @@ const hzApi = 'http://hz1-uat.yxzq.com'
 const hz1Api = 'http://hz1-uat.yxzq.com'
 
 const webappApi = 'http://m-uat.yxzq.com'
-// config 配置
+    // config 配置
 module.exports = {
     ...commonConfig(project),
     pages: {

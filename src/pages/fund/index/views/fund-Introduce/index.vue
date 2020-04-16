@@ -4,53 +4,57 @@
         van-tabs(
             v-model="active" 
             color="#2F79FF" 
+            sticky
             :swipeable="swipeable"
             :line-width="width"
             title-inactive-color="rgba(25,25,25,0.5)"
             title-active-color="#2F79FF")
                 van-tab(:title="$t('list')['fundIntroduce'].label" :name="0")
+                    .fund-introduce-content(v-if="active===0")
+                        .fund-introduce-list(
+                            v-for="(item,index) of list"
+                            :class="[item.flag == 2 ? 'activelist':'']"
+                            :key="item.label")
+                            span.left {{item.label}}
+                            span.right(v-if="index != 'fundSize'") {{item.value}}
+                            span.right(
+                                v-if="index == 'fundSize' && lang != 'en'") {{currencyName}} {{(item.value/100000000).toFixed(2)}} {{$t('unit')}}
+                            span.right(
+                                v-if="index == 'fundSize' && lang == 'en' && item.value/100000000 >= 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Billion
+                            span.right(
+                                v-if="index == 'fundSize' && lang == 'en' && item.value/100000000 < 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Million
+                    .fund-introduce-other(v-if="active===0")
+                        .fund-introduce-objective(v-for="item in otherList")
+                            .title {{item.label}}
+                            .content {{item.value}}
                 van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
+                    .dividend-detail-container(v-if="active===1")
+                        dividend-detail
                 van-tab(:title="$t('list')['fundFiles'].label" :name="2")
-    .fund-introduce-content(v-if="active===0")
-        .fund-introduce-list(
-            v-for="(item,index) of list"
-            :class="[item.flag == 2 ? 'activelist':'']"
-            :key="item.label")
-            span.left {{item.label}}
-            span.right(v-if="index != 'fundSize'") {{item.value}}
-            span.right(
-                v-if="index == 'fundSize' && lang != 'en'") {{currencyName}} {{(item.value/100000000).toFixed(2)}} {{$t('unit')}}
-            span.right(
-                v-if="index == 'fundSize' && lang == 'en' && item.value/100000000 >= 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Billion
-            span.right(
-                v-if="index == 'fundSize' && lang == 'en' && item.value/100000000 < 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Million
-    .fund-introduce-other(v-if="active===0")
-        .fund-introduce-objective(v-for="item in otherList")
-            .title {{item.label}}
-            .content {{item.value}}
-    .dividend-detail-container(v-if="active===1")
-        dividend-detail
+                    .dividend-detail-container(v-if="active===2")
+                        .fund-files
+                            .file-list(v-if="filelist.length != 0")
+                                van-row(gutter="20")
+                                    van-col(
+                                        span="11" 
+                                        class="span" 
+                                        :key="item.key"
+                                        v-for="item of filelist") 
+                                        .list-item(@click="toJumpLink(item)")
+                                            p {{item.fileName}}
+                                            span {{item.createTime}}
+                                            img(:src="item.ImgSrc")
 
-    .dividend-detail-container(v-if="active===2")
-        .fund-files
-            .file-list(v-if="filelist.length != 0")
-                van-row(gutter="20")
-                    van-col(
-                        span="11" 
-                        class="span" 
-                        :key="item.key"
-                        v-for="item of filelist") 
-                        .list-item(@click="toJumpLink(item)")
-                            p {{item.fileName}}
-                            span {{item.createTime}}
-                            img(:src="item.ImgSrc")
+                            .no-bond-box(v-else)
+                                .no-bond {{$t('nomore')}}
+    
+    
 
-            .no-bond-box(v-else)
-                .no-bond {{$t('nomore')}}
     
 
 </template>
 <script>
+import './index.scss'
 import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
 import dividendDetail from './dividend-detail'
 import { transNumToThousandMark } from '@/utils/tools.js'
@@ -161,148 +165,4 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
-.fund-files {
-    height: 96%;
-    margin: 0 2%;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    .span {
-        background: #fff;
-
-        margin: 10px 0 0 10px;
-        height: 110px;
-        border-radius: 5px;
-        box-shadow: 0px 2px 4px 0px rgba(231, 236, 248, 1);
-        border-radius: 6px;
-        position: relative;
-        font-family: PingFangSC;
-        padding: 10px;
-        .list-item {
-            width: 100%;
-            height: 100%;
-        }
-        p {
-            font-size: 0.28rem;
-            width: 125px;
-            line-height: 20px;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 2;
-            overflow: hidden;
-        }
-        span {
-            display: inline-block;
-            color: $text-color5;
-            position: absolute;
-            bottom: 10px;
-        }
-        img {
-            position: absolute;
-            bottom: 10px;
-            right: 10px;
-            width: 30px;
-            height: 35px;
-        }
-    }
-    .iconfont {
-        color: red;
-        font-size: 60px;
-    }
-}
-.no-bond-box {
-    padding-top: 150px;
-    .no-bond {
-        width: 130px;
-        height: 120px;
-        margin: 0 auto;
-        padding-top: 100px;
-        background: url('~@/assets/img/fund/icon-nofile.png') center 15px
-            no-repeat;
-        background-size: 99.5px 78px;
-        color: $text-color3;
-        font-size: 0.28rem;
-        line-height: 20px;
-        text-align: center;
-        box-sizing: border-box;
-        font-family: PingFangSC;
-    }
-}
-.fund-introduce {
-    background: $background-bottom-color;
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    overflow-y: auto;
-    display: flex;
-    flex-direction: column;
-}
-.fund-introduce-header {
-    border-bottom: 1px solid $text-color8;
-}
-.fund-introduce-content {
-    padding: 20px 0;
-    background: #fff;
-}
-.fund-introduce-list {
-    padding: 5px 10px;
-    display: flex;
-    span {
-        display: inline;
-        font-size: 0.28rem;
-    }
-    .left {
-        width: 100px;
-        color: $text-color5;
-    }
-    .right {
-        flex: 1;
-        line-height: 24px;
-        word-break: break-all;
-        .active {
-            position: absolute;
-            bottom: 0;
-            background: #fff;
-            color: $text-link-color;
-            display: inline-block;
-            width: 40px;
-            right: 0;
-            text-align: left;
-            line-height: 24px;
-            height: 24px;
-        }
-        .activeShow {
-            bottom: -24px;
-        }
-    }
-    .hiddenClass,
-    .showClass {
-        text-align: left;
-    }
-    .hiddenClass {
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 5;
-        word-break: break-all;
-        overflow: hidden;
-    }
-    .intd,
-    .target {
-        text-align: left;
-    }
-}
-.fund-introduce-objective {
-    padding: 20px 10px;
-    margin-top: 6px;
-    background-color: #fff;
-    // flex: 1;
-    .title {
-        color: $text-color5;
-        margin-bottom: 10px;
-    }
-}
-.activelist {
-    margin: 0 0 20px 0;
-}
-</style>
+<style lang="scss" scoped></style>
