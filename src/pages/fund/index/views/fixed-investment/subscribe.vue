@@ -31,7 +31,7 @@
                             :class="[check?'icon-selected':'icon-unchecked']")
                     p(v-if="check") 定投日自动于银行扣款AAAA港币。并于证券账户扣款时按实时汇率兑换BBBB美元。兑换后剩余的港币会留存于你的证券账户
                 .fund--block--floor
-                    .fund--list--item.border-bottom(@click="deductionShow = true")
+                    .fund--list--item.border-bottom(@click="showBankType = true")
                         .item--top 扣款方式
                             em.iconfont.icon-iconEBshoucang2
                         .item--bottom
@@ -89,8 +89,8 @@ export default {
     },
     data() {
         return {
-            protocolShow: false,
-            showBankType: true,
+            protocolShow: true,
+            showBankType: false,
             loading: false,
             check: true,
             fundName: '',

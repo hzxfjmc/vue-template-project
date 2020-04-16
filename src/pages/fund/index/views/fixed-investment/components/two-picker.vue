@@ -12,6 +12,8 @@
             confirm-button-text="确认"
             cancel-button-text="取消"
             @change="onChange"
+            @confirm="confirm"
+            @cancel = "cancel"
             :columns="columns")
 </template>
 <script>
@@ -43,6 +45,13 @@ export default {
         }
     },
     methods: {
+        cancel() {
+            this.popupVisible = false
+        },
+        confirm(val) {
+            console.log(val)
+            this.popupVisible = false
+        },
         onChange(picker, values) {
             picker.setColumnValues(1, MonthDay[values[0]])
         }

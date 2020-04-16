@@ -56,6 +56,9 @@
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
+            van-button.button-5width.button-left.btn.colorbg(
+                :class="[flag?'fund-check':'fund-no']" 
+                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
             van-button.button-5width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
                 @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -1550,7 +1553,7 @@ export default {
         background: rgba(25, 25, 25, 0.2);
     }
     .button-5width {
-        width: 50%;
+        width: 33.333%;
     }
     .button-left {
         border-right: 1px solid #e1e1e1;
