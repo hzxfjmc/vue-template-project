@@ -12,7 +12,7 @@
                 .block__list--left {{$t('C22')}}
                 .block__list--right.common-flex-center
                     p.block__fee {{HandlingFee}}
-                    p {{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%
+                    p ({{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%)
             .block__list--item.common-flex-space-between
                 .block__list--left {{$t('C23')}}
                 .block__list--right.expectedAmount {{actulAmount}}
@@ -80,7 +80,7 @@ export default {
                 Math.ceil(
                     this.fundTradeInfoVO.fastRedemptionFee * this.amount * 100
                 ) / 100
-            )
+            ).toFixed(2)
         },
         actulAmount() {
             if (
