@@ -8,9 +8,9 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-                    // 
+                    // && openedAccount
         template
-            .block__assets(v-if="isLogin && openedAccount")
+            .block__assets(v-if="isLogin ")
                 .block__top.border-bottom
                     .block__left--label 
                         span {{$t('protfolloAssets')}}
@@ -44,7 +44,7 @@ div
                                         :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
 
                     .block__right--yes
-                        p {{$t('SevenDayIncome')}}
+                        p.subtitle {{$t('SevenDayIncome')}}
                         p.num(
                             v-if="moneyShow && currentPostion.weekEarnings>0" 
                             :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{currentPostion.weekEarnings|transNumToThousandMark}}

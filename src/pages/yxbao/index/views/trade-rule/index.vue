@@ -45,6 +45,7 @@
                                 :stepNames="[sellSubmit.label,sellConfirm.label ,sellProfitLoss.label ]"
                                 :stepTimes="[sellSubmit.value,sellConfirm.value,sellProfitLoss.value ]")
                         p.desc {{$t('C53')}}
+                        p.desc1 {{$t('C54')}}
                         p.desc.border-bottom.color {{$t('C48')}}
                         .block__list
                             .block__list--item
@@ -62,6 +63,7 @@
                                 :stepNames="[fastSellSubmit.label,'',fastSellProfitLoss.label ]"
                                 :stepTimes="[fastSellSubmit.value,'' ,fastSellProfitLoss.value ]")
                         p.desc {{$t('C56')}}
+                        p.desc1 {{$t('C54')}}
                         p.desc.border-bottom-none {{$t('C57')}}
                         p.desc.border-bottom.color {{$t('C48')}}
                         .block__list
