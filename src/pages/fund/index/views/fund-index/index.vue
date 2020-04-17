@@ -8,6 +8,7 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
+                    //
         template
             .block__assets(v-if="isLogin && openedAccount")
                 .block__top.border-bottom
@@ -68,7 +69,11 @@ div
                         em.iconfont.icon-previewright(v-if="!isWhiteUserBit")
                     //- span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
                     //- span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-           
+                .block__left__bottom.border-top.text-align(
+                    v-else
+                    @click="toRouterAccount")
+                    span {{$t('holdData')}}
+                    em.iconfont.icon-previewright
             .block__assets(v-else)
                 .block--assets--header.border-bottom
                     .block--left
