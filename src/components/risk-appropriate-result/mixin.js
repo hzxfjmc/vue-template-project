@@ -196,7 +196,7 @@ export default {
         // 获取基金信息
         async getFundDetailFun() {
             let res = await getFundDetail({
-                displayLocation: 1,
+                displayLocation: this.$route.query.displayLocation || 1,
                 fundId: this.$route.query.id
             })
             this.fundType = 0
@@ -214,7 +214,8 @@ export default {
                     path: '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
-                        fundRiskType: this.$route.query.fundRiskType
+                        fundRiskType: this.$route.query.fundRiskType,
+                        displayLocation: this.$route.query.displayLocation
                     }
                 })
             } else if (this.userRiskLevel < this.bondRiskLevel) {

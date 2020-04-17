@@ -70,11 +70,6 @@ export default {
                     : (func((this.info.apy - 0) * 10000) / 100).toFixed(2)
             return this.info && apyNum
         },
-        // fundName() {
-        //     return this.info.fundName.length > 12
-        //         ? this.info.fundName.slice(0, 12) + '...'
-        //         : this.info.fundName
-        // },
         h2Style() {
             // 名称字体变化策略
             let fundName = this.info.fundName || ''

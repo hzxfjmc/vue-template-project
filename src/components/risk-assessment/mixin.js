@@ -134,7 +134,8 @@ export default {
                     // 默认传输基金参数
                     id,
                     currencyType: this.$route.query.currencyType,
-                    fundRiskType: this.$route.query.fundRiskType
+                    fundRiskType: this.$route.query.fundRiskType,
+                    displayLocation: this.$route.query.displayLocation
                 }
             // App 风险测评菜单进入：
             // 1、/wealth/fund/index.html#/risk-assessment-result

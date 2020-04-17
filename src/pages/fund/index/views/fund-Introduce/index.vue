@@ -108,7 +108,7 @@ export default {
                     fundTradeInfoVO,
                     fundCorrelationFileList
                 } = await getFundDetail({
-                    displayLocation: 1,
+                    displayLocation: this.$route.query.displayLocation || 1,
                     fundId: this.$route.query.id
                 })
                 this.filelist = fundCorrelationFileList
