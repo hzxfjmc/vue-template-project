@@ -89,7 +89,7 @@ export default {
     },
     data() {
         return {
-            protocolShow: true,
+            protocolShow: false,
             showBankType: false,
             loading: false,
             check: true,

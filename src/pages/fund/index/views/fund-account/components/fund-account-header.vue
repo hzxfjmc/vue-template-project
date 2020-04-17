@@ -1,11 +1,11 @@
 <template lang="pug">
 .fund-account-header
-    .block-account-header
+    .block-account-header(:class="[inTransitOrder!=='0'?'block--header-height':'block--header-height1']")
         .header-content
             .header-content-left
                 span.title 
                     em {{$t('accountTotal')}}
-                    i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
+                    i.iconfont(:class="chooseCurrencyShow?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
                 .fund__content
                     .number-price(
                         v-if="showPsd") {{firstPositionAmount || '--'}}.
@@ -210,6 +210,9 @@ export default {
 .block-account-header {
     width: 100%;
     position: relative;
+}
+.block--header-height {
+    height: 284px;
     background: linear-gradient(
         360deg,
         rgba(47, 121, 255, 0) 0%,
@@ -218,11 +221,13 @@ export default {
         rgba(13, 80, 216, 1) 100%
     );
 }
-.block--header-height {
-    height: 284px;
-}
 .block--header-height1 {
-    height: 284px;
+    height: 239px;
+    background: linear-gradient(
+        360deg,
+        rgba(47, 121, 255, 1) 0%,
+        rgba(13, 80, 216, 1) 100%
+    );
 }
 .bg-hk {
     background: linear-gradient(
