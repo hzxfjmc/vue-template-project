@@ -34,9 +34,19 @@
                     .fund--list--item.border-bottom(@click="showBankType = true")
                         .item--top 扣款方式
                             em.iconfont.icon-iconEBshoucang2
-                        .item--bottom
+                        .item--bottom(v-if="!bankInfo.bankName")
                             .item--left 点此选择扣款方式
                             .item--right.iconfont.icon-iconEBgengduoCopy
+                        .li(v-else)
+                            .block--left
+                                .bank-name {{bankInfo.bankName}}
+                                    span {{bankInfo.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
+                                .limit-text 
+                                    .text-show
+                                        span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
+                                        span {{Number(bankInfo.mandateAmount).toFixed(2) | thousand-spilt}}
+                                        span(v-if="bankInfo.mandateAmount" ) {{$t(['港币','港幣','HKD'])}}
+                                    span.modify-text(@click="modifyHandle(bankInfo)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
 
                     .fund--list--item(@click="protocolShow = true")
                         .item--top 定投周期
@@ -89,6 +99,7 @@ export default {
     },
     data() {
         return {
+            bankInfo: {},
             protocolShow: false,
             showBankType: false,
             loading: false,
@@ -160,7 +171,9 @@ export default {
                 this.$close()
             }
         },
-        checkBankHandle() {},
+        checkBankHandle(val) {
+            this.bankInfo = val
+        },
         handlerAmount(val) {
             this.amount = val
         },

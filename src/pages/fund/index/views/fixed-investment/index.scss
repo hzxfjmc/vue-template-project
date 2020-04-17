@@ -245,3 +245,46 @@
         margin: auto;
     }
 }
+
+
+.li {
+    padding: 10px 0 10px 0;
+    min-height: 60px;
+    border-bottom: 1px solid $background-bottom-color;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .block--right {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: #2f79ff;
+    }
+    .bank-name {
+        span {
+            height: 16px;
+            line-height: 16px;
+            font-size: 10px;
+            color: #2177ff;
+            border: 0.5px solid #2177ff;
+            border-radius: 1px;
+            padding: 0 3px;
+            margin-left: 6px;
+        }
+    }
+    .limit-text {
+        display: flex;
+        color: rgba($text-color, 0.65);
+        font-size: 12px;
+        .text-show {
+            span {
+                font-size: 12px;
+            }
+        }
+
+        .modify-text {
+            margin-left: 6px;
+            color: $primary-color-line;
+        }
+    }
+}
