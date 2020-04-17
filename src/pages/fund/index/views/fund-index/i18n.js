@@ -41,7 +41,8 @@ export const i18n = {
         iKnow: '我知道了',
         yieldInLast7d: '近七日年化',
         tips: '暂未开放，敬请期待 ',
-        tips1: '友信宝业务暂未开放，敬请期待'
+        tips1: '友信宝业务暂未开放，敬请期待',
+        holdData: '我的持仓'
     },
     zhCHT: {
         fundHold: '基金持倉',
@@ -85,7 +86,8 @@ export const i18n = {
         iKnow: '我知道了',
         yieldInLast7d: '近七日年化',
         tips: '暫未開放，敬請期待',
-        tips1: '友信寶業務暫未開放，敬請期待'
+        tips1: '友信寶業務暫未開放，敬請期待',
+        holdData: '我的持倉'
     },
     en: {
         unit: 'B ',
@@ -129,6 +131,7 @@ export const i18n = {
         iKnow: 'Got it',
         yieldInLast7d: 'Yield in Last 7d',
         tips: 'Not open yet！',
-        tips1: 'uMoeny Service not open yet, stay tuned！'
+        tips1: 'uMoeny Service not open yet, stay tuned！',
+        holdData: 'My Portfolio '
     }
 }
