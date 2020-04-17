@@ -151,41 +151,9 @@ export default {
                     mandateCurrency: 'HKD'
                 }
                 let { list } = await queryMandateBank(params)
-                this.bankList = list.map(item => {
-                    this.bankName = list[0].bankName
-                    this.bankNumber = list[0].bankNumber
-                    this.bankCode = list[0].bankCode
-                    this.id = list[0].id
-                    this.bankLastCode = list[0].bankAccountNo.slice(-4)
-                    this.currencyType = list[0].mandateCurrency
-                    this.paymentLimitAmount = list[0].mandateAmount
-                    // 招商银行就提示选择其他银行或其他方式入金
-                    this.checkCMBFun(list[0].bankNumber)
-                    // true为开启，false为关闭
-                    if (!list[0].eddaSwitch) {
-                        this.eddaSwitchFun(list[0].bankName)
-                    } else {
-                        this.authorizationed = this.$t([
-                            '已授权',
-                            '已授權',
-                            'Authorized'
-                        ])
-                        this.disabled = false
-                    }
-                    return {
-                        text: `${item.bankName}(${item.bankAccountNo.slice(
-                            -4
-                        )})`,
-                        bankName: item.bankName,
-                        bankAccountNo: item.bankAccountNo,
-                        bankLastCode: item.bankAccountNo.slice(-4),
-                        bankNumber: item.bankNumber,
-                        bankCode: item.bankCode,
-                        id: item.id,
-                        mandateAmount: item.mandateAmount,
-                        eddaSwitch: item.eddaSwitch
-                    }
-                })
+                console.log(list)
+                this.bankList = list
+                console.log(this.bankList)
                 this.$close()
             } catch (e) {
                 e.msg && this.$toast(e.msg)

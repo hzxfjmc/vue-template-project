@@ -7,7 +7,7 @@
                     .cancel(@click="showPopup=false") {{$t(['取消','取消','Cancel'])}}
                 ul(slot="main")
                     li(v-for="item in bankList" @click="checkBankHandle(item)")
-                        .bank-name {{item.text}}
+                        .bank-name {{item.bankName}}
                             span {{item.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
                         .limit-text 
                             .text-show

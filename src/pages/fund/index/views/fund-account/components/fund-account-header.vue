@@ -210,7 +210,6 @@ export default {
 .block-account-header {
     width: 100%;
     position: relative;
-    height: 284px;
     background: linear-gradient(
         360deg,
         rgba(47, 121, 255, 0) 0%,
@@ -218,6 +217,12 @@ export default {
         rgba(41, 113, 247, 0.89) 25%,
         rgba(13, 80, 216, 1) 100%
     );
+}
+.block--header-height {
+    height: 284px;
+}
+.block--header-height1 {
+    height: 284px;
 }
 .bg-hk {
     background: linear-gradient(
