@@ -194,7 +194,6 @@ export default {
                     tradeToken: token
                 }
                 params.exchangeFlag = this.exchangeFlag ? 0 : 1
-                // params.fixedCycleType =
                 const res = await hanlderCreateFundFixedPlan(params)
                 console.log(res)
             } catch (e) {
