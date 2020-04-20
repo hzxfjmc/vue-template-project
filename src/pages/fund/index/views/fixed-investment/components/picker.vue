@@ -18,7 +18,7 @@
                                 span.modify-text(@click="modifyHandle(item)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
                         .block--right
                             em.iconfont.icon-tick-
-                    li(@click="checkBankHandle()")
+                    li(@click="checkBankHandle({type:1})")
                         .block--left 
                             .bank-name uSMART证券账户
                             .text-show

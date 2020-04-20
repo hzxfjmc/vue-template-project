@@ -20,16 +20,16 @@
                                 //- em 1.00港币
                         .fund--header--list
                             .fund-left 订单总金额
-                            .fund-right 9995.00
+                            .fund-right {{actulAmount}}
                 
                 .fund--block--exchange
                     .fund--blcok--etop
                         span 当金额不足时，自动换汇
                             em.iconfont.icon-iconEBshoucang2
                         span.iconfont(
-                            @click="()=>{this.check = !this.check}"
-                            :class="[check?'icon-selected':'icon-unchecked']")
-                    p(v-if="check") 定投日自动于银行扣款AAAA港币。并于证券账户扣款时按实时汇率兑换BBBB美元。兑换后剩余的港币会留存于你的证券账户
+                            @click="()=>{this.exchangeFlag = !this.exchangeFlag}"
+                            :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
+                    p(v-if="exchangeFlag") 定投日自动于银行扣款AAAA港币。并于证券账户扣款时按实时汇率兑换BBBB美元。兑换后剩余的港币会留存于你的证券账户
                 .fund--block--floor
                     .fund--list--item.border-bottom(@click="showBankType = true")
                         .item--top 扣款方式
@@ -51,7 +51,7 @@
                     .fund--list--item(@click="protocolShow = true")
                         .item--top 定投周期
                         .item--content 
-                            .item--left.item--block--wrapper 每周 周一
+                            .item--left.item--block--wrapper {{fixedCycleTypeObj.key[0]}} {{fixedCycleTypeObj.key[1]}}
                                 .item--right.iconfont.icon-iconEBgengduoCopy
                             p 下个转入日02月12日，如遇非交易日顺延
                            
@@ -71,14 +71,17 @@
             v-model="protocolVisible"
             :protocolFileList="buyProtocolFileList"
             )
-        twoPicker( v-model="protocolShow")
+        twoPicker( 
+            @handlerFixedCycleType="handlerFixedCycleType"
+            v-model="protocolShow")
         .block__footer--loading(v-if="loading")
             Loading(type="spinner" color="#2F79FF")
 </template>
 <script>
 import { getFundDetail } from '@/service/finance-info-server.js'
+import { hanlderCreateFundFixedPlan } from '@/service/finance-server.js'
 import jsBridge from '@/utils/js-bridge.js'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { transNumToThousandMark, generateUUID } from '@/utils/tools.js'
 import picker from './components/picker'
 import { mapGetters } from 'vuex'
 import { getFundUserInfo } from '@/service/user-server.js'
@@ -87,6 +90,7 @@ import NumberKeyboard from './components/number-keyboard'
 import protocolPopup from './components/protocol-popup'
 import twoPicker from './components/two-picker'
 import { queryMandateBank } from '@/service/stock-capital-server'
+
 import './index.scss'
 export default {
     name: 'subscribe',
@@ -103,7 +107,7 @@ export default {
             protocolShow: false,
             showBankType: false,
             loading: false,
-            check: true,
+            exchangeFlag: true,
             fundName: '',
             bankList: [],
             buyProtocolFileList: [],
@@ -111,7 +115,12 @@ export default {
             protocolVisible: false,
             amount: '',
             isCheckedProtocol: true,
-            placeholder: '请输入金额'
+            placeholder: '请输入金额',
+            fixedCycleTypeObj: {
+                key: ['每周', '周一'],
+                type: 1,
+                value: 1
+            }
         }
     },
     filters: {
@@ -130,6 +139,12 @@ export default {
             'openedAccount',
             'appVersion'
         ]),
+        actulAmount() {
+            if (isNaN(Number(this.amount) + Number(this.HandlingFee))) {
+                return '0.00'
+            }
+            return (Number(this.amount) + Number(this.HandlingFee)).toFixed(2)
+        },
         HandlingFee() {
             if (
                 isNaN(this.fundTradeInfoVO.subscriptionFee * this.amount) ||
@@ -150,10 +165,42 @@ export default {
                 Math.ceil(
                     this.fundTradeInfoVO.subscriptionFee * this.amount * 100
                 ) / 100
-            )
+            ).toFixed(2)
         }
     },
     methods: {
+        handlerFixedCycleType(val) {
+            this.fixedCycleTypeObj = val
+        },
+        //创建定投计划
+        async hanlderCreateFundFixedPlan(token) {
+            try {
+                let params = {
+                    chargeType: 1,
+                    displayLocation: 1,
+                    eddaBankAccount: '1',
+                    eddaBankCode: '1',
+                    eddaBankName: {
+                        en: 'steady',
+                        zhCn: '稳健',
+                        zhHk: '穩健'
+                    },
+                    exchangeFlag: 1,
+                    fixedCycleType: this.fixedCycleTypeObj.type,
+                    fixedCycleValue: this.fixedCycleTypeObj.value,
+                    fixedPlanAmount: this.amount,
+                    fundId: this.$route.query.id,
+                    requestId: generateUUID(),
+                    tradeToken: token
+                }
+                params.exchangeFlag = this.exchangeFlag ? 0 : 1
+                // params.fixedCycleType =
+                const res = await hanlderCreateFundFixedPlan(params)
+                console.log(res)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         // 查询已授权账户
         async queryMandateBank() {
             try {
@@ -162,9 +209,7 @@ export default {
                     mandateCurrency: 'HKD'
                 }
                 let { list } = await queryMandateBank(params)
-                console.log(list)
                 this.bankList = list
-                console.log(this.bankList)
                 this.$close()
             } catch (e) {
                 e.msg && this.$toast(e.msg)
@@ -173,11 +218,23 @@ export default {
         },
         checkBankHandle(val) {
             this.bankInfo = val
+            console.log(this.bankInfo)
         },
         handlerAmount(val) {
             this.amount = val
         },
-        handlerSubmitFilter() {},
+        async handlerSubmitFilter() {
+            try {
+                let data = await jsBridge.callApp('command_trade_login', {
+                    needToken: true
+                })
+                let token = data && data.token
+                this.hanlderCreateFundFixedPlan(token)
+            } catch (error) {
+                this.$toast(error.desc.errorMessage)
+                console.log('申购页面-tradeErrorMsg :', error)
+            }
+        },
         //获取用户信息
         async getFundUserInfo() {
             try {

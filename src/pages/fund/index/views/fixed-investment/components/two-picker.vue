@@ -49,7 +49,18 @@ export default {
             this.popupVisible = false
         },
         confirm(val) {
-            console.log(val)
+            let fixedCycleType = {}
+            fixedCycleType.key = val
+            fixedCycleType.type = val[0] === '每周' ? 1 : 2
+            let month = MonthDay['每月'].findIndex(item => {
+                return item == val[1]
+            })
+            let week = MonthDay['每周'].findIndex(item => {
+                return item == val[1]
+            })
+            fixedCycleType.value =
+                val[0] === '每周' ? week + 1 : month == 28 ? 0 : month + 1
+            this.$emit('handlerFixedCycleType', fixedCycleType)
             this.popupVisible = false
         },
         onChange(picker, values) {
