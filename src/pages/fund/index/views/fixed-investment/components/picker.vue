@@ -7,24 +7,25 @@
                     .cancel(@click="showPopup=false") {{$t(['取消','取消','Cancel'])}}
                 ul(slot="main")
                     li(v-for="item in bankList" @click="checkBankHandle(item)")
-                        .block--left
-                            .bank-name {{item.bankName}}
-                                span {{item.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
-                            .limit-text 
+                        template(v-if="item.type !=1")
+                            .block--left
+                                .bank-name {{item.bankName}}
+                                    span {{item.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
+                                .limit-text 
+                                    .text-show
+                                        span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
+                                        span {{Number(item.mandateAmount).toFixed(2) | thousand-spilt}}
+                                        span(v-if="item.mandateAmount" ) {{$t(['港币','港幣','HKD'])}}
+                                    span.modify-text(@click="modifyHandle(item)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
+                            .block--right(v-if="item.check")
+                                em.iconfont.icon-tick-
+                        template(v-else)
+                            .block--left 
+                                .bank-name uSMART证券账户
                                 .text-show
-                                    span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
-                                    span {{Number(item.mandateAmount).toFixed(2) | thousand-spilt}}
-                                    span(v-if="item.mandateAmount" ) {{$t(['港币','港幣','HKD'])}}
-                                span.modify-text(@click="modifyHandle(item)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
-                        .block--right
-                            em.iconfont.icon-tick-
-                    li(@click="checkBankHandle({type:1})")
-                        .block--left 
-                            .bank-name uSMART证券账户
-                            .text-show
-                                span(style="font-size:12px" ) 请保证扣款日当天证券账户中有足够资金
-                        .block--right()
-                            em.iconfont.icon-tick-
+                                    span(style="font-size:12px" ) 请保证扣款日当天证券账户中有足够资金
+                            .block--right(v-if="item.check")
+                                em.iconfont.icon-tick-
                 .add-other-container(@click="addEddaAccount" slot="main")
                     em.iconfont.icon-add
                     span {{$t(['新增银行账户(EDDA)','新增銀行賬戶(EDDA)','Add New Bank Account (EDDA)'])}}

@@ -207,8 +207,14 @@ export default {
                 let params = {
                     mandateCurrency: 'HKD'
                 }
+                this.bankList = [{ type: 1, check: true }]
                 let { list } = await queryMandateBank(params)
-                this.bankList = list
+                list.map(item => {
+                    item.check = false
+                    item.type = 2
+                })
+                this.bankList = this.bankList.concat(list)
+                console.log(this.bankList)
                 this.$close()
             } catch (e) {
                 e.msg && this.$toast(e.msg)
