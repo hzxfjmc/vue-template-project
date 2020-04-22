@@ -168,3 +168,13 @@ export const getBaoCapitalTradeDetails = params => {
 export const getFundTotalPosition = params => {
     return axios.post(`/finance-server/api/get-fund-total-position/v1`, params)
 }
+
+//获取最近的扣款日
+export const getRecentDeductionDate = params => {
+    return axios.post(`/finance-server/api/recent-deduction-date/v1`, params)
+}
+
+//定投记录列表
+export const getFundFixedRecordPage = params => {
+    return axios.post(`/finance-server/api/fund-fixed-record-page/v1`, params)
+}

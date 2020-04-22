@@ -53,7 +53,7 @@
                         .item--content 
                             .item--left.item--block--wrapper {{fixedCycleTypeObj.key[0]}} {{fixedCycleTypeObj.key[1]}}
                                 .item--right.iconfont.icon-iconEBgengduoCopy
-                            p 下个转入日02月12日，如遇非交易日顺延
+                            p 下个转入日{{date}}，如遇非交易日顺延
                            
                         
             .fund-footer-content
@@ -79,7 +79,10 @@
 </template>
 <script>
 import { getFundDetail } from '@/service/finance-info-server.js'
-import { hanlderCreateFundFixedPlan } from '@/service/finance-server.js'
+import {
+    hanlderCreateFundFixedPlan,
+    getRecentDeductionDate
+} from '@/service/finance-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { transNumToThousandMark, generateUUID } from '@/utils/tools.js'
 import picker from './components/picker'
@@ -92,6 +95,7 @@ import twoPicker from './components/two-picker'
 import { queryMandateBank } from '@/service/stock-capital-server'
 
 import './index.scss'
+import dayjs from 'dayjs'
 export default {
     name: 'subscribe',
     components: {
@@ -116,6 +120,7 @@ export default {
             amount: '',
             isCheckedProtocol: true,
             placeholder: '请输入金额',
+            date: '',
             fixedCycleTypeObj: {
                 key: ['每周', '周一'],
                 type: 1,
@@ -130,6 +135,7 @@ export default {
         this.getFundDetailInfo()
         this.getFundUserInfo()
         this.queryMandateBank()
+        this.getRecentDeductionDate()
     },
     computed: {
         ...mapGetters([
@@ -169,8 +175,21 @@ export default {
         }
     },
     methods: {
+        //获取交易日
+        async getRecentDeductionDate() {
+            try {
+                const res = await getRecentDeductionDate({
+                    fixedCycleType: this.fixedCycleTypeObj.type || 1,
+                    fixedCycleValue: this.fixedCycleTypeObj.value || 1
+                })
+                this.date = dayjs(res).format('MM月DD日')
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         handlerFixedCycleType(val) {
             this.fixedCycleTypeObj = val
+            this.getRecentDeductionDate()
         },
         //创建定投计划
         async hanlderCreateFundFixedPlan(token) {
@@ -223,7 +242,6 @@ export default {
         },
         checkBankHandle(val) {
             this.bankInfo = val
-            console.log(this.bankInfo)
         },
         handlerAmount(val) {
             this.amount = val
