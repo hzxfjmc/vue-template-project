@@ -93,7 +93,7 @@ export default {
             hkd: '港幣',
             usd: '美元',
             purchase: '起購金額',
-            pirchaseHk: '最低認購費',
+            pirchaseHk: '最低認購金額',
             update: '更新時間',
             iknow: '我知道了',
             content:
