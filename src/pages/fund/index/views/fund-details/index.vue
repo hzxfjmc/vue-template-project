@@ -1289,17 +1289,17 @@ export default {
                 const description = this.$t([
                     `${tenKRTN}${apy},基金规模:${
                         this.fundOverviewInfoVO.currency.name
-                    } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
+                    } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
                         2
                     )}亿,更新时间:${this.fundHeaderInfoVO.belongDay}`,
                     `${tenKRTN}${apy},基金規模:${
                         this.fundOverviewInfoVO.currency.name
-                    } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
+                    } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
                         2
                     )}億,更新時間:${this.fundHeaderInfoVO.belongDay}`,
                     `${tenKRTN}${apy},AUM:${
                         this.fundOverviewInfoVO.currency.name
-                    } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
+                    } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
                         2
                     )}B,Update Time:${this.fundHeaderInfoVO.belongDay}`
                 ])
