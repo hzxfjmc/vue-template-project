@@ -73,7 +73,7 @@ import './index.scss'
 import {
     getFundFixedPlanPage,
     getFundFixedRecordPage
-} from '@/service/user-server.js'
+} from '@/service/finance-server.js'
 import { List } from 'vant'
 export default {
     components: {
@@ -116,7 +116,7 @@ export default {
         async getFundFixedRecordPage() {
             try {
                 const { list } = await getFundFixedRecordPage({
-                    fixedPlanCode: '1',
+                    fixedPlanCode: [1],
                     pageNum: 1,
                     pageSize: 20
                 })
@@ -132,6 +132,11 @@ export default {
             }
         },
         onLoad1() {}
+    },
+    created() {
+        this.getFundFixedPlanPage()
+        this.getFundFixedRecordPage()
+        console.log(123)
     }
 }
 </script>
