@@ -121,28 +121,34 @@ export const getFundPositionListV3 = () => {
 }
 
 //创建定投计划
-export const hanlderCreateFundFixedPlan = () => {
-    return axios.post(`/finance-server/api/create-fund-fixed-plan/v1`)
+export const hanlderCreateFundFixedPlan = params => {
+    return axios.post(`/finance-server/api/create-fund-fixed-plan/v1`, params)
 }
 
 //定投计划列表详情
-export const getFundFixedPlanDetail = () => {
-    return axios.post(`/finance-server/api/fund-fixed-plan-detail/v1`)
+export const getFundFixedPlanDetail = params => {
+    return axios.post(`/finance-server/api/fund-fixed-plan-detail/v1`, params)
 }
 
 //定投计划列表
-export const getFundFixedPlanPage = () => {
-    return axios.post(`/finance-server/api/fund-fixed-plan-page/v1`)
+export const getFundFixedPlanPage = params => {
+    return axios.post(`/finance-server/api/fund-fixed-plan-page/v1`, params)
 }
 
 //定投计划列表
-export const getUpdateFundFixedPlanInfo = () => {
-    return axios.post(`/finance-server/api/update-fund-fixed-plan-info/v1`)
+export const getUpdateFundFixedPlanInfo = params => {
+    return axios.post(
+        `/finance-server/api/update-fund-fixed-plan-info/v1`,
+        params
+    )
 }
 
 //修改定投计划状态
-export const getUpdateFundFixedPlanStatus = () => {
-    return axios.post(`/finance-server/api/update-fund-fixed-plan-status/v1`)
+export const getUpdateFundFixedPlanStatus = params => {
+    return axios.post(
+        `/finance-server/api/update-fund-fixed-plan-status/v1`,
+        params
+    )
 }
 //友信获取客户持仓
 export const getBaoPostion = params => {

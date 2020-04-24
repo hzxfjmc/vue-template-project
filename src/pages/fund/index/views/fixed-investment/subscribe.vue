@@ -194,7 +194,7 @@ export default {
         //创建定投计划
         async hanlderCreateFundFixedPlan(token) {
             try {
-                let params = {
+                let data = {
                     chargeType: 1,
                     displayLocation: 1,
                     eddaBankAccount: '1',
@@ -212,8 +212,10 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: token
                 }
-                params.exchangeFlag = this.exchangeFlag ? 0 : 1
-                const res = await hanlderCreateFundFixedPlan(params)
+
+                data.exchangeFlag = this.exchangeFlag ? 0 : 1
+                console.log(data)
+                const res = await hanlderCreateFundFixedPlan(data)
                 console.log(res)
             } catch (e) {
                 this.$toast(e.msg)
