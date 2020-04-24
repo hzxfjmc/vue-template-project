@@ -121,6 +121,7 @@ export default {
             isCheckedProtocol: true,
             placeholder: '请输入金额',
             date: '',
+            fundHeaderInfoVO: {},
             fixedCycleTypeObj: {
                 key: ['每周', '周一'],
                 type: 1,
@@ -228,7 +229,7 @@ export default {
                 let params = {
                     mandateCurrency: 'HKD'
                 }
-                this.bankList = [{ type: 1, check: true }]
+                this.bankList = [{ type: 1, check: false }]
                 let { list } = await queryMandateBank(params)
                 list.map(item => {
                     item.check = false
@@ -300,12 +301,16 @@ export default {
                     displayLocation: 1,
                     fundId: this.$route.query.id
                 })
+                this.fundHeaderInfoVO = fundHeaderInfoVO
                 this.fundName = fundHeaderInfoVO.fundName
                 this.fundTradeInfoVO = fundTradeInfoVO
                 this.buyProtocolFileList = buyProtocolFileList
                 this.buyProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
+                this.placeholder = `${Number(
+                    this.fundHeaderInfoVO.initialInvestAmount
+                ).toFixed(2)}HKD`
             } catch (e) {
                 this.$toast(e.msg)
             }

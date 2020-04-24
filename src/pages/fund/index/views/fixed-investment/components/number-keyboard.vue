@@ -19,6 +19,7 @@
         extra-key="."
         :close-button-text="$t('ok')"
         :show-delete-key = "false"
+        :safe-area-inset-bottom = "true"
         @close="close"
         @blur="show = false"
         @hide = "handlerAmount"
@@ -89,6 +90,12 @@ export default {
     },
     computed: {
         ...mapGetters(['lang']),
+        isPhoneX() {
+            return (
+                /iphone/gi.test(window.navigator.userAgent) &&
+                window.screen.height >= 812
+            )
+        },
         unit() {
             let obj = {
                 en: {
@@ -203,6 +210,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__footter-num {
+    position: fixed;
+    .fix-bottom {
+        bottom: 30px;
+    }
+}
 .block__out--wrapper {
     margin: 14px 0 0 0;
     padding: 0 0 9px 0;
