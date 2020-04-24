@@ -116,7 +116,7 @@ export default {
         async getFundFixedRecordPage() {
             try {
                 const { list } = await getFundFixedRecordPage({
-                    fixedPlanCode: [1],
+                    fixedPlanCode: '1',
                     pageNum: 1,
                     pageSize: 20
                 })
