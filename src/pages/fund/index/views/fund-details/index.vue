@@ -1280,6 +1280,10 @@ export default {
                         this.fundHeaderInfoVO.apy > 0
                             ? '+' + this.fundHeaderInfoVO.apy
                             : this.fundHeaderInfoVO.apy
+                    apy =
+                        this.fundHeaderInfoVO.assetType === 4
+                            ? (apy * 100).toFixed(4)
+                            : (apy * 100).toFixed(2)
                     apy = apy + '%'
                 }
                 const description = this.$t([
