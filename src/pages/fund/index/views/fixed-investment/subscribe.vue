@@ -37,7 +37,7 @@
                         .item--bottom(v-if="!bankInfo.bankName")
                             .item--left 点此选择扣款方式
                             .item--right.iconfont.icon-iconEBgengduoCopy
-                        .li(v-else)
+                        .li(v-if="bankInfo.type == 2")
                             .block--left
                                 .bank-name {{bankInfo.bankName}}
                                     span {{bankInfo.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
@@ -47,6 +47,14 @@
                                         span {{Number(bankInfo.mandateAmount).toFixed(2) | thousand-spilt}}
                                         span(v-if="bankInfo.mandateAmount" ) {{$t(['港币','港幣','HKD'])}}
                                     span.modify-text(@click="modifyHandle(bankInfo)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
+                        .li(v-if="bankInfo.type == 1")
+                            .block--left
+                                .bank-name {{bankInfo.bankName}}
+                                    
+                                .limit-text 
+                                    .text-show
+                                        span(style="font-size:12px" ) {{bankInfo.desc}}
+                                     
 
                     .fund--list--item(@click="protocolShow = true")
                         .item--top 定投周期
@@ -196,15 +204,8 @@ export default {
         async hanlderCreateFundFixedPlan(token) {
             try {
                 let data = {
-                    chargeType: 1,
+                    chargeType: this.bankInfo.type,
                     displayLocation: 1,
-                    eddaBankAccount: '1',
-                    eddaBankCode: '1',
-                    eddaBankName: {
-                        en: 'steady',
-                        zhCn: '稳健',
-                        zhHk: '穩健'
-                    },
                     exchangeFlag: 1,
                     fixedCycleType: this.fixedCycleTypeObj.type,
                     fixedCycleValue: this.fixedCycleTypeObj.value,
@@ -213,11 +214,23 @@ export default {
                     requestId: generateUUID(),
                     tradeToken: token
                 }
-
+                if (data.chargeType === 2) {
+                    data.eddaBankAccount = this.bankInfo.bankAccountNo
+                    data.eddaBankCode = this.bankInfo.bankCode
+                    data.eddaBankName = {
+                        en: this.bankInfo.bankCode,
+                        zhCn: this.bankInfo.bankNameEnglish,
+                        zhHk: this.bankInfo.bankNameTraditional
+                    }
+                }
                 data.exchangeFlag = this.exchangeFlag ? 0 : 1
-                console.log(data)
-                const res = await hanlderCreateFundFixedPlan(data)
-                console.log(res)
+                let res = await hanlderCreateFundFixedPlan(data)
+                res.fundName = this.fundName
+                this.$router.push({
+                    query: res,
+                    name: 'investment-result'
+                })
+                // }
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -229,14 +242,22 @@ export default {
                 let params = {
                     mandateCurrency: 'HKD'
                 }
-                this.bankList = [{ type: 1, check: false }]
+                this.bankList = [
+                    {
+                        type: 1,
+                        check: false,
+                        bankName: 'uSMART证券账户',
+                        desc: '请保证扣款日当天证券账户中有足够资金'
+                    }
+                ]
                 let { list } = await queryMandateBank(params)
                 list.map(item => {
                     item.check = false
                     item.type = 2
+                    if (item.eddaSwitch) {
+                        this.bankList.push(item)
+                    }
                 })
-                this.bankList = this.bankList.concat(list)
-                console.log(this.bankList)
                 this.$close()
             } catch (e) {
                 e.msg && this.$toast(e.msg)

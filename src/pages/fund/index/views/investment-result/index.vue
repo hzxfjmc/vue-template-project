@@ -10,24 +10,50 @@
         .investmnet--container--list
             .investmnet--list--item
                 .left 基金名称
-                .right Pimco 亚洲投资级债券基金-A2
+                .right {{fundInfo.fundName}}
             .investmnet--list--item
                 .left 时间金额
-                .right 每周周三 定投 500.00 港币
+                .right {{fundInfo.fixedCycleType}}{{fundInfo.fixedCycleValue}} 定投 {{fundInfo.fixedPlanAmount|transNumToThousandMark}} 港币
             .investmnet--list--item
                 .left 扣款方式
-                .right 汇丰银行(1234) 自动换汇
+                .right {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount}}) 自动换汇
             .investmnet--list--item
                 .left 首次扣款日期
-                .right 2020-02-12，如遇非交易日顺延
+                .right {{fundInfo.recentDeductionDate}}，如遇非交易日顺延
     
     .investment--footer
         van-button( color="#0D50D8") 完成
 </template>
 <script>
+import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     data() {
-        return {}
+        return {
+            fundInfo: {}
+        }
+    },
+    filters: {
+        transNumToThousandMark
+    },
+    created() {
+        this.fundInfo = this.$route.query
+        this.fundInfo.recentDeductionDate = dayjs(
+            this.fundInfo.recentDeductionDate
+        ).format('YYYY-MM-DD')
+        let monthValue = {
+            1: '一',
+            2: '二',
+            3: '三',
+            4: '四',
+            5: '五'
+        }
+        this.fundInfo.fixedCycleValue =
+            this.fundInfo.fixedCycleType === 1
+                ? monthValue[this.fundInfo.fixedCycleValue]
+                : `${this.fundInfo.fixedCycleValue}`
+        this.fundInfo.fixedCycleType =
+            this.fundInfo.fixedCycleType === 1 ? '每周' : '每月'
     }
 }
 </script>

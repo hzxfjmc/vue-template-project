@@ -21,9 +21,9 @@
                                 em.iconfont.icon-tick-
                         template(v-else)
                             .block--left 
-                                .bank-name uSMART证券账户
+                                .bank-name {{item.bankName}}
                                 .text-show
-                                    span(style="font-size:12px" ) 请保证扣款日当天证券账户中有足够资金
+                                    span(style="font-size:12px" ) {{item.desc}}
                             .block--right(v-if="item.check")
                                 em.iconfont.icon-tick-
                 .add-other-container(@click="addEddaAccount" slot="main")
