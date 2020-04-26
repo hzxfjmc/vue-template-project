@@ -2,13 +2,12 @@
     .subscribe-wrapper
         .fond-des
             .fond-name {{ fundName }}
-
         .fund--block-content
             .fund-content
                 .fund--block--top
                     .fund--header-title
                         .fund-title 定投金额
-                        .fund-desc 交易规则
+                        .fund-desc(@click="goToTradeRule") 交易规则
                     .fund--header--input.border-bottom
                         NumberKeyboard( 
                             :placeholder="placeholder"
@@ -92,7 +91,7 @@ import {
     getRecentDeductionDate
 } from '@/service/finance-server.js'
 import jsBridge from '@/utils/js-bridge.js'
-import { transNumToThousandMark, generateUUID } from '@/utils/tools.js'
+import { transNumToThousandMark, generateUUID, jumpUrl } from '@/utils/tools.js'
 import picker from './components/picker'
 import { mapGetters } from 'vuex'
 import { getFundUserInfo } from '@/service/user-server.js'
@@ -184,6 +183,10 @@ export default {
         }
     },
     methods: {
+        goToTradeRule() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/trade-rule?id=${this.fundHeaderInfoVO.fundId}&assetType=${this.fundHeaderInfoVO.assetType}`
+            jumpUrl(3, url)
+        },
         //获取交易日
         async getRecentDeductionDate() {
             try {
