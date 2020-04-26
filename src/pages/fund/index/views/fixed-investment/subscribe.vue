@@ -119,7 +119,7 @@ export default {
             protocolShow: false,
             showBankType: false,
             loading: false,
-            exchangeFlag: true,
+            exchangeFlag: false,
             fundName: '',
             bankList: [],
             buyProtocolFileList: [],
@@ -188,8 +188,8 @@ export default {
         async getRecentDeductionDate() {
             try {
                 const res = await getRecentDeductionDate({
-                    fixedCycleType: this.fixedCycleTypeObj.type || 1,
-                    fixedCycleValue: this.fixedCycleTypeObj.value || 1
+                    fixedCycleType: this.fixedCycleTypeObj.type,
+                    fixedCycleValue: this.fixedCycleTypeObj.value
                 })
                 this.date = dayjs(res).format('MM月DD日')
             } catch (e) {
@@ -271,6 +271,9 @@ export default {
             this.amount = val
         },
         async handlerSubmitFilter() {
+            if (this.amount === this.placeholder || Number(this.amount) === 0)
+                return this.$toast('请输入金额')
+            if (!this.bankInfo.type) return this.$toast('请选择扣款方式')
             try {
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true

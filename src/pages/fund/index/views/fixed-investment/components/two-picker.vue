@@ -60,6 +60,7 @@ export default {
             })
             fixedCycleType.value =
                 val[0] === '每周' ? week + 1 : month == 28 ? 0 : month + 1
+            console.log(fixedCycleType)
             this.$emit('handlerFixedCycleType', fixedCycleType)
             this.popupVisible = false
         },

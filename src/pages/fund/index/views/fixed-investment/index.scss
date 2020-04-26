@@ -87,10 +87,11 @@
         }
         .fund--block--exchange {
             background: #fff;
-            padding: 0 12px 12px 12px;
+            padding: 0 12px 0 12px;
             p {
                 font-size: 12px;
                 line-height: 16px;
+                padding:0 0 12px 0;
                 color: rgba(25, 25, 25, 0.65);
             }
         }
