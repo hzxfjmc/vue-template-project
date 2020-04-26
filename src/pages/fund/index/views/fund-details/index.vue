@@ -58,7 +58,7 @@
         .fund-footer-content(v-if="RedemptionButton")
             van-button.button-5width.button-left.btn.colorbg(
                 :class="[flag?'fund-check':'fund-no']" 
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                @click="toRouter('/fixed-investment')") 定投
             van-button.button-5width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
                 @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -68,9 +68,14 @@
         
         
         .fund-footer-content(v-if="PurchaseButton")
-            van-button.btn.button-width1.colorbg(
+            //- van-button.btn.button-width1.colorbg(
+            //-     :class="[flag2? 'fund-footer':'fund-no']"
+            //-     @click="handleBuyOrSell(4)") 定投
+            .block__fight--btn1.btn.colorbg.button-width1(
                 :class="[flag2? 'fund-footer':'fund-no']"
-                @click="handleBuyOrSell(1)") 定投
+                @click="handleBuyOrSell(4)")
+                span 参与拼团申购
+                em 申购费最高可返{{100-discount}}%
             van-button.btn.button-width1(
                 :class="[flag2? 'fund-footer':'fund-no']"
                 @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
@@ -867,6 +872,8 @@ export default {
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
                 this.handleBuyOrSell(1)
+            } else if (routerPath == '/fixed-investment') {
+                this.handleBuyOrSell(4)
             } else {
                 if (!this.flag) return this.$toast(this.forbidPrompt)
                 let url = `${window.location.origin}/wealth/fund/index.html#${routerPath}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
@@ -1052,7 +1059,7 @@ export default {
             if (params === 4) {
                 LS.put('groupId', this.$route.query.group_id || 0)
             }
-            if (params === 1) {
+            if (params === 1 || params === 4) {
                 LS.remove('groupId')
             }
             if (
@@ -1127,7 +1134,11 @@ export default {
                                 let extendStatusBit =
                                     this.userInfo.extendStatusBit & 16
                                 if (extendStatusBit > 0) {
-                                    url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                    if (params === 4) {
+                                        url = `${window.location.origin}/wealth/fund/index.html#/fixed-investment?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                    } else {
+                                        url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                    }
                                 } else {
                                     url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
                                 }
@@ -1143,7 +1154,11 @@ export default {
                     let url
                     let extendStatusBit = this.userInfo.extendStatusBit & 16
                     if (extendStatusBit > 0) {
-                        url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                        if (params === 4) {
+                            url = `${window.location.origin}/wealth/fund/index.html#/fixed-investment?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                        } else {
+                            url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                        }
                     } else {
                         url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
                     }

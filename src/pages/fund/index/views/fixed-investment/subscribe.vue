@@ -90,6 +90,7 @@ import {
     hanlderCreateFundFixedPlan,
     getRecentDeductionDate
 } from '@/service/finance-server.js'
+import { getMarketValidFundAccount } from '@/service/user-account-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { transNumToThousandMark, generateUUID, jumpUrl } from '@/utils/tools.js'
 import picker from './components/picker'
@@ -144,6 +145,7 @@ export default {
         this.getFundUserInfo()
         this.queryMandateBank()
         this.getRecentDeductionDate()
+        this.getMarketValidFundAccount()
     },
     computed: {
         ...mapGetters([
@@ -183,6 +185,16 @@ export default {
         }
     },
     methods: {
+        async getMarketValidFundAccount() {
+            try {
+                const res = await getMarketValidFundAccount({
+                    marketType: 1
+                })
+                console.log(res)
+            } catch (e) {
+                console.log(e)
+            }
+        },
         goToTradeRule() {
             let url = `${window.location.origin}/wealth/fund/index.html#/trade-rule?id=${this.fundHeaderInfoVO.fundId}&assetType=${this.fundHeaderInfoVO.assetType}`
             jumpUrl(3, url)
