@@ -37,13 +37,13 @@
                     span.block__content--p(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
                     span.block__content--p(v-else) ****
         .header-footer-tab.border-top(class="border-bottom-active")
-            .nav--item
+            .nav--item(@click="toRouterPath('/income-details')")
                 em.iconfont.icon-shouru
-                span 收益明细
-            .nav--item
+                span {{$t('IncomeDetails')}}
+            .nav--item(@click="toRouterPath('/fund-order-list')")
                 em.iconfont.icon-zijin
-                span 订单记录
-            .nav--item
+                span {{$t('OrderRecord')}}
+            .nav--item(@click="toRouterPath('/my-investment')")
                 em.iconfont.icon-dingtou
                 span  我的定投
             //- span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
