@@ -31,19 +31,33 @@
                 .left 下次扣款日期
                 .right {{investmentInfo.recentDeductionDate}}，{{$t('A32')}}
     .investment__detail__tag.card(v-if="isNotStop")
-        .investment__detail__tag_item(v-for="(item,index) in tagImgList" :key="index" @click="clickHandle(item.val)")
+        .investment__detail__tag_item(
+            v-for="(item,index) in tagImgList" 
+            :key="index" 
+            @click="clickHandle(item.val)")
             img(:src="item.url")
             span {{item.text}}
     .investment__detail__record.card(:class="!isNotStop?'mt5':''")
         record(:isNotStop="isNotStop")
-    van-dialog(v-model='isShowDialog' :title="dialogTitle" :message="dialogMessage" :showCancelButton='true'  :cancelButtonText="cancelButtonText"  :confirmButtonText="confirmButtonText" @confirm='confirmDialogHandle')
+    van-dialog(
+        v-model='isShowDialog' 
+        :title="dialogTitle" 
+        :message="dialogMessage" 
+        :showCancelButton='true'  
+        :cancelButtonText="cancelButtonText"  
+        :confirmButtonText="confirmButtonText"
+        @confirm='confirmDialogHandle')
 </template>
 <script>
 import record from './record'
-import { getFundFixedPlanDetail } from '@/service/finance-server'
+import {
+    getFundFixedPlanDetail,
+    getUpdateFundFixedPlanStatus
+} from '@/service/finance-server'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
+import jsBridge from '@/utils/js-bridge.js'
 export default {
     components: {
         record
@@ -81,7 +95,8 @@ export default {
             statusValue: '',
             fundHeaderInfoVO: {},
             investmentInfo: {},
-            investNum: 0
+            investNum: 0,
+            fixedPlanStatusval: null
         }
     },
     created() {
@@ -91,6 +106,19 @@ export default {
         this.investNum = this.$route.query.investNum
     },
     methods: {
+        //修改定投计划
+        async getUpdateFundFixedPlanStatus(token) {
+            try {
+                const res = await getUpdateFundFixedPlanStatus({
+                    fixedPlanCode: this.$route.query.fixedPlanCode,
+                    fixedPlanStatus: this.fixedPlanStatusval,
+                    tradeToken: token
+                })
+                console.log(res)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         //获取基金详情
         async getFundDetail() {
             try {
@@ -123,12 +151,14 @@ export default {
                 })
             } else if (val === 2) {
                 // 暂停定投
+                this.fixedPlanStatusval = 2
                 this.isShowDialog = true
                 this.dialogTitle = '暂停定投'
                 this.dialogMessage =
                     '定投是一种良好的投资习惯，确定暂停定投吗？'
             } else if (val === 3) {
                 // 终止定投
+                this.fixedPlanStatusval = 3
                 this.isShowDialog = true
                 this.dialogTitle = '终止定投'
                 this.dialogMessage =
@@ -141,7 +171,18 @@ export default {
                     '恢复定投后将会执行扣款操作，请注意下次扣款日期，确保扣款时您的账户中有足够金额'
             }
         },
-        confirmDialogHandle() {},
+        async confirmDialogHandle() {
+            try {
+                let data = await jsBridge.callApp('command_trade_login', {
+                    needToken: true
+                })
+                let token = data && data.token
+                this.getUpdateFundFixedPlanStatus(token)
+            } catch (error) {
+                this.$toast(error.desc.errorMessage)
+                console.log('申购页面-tradeErrorMsg :', error)
+            }
+        },
         init() {
             if (this.fixedPlanStatus === 2) {
                 // 暂停状态

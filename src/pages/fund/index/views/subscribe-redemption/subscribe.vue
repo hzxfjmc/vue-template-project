@@ -205,7 +205,6 @@ export default {
         }
         this.compareVersionFund()
         this.getSource()
-
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},

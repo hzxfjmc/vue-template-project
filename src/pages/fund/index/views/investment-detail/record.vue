@@ -18,7 +18,7 @@
                     .list_item_status 
                         span(:class="isNotStop?statusMap[item.status].color:statusMap[3].color") {{statusMap[item.status].value}}
                         img(src="@/assets/img/fund/icon-more.png")
-    .investment__norecord__container(v-if="hasRecord==='no'")
+    .investment__norecord__container(v-if="hasRecord")
         img(src="@/assets/img/fund/icon-norecord.png")
         span 暂无定投记录
 
@@ -52,7 +52,7 @@ export default {
                 { time: '2020-03-11', amount: '50300.00', status: 1 }
             ],
             statusMap,
-            hasRecord: 'yes'
+            hasRecord: false
         }
     },
     created() {
@@ -83,6 +83,9 @@ export default {
                 this.pageSize = pageSize
                 this.total = total
                 this.loading = false
+                if (this.total === 0) {
+                    this.hasRecord = true
+                }
                 if (this.recordList.length >= this.total) {
                     this.finished = true
                 }
@@ -157,7 +160,7 @@ export default {
         }
         span {
             color: $text-color6;
-            padding-bottom: 120px;
+            padding-bottom: 20px;
         }
     }
 }
