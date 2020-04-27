@@ -15,11 +15,11 @@
                 .left 时间金额
                 .right {{fundInfo.fixedCycleType}}{{fundInfo.fixedCycleValue}} 定投 {{fundInfo.fixedPlanAmount|transNumToThousandMark}} 港币
             .investmnet--list--item
-                .left 扣款方式
+                .left {{$t('A15')}}
                 .right {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount}}) 自动换汇
             .investmnet--list--item
-                .left 首次扣款日期
-                .right {{fundInfo.recentDeductionDate}}，如遇非交易日顺延
+                .left {{$t('A31')}}
+                .right {{fundInfo.recentDeductionDate}}，{{$t('A32')}}
     
     .investment--footer
         van-button( color="#0D50D8") 完成
@@ -51,7 +51,9 @@ export default {
         this.fundInfo.fixedCycleValue =
             this.fundInfo.fixedCycleType === 1
                 ? monthValue[this.fundInfo.fixedCycleValue]
-                : `${this.fundInfo.fixedCycleValue}`
+                : this.fundInfo.fixedCycleValue == '0'
+                ? '月末'
+                : `${this.fundInfo.fixedCycleValue}号`
         this.fundInfo.fixedCycleType =
             this.fundInfo.fixedCycleType === 1 ? '每周' : '每月'
     }

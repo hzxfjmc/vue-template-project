@@ -66,19 +66,16 @@
                 :class="[flag1?'fund-buy':'fund-no']" 
                 @click="toRouter('/fund-subscribe')") {{$t('append')}}
         
-        
         .fund-footer-content(v-if="PurchaseButton")
-            //- van-button.btn.button-width1.colorbg(
-            //-     :class="[flag2? 'fund-footer':'fund-no']"
-            //-     @click="handleBuyOrSell(4)") 定投
-            .block__fight--btn1.btn.colorbg.button-width1(
-                :class="[flag2? 'fund-footer':'fund-no']"
-                @click="handleBuyOrSell(4)")
-                span 参与拼团申购
-                em 申购费最高可返{{100-discount}}%
-            van-button.btn.button-width1(
-                :class="[flag2? 'fund-footer':'fund-no']"
-                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+            .block__button--list
+                .btn.colorbg.button-width1.btn-inverster(
+                    :class="[flag2? 'fund-footer':'fund-no']"
+                    @click="handleBuyOrSell(4)")
+                    span 定投
+                    em 申购费最高可返{{100-discount}}%
+                van-button.btn.button-width1(
+                    :class="[flag2? 'fund-footer':'fund-no']"
+                    @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
         .fund-footer-contentShare(v-if="invate === 'share'")
             van-button(
@@ -513,7 +510,8 @@ export default {
                     value: ''
                 }
             },
-            shareIcon: require('@/assets/img/fund/icon/icon-share.png')
+            shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
+            investmentShow: false
         }
     },
     methods: {
@@ -929,6 +927,9 @@ export default {
                 //申购按钮是否置灰
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                //是否开启定投
+                this.investmentShow =
+                    (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
                 //合规信息
                 this.tagShow = this.fundHeaderInfoVO.derivativeType !== 1
                 this.tagsShow = this.fundHeaderInfoVO.derivativeType !== 3
@@ -1497,6 +1498,21 @@ export default {
     .button-width1 {
         width: 50%;
     }
+    .btn-inverster {
+        display: flex;
+        flex-direction: column;
+        font-size: 12px;
+        line-height: 20px;
+        span {
+            height: 20px;
+            line-height: 20px;
+        }
+        em {
+            line-height: 20px;
+            font-size: 12px;
+            font-style: normal;
+        }
+    }
     .fund-footer {
         background: $primary-color;
     }
@@ -1569,6 +1585,9 @@ export default {
     }
     .button-5width {
         width: 33.333%;
+    }
+    .button-6width {
+        width: 50%;
     }
     .button-left {
         border-right: 1px solid #e1e1e1;

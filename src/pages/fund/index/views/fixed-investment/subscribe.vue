@@ -6,35 +6,35 @@
             .fund-content
                 .fund--block--top
                     .fund--header-title
-                        .fund-title 定投金额
-                        .fund-desc(@click="goToTradeRule") 交易规则
+                        .fund-title {{$t('A3')}}
+                        .fund-desc(@click="goToTradeRule") {{$t('A4')}}
                     .fund--header--input.border-bottom
                         NumberKeyboard( 
                             :placeholder="placeholder"
                             @handlerAmount="handlerAmount")
                     .fund--header--footer
                         .fund--header--list
-                            .fund-left 申购费(预计)
+                            .fund-left {{$t('A5')}}
                             .fund-right {{HandlingFee}} ({{(fundTradeInfoVO.subscriptionFee * 100).toFixed(2)}}%)
                                 //- em 1.00港币
                         .fund--header--list
-                            .fund-left 订单总金额
+                            .fund-left {{$t('A7')}}
                             .fund-right {{actulAmount}}
                 
                 .fund--block--exchange
                     .fund--blcok--etop
-                        span 当金额不足时，自动换汇
+                        span {{$t('A13')}}
                             em.iconfont.icon-iconEBshoucang2
                         span.iconfont(
                             @click="()=>{this.exchangeFlag = !this.exchangeFlag}"
                             :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
-                    p(v-if="exchangeFlag") 定投日自动于银行扣款AAAA港币。并于证券账户扣款时按实时汇率兑换BBBB美元。兑换后剩余的港币会留存于你的证券账户
+                    p(v-if="exchangeFlag") {{$t('A14')}}
                 .fund--block--floor
                     .fund--list--item.border-bottom(@click="showBankType = true")
-                        .item--top 扣款方式
+                        .item--top {{$t('A15')}}
                             em.iconfont.icon-iconEBshoucang2
                         .item--bottom(v-if="!bankInfo.bankName")
-                            .item--left 点此选择扣款方式
+                            .item--left {{$t('A16')}}
                             .item--right.iconfont.icon-iconEBgengduoCopy
                         .li(v-if="bankInfo.type == 2")
                             .block--left
@@ -56,11 +56,11 @@
                                      
 
                     .fund--list--item(@click="protocolShow = true")
-                        .item--top 定投周期
+                        .item--top {{$t('A30')}}
                         .item--content 
                             .item--left.item--block--wrapper {{fixedCycleTypeObj.key[0]}} {{fixedCycleTypeObj.key[1]}}
                                 .item--right.iconfont.icon-iconEBgengduoCopy
-                            p 下个转入日{{date}}，如遇非交易日顺延
+                            p 下个转入日{{date}}，{{$t('A32')}}
                            
                         
             .fund-footer-content
@@ -129,6 +129,7 @@ export default {
             isCheckedProtocol: true,
             placeholder: '请输入金额',
             date: '',
+            marketType: 1,
             fundHeaderInfoVO: {},
             fixedCycleTypeObj: {
                 key: ['每周', '周一'],
@@ -188,11 +189,43 @@ export default {
         async getMarketValidFundAccount() {
             try {
                 const res = await getMarketValidFundAccount({
-                    marketType: 1
+                    marketType: this.marketType
                 })
-                console.log(res)
+                // 0代表现金，M代表孖展
+                let arrMarketENUM = {
+                    2: {
+                        0: this.$t([
+                            '港股现金账户',
+                            '港股現金賬戶',
+                            'Cash Account(HKD)'
+                        ]),
+                        M: this.$t(
+                            '港股保证金账户',
+                            '港股孖展賬戶',
+                            'Margin Account(HKD)'
+                        )
+                    },
+                    3: {
+                        0: this.$t(
+                            '港股现金账户',
+                            '美股現金賬戶',
+                            'Cash Account(USD)'
+                        ),
+                        M: this.$t(
+                            '美股保证金账户',
+                            '美股孖展賬戶',
+                            'Margin Account(USD)'
+                        )
+                    }
+                }
+                this.bankList.map(item => {
+                    if (item.type === 1) {
+                        item.bankName =
+                            arrMarketENUM[this.marketType][res.validFlag]
+                    }
+                })
             } catch (e) {
-                console.log(e)
+                this.$toast(e.msg)
             }
         },
         goToTradeRule() {
@@ -285,10 +318,29 @@ export default {
         handlerAmount(val) {
             this.amount = val
         },
-        async handlerSubmitFilter() {
+        handlerSubmitFilter() {
             if (this.amount === this.placeholder || Number(this.amount) === 0)
                 return this.$toast('请输入金额')
             if (!this.bankInfo.type) return this.$toast('请选择扣款方式')
+            if (this.derivativeType != 1) {
+                this.$dialog
+                    .confirm({
+                        message: this.$t('content'),
+                        confirmButtonText: this.$t('continue'),
+                        cancelButtonText: this.$t('cancel')
+                    })
+                    .then(() => {
+                        this.handleSubmit()
+                        // on confirm
+                    })
+                    .catch(() => {
+                        // on cancel
+                    })
+            } else {
+                this.handleSubmit()
+            }
+        },
+        async handleSubmit() {
             try {
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
@@ -335,7 +387,8 @@ export default {
                 const {
                     fundHeaderInfoVO,
                     fundTradeInfoVO,
-                    buyProtocolFileList
+                    buyProtocolFileList,
+                    fundOverviewInfoVO
                 } = await getFundDetail({
                     displayLocation: 1,
                     fundId: this.$route.query.id
@@ -343,10 +396,18 @@ export default {
                 this.fundHeaderInfoVO = fundHeaderInfoVO
                 this.fundName = fundHeaderInfoVO.fundName
                 this.fundTradeInfoVO = fundTradeInfoVO
+                let marketTypeEMUN = {
+                    1: 3, //美股市场
+                    2: 2, //港股市场
+                    3: 1 //a股市场
+                }
+                this.marketType =
+                    marketTypeEMUN[this.fundTradeInfoVO.currency.type]
                 this.buyProtocolFileList = buyProtocolFileList
                 this.buyProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
+                this.derivativeType = fundOverviewInfoVO.derivativeType
                 this.placeholder = `${Number(
                     this.fundHeaderInfoVO.initialInvestAmount
                 ).toFixed(2)}HKD`

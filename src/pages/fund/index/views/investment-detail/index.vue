@@ -3,17 +3,17 @@
     .investment__detail__header(:class="!isNotStop?'no-color':'has-color'")
         .investment__detail__header_info(@click="toFundDetailHandle")
             .header_info_left(:class="!isNotStop?'header_info_gray-left':''")
-                .name Pimco 亚洲投资级债券基金-A2
-                .code ISIN:LU0538203018
+                .name {{fundHeaderInfoVO.fundName}}
+                .code ISIN:{{fundHeaderInfoVO.fundCode}}
             .header_info_right
                 img(src="@/assets/img/fund/icon-right.png")
         .investment__detail__header_amount
             .header_amount.left
                 .title(:class="!isNotStop?'gray-color':''") 累计金额(港币）
-                .content(:class="!isNotStop?'black-color':''") 50000.00
+                .content(:class="!isNotStop?'black-color':''") {{investmentInfo.fixedPlanAmount|transNumToThousandMark}}
             .header_amount.right
                 .title(:class="!isNotStop?'gray-color':''") 已投期数
-                .content(:class="!isNotStop?'black-color':''") 15
+                .content(:class="!isNotStop?'black-color':''") {{investNum}}
             .header_amount.tag(v-if="fixedPlanStatus!==1" :class="fixedPlanStatus===2?'yellow':'orange'")
                 .span {{statusValue}}
     .investment__detail__card.card
@@ -23,13 +23,13 @@
         .card_content
             .card_content_item
                 .left 时间金额
-                .right 每周周三 定投 500.00 港币
+                .right {{investmentInfo.fixedCycleType}}{{investmentInfo.fixedCycleValue}} 定投 {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} 港币
             .card_content_item
                 .left 扣款方式
-                .right 汇丰银行(1234) 自动换汇
+                .right {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 自动换汇
             .card_content_item
                 .left 下次扣款日期
-                .right 2020-02-12，如遇非交易日顺延
+                .right {{investmentInfo.recentDeductionDate}}，{{$t('A32')}}
     .investment__detail__tag.card(v-if="isNotStop")
         .investment__detail__tag_item(v-for="(item,index) in tagImgList" :key="index" @click="clickHandle(item.val)")
             img(:src="item.url")
@@ -41,9 +41,15 @@
 <script>
 import record from './record'
 import { getFundFixedPlanDetail } from '@/service/finance-server'
+import { getFundDetail } from '@/service/finance-info-server.js'
+import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
         record
+    },
+    filters: {
+        transNumToThousandMark
     },
     data() {
         return {
@@ -66,20 +72,37 @@ export default {
             ],
             isNotStop: true,
             fundId: '56',
-            fixedPlanStatus: 3, //定投状态 1：有效 2 暂停 3 终止
+            fixedPlanStatus: 1, //定投状态 1：有效 2 暂停 3 终止
             isShowDialog: false,
             dialogTitle: '',
             dialogMessage: '',
             cancelButtonText: '取消',
             confirmButtonText: '确认',
-            statusValue: ''
+            statusValue: '',
+            fundHeaderInfoVO: {},
+            investmentInfo: {},
+            investNum: 0
         }
     },
     created() {
         this.getFundFixedPlanDetail()
+        this.getFundDetail()
         this.init()
+        this.investNum = this.$route.query.investNum
     },
     methods: {
+        //获取基金详情
+        async getFundDetail() {
+            try {
+                const { fundHeaderInfoVO } = await getFundDetail({
+                    displayLocation: 1,
+                    fundId: this.$route.query.id
+                })
+                this.fundHeaderInfoVO = fundHeaderInfoVO
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         toFundDetailHandle() {
             this.$router.push({
                 name: 'fund-details',
@@ -144,10 +167,29 @@ export default {
         async getFundFixedPlanDetail() {
             try {
                 let params = {
-                    fixedPlanCode: 'USAIP00001000013'
+                    fixedPlanCode: this.$route.query.fixedPlanCode
                 }
                 let res = await getFundFixedPlanDetail(params)
-                console.log(res)
+                this.fixedPlanStatus = res.fixedPlanStatus
+                this.investmentInfo = res
+                this.investmentInfo.recentDeductionDate = dayjs(
+                    this.investmentInfo.recentDeductionDate
+                ).format('YYYY-MM-DD')
+                let monthValue = {
+                    1: '一',
+                    2: '二',
+                    3: '三',
+                    4: '四',
+                    5: '五'
+                }
+                this.investmentInfo.fixedCycleValue =
+                    this.investmentInfo.fixedCycleType === 1
+                        ? monthValue[this.investmentInfo.fixedCycleValue]
+                        : this.investmentInfo.fixedCycleValue == '0'
+                        ? '月末'
+                        : `${this.investmentInfo.fixedCycleValue}号`
+                this.investmentInfo.fixedCycleType =
+                    this.investmentInfo.fixedCycleType === 1 ? '每周' : '每月'
             } catch (e) {
                 e.msg && this.$toast(e.msg)
             }

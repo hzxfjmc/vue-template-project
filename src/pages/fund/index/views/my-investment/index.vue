@@ -14,24 +14,26 @@
                 :finished="finished" 
                 :finished-text="finishedText" 
                 @load="onLoad")
-                .inverstment--block--list(v-for="(item,index) in list")
+                .inverstment--block--list(
+                    @click="toInvestmentDetails(item,index)"
+                    v-for="(item,index) in list")
                     .block--item--header.bg-color.ellipse {{item.fundName}}
                     .block--item--content.border-bottom
                         .item--left 
-                            .top 累计金额(港币）
+                            .top {{$t('A79')}}
                             .bottom {{item.fixedTotalAmount}}
                         .item--left 
-                            .top 已投期数
+                            .top {{$t('A80')}}
                             .bottom {{item.investNum}}
                     .block--item--footer
                         .flex-item
-                            .top 下次扣款日期
+                            .top {{$t('A81')}}
                             .bottom {{item.recentDeductionDate}}({{item.week}})
                         .flex-item
-                            .top 扣款方式
+                            .top {{$t('A82')}}
                             .bottom {{item.chargeType}}
                         .flex-item
-                            .top 扣款金额
+                            .top {{$t('A83')}}
                             .bottom {{item.fixedPlanAmount}}
         van-tab(title="历史计划")
             van-list.order-record-list(
@@ -40,33 +42,33 @@
                 :finished-text="finishedText1" 
                 @load="onLoad1")
                 .inverstment--block--list(v-for="(item,index) in recordList")
-                    .block--item--header.bg-uncolor.ellipse JP摩根中國A股市324324324機會基最多是这么多个…
+                    .block--item--header.bg-uncolor.ellipse {{item.fundName}}
                     .block--item--content.border-bottom
                         .item--left 
-                            .top 累计金额(港币）
-                            .bottom 13,450.00
+                            .top {{$t('A79')}}
+                            .bottom {{item.fixedTotalAmount}}
                         .item--left 
-                            .top 已投期数
-                            .bottom 100
+                            .top {{$t('A80')}}
+                            .bottom {{item.investNum}}
                     .block--item--footer
                         .flex-item
-                            .top 下次扣款日期
-                            .bottom 02-11(周一)
+                            .top {{$t('A81')}}
+                            .bottom {{item.recentDeductionDate}}({{item.week}})
                         .flex-item
-                            .top 扣款方式
-                            .bottom 建设银行(0483)
+                            .top {{$t('A82')}}
+                            .bottom {{item.chargeType}}
                         .flex-item
-                            .top 扣款金额
-                            .bottom 5,0000.00
+                            .top {{$t('A83')}}
+                            .bottom {{item.fixedPlanAmount}}
         .nomore(v-if="list.length === 0 && active === 0")
             img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
-            p 暂无定投计划
+            p {{$t('A84')}}
         .nomore(v-if="recordList.length === 0 && active === 1")
             img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
             p 暂无历史计划
     .inverstment--footer--btn
-        van-button.btn-left() 发现更多定投机会
-        van-button.btn-right 我的持仓
+        van-button.btn-left() {{$t('A76')}}
+        van-button.btn-right {{$t('A77')}}
 </template>
 <script>
 import './index.scss'
@@ -98,6 +100,17 @@ export default {
         }
     },
     methods: {
+        //跳转
+        toInvestmentDetails(item) {
+            this.$router.push({
+                name: 'investment-detail',
+                query: {
+                    fixedPlanCode: item.fixedPlanCode,
+                    id: item.fundId,
+                    investNum: item.investNum
+                }
+            })
+        },
         //定投计划列表
         async getFundFixedPlanPage() {
             try {

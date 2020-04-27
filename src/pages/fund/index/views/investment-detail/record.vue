@@ -6,7 +6,12 @@
         .investment__record_title
             span(v-for="(item,index) in titleList" :key='index') {{item}}
         .investment__record_content
-            van-list.record_content_list
+            van-list.record_content_list(
+                v-model="loading" 
+                :finished="finished" 
+                :finished-text="finishedText" 
+                @load="onLoad"
+            )
                 .record_content_list_item(v-for="(item,index) in recordList")
                     .list_item_time {{item.time}}
                     .list_item_amount {{item.amount}}
@@ -21,6 +26,7 @@
 <script>
 import { List } from 'vant'
 import { statusMap } from './common'
+import { getFundFixedRecordPage } from '@/service/finance-server.js'
 export default {
     components: {
         [List.name]: List
@@ -28,6 +34,12 @@ export default {
     props: ['isNotStop'],
     data() {
         return {
+            loading: false,
+            finished: false,
+            total: 0,
+            pageNum: 1,
+            pageSize: 20,
+            finishedText: '',
             titleList: ['时间', '金额(港币)', '订单状态'],
             recordList: [
                 { time: '2020-03-11', amount: '5000.00', status: 0 },
@@ -41,6 +53,45 @@ export default {
             ],
             statusMap,
             hasRecord: 'yes'
+        }
+    },
+    created() {
+        this.getFundFixedRecordPage()
+    },
+    methods: {
+        onLoad() {
+            if (this.recordList.length < this.total) {
+                this.pageNum = this.pageNum + 1
+                this.getFundFixedRecordPage()
+            }
+        },
+        //定投记录列表
+        async getFundFixedRecordPage() {
+            try {
+                const {
+                    list,
+                    total,
+                    pageSize,
+                    pageNum
+                } = await getFundFixedRecordPage({
+                    fixedPlanCode: this.$route.query.fixedPlanCode,
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize
+                })
+                this.recordList = list
+                this.pageNum = pageNum
+                this.pageSize = pageSize
+                this.total = total
+                this.loading = false
+                if (this.recordList.length >= this.total) {
+                    this.finished = true
+                }
+                this.finishedText = this.$t('nomore1')
+                this.finishedText =
+                    this.total == 0 ? '无更多内容' : this.finishedText
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     }
 }
