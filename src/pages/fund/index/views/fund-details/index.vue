@@ -57,7 +57,7 @@
     .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
             van-button.button-5width.button-left.btn.colorbg(
-                :class="[flag?'fund-check':'fund-no']" 
+                :class="[investmentShow?'fund-check':'fund-no']" 
                 @click="toRouter('/fixed-investment')") 定投
             van-button.button-5width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
@@ -69,7 +69,7 @@
         .fund-footer-content(v-if="PurchaseButton")
             .block__button--list
                 .btn.colorbg.button-width1.btn-inverster(
-                    :class="[flag2? 'fund-footer':'fund-no']"
+                    :class="[investmentShow? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(4)")
                     span 定投
                     em 申购费最高可返{{100-discount}}%
@@ -511,7 +511,7 @@ export default {
                 }
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
-            investmentShow: false
+            investmentShow: true
         }
     },
     methods: {
@@ -871,6 +871,7 @@ export default {
             if (routerPath == '/fund-subscribe') {
                 this.handleBuyOrSell(1)
             } else if (routerPath == '/fixed-investment') {
+                if (!this.investmentShow) return this.$toast(this.forbidPrompt)
                 this.handleBuyOrSell(4)
             } else {
                 if (!this.flag) return this.$toast(this.forbidPrompt)
@@ -1023,6 +1024,10 @@ export default {
         async handleBuyOrSell(params) {
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
+
+            if (!this.investmentShow && params === 4)
+                return this.$toast(this.forbidPrompt)
+
             //拼团埋点描述
             let fundDesc = params === 1 ? '申购' : '拼团'
             clickFundDetails(
