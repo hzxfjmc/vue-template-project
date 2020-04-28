@@ -72,7 +72,7 @@
                     :class="[investmentShow? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(4)")
                     span 定投
-                    em 享申购费{{100-discount}}%
+                    em 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
                 van-button.btn.button-width1(
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}

@@ -221,7 +221,7 @@ export default {
                 this.bankList.map(item => {
                     if (item.type === 1) {
                         item.bankName =
-                            arrMarketENUM[this.marketType][res.validFlag]
+                            arrMarketENUM[this.marketType][res.assetProp]
                     }
                 })
             } catch (e) {
