@@ -19,12 +19,12 @@
         .block__list--item
             p.block__list--left {{$t('redemptionFee')}}
             p.block__list--right {{fundTradeInfoVO.redemptionFee*100|transNumToThousandMark(2)}}%
-        .block__list--item
-            p.block__list--left {{$t('managementFee')}}
-            p.block__list--right {{fundTradeInfoVO.managementFee*100|transNumToThousandMark(2)}}%
-        .block__list--item
-            p.block__list--left {{$t('platformManagementFee')}}
-            p.block__list--right {{fundTradeInfoVO.platformManagementFee*100|transNumToThousandMark(2)}}%
+        //- .block__list--item
+        //-     p.block__list--left {{$t('managementFee')}}
+        //-     p.block__list--right {{fundTradeInfoVO.managementFee*100|transNumToThousandMark(2)}}%
+        //- .block__list--item
+        //-     p.block__list--left {{$t('platformManagementFee')}}
+        //-     p.block__list--right {{fundTradeInfoVO.platformManagementFee*100|transNumToThousandMark(2)}}%
 </template>
 <script>
 import FundSteps from '@/biz-components/fond-steps'
