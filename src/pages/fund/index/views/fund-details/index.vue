@@ -72,7 +72,7 @@
                     :class="[investmentShow? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(4)")
                     span 定投
-                    em 申购费最高可返{{100-discount}}%
+                    em 享申购费{{100-discount}}%
                 van-button.btn.button-width1(
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
@@ -1073,7 +1073,7 @@ export default {
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
             ) {
-                let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment?id=${this.id}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment?id=${this.id}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}&code=${params}`
                 jumpUrl(3, url)
                 return
             } else {
@@ -1082,7 +1082,7 @@ export default {
                     this.fundHeaderInfoVO.fundRiskType
                 ) {
                     if (this.userInfo.damagedStatus === 1) {
-                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
+                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment-result?id=${this.id}&fundRiskType=${this.fundRiskType}&code=${params}`
                         jumpUrl(3, url)
                         return
                     }
@@ -1090,7 +1090,7 @@ export default {
                         this.fundHeaderInfoVO.derivativeType === 2 ||
                         this.fundHeaderInfoVO.derivativeType === 3
                     ) {
-                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-appropriate-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
+                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-appropriate-result?id=${this.id}&fundRiskType=${this.fundRiskType}&code=${params}`
                         jumpUrl(3, url)
                         return
                     }
@@ -1161,12 +1161,12 @@ export default {
                     let extendStatusBit = this.userInfo.extendStatusBit & 16
                     if (extendStatusBit > 0) {
                         if (params === 4) {
-                            url = `${window.location.origin}/wealth/fund/index.html#/fixed-investment?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                            url = `${window.location.origin}/wealth/fund/index.html#/fixed-investment?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}&code=${params}`
                         } else {
-                            url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                            url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}&code=${params}`
                         }
                     } else {
-                        url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                        url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}&code=${params}`
                     }
                     jumpUrl(3, url)
                 }
@@ -1506,11 +1506,11 @@ export default {
     .btn-inverster {
         display: flex;
         flex-direction: column;
-        font-size: 12px;
         line-height: 20px;
         span {
-            height: 20px;
-            line-height: 20px;
+            height: 25px;
+            line-height: 25px;
+            font-size: 16px;
         }
         em {
             line-height: 20px;
