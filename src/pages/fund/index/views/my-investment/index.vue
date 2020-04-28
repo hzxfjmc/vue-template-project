@@ -67,12 +67,13 @@
             img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
             p 暂无历史计划
     .inverstment--footer--btn
-        van-button.btn-left() {{$t('A76')}}
-        van-button.btn-right {{$t('A77')}}
+        van-button.btn-left(@click="toRouter('/index')") {{$t('A76')}}
+        van-button.btn-right(@click="toRouter('/fund-account')") {{$t('A77')}}
 </template>
 <script>
 import './index.scss'
 import { getFundFixedPlanPage } from '@/service/finance-server.js'
+import { jumpUrl } from '@/utils/tools.js'
 import { List } from 'vant'
 import dayjs from 'dayjs'
 export default {
@@ -100,6 +101,15 @@ export default {
         }
     },
     methods: {
+        toRouter(path) {
+            let url
+            if (path === '/fund-account') {
+                url = `${window.location.origin}/wealth/fund/index.html#${path}`
+            } else {
+                url = `${window.location.origin}/wealth/fund/index.html#${path}?flag=0`
+            }
+            jumpUrl(3, url)
+        },
         //跳转
         toInvestmentDetails(item) {
             this.$router.push({

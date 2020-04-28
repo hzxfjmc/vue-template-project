@@ -10,6 +10,7 @@
                         .fund-desc(@click="goToTradeRule") {{$t('A4')}}
                     .fund--header--input.border-bottom
                         NumberKeyboard( 
+                            :currency= "fundTradeInfoVO.currency.name"
                             :placeholder="placeholder"
                             @handlerAmount="handlerAmount")
                     .fund--header--footer
@@ -26,7 +27,7 @@
                         span {{$t('A13')}}
                             em.iconfont.icon-iconEBshoucang2
                         span.iconfont(
-                            @click="()=>{this.exchangeFlag = !this.exchangeFlag}"
+                            @click="hanlderExchangFlag"
                             :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
                     p(v-if="exchangeFlag") {{$t('A14')}}
                 .fund--block--floor
@@ -128,7 +129,9 @@ export default {
             fundName: '',
             bankList: [],
             buyProtocolFileList: [],
-            fundTradeInfoVO: {},
+            fundTradeInfoVO: {
+                currency: ''
+            },
             protocolVisible: false,
             amount: '',
             isCheckedProtocol: true,
@@ -140,7 +143,8 @@ export default {
                 key: ['每周', '周一'],
                 type: 1,
                 value: 1
-            }
+            },
+            flag: false
         }
     },
     filters: {
@@ -194,6 +198,10 @@ export default {
         }
     },
     methods: {
+        hanlderExchangFlag() {
+            if (this.flag) return
+            this.exchangeFlag = !this.exchangeFlag
+        },
         async initFunc() {
             this.getFundDetailInfo()
             this.getFundUserInfo()
@@ -214,23 +222,23 @@ export default {
                             '港股現金賬戶',
                             'Cash Account(HKD)'
                         ]),
-                        M: this.$t(
+                        M: this.$t([
                             '港股保证金账户',
                             '港股孖展賬戶',
                             'Margin Account(HKD)'
-                        )
+                        ])
                     },
                     3: {
-                        0: this.$t(
+                        0: this.$t([
                             '港股现金账户',
                             '美股現金賬戶',
                             'Cash Account(USD)'
-                        ),
-                        M: this.$t(
+                        ]),
+                        M: this.$t([
                             '美股保证金账户',
                             '美股孖展賬戶',
                             'Margin Account(USD)'
-                        )
+                        ])
                     }
                 }
                 this.bankList[0].bankName =
@@ -328,6 +336,8 @@ export default {
         },
         checkBankHandle(val) {
             this.bankInfo = val
+            this.flag = this.bankInfo.type === 2
+            this.exchangeFlag = this.flag
         },
         handlerAmount(val) {
             this.amount = val
@@ -433,16 +443,28 @@ export default {
     i18n: {
         zhCHS: {
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
-            buyMoneyPlaceHolder: '起'
+            buyMoneyPlaceHolder: '起',
+            cancel: '取消',
+            continue: '继续申购',
+            content:
+                '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
         },
         zhCHT: {
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
-            buyMoneyPlaceHolder: '起'
+            buyMoneyPlaceHolder: '起',
+            cancel: '取消',
+            continue: '繼續申購',
+            content:
+                '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。'
         },
         en: {
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
-            buyMoneyPlaceHolder: ' Initial Subs'
+            buyMoneyPlaceHolder: ' Initial Subs',
+            cancel: 'cancel',
+            continue: 'Continue ',
+            content:
+                'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
         }
     }
 }

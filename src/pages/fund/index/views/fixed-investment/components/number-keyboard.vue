@@ -2,7 +2,7 @@
 .block__numberkeyboard--wrapper
     .block__out--wrapper.border-bottom(
         @click="showNumberKeyboard")
-        span.label HKD
+        span.label {{currency}}
         span.block__tip--number {{unit}}
         div.number-board(
             v-if="show"
@@ -39,6 +39,9 @@ export default {
             default: () => {
                 return { show: false, desc: '' }
             }
+        },
+        currency: {
+            type: String
         },
         placeholder: {
             type: String,
