@@ -1,7 +1,7 @@
 <template lang="pug">
 .investment__record__wrapper
     .investment__record_header
-        p(:class="!isNotStop?'black':''") 定投记录
+        p(:class="!isNotStop?'black':''") {{$t('A96')}}
     .investment__record__container(v-if="hasRecord==='yes'")
         .investment__record_title
             span(v-for="(item,index) in titleList" :key='index') {{item}}

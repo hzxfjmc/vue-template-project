@@ -13,7 +13,7 @@
                 .right {{fundInfo.fundName}}
             .investmnet--list--item
                 .left 时间金额
-                .right {{fundInfo.fixedCycleType}}{{fundInfo.fixedCycleValue}} 定投 {{fundInfo.fixedPlanAmount|transNumToThousandMark}} 港币
+                .right {{fundInfo.fixedCycleType}}{{fundInfo.fixedCycleValue}} {{$t('A2')}} {{fundInfo.fixedPlanAmount|transNumToThousandMark}} 港币
             .investmnet--list--item
                 .left {{$t('A15')}}
                 .right {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount}}) 自动换汇

@@ -9,10 +9,10 @@
                 img(src="@/assets/img/fund/icon-right.png")
         .investment__detail__header_amount
             .header_amount.left
-                .title(:class="!isNotStop?'gray-color':''") 累计金额(港币）
+                .title(:class="!isNotStop?'gray-color':''") {{$t('A79')}}
                 .content(:class="!isNotStop?'black-color':''") {{investmentInfo.fixedPlanAmount|transNumToThousandMark}}
             .header_amount.right
-                .title(:class="!isNotStop?'gray-color':''") 已投期数
+                .title(:class="!isNotStop?'gray-color':''") {{$t('A80')}}
                 .content(:class="!isNotStop?'black-color':''") {{investNum}}
             .header_amount.tag(v-if="fixedPlanStatus!==1" :class="fixedPlanStatus===2?'yellow':'orange'")
                 .span {{statusValue}}
@@ -23,12 +23,12 @@
         .card_content
             .card_content_item
                 .left 时间金额
-                .right {{investmentInfo.fixedCycleType}}{{investmentInfo.fixedCycleValue}} 定投 {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} 港币
+                .right {{investmentInfo.fixedCycleType}}{{investmentInfo.fixedCycleValue}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} 港币
             .card_content_item
-                .left 扣款方式
+                .left {{$t('A15')}}
                 .right {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 自动换汇
             .card_content_item
-                .left 下次扣款日期
+                .left {{$t('A81')}}
                 .right {{investmentInfo.recentDeductionDate}}，{{$t('A32')}}
     .investment__detail__tag.card(v-if="isNotStop")
         .investment__detail__tag_item(

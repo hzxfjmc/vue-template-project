@@ -18,6 +18,7 @@
 </template>
 <script>
 import { MonthDay } from './map'
+import { mapGetters } from 'vuex'
 export default {
     props: {
         value: {
@@ -28,13 +29,14 @@ export default {
     data() {
         return {
             monthDay: '',
-            columns: [
-                { values: Object.keys(MonthDay) },
-                { values: MonthDay['每周'] }
-            ]
+            columns: [],
+            MonthKeyValue: [],
+            weekly: this.$t(['每周', '每週', 'Weekly']),
+            Monthly: this.$t(['每月', '每月', 'Monthly'])
         }
     },
     computed: {
+        ...mapGetters(['lang']),
         popupVisible: {
             get() {
                 return this.value
@@ -44,6 +46,13 @@ export default {
             }
         }
     },
+    created() {
+        this.MonthKeyValue = MonthDay[this.lang]
+        this.columns = [
+            { values: Object.keys(this.MonthKeyValue) },
+            { values: this.MonthKeyValue[this.weekly] }
+        ]
+    },
     methods: {
         cancel() {
             this.popupVisible = false
@@ -51,21 +60,20 @@ export default {
         confirm(val) {
             let fixedCycleType = {}
             fixedCycleType.key = val
-            fixedCycleType.type = val[0] === '每周' ? 1 : 2
-            let month = MonthDay['每月'].findIndex(item => {
+            fixedCycleType.type = val[0] === this.weekly ? 1 : 2
+            let month = this.MonthKeyValue[this.Monthly].findIndex(item => {
                 return item == val[1]
             })
-            let week = MonthDay['每周'].findIndex(item => {
+            let week = this.MonthKeyValue[this.weekly].findIndex(item => {
                 return item == val[1]
             })
             fixedCycleType.value =
-                val[0] === '每周' ? week + 1 : month == 28 ? 0 : month + 1
-            console.log(fixedCycleType)
+                val[0] === this.weekly ? week + 1 : month == 28 ? 0 : month + 1
             this.$emit('handlerFixedCycleType', fixedCycleType)
             this.popupVisible = false
         },
         onChange(picker, values) {
-            picker.setColumnValues(1, MonthDay[values[0]])
+            picker.setColumnValues(1, this.MonthKeyValue[values[0]])
         }
     }
 }

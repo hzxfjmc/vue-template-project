@@ -15,7 +15,7 @@
         @click="toFundDetails(item)")
         .fund-name 
             p {{item.fundName}}
-            span 定投
+            span(v-if="item.fixedFlag") {{$t('A2')}}
         .fund-list-num
             .fund-row
                 .fund__row--list
@@ -235,7 +235,7 @@ export default {
             display: flex;
             flex-direction: row;
             p {
-                max-width: 70%;
+                max-width: 80%;
                 text-overflow: ellipsis;
                 display: -webkit-box;
                 overflow: hidden;
