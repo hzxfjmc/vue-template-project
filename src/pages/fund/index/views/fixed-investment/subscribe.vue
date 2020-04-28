@@ -92,7 +92,12 @@ import {
 } from '@/service/finance-server.js'
 import { getMarketValidFundAccount } from '@/service/user-account-server.js'
 import jsBridge from '@/utils/js-bridge.js'
-import { transNumToThousandMark, generateUUID, jumpUrl } from '@/utils/tools.js'
+import {
+    transNumToThousandMark,
+    generateUUID,
+    jumpUrl,
+    debounce
+} from '@/utils/tools.js'
 import picker from './components/picker'
 import { mapGetters } from 'vuex'
 import { getFundUserInfo } from '@/service/user-server.js'
@@ -142,11 +147,14 @@ export default {
         transNumToThousandMark: transNumToThousandMark
     },
     async created() {
-        this.getFundDetailInfo()
-        this.getFundUserInfo()
-        this.queryMandateBank()
-        this.getRecentDeductionDate()
-        this.getMarketValidFundAccount()
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.initFunc(), 300)
     },
     computed: {
         ...mapGetters([
@@ -186,6 +194,13 @@ export default {
         }
     },
     methods: {
+        async initFunc() {
+            this.getFundDetailInfo()
+            this.getFundUserInfo()
+            this.getRecentDeductionDate()
+            await this.queryMandateBank()
+            this.getMarketValidFundAccount()
+        },
         async getMarketValidFundAccount() {
             try {
                 const res = await getMarketValidFundAccount({
@@ -218,12 +233,8 @@ export default {
                         )
                     }
                 }
-                this.bankList.map(item => {
-                    if (item.type === 1) {
-                        item.bankName =
-                            arrMarketENUM[this.marketType][res.assetProp]
-                    }
-                })
+                this.bankList[0].bankName =
+                    arrMarketENUM[this.marketType][res.assetProp]
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -274,6 +285,9 @@ export default {
                 data.exchangeFlag = this.exchangeFlag ? 0 : 1
                 let res = await hanlderCreateFundFixedPlan(data)
                 res.fundName = this.fundName
+                if (data.chargeType == 1) {
+                    res.bankName = this.bankList[0].bankName
+                }
                 this.$router.push({
                     query: res,
                     name: 'investment-result'
@@ -294,7 +308,7 @@ export default {
                     {
                         type: 1,
                         check: false,
-                        bankName: 'uSMART证券账户',
+                        bankName: '',
                         desc: '请保证扣款日当天证券账户中有足够资金'
                     }
                 ]
@@ -410,7 +424,7 @@ export default {
                 this.derivativeType = fundOverviewInfoVO.derivativeType
                 this.placeholder = `${Number(
                     this.fundHeaderInfoVO.initialInvestAmount
-                ).toFixed(2)}HKD`
+                ).toFixed(2)}HKD${this.$t('buyMoneyPlaceHolder')}`
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -418,14 +432,17 @@ export default {
     },
     i18n: {
         zhCHS: {
-            protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息'
+            protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
+            buyMoneyPlaceHolder: '起'
         },
         zhCHT: {
-            protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息'
+            protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
+            buyMoneyPlaceHolder: '起'
         },
         en: {
             protocolTips:
-                'I have read and agree to the service agreement and risk warning, and consult relevant information'
+                'I have read and agree to the service agreement and risk warning, and consult relevant information',
+            buyMoneyPlaceHolder: ' Initial Subs'
         }
     }
 }

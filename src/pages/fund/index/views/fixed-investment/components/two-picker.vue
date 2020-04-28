@@ -7,7 +7,6 @@
     )
         van-picker(
             show-toolbar 
-            title="标题" 
             :value="monthDay"
             confirm-button-text="确认"
             cancel-button-text="取消"

@@ -16,16 +16,18 @@
                 .right {{fundInfo.fixedCycleType}}{{fundInfo.fixedCycleValue}} {{$t('A2')}} {{fundInfo.fixedPlanAmount|transNumToThousandMark}} 港币
             .investmnet--list--item
                 .left {{$t('A15')}}
-                .right {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount}}) 自动换汇
+                .right(v-if="fundInfo.chargeType == 2") {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount}}) 自动换汇
+                .right(v-else) ({{fundInfo.bankName}}) 自动换汇
             .investmnet--list--item
                 .left {{$t('A31')}}
                 .right {{fundInfo.recentDeductionDate}}，{{$t('A32')}}
     
-    .investment--footer
+    .investment--footer(@click="toRouterPath('/my-investment')")
         van-button( color="#0D50D8") 完成
 </template>
 <script>
 import dayjs from 'dayjs'
+import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     data() {
@@ -56,6 +58,12 @@ export default {
                 : `${this.fundInfo.fixedCycleValue}号`
         this.fundInfo.fixedCycleType =
             this.fundInfo.fixedCycleType === 1 ? '每周' : '每月'
+    },
+    methods: {
+        toRouterPath(path) {
+            let url = `${window.location.origin}/wealth/fund/index.html#${path}?currency=${this.currency}`
+            gotoNewWebView(url)
+        }
     }
 }
 </script>
