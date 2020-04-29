@@ -36,6 +36,7 @@
 
 <script>
 import { Popup } from 'vant'
+import { jumpUrl } from '@/utils/tools.js'
 export default {
     components: {
         [Popup.name]: Popup
@@ -97,15 +98,17 @@ export default {
             })
         },
         addEddaAccount() {
-            this.$router.push({
-                name: 'authorization-information',
-                params: {
-                    add: 'add'
-                },
-                query: {
-                    isNoButton: 'yes'
-                }
-            })
+            let url = `${window.location.origin}/webapp/open-account/deposit.html?isCloseWebView=true#/edda-authorization`
+            jumpUrl(3, url)
+            // this.$router.push({
+            //     name: 'authorization-information',
+            //     params: {
+            //         add: 'add'
+            //     },
+            //     query: {
+            //         isNoButton: 'yes'
+            //     }
+            // })
         },
         checkBankHandle(item) {
             this.$emit('checkBankHandle', item)
