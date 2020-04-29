@@ -23,7 +23,7 @@
         .card_content
             .card_content_item
                 .left 时间金额
-                .right {{investmentInfo.fixedCycleType}}{{investmentInfo.fixedCycleValue}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} 港币
+                .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} 港币
             .card_content_item
                 .left {{$t('A15')}}
                 .right {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 自动换汇
@@ -99,22 +99,22 @@ export default {
             fixedPlanStatusval: null
         }
     },
-    created() {
+    async created() {
         this.getFundFixedPlanDetail()
         this.getFundDetail()
-        this.init()
+
         this.investNum = this.$route.query.investNum
     },
     methods: {
         //修改定投计划
         async getUpdateFundFixedPlanStatus(token) {
             try {
-                const res = await getUpdateFundFixedPlanStatus({
+                await getUpdateFundFixedPlanStatus({
                     fixedPlanCode: this.$route.query.fixedPlanCode,
                     fixedPlanStatus: this.fixedPlanStatusval,
                     tradeToken: token
                 })
-                console.log(res)
+                this.getFundFixedPlanDetail()
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -142,12 +142,12 @@ export default {
         // 点击tab
         clickHandle(val) {
             if (val === 1) {
+                this.investmentInfo.type = 1
+                this.investmentInfo.id = this.fundId
                 // 修改计划 跳定投申购页面
                 this.$router.push({
-                    name: 'fund-details',
-                    query: {
-                        id: this.fundId
-                    }
+                    name: 'fixed-investment',
+                    query: this.investmentInfo
                 })
             } else if (val === 2) {
                 // 暂停定投
@@ -165,6 +165,7 @@ export default {
                     '定投是一种良好的投资习惯，终止定投后不可恢复确定终止定投吗？'
             } else if (val === 4) {
                 // 恢复定投
+                this.fixedPlanStatusval = 1
                 this.isShowDialog = true
                 this.dialogTitle = '恢复定投'
                 this.dialogMessage =
@@ -202,6 +203,24 @@ export default {
             } else if (this.fixedPlanStatus === 3) {
                 this.statusValue = '已终止'
                 this.isNotStop = false
+            } else if (this.fixedPlanStatus === 1) {
+                this.tagImgList = [
+                    {
+                        val: 1,
+                        url: require('@/assets/img/fund/icon-set.png'),
+                        text: '修改计划'
+                    },
+                    {
+                        val: 2,
+                        url: require('@/assets/img/fund/icon-pause.png'),
+                        text: '暂停定投'
+                    },
+                    {
+                        val: 3,
+                        url: require('@/assets/img/fund/icon-close.png'),
+                        text: '终止定投'
+                    }
+                ]
             }
         },
         // 查询定投详情
@@ -217,20 +236,21 @@ export default {
                     this.investmentInfo.recentDeductionDate
                 ).format('YYYY-MM-DD')
                 let monthValue = {
-                    1: '一',
-                    2: '二',
-                    3: '三',
-                    4: '四',
-                    5: '五'
+                    1: '周一',
+                    2: '周二',
+                    3: '周三',
+                    4: '周四',
+                    5: '周五'
                 }
-                this.investmentInfo.fixedCycleValue =
+                this.investmentInfo.fixedCycleWeek =
                     this.investmentInfo.fixedCycleType === 1
                         ? monthValue[this.investmentInfo.fixedCycleValue]
                         : this.investmentInfo.fixedCycleValue == '0'
                         ? '月末'
                         : `${this.investmentInfo.fixedCycleValue}号`
-                this.investmentInfo.fixedCycleType =
+                this.investmentInfo.fixedCycleMonth =
                     this.investmentInfo.fixedCycleType === 1 ? '每周' : '每月'
+                this.init()
             } catch (e) {
                 e.msg && this.$toast(e.msg)
             }

@@ -44,8 +44,7 @@ export default {
             type: String
         },
         placeholder: {
-            type: String,
-            default: '请输入'
+            type: String
         },
         withdrawBalance: {
             type: String,

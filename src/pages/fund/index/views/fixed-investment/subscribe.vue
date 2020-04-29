@@ -53,7 +53,7 @@
                                     
                                 .limit-text 
                                     .text-show
-                                        span(style="font-size:12px" ) {{bankInfo.desc}}
+                                        span(style="font-size:12px" ) 请保证扣款日当天证券账户中有足够资金
                                      
 
                     .fund--list--item(@click="protocolShow = true")
@@ -144,7 +144,33 @@ export default {
                 type: 1,
                 value: 1
             },
-            flag: false
+            flag: false,
+            arrMarketENUM: {
+                2: {
+                    0: this.$t([
+                        '港股现金账户',
+                        '港股現金賬戶',
+                        'Cash Account(HKD)'
+                    ]),
+                    M: this.$t([
+                        '港股保证金账户',
+                        '港股孖展賬戶',
+                        'Margin Account(HKD)'
+                    ])
+                },
+                3: {
+                    0: this.$t([
+                        '港股现金账户',
+                        '美股現金賬戶',
+                        'Cash Account(USD)'
+                    ]),
+                    M: this.$t([
+                        '美股保证金账户',
+                        '美股孖展賬戶',
+                        'Margin Account(USD)'
+                    ])
+                }
+            }
         }
     },
     filters: {
@@ -198,16 +224,43 @@ export default {
         }
     },
     methods: {
+        initState() {
+            if (this.$route.query.type == 1) {
+                let fixedFundInfo = this.$route.query
+                this.amount = fixedFundInfo.fixedPlanAmount
+                this.placeholder = fixedFundInfo.fixedPlanAmount
+                this.bankInfo.type = fixedFundInfo.chargeType
+                this.bankInfo.bankAccountNo = fixedFundInfo.eddaBankAccount
+                this.bankInfo.bankCode = fixedFundInfo.eddaBankCode
+                if (fixedFundInfo.eddaBankName) {
+                    this.bankInfo.bankCode = fixedFundInfo.eddaBankName.en
+                    this.bankInfo.bankNameEnglish =
+                        fixedFundInfo.eddaBankName.zhCn
+                    this.bankInfo.bankNameTraditional =
+                        fixedFundInfo.eddaBankName.zhHk
+                }
+                this.flag = fixedFundInfo.exchangeFlag === 2
+                this.fixedCycleTypeObj.key = [
+                    fixedFundInfo.fixedCycleMonth,
+                    fixedFundInfo.fixedCycleWeek
+                ]
+                this.exchangeFlag = fixedFundInfo.exchangeFlag == 0
+                this.fixedCycleTypeObj.type = fixedFundInfo.fixedCycleType
+                this.fixedCycleTypeObj.value = fixedFundInfo.fixedCycleValue
+                console.log(fixedFundInfo)
+            }
+        },
         hanlderExchangFlag() {
             if (this.flag) return
             this.exchangeFlag = !this.exchangeFlag
         },
         async initFunc() {
-            this.getFundDetailInfo()
             this.getFundUserInfo()
             this.getRecentDeductionDate()
+            await this.getFundDetailInfo()
             await this.queryMandateBank()
-            this.getMarketValidFundAccount()
+            await this.getMarketValidFundAccount()
+            this.initState()
         },
         async getMarketValidFundAccount() {
             try {
@@ -215,34 +268,14 @@ export default {
                     marketType: this.marketType
                 })
                 // 0代表现金，M代表孖展
-                let arrMarketENUM = {
-                    2: {
-                        0: this.$t([
-                            '港股现金账户',
-                            '港股現金賬戶',
-                            'Cash Account(HKD)'
-                        ]),
-                        M: this.$t([
-                            '港股保证金账户',
-                            '港股孖展賬戶',
-                            'Margin Account(HKD)'
-                        ])
-                    },
-                    3: {
-                        0: this.$t([
-                            '港股现金账户',
-                            '美股現金賬戶',
-                            'Cash Account(USD)'
-                        ]),
-                        M: this.$t([
-                            '美股保证金账户',
-                            '美股孖展賬戶',
-                            'Margin Account(USD)'
-                        ])
-                    }
+                this.bankList[0].bankName = this.arrMarketENUM[this.marketType][
+                    res.assetProp
+                ]
+                if (this.$route.query.chargeType == 1) {
+                    this.bankInfo.bankName = this.arrMarketENUM[
+                        this.marketType
+                    ][res.assetProp]
                 }
-                this.bankList[0].bankName =
-                    arrMarketENUM[this.marketType][res.assetProp]
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -254,10 +287,18 @@ export default {
         //获取交易日
         async getRecentDeductionDate() {
             try {
-                const res = await getRecentDeductionDate({
+                let data = {
                     fixedCycleType: this.fixedCycleTypeObj.type,
                     fixedCycleValue: this.fixedCycleTypeObj.value
-                })
+                }
+                if (
+                    this.$route.query.fixedCycleValue &&
+                    this.$route.query.fixedCycleType
+                ) {
+                    data.fixedCycleType = this.$route.query.fixedCycleType
+                    data.fixedCycleValue = this.$route.query.fixedCycleValue
+                }
+                const res = await getRecentDeductionDate(data)
                 this.date = dayjs(res).format('MM月DD日')
             } catch (e) {
                 this.$toast(e.msg)
@@ -404,7 +445,6 @@ export default {
         hideProtocol() {
             this.protocolVisible = false
         },
-
         // 获取基金信息
         async getFundDetailInfo() {
             try {
