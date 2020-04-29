@@ -20,7 +20,7 @@
                 .right(v-else) ({{fundInfo.bankName}}) 自动换汇
             .investmnet--list--item
                 .left {{$t('A31')}}
-                .right {{fundInfo.recentDeductionDate}}，{{$t('A32')}}
+                .right {{fundInfo.recentDeductionDate}}
     
     .investment--footer(@click="toRouterPath('/my-investment')")
         van-button( color="#0D50D8") 完成

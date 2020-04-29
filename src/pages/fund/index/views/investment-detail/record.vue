@@ -12,7 +12,9 @@
                 :finished-text="finishedText" 
                 @load="onLoad"
             )
-                .record_content_list_item(v-for="(item,index) in recordList")
+                .record_content_list_item(
+                    @click="toDetailHandle(item)"
+                    v-for="(item,index) in recordList")
                     .list_item_time {{item.fixedDate}}
                     .list_item_amount {{item.fixedPlanAmount}}
                     .list_item_status 
@@ -52,6 +54,21 @@ export default {
         this.getFundFixedRecordPage()
     },
     methods: {
+        // 跳转到详情
+        toDetailHandle(item) {
+            let data = {
+                name: 'order-record-detail',
+                query: {
+                    orderNo: item.orderNo,
+                    orderStatus: item.externalStatus,
+                    currencyType: this.$route.query.currency
+                }
+            }
+            if (item.actionInfo) {
+                data.query.groupId = item.actionInfo.group.group_id
+            }
+            this.$router.push(data)
+        },
         onLoad() {
             if (this.recordList.length < this.total) {
                 this.pageNum = this.pageNum + 1

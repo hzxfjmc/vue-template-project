@@ -61,7 +61,7 @@
                         .item--content 
                             .item--left.item--block--wrapper {{fixedCycleTypeObj.key[0]}} {{fixedCycleTypeObj.key[1]}}
                                 .item--right.iconfont.icon-iconEBgengduoCopy
-                            p 下个转入日{{date}}，{{$t('A32')}}
+                            p 下个转入日{{date}}
                            
                         
             .fund-footer-content
@@ -136,7 +136,7 @@ export default {
             protocolVisible: false,
             amount: '',
             isCheckedProtocol: true,
-            placeholder: '请输入金额',
+            placeholder: '',
             date: '',
             marketType: 1,
             fundHeaderInfoVO: {},
@@ -481,7 +481,9 @@ export default {
                 this.derivativeType = fundOverviewInfoVO.derivativeType
                 this.placeholder = `${Number(
                     this.fundHeaderInfoVO.initialInvestAmount
-                ).toFixed(2)}HKD${this.$t('buyMoneyPlaceHolder')}`
+                ).toFixed(2)}${this.fundTradeInfoVO.currency.name}${this.$t(
+                    'buyMoneyPlaceHolder'
+                )}`
             } catch (e) {
                 this.$toast(e.msg)
             }

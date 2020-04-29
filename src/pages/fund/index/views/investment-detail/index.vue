@@ -30,7 +30,7 @@
                 .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 自动换汇
             .card_content_item
                 .left {{$t('A81')}}
-                .right {{investmentInfo.recentDeductionDate}}，{{$t('A32')}}
+                .right {{investmentInfo.recentDeductionDate}}
     .investment__detail__tag.card(v-if="isNotStop")
         .investment__detail__tag_item(
             v-for="(item,index) in tagImgList" 
