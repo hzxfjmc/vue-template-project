@@ -248,7 +248,6 @@ export default {
                 this.exchangeFlag = fixedFundInfo.exchangeFlag == 0
                 this.fixedCycleTypeObj.type = fixedFundInfo.fixedCycleType
                 this.fixedCycleTypeObj.value = fixedFundInfo.fixedCycleValue
-                console.log(fixedFundInfo)
             }
         },
         hanlderExchangFlag() {

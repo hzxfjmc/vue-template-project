@@ -26,7 +26,8 @@
                 .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} 港币
             .card_content_item
                 .left {{$t('A15')}}
-                .right {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 自动换汇
+                .right(v-if="bankName") ({{bankName}}) 自动换汇
+                .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 自动换汇
             .card_content_item
                 .left {{$t('A81')}}
                 .right {{investmentInfo.recentDeductionDate}}，{{$t('A32')}}
@@ -54,6 +55,7 @@ import {
     getFundFixedPlanDetail,
     getUpdateFundFixedPlanStatus
 } from '@/service/finance-server'
+import { getMarketValidFundAccount } from '@/service/user-account-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
@@ -96,15 +98,58 @@ export default {
             fundHeaderInfoVO: {},
             investmentInfo: {},
             investNum: 0,
-            fixedPlanStatusval: null
+            fixedPlanStatusval: null,
+            arrMarketENUM: {
+                2: {
+                    0: this.$t([
+                        '港股现金账户',
+                        '港股現金賬戶',
+                        'Cash Account(HKD)'
+                    ]),
+                    M: this.$t([
+                        '港股保证金账户',
+                        '港股孖展賬戶',
+                        'Margin Account(HKD)'
+                    ])
+                },
+                3: {
+                    0: this.$t([
+                        '港股现金账户',
+                        '美股現金賬戶',
+                        'Cash Account(USD)'
+                    ]),
+                    M: this.$t([
+                        '美股保证金账户',
+                        '美股孖展賬戶',
+                        'Margin Account(USD)'
+                    ])
+                }
+            },
+            bankName: ''
         }
     },
     async created() {
         await this.getFundDetail()
         this.getFundFixedPlanDetail()
+        this.getMarketValidFundAccount()
         this.investNum = this.$route.query.investNum
     },
     methods: {
+        async getMarketValidFundAccount() {
+            try {
+                const res = await getMarketValidFundAccount({
+                    marketType: this.marketType
+                })
+                // 0代表现金，M代表孖展
+                if (this.investmentInfo.chargeType == 1) {
+                    this.bankName = this.arrMarketENUM[this.marketType][
+                        res.assetProp
+                    ]
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         //修改定投计划
         async getUpdateFundFixedPlanStatus(token) {
             try {
@@ -121,12 +166,21 @@ export default {
         //获取基金详情
         async getFundDetail() {
             try {
-                const { fundHeaderInfoVO } = await getFundDetail({
+                const {
+                    fundHeaderInfoVO,
+                    fundTradeInfoVO
+                } = await getFundDetail({
                     displayLocation: 1,
                     fundId: this.$route.query.id
                 })
                 this.fundHeaderInfoVO = fundHeaderInfoVO
                 this.fundId = this.fundHeaderInfoVO.fundId
+                let marketTypeEMUN = {
+                    1: 3, //美股市场
+                    2: 2, //港股市场
+                    3: 1 //a股市场
+                }
+                this.marketType = marketTypeEMUN[fundTradeInfoVO.currency.type]
             } catch (e) {
                 this.$toast(e.msg)
             }
