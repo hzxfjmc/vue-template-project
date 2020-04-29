@@ -89,7 +89,8 @@
 import { getFundDetail } from '@/service/finance-info-server.js'
 import {
     hanlderCreateFundFixedPlan,
-    getRecentDeductionDate
+    getRecentDeductionDate,
+    getUpdateFundFixedPlanInfo
 } from '@/service/finance-server.js'
 import { getMarketValidFundAccount } from '@/service/user-account-server.js'
 import jsBridge from '@/utils/js-bridge.js'
@@ -331,8 +332,15 @@ export default {
                         zhHk: this.bankInfo.bankNameTraditional
                     }
                 }
+                let res
                 data.exchangeFlag = this.exchangeFlag ? 0 : 1
-                let res = await hanlderCreateFundFixedPlan(data)
+                if (this.$route.query.fixedPlanCode) {
+                    data.fixedPlanCode = this.$route.query.fixedPlanCode
+                    res = await getUpdateFundFixedPlanInfo(data)
+                    this.$toast('修改成功')
+                } else {
+                    res = await hanlderCreateFundFixedPlan(data)
+                }
                 res.fundName = this.fundName
                 if (data.chargeType == 1) {
                     res.bankName = this.bankList[0].bankName
@@ -384,7 +392,7 @@ export default {
             this.amount = val
         },
         handlerSubmitFilter() {
-            if (this.amount === this.placeholder || Number(this.amount) === 0)
+            if (isNaN(Number(this.amount)) || Number(this.amount) === 0)
                 return this.$toast('请输入金额')
             if (!this.bankInfo.type) return this.$toast('请选择扣款方式')
             if (this.derivativeType != 1) {

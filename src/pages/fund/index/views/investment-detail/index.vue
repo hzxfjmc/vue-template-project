@@ -56,7 +56,7 @@ import {
 } from '@/service/finance-server'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 export default {
     components: {
@@ -85,7 +85,7 @@ export default {
                 }
             ],
             isNotStop: true,
-            fundId: '56',
+            fundId: '',
             fixedPlanStatus: 1, //定投状态 1：有效 2 暂停 3 终止
             isShowDialog: false,
             dialogTitle: '',
@@ -100,9 +100,8 @@ export default {
         }
     },
     async created() {
+        await this.getFundDetail()
         this.getFundFixedPlanDetail()
-        this.getFundDetail()
-
         this.investNum = this.$route.query.investNum
     },
     methods: {
@@ -127,17 +126,14 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.fundHeaderInfoVO = fundHeaderInfoVO
+                this.fundId = this.fundHeaderInfoVO.fundId
             } catch (e) {
                 this.$toast(e.msg)
             }
         },
         toFundDetailHandle() {
-            this.$router.push({
-                name: 'fund-details',
-                query: {
-                    id: this.fundId
-                }
-            })
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.fundId}`
+            jumpUrl(3, url)
         },
         // 点击tab
         clickHandle(val) {

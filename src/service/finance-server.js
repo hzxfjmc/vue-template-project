@@ -55,7 +55,7 @@ export const getFundPosition = params => {
  * }
  */
 export const fundPurchase = (params, config) => {
-    return axios.post(`/finance-server/api/fund-purchase/v1`, params, config)
+    return axios.post(`/finance-server/api/fund-purchase/v2`, params, config)
 }
 
 /**
@@ -84,7 +84,7 @@ export const fundOrderDetail = params => {
 
 // 撤单
 export const cancelFundOrder = params => {
-    return axios.post(`/finance-server/api/cancel-fund-order/v1`, params)
+    return axios.post(`/finance-server/api/cancel-fund-order/v2`, params)
 }
 
 //获取当前客户持仓收益列表
@@ -135,7 +135,7 @@ export const getFundFixedPlanPage = params => {
     return axios.post(`/finance-server/api/fund-fixed-plan-page/v1`, params)
 }
 
-//定投计划列表
+//修改定投计划
 export const getUpdateFundFixedPlanInfo = params => {
     return axios.post(
         `/finance-server/api/update-fund-fixed-plan-info/v1`,

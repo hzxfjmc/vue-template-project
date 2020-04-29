@@ -2,7 +2,7 @@
 .investment__record__wrapper
     .investment__record_header
         p(:class="!isNotStop?'black':''") {{$t('A96')}}
-    .investment__record__container(v-if="hasRecord==='yes'")
+    .investment__record__container(v-if="!hasRecord")
         .investment__record_title
             span(v-for="(item,index) in titleList" :key='index') {{item}}
         .investment__record_content
@@ -13,11 +13,12 @@
                 @load="onLoad"
             )
                 .record_content_list_item(v-for="(item,index) in recordList")
-                    .list_item_time {{item.time}}
-                    .list_item_amount {{item.amount}}
+                    .list_item_time {{item.fixedDate}}
+                    .list_item_amount {{item.fixedPlanAmount}}
                     .list_item_status 
-                        span(:class="isNotStop?statusMap[item.status].color:statusMap[3].color") {{statusMap[item.status].value}}
+                        span(:class="statusMap[item.externalStatus].color") {{item.externalName}}
                         img(src="@/assets/img/fund/icon-more.png")
+            
     .investment__norecord__container(v-if="hasRecord")
         img(src="@/assets/img/fund/icon-norecord.png")
         span 暂无定投记录
@@ -26,6 +27,7 @@
 <script>
 import { List } from 'vant'
 import { statusMap } from './common'
+import dayjs from 'dayjs'
 import { getFundFixedRecordPage } from '@/service/finance-server.js'
 export default {
     components: {
@@ -41,16 +43,7 @@ export default {
             pageSize: 20,
             finishedText: '',
             titleList: ['时间', '金额(港币)', '订单状态'],
-            recordList: [
-                { time: '2020-03-11', amount: '5000.00', status: 0 },
-                { time: '2020-03-11', amount: '500330.00', status: 1 },
-                { time: '2020-03-11', amount: '5000.00', status: 2 },
-                { time: '2020-03-11', amount: '50534500.00', status: 3 },
-                { time: '2020-03-11', amount: '5033300.00', status: 4 },
-                { time: '2020-03-11', amount: '500430.00', status: 3 },
-                { time: '2020-03-11', amount: '5000.00', status: 2 },
-                { time: '2020-03-11', amount: '50300.00', status: 1 }
-            ],
+            recordList: [],
             statusMap,
             hasRecord: false
         }
@@ -89,9 +82,13 @@ export default {
                 if (this.recordList.length >= this.total) {
                     this.finished = true
                 }
+                this.recordList.map(item => {
+                    item.fixedDate = dayjs(item.fixedDate).format('YYYY-MM-DD')
+                })
                 this.finishedText = this.$t('nomore1')
                 this.finishedText =
                     this.total == 0 ? '无更多内容' : this.finishedText
+                console.log(this.recordList)
             } catch (e) {
                 this.$toast(e.msg)
             }

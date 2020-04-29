@@ -56,9 +56,11 @@
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
-            van-button.button-5width.button-left.btn.colorbg(
-                :class="[investmentShow?'fund-check':'fund-no']" 
-                @click="toRouter('/fixed-investment')") 定投
+            .btn.colorbg.button-5width.btn-inverster(
+                    :class="[investmentShow? 'fund-footer':'fund-no']"
+                    @click="handleBuyOrSell(4)")
+                    span 定投
+                    em 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
             van-button.button-5width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
                 @click="toRouter('/fund-redemption')") {{$t('redeem')}}

@@ -41,7 +41,9 @@
                 :finished="recordFinished" 
                 :finished-text="finishedText1" 
                 @load="onLoad1")
-                .inverstment--block--list(v-for="(item,index) in recordList")
+                .inverstment--block--list(
+                    @click="toInvestmentDetails(item,index)"
+                    v-for="(item,index) in recordList")
                     .block--item--header.bg-uncolor.ellipse {{item.fundName}}
                     .block--item--content.border-bottom
                         .item--left 
@@ -148,7 +150,7 @@ export default {
                     item.week = this.getWeek(item.recentDeductionDate)
                     item.recentDeductionDate = dayjs(
                         item.recentDeductionDate
-                    ).format('YY-DD')
+                    ).format('MM-DD')
                     console.log(item.chargeType)
                 })
                 if (this.list.length >= this.planTotla) {
