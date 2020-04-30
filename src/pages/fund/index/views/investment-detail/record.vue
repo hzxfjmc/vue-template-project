@@ -57,7 +57,7 @@ export default {
         // 跳转到详情
         toDetailHandle(item) {
             let data = {
-                name: 'order-record-detail',
+                name: 'transaction-record',
                 query: {
                     orderNo: item.orderNo,
                     orderStatus: item.externalStatus,

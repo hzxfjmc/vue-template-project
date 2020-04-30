@@ -1531,10 +1531,10 @@ export default {
     }
 
     .btn {
-        height: 50px;
+        height: 48px;
         color: #fff;
         text-align: center;
-        line-height: 50px;
+        line-height: 48px;
         font-size: 0.32rem;
         border-radius: 0;
         border: none;

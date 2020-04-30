@@ -33,12 +33,22 @@
 
 <script>
 // import { statusMap } from './map'
+import { fundOrderDetail } from '@/service/finance-server.js'
 export default {
     data() {
         return {}
     },
     methods: {
-        buyMoreHandle() {}
+        async fundOrderDetail() {
+            try {
+                const res = await fundOrderDetail({
+                    orderNo: this.$route.query.orderNo
+                })
+                console.log(res)
+            } catch (e) {
+                console.log(e)
+            }
+        }
     }
 }
 </script>
