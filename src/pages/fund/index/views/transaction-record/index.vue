@@ -32,6 +32,7 @@
 </template>
 
 <script>
+// import { statusMap } from './map'
 export default {
     data() {
         return {}

@@ -24,6 +24,8 @@ export const zhCHT = {
     cancelButton: '取消',
     investmentDetail: '定投詳情',
     transactionRecord: '交易記錄',
+    hkd: '港幣',
+    usd: '美元',
     resultList: {
         1: {
             registration: 'A1',
@@ -134,7 +136,7 @@ export const zhCHT = {
     A76: '發現更多定投機會',
     A77: '我的持倉',
     A78: '歷史定投',
-    A79: '累計金額（港幣）',
+    A79: '累計金額',
     A80: '已投期數',
     A81: '下次扣款日期',
     A82: '扣款方式',
@@ -154,7 +156,7 @@ export const zhCHT = {
         '恢復定投後將會執行扣款操作，請注意下次扣款日期，確保扣款時您的賬戶中有足夠金額',
     A96: '定投記錄',
     A97: '時間',
-    A98: '金額（港幣）',
+    A98: '金額',
     A99: '訂單狀態',
     A100: '扣款失敗',
     A101: '暫無記錄',

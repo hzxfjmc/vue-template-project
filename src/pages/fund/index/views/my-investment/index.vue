@@ -20,7 +20,7 @@
                     .block--item--header.bg-color.ellipse {{item.fundName}}
                     .block--item--content.border-bottom
                         .item--left 
-                            .top {{$t('A79')}}
+                            .top {{$t('A79')}}({{item.currency === 1 ? $t('usd'):item.currency === 2 ? $t('hkd'):''}})
                             .bottom {{item.fixedTotalAmount}}
                         .item--left 
                             .top {{$t('A80')}}
@@ -47,7 +47,7 @@
                     .block--item--header.bg-uncolor.ellipse {{item.fundName}}
                     .block--item--content.border-bottom
                         .item--left 
-                            .top {{$t('A79')}}
+                            .top {{$t('A79')}}({{item.currency === 1 ? $t('usd'):item.currency === 2 ? $t('hkd'):''}})
                             .bottom {{item.fixedTotalAmount}}
                         .item--left 
                             .top {{$t('A80')}}
@@ -151,7 +151,6 @@ export default {
                     item.recentDeductionDate = dayjs(
                         item.recentDeductionDate
                     ).format('MM-DD')
-                    console.log(item.chargeType)
                 })
                 if (this.list.length >= this.planTotla) {
                     this.finished = true
@@ -197,7 +196,10 @@ export default {
                 }
                 this.recordList.map(item => {
                     item.chargeType = EnumChargeType[item.chargeType]
-                    console.log(item.chargeType)
+                    item.week = this.getWeek(item.recentDeductionDate)
+                    item.recentDeductionDate = dayjs(
+                        item.recentDeductionDate
+                    ).format('MM-DD')
                 })
                 this.recordPageNum = pageNum
                 this.recordPageSize = pageSize

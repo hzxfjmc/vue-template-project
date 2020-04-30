@@ -24,6 +24,8 @@ export const en = {
     cancelButton: 'Cancel',
     investmentDetail: 'Investment Detail',
     transactionRecord: 'Transaction Record',
+    hkd: 'HKD',
+    usd: 'USD',
     resultList: {
         1: {
             registration: 'A1',

@@ -57,7 +57,7 @@
     .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
             .btn.colorbg.button-5width.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-no']"
+                    :class="[investmentShow? 'fund-footer':'fund-footer']"
                     @click="handleBuyOrSell(4)")
                     span 定投
                     em 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
@@ -71,7 +71,7 @@
         .fund-footer-content(v-if="PurchaseButton")
             .block__button--list
                 .btn.colorbg.button-width1.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-no']"
+                    :class="[investmentShow? 'fund-footer':'fund-footer']"
                     @click="handleBuyOrSell(4)")
                     span 定投
                     em 享申购费{{fundTradeInfoVO.feeDiscount*100}}%

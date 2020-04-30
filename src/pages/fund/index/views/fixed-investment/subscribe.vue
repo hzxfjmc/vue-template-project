@@ -159,7 +159,7 @@ export default {
                         'Margin Account(HKD)'
                     ])
                 },
-                3: {
+                1: {
                     0: this.$t([
                         '港股现金账户',
                         '美股現金賬戶',
@@ -268,12 +268,13 @@ export default {
                     marketType: this.marketType
                 })
                 // 0代表现金，M代表孖展
-                this.bankList[0].bankName = this.arrMarketENUM[this.marketType][
-                    res.assetProp
-                ]
+                this.bankList[0].bankName = this.arrMarketENUM[
+                    this.fundTradeInfoVO.currency.type
+                ][res.assetProp]
+                console.log(this.fundTradeInfoVO.currency.type)
                 if (this.$route.query.chargeType == 1) {
                     this.bankInfo.bankName = this.arrMarketENUM[
-                        this.marketType
+                        this.fundTradeInfoVO.currency.type
                     ][res.assetProp]
                 }
             } catch (e) {
@@ -468,8 +469,8 @@ export default {
                 this.fundName = fundHeaderInfoVO.fundName
                 this.fundTradeInfoVO = fundTradeInfoVO
                 let marketTypeEMUN = {
-                    1: 3, //美股市场
-                    2: 2, //港股市场
+                    2: 3, //美股市场
+                    1: 2, //港股市场
                     3: 1 //a股市场
                 }
                 this.marketType =

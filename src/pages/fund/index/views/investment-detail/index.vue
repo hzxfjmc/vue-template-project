@@ -23,7 +23,7 @@
         .card_content
             .card_content_item
                 .left 时间金额
-                .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} 港币
+                .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} {{currency ==1?$t('usd'):$t('hkd')}}
             .card_content_item
                 .left {{$t('A15')}}
                 .right(v-if="bankName") ({{bankName}}) 自动换汇
@@ -97,7 +97,9 @@ export default {
             statusValue: '',
             fundHeaderInfoVO: {},
             investmentInfo: {},
+            fundTradeInfoVO: {},
             investNum: 0,
+            currency: 0,
             fixedPlanStatusval: null,
             arrMarketENUM: {
                 2: {
@@ -174,13 +176,17 @@ export default {
                     fundId: this.$route.query.id
                 })
                 this.fundHeaderInfoVO = fundHeaderInfoVO
+                this.fundTradeInfoVO = fundTradeInfoVO
                 this.fundId = this.fundHeaderInfoVO.fundId
                 let marketTypeEMUN = {
                     1: 3, //美股市场
                     2: 2, //港股市场
                     3: 1 //a股市场
                 }
-                this.marketType = marketTypeEMUN[fundTradeInfoVO.currency.type]
+
+                this.marketType =
+                    marketTypeEMUN[this.fundTradeInfoVO.currency.type]
+                this.currency = this.fundTradeInfoVO.currency.type
             } catch (e) {
                 this.$toast(e.msg)
             }
