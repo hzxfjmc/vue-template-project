@@ -55,6 +55,7 @@
 <script>
 import dayjs from 'dayjs'
 import { Tag } from 'vant'
+import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     components: {

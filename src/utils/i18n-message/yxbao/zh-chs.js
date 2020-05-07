@@ -107,5 +107,6 @@ export const zhCHS = {
     riskAssessment: '风险测评',
     riskAsessmentResult: '测评结果',
     riskAppropriateResult: '产品匹配',
-    openPermissions: '基金权限开通'
+    openPermissions: '基金权限开通',
+    agreement: '我已阅读并同意'
 }

@@ -110,5 +110,6 @@ export const en = {
     riskAssessment: 'Risk Assessment',
     riskAsessmentResult: 'Assessment Result',
     riskAppropriateResult: 'Product Matching',
-    openPermissions: 'Open A Fund Account'
+    openPermissions: 'Open A Fund Account',
+    agreement: 'I have read and agree'
 }

@@ -107,5 +107,6 @@ export const zhCHT = {
     riskAssessment: '風險評估',
     riskAsessmentResult: '測評結果',
     riskAppropriateResult: '產品匹配',
-    openPermissions: '基金權限開通'
+    openPermissions: '基金權限開通',
+    agreement: '我已閱讀並同意'
 }

@@ -39,6 +39,10 @@
             .right
                 p.sub-title {{$t('C19')}}
                 p.desc {{contentDesc}}
+    .block__footer--check(@click="checkInfo = !checkInfo")
+        em.iconfont(:class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
+        span {{$t('agreement')}}
+            em 《友信证券新股认购说明》
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C8')}}
 
@@ -98,6 +102,7 @@ export default {
         return {
             loading: true,
             check: true,
+            checkInfo: false,
             outType: '',
             amount: 0,
             placeholder: '',
@@ -228,6 +233,15 @@ export default {
         },
         async getBaoCapitalTrade() {
             try {
+                if (!this.checkInfo)
+                    return this.$toast(
+                        this.$t([
+                            '请勾选同意协议',
+                            '請勾選同意協議',
+                            'Please Selct the Protocol'
+                        ]),
+                        'middle'
+                    )
                 if (this.amount == 0 || this.amount === this.placeholder)
                     return this.$toast(this.$t('C40'), 'middle')
                 if (this.amount > Number(this.positionMarketValue)) {
@@ -306,6 +320,21 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__footer--check {
+    width: 343px;
+    height: 48px;
+    margin: 12px 16px 0 16px;
+    color: rgba(25, 25, 25, 0.45);
+    font-size: 12px;
+    em {
+        font-style: normal;
+        color: #0d50d8;
+    }
+    .iconfont {
+        font-size: 12px;
+        margin: 0 5px 0 0;
+    }
+}
 .btn {
     background: #0d50d8;
     color: #fff;

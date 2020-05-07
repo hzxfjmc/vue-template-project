@@ -216,6 +216,7 @@ export default {
         flex-direction: row;
         align-items: center;
         position: relative;
+        min-width: 70%;
     }
     .block__tip--number {
         left: 70px;
