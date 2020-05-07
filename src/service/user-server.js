@@ -87,9 +87,12 @@ export default {
      *获取当前用户信息
      * @returns
      */
-    getCurrentUser(device = 'web') {
-        return axios.getForm(`/user-server/${device}/get-current-user/v1`)
+    getCurrentUser() {
+        return axios.getForm(`/user-server/api/get-current-user/v1`)
     }
+    // getCurrentUser(device = 'web') {
+    //     return axios.getForm(`/user-server/${device}/get-current-user/v1`)
+    // }
 }
 
 // 基金获取用户信息

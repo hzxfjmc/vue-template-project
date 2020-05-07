@@ -65,6 +65,10 @@
         
         
         .fund-footer-content(v-if="PurchaseButton")
+            van-button.btn.button-width.fund-footer-tip {{`${$t('subscriptionFee')}：`}}{{subscribeFeeVO.defaultFeeRate*100|transNumToThousandMark(2)}}
+                span （
+                s {{`1.80%`}}
+                span ）
             van-button.btn.button-width(
                 :class="[flag2? 'fund-footer':'fund-no']"
                 @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
@@ -163,7 +167,8 @@ import {
     getFundPerformanceHistory,
     getFundApyPointV1,
     getFundNetPriceHistoryV1,
-    getFundRecommendList
+    getFundRecommendList,
+    getFundFeeConfigV1
 } from '@/service/finance-info-server.js'
 import {
     getGroupAction,
@@ -193,6 +198,7 @@ export default {
             togetherScribe: '[同行申购]',
             Surplus: '剩余',
             describe: '还差5人,申购费最高可返50%',
+            subscriptionFee: '申购费',
             buy: '申购',
             buyHk: '申购',
             redeem: '赎回',
@@ -227,6 +233,7 @@ export default {
             togetherScribe: '「同行」認購',
             Surplus: '剩餘',
             describe: '還差5人，最高可享申購費50%折扣',
+            subscriptionFee: '申購費',
             buy: '申購',
             buyHk: '認購',
             redeem: '贖回',
@@ -262,6 +269,7 @@ export default {
             Surplus: '',
             describe:
                 'X people needed to get the 50% discounton subscription fee.',
+            subscriptionFee: 'Subs. Fee',
             buy: 'Subscribe',
             buyHk: 'Subscribe',
             redeem: 'Redemption',
@@ -412,6 +420,9 @@ export default {
                 positionEarnings: null,
                 inTransitAmount: null
             },
+            subscribeFeeVO: {
+                defaultFeeRate: null
+            },
             positionStatus: {
                 type: -1
             },
@@ -512,6 +523,16 @@ export default {
                     this.appType.Ch ? 1 : 2
                 }#/fund-details?id=${this.$route.query.id}`
             )
+        },
+        async getFundFeeConfig() {
+            try {
+                let params = {
+                    fundId: this.id
+                }
+                await getFundFeeConfigV1(params)
+            } catch (e) {
+                console.log('getFundFeeConfigV1: ', e)
+            }
         },
         async addGroupFollow() {
             try {
@@ -1220,6 +1241,7 @@ export default {
             await this.getFundDetail()
             await this.getFundPositionV2()
             this.getFundNetPriceHistoryV1()
+            this.getFundFeeConfig()
             this.getFundRecommendList()
             this.getFundPerformanceHistory()
             this.getFundApyPointV1()
@@ -1556,6 +1578,13 @@ export default {
 }
 .fund-footer-content {
     width: 100%;
+    .fund-footer-tip {
+        height: 36px !important;
+        line-height: 36px;
+        background: #fe7127;
+        color: #fff;
+        font-size: 14px;
+    }
     .block__list--header {
         width: 100%;
         height: 60px;
