@@ -24,6 +24,7 @@
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
+            img(v-if="isMonetaryFund" src="@/assets/img/fund/tip.png" class="tipWarning" @click="yieldInLast7dClick")
             p(
                 v-if="fundHeaderInfoVO.apy >0" 
                 :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{fundHeaderInfoVO.apy}}%
@@ -77,7 +78,9 @@ export default {
                 '您目前期望申购的开放式公募基金为获香港证监会认可的衍生产品及复杂产品，请根据您自身风险偏好和风险承受能力做出审慎判断。请注意投资此类产品或可导致阁下遭受巨大损失，损失金额或可大于投资本金。也请注意证监会认可不等同于对该产品作出推介或认许，亦不是对该产品的商业利弊或业绩表现作出保证。点击继续操作将视为您自愿承担该产品风险及损失，友信并未主动向您推荐该产品。\n若您未有衍生品相关知识，请注意购买此类产品或可存在一些您无法理解的风险及损失，请依据自己的实际情况、风险承受能力以及风险偏好做出谨慎选择。',
             contentHk:
                 '您目前期望申购的开放式公募基金为获香港证监会认可的衍生产品及复杂产品，请根据您自身风险偏好和风险承受能力做出审慎判断。请注意投资此类产品或可导致阁下遭受巨大损失，损失金额或可大于投资本金。也请注意证监会认可不等同于对该产品作出推介或认许，亦不是对该产品的商业利弊或业绩表现作出保证。点击继续操作将视为您自愿承担该产品风险及损失，友信并未主动向您推荐该产品。\n若您未有衍生品相关知识，请注意购买此类产品或可存在一些您无法理解的风险及损失，请依据自己的实际情况、风险承受能力以及风险偏好做出谨慎选择。',
-            tenKRTN: '萬元收益'
+            tenKRTN: '萬元收益',
+            yieldInLast7dTips:
+                '货币基金的七日年化收益率是通过计算其近七日收益率，并进行单利年化，从而模拟出其平均每年能够为投资者创造的收益。由于是模拟短期业绩，并不代表基金的真实年收益率，因此仅供参考用。<br/>计算公式：七日年化=（T日nav-（T-7）日nav）/T-7日nav/自然日天数*365*100%'
         },
         zhCHT: {
             Derivatives: '衍生產品',
@@ -89,14 +92,16 @@ export default {
             hkd: '港幣',
             usd: '美元',
             purchase: '起購金額',
-            pirchaseHk: '最低認購費',
+            pirchaseHk: '最低認購金額',
             update: '更新時間',
             iknow: '我知道了',
             content:
                 '您目前期望的申購購置的開放式公募基金為獲香港證監會認可的衍生產品及復雜產品，請根據您自身的風險和風險承受能力作出審慎判斷。請注意投資此類產品或可導致重大的重大損失 ，則損失金額或可增加投資本金。也請注意證監會認可不相等於該產品承諾推廣或認許，亦不是該產品的商業利弊或業績表現作出保證。 承擔該產品風險及損失，友信重新主動向您推薦該產品。\n若您未有衍生品相關知識，請注意購買此類產品或可存在一些您無法理解的風險及損失，請根據自己的實際情況，風險承受能力以及風險做出適當的選擇。',
             contentHk:
                 '您目前期望的認購購置的開放式公募基金為獲香港證監會認可的衍生產品及復雜產品，請根據您自身的風險和風險承受能力作出審慎判斷。請注意投資此類產品或可導致重大的重大損失 ，則損失金額或可增加投資本金。也請注意證監會認可不相等於該產品承諾推廣或認許，亦不是該產品的商業利弊或業績表現作出保證。 承擔該產品風險及損失，友信重新主動向您推薦該產品。\n若您未有衍生品相關知識，請注意購買此類產品或可存在一些您無法理解的風險及損失，請根據自己的實際情況，風險承受能力以及風險做出適當的選擇。',
-            tenKRTN: '万元收益'
+            tenKRTN: '万元收益',
+            yieldInLast7dTips:
+                '貨幣基金的七日年化收益率是通過計算其近七日收益率，並進行單利年化，從而模擬出其平均每年能夠為投資者創造的收益。由於是模擬短期業績，並不代表基金的真實年收益率，因此僅供參考。<br/>計算公式：七日年化=（T日nav-（T-7）日nav）/T-7日nav/自然日天數*365*100%'
         },
         en: {
             Derivatives: 'Derivatives',
@@ -110,12 +115,14 @@ export default {
             purchase: 'Min. Subs. Amount',
             pirchaseHk: 'Min. Subs. Amount',
             update: 'Update Time',
-            iknow: 'I get it',
+            iknow: 'Got it',
             content:
                 'This SFC authorized open-ended fund to be purchased is a derivative product and a complex product. Please note that investment in such products may cause huge losses, which might be greater than the original investment amount. Please cautiously evaluate your own risk appetite and risk tolerance prior to subscription. The SFC authorization does not imply official recommendation, or that SFC authorization is not a recommendation or endorsement of a product nor does it guarantee the commercial merits of a product or its performance.\nClicking on the operation will be deemed as voluntarily bearing the risks and losses of the product, and uSMART has made no recommendation of this product.\nIf you do not have knowledge of derivatives or other complex investments, please note that there may be risks and losses that you cannot understand when purchasing such products. Please evaluate your actual situation, risk tolerance, and risk appetite prior to making any investments, please be prudent and wise.',
             contentHk:
                 'This SFC authorized open-ended fund to be purchased is a derivative product and a complex product. Please note that investment in such products may cause huge losses, which might be greater than the original investment amount. Please cautiously evaluate your own risk appetite and risk tolerance prior to subscription. The SFC authorization does not imply official recommendation, or that SFC authorization is not a recommendation or endorsement of a product nor does it guarantee the commercial merits of a product or its performance.\nClicking on the operation will be deemed as voluntarily bearing the risks and losses of the product, and uSMART has made no recommendation of this product.\nIf you do not have knowledge of derivatives or other complex investments, please note that there may be risks and losses that you cannot understand when purchasing such products. Please evaluate your actual situation, risk tolerance, and risk appetite prior to making any investments, please be prudent and wise.',
-            tenKRTN: '10K RTN'
+            tenKRTN: '10K RTN',
+            yieldInLast7dTips:
+                "The money market fund's annualized 7-day-return tries to reflect the average annual return for investors by annualizing the most recent 7-day-return.Please note that this data is fo reference only since it does not represent the realized annual return.<br/>Calculation Formula：<br/>Yield in Last 7d=（T-day nav-（T-7）-day nav）/（T-7）-day nav/Natural Days*365*100%"
         }
     },
     props: {
@@ -146,6 +153,15 @@ export default {
         }
     },
     methods: {
+        yieldInLast7dClick() {
+            this.$dialog.alert({
+                title: this.$t('yieldInLast7d'),
+                message: this.$t('yieldInLast7dTips'),
+                confirmButtonText: this.$t('iknow'),
+                confirmButtonColor: '#3c78fa',
+                messageAlign: 'left'
+            })
+        },
         confirmAlter() {
             let contentMessage =
                 this.fundHeaderInfoVO.code === 1
@@ -268,6 +284,11 @@ export default {
                 font-size: 0.56rem;
                 font-weight: 500;
                 font-family: yxFontDINPro-Medium;
+            }
+            .tipWarning {
+                width: 20px;
+                height: 20px;
+                padding: 2px;
             }
             .number-red {
                 color: rgba(234, 61, 61, 1);
