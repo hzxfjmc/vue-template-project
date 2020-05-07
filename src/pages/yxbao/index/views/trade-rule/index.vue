@@ -156,6 +156,9 @@ export default {
         this.getFundDetail()
         this.getFundHoliday()
         this.getFundUserInfo()
+        if (this.$route.query.tab) {
+            this.active = this.$route.query.tab
+        }
     },
     methods: {
         //灰度

@@ -149,7 +149,7 @@ export default {
         goTradeRule() {
             this.$router.push({
                 name: 'trade-rule',
-                query: { id: this.$route.query.id, displayLocation: 3 }
+                query: { id: this.$route.query.id, displayLocation: 3, tab: 1 }
             })
         },
         async getBaoPostion() {
