@@ -9,7 +9,7 @@
                             span(class="right-value") {{item.recordDate}}
                         .dividend-item.flex
                             span(class="left-title") {{$t('list')['dividendDate'].label}}
-                            span(class="right-value") {{item.dividendDate}}
+                            span(class="right-value") {{item.dividendPaymentDate}}
                         .dividend-item.flex
                             span(class="left-title") {{$t('list')['dividendRecord'].label}}
                             span(class="right-value") {{item.dividendRecord}}
@@ -50,21 +50,24 @@ export default {
                 let res = await getFundDividendList(params)
                 this.total = res.total
                 res.list.map(item => {
-                    let recordDate, dividendDate
+                    let recordDate, dividendPaymentDate
                     if (item.recordDate) {
                         recordDate = dayjs(item.recordDate).format('YYYY-MM-DD')
                     } else {
                         recordDate = '--'
                     }
-                    if (item.dividendDate) {
-                        dividendDate = dayjs(item.dividendDate).format(
-                            'YYYY-MM-DD'
-                        )
+                    if (item.dividendPaymentDate) {
+                        dividendPaymentDate = dayjs(
+                            item.dividendPaymentDate
+                        ).format('YYYY-MM-DD')
                     } else {
-                        dividendDate = '--'
+                        dividendPaymentDate = '--'
                     }
+                    item.dividendPerShare = Number(
+                        item.dividendPerShare
+                    ).toFixed(4)
                     this.dividendDetailList.push({
-                        dividendDate: dividendDate,
+                        dividendPaymentDate: dividendPaymentDate,
                         recordDate: recordDate,
                         dividendRecord: item.dividendPerShare
                     })
