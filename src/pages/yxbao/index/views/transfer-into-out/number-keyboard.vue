@@ -18,6 +18,7 @@
         theme="custom"
         :show="show"
         extra-key="."
+        :safe-area-inset-bottom = "true"
         close-button-text="完成"
         :show-delete-key = "false"
         @close="close"
