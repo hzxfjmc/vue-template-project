@@ -102,7 +102,7 @@ export default {
         return {
             loading: true,
             check: true,
-            checkInfo: false,
+            checkInfo: true,
             outType: '',
             amount: 0,
             placeholder: '',

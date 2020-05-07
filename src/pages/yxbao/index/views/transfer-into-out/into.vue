@@ -43,7 +43,7 @@ export default {
     },
     data() {
         return {
-            checkInfo: false,
+            checkInfo: true,
             amount: '',
             placeholder: '',
             chargeType: 1,
