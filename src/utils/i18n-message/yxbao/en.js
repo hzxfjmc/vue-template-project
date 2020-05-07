@@ -1,6 +1,6 @@
 export const en = {
     C1: '英文',
-    C2: 'uMoney',
+    C2: 'CASH +',
     C3: 'Total Asstes(HKD)',
     C4: 'Yesterday Rtn',
     C5: 'Total Rtn',
@@ -68,7 +68,7 @@ export const en = {
         'Return Explain： if you redeem before the release of return, you will not enjoy the day of the release of return.',
     C58: 'Now',
     C59: 'Right Now',
-    uMoney: 'uMoney',
+    uMoney: 'CASH +',
     hkd: 'HKD',
     incomeDetails: 'Return Details',
     fundDetails: 'Fund Detail',
