@@ -930,6 +930,7 @@ export default {
                 //申购按钮是否置灰
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                // alert(this.fundOverviewInfoVO.tradeAuth & 4)
                 //是否开启定投
                 this.investmentShow =
                     (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false

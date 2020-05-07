@@ -1,13 +1,13 @@
 <template lang="pug">
     .transaction__record__detail__wrapper
         .transaction__record__detail__header
-            .detail__header_name Pimco 亚洲投资级债券基金-A2
-            .detail__header_code ISIN:LU0538203018
+            .detail__header_name {{fundInfo.fundBaseInfoVO.fundName}}
+            .detail__header_code ISIN:{{fundInfo.fundBaseInfoVO.fundCode}}
         .transaction__record__detail__line
         .transaction__record__detail__main
             .detail__main__item
                 .detail__main_title 订单状态
-                .detail__main_content 交易进行中
+                .detail__main_content {{fundInfo.externalName}}
             .detail__main__item
                 .detail__main_title 失败原因
                 .detail__main_content 余额不足，扣款失败
@@ -16,17 +16,17 @@
                 .detail__main_content 余额不足，扣款失败
             .detail__main__item
                 .detail__main_title 生成时间
-                .detail__main_content 2019-07-10 15:55:08
+                .detail__main_content {{fundInfo.orderTime}}
             .detail__main__item
                 .detail__main_title 订单号
-                .detail__main_content 4534534634
+                .detail__main_content {{fundInfo.orderNo}}
         .transaction__record__detail__amount
             .detail__amount__item
                 .detail__amount_title 订单类别
-                .detail__amount_content 定投
+                .detail__amount_content {{fundInfo.tradeTypeName}}
             .detail__amount__item
                 .detail__amount_title 金额
-                .detail__amount_content HKD 10,000.00
+                .detail__amount_content {{fundInfo.currency.name}} {{fundInfo.orderAmount}}
         .transaction__record__detail__btn
                 van-button(type="info" round size="large" @click="buyMoreHandle") 再买一笔
 </template>
@@ -34,9 +34,12 @@
 <script>
 // import { statusMap } from './map'
 import { fundOrderDetail } from '@/service/finance-server.js'
+import dayjs from 'dayjs'
 export default {
     data() {
-        return {}
+        return {
+            fundInfo: {}
+        }
     },
     methods: {
         async fundOrderDetail() {
@@ -44,11 +47,18 @@ export default {
                 const res = await fundOrderDetail({
                     orderNo: this.$route.query.orderNo
                 })
-                console.log(res)
+                this.fundInfo = res
+                this.fundInfo.orderTime = dayjs(this.fundInfo.orderTime).format(
+                    'YYYY-MM-DD HH:mm:ss'
+                )
             } catch (e) {
                 console.log(e)
             }
-        }
+        },
+        buyMoreHandle() {}
+    },
+    created() {
+        this.fundOrderDetail()
     }
 }
 </script>
