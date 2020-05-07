@@ -276,7 +276,7 @@ export default {
             display: inline-block;
             width: 2px;
             background: #3c78fa;
-            animation: flash 1s infinite;
+            animation: flash 0.8s infinite;
         }
     }
     .block__all--out {
@@ -293,11 +293,11 @@ export default {
     from {
         opacity: 1;
     }
-    50% {
-        opacity: 0.5;
-    }
+    // 50% {
+    //     opacity: 0.5;
+    // }
     to {
-        opacity: 0.1;
+        opacity: 0;
     }
 }
 </style>

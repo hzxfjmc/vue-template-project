@@ -2,7 +2,8 @@
 .block__order--details
     .block__order--header.border-bottom
         img(:src="img") 
-        p {{orderDetails.recordTypeName}} {{orderDetails.recordStatusName}}
+        p(v-if="lang === 'en'") {{orderDetails.recordTypeName}} {{orderDetails.recordStatusName}}
+        p(v-else) {{orderDetails.recordTypeName}}{{orderDetails.recordStatusName}}
     .block__order-status.border-bottom
         p.title {{$t('orderStatus')}}
         transferStep(
@@ -36,7 +37,7 @@
             p.word-color {{$t('C22')}}
             p.num {{orderDetails.recordFee|transNumToThousandMark}} {{$t('hkd')}}
 
-    .block__footer--btn
+    .block__footer--btn(v-if="lang === 'en'")
         van-button(@click="toHomePage") {{$t('done')}}
         
 </template>
@@ -45,7 +46,11 @@ import transferStep from './transfer-step'
 import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
+import { mapGetters } from 'vuex'
 export default {
+    computed: {
+        ...mapGetters(['lang'])
+    },
     components: {
         transferStep
     },
