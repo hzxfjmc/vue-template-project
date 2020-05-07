@@ -223,7 +223,7 @@ export default {
                 this.orderNumValue = res.orderNo
                 this.tradeType = res.tradeType
                 this.orderType =
-                    res.fixedInvest === 1 ? '定投' : res.tradeTypeName
+                    res.fixedInvest === 1 ? this.$t('A2') : res.tradeTypeName
                 this.currency = res.currency.name
                 this.moneyNum = res.orderAmount
             } catch (e) {

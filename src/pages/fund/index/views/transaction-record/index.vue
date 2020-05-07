@@ -8,12 +8,9 @@
             .detail__main__item
                 .detail__main_title 订单状态
                 .detail__main_content {{fundInfo.externalName}}
-            .detail__main__item
+            .detail__main__item(v-if="fundInfo.externalStatus === 4")
                 .detail__main_title 失败原因
-                .detail__main_content 余额不足，扣款失败
-            .detail__main__item
-                .detail__main_title 生成原因
-                .detail__main_content 余额不足，扣款失败
+                .detail__main_content {{fundInfo.rejectReason}}
             .detail__main__item
                 .detail__main_title 生成时间
                 .detail__main_content {{fundInfo.orderTime}}
@@ -26,7 +23,7 @@
                 .detail__amount_content {{fundInfo.tradeTypeName}}
             .detail__amount__item
                 .detail__amount_title 金额
-                .detail__amount_content {{fundInfo.currency.name}} {{fundInfo.orderAmount}}
+                .detail__amount_content {{fundInfo.currency.name}} {{fundInfo.orderAmount | transNumToThousandMark}}
         .transaction__record__detail__btn
                 van-button(type="info" round size="large" @click="buyMoreHandle") 再买一笔
 </template>
@@ -35,10 +32,16 @@
 // import { statusMap } from './map'
 import { fundOrderDetail } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     data() {
         return {
             fundInfo: {}
+        }
+    },
+    filters: {
+        transNumToThousandMark(value) {
+            return transNumToThousandMark(value)
         }
     },
     methods: {
@@ -51,6 +54,8 @@ export default {
                 this.fundInfo.orderTime = dayjs(this.fundInfo.orderTime).format(
                     'YYYY-MM-DD HH:mm:ss'
                 )
+                this.fundInfo.tradeTypeName =
+                    res.fixedInvest === 1 ? this.$t('A2') : res.tradeTypeName
             } catch (e) {
                 console.log(e)
             }

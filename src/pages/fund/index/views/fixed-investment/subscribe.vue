@@ -233,6 +233,14 @@ export default {
                 this.bankInfo.type = fixedFundInfo.chargeType
                 this.bankInfo.bankAccountNo = fixedFundInfo.eddaBankAccount
                 this.bankInfo.bankCode = fixedFundInfo.eddaBankCode
+                this.bankList.map(item => {
+                    if (this.bankInfo.bankCode === item.bankCode) {
+                        item.check = true
+                    }
+                    if (this.bankInfo.type === item.type && item.type === 1) {
+                        item.check = true
+                    }
+                })
                 if (fixedFundInfo.eddaBankName) {
                     this.bankInfo.bankCode = fixedFundInfo.eddaBankName.en
                     this.bankInfo.bankNameEnglish =
@@ -271,7 +279,6 @@ export default {
                 this.bankList[0].bankName = this.arrMarketENUM[
                     this.fundTradeInfoVO.currency.type
                 ][res.assetProp]
-                console.log(this.fundTradeInfoVO.currency.type)
                 if (this.$route.query.chargeType == 1) {
                     this.bankInfo.bankName = this.arrMarketENUM[
                         this.fundTradeInfoVO.currency.type
