@@ -16,14 +16,14 @@
                     p.title {{item.recordTypeName}}
                     p.color {{item.createTime}}
                 .block__order--right(v-if="item.recordType != 3")
-                    p.num(v-if="item.recordType === 1") +{{item.recordAmount}}
-                    p.num(v-else-if="item.recordType === 2") -{{item.recordAmount}}
-                    p.num(v-else) {{item.recordAmount}}
-                    p.color {{$t('Balance')}} {{item.recordBalance}}
+                    p.num(v-if="item.recordType === 1") +{{item.recordAmount}} {{item.currency === 1 ?'USD':'HKD'}}
+                    p.num(v-else-if="item.recordType === 2") -{{item.recordAmount}} {{item.currency === 1 ? 'USD':'HKD'}}
+                    p.num(v-else) {{item.recordAmount}} {{item.currency === 1 ? 'USD':'HKD'}}
+                    p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD':'HKD'}}
                 .block__order--right(v-else)
-                    p.num(v-if="item.recordAmount>0") +{{item.recordAmount}}
+                    p.num(v-if="item.recordAmount>0") +{{item.recordAmount}} {{item.currency === 1 ? 'USD':'HKD'}}
                     p.num(v-else) {{item.recordAmount}}
-                    p.color {{$t('Balance')}} {{item.recordBalance}}
+                    p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD':'HKD'}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/yxbao/data.png") 
         .no-record-box {{$t('nomore')}}
