@@ -53,6 +53,7 @@ export const zhCHT = {
             suitPro: '高風險產品'
         }
     },
+    iknow: '我知道了',
     A1: '繁体中文',
     A2: '定投',
     A3: '定投金額',

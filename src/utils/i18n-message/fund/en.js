@@ -53,6 +53,7 @@ export const en = {
             suitPro: 'High Risk Products'
         }
     },
+    iknow: 'Got it',
     A1: '英文',
     A2: 'AIP',
     A3: 'AIP AMount',

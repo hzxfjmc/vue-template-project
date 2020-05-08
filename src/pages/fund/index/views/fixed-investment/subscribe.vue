@@ -16,6 +16,7 @@
                     .fund--header--footer
                         .fund--header--list
                             .fund-left {{$t('A5')}}
+                                span.iconfont.icon-iconEBshoucang2(@click="show=true")
                             .fund-right {{HandlingFee}} ({{(fundTradeInfoVO.subscriptionFee * 100).toFixed(2)}}%)
                                 //- em 1.00港币
                         .fund--header--list
@@ -25,11 +26,15 @@
                 .fund--block--exchange
                     .fund--blcok--etop
                         span {{$t('A13')}}
-                            em.iconfont.icon-iconEBshoucang2
+                            em.iconfont.icon-iconEBshoucang2(@click="showEddaComfim")
                         span.iconfont(
                             @click="hanlderExchangFlag"
                             :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
-                    p(v-if="exchangeFlag") {{$t('A14')}}
+                    p(v-if="exchangeFlag") 
+                        span(v-if="!flag") {{$t('A14')}}
+                        span(v-else) 定投日自动于银行扣款AAAA港币。并于证券账户扣款时按实时汇率兑换BBBB美元。兑换后剩余的港币会留存于你的证券账户。BBB美元为用户输入的申购额，AAAA港币=BBB美元*汇率
+                   
+
                 .fund--block--floor
                     .fund--list--item.border-bottom(@click="showBankType = true")
                         .item--top {{$t('A15')}}
@@ -84,6 +89,16 @@
             v-model="protocolShow")
         .block__footer--loading(v-if="loading")
             Loading(type="spinner" color="#2F79FF")
+        van-dialog(v-model="show" title="定投申购费说明" :confirmButtonText="$t('iknow')")
+            .block--content
+                .block--list--item
+                    .left 申购费反还
+                    .right X%
+                .block--list--item
+                    .left 开始返还期数
+                    .right 第二期
+                p 第2期交易成功后返还前两期的手续费折扣，以后每期交易成功后返还对应的手续费折扣
+
 </template>
 <script>
 import { getFundDetail } from '@/service/finance-info-server.js'
@@ -122,6 +137,7 @@ export default {
     },
     data() {
         return {
+            show: false,
             bankInfo: {},
             protocolShow: false,
             showBankType: false,
@@ -225,6 +241,14 @@ export default {
         }
     },
     methods: {
+        showEddaComfim() {
+            this.$alert({
+                title: 'EDDA说明',
+                message:
+                    '如使用EDDA方式扣款，uSMART将会提前于您的银行账户进行扣款并存入您的证券账户，并随后进行证券账户扣款操作。资金存入后为可用资金，您可以使用该资金进行交易，提款等操作。请保证于证券扣款时证券账户有足够的资金以作月供供款。',
+                confirmButtonText: this.$t('iknow')
+            })
+        },
         initState() {
             if (this.$route.query.type == 1) {
                 let fixedFundInfo = this.$route.query
