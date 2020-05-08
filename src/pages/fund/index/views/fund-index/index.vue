@@ -8,9 +8,9 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-                    //
+                    //v-if="isLogin && openedAccount"
         template
-            .block__assets(v-if="isLogin && openedAccount")
+            .block__assets(v-if="isLogin")
                 .block__top.border-bottom
                     .block__left--label 
                         span {{$t('protfolloAssets')}}
