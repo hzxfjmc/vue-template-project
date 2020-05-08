@@ -122,7 +122,7 @@ export default {
             openAccount: 'Please open your account to continue the trade',
             TradingRules: 'Trading Rules',
             FundDetails: 'Fund Details',
-            AboutuMoeny: 'About uMoeny'
+            AboutuMoeny: 'About CASH +'
         }
     },
 
