@@ -13,21 +13,22 @@
         span.block__all--out(
             @click="allSell"
             v-if="showAllSellBtn.show") {{$t('all')}}
-    van-number-keyboard(
-        theme="custom"
-        :show="show"
-        extra-key="."
-        :close-button-text="$t('ok')"
-        :show-delete-key = "false"
-        :safe-area-inset-bottom = "true"
-        @close="close"
-        @blur="show = false"
-        @hide = "handlerAmount"
-        @input="onInput"
-        @delete="onDelete"
-        )
-        div(slot="delete")
-            span.iconfont.icon-delet
+    .block__footter-num
+        van-number-keyboard(
+            theme="custom"
+            :show="show"
+            extra-key="."
+            :close-button-text="$t('ok')"
+            :show-delete-key = "false"
+            :safe-area-inset-bottom = "true"
+            @close="close"
+            @blur="show = false"
+            @hide = "handlerAmount"
+            @input="onInput"
+            @delete="onDelete"
+            )
+            div(slot="delete")
+                span.iconfont.icon-delet
 </template>
 <script>
 import { mapGetters } from 'vuex'
@@ -214,6 +215,7 @@ export default {
 <style lang="scss" scoped>
 .block__footter-num {
     position: fixed;
+    z-index: 9999999999999;
     .fix-bottom {
         bottom: 30px;
     }

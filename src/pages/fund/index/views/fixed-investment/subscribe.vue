@@ -4,6 +4,7 @@
             .fond-name {{ fundName }}
         .fund--block-content
             .fund-content
+                
                 .fund--block--top
                     .fund--header-title
                         .fund-title {{$t('A3')}}
