@@ -55,12 +55,12 @@
             p {{$t('msg1')}}
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
-        .fund-footer-content(v-if="RedemptionButton")
+        .fund-footer-content.fund-block--content(v-if="RedemptionButton")
             .btn.colorbg.button-5width.btn-inverster(
                     :class="[investmentShow? 'fund-footer':'fund-footer']"
                     @click="handleBuyOrSell(4)")
-                    span 定投
-                    em 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
+                    span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
+                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
             van-button.button-5width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
                 @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -73,8 +73,8 @@
                 .btn.colorbg.button-width1.btn-inverster(
                     :class="[investmentShow? 'fund-footer':'fund-footer']"
                     @click="handleBuyOrSell(4)")
-                    span 定投
-                    em 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
+                    span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
+                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
                 van-button.btn.button-width1(
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
@@ -1513,11 +1513,17 @@ export default {
     .btn-inverster {
         display: flex;
         flex-direction: column;
-        line-height: 20px;
+        align-items: center;
         span {
             height: 25px;
-            line-height: 25px;
+
             font-size: 16px;
+        }
+        .span-lineHeight {
+            line-height: 25px;
+        }
+        .span-lineHeight1 {
+            line-height: 50px;
         }
         em {
             line-height: 20px;
@@ -1596,7 +1602,7 @@ export default {
         background: rgba(25, 25, 25, 0.2);
     }
     .button-5width {
-        width: 33.333%;
+        width: 33.33%;
     }
     .button-6width {
         width: 50%;
@@ -1607,6 +1613,10 @@ export default {
     .van-button {
         border-radius: 0 !important;
     }
+}
+.fund-block--content {
+    display: flex;
+    flex-direction: row;
 }
 .fund-footer-content {
     width: 100%;

@@ -53,7 +53,7 @@
                                     
                                 .limit-text 
                                     .text-show
-                                        span(style="font-size:12px" ) 请保证扣款日当天证券账户中有足够资金
+                                        span(style="font-size:12px" ) {{$t('A22')}}
                                      
 
                     .fund--list--item(@click="protocolShow = true")
