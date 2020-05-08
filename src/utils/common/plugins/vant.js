@@ -9,9 +9,9 @@ import {
     Row,
     Col,
     Dialog,
-    Field,
-    NumberKeyboard
+    Field
 } from 'vant'
+import { NumberKeyboard } from 'vant-fork'
 import { Picker } from 'vant-fork'
 import { lang } from '@/utils/html-utils'
 const langMap = {
