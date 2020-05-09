@@ -23,8 +23,8 @@ if (Object.values(pages)[0]) {
     openPage = Object.values(pages)[0].filename // 当前项目的第一个单页
 }
 
-const jyApi = 'http://jy1-sit.yxzq.com'
-const jy1Api = 'http://jy1-sit.yxzq.com'
+const jyApi = 'http://jy-dev.yxzq.com'
+const jy1Api = 'http://jy-dev.yxzq.com'
 
 const hzApi = 'http://hz1-sit.yxzq.com'
 const hz1Api = 'http://hz1-sit.yxzq.com'

@@ -62,12 +62,11 @@
             van-button.btn.button-5width(
                 :class="[flag1?'fund-buy':'fund-no']" 
                 @click="toRouter('/fund-subscribe')") {{$t('append')}}
-        
-        
+
         .fund-footer-content(v-if="PurchaseButton")
-            van-button.btn.button-width.fund-footer-tip {{`${$t('subscriptionFee')}：`}}{{subscribeFeeVO.defaultFeeRate*100|transNumToThousandMark(2)}}
+            van-button.btn.button-width.fund-footer-tip(v-if="subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))") {{`${$t('subscriptionFee')}：`}}{{subscribeFeeVO.fundFeeLevelVOList[0].feeRate*100}}%
                 span （
-                s {{`1.80%`}}
+                s {{`${subscribeFeeVO.defaultFeeRate*100}%`}}
                 span ）
             van-button.btn.button-width(
                 :class="[flag2? 'fund-footer':'fund-no']"
@@ -421,7 +420,8 @@ export default {
                 inTransitAmount: null
             },
             subscribeFeeVO: {
-                defaultFeeRate: null
+                defaultFeeRate: 0,
+                fundFeeLevelVOList: []
             },
             positionStatus: {
                 type: -1
@@ -529,7 +529,13 @@ export default {
                 let params = {
                     fundId: this.id
                 }
-                await getFundFeeConfigV1(params)
+                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
+                this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
+                    ? transNumToThousandMark(subscribeFeeVO.defaultFeeRate, 2)
+                    : ''
+                this.subscribeFeeVO.fundFeeLevelVOList = subscribeFeeVO.fundFeeLevelVOList
+                    ? subscribeFeeVO.fundFeeLevelVOList
+                    : []
             } catch (e) {
                 console.log('getFundFeeConfigV1: ', e)
             }
@@ -1241,11 +1247,11 @@ export default {
             await this.getFundDetail()
             await this.getFundPositionV2()
             this.getFundNetPriceHistoryV1()
-            this.getFundFeeConfig()
             this.getFundRecommendList()
             this.getFundPerformanceHistory()
             this.getFundApyPointV1()
             if (this.isLogin) {
+                this.getFundFeeConfig()
                 await this.getFundUserInfo()
             }
         } finally {
@@ -1581,8 +1587,8 @@ export default {
     .fund-footer-tip {
         height: 36px !important;
         line-height: 36px;
-        background: #fe7127;
-        color: #fff;
+        background: #ffffff;
+        color: #fe7127;
         font-size: 14px;
     }
     .block__list--header {

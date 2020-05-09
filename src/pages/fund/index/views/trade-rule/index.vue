@@ -12,6 +12,25 @@
             :curStep="3"
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
             :stepTimes="[buySubmit.value,buyConfirm.value ,buyProfitLoss.value ]")
+    .fund-management-list
+        h3.fund-management-title(class="border-bottom") {{$t('tradeTitleExplain')}}
+        table.trade-table(cellspacing="0" cellpadding="0")
+            tr
+                td {{$t('tradeMoneyLable')}}
+                td {{$t('feeLable')}}
+            tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))")
+                template(v-for="item in subscribeFeeVO.fundFeeLevelVOList")
+                    td 
+                        span {{`${item.minAmount}`}}{{$t('million')}}
+                        span {{` ≤ ${$t('tradeDefaultPeriod')}`}}
+                        span(v-if="item.maxAmount") {{`< ${item.maxAmount}`}}{{$t('million')}}
+                    td
+                        span {{`${subscribeFeeVO.fundFeeLevelVOList[0].feeRate*100}%（`}}
+                        s {{`${subscribeFeeVO.defaultFeeRate}%`}}
+                        span ） 
+            tr(v-else)
+                td {{`0 ≤ ${$t('tradeDefaultPeriod')}`}}
+                td {{`${subscribeFeeVO.defaultFeeRate}%`}}  
     .fund-redeem
         FundListItem(
             slot="fundStep"
@@ -26,16 +45,23 @@
                 :curStep="3"
                 :stepNames="[sellSubmit.label,sellConfirm.label ,sellProfitLoss.label ]"
                 :stepTimes="[sellSubmit.value,sellConfirm.value ,sellProfitLoss.value ]")
-
-    
     .fund-management-list
         h3.fund-management-title(class="border-bottom") {{$t('managermentLabel')}}
         FunCell(:cellList="managementList")
+    .fund-management-list
+        h3.fund-management-title(class="border-bottom") {{$t('holiday')}}
+        table.trade-table(cellspacing="0" cellpadding="0")
+            tr
+                td {{$t('time')}}
+                td {{$t('Description')}}
+            tr(v-for="item in holidayList")
+                td {{item.date}}
+                td {{item.explanation}}
 </template>
 <script>
+import dayjs from 'dayjs'
 import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
-
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getSource } from '@/service/customer-relationship-server'
 import { mapGetters } from 'vuex'
@@ -46,7 +72,11 @@ import {
     managementList,
     i18nTrudeRuleData
 } from './trade-rule'
-import { getFundDetail } from '@/service/finance-info-server.js'
+import {
+    getFundDetail,
+    getFundFeeConfigV1,
+    getFundHoliday
+} from '@/service/finance-info-server.js'
 export default {
     i18n: i18nTrudeRuleData,
     components: {
@@ -88,10 +118,32 @@ export default {
             sellProfitLoss: {
                 label: '查看盈亏',
                 value: ''
-            }
+            },
+            subscribeFeeVO: {
+                defaultFeeRate: 0,
+                fundFeeLevelVOList: []
+            },
+            holidayList: []
         }
     },
     methods: {
+        async getFundFeeConfig() {
+            try {
+                let params = {
+                    fundId: this.$route.query.id
+                }
+                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
+
+                this.subscribeFeeVO.defaultFeeRate = transNumToThousandMark(
+                    subscribeFeeVO.defaultFeeRate * 100,
+                    2
+                )
+                this.subscribeFeeVO.fundFeeLevelVOList =
+                    subscribeFeeVO.fundFeeLevelVOList
+            } catch (e) {
+                console.log('getFundFeeConfigV1: ', e)
+            }
+        },
         InitI18nState() {
             for (let key in this.tradeList) {
                 if (key != 'subscriptionFee') {
@@ -176,24 +228,66 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        //获取基金节假日
+        async getFundHoliday() {
+            try {
+                const res = await getFundHoliday({
+                    fundId: this.$route.query.id
+                })
+                this.holidayList = res
+                this.holidayList.map(item => {
+                    item.date = dayjs(item.date).format('YYYY-MM-DD')
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     created() {
         this.InitState()
         this.InitI18nState()
+        this.getFundFeeConfig()
+        this.getFundHoliday()
     }
 }
 </script>
 <style lang="scss" scoped>
-.fund-redeem {
-    margin: 6px 0 0 0;
-}
-.fund-management-list {
-    padding: 0 10px;
-    margin: 6px 0 0 0;
-    background: #fff;
-    .fund-management-title {
-        line-height: 50px;
+.tarde-rule {
+    padding-bottom: 20px;
+    .fund-redeem {
+        margin: 6px 0 0 0;
+    }
+    .fund-management-list {
+        padding: 0 10px 10px;
+        margin: 6px 0 0 0;
+        background: #fff;
+        .fund-management-title {
+            line-height: 50px;
+        }
+        .trade-table {
+            width: 100%;
+            border-collapse: collapse;
+            tr:first-child {
+                td {
+                    color: rgba(25, 25, 25, 0.65);
+                }
+            }
+            tr {
+                td {
+                    color: #191919;
+                    display: table-cell;
+                    border: 1px solid #191919;
+                    padding: 10px 5px;
+                    min-width: 0;
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                    text-overflow: ellipsis;
+                    vertical-align: middle;
+                    text-align: center;
+                }
+            }
+        }
     }
 }
 </style>
