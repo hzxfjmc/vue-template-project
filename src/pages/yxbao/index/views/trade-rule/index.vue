@@ -26,6 +26,9 @@
                         .block__list--item
                             p.label {{$t('C50')}}
                             p.value {{fundTradeInfoVO.subscriptionFee | transNumToThousandMark}}%
+                        .block__list--item
+                            p.label {{$t('managermentLabel')}}
+                            p.value {{Math.floor(Number(fundTradeInfoVO.managementFee * 10000)) / 100}} %
                 hr.hr-border
                 .block__tab-one.block__tab-table
                     p.title {{$t('C51')}}
@@ -54,6 +57,7 @@
                             .block__list--item
                                 p.label {{$t('C86')}}
                                 p.value {{Number(fundTradeInfoVO.minTradeAmount).toFixed(2)}} HKD
+                            
                     hr.hr-border(v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit")
                     .block__tab-one(v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit")
                         p.title {{$t('C19')}}
