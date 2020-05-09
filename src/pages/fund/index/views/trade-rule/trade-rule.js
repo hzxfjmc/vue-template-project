@@ -17,12 +17,12 @@ export const tradeList = {
         label: '续投金额',
         value: '',
         cname: 'HKD'
-    },
-    subscriptionFee: {
-        label: '申购费',
-        labelHk: '',
-        value: ''
     }
+    // subscriptionFee: {
+    //     label: '申购费',
+    //     labelHk: '',
+    //     value: ''
+    // }
 }
 
 export const redeemList = {

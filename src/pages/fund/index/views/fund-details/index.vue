@@ -64,9 +64,9 @@
                 @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
         .fund-footer-content(v-if="PurchaseButton")
-            van-button.btn.button-width.fund-footer-tip(v-if="subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))") {{`${$t('subscriptionFee')}：`}}{{subscribeFeeVO.fundFeeLevelVOList[0].feeRate*100}}%
+            van-button.btn.button-width.fund-footer-tip(v-if="subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))") {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
-                s {{`${subscribeFeeVO.defaultFeeRate*100}%`}}
+                s {{defaultRate}}
                 span ）
             van-button.btn.button-width(
                 :class="[flag2? 'fund-footer':'fund-no']"
@@ -380,6 +380,14 @@ export default {
                 }
                 return true
             }
+        },
+        defaultRate() {
+            return `${(this.subscribeFeeVO.defaultFeeRate * 100).toFixed(2)}%`
+        },
+        discountRate() {
+            return `${(
+                this.subscribeFeeVO.fundFeeLevelVOList[0].feeRate * 100
+            ).toFixed(2)}%`
         }
     },
     data() {
@@ -531,7 +539,7 @@ export default {
                 }
                 let { subscribeFeeVO } = await getFundFeeConfigV1(params)
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
-                    ? transNumToThousandMark(subscribeFeeVO.defaultFeeRate, 2)
+                    ? subscribeFeeVO.defaultFeeRate
                     : ''
                 this.subscribeFeeVO.fundFeeLevelVOList = subscribeFeeVO.fundFeeLevelVOList
                     ? subscribeFeeVO.fundFeeLevelVOList

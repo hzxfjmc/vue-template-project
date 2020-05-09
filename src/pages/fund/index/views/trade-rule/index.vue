@@ -23,9 +23,9 @@
                     td 
                         span {{`${item.minAmount}`}}{{$t('million')}}
                         span {{` ≤ ${$t('tradeDefaultPeriod')}`}}
-                        span(v-if="item.maxAmount") {{`< ${item.maxAmount}`}}{{$t('million')}}
+                        span(v-if="item.maxAmount") {{` < ${item.maxAmount}`}}{{$t('million')}}
                     td
-                        span {{`${subscribeFeeVO.fundFeeLevelVOList[0].feeRate*100}%（`}}
+                        span {{`${discountRate}（`}}
                         s {{`${subscribeFeeVO.defaultFeeRate}%`}}
                         span ） 
             tr(v-else)
@@ -85,7 +85,12 @@ export default {
         FundSteps
     },
     computed: {
-        ...mapGetters(['isLogin', 'appType', 'openedAccount'])
+        ...mapGetters(['isLogin', 'appType', 'openedAccount']),
+        discountRate() {
+            return `${(
+                this.subscribeFeeVO.fundFeeLevelVOList[0].feeRate * 100
+            ).toFixed(2)}%`
+        }
     },
     data() {
         return {
@@ -132,12 +137,22 @@ export default {
                 let params = {
                     fundId: this.$route.query.id
                 }
-                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
-
-                this.subscribeFeeVO.defaultFeeRate = transNumToThousandMark(
-                    subscribeFeeVO.defaultFeeRate * 100,
-                    2
+                let { subscribeFeeVO, redeemFeeVO } = await getFundFeeConfigV1(
+                    params
                 )
+                this.redeemList.redemptionFee.value =
+                    redeemFeeVO.fundFeeLevelVOList.length &&
+                    Number(redeemFeeVO.fundFeeLevelVOList[0].feeRate) <
+                        Number(redeemFeeVO.defaultFeeRate)
+                        ? `${(
+                              redeemFeeVO.fundFeeLevelVOList[0].feeRate * 100
+                          ).toFixed(2)}%（<s>${(
+                              redeemFeeVO.defaultFeeRate * 100
+                          ).toFixed(2)}%</s>）`
+                        : `${redeemFeeVO.defaultFeeRate}%`
+                this.subscribeFeeVO.defaultFeeRate = `${(
+                    subscribeFeeVO.defaultFeeRate * 100
+                ).toFixed(2)}`
                 this.subscribeFeeVO.fundFeeLevelVOList =
                     subscribeFeeVO.fundFeeLevelVOList
             } catch (e) {
@@ -198,9 +213,9 @@ export default {
                     fundTradeInfoVO.minPositionShare,
                     4
                 )
-                this.redeemList.redemptionFee.value = `${Math.floor(
-                    Number(fundTradeInfoVO.redemptionFee * 10000)
-                ) / 100}%`
+                // this.redeemList.redemptionFee.value = `${Math.floor(
+                //     Number(fundTradeInfoVO.redemptionFee * 10000)
+                // ) / 100}%`
                 this.buySubmit.value = fundTradeInfoVO.buySubmit
                 this.buyConfirm.value = fundTradeInfoVO.buyConfirm
                 this.buyProfitLoss.value = fundTradeInfoVO.buyProfitLoss
