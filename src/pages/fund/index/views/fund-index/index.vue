@@ -110,15 +110,8 @@ div
                     img(:src="code !=1 ? item.imgUrl:item.imgUrl1") 
                     span {{item.label}}
         
-        //- .block--fund--swipper
-            
         .block__container
             FundCardSwipper
-            FundList(
-                :code = "code"
-                v-if="choiceFundListShow"
-                :fundlist="choiceFundList")
-
             .block--yxbao-container(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
@@ -140,7 +133,10 @@ div
                         p.block--bottom--desc {{$t('tenKRtn')}}
                     .right
                         van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}
-
+            FundList(
+                :code = "code"
+                v-if="choiceFundListShow"
+                :fundlist="choiceFundList")
             .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
                 van-swipe(:autoplay="3000")  
                     van-swipe-item(

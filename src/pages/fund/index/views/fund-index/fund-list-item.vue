@@ -1,7 +1,8 @@
 <template lang="pug">
     .block__fund(
         :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
-        .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
+        //- .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
+        .block__fund-title.ellipse() {{title}}
         .block__fund--list.border-bottom(
             @click="goNext(item)"
             v-for="(item,index) in fundlist.data" 
@@ -169,7 +170,7 @@ export default {
         height: 57px;
         padding: 0 14px;
         border-top-left-radius: 5px;
-        color: #fff;
+        // color: #fff;
         line-height: 57px;
         border-top-right-radius: 5px;
         font-size: 20px;

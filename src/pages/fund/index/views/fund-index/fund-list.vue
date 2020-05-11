@@ -7,10 +7,10 @@
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .element--fund--content
-                    .canvas-element--right
-                        canvas(
-                            :id="'chartId'+item.fundId" 
-                        )
+                    //- .canvas-element--right
+                    //-     canvas(
+                    //-         :id="'chartId'+item.fundId" 
+                    //-     )
                     //- span.title.ellipse {{item.title}}
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(item.apy*100).toFixed(2)}}%
@@ -25,9 +25,14 @@
                             span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
                             span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                         .tag-list--element(v-else)
-                            span {{item.assetTypeName}}
-                            span {{`${item.initialInvestAmount}${item.tradeCurrency}${$t('described1')}`}}
-                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
+                            fund-tag(
+                                :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described1'):''}`")
+                            fund-tag(
+                                v-if="item.fundSize != 0"
+                                :title="`${lang === 'en' ? $t('fundSizeIndex'):''}${item.fundSize}${$t('unit')}${item.fundSizeCurrency}${lang === 'en' ?'':$t('fundSizeIndex')}`")
+                            //- span {{item.assetTypeName}}
+                            //- span {{`${item.initialInvestAmount}${item.tradeCurrency}${$t('described1')}`}}
+                            //- span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
                 
 </template>
 <script>
@@ -178,6 +183,12 @@ export default {
     background: #fff;
     .block__fund-title {
         font-size: 20px;
+        width: 100%;
+        line-height: 40px;
+        height: 40px;
+        background: url('~@/assets/img/fund/fund-title-bg.png') no-repeat;
+        background-size: 100% 100%;
+        padding: 0 0 0 12px;
     }
     .block__fund--list {
         width: 100%;
@@ -205,9 +216,9 @@ export default {
                 height: 100%;
                 flex-direction: column;
                 width: 105px;
-                padding: 0 10px;
+                padding: 0 12px;
                 .number {
-                    font-size: 0.4rem;
+                    font-size: 22px;
                     line-height: 23px;
                     font-family: yxFontDINPro-Medium;
                 }
@@ -220,7 +231,7 @@ export default {
             .element--content-bottom {
                 flex: 1;
                 .tag-title {
-                    max-width: 180px;
+                    max-width: 220px;
                     span {
                         height: 22px;
                         // margin: 10px 0 0 0;
@@ -234,6 +245,8 @@ export default {
                     flex-direction: row;
                 }
                 .tag-list--element {
+                    display: flex;
+                    flex-direction: row;
                     span {
                         padding: 0 3px 0 3px;
                         font-size: 12px;
@@ -266,6 +279,6 @@ export default {
     padding: 10px 0;
 }
 .block__fund-ch {
-    padding: 10px 12px;
+    // padding: 10px 12px;
 }
 </style>
