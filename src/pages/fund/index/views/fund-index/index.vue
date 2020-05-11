@@ -110,9 +110,10 @@ div
                     img(:src="code !=1 ? item.imgUrl:item.imgUrl1") 
                     span {{item.label}}
         
-        .block--fund--swipper
-            span 324324
+        //- .block--fund--swipper
+            
         .block__container
+            FundCardSwipper
             FundList(
                 :code = "code"
                 v-if="choiceFundListShow"
@@ -197,12 +198,14 @@ import { mapGetters } from 'vuex'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { getSource } from '@/service/customer-relationship-server'
 import { i18n } from './i18n'
+import FundCardSwipper from './fund-card-swipper'
 export default {
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
         FundList,
-        FundListItem
+        FundListItem,
+        FundCardSwipper
     },
     i18n: i18n,
     filters: {

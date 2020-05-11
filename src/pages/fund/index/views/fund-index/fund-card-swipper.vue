@@ -1,31 +1,39 @@
 <template lang="pug">
-.block__agreement--list
-    .agreement__list--item
-        h3 {{$t('disclaimerTitle')}}
-        p {{$t('describe1')}}
-        p {{$t('describe2')}}
-    .agreement__list--item
-        h3 {{$t('riskTitle')}}
-        p {{$t('describe3')}}
-        p {{$t('describe4')}}
+.block--swipper--wrapper
+     van-swipe(:autoplay="5000") 
+        van-swipe-item(
+            v-for="(item, index) in barnnarHkList" 
+            :key="index"  
+            @click="goBanner(item)") 
+            .block--swipper--content
+                img(:src="item.picture_url") 
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { mapGetters } from 'vuex'
+
 export default {
     i18n: {},
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem
     },
-    computed: {
-        ...mapGetters(['lang'])
-    },
     data() {
-        return {}
+        return {
+            barnnarHkList: [{}, {}, {}]
+        }
     },
     methods: {},
     created() {}
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.block--swipper--wrapper {
+    margin: 7px 0 0 0;
+    .block--swipper--content {
+        width: 351px;
+        height: 220px;
+        margin: 0 12px;
+        border: 1px solid red;
+    }
+}
+</style>
