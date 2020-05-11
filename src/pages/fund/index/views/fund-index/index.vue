@@ -109,6 +109,9 @@ div
                     :key="index") 
                     img(:src="code !=1 ? item.imgUrl:item.imgUrl1") 
                     span {{item.label}}
+        
+        .block--fund--swipper
+            span 324324
         .block__container
             FundList(
                 :code = "code"
@@ -119,7 +122,7 @@ div
                 .block--title
                     h3 {{$t('uMoney')}}
                     em.iconfont.icon-attention(@click="handlerDesc")
-                p.block--desc {{$t('stockRedemption')}}
+                p.block--desc 随存随取 闲置资金可挣钱
                 .block--bottom-content
                     .left
                         .number(
