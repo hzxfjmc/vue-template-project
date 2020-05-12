@@ -7,6 +7,7 @@
             @click="goBanner(item)") 
             .block--swipper--content()
                 .block__swipper--content(:style="{background:`url(${item.picture_url})`}")
+                    //- img(:src="item.picture_url")
                     .block--tilte {{item.banner_title}}
                     .block--desc {{item.banner_sub_title}}
                     .block--fund-num {{Number(item.apy)*100}}%

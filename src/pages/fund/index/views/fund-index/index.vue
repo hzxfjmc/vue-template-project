@@ -432,7 +432,6 @@ export default {
                     })
                 })
                 this.fundBarnnarList = res3.banner_list
-                console.log(this.fundBarnnarList)
             } catch (e) {
                 if (flag) {
                     return
