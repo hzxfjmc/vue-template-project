@@ -41,8 +41,8 @@ import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { debounce } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
-import dayjs from 'dayjs'
-import F2 from '@antv/f2'
+// import dayjs from 'dayjs'
+// import F2 from '@antv/f2'
 export default {
     props: {
         fundlist: {
@@ -97,17 +97,18 @@ export default {
     components: {
         'fund-tag': fundTag
     },
-    updated() {
-        this.$nextTick(() => {
-            this.fundlist.data.forEach(item => {
-                this.draw(
-                    `chartId${item.fundId}`,
-                    item.fundHomepagePointList,
-                    item.apy
-                )
-            })
-        })
-    },
+    // updated() {
+    //     this.$nextTick(() => {
+    //         this.fundlist.data.forEach(item => {
+    //             console.log(item.fundId)
+    //             this.draw(
+    //                 `chartId${item.fundId}`,
+    //                 item.fundHomepagePointList,
+    //                 item.apy
+    //             )
+    //         })
+    //     })
+    // },
     computed: {
         stockColorType() {
             return +getStockColorType()
@@ -115,53 +116,54 @@ export default {
         ...mapGetters(['appType', 'lang'])
     },
     methods: {
-        draw(canvasId, data, apy) {
-            const chart = new F2.Chart({
-                id: canvasId
-            })
-            data.map(item => {
-                item.pointData = Number(item.pointData)
-            })
-            chart.source(data, {
-                pointData: {
-                    formatter: function formatter(val) {
-                        return Number(val).toFixed(2)
-                    }
-                },
-                belongDay: {
-                    type: 'timeCat',
-                    tickCount: 3000,
-                    formatter: function formatter(val) {
-                        return dayjs(val).format('YYYY-MM-DD')
-                    }
-                }
-            })
-            chart.tooltip({
-                custom: true,
-                showXTip: true,
-                showYTip: true,
-                snap: true,
-                crosshairsType: 'xy',
-                crosshairsStyle: {
-                    lineDash: [2]
-                }
-            })
-            chart.axis(false)
-            let stockColor
-            if (this.stockColorType === 1) {
-                stockColor = Number(apy) >= 0 ? '#ea3d3d' : '#04ba60'
-            } else {
-                stockColor = Number(apy) >= 0 ? '#04ba60' : '#ea3d3d'
-            }
-            chart
-                .line()
-                .position('belongDay*pointData')
-                .color(`${stockColor}`)
-                .style({
-                    lineWidth: 10
-                })
-            chart.render()
-        },
+        // draw(canvasId, data, apy) {
+        //     console.log(canvasId)
+        //     const chart = new F2.Chart({
+        //         id: canvasId
+        //     })
+        //     data.map(item => {
+        //         item.pointData = Number(item.pointData)
+        //     })
+        //     chart.source(data, {
+        //         pointData: {
+        //             formatter: function formatter(val) {
+        //                 return Number(val).toFixed(2)
+        //             }
+        //         },
+        //         belongDay: {
+        //             type: 'timeCat',
+        //             tickCount: 3000,
+        //             formatter: function formatter(val) {
+        //                 return dayjs(val).format('YYYY-MM-DD')
+        //             }
+        //         }
+        //     })
+        //     chart.tooltip({
+        //         custom: true,
+        //         showXTip: true,
+        //         showYTip: true,
+        //         snap: true,
+        //         crosshairsType: 'xy',
+        //         crosshairsStyle: {
+        //             lineDash: [2]
+        //         }
+        //     })
+        //     chart.axis(false)
+        //     let stockColor
+        //     if (this.stockColorType === 1) {
+        //         stockColor = Number(apy) >= 0 ? '#ea3d3d' : '#04ba60'
+        //     } else {
+        //         stockColor = Number(apy) >= 0 ? '#04ba60' : '#ea3d3d'
+        //     }
+        //     chart
+        //         .line()
+        //         .position('belongDay*pointData')
+        //         .color(`${stockColor}`)
+        //         .style({
+        //             lineWidth: 10
+        //         })
+        //     chart.render()
+        // },
         goNext(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             debounce(gotoNewWebView(url), 300)

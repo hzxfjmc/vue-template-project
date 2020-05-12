@@ -52,7 +52,6 @@ export default {
     updated() {
         this.$nextTick(() => {
             this.fundlist.data.forEach(item => {
-                console.log(`chartId${item.fundId}`)
                 this.draw(
                     `chartId${item.fundId}`,
                     item.fundHomepagePointList,

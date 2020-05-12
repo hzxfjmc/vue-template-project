@@ -111,7 +111,7 @@ div
                     span {{item.label}}
         
         .block__container
-            FundCardSwipper
+            //- FundCardSwipper
             .block--yxbao-container(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
