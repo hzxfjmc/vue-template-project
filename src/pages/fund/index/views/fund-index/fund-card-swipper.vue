@@ -64,6 +64,7 @@ export default {
             margin: 8px 0 0 0;
             color: #fff;
             background: #2971f0;
+            border: none;
         }
     }
 

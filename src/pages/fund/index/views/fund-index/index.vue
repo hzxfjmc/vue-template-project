@@ -185,6 +185,7 @@ import {
     getBaoFundInfo,
     getFundSimpleInfoList
 } from '@/service/finance-info-server'
+import { getSpSubjectDetail } from '@/service/news-msgdisplay'
 import { getFundTotalPosition } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
@@ -281,6 +282,14 @@ export default {
         }
     },
     methods: {
+        async getSpSubjectDetail() {
+            const res = await getSpSubjectDetail({
+                subject_id: 1,
+                last_score: 0,
+                page_size: 10
+            })
+            console.log(res)
+        },
         //获取用户信息
         async getFundUserInfo() {
             try {
