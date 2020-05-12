@@ -1,0 +1,13 @@
+.block--swipper--wrapper{
+    .van-swipe__indicators {
+        bottom: 10px !important;
+        .van-swipe__indicator{
+            width:8px;
+            height:2px;
+            background: #191919;
+        }
+        .van-swipe__indicator--active{
+            background:#3c78fa
+        }
+    }
+}

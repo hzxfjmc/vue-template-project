@@ -1,10 +1,10 @@
 const { exec } = require('child_process')
-const projects = process.argv.slice(2)
-const env = process.argv[process.argv.length - 1]
+let projects = process.argv.slice(2)
+let env = process.argv[process.argv.length - 1]
+if(env != 'sit' && env != 'uat' && env != 'dev'){
+    env = 'sit'
+}
 projects.map((item,index)=>{
-    if(item != 'sit' && item != 'uat' && item != 'dev'){
-        env = 'sit'
-    }
     if(item == 'sit' || item == 'uat' || item == 'dev'){
         projects.splice(index,1)
     }

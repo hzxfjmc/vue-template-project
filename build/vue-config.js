@@ -26,12 +26,11 @@ if (Object.values(pages)[0]) {
 
 const jyApi = `http://jy-${process.env.VUE_APP_ENV}.yxzq.com`
 
-const hzApi = `http://hz1-${process.env.VUE_APP_ENV}.yxzq.com`
+const hzApi = `http://hz-${process.env.VUE_APP_ENV}.yxzq.com`
 
 const webappApi = `http://m-${process.env.VUE_APP_ENV}.yxzq.com`
-console.log(jyApi)
-console.log(hzApi)
-    console.log(webappApi)
+
+console.log(`现在请求的是${process.env.VUE_APP_ENV}环境的接口${jyApi}`)
     // config 配置
 module.exports = {
     ...commonConfig(project),

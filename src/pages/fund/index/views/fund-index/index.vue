@@ -111,7 +111,8 @@ div
                     span {{item.label}}
         
         .block__container
-            //- FundCardSwipper
+            FundCardSwipper(
+                :fundBarnnarList="fundBarnnarList")
             .block--yxbao-container(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
@@ -181,7 +182,8 @@ import FundList from './fund-list'
 import FundListItem from './fund-list-item'
 import {
     getFundHomepageInfo,
-    getBaoFundInfo
+    getBaoFundInfo,
+    getFundSimpleInfoList
 } from '@/service/finance-info-server'
 import { getFundTotalPosition } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
@@ -223,6 +225,7 @@ export default {
             barnnarUsList: [],
             barnnarHkList: [],
             tabbarnnarList: [],
+            fundBarnnarList: [],
             chooseCurrencyShow: false,
             choiceFundListShow: false,
             blueChipFundListShow: false,
@@ -413,6 +416,23 @@ export default {
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
                 this.tabbarnnarList = res3.banner_list
+
+                let fundCodeList = []
+                res3.banner_list.map(item => {
+                    fundCodeList.push(item.Fund)
+                })
+                const fundListInfo = await getFundSimpleInfoList({
+                    fundCodeList: fundCodeList
+                })
+                res3.banner_list.map(item => {
+                    fundListInfo.map(items => {
+                        if (item.Fund === items.fundCode) {
+                            item.apy = items.apy
+                        }
+                    })
+                })
+                this.fundBarnnarList = res3.banner_list
+                console.log(this.fundBarnnarList)
             } catch (e) {
                 if (flag) {
                     return
