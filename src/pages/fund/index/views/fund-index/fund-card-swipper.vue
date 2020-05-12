@@ -1,12 +1,13 @@
 <template lang="pug">
 .block--swipper--wrapper
-     van-swipe(:autoplay="5000") 
+     van-swipe(:autoplay="500000") 
         van-swipe-item(
             v-for="(item, index) in barnnarHkList" 
             :key="index"  
             @click="goBanner(item)") 
             .block--swipper--content
-                img(:src="item.picture_url") 
+                .block__swipper--wrapper
+                    span 23132
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
@@ -30,10 +31,13 @@ export default {
 .block--swipper--wrapper {
     margin: 7px 0 0 0;
     .block--swipper--content {
-        width: 351px;
+        width: 100%;
         height: 220px;
-        margin: 0 12px;
+        padding: 0 12px;
         border: 1px solid red;
     }
+    // .van-swipe-item {
+    //     width: 100% !important;
+    // }
 }
 </style>
