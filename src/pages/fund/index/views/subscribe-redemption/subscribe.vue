@@ -93,7 +93,10 @@ import shareWay from '@/biz-components/share-way/index'
 import { getCosUrl } from '@/utils/cos-utils'
 // import { getTradePasswordToken } from '@/service/user-server.js'
 import { fundPurchase, getFundPositionV2 } from '@/service/finance-server.js'
-import { getFundDetail } from '@/service/finance-info-server.js'
+import {
+    getFundDetail,
+    getFundFeeConfigV1
+} from '@/service/finance-info-server.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
@@ -168,7 +171,11 @@ export default {
             derivativeType: null,
             tipShow: false,
             tips: '',
-            Exchange: ''
+            Exchange: '',
+            subscribeFeeVO: {
+                defaultFeeRate: 0,
+                fundFeeLevelVOList: []
+            }
         }
     },
     filters: {
@@ -190,6 +197,24 @@ export default {
             this.subscribeObj.totalOrderAmount.value = transNumToThousandMark(
                 Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
             )
+            if (numberInt) {
+                this.subscribeFeeVO.fundFeeLevelVOList.map(item => {
+                    item.minAmount =
+                        item.minAmount === null ? 0 : item.minAmount
+                    item.maxAmount =
+                        item.maxAmount === null ? Infinity : item.maxAmount
+                    if (
+                        +item.minAmount <= +numberInt &&
+                        +numberInt < +item.maxAmount
+                    ) {
+                        this.subscribeObj.subscriptionFee.value =
+                            item.feeRate * 100
+                    }
+                })
+            } else {
+                this.subscribeObj.subscriptionFee.value =
+                    this.subscribeFeeVO.defaultFeeRate * 100
+            }
             this.subscriptionFee =
                 (numberInt * this.subscribeObj.subscriptionFee.value) / 100
             if (numberInt > +this.withdrawBalance) {
@@ -236,6 +261,25 @@ export default {
         }
     },
     methods: {
+        async getFundFeeConfig() {
+            try {
+                let params = {
+                    fundId: this.$route.query.id
+                }
+                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
+                this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
+                    ? subscribeFeeVO.defaultFeeRate
+                    : ''
+                this.subscribeFeeVO.fundFeeLevelVOList = subscribeFeeVO.fundFeeLevelVOList
+                    ? subscribeFeeVO.fundFeeLevelVOList
+                    : []
+                // 赋值默认申购费
+                this.subscribeObj.subscriptionFee.value =
+                    this.subscribeFeeVO.defaultFeeRate * 100
+            } catch (e) {
+                console.log('getFundFeeConfigV1: ', e)
+            }
+        },
         //大陆版 IOS  3.4.0 版本（包括）之前 的都不展示 点次去换汇
         compareVersionFund() {
             const isIos = /(ipad)|(iphone)/i.test(navigator.userAgent)
@@ -258,6 +302,7 @@ export default {
             this.getGroupOrders()
             this.getFundPositionV2Fun()
             this.getWithdrawBalance()
+            this.getFundFeeConfig()
             try {
                 const { code } = await getSource()
                 this.code = code
@@ -572,10 +617,6 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
-                console.log(this.$t('hkd'))
-                console.log(
-                    this.currency.type == 1 ? this.$t('hkd') : this.$t('usd')
-                )
                 this.tips = this.$t([
                     `*友信暂不支持使用${
                         this.currency.type == 1
@@ -606,8 +647,6 @@ export default {
                     } funds, If there is a need, you can manually exchange and then purchase the funds.`
                 ])
                 this.Exchange = this.$t('Exchange')
-                this.subscribeObj.subscriptionFee.value =
-                    fundDetail.fundTradeInfoVO.subscriptionFee * 100
                 this.setCosUrl(
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol

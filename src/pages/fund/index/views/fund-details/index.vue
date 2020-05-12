@@ -64,7 +64,7 @@
                 @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
         .fund-footer-content(v-if="PurchaseButton")
-            van-button.btn.button-width.fund-footer-tip(v-if="subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))") {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+            van-button.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))") {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
                 s {{defaultRate}}
                 span ）

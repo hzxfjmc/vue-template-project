@@ -12,25 +12,25 @@
             :curStep="3"
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
             :stepTimes="[buySubmit.value,buyConfirm.value ,buyProfitLoss.value ]")
-    .fund-management-list
+    .fund-management-list(v-if="showPositionInfo")
         h3.fund-management-title(class="border-bottom") {{$t('tradeTitleExplain')}}
         table.trade-table(cellspacing="0" cellpadding="0")
             tr
                 td {{$t('tradeMoneyLable')}}
                 td {{$t('feeLable')}}
-            tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))")
-                template(v-for="item in subscribeFeeVO.fundFeeLevelVOList")
+            template(v-for="item in subscribeFeeVO.fundFeeLevelVOList")
+                tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))")
                     td 
-                        span {{`${item.minAmount}`}}{{$t('million')}}
+                        span {{`${item.minAmount/10000}`}}{{$t('million')}}
                         span {{` ≤ ${$t('tradeDefaultPeriod')}`}}
-                        span(v-if="item.maxAmount") {{` < ${item.maxAmount}`}}{{$t('million')}}
+                        span(v-if="item.maxAmount") {{` < ${item.maxAmount/10000}`}}{{$t('million')}}
                     td
-                        span {{`${discountRate}（`}}
+                        span {{`${discountRate(item.feeRate)}（`}}
                         s {{`${subscribeFeeVO.defaultFeeRate}%`}}
                         span ） 
-            tr(v-else)
-                td {{`0 ≤ ${$t('tradeDefaultPeriod')}`}}
-                td {{`${subscribeFeeVO.defaultFeeRate}%`}}  
+                tr(v-else)
+                    td {{`0 ≤ ${$t('tradeDefaultPeriod')}`}}
+                    td {{`${subscribeFeeVO.defaultFeeRate}%`}}  
     .fund-redeem
         FundListItem(
             slot="fundStep"
@@ -86,10 +86,9 @@ export default {
     },
     computed: {
         ...mapGetters(['isLogin', 'appType', 'openedAccount']),
-        discountRate() {
-            return `${(
-                this.subscribeFeeVO.fundFeeLevelVOList[0].feeRate * 100
-            ).toFixed(2)}%`
+        showPositionInfo() {
+            // 登陆且已开户才展示持仓信息
+            return this.isLogin && this.openedAccount
         }
     },
     data() {
@@ -132,6 +131,9 @@ export default {
         }
     },
     methods: {
+        discountRate(val) {
+            return `${(val * 100).toFixed(2)}%`
+        },
         async getFundFeeConfig() {
             try {
                 let params = {
