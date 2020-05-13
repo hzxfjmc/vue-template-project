@@ -165,6 +165,8 @@ export default {
 .block__fund {
     box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
+    margin: 10px 0 0 0;
+    background: #fff;
     .block__fund-title {
         width: 100%;
         height: 57px;
@@ -237,10 +239,10 @@ export default {
 }
 .block__fund-hk {
     width: 90%;
-    margin: 20px 5% 0 5%;
+    margin: 10px 5% 0 5%;
 }
 .block__fund-ch {
     width: 351px;
-    margin: 20px 12px 0 12px;
+    margin: 10px 12px 0 12px;
 }
 </style>

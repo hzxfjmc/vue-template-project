@@ -188,7 +188,7 @@ import {
     getBaoFundInfo,
     getFundSimpleInfoList
 } from '@/service/finance-info-server'
-import { getSpSubjectDetail } from '@/service/news-msgdisplay'
+
 import { getFundTotalPosition } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
@@ -288,15 +288,6 @@ export default {
         }
     },
     methods: {
-        //基金资讯
-        async getSpSubjectDetail() {
-            const { news_list } = await getSpSubjectDetail({
-                subject_id: 37,
-                last_score: 0,
-                page_size: 3
-            })
-            this.news_list = news_list
-        },
         //获取用户信息
         async getFundUserInfo() {
             try {
@@ -575,7 +566,6 @@ export default {
         }
     },
     async created() {
-        this.getSpSubjectDetail()
         this.getBaoFundInfo()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')

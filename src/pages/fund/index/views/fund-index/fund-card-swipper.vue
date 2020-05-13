@@ -9,11 +9,18 @@
                 .block__swipper--content(:style="{background:`url(${item.picture_url})`}")
                     .block--tilte {{item.banner_title}}
                     .block--desc {{item.banner_sub_title}}
-                    .block--fund-num {{Number(item.apy)*100}}%
+                    .block--fund-num(
+                        v-if="Number(item.apy)>0"
+                        :class="stockColorType == 1 ? 'color-red' : 'color-green'") {{Number(item.apy)*100}}%
+                    .block--fund-num(
+                        v-if="Number(item.apy)<0"
+                        :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{Number(item.apy)*100}}%
+                    .block--fund-num.color-black(v-if="Number(item.apy)==0") {{Number(item.apy)*100}}%
                     van-button() 立即买入
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
+import { getStockColorType } from '@/utils/html-utils.js'
 import './swipe.scss'
 export default {
     i18n: {},
@@ -21,6 +28,11 @@ export default {
         fundBarnnarList: {
             type: Array,
             default: () => {}
+        }
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
         }
     },
     components: {
@@ -34,6 +46,8 @@ export default {
 <style lang="scss" scoped>
 .block--swipper--wrapper {
     margin: 7px 0 0 0;
+    width: 100%;
+    min-height: 220px;
     .block--swipper--content {
         width: 100%;
         height: 220px;

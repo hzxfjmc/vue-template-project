@@ -1,5 +1,5 @@
 <template lang="pug">
-.block--article--wrapper
+.block--article--wrapper 
     .block--article__title  
         p 基金看点
         span 查看更多
@@ -7,48 +7,65 @@
     .block--article--swipper
         slot(name="swipper")
     .block--article--list
-        .block--item(
-            v-for="(item,index) in news_list" 
-            :class="[index != news_list.length-1?'border-bottom':'']")
-            p.title {{item.title}}
-            template(v-if="item.stocks.length>0")
-                .content(
-                    v-if="item.stocks[0].pctchng>0"
-                    :class="stockColorType == 1 ? 'color-red' : 'color-green'"
-                    )
-                    span.name {{item.stocks[0].name}}
-                    span.pctchng +{{Number(item.stocks[0].pctchng).toFixed(2)}}%
-                .content(
-                    v-if="item.stocks[0].pctchng<0"
-                    :class="stockColorType == 1 ? 'color-green' : 'color-red'"
-                    )
-                    span.name {{item.stocks[0].name}}
-                    span.pctchng {{Number(item.stocks[0].pctchng).toFixed(2)}}%
-                .content.color-black(
-                    v-if="item.stocks[0].pctchng===0"
-                    )
-                    span.name {{item.stocks[0].name}}
-                    span.pctchng {{Number(item.stocks[0].pctchng).toFixed(2)}}%
-            .bottom 
-                span {{item.source}}
-                span 08-27  10:18
+            .block--item(
+                v-for="(item,index) in news_list" 
+                :class="[index != news_list.length-1?'border-bottom':'']")
+                van-skeleton.block--item(
+                    title 
+                    :row="2" 
+                    :loading="loading")
+                    p.title {{item.title}}
+                    template(v-if="item.stocks && item.stocks.length>0")
+                        .content(
+                            v-if="item.stocks[0].pctchng>0"
+                            :class="stockColorType == 1 ? 'color-red color-red-bg' : 'color-green color-green-bg'"
+                            )
+                            span.name {{item.stocks[0].name}}
+                            span.pctchng +{{Number(item.stocks[0].pctchng).toFixed(2)}}%
+                        .content(
+                            v-if="item.stocks[0].pctchng<0"
+                            :class="stockColorType == 1 ? 'color-green color-green-bg' : 'color-red color-red-bg'"
+                            )
+                            span.name {{item.stocks[0].name}}
+                            span.pctchng {{Number(item.stocks[0].pctchng).toFixed(2)}}%
+                        .content.color-black.color-black-bg(
+                            v-if="item.stocks[0].pctchng===0"
+                            )
+                            span.name {{item.stocks[0].name}}
+                            span.pctchng {{Number(item.stocks[0].pctchng).toFixed(2)}}%
+                    .bottom 
+                        span {{item.source}}
+                        span 08-27  10:18
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
+import { getSpSubjectDetail } from '@/service/news-msgdisplay'
 export default {
-    props: {
-        news_list: {
-            type: Array,
-            default: () => {}
-        }
-    },
     computed: {
         stockColorType() {
             return +getStockColorType()
         }
     },
-    mounted() {
-        console.log(this.stockColorType)
+    created() {
+        this.getSpSubjectDetail()
+    },
+    methods: {
+        //基金资讯
+        async getSpSubjectDetail() {
+            const { news_list } = await getSpSubjectDetail({
+                subject_id: 37,
+                last_score: 0,
+                page_size: 3
+            })
+            this.loading = false
+            this.news_list = news_list
+        }
+    },
+    data() {
+        return {
+            loading: true,
+            news_list: [{}, {}, {}]
+        }
     }
 }
 </script>
@@ -57,8 +74,11 @@ export default {
     width: 351px;
     border-radius: 6px;
     background: #fff;
-    margin: 0 auto;
+    margin: 10px auto;
     padding: 14px 12px;
+    .van-skeleton {
+        padding: 0;
+    }
     .block--article__title {
         display: flex;
         flex-direction: row;
@@ -78,7 +98,9 @@ export default {
         }
     }
 }
-
+.block--article--list {
+    padding: 14px 0 0 0;
+}
 .block--item {
     padding: 14px 0 13px 0;
     .title {
@@ -104,15 +126,7 @@ export default {
 .block--item:last-child {
     padding: 14px 0 0 0;
 }
-
-.color-green {
-    background: #04ba60;
-}
-.color-red {
-    background: #ea3d3d;
-}
-.color-black {
-    background: rgba(186, 186, 186, 0.3);
-    color: #979797;
+.block--item:first-child {
+    padding: 0 0 13px 0;
 }
 </style>

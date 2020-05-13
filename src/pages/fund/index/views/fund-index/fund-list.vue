@@ -180,8 +180,8 @@ export default {
 }
 .block__fund {
     width: 100%;
-    margin: 20px 0 0 0;
-
+    margin: 10px 12px 0 12px;
+    width: 351px;
     background: #fff;
     .block__fund-title {
         font-size: 20px;
