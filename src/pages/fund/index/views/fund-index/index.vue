@@ -160,15 +160,18 @@ div
                 v-if="blueChipFundListShow"
                 :bgColor="code != 1 ? '#2B4F80':'#2F79FF'")
 
-            .block-bannar-sub(
-                :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']"
-                v-if="barnnarUsList.length !== 0")
-                van-swipe(:autoplay="3000") 
-                    van-swipe-item(
-                        v-for="(item, index) in barnnarUsList" 
-                        :key="index"  
-                        @click="goBanner(item)") 
-                        img(:src="item.picture_url") 
+            FundArticle(
+                :news_list="news_list"
+                )
+                .block-bannar-sub(
+                    slot="swipper"
+                    v-if="barnnarUsList.length !== 0")
+                    van-swipe(:autoplay="3000") 
+                        van-swipe-item(
+                            v-for="(item, index) in barnnarUsList" 
+                            :key="index"  
+                            @click="goBanner(item)") 
+                            img(:src="item.picture_url") 
                         
         .block__bottom--p
             img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
@@ -198,13 +201,15 @@ import { getFundUserInfo } from '@/service/user-server.js'
 import { getSource } from '@/service/customer-relationship-server'
 import { i18n } from './i18n'
 import FundCardSwipper from './fund-card-swipper'
+import FundArticle from './fund-article'
 export default {
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
         FundList,
         FundListItem,
-        FundCardSwipper
+        FundCardSwipper,
+        FundArticle
     },
     i18n: i18n,
     filters: {
@@ -278,17 +283,19 @@ export default {
             bottomMsgLogoYxzt: require('@/assets/img/fund/yxzt.png'),
             tenThousandApy: '',
             sevenDaysApy: '',
-            isWhiteUserBit: true
+            isWhiteUserBit: true,
+            news_list: []
         }
     },
     methods: {
+        //基金资讯
         async getSpSubjectDetail() {
-            const res = await getSpSubjectDetail({
-                subject_id: 1,
+            const { news_list } = await getSpSubjectDetail({
+                subject_id: 37,
                 last_score: 0,
-                page_size: 10
+                page_size: 3
             })
-            console.log(res)
+            this.news_list = news_list
         },
         //获取用户信息
         async getFundUserInfo() {
@@ -568,6 +575,7 @@ export default {
         }
     },
     async created() {
+        this.getSpSubjectDetail()
         this.getBaoFundInfo()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
