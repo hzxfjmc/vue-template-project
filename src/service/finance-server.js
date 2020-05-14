@@ -55,7 +55,7 @@ export const getFundPosition = params => {
  * }
  */
 export const fundPurchase = (params, config) => {
-    return axios.post(`/finance-server/api/fund-purchase/v1`, params, config)
+    return axios.post(`/finance-server/api/fund-purchase/v2`, params, config)
 }
 
 /**
@@ -69,7 +69,7 @@ export const fundPurchase = (params, config) => {
  * }
  */
 export const fundRedemption = params => {
-    return axios.post(`/finance-server/api/fund-redemption/v1`, params)
+    return axios.post(`/finance-server/api/fund-redemption/v2`, params)
 }
 
 // 基金交易记录列表
