@@ -42,7 +42,7 @@
     .block__footer--check(@click="checkInfo = !checkInfo")
         em.iconfont(:class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
         span {{$t('agreement')}}
-            em 《友信证券新股认购说明》
+            em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C8')}}
 
@@ -56,6 +56,7 @@ import { getBaoCapitalTrade, getBaoPostion } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
+import { getCosUrl } from '@/utils/cos-utils'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
 export default {
@@ -120,7 +121,9 @@ export default {
             contentDesc: '',
             buyProfitLoss: '',
             isWhiteUserBit: false,
-            customerDailyQuota: ''
+            customerDailyQuota: '',
+            ProtocolFile: '',
+            filePath: ''
         }
     },
     async created() {
@@ -129,6 +132,14 @@ export default {
         this.getFundUserInfo()
     },
     methods: {
+        async openProtocol(url) {
+            url = await getCosUrl(url)
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
+        },
         //灰度
         async getFundUserInfo() {
             try {
@@ -193,7 +204,10 @@ export default {
         },
         async getFundDetail() {
             try {
-                const { fundTradeInfoVO } = await getFundDetail({
+                const {
+                    fundTradeInfoVO,
+                    buyProtocolFileList
+                } = await getFundDetail({
                     displayLocation: 3,
                     fundId: this.$route.query.id || this.id
                 })
@@ -221,6 +235,10 @@ export default {
                         this.customerRemainderQuota
                     }.`
                 ])
+                this.ProtocolFile = buyProtocolFileList[0].fileName.split(
+                    '.'
+                )[0]
+                this.filePath = buyProtocolFileList[0].filePath
                 let buyProfitLoss = this.$t([
                     `预计${fundTradeInfoVO.buyProfitLoss}10:00前到账，转出后可以立即认购新股和购买股票，无额度限制，期间正常享受收益`,
                     `預計${fundTradeInfoVO.buyProfitLoss}10:00前到賬，轉出後可以立即認購新股和購買股票，無額度限制，期間正常享受收益`,

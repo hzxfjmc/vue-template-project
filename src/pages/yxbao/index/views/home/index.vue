@@ -201,7 +201,6 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
-
             if (!this.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({

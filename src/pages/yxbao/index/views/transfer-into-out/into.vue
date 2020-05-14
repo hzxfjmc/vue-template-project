@@ -20,7 +20,7 @@
         em.iconfont(
             :class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
         span {{$t('agreement')}}
-            em 《友信证券新股认购说明》
+            em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C9')}}
     
@@ -32,6 +32,7 @@
 import NumberKeyboard from './number-keyboard'
 import { getBaoCapitalTrade } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
+import { getCosUrl } from '@/utils/cos-utils'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -53,7 +54,9 @@ export default {
             fundTradeInfoVO: {},
             currencyType: 0,
             desc: '',
-            loading: true
+            loading: true,
+            ProtocolFile: '',
+            filePath: ''
         }
     },
     async created() {
@@ -61,6 +64,14 @@ export default {
         this.handleHsAccountInfo()
     },
     methods: {
+        async openProtocol(url) {
+            url = await getCosUrl(url)
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
+        },
         handlerAmount(amount) {
             this.amount = amount
         },
@@ -68,7 +79,10 @@ export default {
         async getFundDetail() {
             try {
                 this.fundCorrelationFileList = []
-                const { fundTradeInfoVO } = await getFundDetail({
+                const {
+                    fundTradeInfoVO,
+                    buyProtocolFileList
+                } = await getFundDetail({
                     displayLocation: 3,
                     fundId: this.$route.query.id || this.id,
                     isin: this.$route.query.isin
@@ -85,6 +99,10 @@ export default {
                         fundTradeInfoVO.initialInvestAmount
                     )}HKD initial Subs`
                 ])
+                this.ProtocolFile = buyProtocolFileList[0].fileName.split(
+                    '.'
+                )[0]
+                this.filePath = buyProtocolFileList[0].filePath
                 this.placeholder = placeholder
                 let desc = this.$t([
                     `预计${fundTradeInfoVO.buyProfitLoss}查看收益`,
@@ -94,6 +112,7 @@ export default {
                 this.desc = desc
                 this.currencyType = fundTradeInfoVO.currency.type
             } catch (e) {
+                console.log(e)
                 this.$toast(e.msg)
             }
         },
