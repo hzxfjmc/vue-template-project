@@ -131,11 +131,11 @@ div
                         .number(
                             v-if="Number(sevenDaysApy) === 0") {{sevenDaysApy}}%
                         p.block--bottom--desc {{$t('yieldInLast7d')}}
-                    .content
+                    .content(@click="toYxbao")
                         p.number {{tenThousandApy}}
                         p.block--bottom--desc {{$t('tenKRtn')}}
-                    .right
-                        van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}
+                    .right(@click="toYxbao")
+                        van-button.block--subscribe {{$t('SubsNow')}}
 
             .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
                 van-swipe(:autoplay="3000")  
@@ -321,7 +321,16 @@ export default {
         },
         //描述
         handlerDesc() {
-            let url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+            let url
+            if (this.lang === 'zhCHS') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+            }
+            if (this.lang === 'zhCHT') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_TC`
+            }
+            if (this.lang === 'en') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_EN`
+            }
             jumpUrl(3, url)
         },
         toOrderList() {
