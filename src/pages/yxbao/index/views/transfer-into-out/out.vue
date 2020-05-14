@@ -251,15 +251,6 @@ export default {
         },
         async getBaoCapitalTrade() {
             try {
-                if (!this.checkInfo)
-                    return this.$toast(
-                        this.$t([
-                            '请勾选同意协议',
-                            '請勾選同意協議',
-                            'Please Selct the Protocol'
-                        ]),
-                        'middle'
-                    )
                 if (this.amount == 0 || this.amount === this.placeholder)
                     return this.$toast(this.$t('C40'), 'middle')
                 if (this.amount > Number(this.positionMarketValue)) {
@@ -304,6 +295,15 @@ export default {
                 ) {
                     return this.$toast(this.$t('C41'), 'middle')
                 }
+                if (!this.checkInfo)
+                    return this.$toast(
+                        this.$t([
+                            '请勾选同意协议',
+                            '請勾選同意協議',
+                            'Please Selct the Protocol'
+                        ]),
+                        'middle'
+                    )
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
