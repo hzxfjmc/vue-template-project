@@ -120,7 +120,7 @@ div
                     h3 {{$t('uMoney')}}
                     em.iconfont.icon-attention(@click="handlerDesc")
                 p.block--desc {{$t('stockRedemption')}}
-                .block--bottom-content
+                .block--bottom-content(@click="toYxbao")
                     .left
                         .number(
                             v-if="Number(sevenDaysApy)>0" 
@@ -131,7 +131,7 @@ div
                         .number(
                             v-if="Number(sevenDaysApy) === 0") {{sevenDaysApy}}%
                         p.block--bottom--desc {{$t('yieldInLast7d')}}
-                    .content(@click="toYxbao")
+                    .content
                         p.number {{tenThousandApy}}
                         p.block--bottom--desc {{$t('tenKRtn')}}
                     .right(@click="toYxbao")
