@@ -94,13 +94,13 @@ div
                 .block__assets--bottom
                     p {{$t('types')}}
         
-        .block-bannar-sub-swiper(v-if="tabbarnnarList.length !== 0")
-                van-swipe 
-                    van-swipe-item(
-                        v-for="(item, index) in tabbarnnarList" 
-                        @click="goBanner(item)"
-                        :key="index") 
-                        img(:src="item.picture_url") 
+        //- .block-bannar-sub-swiper.block--bannar-swipper(v-if="tabbarnnarList.length !== 0")
+        //-     van-swipe 
+        //-         van-swipe-item(
+        //-             v-for="(item, index) in tabbarnnarList" 
+        //-             @click="goBanner(item)"
+        //-             :key="index") 
+        //-             img(:src="item.picture_url") 
         .block__tab
             .block__tab--list
                 .block__tab--Item(
