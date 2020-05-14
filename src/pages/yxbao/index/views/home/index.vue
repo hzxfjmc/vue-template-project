@@ -102,7 +102,7 @@ export default {
             openAccount: '您尚未开户，开户成功即可交易',
             TradingRules: '交易规则',
             FundDetails: '基金详情',
-            AboutuMoeny: '关于友信宝'
+            AboutuMoeny: '关于现金+'
         },
         zhCHT: {
             login: '請登陸後進行操作 ',
@@ -112,7 +112,7 @@ export default {
             openAccount: '您尚未開戶，開戶成功即可交易',
             TradingRules: '交易規則',
             FundDetails: '基金詳情',
-            AboutuMoeny: '關於友信寶'
+            AboutuMoeny: '關於餘款+'
         },
         en: {
             login: 'Please login in',
@@ -122,7 +122,7 @@ export default {
             openAccount: 'Please open your account to continue the trade',
             TradingRules: 'Trading Rules',
             FundDetails: 'Fund Details',
-            AboutuMoeny: 'About uMoeny'
+            AboutuMoeny: 'About CASH +'
         }
     },
 
@@ -201,7 +201,6 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
             }
-
             if (!this.openedAccount) {
                 // 跳转到开户页面
                 await this.$dialog.alert({
@@ -321,7 +320,7 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        //获取友信宝详情
+        //获取现金+详情
         async getBaoFundInfo() {
             try {
                 const res = await getBaoFundInfo({

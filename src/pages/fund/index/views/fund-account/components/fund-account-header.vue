@@ -5,7 +5,9 @@
             .header-content-left
                 span.title 
                     em {{$t('accountTotal')}}
-                    i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
+                    i.iconfont(
+                        :class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" 
+                        @click="hideNumber")
                 .fund__content
                     .number-price(
                         v-if="showPsd") {{firstPositionAmount || '--'}}.

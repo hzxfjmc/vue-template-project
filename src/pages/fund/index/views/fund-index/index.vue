@@ -8,9 +8,9 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-                    //
+                    //v-if="isLogin && openedAccount"
         template
-            .block__assets(v-if="isLogin && openedAccount")
+            .block__assets(v-if="isLogin")
                 .block__top.border-bottom
                     .block__left--label 
                         span {{$t('protfolloAssets')}}
@@ -297,7 +297,7 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
-        //获取友信宝详情
+        //获取现金+详情
         async getBaoFundInfo() {
             try {
                 const res = await getBaoFundInfo({
@@ -309,7 +309,7 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        //跳转友信宝
+        //跳转现金+
         toYxbao() {
             if (this.isWhiteUserBit)
                 return this.$dialog.alert({
