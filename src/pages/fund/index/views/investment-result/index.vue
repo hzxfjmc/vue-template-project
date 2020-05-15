@@ -17,8 +17,9 @@
             .investmnet--list--item
                 .left {{$t('A15')}}
                 .right(v-if="fundInfo.chargeType == 2") {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount}}) 
-                    em 自动换汇
-                .right(v-else) ({{fundInfo.bankName}}) 自动换汇
+                    em(v-if="fundInfo.exchangeFlag === 1") 自动换汇
+                .right(v-else) ({{fundInfo.bankName}}) 
+                    em(v-if="fundInfo.exchangeFlag === 1") 自动换汇
             .investmnet--list--item
                 .left {{$t('A31')}}
                 .right {{fundInfo.recentDeductionDate}}

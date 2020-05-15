@@ -4,7 +4,6 @@
             .fond-name {{ fundName }}
         .fund--block-content
             .fund-content
-                
                 .fund--block--top
                     .fund--header-title
                         .fund-title {{$t('A3')}}
@@ -253,6 +252,7 @@ export default {
         initState() {
             if (this.$route.query.type == 1) {
                 let fixedFundInfo = this.$route.query
+                console.log(fixedFundInfo)
                 this.amount = fixedFundInfo.fixedPlanAmount
                 this.placeholder = fixedFundInfo.fixedPlanAmount
                 this.bankInfo.type = fixedFundInfo.chargeType
@@ -284,7 +284,7 @@ export default {
             }
         },
         hanlderExchangFlag() {
-            if (this.flag) return
+            if (this.flag && this.fundTradeInfoVO.currency.type === 1) return
             this.exchangeFlag = !this.exchangeFlag
         },
         async initFunc() {
@@ -333,6 +333,7 @@ export default {
                 }
                 const res = await getRecentDeductionDate(data)
                 this.date = dayjs(res).format('MM月DD日')
+                alert(this.date)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -365,7 +366,7 @@ export default {
                     }
                 }
                 let res
-                data.exchangeFlag = this.exchangeFlag ? 0 : 1
+                data.exchangeFlag = this.exchangeFlag ? 1 : 0
                 if (this.$route.query.fixedPlanCode) {
                     data.fixedPlanCode = this.$route.query.fixedPlanCode
                     res = await getUpdateFundFixedPlanInfo(data)
