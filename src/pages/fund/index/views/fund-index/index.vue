@@ -185,8 +185,8 @@ import FundList from './fund-list'
 import FundListItem from './fund-list-item'
 import {
     getFundHomepageInfo,
-    getBaoFundInfo,
-    getFundSimpleInfoList
+    getBaoFundInfo
+    // getFundSimpleInfoList
 } from '@/service/finance-info-server'
 
 import { getFundTotalPosition } from '@/service/finance-server'
@@ -422,22 +422,37 @@ export default {
                 }
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
-                this.tabbarnnarList = res3.banner_list
 
                 let fundCodeList = []
+
                 res3.banner_list.map(item => {
+                    if (item.TagType === 2) {
+                        item.TagContent = JSON.parse(item.TagContent)
+                        for (let i of item.TagContent) {
+                            const langEUM = {
+                                en: 'en',
+                                zhCHT: 'tc',
+                                zhCHS: 'cn'
+                            }
+                            i.name = i[langEUM[this.lang]]
+                        }
+                    }
+                    if (item.FundCycle != 0) {
+                        item.FundCycleName = this.$t(`${item.FundCycle}`)
+                    }
                     fundCodeList.push(item.Fund)
                 })
-                const fundListInfo = await getFundSimpleInfoList({
-                    fundCodeList: fundCodeList
-                })
-                res3.banner_list.map(item => {
-                    fundListInfo.map(items => {
-                        if (item.Fund === items.fundCode) {
-                            item.apy = items.apy
-                        }
-                    })
-                })
+                console.log(res3.banner_list)
+                // const fundListInfo = await getFundSimpleInfoList({
+                //     fundCodeList: fundCodeList
+                // })
+                // res3.banner_list.map(item => {
+                //     fundListInfo.map(items => {
+                //         if (item.Fund === items.fundCode) {
+                //             item.apy = items.apy
+                //         }
+                //     })
+                // })
                 this.fundBarnnarList = res3.banner_list
             } catch (e) {
                 if (flag) {

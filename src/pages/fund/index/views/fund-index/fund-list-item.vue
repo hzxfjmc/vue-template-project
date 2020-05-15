@@ -190,7 +190,7 @@ export default {
             flex: 1;
             .title {
                 font-size: 16px;
-                max-width: 230px;
+                max-width: 210px;
             }
             .element--content-sub-content {
                 display: flex;
@@ -238,8 +238,8 @@ export default {
     }
 }
 .block__fund-hk {
-    width: 90%;
-    margin: 10px 5% 0 5%;
+    width: 351px;
+    margin: 10px 12px 0 12px;
 }
 .block__fund-ch {
     width: 351px;
