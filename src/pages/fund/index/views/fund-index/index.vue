@@ -134,7 +134,7 @@ div
                     .content
                         p.number {{tenThousandApy}}
                         p.block--bottom--desc {{$t('tenKRtn')}}
-                    .right(@click="toYxbao")
+                    .right
                         van-button.block--subscribe {{$t('SubsNow')}}
 
             .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
