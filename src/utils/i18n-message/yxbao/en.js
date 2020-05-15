@@ -30,7 +30,7 @@ export const en = {
     C29: 'Check Return on 02-05（Estimated）',
     C30: 'Payment Way',
     C31: 'uSMART Account',
-    C32: 'Available Balance',
+    C32: 'Transferrable amount',
     C33: 'Deposit',
     C34: 'Please Entry Amount',
     C35:
@@ -101,7 +101,7 @@ export const en = {
     C80: 'ALL',
     C81: 'Subs. Resluts',
     C82: 'Redemption Resluts',
-    C83: 'Insufficient in Available Balance',
+    C83: 'Insufficient in Transferrable Amount ',
     C84: 'Insufficient in Transferable Amount',
     C85: ' Insufficient quota in Redemption(Fast) Amount',
     C86: 'Mini. Subs Amounts',
