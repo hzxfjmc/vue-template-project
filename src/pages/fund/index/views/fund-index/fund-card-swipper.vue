@@ -6,7 +6,7 @@
             :key="index"  
             @click="goBanner(item)") 
             .block--swipper--content()
-                .block__swipper--content(:style="{background:`url(${item.picture_url}) no-repeat`}")
+                .block__swipper--content(:style="{background:`url(${item.picture_url}) no-repeat`,backgroundSize:'100% 100%'}")
                     .block--tilte {{item.banner_title}}
                     .block--desc {{item.banner_sub_title}}
                     template(v-if="item.TagType === 2")
