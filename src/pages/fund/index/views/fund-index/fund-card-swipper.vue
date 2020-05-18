@@ -73,7 +73,7 @@ export default {
     min-height: 220px;
     .block--swipper--content {
         width: 100%;
-        height: 220px;
+        height: 250px;
         padding: 0 12px;
     }
     .block__swipper--content {
@@ -81,7 +81,7 @@ export default {
         flex-direction: column;
         align-items: center;
         background-size: 100% 100%;
-        height: 200px;
+        height: 230px;
         .block--tilte {
             margin: 43px 0 0 0;
             font-size: 18px;
