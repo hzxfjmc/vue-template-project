@@ -95,7 +95,7 @@
                     .left 申购费反还
                     .right X%
                 .block--list--item
-                    .left 开始返还期数
+                    .left {{$t('A10')}}
                     .right 第二期
                 p 第2期交易成功后返还前两期的手续费折扣，以后每期交易成功后返还对应的手续费折扣
 
@@ -105,7 +105,8 @@ import { getFundDetail } from '@/service/finance-info-server.js'
 import {
     hanlderCreateFundFixedPlan,
     getRecentDeductionDate,
-    getUpdateFundFixedPlanInfo
+    getUpdateFundFixedPlanInfo,
+    getFundPositionV2
 } from '@/service/finance-server.js'
 import { getMarketValidFundAccount } from '@/service/user-account-server.js'
 import jsBridge from '@/utils/js-bridge.js'
@@ -187,7 +188,8 @@ export default {
                         'Margin Account(USD)'
                     ])
                 }
-            }
+            },
+            positionStatus: null
         }
     },
     filters: {
@@ -241,11 +243,24 @@ export default {
         }
     },
     methods: {
+        //获取持仓数据
+        async getFundPositionV2() {
+            try {
+                const res = await getFundPositionV2({
+                    fundId: this.$route.query.id
+                })
+                // -1 未持仓 0 已清仓 1 正常持仓 2 初始持仓
+                this.positionStatus = res.positionStatus.type
+                console.log(res)
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundPositionV2:error:>>>', e)
+            }
+        },
         showEddaComfim() {
             this.$alert({
-                title: 'EDDA说明',
-                message:
-                    '如使用EDDA方式扣款，uSMART将会提前于您的银行账户进行扣款并存入您的证券账户，并随后进行证券账户扣款操作。资金存入后为可用资金，您可以使用该资金进行交易，提款等操作。请保证于证券扣款时证券账户有足够的资金以作月供供款。',
+                title: this.$t('A28'),
+                message: this.$t('A29'),
                 confirmButtonText: this.$t('iknow')
             })
         },
@@ -289,6 +304,7 @@ export default {
         async initFunc() {
             this.getFundUserInfo()
             this.getRecentDeductionDate(true)
+            await this.getFundPositionV2()
             await this.getFundDetailInfo()
             await this.queryMandateBank()
             await this.getMarketValidFundAccount()
@@ -512,9 +528,15 @@ export default {
                     item.fileName = item.fileName.split('.')[0]
                 })
                 this.derivativeType = fundOverviewInfoVO.derivativeType
-                this.placeholder = `${Number(
-                    this.fundHeaderInfoVO.initialInvestAmount
-                ).toFixed(2)}${this.fundTradeInfoVO.currency.name}${this.$t(
+                this.placeholder = `${
+                    this.positionStatus != 1
+                        ? Number(
+                              this.fundHeaderInfoVO.initialInvestAmount
+                          ).toFixed(2)
+                        : Number(
+                              this.fundHeaderInfoVO.continueInvestAmount
+                          ).toFixed(2)
+                }${this.fundTradeInfoVO.currency.name}${this.$t(
                     'buyMoneyPlaceHolder'
                 )}`
             } catch (e) {
