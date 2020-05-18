@@ -21,9 +21,9 @@
             template(v-for="item in subscribeFeeVO.fundFeeLevelVOList")
                 tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))")
                     td 
-                        span {{`${item.minAmount/10000}`}}{{$t('million')}}
+                        span {{unitName(item.minAmount)}}{{$t('million')}}
                         span {{` ≤ ${$t('tradeDefaultPeriod')}`}}
-                        span(v-if="item.maxAmount") {{` < ${item.maxAmount/10000}`}}{{$t('million')}}
+                        span(v-if="item.maxAmount") {{` < ${unitName(item.maxAmount)}`}}{{$t('million')}}
                     td
                         span {{`${discountRate(item.feeRate)}（`}}
                         s {{`${subscribeFeeVO.defaultFeeRate}%`}}
@@ -89,9 +89,6 @@ export default {
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
-        },
-        unitName() {
-            return this.lang
         }
     },
     data() {
@@ -134,6 +131,10 @@ export default {
         }
     },
     methods: {
+        unitName(val) {
+            console.log(this.lang)
+            return this.lang === 'en' ? val / (100 * 10000) : val / 10000
+        },
         discountRate(val) {
             return `${(val * 100).toFixed(2)}%`
         },
