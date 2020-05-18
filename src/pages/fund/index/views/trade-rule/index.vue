@@ -13,7 +13,7 @@
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
             :stepTimes="[buySubmit.value,buyConfirm.value ,buyProfitLoss.value ]")
     .fund-management-list(v-if="showPositionInfo")
-        h3.fund-management-title(class="border-bottom") {{$t('tradeTitleExplain')}}
+        h3.fund-management-title {{$t('tradeTitleExplain')}}
         table.trade-table(cellspacing="0" cellpadding="0")
             tr
                 td {{$t('tradeMoneyLable')}}{{`（${currency}）`}}
@@ -21,7 +21,8 @@
             template(v-for="item in subscribeFeeVO.fundFeeLevelVOList")
                 tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))")
                     td 
-                        span {{unitName(item.minAmount)}}{{$t('million')}}
+                        span {{unitName(item.minAmount)}}
+                            span(v-if="+item.minAmount") {{$t('million')}}
                         span {{` ≤ ${$t('tradeDefaultPeriod')}`}}
                         span(v-if="item.maxAmount") {{` < ${unitName(item.maxAmount)}`}}{{$t('million')}}
                     td
@@ -49,7 +50,7 @@
         h3.fund-management-title(class="border-bottom") {{$t('managermentLabel')}}
         FunCell(:cellList="managementList")
     .fund-management-list
-        h3.fund-management-title(class="border-bottom") {{$t('holiday')}}
+        h3.fund-management-title {{$t('holiday')}}
         table.trade-table(cellspacing="0" cellpadding="0")
             tr
                 td {{$t('time')}}
@@ -289,16 +290,23 @@ export default {
         .trade-table {
             width: 100%;
             border-collapse: collapse;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
             tr:first-child {
                 td {
-                    color: rgba(25, 25, 25, 0.65);
+                    background: rgba(0, 92, 229, 0.1975);
+                    color: #393939;
                 }
             }
             tr {
                 td {
-                    color: #191919;
+                    font-size: 12px;
+                    font-family: PingFangHK-Regular, PingFangHK;
+                    font-weight: 400;
+                    color: rgba(57, 57, 57, 1);
                     display: table-cell;
-                    border: 1px solid #191919;
+                    border: 1px solid #ffffff;
+                    background: rgba(47, 121, 255, 0.0645);
                     padding: 10px 5px;
                     min-width: 0;
                     -webkit-box-sizing: border-box;

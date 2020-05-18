@@ -176,7 +176,7 @@ export const i18nTrudeRuleData = {
     },
     en: {
         million: 'million',
-        holiday: '基金節假日',
+        holiday: 'Fund Holiday',
         time: 'Time',
         Description: 'Description',
         tradeTitleExplain: 'Subs. Fee Description',
