@@ -252,7 +252,6 @@ export default {
         initState() {
             if (this.$route.query.type == 1) {
                 let fixedFundInfo = this.$route.query
-                console.log(fixedFundInfo)
                 this.amount = fixedFundInfo.fixedPlanAmount
                 this.placeholder = fixedFundInfo.fixedPlanAmount
                 this.bankInfo.type = fixedFundInfo.chargeType
@@ -281,6 +280,7 @@ export default {
                 this.exchangeFlag = fixedFundInfo.exchangeFlag == 0
                 this.fixedCycleTypeObj.type = fixedFundInfo.fixedCycleType
                 this.fixedCycleTypeObj.value = fixedFundInfo.fixedCycleValue
+                console.log(this.fixedCycleTypeObj)
             }
         },
         hanlderExchangFlag() {
@@ -289,7 +289,7 @@ export default {
         },
         async initFunc() {
             this.getFundUserInfo()
-            this.getRecentDeductionDate()
+            this.getRecentDeductionDate(true)
             await this.getFundDetailInfo()
             await this.queryMandateBank()
             await this.getMarketValidFundAccount()
@@ -318,7 +318,7 @@ export default {
             jumpUrl(3, url)
         },
         //获取交易日
-        async getRecentDeductionDate() {
+        async getRecentDeductionDate(flag) {
             try {
                 let data = {
                     fixedCycleType: this.fixedCycleTypeObj.type,
@@ -326,21 +326,21 @@ export default {
                 }
                 if (
                     this.$route.query.fixedCycleValue &&
-                    this.$route.query.fixedCycleType
+                    this.$route.query.fixedCycleType &&
+                    flag
                 ) {
                     data.fixedCycleType = this.$route.query.fixedCycleType
                     data.fixedCycleValue = this.$route.query.fixedCycleValue
                 }
                 const res = await getRecentDeductionDate(data)
                 this.date = dayjs(res).format('MM月DD日')
-                alert(this.date)
             } catch (e) {
                 this.$toast(e.msg)
             }
         },
         handlerFixedCycleType(val) {
             this.fixedCycleTypeObj = val
-            this.getRecentDeductionDate()
+            this.getRecentDeductionDate(false)
         },
         //创建定投计划
         async hanlderCreateFundFixedPlan(token) {
