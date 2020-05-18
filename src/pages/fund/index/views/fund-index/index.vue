@@ -456,6 +456,10 @@ export default {
                     5: this.$t('Index'),
                     6: this.$t('Financial')
                 }
+                const CurrencyEumn = {
+                    1: this.$t('usd'),
+                    2: this.$t('hkd')
+                }
                 res3.banner_list.map(item => {
                     fundListInfo.map(items => {
                         if (item.Fund === items.fundCode) {
@@ -472,14 +476,26 @@ export default {
                                 fundSize = items.fundSize / 100000000
                             }
                             item.fundSize = this.$t([
-                                `${fundSize.toFixed(2)}亿美元规模`,
-                                `${fundSize.toFixed(2)}亿美元规模`,
-                                `${fundSize.toFixed(2)}亿美元规模`
+                                `${fundSize.toFixed(2)}亿${
+                                    CurrencyEumn[items.fundSizeCurrency]
+                                }规模`,
+                                `${fundSize.toFixed(2)}亿${
+                                    CurrencyEumn[items.fundSizeCurrency]
+                                }规模`,
+                                `${fundSize.toFixed(2)}亿${
+                                    CurrencyEumn[items.fundSizeCurrency]
+                                }规模`
                             ])
                             item.initialInvestAmount = this.$t([
-                                `${items.initialInvestAmount}美元起`,
-                                `${items.initialInvestAmount}美元起`,
-                                `${items.initialInvestAmount}美元起`
+                                `${items.initialInvestAmount}${
+                                    CurrencyEumn[items.tradeCurrency]
+                                }起`,
+                                `${items.initialInvestAmount}${
+                                    CurrencyEumn[items.tradeCurrency]
+                                }起`,
+                                `${items.initialInvestAmount}${
+                                    CurrencyEumn[items.tradeCurrency]
+                                }起`
                             ])
                             item.riskLevel = this.$t('resultList')[
                                 items.riskLevel

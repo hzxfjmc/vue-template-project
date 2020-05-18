@@ -80,6 +80,7 @@ export default {
         display: flex;
         flex-direction: column;
         align-items: center;
+        background-size: 100% 100%;
         height: 200px;
         .block--tilte {
             margin: 43px 0 0 0;
