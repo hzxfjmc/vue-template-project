@@ -185,8 +185,8 @@ import FundList from './fund-list'
 import FundListItem from './fund-list-item'
 import {
     getFundHomepageInfo,
-    getBaoFundInfo
-    // getFundSimpleInfoList
+    getBaoFundInfo,
+    getFundSimpleInfoList
 } from '@/service/finance-info-server'
 
 import { getFundTotalPosition } from '@/service/finance-server'
@@ -426,8 +426,8 @@ export default {
                 let fundCodeList = []
 
                 res3.banner_list.map(item => {
+                    item.TagContent = JSON.parse(item.TagContent)
                     if (item.TagType === 2) {
-                        item.TagContent = JSON.parse(item.TagContent)
                         for (let i of item.TagContent) {
                             const langEUM = {
                                 en: 'en',
@@ -440,21 +440,67 @@ export default {
                     if (item.FundCycle != 0) {
                         item.FundCycleName = this.$t(`${item.FundCycle}`)
                     }
-                    fundCodeList.push(item.Fund)
+                    fundCodeList.push({
+                        fundCode: item.Fund,
+                        apyType: item.FundCycle
+                    })
                 })
-                console.log(res3.banner_list)
-                // const fundListInfo = await getFundSimpleInfoList({
-                //     fundCodeList: fundCodeList
-                // })
-                // res3.banner_list.map(item => {
-                //     fundListInfo.map(items => {
-                //         if (item.Fund === items.fundCode) {
-                //             item.apy = items.apy
-                //         }
-                //     })
-                // })
+                const fundListInfo = await getFundSimpleInfoList({
+                    fundSimpleInfoApiVOList: fundCodeList
+                })
+                const AssetsEumn = {
+                    1: this.$t('Equity'),
+                    2: this.$t('Bond'),
+                    3: this.$t('Balanced'),
+                    4: this.$t('MMF'),
+                    5: this.$t('Index'),
+                    6: this.$t('Financial')
+                }
+                res3.banner_list.map(item => {
+                    fundListInfo.map(items => {
+                        if (item.Fund === items.fundCode) {
+                            item.apy = items.apy
+                            item.assetType = AssetsEumn[items.assetType]
+                            item.dividendType =
+                                items.dividendType == 2
+                                    ? this.$t('NET_PRICE')
+                                    : this.$t('DIVIDEND')
+                            let fundSize
+                            if (this.code !== 1 && this.lang === 'en') {
+                                fundSize = items.fundSize / 1000000000
+                            } else {
+                                fundSize = items.fundSize / 100000000
+                            }
+                            item.fundSize = this.$t([
+                                `${fundSize.toFixed(2)}亿美元规模`,
+                                `${fundSize.toFixed(2)}亿美元规模`,
+                                `${fundSize.toFixed(2)}亿美元规模`
+                            ])
+                            item.initialInvestAmount = this.$t([
+                                `${items.initialInvestAmount}美元起`,
+                                `${items.initialInvestAmount}美元起`,
+                                `${items.initialInvestAmount}美元起`
+                            ])
+                            item.riskLevel = this.$t('resultList')[
+                                items.riskLevel
+                            ].riskStyle
+                        }
+                    })
+                    const arrList = {
+                        1: item.assetType,
+                        2: item.initialInvestAmount,
+                        3: item.fundSize,
+                        4: item.riskLevel,
+                        5: item.dividendType
+                    }
+                    item.TagList = []
+                    for (let i of item.TagContent) {
+                        item.TagList.push(arrList[i])
+                    }
+                })
                 this.fundBarnnarList = res3.banner_list
             } catch (e) {
+                console.log(e)
                 if (flag) {
                     return
                 }

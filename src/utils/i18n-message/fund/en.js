@@ -48,5 +48,13 @@ export const en = {
             riskStyle: 'Aggressive',
             suitPro: 'High Risk Products'
         }
-    }
+    },
+    Equity: 'Equity',
+    Bond: 'Bond',
+    Balanced: 'Balanced',
+    MMF: 'MMF',
+    Index: 'Index',
+    Financial: 'Financial Product',
+    NET_PRICE: 'Net value type',
+    DIVIDEND: 'Bonus type'
 }

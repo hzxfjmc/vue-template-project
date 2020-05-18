@@ -48,5 +48,13 @@ export const zhCHT = {
             riskStyle: '進取型',
             suitPro: '高風險產品'
         }
-    }
+    },
+    Equity: '股票型',
+    Bond: '債券型',
+    Balanced: '混合型',
+    MMF: '貨幣型',
+    Index: '指數型',
+    Financial: '理財產品',
+    NET_PRICE: '淨值型',
+    DIVIDEND: '分紅型'
 }

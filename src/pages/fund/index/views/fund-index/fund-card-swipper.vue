@@ -9,17 +9,23 @@
                 .block__swipper--content(:style="{background:`url(${item.picture_url})`}")
                     .block--tilte {{item.banner_title}}
                     .block--desc {{item.banner_sub_title}}
-                    .block--tag(v-if="item.TagContent.length != 0")
-                        fund-tag(
-                            v-for="(i,index) in item.TagContent"
-                            :title="i.name")
+                    template(v-if="item.TagType === 2")
+                        .block--tag(v-if="item.TagContent.length != 0")
+                            fund-tag(
+                                v-for="(i,index) in item.TagContent"
+                                :title="i.name")
+                    template(v-else)
+                        .block--tag(v-if="item.TagList.length != 0")
+                            fund-tag(
+                                v-for="i in item.TagList"
+                                :title="i")
                     .block--fund-num(
                         v-if="Number(item.apy)>0"
-                        :class="stockColorType == 1 ? 'color-red' : 'color-green'") {{Number(item.apy)*100}}%
+                        :class="stockColorType == 1 ? 'color-red' : 'color-green'") {{Number(item.apy*100).toFixed(2)}}%
                     .block--fund-num(
                         v-if="Number(item.apy)<0"
-                        :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{Number(item.apy)*100}}%
-                    .block--fund-num.color-black(v-if="Number(item.apy)==0") {{Number(item.apy)*100}}%
+                        :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{Number(item.apy*100).toFixed(2)}}%
+                    .block--fund-num.color-black(v-if="Number(item.apy)==0") {{Number(item.apy*100).toFixed(2)}}%
                     .block--fund--num__desc(v-if="item.FundCycle!=0") {{item.FundCycleName}}{{$t('nav')}}
                     van-button(v-if="item.Button != ''") {{item.Button}}
 </template>

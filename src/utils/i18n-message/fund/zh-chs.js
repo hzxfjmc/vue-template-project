@@ -48,5 +48,13 @@ export const zhCHS = {
             riskStyle: '进取型',
             suitPro: '高风险产品'
         }
-    }
+    },
+    Equity: '股票型',
+    Bond: '债券型',
+    Balanced: '混合型',
+    MMF: '货币型',
+    Index: '指数型',
+    Financial: '理财产品',
+    NET_PRICE: '净值型',
+    DIVIDEND: '分红型'
 }
