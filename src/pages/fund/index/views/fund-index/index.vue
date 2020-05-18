@@ -112,6 +112,7 @@ div
         
         .block__container
             FundCardSwipper(
+                v-if="fundBarnnarList.length != 0"
                 :fundBarnnarList="fundBarnnarList")
             .block--yxbao-container(v-if="!isWhiteUserBit")
                 .block--title
