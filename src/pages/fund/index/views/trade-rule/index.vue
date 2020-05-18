@@ -16,7 +16,7 @@
         h3.fund-management-title(class="border-bottom") {{$t('tradeTitleExplain')}}
         table.trade-table(cellspacing="0" cellpadding="0")
             tr
-                td {{$t('tradeMoneyLable')}}
+                td {{$t('tradeMoneyLable')}}{{`（${currency}）`}}
                 td {{$t('feeLable')}}
             template(v-for="item in subscribeFeeVO.fundFeeLevelVOList")
                 tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))")
@@ -85,10 +85,13 @@ export default {
         FundSteps
     },
     computed: {
-        ...mapGetters(['isLogin', 'appType', 'openedAccount']),
+        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
+        },
+        unitName() {
+            return this.lang
         }
     },
     data() {
