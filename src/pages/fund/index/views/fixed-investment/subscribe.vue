@@ -243,6 +243,8 @@ export default {
         }
     },
     methods: {
+        //点击去修改
+        modifyHandle() {},
         //获取持仓数据
         async getFundPositionV2() {
             try {
@@ -278,6 +280,12 @@ export default {
                     }
                     if (this.bankInfo.type === item.type && item.type === 1) {
                         item.check = true
+                    }
+                    if (
+                        this.bankInfo.type == 2 &&
+                        this.bankInfo.bankAccountNo == item.bankAccountNo
+                    ) {
+                        this.bankInfo = item
                     }
                 })
                 if (fixedFundInfo.eddaBankName) {
@@ -433,6 +441,7 @@ export default {
         },
         checkBankHandle(val) {
             this.bankInfo = val
+            console.log(this.bankInfo)
             this.flag = this.bankInfo.type === 2
             this.exchangeFlag = this.flag
         },
