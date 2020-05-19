@@ -1,6 +1,6 @@
 <template lang="pug">
 .block--swipper--wrapper
-     van-swipe(:autoplay="500000") 
+     van-swipe(:autoplay="30000") 
         van-swipe-item(
             v-for="(item, index) in fundBarnnarList" 
             :key="index"  

@@ -26,7 +26,7 @@ if (Object.values(pages)[0]) {
 
 const jyApi = `http://jy-${process.env.VUE_APP_ENV}.yxzq.com`
 
-const hzApi = `http://hz-${process.env.VUE_APP_ENV}.yxzq.com`
+const hzApi = `http://hz1-${process.env.VUE_APP_ENV}.yxzq.com`
 
 const webappApi = `http://m-${process.env.VUE_APP_ENV}.yxzq.com`
 

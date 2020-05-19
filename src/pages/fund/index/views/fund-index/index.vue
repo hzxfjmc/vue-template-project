@@ -146,6 +146,7 @@ div
                 :bgColor="code != 1 ? '#2B4F80':'#2F79FF'")
 
             FundArticle(
+                v-if="news_list.length != 0"
                 :news_list="news_list"
                 )
                 .block-bannar-sub(
