@@ -2,8 +2,8 @@
 .block--article--wrapper 
     .block--article__title  
         p 基金看点
-        span 查看更多
-            em.iconfont.icon-iconEBgengduoCopy
+        //- span 查看更多
+        //-     em.iconfont.icon-iconEBgengduoCopy
     .block--article--swipper
         slot(name="swipper")
     .block--article--list
