@@ -133,7 +133,6 @@ export default {
     },
     methods: {
         unitName(val) {
-            console.log(this.lang)
             return this.lang === 'en' ? val / (100 * 10000) : val / 10000
         },
         discountRate(val) {
@@ -213,16 +212,16 @@ export default {
                     fundTradeInfoVO['continueInvestAmount']
                 )
 
-                this.tradeList['subscriptionFee'].value = `${Math.floor(
-                    Number(fundTradeInfoVO['subscriptionFee'] * 10000)
-                ) / 100}%`
+                // this.tradeList['subscriptionFee'].value = `${Math.floor(
+                //     Number(fundTradeInfoVO['subscriptionFee'] * 10000)
+                // ) / 100}%`
                 this.redeemList.minPositionShare.value = transNumToThousandMark(
                     fundTradeInfoVO.minPositionShare,
                     4
                 )
-                // this.redeemList.redemptionFee.value = `${Math.floor(
-                //     Number(fundTradeInfoVO.redemptionFee * 10000)
-                // ) / 100}%`
+                this.redeemList.redemptionFee.value = `${Math.floor(
+                    Number(fundTradeInfoVO.redemptionFee * 10000)
+                ) / 100}%`
                 this.buySubmit.value = fundTradeInfoVO.buySubmit
                 this.buyConfirm.value = fundTradeInfoVO.buyConfirm
                 this.buyProfitLoss.value = fundTradeInfoVO.buyProfitLoss
@@ -235,6 +234,11 @@ export default {
                 this.managementList.platformManagementFee.value = `${Math.floor(
                     Number(fundTradeInfoVO.platformManagementFee * 10000)
                 ) / 100}%`
+                console.log(
+                    this.managementList,
+                    this.managementList.managementFee.value,
+                    this.managementList.platformManagementFee.value
+                )
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
