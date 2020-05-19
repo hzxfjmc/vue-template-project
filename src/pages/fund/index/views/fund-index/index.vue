@@ -3,7 +3,7 @@ div
     .block-fund-index
         template
             //v-if="isLogin && openedAccount"
-            .block__assets(v-if="isLogin")
+            .block__assets(v-if="isLogin && openedAccount")
                 .block__top
                     .block__left--label 
                         span {{$t('protfolloAssets')}}
