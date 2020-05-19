@@ -446,6 +446,7 @@ export default {
                         apyType: item.FundCycle
                     })
                 })
+                if (res3.banner_list.length === 0) return
                 const fundListInfo = await getFundSimpleInfoList({
                     fundSimpleInfoApiVOList: fundCodeList
                 })
