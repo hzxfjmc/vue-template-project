@@ -36,7 +36,7 @@ html {
         right: 0;
         bottom: 0;
         top:0;
-        border-right: 1px solid #ebedf0;
+        border-right: 1px solid rgba(255,255,255,0.4);
         @media only screen and (min-resolution: 2dppx) {
             // 非标准的
             -webkit-transform: scaleY(1);

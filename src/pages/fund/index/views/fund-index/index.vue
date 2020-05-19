@@ -1,17 +1,10 @@
 <template lang="pug">
 div
     .block-fund-index
-        .block__swiper.block__fund_index_swiper
-            van-swipe(:autoplay="3000") 
-                van-swipe-item(
-                    v-for="(item, index) in barnnarHkList" 
-                    :key="index"  
-                    @click="goBanner(item)") 
-                    img(:src="item.picture_url") 
-                    //
         template
-            .block__assets(v-if="isLogin && openedAccount")
-                .block__top.border-bottom
+            //v-if="isLogin && openedAccount"
+            .block__assets(v-if="isLogin")
+                .block__top
                     .block__left--label 
                         span {{$t('protfolloAssets')}}
                         em(
@@ -46,11 +39,9 @@ div
                     .block__right--yes
                         p.subtitle {{$t('SevenDayIncome')}}
                         p.num(
-                            v-if="moneyShow && currentPostion.weekEarnings>0" 
-                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{currentPostion.weekEarnings|transNumToThousandMark}}
+                            v-if="moneyShow && currentPostion.weekEarnings>0" ) +{{currentPostion.weekEarnings|transNumToThousandMark}}
                         p.num(
-                            v-if="moneyShow && currentPostion.weekEarnings<0" 
-                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{currentPostion.weekEarnings|transNumToThousandMark}}
+                            v-if="moneyShow && currentPostion.weekEarnings<0" ) {{currentPostion.weekEarnings|transNumToThousandMark}}
                         p.num(
                             v-if="moneyShow && currentPostion.weekEarnings==0") {{currentPostion.weekEarnings|transNumToThousandMark}}
                         p.num(v-if="!moneyShow") ****
@@ -92,15 +83,8 @@ div
                             span {{$t('OpenAccount')}}
                             em.iconfont.icon-iconEBgengduoCopy
                 .block__assets--bottom
-                    p {{$t('types')}}
-        
-        //- .block-bannar-sub-swiper.block--bannar-swipper(v-if="tabbarnnarList.length !== 0")
-        //-     van-swipe 
-        //-         van-swipe-item(
-        //-             v-for="(item, index) in tabbarnnarList" 
-        //-             @click="goBanner(item)"
-        //-             :key="index") 
-        //-             img(:src="item.picture_url") 
+                    p 多种类型，投资全球，基金定投，懒人理财
+    
         .block__tab
             .block__tab--list
                 .block__tab--Item(
@@ -134,7 +118,7 @@ div
                         p.number {{tenThousandApy}}
                         p.block--bottom--desc {{$t('tenKRtn')}}
                     .right
-                        van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}
+                        van-button.block--subscribe {{$t('SubsNow')}}
             FundList(
                 :code = "code"
                 v-if="choiceFundListShow"
@@ -230,7 +214,6 @@ export default {
             moneyShow: true,
             barnnarList: [],
             barnnarUsList: [],
-            barnnarHkList: [],
             tabbarnnarList: [],
             fundBarnnarList: [],
             chooseCurrencyShow: false,
@@ -407,20 +390,11 @@ export default {
         //获取轮播
         async bannerAdvertisement(flag) {
             try {
-                const res = await bannerAdvertisement(26)
+                // const res = await bannerAdvertisement(26)
                 const res1 = await bannerAdvertisement(27)
                 const res2 = await bannerAdvertisement(100)
                 const res3 = await bannerAdvertisement(101)
-                this.barnnarHkList = res.banner_list
-                if (res.banner_list.length === 0) {
-                    let imgUrl =
-                        this.code != 1
-                            ? require(`@/assets/img/fund/fundImg/${this.lang}/barnner.png`)
-                            : require(`@/assets/img/fund/banner1.jpg`)
-                    this.barnnarHkList.push({
-                        picture_url: imgUrl
-                    })
-                }
+
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
 

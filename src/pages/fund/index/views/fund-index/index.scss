@@ -9,18 +9,19 @@
     }
 }
 .block-fund-index{
-    background:rgba(251,252,254,1);
+    background:#f7f7f7;
 }
 .block__assets {
     width: 351px;
     // height:160px;
     position: relative;
     z-index: 999;
-    margin: -48px 12px 0 12px;
-    background:linear-gradient(180deg,rgba(232,240,255,1) 0%,rgba(252,252,255,1) 100%);
-    box-shadow:0px 0px 10px 0px rgba(0,0,0,0.1);
+    margin: 10px 12px 0 12px;
+    background:linear-gradient(176deg,rgba(72,156,255,1) 0%,rgba(32,102,237,1) 100%);
+    box-shadow:0px 2px 4px 0px rgba(57,57,57,0.2);
     border-radius:8px;
     display: flex;
+    color:#fff;
     flex-direction: column;
     .block--assets--header{
         width:100%;
@@ -31,23 +32,22 @@
         justify-content: space-between;
         .block--left{
             font-size:20px;
-            color:rgba(13,80,216,1);
+            color:#fff;
         }
         .block--right{
             width:142px;
             height:77px;
-            background: url('~@/assets/img/fund/bgzoushi.png') no-repeat;
             background-size:100% 100%;
             position: relative;
             margin:-20px 0 0 0;
             .block--button{
                 height:30px;
-                color:#fff;
                 padding:0 5px;
-                background:rgba(47,121,255,1);
+                background:#fff;
                 border-radius:15px;
                 position: absolute;
                 right:0;
+                color:rgba(13,80,216,1);
                 bottom:0;
                 text-align: center;
                 display: flex;
@@ -62,7 +62,8 @@
         align-items: center;
         height:40px;
         padding:0 20px;
-        color:rgba(13,80,216,1);
+        font-size:12px;
+        color:#fff;
     }
     .block__bottom--num{
         display: flex;
@@ -87,7 +88,7 @@
             line-height:36px;
         }
         .subtitle{
-            color:rgba(25,25,25,0.45);
+            color:rgba(255, 255, 255, 0.6)
         }
        
     }
@@ -106,14 +107,14 @@
             align-items: center;
             flex-direction: row;
             line-height: 20px;
-            color:$text-color5;
+            color:#fff;
             em {
                 font-size: 15px;
                 margin: 0px 0 0 5px;
-                color:#8C8C8C;
+                color:rgba(255,255,255,0.6);
             }
             span{
-                color:rgba(25,25,25,1);
+                color:#fff;
             }
         }
         .block__right {
@@ -124,7 +125,7 @@
             align-items: center;
             span{
                 margin:0 0 0 6px;
-                color:rgba(25,25,25,0.45);
+                color:rgba(255,255,255,0.6);
                 font-size:12px;
             }
             em {
@@ -133,7 +134,7 @@
             .icon-icon_fund_index_2{
                 font-size:15px;
                 margin:0 0 0 8px;
-                color:rgba(25,25,25,0.45);
+                color:rgba(255,255,255,0.6);
             }
             .block--label--list {
                 text-align: right;
@@ -161,7 +162,7 @@
             flex-direction: column;
             flex:1;
             p{
-                color:rgba(25,25,25,0.45);
+                color:rgba(255,255,255,0.6);
             }
         }
         .block--element--number {
@@ -175,7 +176,7 @@
                 color: rgba(0, 145, 255, 1);
         }
         .color-black{
-            color:#191919;
+            color:#fff;
         }
         .close--eye {
             line-height: 50px;
@@ -190,7 +191,7 @@
             line-height: 18px;
             height:21px;
             border-radius:5px;
-            border:1px solid #e1e1e1;
+            border:1px solid rgba(255,255,255,0.4);
             font-size: 14px;
             padding:0 5px;
             font-weight: 600;
@@ -198,7 +199,7 @@
             position: relative;
             .icon-iconxiala {
                 margin: 0 0 0 5px;
-                color: rgba(25, 25, 25, 0.65);
+                color:rgba(255,255,255,0.4);
             }
             .icon-icon_fund_index_2 {
                 color: #8C8C8C;
@@ -286,7 +287,7 @@
         .icon-previewright{
             font-size:15px;
             margin:0px 0 0 3px;
-            color:$text-color5;
+            color:rgba(255,255,255,0.6);
         }
         .block__bottom--l{
             // border-right:1px solid #ebedf0;
@@ -326,6 +327,8 @@
 .block__container {
     width: 100%;
     background: #f7f7f7;
+    display: flex;
+    flex-direction: column;
     padding: 0 0 20px 0;
     .block-bannar {
         width: 90%;
@@ -379,7 +382,7 @@
 .block--yxbao-container {
     width: 351px;
     height: 140px;
-    margin: 20px 12px 0 12px;
+    margin: 0 12px 0 12px;
     background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
     background-size: 100% 100%;
     border-radius: 6px;
