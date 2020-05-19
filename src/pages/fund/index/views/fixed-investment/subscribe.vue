@@ -32,7 +32,7 @@
                             :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
                     p(v-if="exchangeFlag") 
                         span(v-if="!flag") {{$t('A14')}}
-                        span(v-else) 定投日自动于银行扣款AAAA港币。并于证券账户扣款时按实时汇率兑换BBBB美元。兑换后剩余的港币会留存于你的证券账户。BBB美元为用户输入的申购额，AAAA港币=BBB美元*汇率
+                        span(v-else) 定投日自动于银行扣款{{isNaN(amount)?'0.00':(amount*7.9).toFixed(2)}}港币。并于证券账户扣款时按实时汇率兑换{{isNaN(amount)?'0.00':Number(amount).toFixed(2)}}美元。兑换后剩余的港币会留存于你的证券账户。
                    
 
                 .fund--block--floor
