@@ -1,5 +1,6 @@
 import httpRequest from '@/utils/http-request'
-const axios = new httpRequest()
+import { API_BASE_URL } from '@/utils/DOMAIN.js'
+const axios = new httpRequest(API_BASE_URL.HZ)
 
 // 要闻专题详情接口
 export const getSpSubjectDetail = params => {
