@@ -274,8 +274,10 @@ export default {
                     ? subscribeFeeVO.fundFeeLevelVOList
                     : []
                 // 赋值默认申购费
-                this.subscribeObj.subscriptionFee.value =
-                    this.subscribeFeeVO.defaultFeeRate * 100
+                this.subscribeObj.subscriptionFee.value = this.subscribeFeeVO
+                    .fundFeeLevelVOList.length
+                    ? this.subscribeFeeVO.fundFeeLevelVOList[0].feeRate * 100
+                    : this.subscribeFeeVO.defaultFeeRate * 100
             } catch (e) {
                 console.log('getFundFeeConfigV1: ', e)
             }
