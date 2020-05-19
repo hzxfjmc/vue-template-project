@@ -26,8 +26,10 @@
                 .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} {{currency ==1?$t('usd'):$t('hkd')}}
             .card_content_item
                 .left {{$t('A15')}}
-                .right(v-if="bankName") ({{bankName}}) 自动换汇
-                .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 自动换汇
+                .right(v-if="bankName") ({{bankName}}) 
+                    em(v-if="investmentInfo.exchangeFlag != 0") 自动换汇
+                .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 
+                    em(v-if="investmentInfo.exchangeFlag != 0") 自动换汇
             .card_content_item
                 .left {{$t('A81')}}
                 .right {{investmentInfo.recentDeductionDate}}
@@ -420,6 +422,9 @@ export default {
                 }
                 .right {
                     color: $text-color;
+                    em {
+                        font-style: normal;
+                    }
                 }
                 &:last-of-type {
                     margin-bottom: 0;

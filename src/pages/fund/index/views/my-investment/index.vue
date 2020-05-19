@@ -136,7 +136,7 @@ export default {
                     pageNum: this.planPageNum,
                     pageSize: this.planPageSize
                 })
-                this.list = list
+                this.list = this.list.concat(list)
                 this.planPageNum = pageNum
                 this.planPageSize = pageSize
                 this.planTotla = total
@@ -189,7 +189,7 @@ export default {
                     pageSize: this.recordPageSize
                 })
                 this.recordLoading = false
-                this.recordList = list
+                this.recordList = this.recordList.concat(list)
                 let EnumChargeType = {
                     1: '证券账户',
                     2: 'edda'
@@ -219,12 +219,14 @@ export default {
         onLoad() {
             if (this.list.length < this.planTotla) {
                 this.planPageNum = this.planPageNum + 1
+                if (this.finished) return
                 this.getFundFixedPlanPage()
             }
         },
         onLoad1() {
-            if (this.recordList.length < this.recordTotla) {
+            if (this.list.length < this.recordTotla) {
                 this.recordPageNum = this.recordPageNum + 1
+                if (this.recordFinished) return
                 this.getFundFixedRecordPage()
             }
         }

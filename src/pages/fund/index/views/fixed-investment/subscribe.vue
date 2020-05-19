@@ -244,7 +244,30 @@ export default {
     },
     methods: {
         //点击去修改
-        modifyHandle() {},
+        modifyHandle(val) {
+            event.stopPropagation()
+            if (!val.eddaSwitch || val.bankNumber === '238') {
+                this.$alert({
+                    message: this.$t([
+                        '对应银行服务调整中，暂不支持修改限额。',
+                        '對應銀行服務調整中，暫不支持修改限額。',
+                        'Cannot edit because of bank system maintenance.'
+                    ]),
+                    confirmButtonText: this.$t(['我知道了', '我知道了', 'OK'])
+                })
+                return
+            }
+            this.$router.push({
+                name: 'modify-amount',
+                params: {
+                    datas: val
+                },
+                query: {
+                    id: val.id,
+                    from: this.$route.query.from === 'hk' ? 'hk' : 'dl'
+                }
+            })
+        },
         //获取持仓数据
         async getFundPositionV2() {
             try {
@@ -536,6 +559,9 @@ export default {
                 this.buyProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
+                if (this.fundHeaderInfoVO.continueInvestAmount === undefined) {
+                    this.fundHeaderInfoVO.continueInvestAmount = 0
+                }
                 this.derivativeType = fundOverviewInfoVO.derivativeType
                 this.placeholder = `${
                     this.positionStatus != 1
@@ -545,7 +571,7 @@ export default {
                         : Number(
                               this.fundHeaderInfoVO.continueInvestAmount
                           ).toFixed(2)
-                }${this.fundTradeInfoVO.currency.name}${this.$t(
+                } ${this.fundTradeInfoVO.currency.name}${this.$t(
                     'buyMoneyPlaceHolder'
                 )}`
             } catch (e) {
