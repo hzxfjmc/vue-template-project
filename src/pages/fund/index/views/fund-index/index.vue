@@ -599,7 +599,7 @@ export default {
                 const { code } = await getSource()
                 this.code = code
                 if (this.isLogin) {
-                    this.getFundUserInfo()
+                    // this.getFundUserInfo()
                     this.getFundTotalPosition(flag)
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
