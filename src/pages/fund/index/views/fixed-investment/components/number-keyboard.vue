@@ -82,7 +82,9 @@ export default {
     },
     watch: {
         placeholder() {
-            this.amount = this.placeholder
+            this.amount = this.$route.query.fixedPlanAmount
+                ? this.$route.query.fixedPlanAmount
+                : this.placeholder
         }
     },
     data() {
@@ -134,7 +136,10 @@ export default {
         }
     },
     created() {
-        this.amount = this.placeholder
+        // console.log(this.$route.query.fixedPlanAmount)
+        this.amount = this.$route.query.fixedPlanAmount
+            ? this.$route.query.fixedPlanAmount
+            : this.placeholder
     },
     methods: {
         //跳转入金
@@ -183,11 +188,7 @@ export default {
         //输入
         onInput(val) {
             let re = /^\d{0,9}(\.\d{0,2})?$/
-            if (
-                this.amount === this.placeholder &&
-                (val == 0 || val === '.') &&
-                isNaN(Number(this.placeholder))
-            ) {
+            if (this.amount === this.placeholder && (val == 0 || val === '.')) {
                 return (this.amount = '0.')
             }
             if (this.amount.indexOf('.') > 0 && val === '.') return
@@ -196,11 +197,7 @@ export default {
                 this.amount === this.placeholder ||
                 this.amount === '0.'
             ) {
-                if (
-                    this.amount === this.placeholder &&
-                    isNaN(Number(this.placeholder))
-                )
-                    this.amount = ''
+                if (this.amount === this.placeholder) this.amount = ''
                 if (re.test(Number(this.amount.toString() + val.toString()))) {
                     this.amount = this.amount.toString() + val.toString()
                 }
@@ -209,18 +206,12 @@ export default {
         },
         //删除
         onDelete() {
-            if (
-                this.amount === this.placeholder &&
-                isNaN(Number(this.placeholder))
-            )
-                return
+            if (this.amount === this.placeholder) return
             if (this.amount === '0.') return (this.amount = this.placeholder)
             this.amount = this.amount.substr(0, this.amount.length - 1)
             this.$emit('handlerAmount', this.amount)
             if (this.amount.length === 0 || this.amount === this.placeholder) {
-                if (isNaN(Number(this.placeholder))) {
-                    return (this.amount = this.placeholder)
-                }
+                return (this.amount = this.placeholder)
             }
         }
     }

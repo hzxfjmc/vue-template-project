@@ -293,15 +293,20 @@ export default {
             if (this.$route.query.type == 1) {
                 let fixedFundInfo = this.$route.query
                 this.amount = fixedFundInfo.fixedPlanAmount
-                this.placeholder = fixedFundInfo.fixedPlanAmount
                 this.bankInfo.type = fixedFundInfo.chargeType
                 this.bankInfo.bankAccountNo = fixedFundInfo.eddaBankAccount
                 this.bankInfo.bankCode = fixedFundInfo.eddaBankCode
                 this.bankList.map(item => {
-                    if (this.bankInfo.bankCode === item.bankCode) {
+                    if (
+                        this.bankInfo.bankCode === item.bankCode &&
+                        fixedFundInfo.type === 2
+                    ) {
                         item.check = true
                     }
-                    if (this.bankInfo.type === item.type && item.type === 1) {
+                    if (
+                        this.bankInfo.type === item.type &&
+                        fixedFundInfo.type === 1
+                    ) {
                         item.check = true
                     }
                     if (
@@ -311,19 +316,12 @@ export default {
                         this.bankInfo = item
                     }
                 })
-                if (fixedFundInfo.eddaBankName) {
-                    this.bankInfo.bankCode = fixedFundInfo.eddaBankName.en
-                    this.bankInfo.bankNameEnglish =
-                        fixedFundInfo.eddaBankName.zhCn
-                    this.bankInfo.bankNameTraditional =
-                        fixedFundInfo.eddaBankName.zhHk
-                }
                 this.flag = fixedFundInfo.exchangeFlag === 2
                 this.fixedCycleTypeObj.key = [
                     fixedFundInfo.fixedCycleMonth,
                     fixedFundInfo.fixedCycleWeek
                 ]
-                this.exchangeFlag = fixedFundInfo.exchangeFlag == 0
+                this.exchangeFlag = fixedFundInfo.exchangeFlag == 1
                 this.fixedCycleTypeObj.type = fixedFundInfo.fixedCycleType
                 this.fixedCycleTypeObj.value = fixedFundInfo.fixedCycleValue
             }
@@ -411,14 +409,16 @@ export default {
                         zhHk: this.bankInfo.bankNameTraditional
                     }
                 }
-                let res
+                let res = {},
+                    url
                 data.exchangeFlag = this.exchangeFlag ? 1 : 0
                 if (this.$route.query.fixedPlanCode) {
                     data.fixedPlanCode = this.$route.query.fixedPlanCode
-                    res = await getUpdateFundFixedPlanInfo(data)
-                    this.$toast('修改成功')
+                    await getUpdateFundFixedPlanInfo(data)
+                    url = 'my-investment'
                 } else {
                     res = await hanlderCreateFundFixedPlan(data)
+                    url = 'investment-result'
                 }
                 res.fundName = this.fundName
                 if (data.chargeType == 1) {
@@ -426,10 +426,11 @@ export default {
                 }
                 this.$router.push({
                     query: res,
-                    name: 'investment-result'
+                    name: url
                 })
                 // }
             } catch (e) {
+                console.log(e)
                 this.$toast(e.msg)
             }
         },
