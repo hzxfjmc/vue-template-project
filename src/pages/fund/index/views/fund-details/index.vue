@@ -56,6 +56,10 @@
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
             van-button.button-5width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
                 @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -64,7 +68,7 @@
                 @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
         .fund-footer-content(v-if="PurchaseButton")
-            van-button.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))") {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
                 s {{defaultRate}}
                 span ）
@@ -1593,9 +1597,11 @@ export default {
 .fund-footer-content {
     width: 100%;
     .fund-footer-tip {
+        display: block;
+        width: 100%;
         height: 36px !important;
         line-height: 36px;
-        background: #ffffff;
+        background: rgba(254, 113, 39, 0.1);
         color: #fe7127;
         font-size: 14px;
     }
