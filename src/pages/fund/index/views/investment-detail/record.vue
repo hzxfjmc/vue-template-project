@@ -23,7 +23,7 @@
             
     .investment__norecord__container(v-if="hasRecord")
         img(src="@/assets/img/fund/icon-norecord.png")
-        span 暂无定投记录
+        span {{$t('A101')}}
 
 </template>
 <script>
