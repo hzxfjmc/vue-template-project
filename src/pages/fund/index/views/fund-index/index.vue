@@ -101,6 +101,7 @@ div
                         @click="goBanner(item)"
                         :key="index") 
                         img(:src="item.picture_url") 
+            
         .block__tab
             .block__tab--list
                 .block__tab--Item(
@@ -595,5 +596,11 @@ export default {
         padding-bottom: 20px;
         color: $hk-text-line-color;
     }
+}
+.swipper-img {
+    width: 100%;
+}
+.block-bannar-sub-swiper {
+    margin: 6px 0 0 0;
 }
 </style>
