@@ -70,21 +70,21 @@ export const en = {
     A13: 'Auto Currency Exchange in case of insufficient cash',
     A14:
         'The exchange rate will follow the latest exchange rate of the APP when the exchange occurs',
-    A15: 'Debit Method',
+    A15: 'Payment Way',
     A16: 'Select Debit Method',
     A17: 'Please Select Debit Method',
     A18: 'Margin Account(HKD)',
-    A19: 'Cash Account(HKD)',
+    A19: 'Aash Account(HKD)',
     A20: 'Margin Account(USD)',
-    A21: 'Cash Account(USD)',
+    A21: 'Aash Account(USD)',
     A22:
         'Please ensure that you have sufficient funds in your security account on the date of the debit.',
     A23: 'Add New Bank Account (EDDA)',
     A24: 'Recommend',
     A25:
-        'Your EDDA limit: 1000.00 HKD per transaction; Ahange It. Please ensure that you have sufficient funds in your security account on the date of the debit.',
+        'Your EDDA limit: 1000.00 HKD per transaction; Change It. Please ensure that you have sufficient funds in your security account on the date of the debit.',
     A26:
-        'Your EDDA limit: 1000.00 HKD per transaction; Ahange It. Your Hong Kong dollars will be converted into us dollars in the securities account',
+        'Your EDDA limit: 1000.00 HKD per transaction; Change It. Your Hong Kong dollars will be converted into us dollars in the securities account',
     A27:
         'Your EDDA limit: 1000.00 HKD per transaction. Will be valid after bank authorization completed.',
     A28: 'EDDA Description',
@@ -139,7 +139,7 @@ export const en = {
     A76: 'More For You',
     A77: 'My Position',
     A78: 'History',
-    A79: 'Cumulative (HKD)',
+    A79: 'Cumulative ',
     A80: 'Times Invested',
     A81: 'Next Debit Date',
     A82: 'Debit Method',
@@ -159,11 +159,22 @@ export const en = {
         'Please make sure you have enough money in your account on next debit date.',
     A96: 'Records',
     A97: 'Time',
-    A98: 'Amount (HKD)',
+    A98: 'Amount ',
     A99: 'Order Status',
     A100: 'Failed to debit',
     A101: 'No Record',
     A102: 'Insufficient balance, debit failed',
     A103:
-        'Next Debit Date: 2020-02-11 (Monday) Please make sure you have enough money in your account.'
+        'Next Debit Date: 2020-02-11 (Monday) Please make sure you have enough money in your account.',
+    A104: 'Agree to the agreement and submit',
+    A105: 'Subs. fee refund',
+    A106: 'About Subs Fee',
+    A107: 'Next AIP Date',
+    A108: 'Next Debit Date',
+    A109: 'AIP',
+    A110: 'Set AIP success',
+    A111: 'Fund name',
+    A112: 'Amount and Time',
+    A113: 'Automatic exchange',
+    A114: 'Finsh'
 }

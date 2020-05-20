@@ -8,8 +8,8 @@
         van-picker(
             show-toolbar 
             :value="monthDay"
-            confirm-button-text="确认"
-            cancel-button-text="取消"
+            confirm-button-text="$t('confirm')"
+            :cancel-button-text="$t('cancel')"
             @change="onChange"
             @confirm="confirm"
             @cancel = "cancel"
@@ -19,6 +19,20 @@
 import { MonthDay } from './map'
 import { mapGetters } from 'vuex'
 export default {
+    i18n: {
+        zhCHS: {
+            cancel: '取消',
+            confirm: '确认'
+        },
+        zhCHT: {
+            cancel: '取消',
+            confirm: '確認'
+        },
+        en: {
+            cancel: 'Cancel',
+            confirm: 'Confirm'
+        }
+    },
     props: {
         value: {
             type: Boolean,

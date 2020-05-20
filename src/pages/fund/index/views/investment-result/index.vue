@@ -2,30 +2,30 @@
 .investment--block--wrapper
     .investment--header
         img(src="@/assets/img/fund/succed.svg")
-        .header--title 设置定投成功
+        .header--title {{$t('A110')}}
     .investment--container
         .investment--container--header
             em.iconfont
-            span 定投计划
+            span {{$t('A109')}}
         .investmnet--container--list
             .investmnet--list--item
-                .left 基金名称
+                .left {{$t('A111')}}
                 .right {{fundInfo.fundName}}
             .investmnet--list--item
-                .left 时间金额
+                .left {{$t('A112')}}
                 .right {{fundInfo.fixedCycleType}}{{fundInfo.fixedCycleValue}} {{$t('A2')}} {{fundInfo.fixedPlanAmount|transNumToThousandMark}} {{fundInfo.currency == 1 ? $t('usd'): fundInfo.currency == 2 ? $t('hkd'):''}}
             .investmnet--list--item
                 .left {{$t('A15')}}
                 .right(v-if="fundInfo.chargeType == 2") {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount}}) 
-                    em(v-if="fundInfo.exchangeFlag === 1") 自动换汇
+                    em(v-if="fundInfo.exchangeFlag === 1") {{$t('A113')}}
                 .right(v-else) ({{fundInfo.bankName}}) 
-                    em(v-if="fundInfo.exchangeFlag === 1") 自动换汇
+                    em(v-if="fundInfo.exchangeFlag === 1") {{$t('A113')}}
             .investmnet--list--item
                 .left {{$t('A31')}}
                 .right {{fundInfo.recentDeductionDate}}
     
     .investment--footer(@click="toRouterPath('/my-investment')")
-        van-button( color="#0D50D8") 完成
+        van-button( color="#0D50D8") {{$t('A114')}}
 </template>
 <script>
 import dayjs from 'dayjs'

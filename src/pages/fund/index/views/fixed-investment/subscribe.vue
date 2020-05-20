@@ -74,7 +74,7 @@
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
                     .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
-                van-button(@click="handlerSubmitFilter") 同意协议并提交
+                van-button(@click="handlerSubmitFilter") {{$t('A104')}}
         
         picker(
             v-model="showBankType"
@@ -89,10 +89,10 @@
             v-model="protocolShow")
         .block__footer--loading(v-if="loading")
             Loading(type="spinner" color="#2F79FF")
-        van-dialog(v-model="show" title="定投申购费说明" :confirmButtonText="$t('iknow')")
+        van-dialog(v-model="show" :title="$t('A106')" :confirmButtonText="$t('iknow')")
             .block--content
                 .block--list--item
-                    .left 申购费反还
+                    .left {{$t('A105')}}
                     .right X%
                 .block--list--item
                     .left {{$t('A10')}}

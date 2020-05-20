@@ -19,17 +19,17 @@
     .investment__detail__card.card
         .card_title
             img(:src="!isNotStop?require('@/assets/img/fund/dingtou2@2x.png'):require('@/assets/img/fund/dingtou@2x.png')")
-            span(:class="!isNotStop?'black-color':''") 定投计划
+            span(:class="!isNotStop?'black-color':''") {{$t('A109')}}
         .card_content
             .card_content_item
-                .left 时间金额
+                .left {{$t('A112')}}
                 .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} {{currency ==1?$t('usd'):$t('hkd')}}
             .card_content_item
                 .left {{$t('A15')}}
                 .right(v-if="bankName") ({{bankName}}) 
-                    em(v-if="investmentInfo.exchangeFlag != 0") 自动换汇
+                    em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
                 .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 
-                    em(v-if="investmentInfo.exchangeFlag != 0") 自动换汇
+                    em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
             .card_content_item
                 .left {{$t('A81')}}
                 .right {{investmentInfo.recentDeductionDate}}
