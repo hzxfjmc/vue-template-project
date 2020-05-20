@@ -100,7 +100,9 @@ div
                         v-for="(item, index) in tabbarnnarList" 
                         @click="goBanner(item)"
                         :key="index") 
-                        img(:src="item.picture_url") 
+                        img(
+                            :src="item.picture_url" 
+                            class="swipper-img") 
             
         .block__tab
             .block__tab--list
