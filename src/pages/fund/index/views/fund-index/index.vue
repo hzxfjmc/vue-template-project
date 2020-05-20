@@ -145,10 +145,7 @@ div
                 v-if="blueChipFundListShow"
                 :bgColor="code != 1 ? '#2B4F80':'#2F79FF'")
 
-            FundArticle(
-                v-if="news_list.length != 0"
-                :news_list="news_list"
-                )
+            FundArticle
                 .block-bannar-sub(
                     slot="swipper"
                     v-if="barnnarUsList.length !== 0")
@@ -402,8 +399,10 @@ export default {
                 let fundCodeList = []
 
                 res3.banner_list.map(item => {
-                    item.TagContent = JSON.parse(item.TagContent)
-                    if (item.TagType === 2) {
+                    if (item.TagContent) {
+                        item.TagContent = JSON.parse(item.TagContent)
+                    }
+                    if (item.TagType === 2 && item.TagContent) {
                         for (let i of item.TagContent) {
                             const langEUM = {
                                 en: 'en',

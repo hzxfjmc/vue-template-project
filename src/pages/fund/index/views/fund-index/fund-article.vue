@@ -1,6 +1,6 @@
 <template lang="pug">
-.block--article--wrapper 
-    .block--article__title  
+.block--article--wrapper(v-if="news_list.length != 0")  
+    .block--article__title
         p 基金看点
         //- span 查看更多
         //-     em.iconfont.icon-iconEBgengduoCopy
