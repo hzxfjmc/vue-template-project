@@ -296,27 +296,29 @@ export default {
                 this.bankInfo.type = fixedFundInfo.chargeType
                 this.bankInfo.bankAccountNo = fixedFundInfo.eddaBankAccount
                 this.bankInfo.bankCode = fixedFundInfo.eddaBankCode
+                console.log(fixedFundInfo)
                 this.bankList.map(item => {
                     if (
-                        this.bankInfo.bankCode === item.bankCode &&
-                        fixedFundInfo.type === 2
+                        this.bankInfo.bankAccountNo === item.bankAccountNo &&
+                        fixedFundInfo.exchangeFlag == 1
                     ) {
                         item.check = true
                     }
-                    if (
-                        this.bankInfo.type === item.type &&
-                        fixedFundInfo.type === 1
-                    ) {
+                    if (item.type == 1 && fixedFundInfo.exchangeFlag == 0) {
                         item.check = true
                     }
                     if (
-                        this.bankInfo.type == 2 &&
+                        this.bankInfo.exchangeFlag == 1 &&
                         this.bankInfo.bankAccountNo == item.bankAccountNo
                     ) {
                         this.bankInfo = item
                     }
                 })
-                this.flag = fixedFundInfo.exchangeFlag === 2
+                this.flag =
+                    this.fundTradeInfoVO.currency.type == 1 &&
+                    this.bankInfo.exchangeFlag == 1
+                console.log(this.fundTradeInfoVO.currency)
+                console.log(this.bankInfo)
                 this.fixedCycleTypeObj.key = [
                     fixedFundInfo.fixedCycleMonth,
                     fixedFundInfo.fixedCycleWeek
@@ -328,6 +330,10 @@ export default {
         },
         hanlderExchangFlag() {
             if (this.flag && this.fundTradeInfoVO.currency.type === 1) return
+            this.flag =
+                this.fundTradeInfoVO.currency.type === 1 &&
+                !this.bankInfo.bankAccountNo
+            console.log(this.bankInfo)
             this.exchangeFlag = !this.exchangeFlag
         },
         async initFunc() {
@@ -465,9 +471,30 @@ export default {
         },
         checkBankHandle(val) {
             this.bankInfo = val
-            console.log(this.bankInfo)
-            this.flag = this.bankInfo.type === 2
-            this.exchangeFlag = this.flag
+            this.bankList.map(item => {
+                item.check = false
+                if (
+                    item.type == this.bankInfo.type &&
+                    !this.bankInfo.bankAccountNo
+                ) {
+                    item.check = true
+                }
+                if (
+                    this.bankInfo.bankAccountNo == item.bankAccountNo &&
+                    this.bankInfo.type == 2
+                ) {
+                    item.check = true
+                }
+            })
+            // this.flag = this.bankInfo.type === 2
+            if (
+                this.bankInfo.type == 2 &&
+                this.fundTradeInfoVO.currency.type == 1
+            ) {
+                this.exchangeFlag = true
+            } else {
+                this.exchangeFlag = false
+            }
         },
         handlerAmount(val) {
             this.amount = val
@@ -560,8 +587,8 @@ export default {
                 this.buyProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
-                if (this.fundHeaderInfoVO.continueInvestAmount === undefined) {
-                    this.fundHeaderInfoVO.continueInvestAmount = 0
+                if (this.fundTradeInfoVO.continueInvestAmount === undefined) {
+                    this.fundTradeInfoVO.continueInvestAmount = 0
                 }
                 this.derivativeType = fundOverviewInfoVO.derivativeType
                 this.placeholder = `${
@@ -570,7 +597,7 @@ export default {
                               this.fundHeaderInfoVO.initialInvestAmount
                           ).toFixed(2)
                         : Number(
-                              this.fundHeaderInfoVO.continueInvestAmount
+                              this.fundTradeInfoVO.continueInvestAmount
                           ).toFixed(2)
                 } ${this.fundTradeInfoVO.currency.name}${this.$t(
                     'buyMoneyPlaceHolder'
