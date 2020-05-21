@@ -15,6 +15,12 @@
         .tips 
             p.tips--top {{$t('C31')}}
             p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}
+    
+    .block__footer--check(@click="checkInfo = !checkInfo")
+        em.iconfont(
+            :class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
+        span {{$t('agreement')}}
+            em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C9')}}
     
@@ -26,6 +32,7 @@
 import NumberKeyboard from './number-keyboard'
 import { getBaoCapitalTrade } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
+import { getCosUrl } from '@/utils/cos-utils'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
@@ -37,6 +44,7 @@ export default {
     },
     data() {
         return {
+            checkInfo: true,
             amount: '',
             placeholder: '',
             chargeType: 1,
@@ -46,7 +54,9 @@ export default {
             fundTradeInfoVO: {},
             currencyType: 0,
             desc: '',
-            loading: true
+            loading: true,
+            ProtocolFile: '',
+            filePath: ''
         }
     },
     async created() {
@@ -54,6 +64,14 @@ export default {
         this.handleHsAccountInfo()
     },
     methods: {
+        async openProtocol(url) {
+            url = await getCosUrl(url)
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
+        },
         handlerAmount(amount) {
             this.amount = amount
         },
@@ -61,7 +79,10 @@ export default {
         async getFundDetail() {
             try {
                 this.fundCorrelationFileList = []
-                const { fundTradeInfoVO } = await getFundDetail({
+                const {
+                    fundTradeInfoVO,
+                    buyProtocolFileList
+                } = await getFundDetail({
                     displayLocation: 3,
                     fundId: this.$route.query.id || this.id,
                     isin: this.$route.query.isin
@@ -78,6 +99,10 @@ export default {
                         fundTradeInfoVO.initialInvestAmount
                     )}HKD initial Subs`
                 ])
+                this.ProtocolFile = buyProtocolFileList[0].fileName.split(
+                    '.'
+                )[0]
+                this.filePath = buyProtocolFileList[0].filePath
                 this.placeholder = placeholder
                 let desc = this.$t([
                     `预计${fundTradeInfoVO.buyProfitLoss}查看收益`,
@@ -87,6 +112,7 @@ export default {
                 this.desc = desc
                 this.currencyType = fundTradeInfoVO.currency.type
             } catch (e) {
+                console.log(e)
                 this.$toast(e.msg)
             }
         },
@@ -131,6 +157,15 @@ export default {
                 if (this.amount > this.withdrawBalance) {
                     return this.$toast(this.$t('C83'), 'middle')
                 }
+                if (!this.checkInfo)
+                    return this.$toast(
+                        this.$t([
+                            '请勾选同意协议',
+                            '請勾選同意協議',
+                            'Please Selct the Protocol'
+                        ]),
+                        'middle'
+                    )
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
@@ -164,6 +199,21 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__footer--check {
+    width: 343px;
+    height: 48px;
+    margin: 12px 16px 0 16px;
+    color: rgba(25, 25, 25, 0.45);
+    font-size: 12px;
+    em {
+        font-style: normal;
+        color: #0d50d8;
+    }
+    .iconfont {
+        font-size: 12px;
+        margin: 0 5px 0 0;
+    }
+}
 .btn {
     background: #0d50d8;
     color: #fff;

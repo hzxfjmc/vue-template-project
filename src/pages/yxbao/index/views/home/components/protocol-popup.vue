@@ -59,12 +59,17 @@ export default {
         async openProtocol(params, item) {
             let url
             if (item.fileName === 'AboutuMoeny') {
-                console.log(this.lang)
+                let url
                 if (this.lang === 'zhCHS') {
                     url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
-                } else {
-                    url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbaogang`
                 }
+                if (this.lang === 'zhCHT') {
+                    url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_TC`
+                }
+                if (this.lang === 'en') {
+                    url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_EN`
+                }
+                jumpUrl(3, url)
             } else {
                 url = `${window.location.origin}/wealth/yxbao/index.html#/${params}?id=${this.fundId}&displayLocation=3`
             }

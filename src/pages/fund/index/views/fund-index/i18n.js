@@ -17,7 +17,7 @@ export const i18n = {
         fundmsg: '笔交易确认中',
         openAccount: '您尚未开户，开户成功即可交易',
         msg:
-            '1. 总资产是您基金资产和友信宝资产的总和。\n2. uSMART会将你所有基金市值按照基础货币来显示和计算。例子: 当你的基础货币为港币时，你的基金总资产 = 港币基金市值 + 美元基金市值(按汇率转换成港币)\n3. 基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。',
+            '1. 总资产是您基金资产和现金+资产的总和。\n2. uSMART会将你所有基金市值按照基础货币来显示和计算。例子: 当你的基础货币为港币时，你的基金总资产 = 港币基金市值 + 美元基金市值(按汇率转换成港币)\n3. 基础货币只是作为uSMART基金资产计算显示之用。不会影响各基金的基金货币。',
         bottomMsg:
             '基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。内容未经证券及期货事务监察委员会审阅。',
         bottomHref: '免责声明/风险披露',
@@ -27,7 +27,7 @@ export const i18n = {
             '投资者须基于本身的财政状况、投资经验、投资目标及预期回报而做出投资决定, 在有需要的情况下, 作任何投资前咨询独立专业顾问。本网页信息由友信证券有限公司(“友信证券”) 提供，保留随时修改而不作另行通知, 内容未经证券及期货事务监察委员会审阅。',
         SubsNow: '立即转入',
         tenKRtn: '万元收益',
-        uMoney: '友信宝',
+        uMoney: '现金+',
         stockRedemption: '闲置资金可赚钱，赎回立即可购买股票',
         descFund: '智选基金，',
         descFund1: '让你的钱聪明起来',
@@ -41,7 +41,7 @@ export const i18n = {
         iKnow: '我知道了',
         yieldInLast7d: '近七日年化',
         tips: '暂未开放，敬请期待 ',
-        tips1: '友信宝业务暂未开放，敬请期待',
+        tips1: '现金+业务暂未开放，敬请期待',
         holdData: '我的持仓'
     },
     zhCHT: {
@@ -62,7 +62,7 @@ export const i18n = {
         openAccountBtn: '立即開戶',
         openAccount: '您尚未開戶，開戶成功即可交易',
         msg:
-            '1. 總資產是您基金資產和友信寶資產的總和。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。',
+            '1. 總資產是您基金資產和餘款+資產的總和。\n2. uSMART會將你所有基金市值按照基礎貨幣來顯示和計算。例子: 當你的基礎貨幣為港幣時，你的基金總資產 = 港幣基金市值 + 美元基金市值(按匯率轉換成港幣)\n3. 基礎貨幣只是作為uSMART基金資產計算顯示之用。不會影響各基金的基金貨幣。',
         bottomMsg:
             '基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。內容未經證券及期貨事務監察委員會審閱。',
         bottomHref: '免責聲明/風險披露',
@@ -72,7 +72,7 @@ export const i18n = {
             '投資者須基於本身的財政狀況、投資經驗、投資目標及預期回報而做出投資決定, 在有需要的情況下, 作任何投資前諮詢獨立專業顧問。本網頁信息由友信證券有限公司(“友信證券”) 提供，保留隨時修改而不作另行通知, 內容未經證券及期貨事務監察委員會審閱。',
         SubsNow: '立即轉入',
         tenKRtn: '萬元收益',
-        uMoney: '友信寶',
+        uMoney: '餘款+',
         stockRedemption: '閒置資金可賺錢，贖回立即可購買股票',
         descFund: '智選基金，',
         descFund1: '讓你的錢聰明起來',
@@ -86,7 +86,7 @@ export const i18n = {
         iKnow: '我知道了',
         yieldInLast7d: '近七日年化',
         tips: '暫未開放，敬請期待',
-        tips1: '友信寶業務暫未開放，敬請期待',
+        tips1: '餘款+業務暫未開放，敬請期待',
         holdData: '我的持倉'
     },
     en: {
@@ -107,7 +107,7 @@ export const i18n = {
         confirm: 'Confirm',
         fundmsg: ' Processing Order',
         msg:
-            '1. Total assets are the sum of your fund assets and uMoeny assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currencyTab.Example: When your base currencyTab is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currencyTab is only used as a display of uSMART fund asset calculations. Does not affect the fund currencyTab of each fund.',
+            '1. Total assets are the sum of your fund assets and cash+ assets.\n2. uSMART will display and calculate the market value of all your fund assets in the base currencyTab.Example: When your base currencyTab is HKD, your total fund assets = HKD fund market value + USD fund market value (convert to HKD at latest exchange rate)\n3. The base currencyTab is only used as a display of uSMART fund asset calculations. Does not affect the fund currencyTab of each fund.',
         bottomMsg:
             'Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.The contents have not been reviewed by the Securities and Futures Commission.',
         bottomHref: 'Disclaimer/Risk Disclosure',
@@ -117,7 +117,7 @@ export const i18n = {
             'Investors should make investment decision(s) based on his/her own financial situation, investment experience, investment objectives, and expected return; and if necessary, should seek independent professional advice before making any investment decision(s). This webpage is issued by uSmart Securities Limited and uSmart reserves the rights to make any amendments without prior notice.  The contents have not been reviewed by the Securities and Futures Commission.',
         SubsNow: 'Subs. Now',
         tenKRtn: '10K Rtn',
-        uMoney: 'uMoney',
+        uMoney: 'CASH +',
         stockRedemption: 'It can buy stock immediately after redemption',
         descFund: 'Smart Fund，',
         descFund1: 'Make your money smart',
@@ -131,7 +131,7 @@ export const i18n = {
         iKnow: 'Got it',
         yieldInLast7d: 'Yield in Last 7d',
         tips: 'Not open yet！',
-        tips1: 'uMoeny Service not open yet, stay tuned！',
+        tips1: 'cash+ Service not open yet, stay tuned！',
         holdData: 'My Portfolio '
     }
 }

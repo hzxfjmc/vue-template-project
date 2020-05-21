@@ -345,6 +345,14 @@
     .block-bannar-sub-swiper{
         width:100%;
         margin:20px 0;
+        .swipper-img{
+            width:100%;
+        }
+        .van-swipe-item{
+            img{
+                width:10;
+            }
+        }
         img {
             width: 100%;
         }
@@ -439,4 +447,8 @@
 }
 .color-red {
     color: #ea3d3d;
+}
+
+.van-dialog__message--left{
+    text-align: justify;
 }

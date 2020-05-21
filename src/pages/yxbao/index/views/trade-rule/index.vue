@@ -26,6 +26,9 @@
                         .block__list--item
                             p.label {{$t('C50')}}
                             p.value {{fundTradeInfoVO.subscriptionFee | transNumToThousandMark}}%
+                        .block__list--item
+                            p.label {{$t('managermentLabel')}}
+                            p.value {{Math.floor(Number(fundTradeInfoVO.managementFee * 10000)) / 100}} %
                 hr.hr-border
                 .block__tab-one.block__tab-table
                     p.title {{$t('C51')}}
@@ -54,6 +57,7 @@
                             .block__list--item
                                 p.label {{$t('C86')}}
                                 p.value {{Number(fundTradeInfoVO.minTradeAmount).toFixed(2)}} HKD
+                            
                     hr.hr-border(v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit")
                     .block__tab-one(v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit")
                         p.title {{$t('C19')}}
@@ -63,7 +67,6 @@
                                 :stepNames="[fastSellSubmit.label,'',fastSellProfitLoss.label ]"
                                 :stepTimes="[fastSellSubmit.value,'' ,fastSellProfitLoss.value ]")
                         p.desc {{$t('C56')}}
-                        p.desc1 {{$t('C54')}}
                         p.desc.border-bottom-none {{$t('C57')}}
                         p.desc.border-bottom.color {{$t('C48')}}
                         .block__list
@@ -156,6 +159,9 @@ export default {
         this.getFundDetail()
         this.getFundHoliday()
         this.getFundUserInfo()
+        if (this.$route.query.tab) {
+            this.active = this.$route.query.tab
+        }
     },
     methods: {
         //灰度

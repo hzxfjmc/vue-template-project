@@ -1,15 +1,16 @@
 <template lang="pug">
 .block__numberkeyboard--wrapper
-    .block__out--wrapper.border-bottom(
-        @click="showNumberKeyboard")
-        span.label HKD
-        span.block__tip--number {{unit}}
-        div.number-board(
-            v-if="show"
-            :class="[amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
-        div.number-board(
-            v-else
-            :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
+    .block__out--wrapper.border-bottom
+        .block__all--out-left(
+            @click="showNumberKeyboard")
+            span.label HKD
+            span.block__tip--number {{unit}}
+            div.number-board(
+                v-if="show"
+                :class="[amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
+            div.number-board(
+                v-else
+                :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
         span.block__all--out(
             @click="allSell"
             v-if="showAllSellBtn.show") {{$t('all')}}
@@ -17,6 +18,7 @@
         theme="custom"
         :show="show"
         extra-key="."
+        :safe-area-inset-bottom = "true"
         close-button-text="完成"
         :show-delete-key = "false"
         @close="close"
@@ -160,6 +162,7 @@ export default {
         allSell() {
             this.amount = this.showAllSellBtn.maxAmount
             this.$emit('handlerAmount', this.amount)
+            this.show = false
         },
         handlerAmount() {
             this.$emit('handlerAmount', this.amount)
@@ -209,6 +212,13 @@ export default {
     flex-direction: row;
     align-items: center;
     position: relative;
+    .block__all--out-left {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        min-width: 70%;
+    }
     .block__tip--number {
         left: 70px;
         top: -13px;
@@ -268,7 +278,7 @@ export default {
             display: inline-block;
             width: 2px;
             background: #3c78fa;
-            animation: flash 1s infinite;
+            animation: flash 0.8s infinite;
         }
     }
     .block__all--out {
@@ -285,11 +295,11 @@ export default {
     from {
         opacity: 1;
     }
-    50% {
-        opacity: 0.5;
-    }
+    // 50% {
+    //     opacity: 0.5;
+    // }
     to {
-        opacity: 0.1;
+        opacity: 0;
     }
 }
 </style>
