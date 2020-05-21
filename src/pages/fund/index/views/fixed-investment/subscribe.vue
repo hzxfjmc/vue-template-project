@@ -296,7 +296,7 @@ export default {
                 this.bankInfo.type = fixedFundInfo.chargeType
                 this.bankInfo.bankAccountNo = fixedFundInfo.eddaBankAccount
                 this.bankInfo.bankCode = fixedFundInfo.eddaBankCode
-                console.log(fixedFundInfo)
+                console.log(this.bankInfo)
                 this.bankList.map(item => {
                     if (
                         this.bankInfo.bankAccountNo === item.bankAccountNo &&
@@ -308,7 +308,7 @@ export default {
                         item.check = true
                     }
                     if (
-                        this.bankInfo.exchangeFlag == 1 &&
+                        fixedFundInfo.exchangeFlag == 1 &&
                         this.bankInfo.bankAccountNo == item.bankAccountNo
                     ) {
                         this.bankInfo = item
@@ -316,9 +316,7 @@ export default {
                 })
                 this.flag =
                     this.fundTradeInfoVO.currency.type == 1 &&
-                    this.bankInfo.exchangeFlag == 1
-                console.log(this.fundTradeInfoVO.currency)
-                console.log(this.bankInfo)
+                    fixedFundInfo.exchangeFlag == 1
                 this.fixedCycleTypeObj.key = [
                     fixedFundInfo.fixedCycleMonth,
                     fixedFundInfo.fixedCycleWeek
@@ -332,8 +330,7 @@ export default {
             if (this.flag && this.fundTradeInfoVO.currency.type === 1) return
             this.flag =
                 this.fundTradeInfoVO.currency.type === 1 &&
-                !this.bankInfo.bankAccountNo
-            console.log(this.bankInfo)
+                this.bankInfo.bankAccountNo
             this.exchangeFlag = !this.exchangeFlag
         },
         async initFunc() {
@@ -492,8 +489,10 @@ export default {
                 this.fundTradeInfoVO.currency.type == 1
             ) {
                 this.exchangeFlag = true
+                this.flag = true
             } else {
                 this.exchangeFlag = false
+                this.flag = false
             }
         },
         handlerAmount(val) {
