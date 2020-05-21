@@ -173,7 +173,8 @@ import {
     getFundPerformanceHistory,
     getFundApyPointV1,
     getFundNetPriceHistoryV1,
-    getFundRecommendList
+    getFundRecommendList,
+    getFundFeeConfigV1
 } from '@/service/finance-info-server.js'
 import {
     getGroupAction,
@@ -203,6 +204,7 @@ export default {
             togetherScribe: '[同行申购]',
             Surplus: '剩余',
             describe: '还差5人,申购费最高可返50%',
+            subscriptionFee: '申购费',
             buy: '申购',
             buyHk: '申购',
             redeem: '赎回',
@@ -237,6 +239,7 @@ export default {
             togetherScribe: '「同行」認購',
             Surplus: '剩餘',
             describe: '還差5人，最高可享申購費50%折扣',
+            subscriptionFee: '申購費',
             buy: '申購',
             buyHk: '認購',
             redeem: '贖回',
@@ -272,6 +275,7 @@ export default {
             Surplus: '',
             describe:
                 'X people needed to get the 50% discounton subscription fee.',
+            subscriptionFee: 'Subs. Fee',
             buy: 'Subscribe',
             buyHk: 'Subscribe',
             redeem: 'Redemption',
@@ -383,6 +387,14 @@ export default {
                 }
                 return true
             }
+        },
+        defaultRate() {
+            return `${(this.subscribeFeeVO.defaultFeeRate * 100).toFixed(2)}%`
+        },
+        discountRate() {
+            return `${(
+                this.subscribeFeeVO.fundFeeLevelVOList[0].feeRate * 100
+            ).toFixed(2)}%`
         }
     },
     data() {
@@ -421,6 +433,10 @@ export default {
                 positionMarketValue: null,
                 positionEarnings: null,
                 inTransitAmount: null
+            },
+            subscribeFeeVO: {
+                defaultFeeRate: 0,
+                fundFeeLevelVOList: []
             },
             positionStatus: {
                 type: -1
@@ -523,6 +539,22 @@ export default {
                     this.appType.Ch ? 1 : 2
                 }#/fund-details?id=${this.$route.query.id}`
             )
+        },
+        async getFundFeeConfig() {
+            try {
+                let params = {
+                    fundId: this.id
+                }
+                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
+                this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
+                    ? subscribeFeeVO.defaultFeeRate
+                    : ''
+                this.subscribeFeeVO.fundFeeLevelVOList = subscribeFeeVO.fundFeeLevelVOList
+                    ? subscribeFeeVO.fundFeeLevelVOList
+                    : []
+            } catch (e) {
+                console.log('getFundFeeConfigV1: ', e)
+            }
         },
         async addGroupFollow() {
             try {
@@ -1254,6 +1286,7 @@ export default {
             this.getFundPerformanceHistory()
             this.getFundApyPointV1()
             if (this.isLogin) {
+                this.getFundFeeConfig()
                 await this.getFundUserInfo()
             }
         } finally {
@@ -1620,6 +1653,15 @@ export default {
 }
 .fund-footer-content {
     width: 100%;
+    .fund-footer-tip {
+        display: block;
+        width: 100%;
+        height: 36px !important;
+        line-height: 36px;
+        background: rgba(254, 113, 39, 0.1);
+        color: #fe7127;
+        font-size: 14px;
+    }
     .block__list--header {
         width: 100%;
         height: 60px;

@@ -78,7 +78,10 @@
 import NP from 'number-precision'
 import { getCosUrl } from '@/utils/cos-utils'
 import { fundRedemption, getFundPosition } from '@/service/finance-server.js'
-import { getFundDetail } from '@/service/finance-info-server.js'
+import {
+    getFundDetail,
+    getFundFeeConfigV1
+} from '@/service/finance-info-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
 import { generateUUID } from '@/utils/tools.js'
@@ -121,6 +124,7 @@ export default {
     async created() {
         this.getFundPositionInfo()
         this.getFundDetailInfo()
+        this.getFundFeeConfig()
     },
     filters: {
         parseThousands
@@ -154,6 +158,21 @@ export default {
         }
     },
     methods: {
+        async getFundFeeConfig() {
+            try {
+                let params = {
+                    fundId: this.$route.query.id
+                }
+                let { redeemFeeVO } = await getFundFeeConfigV1(params)
+                this.redemptionFee =
+                    redeemFeeVO.fundFeeLevelVOList &&
+                    redeemFeeVO.fundFeeLevelVOList.length
+                        ? redeemFeeVO.fundFeeLevelVOList[0].feeRate
+                        : redeemFeeVO.defaultFeeRate
+            } catch (e) {
+                console.log('getFundFeeConfigV1: ', e)
+            }
+        },
         changeNumber() {
             let match =
                 (this.redemptionShare &&
@@ -216,7 +235,7 @@ export default {
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
                 this.minPositionShare =
                     fundDetail.fundTradeInfoVO.minPositionShare
-                this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
+                // this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
                 this.setCosUrl(
                     'sellProtocol',
                     fundDetail.fundTradeInfoVO.sellProtocol
