@@ -18,8 +18,8 @@
             tr
                 td {{$t('tradeMoneyLable')}}{{`（${currency}）`}}
                 td {{$t('feeLable')}}
-            template(v-for="item in subscribeFeeVO.fundFeeLevelVOList")
-                tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))")
+            template(v-for="(item,index) in subscribeFeeVO.fundFeeLevelVOList")
+                tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (times(subscribeFeeVO.fundFeeLevelVOList[index].feeRate,100)<Number(subscribeFeeVO.defaultFeeRate))")
                     td 
                         span {{unitName(item.minAmount)}}
                             span(v-if="+item.minAmount") {{$t('million')}}
@@ -31,7 +31,7 @@
                         span ） 
                 tr(v-else)
                     td {{`0 ≤ ${$t('tradeDefaultPeriod')}`}}
-                    td {{`${subscribeFeeVO.defaultFeeRate}%`}}  
+                    td {{`${subscribeFeeVO.defaultFeeRate}%`}}
     .fund-redeem
         FundListItem(
             slot="fundStep"
@@ -61,6 +61,7 @@
 </template>
 <script>
 import dayjs from 'dayjs'
+import NP from 'number-precision'
 import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
 import { transNumToThousandMark } from '@/utils/tools.js'
@@ -128,7 +129,8 @@ export default {
                 defaultFeeRate: 0,
                 fundFeeLevelVOList: []
             },
-            holidayList: []
+            holidayList: [],
+            times: NP.times
         }
     },
     methods: {
