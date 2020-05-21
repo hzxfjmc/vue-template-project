@@ -17,12 +17,12 @@ export const tradeList = {
         label: '续投金额',
         value: '',
         cname: 'HKD'
-    },
-    subscriptionFee: {
-        label: '申购费',
-        labelHk: '',
-        value: ''
     }
+    // subscriptionFee: {
+    //     label: '申购费',
+    //     labelHk: '',
+    //     value: ''
+    // }
 }
 
 export const redeemList = {
@@ -49,6 +49,14 @@ export const managementList = {
 
 export const i18nTrudeRuleData = {
     zhCHS: {
+        million: '万',
+        holiday: '基金节假日',
+        time: '日期',
+        Description: '说明',
+        tradeTitleExplain: '申购费说明',
+        tradeMoneyLable: '申购金额',
+        feeLable: '费率',
+        tradeDefaultPeriod: '申购金额',
         managermentLabel: '管理费',
         tradeTitle: '申购',
         tradeTitleHk: '申购',
@@ -104,6 +112,14 @@ export const i18nTrudeRuleData = {
         }
     },
     zhCHT: {
+        million: '萬',
+        holiday: '基金節假日',
+        time: '日期',
+        Description: '說明',
+        tradeTitleExplain: '申購費說明',
+        tradeMoneyLable: '認購金額',
+        feeLable: '費率',
+        tradeDefaultPeriod: '認購金額',
         tradeTitle: '申購',
         managermentLabel: '管理費',
         tradeTitleHk: '認購',
@@ -159,6 +175,14 @@ export const i18nTrudeRuleData = {
         }
     },
     en: {
+        million: 'million',
+        holiday: 'Fund Holiday',
+        time: 'Time',
+        Description: 'Description',
+        tradeTitleExplain: 'Subs. Fee Description',
+        tradeMoneyLable: 'Amount',
+        feeLable: 'Rate',
+        tradeDefaultPeriod: 'Amount',
         tradeTitle: 'Subscription',
         managermentLabel: 'Management Fee',
         tradeTitleHk: 'Subscription',

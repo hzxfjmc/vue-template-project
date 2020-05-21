@@ -129,3 +129,8 @@ export const getBaoFundInfo = params => {
 export const getFundHoliday = params => {
     return axios.post(`/finance-info-server/api/get-fund-holiday/v1`, params)
 }
+
+// 获取申购费用
+export const getFundFeeConfigV1 = params => {
+    return axios.post(`/finance-info-server/api/get-fund-fee-config/v1`, params)
+}
