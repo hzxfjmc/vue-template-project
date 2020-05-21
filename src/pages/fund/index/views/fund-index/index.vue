@@ -8,9 +8,9 @@ div
                     :key="index"  
                     @click="goBanner(item)") 
                     img(:src="item.picture_url") 
-                    //
+                    //v-if="isLogin && openedAccount"
         template
-            .block__assets(v-if="isLogin && openedAccount")
+            .block__assets(v-if="isLogin")
                 .block__top.border-bottom
                     .block__left--label 
                         span {{$t('protfolloAssets')}}
@@ -100,7 +100,10 @@ div
                         v-for="(item, index) in tabbarnnarList" 
                         @click="goBanner(item)"
                         :key="index") 
-                        img(:src="item.picture_url") 
+                        img(
+                            :src="item.picture_url" 
+                            class="swipper-img") 
+            
         .block__tab
             .block__tab--list
                 .block__tab--Item(
@@ -120,7 +123,7 @@ div
                     h3 {{$t('uMoney')}}
                     em.iconfont.icon-attention(@click="handlerDesc")
                 p.block--desc {{$t('stockRedemption')}}
-                .block--bottom-content
+                .block--bottom-content(@click="toYxbao")
                     .left
                         .number(
                             v-if="Number(sevenDaysApy)>0" 
@@ -135,7 +138,7 @@ div
                         p.number {{tenThousandApy}}
                         p.block--bottom--desc {{$t('tenKRtn')}}
                     .right
-                        van-button(@click="toYxbao").block--subscribe {{$t('SubsNow')}}
+                        van-button.block--subscribe {{$t('SubsNow')}}
 
             .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
                 van-swipe(:autoplay="3000")  
@@ -297,7 +300,7 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
-        //获取友信宝详情
+        //获取现金+详情
         async getBaoFundInfo() {
             try {
                 const res = await getBaoFundInfo({
@@ -309,7 +312,7 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        //跳转友信宝
+        //跳转现金+
         toYxbao() {
             if (this.isWhiteUserBit)
                 return this.$dialog.alert({
@@ -321,7 +324,16 @@ export default {
         },
         //描述
         handlerDesc() {
-            let url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+            let url
+            if (this.lang === 'zhCHS') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+            }
+            if (this.lang === 'zhCHT') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_TC`
+            }
+            if (this.lang === 'en') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_EN`
+            }
             jumpUrl(3, url)
         },
         toOrderList() {
@@ -586,5 +598,11 @@ export default {
         padding-bottom: 20px;
         color: $hk-text-line-color;
     }
+}
+.swipper-img {
+    width: 100%;
+}
+.block-bannar-sub-swiper {
+    margin: 6px 0 0 0;
 }
 </style>
