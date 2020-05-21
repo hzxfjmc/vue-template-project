@@ -5,13 +5,7 @@
             .header-content-left
                 span.title 
                     em {{$t('accountTotal')}}
-<<<<<<< HEAD
                     i.iconfont(:class="chooseCurrencyShow?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
-=======
-                    i.iconfont(
-                        :class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" 
-                        @click="hideNumber")
->>>>>>> master
                 .fund__content
                     .number-price(
                         v-if="showPsd") {{firstPositionAmount || '--'}}.
