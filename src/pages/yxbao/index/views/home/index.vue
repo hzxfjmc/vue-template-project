@@ -27,7 +27,7 @@
                     p.bottom(v-else-if="hidePadShow && totalEarnings>=0") {{totalEarnings|transNumToThousandMark}}
                     p.bottom(v-else) ****
             template(v-if="fundId")
-                .block__yxbao-btn(v-if="isLogin && positionMarketValue !=0")
+                .block__yxbao-btn(v-if="isLogin && availableBaoBalance !=0")
                     van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 
                     van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}} 
                 .block__yxbao-btn(v-else)
@@ -136,6 +136,7 @@ export default {
             banner_list: [],
             recommendList: [],
             hidePadShow: true,
+            availableBaoBalance: '',
             positionMarketValue: '',
             yesterdayEarnings: '',
             totalEarnings: '',
@@ -305,6 +306,7 @@ export default {
             try {
                 const {
                     positionMarketValue,
+                    availableBaoBalance,
                     yesterdayEarnings,
                     totalEarnings
                 } = await getBaoPostion({
@@ -316,6 +318,7 @@ export default {
                 this.yesterdayEarnings = Number(yesterdayEarnings).toFixed(2)
 
                 this.totalEarnings = totalEarnings
+                this.availableBaoBalance = availableBaoBalance
             } catch (e) {
                 this.$toast(e.msg)
             }
