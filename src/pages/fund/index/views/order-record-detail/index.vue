@@ -325,7 +325,9 @@ export default {
                             data.path =
                                 // eslint-disable-next-line no-constant-condition
                                 (this.userInfo.extendStatusBit & 16) > 0
-                                    ? '/fund-subscribe'
+                                    ? this.orderResult.fixedInvest == 1
+                                        ? '/fixed-investment'
+                                        : '/fund-subscribe'
                                     : '/open-permissions'
                             this.$router.push(data)
                             // on confirm
@@ -347,7 +349,9 @@ export default {
                 data.path =
                     // eslint-disable-next-line no-constant-condition
                     (this.userInfo.extendStatusBit & 16) > 0
-                        ? '/fund-subscribe'
+                        ? this.orderResult.fixedInvest == 1
+                            ? '/fixed-investment'
+                            : '/fund-subscribe'
                         : '/open-permissions'
                 if (this.$route.query.groupId) {
                     data.query.groupId = 0
