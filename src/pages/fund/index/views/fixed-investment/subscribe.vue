@@ -26,7 +26,7 @@
                 .fund--block--exchange
                     .fund--blcok--etop
                         span {{$t('A13')}}
-                            em.iconfont.icon-iconEBshoucang2(@click="showEddaComfim")
+                            em.iconfont.icon-iconEBshoucang2(@click="ShowAutomaticExchange")
                         span.iconfont(
                             @click="hanlderExchangFlag"
                             :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
@@ -36,29 +36,30 @@
                    
 
                 .fund--block--floor
-                    .fund--list--item.border-bottom(@click="showBankType = true")
+                    .fund--list--item.border-bottom
                         .item--top {{$t('A15')}}
-                            em.iconfont.icon-iconEBshoucang2
-                        .item--bottom(v-if="!bankInfo.bankName")
-                            .item--left {{$t('A16')}}
-                            .item--right.iconfont.icon-iconEBgengduoCopy
-                        .li(v-if="bankInfo.type == 2")
-                            .block--left
-                                .bank-name {{bankInfo.bankName}}
-                                    span {{bankInfo.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
-                                .limit-text 
-                                    .text-show
-                                        span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
-                                        span {{Number(bankInfo.mandateAmount).toFixed(2) | thousand-spilt}}
-                                        span(v-if="bankInfo.mandateAmount" ) {{$t(['港币','港幣','HKD'])}}
-                                    span.modify-text(@click="modifyHandle(bankInfo)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
-                        .li(v-if="bankInfo.type == 1")
-                            .block--left
-                                .bank-name {{bankInfo.bankName}}
-                                    
-                                .limit-text 
-                                    .text-show
-                                        span(style="font-size:12px" ) {{$t('A22')}}
+                            em.iconfont.icon-iconEBshoucang2(@click="showEddaComfim")
+                        .item--content(@click="showBankType = true")
+                            .item--bottom(
+                                v-if="!bankInfo.bankName")
+                                .item--left {{$t('A16')}}
+                                .item--right.iconfont.icon-iconEBgengduoCopy
+                            .li(v-if="bankInfo.type == 2")
+                                .block--left
+                                    .bank-name {{bankInfo.bankName}}
+                                        span {{bankInfo.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
+                                    .limit-text 
+                                        .text-show
+                                            span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
+                                            span {{Number(bankInfo.mandateAmount).toFixed(2) | thousand-spilt}}
+                                            span(v-if="bankInfo.mandateAmount" ) {{$t(['港币','港幣','HKD'])}}
+                                        span.modify-text(@click="modifyHandle(bankInfo)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
+                            .li(v-if="bankInfo.type == 1")
+                                .block--left
+                                    .bank-name {{bankInfo.bankName}}
+                                    .limit-text 
+                                        .text-show
+                                            span(style="font-size:12px" ) {{$t('A22')}}
                                      
 
                     .fund--list--item(@click="protocolShow = true")
@@ -276,7 +277,6 @@ export default {
                 })
                 // -1 未持仓 0 已清仓 1 正常持仓 2 初始持仓
                 this.positionStatus = res.positionStatus.type
-                console.log(res)
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundPositionV2:error:>>>', e)
@@ -285,7 +285,16 @@ export default {
         showEddaComfim() {
             this.$alert({
                 title: this.$t('A28'),
-                message: this.$t('A29'),
+                message:
+                    '如使用EDDA方式扣款，uSMART将会提前于您的银行账户进行扣款并存入您的证券账户，并随后进行证券账户扣款操作。资金存入后为可用资金，您可以使用该资金进行交易，提款等操作。请保证于证券扣款时证券账户有足够的资金以作月供供款。',
+                confirmButtonText: this.$t('iknow')
+            })
+        },
+        ShowAutomaticExchange() {
+            this.$alert({
+                title: '自动换汇',
+                message:
+                    '扣款时，如果扣款货币(例如港币)不足，差额部分将通过您其他货币(例如美元)的可取金额自动换汇补充，以避免扣款失败。汇率将遵循换汇发生时APP的最新汇率',
                 confirmButtonText: this.$t('iknow')
             })
         },

@@ -57,10 +57,10 @@
     .fund__block--btn(v-if="!loading")
         .fund-footer-content.fund-block--content(v-if="RedemptionButton")
             .btn.colorbg.button-5width.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-footer']"
+                    :class="[investmentShow? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(4)")
                     span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
-                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
+                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{100-fundTradeInfoVO.feeDiscount*100}}%
             van-button.button-5width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
                 @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -71,10 +71,10 @@
         .fund-footer-content(v-if="PurchaseButton")
             .block__button--list
                 .btn.colorbg.button-width1.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-footer']"
+                    :class="[investmentShow? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(4)")
                     span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
-                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{fundTradeInfoVO.feeDiscount*100}}%
+                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{100-fundTradeInfoVO.feeDiscount*100}}%
                 van-button.btn.button-width1(
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}

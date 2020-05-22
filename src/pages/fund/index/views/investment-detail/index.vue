@@ -30,7 +30,7 @@
                     em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
                 .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 
                     em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
-            .card_content_item
+            .card_content_item(v-if="fixedPlanStatus!=2&&fixedPlanStatus!=3")
                 .left {{$t('A81')}}
                 .right {{investmentInfo.recentDeductionDate}}
     .investment__detail__tag.card(v-if="isNotStop")
@@ -242,6 +242,20 @@ export default {
                 console.log('申购页面-tradeErrorMsg :', error)
             }
         },
+        //计算周末公式
+        getWeek(data) {
+            let index = new Date(data).getDay()
+            let i18nObj = {
+                1: this.$t([`周一`, `週一`, `Mon.`]),
+                2: this.$t([`周二`, `週二`, `Tues.`]),
+                3: this.$t([`周三`, `週三`, `Wed.`]),
+                4: this.$t([`周四`, `週四`, `Thur.`]),
+                5: this.$t([`周五`, `週五`, `Fri.`]),
+                6: this.$t([`周六`, `週六`, `Sat.`]),
+                7: this.$t([`周天`, `週天`, `Sun.`])
+            }
+            return i18nObj[index]
+        },
         init() {
             if (this.fixedPlanStatus === 2) {
                 // 暂停状态
@@ -290,9 +304,11 @@ export default {
                 let res = await getFundFixedPlanDetail(params)
                 this.fixedPlanStatus = res.fixedPlanStatus
                 this.investmentInfo = res
-                this.investmentInfo.recentDeductionDate = dayjs(
+                this.investmentInfo.recentDeductionDate = `${dayjs(
                     this.investmentInfo.recentDeductionDate
-                ).format('YYYY-MM-DD')
+                ).format('YYYY-MM-DD')}(${this.getWeek(
+                    this.investmentInfo.recentDeductionDate
+                )}),请保证账户资金充足`
                 let monthValue = {
                     1: '周一',
                     2: '周二',
