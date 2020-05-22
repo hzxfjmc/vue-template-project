@@ -30,9 +30,6 @@
                             fund-tag(
                                 v-if="item.fundSize != 0"
                                 :title="`${lang === 'en' ? $t('fundSizeIndex'):''}${item.fundSize}${$t('unit')}${item.fundSizeCurrency}${lang === 'en' ?'':$t('fundSizeIndex')}`")
-                            //- span {{item.assetTypeName}}
-                            //- span {{`${item.initialInvestAmount}${item.tradeCurrency}${$t('described1')}`}}
-                            //- span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
                 
 </template>
 <script>
