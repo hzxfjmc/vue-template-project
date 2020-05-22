@@ -173,7 +173,7 @@ import {
 } from '@/service/finance-info-server'
 
 import { getFundTotalPosition } from '@/service/finance-server'
-import { CURRENCY_NAME } from '@/pages/fund/index/map'
+// import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getStockColorType } from '@/utils/html-utils.js'
@@ -528,20 +528,20 @@ export default {
         async getFundHomepageInfo() {
             try {
                 const {
-                    fundHomepageThree,
+                    fundHomepageTwo,
                     fundHomepageOne,
-                    fundHomepageFour
+                    fundHomepageThree
                 } = await getFundHomepageInfo({
                     moduleBitmap: 15
                 })
                 let obj = {
                     flag: !fundHomepageOne,
-                    flag1: !fundHomepageThree,
-                    flag2: !fundHomepageFour
+                    flag1: !fundHomepageTwo,
+                    flag2: !fundHomepageThree
                 }
                 this.choiceFundList = fundHomepageOne || { data: [] }
-                this.blueChipFundList = fundHomepageFour || { data: [] }
-                this.robustFundList = fundHomepageThree || { data: [] }
+                this.blueChipFundList = fundHomepageThree || { data: [] }
+                this.robustFundList = fundHomepageTwo || { data: [] }
                 this.factoryMap_('choiceFundList', obj)
                 this.factoryMap_('blueChipFundList', obj)
                 this.factoryMap_('robustFundList', obj)
@@ -567,14 +567,63 @@ export default {
                     Number(item.initialInvestAmount).toFixed(0),
                     0
                 )
-                item.tradeCurrency =
-                    CURRENCY_NAME[this.lang][item.tradeCurrency]
-                item.fundSizeCurrency =
-                    CURRENCY_NAME[this.lang][item.fundSizeCurrency]
+                const AssetsEumn = {
+                    1: this.$t('Equity'),
+                    2: this.$t('Bond'),
+                    3: this.$t('Balanced'),
+                    4: this.$t('MMF'),
+                    5: this.$t('Index'),
+                    6: this.$t('Financial')
+                }
+                const CurrencyEumn = {
+                    1: this.$t('usd'),
+                    2: this.$t('hkd'),
+                    3: '人民币'
+                }
+                item.TagList = item.definedLabels
+                item.assetType = AssetsEumn[item.assetType]
+                item.initialInvestAmount = this.$t([
+                    `${item.initialInvestAmount}${
+                        CurrencyEumn[item.tradeCurrency]
+                    }起`,
+                    `${item.initialInvestAmount}${
+                        CurrencyEumn[item.tradeCurrency]
+                    }起`,
+                    `${item.initialInvestAmount}${
+                        CurrencyEumn[item.tradeCurrency]
+                    }起`
+                ])
+                item.fundSize = this.$t([
+                    `${item.fundSize}亿${
+                        CurrencyEumn[item.fundSizeCurrency]
+                    }规模`,
+                    `${item.fundSize}亿${
+                        CurrencyEumn[item.fundSizeCurrency]
+                    }规模`,
+                    `${item.fundSize}亿${
+                        CurrencyEumn[item.fundSizeCurrency]
+                    }规模`
+                ])
+                item.dividendType =
+                    item.dividendType == 2
+                        ? this.$t('NET_PRICE')
+                        : this.$t('DIVIDEND')
+                item.riskLevel = this.$t('resultList')[item.riskLevel].riskStyle
+                const arrList = {
+                    1: item.assetType,
+                    2: item.initialInvestAmount,
+                    3: item.fundSize,
+                    4: item.riskLevel,
+                    5: item.dividendType
+                }
+                for (let i of item.systemLabels) {
+                    item.TagList.push(arrList[i])
+                }
                 this.choiceFundListShow = !obj.flag
                 this.blueChipFundListShow = !obj.flag2
                 this.robustFundListShow = !obj.flag1
             })
+            // console.log(arr_[type].data)
         },
         //创建echart图并生成图片回调出来
         initI18n() {
