@@ -37,7 +37,7 @@
             p.word-color {{$t('C22')}}
             p.num {{orderDetails.recordFee|transNumToThousandMark}} {{$t('hkd')}}
 
-    .block__footer--btn(v-if="lang === 'en'")
+    .block__footer--btn
         van-button(@click="toHomePage") {{$t('done')}}
         
 </template>
