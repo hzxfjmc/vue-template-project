@@ -1,6 +1,6 @@
 <template lang="pug">
     .block__fund(
-        :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
+        :class="[code != 1 ? 'block__fund-ch' : 'block__fund-ch']")
         .block__fund-title.ellipse {{fundlist.masterTitle}}
         .block__fund--list.border-bottom(
             @click="goNext(item)"
@@ -17,7 +17,6 @@
                             span.title.ellipse {{item.title}}
                         .tag-list--element
                             span(v-for="i of item.systemLabelsList") {{i}}
-                           
                         .tag-list--element
                             fund-tag(
                                 v-for="key of item.definedLabels"

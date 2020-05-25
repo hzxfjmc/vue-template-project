@@ -5,20 +5,19 @@ div
             .block__assets(v-if="isLogin && openedAccount")
                 .block__top
                     .block__left--label 
-                        span {{$t('protfolloAssets')}}
+                        span 我的理财资产
                         em(
                             class="iconfont" 
                             @click="hideNumber"
                             :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
                     .block__right(@click="handlerDialog")
-                        span {{$t('aboutAssets')}}
+                        span 币种说明
                         em(class="iconfont icon-icon_fund_index_2")
                 .block__left--number
                     .block__left--num
                         p {{$t('TotalAssets')}}
                         .block__list-es
-                            .block--element--number(
-                                :class="code != 1? 'color-blue':'color-black'" 
+                            .block--element--number.color-black(
                                 v-if="moneyShow") {{currentPostion.positionTotalAmount|transNumToThousandMark}}
                             .block--element--number.close--eye(v-else) ******
                             .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
@@ -102,7 +101,7 @@ div
                     h3 {{$t('uMoney')}}
                     em.iconfont.icon-attention(@click="handlerDesc")
                 p.block--desc 随存随取 闲置资金可挣钱
-                .block--bottom-content
+                .block--bottom-content(@click="toYxbao")
                     .left
                         .number(
                             v-if="Number(sevenDaysApy)>0" 
@@ -118,10 +117,7 @@ div
                         p.block--bottom--desc {{$t('tenKRtn')}}
                     .right
                         van-button.block--subscribe {{$t('SubsNow')}}
-            FundList(
-                :code = "code"
-                v-if="choiceFundListShow"
-                :fundlist="choiceFundList")
+            
             .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
                 van-swipe(:autoplay="3000")  
                     van-swipe-item(
@@ -129,6 +125,10 @@ div
                         @click="goBanner(item)"
                         :key="index") 
                         img(:src="item.picture_url") 
+            FundList(
+                :code = "code"
+                v-if="choiceFundListShow"
+                :fundlist="choiceFundList")
             FundListItem(
                 :code = "code"
                 :bgColor="code !=1 ? '#F1B92D':'#FFBF32'"
@@ -219,11 +219,11 @@ export default {
             robustFundListShow: false,
             tabList: [
                 {
-                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
-                    label: '股票型',
-                    key: 'fundShares',
-                    value: '1'
+                    imgUrl: require('@/assets/img/fund/icon_money.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
+                    label: '貨幣型',
+                    key: 'fundCurrency',
+                    value: '4'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
@@ -239,13 +239,12 @@ export default {
                     key: 'fundBlend',
                     value: '3'
                 },
-
                 {
-                    imgUrl: require('@/assets/img/fund/icon_money.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
-                    label: '貨幣型',
-                    key: 'fundCurrency',
-                    value: '4'
+                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
+                    label: '股票型',
+                    key: 'fundShares',
+                    value: '1'
                 }
             ],
             choiceFundList: {}, //精选基金
@@ -412,10 +411,12 @@ export default {
                     if (item.FundCycle != 0) {
                         item.FundCycleName = this.$t(`${item.FundCycle}`)
                     }
-                    fundCodeList.push({
-                        fundCode: item.Fund,
-                        apyType: item.FundCycle
-                    })
+                    if (item.FundCycle) {
+                        fundCodeList.push({
+                            fundCode: item.Fund,
+                            apyType: item.FundCycle
+                        })
+                    }
                 })
                 if (res3.banner_list.length === 0) return
                 let fundListInfo
@@ -483,7 +484,7 @@ export default {
                             ])
                             item.riskLevel = this.$t('resultList')[
                                 items.riskLevel
-                            ].riskStyle
+                            ].type
                         }
                     })
                     const arrList = {
@@ -611,7 +612,7 @@ export default {
                     item.dividendType == 2
                         ? this.$t('NET_PRICE')
                         : this.$t('DIVIDEND')
-                item.riskLevel = this.$t('resultList')[item.riskLevel].riskStyle
+                item.riskLevel = this.$t('resultList')[item.riskLevel].type
                 const arrList = {
                     1: item.assetType,
                     2: item.initialInvestAmount,

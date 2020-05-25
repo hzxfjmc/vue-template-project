@@ -35,11 +35,12 @@
                             span.pctchng {{Number(item.stocks[0].pctchng).toFixed(2)}}%
                     .bottom 
                         span {{item.source}}
-                        span 08-27  10:18
+                        span.time {{item.release_time}}
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
 import { getSpSubjectDetail } from '@/service/news-msgdisplay'
+import dayjs from 'dayjs'
 export default {
     computed: {
         stockColorType() {
@@ -59,6 +60,11 @@ export default {
             })
             this.loading = false
             this.news_list = news_list
+            this.news_list.map(item => {
+                item.release_time = dayjs(item.release_time).format(
+                    'MM-DD HH:SS'
+                )
+            })
         }
     },
     data() {
@@ -121,6 +127,9 @@ export default {
         color: rgba(25, 25, 25, 0.65);
         font-size: 12px;
         line-height: 17px;
+        .time {
+            margin: 0 0 0 5px;
+        }
     }
 }
 .block--item:last-child {
