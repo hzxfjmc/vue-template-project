@@ -94,15 +94,18 @@
             .block--content
                 .block--list--item
                     .left {{$t('A105')}}
-                    .right X%
+                    .right {{Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}}%
                 .block--list--item
                     .left {{$t('A10')}}
-                    .right 第二期
+                    .right 第{{fundFixedFeeVO.feeRefund}}期
                 p 第2期交易成功后返还前两期的手续费折扣，以后每期交易成功后返还对应的手续费折扣
 
 </template>
 <script>
-import { getFundDetail } from '@/service/finance-info-server.js'
+import {
+    getFundDetail,
+    getFundFeeConfigV1
+} from '@/service/finance-info-server.js'
 import {
     hanlderCreateFundFixedPlan,
     getRecentDeductionDate,
@@ -164,6 +167,7 @@ export default {
                 value: 1
             },
             flag: false,
+            fundFixedFeeVO: {},
             fixedFundInfo: {},
             arrMarketENUM: {
                 2: {
@@ -245,6 +249,13 @@ export default {
         }
     },
     methods: {
+        //费用
+        async getFundFeeConfigV1() {
+            const { fundFixedFeeVO } = await getFundFeeConfigV1({
+                fundId: this.$route.query.id
+            })
+            this.fundFixedFeeVO = fundFixedFeeVO || {}
+        },
         //点击去修改
         modifyHandle(val) {
             event.stopPropagation()
@@ -302,7 +313,6 @@ export default {
         initState() {
             if (this.$route.query.type == 1) {
                 this.fixedFundInfo = this.$route.query
-                console.log(this.fixedFundInfo)
                 this.amount = this.fixedFundInfo.fixedPlanAmount
                 this.bankInfo.type = this.fixedFundInfo.chargeType
                 this.bankInfo.bankAccountNo = this.fixedFundInfo.eddaBankAccount
@@ -348,6 +358,7 @@ export default {
         },
         async initFunc() {
             this.getFundUserInfo()
+            this.getFundFeeConfigV1()
             this.getRecentDeductionDate(true)
             await this.getFundPositionV2()
             await this.getFundDetailInfo()
