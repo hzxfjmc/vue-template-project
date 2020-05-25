@@ -56,8 +56,6 @@ div
                             em(v-if="!moneyShow && !isWhiteUserBit") ****
                             em.word(v-if="isWhiteUserBit")  {{$t('tips')}}
                         em.iconfont.icon-previewright(v-if="!isWhiteUserBit")
-                    //- span(v-if="moneyShow") {{weekEarnings}} {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
-                    //- span(v-else) **** {{currencyTab===0?$t('hkd'):$t('usd')}} {{$t('SevenDayIncome')}}
                 .block__left__bottom.border-top.text-align(
                     v-else
                     @click="toRouterAccount")
@@ -93,6 +91,13 @@ div
                     span {{item.label}}
         
         .block__container
+            .block-bannar-sub-swiper(v-if="barnnarList1.length !== 0")
+                van-swipe(:autoplay="3000")  
+                    van-swipe-item(
+                        v-for="(item, index) in barnnarList1" 
+                        @click="goBanner(item)"
+                        :key="index") 
+                        img(:src="item.picture_url") 
             FundCardSwipper(
                 v-if="fundBarnnarList.length != 0"
                 :fundBarnnarList="fundBarnnarList")
@@ -154,6 +159,7 @@ div
                             :key="index"  
                             @click="goBanner(item)") 
                             img(:src="item.picture_url") 
+        
                         
         .block__bottom--p
             img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
@@ -210,6 +216,7 @@ export default {
             currencyTab: 0,
             moneyShow: true,
             barnnarList: [],
+            barnnarList1: [],
             barnnarUsList: [],
             tabbarnnarList: [],
             fundBarnnarList: [],
@@ -386,11 +393,11 @@ export default {
         //获取轮播
         async bannerAdvertisement(flag) {
             try {
-                // const res = await bannerAdvertisement(26)
+                const res = await bannerAdvertisement(26)
                 const res1 = await bannerAdvertisement(27)
                 const res2 = await bannerAdvertisement(100)
                 const res3 = await bannerAdvertisement(101)
-
+                this.barnnarList1 = res.banner_list
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
                 let fundCodeList = []
