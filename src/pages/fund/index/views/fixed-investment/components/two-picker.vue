@@ -8,7 +8,7 @@
         van-picker(
             show-toolbar 
             :value="monthDay"
-            confirm-button-text="$t('confirm')"
+            :confirm-button-text="$t('confirm')"
             :cancel-button-text="$t('cancel')"
             @change="onChange"
             @confirm="confirm"

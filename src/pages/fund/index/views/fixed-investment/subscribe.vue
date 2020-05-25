@@ -164,6 +164,7 @@ export default {
                 value: 1
             },
             flag: false,
+            fixedFundInfo: {},
             arrMarketENUM: {
                 2: {
                     0: this.$t([
@@ -300,24 +301,27 @@ export default {
         },
         initState() {
             if (this.$route.query.type == 1) {
-                let fixedFundInfo = this.$route.query
-                this.amount = fixedFundInfo.fixedPlanAmount
-                this.bankInfo.type = fixedFundInfo.chargeType
-                this.bankInfo.bankAccountNo = fixedFundInfo.eddaBankAccount
-                this.bankInfo.bankCode = fixedFundInfo.eddaBankCode
-                console.log(this.bankInfo)
+                this.fixedFundInfo = this.$route.query
+                console.log(this.fixedFundInfo)
+                this.amount = this.fixedFundInfo.fixedPlanAmount
+                this.bankInfo.type = this.fixedFundInfo.chargeType
+                this.bankInfo.bankAccountNo = this.fixedFundInfo.eddaBankAccount
+                this.bankInfo.bankCode = this.fixedFundInfo.eddaBankCode
                 this.bankList.map(item => {
                     if (
                         this.bankInfo.bankAccountNo === item.bankAccountNo &&
-                        fixedFundInfo.exchangeFlag == 1
+                        this.fixedFundInfo.exchangeFlag == 1
                     ) {
                         item.check = true
                     }
-                    if (item.type == 1 && fixedFundInfo.exchangeFlag == 0) {
+                    if (
+                        item.type == 1 &&
+                        this.fixedFundInfo.exchangeFlag == 0
+                    ) {
                         item.check = true
                     }
                     if (
-                        fixedFundInfo.exchangeFlag == 1 &&
+                        this.fixedFundInfo.exchangeFlag == 1 &&
                         this.bankInfo.bankAccountNo == item.bankAccountNo
                     ) {
                         this.bankInfo = item
@@ -325,14 +329,14 @@ export default {
                 })
                 this.flag =
                     this.fundTradeInfoVO.currency.type == 1 &&
-                    fixedFundInfo.exchangeFlag == 1
+                    this.fixedFundInfo.exchangeFlag == 1
                 this.fixedCycleTypeObj.key = [
-                    fixedFundInfo.fixedCycleMonth,
-                    fixedFundInfo.fixedCycleWeek
+                    this.fixedFundInfo.fixedCycleMonth,
+                    this.fixedFundInfo.fixedCycleWeek
                 ]
-                this.exchangeFlag = fixedFundInfo.exchangeFlag == 1
-                this.fixedCycleTypeObj.type = fixedFundInfo.fixedCycleType
-                this.fixedCycleTypeObj.value = fixedFundInfo.fixedCycleValue
+                this.exchangeFlag = this.fixedFundInfo.exchangeFlag == 1
+                this.fixedCycleTypeObj.type = this.fixedFundInfo.fixedCycleType
+                this.fixedCycleTypeObj.value = this.fixedFundInfo.fixedCycleValue
             }
         },
         hanlderExchangFlag() {
@@ -507,10 +511,39 @@ export default {
         handlerAmount(val) {
             this.amount = val
         },
-        handlerSubmitFilter() {
+        async handlerSubmitFilter() {
             if (isNaN(Number(this.amount)) || Number(this.amount) === 0)
                 return this.$toast('请输入金额')
             if (!this.bankInfo.type) return this.$toast('请选择扣款方式')
+            //判断是否修改内容
+            let exchangeFlag = this.exchangeFlag ? 1 : 0
+            if (
+                this.$route.query.type == 1 &&
+                this.amount == this.fixedFundInfo.fixedPlanAmount &&
+                this.fixedCycleTypeObj.type ==
+                    this.fixedFundInfo.fixedCycleType &&
+                this.fixedCycleTypeObj.value ==
+                    this.fixedFundInfo.fixedCycleValue &&
+                exchangeFlag == this.fixedFundInfo.exchangeFlag &&
+                this.bankInfo.type == this.fixedFundInfo.chargeType
+            ) {
+                return this.$toast('未做任何修改')
+            }
+            if (
+                this.$route.query.type == 2 &&
+                this.amount == this.fixedFundInfo.fixedPlanAmount &&
+                this.fixedCycleTypeObj.type ==
+                    this.fixedFundInfo.fixedCycleType &&
+                this.fixedCycleTypeObj.value ==
+                    this.fixedFundInfo.fixedCycleValue &&
+                exchangeFlag == this.fixedFundInfo.exchangeFlag &&
+                this.bankInfo.type == this.fixedFundInfo.chargeType &&
+                this.bankInfo.eddaBankAccount ==
+                    this.fixedFundInfo.eddaBankAccount
+            ) {
+                return this.$toast('未做任何修改')
+            }
+
             if (this.derivativeType != 1) {
                 this.$dialog
                     .confirm({

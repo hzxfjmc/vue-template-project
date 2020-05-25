@@ -1060,8 +1060,10 @@ export default {
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
 
-            if (!this.investmentShow && params === 4)
+            //定投提示
+            if (!this.investmentShow && params === 4) {
                 return this.$toast(this.forbidPrompt)
+            }
 
             //拼团埋点描述
             let fundDesc = params === 1 ? '申购' : '拼团'
@@ -1633,6 +1635,7 @@ export default {
     }
     .fund-no {
         background: rgba(25, 25, 25, 0.2);
+        color: rgba(255, 255, 255, 0.6);
     }
     .button-5width {
         width: 33.33%;
