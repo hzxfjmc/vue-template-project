@@ -7,11 +7,6 @@
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .element--fund--content
-                    //- .canvas-element--right
-                    //-     canvas(
-                    //-         :id="'chartId'+item.fundId" 
-                    //-     )
-                    //- span.title.ellipse {{item.title}}
                     .element--content-sub-content
                         .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(item.apy*100).toFixed(2)}}%
                         .number(v-if="Number(item.apy)<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(item.apy*100).toFixed(2)}}%
@@ -20,13 +15,12 @@
                     .element--content-bottom
                         .tag-title 
                             span.title.ellipse {{item.title}}
-                        .tag-list--element(v-if="code !== 1")
-                            span(v-if="lang != 'en'") {{item.assetTypeName}}
-                            span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
-                        .tag-list--element(v-else)
+                        .tag-list--element
+                            span(v-for="i of item.systemLabelsList") {{i}}
+                           
+                        .tag-list--element
                             fund-tag(
-                                v-for="key of item.TagList"
+                                v-for="key of item.definedLabels"
                                 :title="key")
                         
                 

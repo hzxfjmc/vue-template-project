@@ -2,7 +2,6 @@
 div
     .block-fund-index
         template
-            //v-if="isLogin && openedAccount"
             .block__assets(v-if="isLogin && openedAccount")
                 .block__top
                     .block__left--label 
@@ -173,7 +172,7 @@ import {
 } from '@/service/finance-info-server'
 
 import { getFundTotalPosition } from '@/service/finance-server'
-// import { CURRENCY_NAME } from '@/pages/fund/index/map'
+import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getStockColorType } from '@/utils/html-utils.js'
@@ -395,9 +394,7 @@ export default {
 
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
-
                 let fundCodeList = []
-
                 res3.banner_list.map(item => {
                     if (item.TagContent) {
                         item.TagContent = JSON.parse(item.TagContent)
@@ -421,9 +418,12 @@ export default {
                     })
                 })
                 if (res3.banner_list.length === 0) return
-                const fundListInfo = await getFundSimpleInfoList({
-                    fundSimpleInfoApiVOList: fundCodeList
-                })
+                let fundListInfo
+                if (fundCodeList.length > 0) {
+                    fundListInfo = await getFundSimpleInfoList({
+                        fundSimpleInfoApiVOList: fundCodeList
+                    })
+                }
                 const AssetsEumn = {
                     1: this.$t('Equity'),
                     2: this.$t('Bond'),
@@ -431,10 +431,6 @@ export default {
                     4: this.$t('MMF'),
                     5: this.$t('Index'),
                     6: this.$t('Financial')
-                }
-                const CurrencyEumn = {
-                    1: this.$t('usd'),
-                    2: this.$t('hkd')
                 }
                 res3.banner_list.map(item => {
                     fundListInfo.map(items => {
@@ -453,24 +449,36 @@ export default {
                             }
                             item.fundSize = this.$t([
                                 `${fundSize.toFixed(2)}亿${
-                                    CurrencyEumn[items.fundSizeCurrency]
+                                    CURRENCY_NAME[this.lang][
+                                        item.fundSizeCurrency
+                                    ]
                                 }规模`,
                                 `${fundSize.toFixed(2)}亿${
-                                    CurrencyEumn[items.fundSizeCurrency]
+                                    CURRENCY_NAME[this.lang][
+                                        item.fundSizeCurrency
+                                    ]
                                 }规模`,
                                 `${fundSize.toFixed(2)}亿${
-                                    CurrencyEumn[items.fundSizeCurrency]
+                                    CURRENCY_NAME[this.lang][
+                                        item.fundSizeCurrency
+                                    ]
                                 }规模`
                             ])
                             item.initialInvestAmount = this.$t([
                                 `${items.initialInvestAmount}${
-                                    CurrencyEumn[items.tradeCurrency]
+                                    CURRENCY_NAME[this.lang][
+                                        items.tradeCurrency
+                                    ]
                                 }起`,
                                 `${items.initialInvestAmount}${
-                                    CurrencyEumn[items.tradeCurrency]
+                                    CURRENCY_NAME[this.lang][
+                                        items.tradeCurrency
+                                    ]
                                 }起`,
                                 `${items.initialInvestAmount}${
-                                    CurrencyEumn[items.tradeCurrency]
+                                    CURRENCY_NAME[this.lang][
+                                        items.tradeCurrency
+                                    ]
                                 }起`
                             ])
                             item.riskLevel = this.$t('resultList')[
@@ -575,33 +583,28 @@ export default {
                     5: this.$t('Index'),
                     6: this.$t('Financial')
                 }
-                const CurrencyEumn = {
-                    1: this.$t('usd'),
-                    2: this.$t('hkd'),
-                    3: '人民币'
-                }
                 item.TagList = item.definedLabels
                 item.assetType = AssetsEumn[item.assetType]
                 item.initialInvestAmount = this.$t([
                     `${item.initialInvestAmount}${
-                        CurrencyEumn[item.tradeCurrency]
+                        CURRENCY_NAME[this.lang][item.tradeCurrency]
                     }起`,
                     `${item.initialInvestAmount}${
-                        CurrencyEumn[item.tradeCurrency]
+                        CURRENCY_NAME[this.lang][item.tradeCurrency]
                     }起`,
                     `${item.initialInvestAmount}${
-                        CurrencyEumn[item.tradeCurrency]
+                        CURRENCY_NAME[this.lang][item.tradeCurrency]
                     }起`
                 ])
                 item.fundSize = this.$t([
                     `${item.fundSize}亿${
-                        CurrencyEumn[item.fundSizeCurrency]
+                        CURRENCY_NAME[this.lang][item.fundSizeCurrency]
                     }规模`,
                     `${item.fundSize}亿${
-                        CurrencyEumn[item.fundSizeCurrency]
+                        CURRENCY_NAME[this.lang][item.fundSizeCurrency]
                     }规模`,
                     `${item.fundSize}亿${
-                        CurrencyEumn[item.fundSizeCurrency]
+                        CURRENCY_NAME[this.lang][item.fundSizeCurrency]
                     }规模`
                 ])
                 item.dividendType =
@@ -616,7 +619,9 @@ export default {
                     4: item.riskLevel,
                     5: item.dividendType
                 }
+                item.systemLabelsList = []
                 for (let i of item.systemLabels) {
+                    item.systemLabelsList.push(arrList[i])
                     item.TagList.push(arrList[i])
                 }
                 this.choiceFundListShow = !obj.flag
