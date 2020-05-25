@@ -99,10 +99,11 @@ export default {
                         fundTradeInfoVO.initialInvestAmount
                     )}HKD initial Subs`
                 ])
-                this.ProtocolFile = buyProtocolFileList[0].fileName.split(
-                    '.'
-                )[0]
-                this.filePath = buyProtocolFileList[0].filePath
+                this.ProtocolFile =
+                    buyProtocolFileList[0] &&
+                    buyProtocolFileList[0].fileName.split('.')[0]
+                this.filePath =
+                    buyProtocolFileList[0] && buyProtocolFileList[0].filePath
                 this.placeholder = placeholder
                 let desc = this.$t([
                     `预计${fundTradeInfoVO.buyProfitLoss}查看收益`,
