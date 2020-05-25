@@ -171,6 +171,13 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fund-index/declare-agreement.vue`
                 )
+        },
+        {
+            name: 'income-list',
+            path: '/income-list',
+            meta: { title: 'incomeList', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/income-list/index.vue`)
         }
     ]
 })

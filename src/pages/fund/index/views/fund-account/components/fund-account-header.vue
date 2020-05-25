@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-account-header
-    .block-account-header(:class="[code != 1 ? 'bg-hk' : 'bg-ch']")
+    .block-account-header(:class="[code != 1 ? 'bg-ch' : 'bg-ch']")
         .header-content
             .header-content-left
                 span.title 

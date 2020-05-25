@@ -1,5 +1,5 @@
 <template lang="pug">
-.block-fund-list-content(:class="[code!=1? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
+.block-fund-list-content(:class="[code!=1? 'block-fund-list-content-ch' : 'block-fund-list-content-ch']")
     .block__fund-title(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
         p {{title}}
@@ -13,14 +13,16 @@
         v-if="listShow"
         :key="index" 
         @click="toFundDetails(item)")
-        .fund-name {{item.fundName}}
+        .fund-name.ellipse {{item.fundName}}
         .fund-list-num
             .fund-row
                 .fund__row--list
+                    span {{$t('positionMarketValue')}}
                     .block-element-number(v-if="eyeTab") {{item.positionAmount}}
                     .block-element-number(v-else) ****
-                    span {{$t('amountMoney')}}
-                .fund__row--list
+                    
+                .fund__row--list.block__center
+                    span {{$t('profitPostion')}}
                     .block-element-number(
                         v-if="eyeTab && item.flag == 0" 
                         :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings|parseThousands}}
@@ -30,18 +32,16 @@
                     .block-element-number(
                         v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
                     .block-element-number(v-if="!eyeTab") ****
-                    span {{$t('profitPostion')}}
-            .fund-row
-                .fund__row--list
+                    
+                .fund__row--list.block__right
+                    span {{$t('SevenDayIncome')}}
                     .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
                     .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
                     .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
                     .block-element-number(v-if="!eyeTab") ****
-                    span {{$t('SevenDayIncome')}}
-                .fund__row--list
-                    .block-element-number(v-if="eyeTab") {{item.positionShare}}
-                    .block-element-number(v-else) ****
-                    span {{$t('share')}}
+                   
+            //- .fund-row
+                
         .fund-list-other(
             v-if="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0")
             .o-item(v-if="item.redeemDeliveryShare != 0")
@@ -113,6 +113,7 @@ export default {
             usdAssets: '美元市值',
             profitPostion: '持有收益',
             SevenDayIncome: '近七日收益',
+            positionMarketValue: '持有资产',
             Redemption: '赎回中',
             subscribe: '申购中',
             subscribeHk: '申购中',
@@ -123,6 +124,7 @@ export default {
         zhCHT: {
             amountMoney: '金額',
             share: '份額',
+            positionMarketValue: '持有市值',
             hkdAssets: '港幣市值',
             usdAssets: '美元市值',
             profitPostion: '持有收益',
@@ -137,6 +139,7 @@ export default {
         en: {
             amountMoney: 'Amount',
             share: 'Unit',
+            positionMarketValue: 'Holding Value',
             hkdAssets: 'HKD Holdings',
             usdAssets: 'USD Holdings',
             profitPostion: 'Total Return',
@@ -244,6 +247,12 @@ export default {
                     width: 50%;
                     margin: 6px 0 0 0;
                     text-align: left;
+                }
+                .block__center {
+                    text-align: center;
+                }
+                .block__right {
+                    text-align: right;
                 }
                 span {
                     font-size: 0.24rem;
