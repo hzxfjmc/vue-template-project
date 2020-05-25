@@ -17,7 +17,7 @@
                         .fund--header--list
                             .fund-left {{$t('A5')}}
                                 span.iconfont.icon-iconEBshoucang2(@click="show=true")
-                            .fund-right {{HandlingFee}} ({{(fundTradeInfoVO.subscriptionFee * 100).toFixed(2)}}%)
+                            .fund-right(v-if="fundTradeInfoVO.subscriptionFee != 0") {{HandlingFee}} ({{(fundTradeInfoVO.subscriptionFee * 100).toFixed(2)}}%)
                                 //- em 1.00港币
                         .fund--header--list
                             .fund-left {{$t('A7')}}
@@ -98,7 +98,7 @@
                 .block--list--item
                     .left {{$t('A10')}}
                     .right 第{{fundFixedFeeVO.feeRefund}}期
-                p 第2期交易成功后返还前两期的手续费折扣，以后每期交易成功后返还对应的手续费折扣
+                p 第{{fundFixedFeeVO.feeRefund}}期交易成功后返还前{{fundFixedFeeVO.feeRefund}}期的手续费折扣，以后每期交易成功后返还对应的手续费折扣
 
 </template>
 <script>

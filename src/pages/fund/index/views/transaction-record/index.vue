@@ -36,7 +36,10 @@ import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     data() {
         return {
-            fundInfo: {}
+            fundInfo: {
+                fundBaseInfoVO: {},
+                currency: {}
+            }
         }
     },
     filters: {
@@ -51,6 +54,7 @@ export default {
                     orderNo: this.$route.query.orderNo
                 })
                 this.fundInfo = res
+                console.log(this.fundInfo)
                 this.fundInfo.orderTime = dayjs(this.fundInfo.orderTime).format(
                     'YYYY-MM-DD HH:mm:ss'
                 )
@@ -60,7 +64,14 @@ export default {
                 console.log(e)
             }
         },
-        buyMoreHandle() {}
+        buyMoreHandle() {
+            this.$router.push({
+                path: '/fixed-investment',
+                query: {
+                    id: this.fundInfo.fundBaseInfoVO.fundId
+                }
+            })
+        }
     },
     created() {
         this.fundOrderDetail()
