@@ -426,7 +426,7 @@ export default {
                     }
                 })
                 if (res3.banner_list.length === 0) return
-                let fundListInfo
+                let fundListInfo = []
                 if (fundCodeList.length > 0) {
                     fundListInfo = await getFundSimpleInfoList({
                         fundSimpleInfoApiVOList: fundCodeList

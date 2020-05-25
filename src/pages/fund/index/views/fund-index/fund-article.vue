@@ -53,18 +53,23 @@ export default {
     methods: {
         //基金资讯
         async getSpSubjectDetail() {
-            const { news_list } = await getSpSubjectDetail({
-                subject_id: 37,
-                last_score: 0,
-                page_size: 3
-            })
-            this.loading = false
-            this.news_list = news_list
-            this.news_list.map(item => {
-                item.release_time = dayjs(item.release_time).format(
-                    'MM-DD HH:SS'
-                )
-            })
+            try {
+                const { news_list } = await getSpSubjectDetail({
+                    subject_id: 37,
+                    last_score: 0,
+                    page_size: 3
+                })
+                this.loading = false
+                this.news_list = news_list
+                this.news_list.map(item => {
+                    item.release_time = dayjs(item.release_time * 1000).format(
+                        'MM-DD HH:mm'
+                    )
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log(e)
+            }
         }
     },
     data() {
