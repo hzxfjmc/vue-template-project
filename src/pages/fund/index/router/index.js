@@ -178,6 +178,43 @@ export default new Router({
             meta: { title: 'incomeList', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/income-list/index.vue`)
+        },
+        {
+            name: 'fixed-investment',
+            path: '/fixed-investment',
+            meta: { title: 'fixed-investment', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fixed-investment/subscribe.vue`
+                )
+        },
+        {
+            name: 'investment-result',
+            path: '/investment-result',
+            meta: { title: 'investment-result', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/investment-result/index.vue`)
+        },
+        {
+            name: 'my-investment',
+            path: '/my-investment',
+            meta: { title: 'my-investment', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/my-investment/index.vue`)
+        },
+        {
+            name: 'investment-detail',
+            path: '/investment-detail',
+            meta: { title: 'investmentDetail', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/investment-detail/index.vue`)
+        },
+        {
+            name: 'transaction-record',
+            path: '/transaction-record',
+            meta: { title: 'transactionRecord', auth: true },
+            component: () =>
+                import(`@/pages/fund/index/views/transaction-record/index.vue`)
         }
     ]
 })

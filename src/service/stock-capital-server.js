@@ -10,3 +10,8 @@ export const hsAccountInfo = moneyType => {
         moneyType
     })
 }
+
+// 查询已经授权的银行
+export const queryMandateBank = data => {
+    return axios.post('/stock-capital-server/api/query-mandate-bank/v1', data)
+}

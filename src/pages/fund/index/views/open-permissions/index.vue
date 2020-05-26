@@ -87,13 +87,23 @@ export default {
                 LS.put('signName', this.autograph)
                 console.log(res)
                 // 跳申购页
-                this.$router.replace({
-                    path: '/fund-subscribe',
-                    query: {
-                        id: this.$route.query.id,
-                        currencyType: this.$route.query.currencyType
-                    }
-                })
+                if (this.$route.query.code === 4) {
+                    this.$router.replace({
+                        path: '/fixed-investment',
+                        query: {
+                            id: this.$route.query.id,
+                            currencyType: this.$route.query.currencyType
+                        }
+                    })
+                } else {
+                    this.$router.replace({
+                        path: '/fund-subscribe',
+                        query: {
+                            id: this.$route.query.id,
+                            currencyType: this.$route.query.currencyType
+                        }
+                    })
+                }
             } catch (e) {
                 if (e.msg) {
                     this.$dialog.alert({

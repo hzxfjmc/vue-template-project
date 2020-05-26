@@ -13,7 +13,9 @@
         v-if="listShow"
         :key="index" 
         @click="toFundDetails(item)")
-        .fund-name.ellipse {{item.fundName}}
+        .fund-name 
+            p {{item.fundName}}
+            span(v-if="item.fixedFlag") {{$t('A2')}}
         .fund-list-num
             .fund-row
                 .fund__row--list
@@ -233,6 +235,25 @@ export default {
             font-size: 0.32rem;
             line-height: 20px;
             margin: 10px 0 5px 0;
+            display: flex;
+            flex-direction: row;
+            p {
+                max-width: 80%;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                overflow: hidden;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+            }
+            span {
+                display: block;
+                padding: 0 5px;
+                font-size: 10px;
+                background: rgba(47, 121, 255, 1);
+                color: #fff;
+                border-radius: 1px;
+                margin: 0 0 0 5px;
+            }
         }
         .fund-list-num {
             display: flex;
