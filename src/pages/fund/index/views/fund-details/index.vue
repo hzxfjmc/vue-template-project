@@ -394,7 +394,7 @@ export default {
             return `${NP.times(
                 +this.subscribeFeeVO.defaultFeeRate,
                 100
-            ).toFixed(2)}%`
+            ).toFixed(2)}%%`
         },
         discountRate() {
             return `${(
