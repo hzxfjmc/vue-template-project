@@ -1,7 +1,7 @@
 <template lang="pug">
 .block--article--wrapper(v-if="news_list.length != 0")  
     .block--article__title
-        p 基金看点
+        p {{$t(['基金看点','基金看點','Fund News'])}}
         //- span 查看更多
         //-     em.iconfont.icon-iconEBgengduoCopy
     .block--article--swipper
@@ -21,13 +21,13 @@
                             :class="stockColorType == 1 ? 'color-red color-red-bg' : 'color-green color-green-bg'"
                             )
                             span.name {{item.stocks[0].name}}
-                            span.pctchng +{{Number(item.stocks[0].pctchng).toFixed(2)}}%
+                            span.pctchng +{{Number(item.stocks[0].pctchng/100).toFixed(2)}}%
                         .content(
                             v-if="item.stocks[0].pctchng<0"
                             :class="stockColorType == 1 ? 'color-green color-green-bg' : 'color-red color-red-bg'"
                             )
                             span.name {{item.stocks[0].name}}
-                            span.pctchng {{Number(item.stocks[0].pctchng).toFixed(2)}}%
+                            span.pctchng {{Number(item.stocks[0].pctchng/100).toFixed(2)}}%
                         .content.color-black.color-black-bg(
                             v-if="item.stocks[0].pctchng===0"
                             )

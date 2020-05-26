@@ -79,7 +79,7 @@ div
                             span {{$t('OpenAccount')}}
                             em.iconfont.icon-iconEBgengduoCopy
                 .block__assets--bottom
-                    p 多种类型，投资全球，基金定投，懒人理财
+                    p {{$t('types')}}
     
         .block__tab
             .block__tab--list
@@ -105,7 +105,7 @@ div
                 .block--title
                     h3 {{$t('uMoney')}}
                     em.iconfont.icon-attention(@click="handlerDesc")
-                p.block--desc 随存随取 闲置资金可挣钱
+                p.block--desc {{$t('stockRedemption')}}
                 .block--bottom-content(@click="toYxbao")
                     .left
                         .number(
@@ -270,7 +270,7 @@ export default {
             bottomMsgLogoYxzt: require('@/assets/img/fund/yxzt.png'),
             tenThousandApy: '',
             sevenDaysApy: '',
-            isWhiteUserBit: true,
+            isWhiteUserBit: false,
             news_list: []
         }
     },
@@ -286,7 +286,7 @@ export default {
                     .split('')
                     .reverse()
                     .join('')[7]
-                this.isWhiteUserBit = true
+                this.isWhiteUserBit = false
                 if (isWhiteUserBit == 1) {
                     this.isWhiteUserBit = false
                     return
@@ -591,7 +591,7 @@ export default {
                     5: this.$t('Index'),
                     6: this.$t('Financial')
                 }
-                item.TagList = item.definedLabels
+                item.TagList = JSON.parse(JSON.stringify(item.definedLabels))
                 item.assetType = AssetsEumn[item.assetType]
                 item.initialInvestAmount = this.$t([
                     `${item.initialInvestAmount}${
@@ -600,20 +600,20 @@ export default {
                     `${item.initialInvestAmount}${
                         CURRENCY_NAME[this.lang][item.tradeCurrency]
                     }起`,
-                    `${item.initialInvestAmount}${
+                    `Min. ${item.initialInvestAmount}${
                         CURRENCY_NAME[this.lang][item.tradeCurrency]
-                    }起`
+                    }`
                 ])
                 item.fundSize = this.$t([
                     `${item.fundSize}亿${
                         CURRENCY_NAME[this.lang][item.fundSizeCurrency]
                     }规模`,
-                    `${item.fundSize}亿${
+                    `${item.fundSize}億${
                         CURRENCY_NAME[this.lang][item.fundSizeCurrency]
-                    }规模`,
-                    `${item.fundSize}亿${
+                    }規模`,
+                    `AUM ${item.fundSize}B${
                         CURRENCY_NAME[this.lang][item.fundSizeCurrency]
-                    }规模`
+                    }`
                 ])
                 item.dividendType =
                     item.dividendType == 2
@@ -636,7 +636,6 @@ export default {
                 this.blueChipFundListShow = !obj.flag2
                 this.robustFundListShow = !obj.flag1
             })
-            // console.log(arr_[type].data)
         },
         //创建echart图并生成图片回调出来
         initI18n() {
