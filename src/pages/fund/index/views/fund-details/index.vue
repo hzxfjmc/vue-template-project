@@ -387,7 +387,10 @@ export default {
             }
         },
         defaultRate() {
-            console.log(NP.times(+this.subscribeFeeVO.defaultFeeRate, 100))
+            console.log(
+                NP.times(+this.subscribeFeeVO.defaultFeeRate, 100),
+                '默认费率'
+            )
             return `${NP.times(
                 +this.subscribeFeeVO.defaultFeeRate,
                 100
