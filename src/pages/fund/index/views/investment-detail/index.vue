@@ -10,7 +10,7 @@
         .investment__detail__header_amount
             .header_amount.left
                 .title(:class="!isNotStop?'gray-color':''") {{$t('A79')}}
-                .content(:class="!isNotStop?'black-color':''") {{investmentInfo.fixedPlanAmount|transNumToThousandMark}}
+                .content(:class="!isNotStop?'black-color':''") {{investmentInfo.fixedTotalAmount|transNumToThousandMark}}
             .header_amount.right
                 .title(:class="!isNotStop?'gray-color':''") {{$t('A80')}}
                 .content(:class="!isNotStop?'black-color':''") {{investNum}}
