@@ -5,13 +5,13 @@ div
             .block__assets(v-if="isLogin && openedAccount")
                 .block__top
                     .block__left--label 
-                        span 我的理财资产
+                        span {{$t('protfolloAssets')}}
                         em(
                             class="iconfont" 
                             @click="hideNumber"
                             :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
                     .block__right(@click="handlerDialog")
-                        span 币种说明
+                        span {{$t('aboutAssets')}}
                         em(class="iconfont icon-icon_fund_index_2")
                 .block__left--number
                     .block__left--num
@@ -87,7 +87,7 @@ div
                     @click="handlerNavItem(item)"
                     v-for="(item,index) in tabList" 
                     :key="index") 
-                    img(:src="code !=1 ? item.imgUrl:item.imgUrl1") 
+                    img(:src="item.imgUrl1") 
                     span {{item.label}}
         
         .block__container
@@ -461,16 +461,16 @@ export default {
                                         item.fundSizeCurrency
                                     ]
                                 }规模`,
-                                `${fundSize.toFixed(2)}亿${
+                                `${fundSize.toFixed(2)}億${
                                     CURRENCY_NAME[this.lang][
                                         item.fundSizeCurrency
                                     ]
-                                }规模`,
-                                `${fundSize.toFixed(2)}亿${
+                                }規模`,
+                                `AUM ${fundSize.toFixed(2)}B${
                                     CURRENCY_NAME[this.lang][
                                         item.fundSizeCurrency
                                     ]
-                                }规模`
+                                }`
                             ])
                             item.initialInvestAmount = this.$t([
                                 `${items.initialInvestAmount}${
@@ -483,11 +483,11 @@ export default {
                                         items.tradeCurrency
                                     ]
                                 }起`,
-                                `${items.initialInvestAmount}${
+                                `Min. ${items.initialInvestAmount}${
                                     CURRENCY_NAME[this.lang][
                                         items.tradeCurrency
                                     ]
-                                }起`
+                                }`
                             ])
                             item.riskLevel = this.$t('resultList')[
                                 items.riskLevel
