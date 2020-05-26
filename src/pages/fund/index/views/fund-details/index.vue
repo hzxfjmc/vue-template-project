@@ -67,6 +67,19 @@
             van-button.btn.button-5width(
                 :class="[flag1?'fund-buy':'fund-no']" 
                 @click="toRouter('/fund-subscribe')") {{$t('append')}}
+
+        .fund-footer-content(v-if="!RedemptionButton && this.btnShow")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            van-button.button-5width.button-left.btn(
+                :class="[flag?'fund-check':'fund-no']" 
+                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+            van-button.btn.button-5width(
+                :class="[flag1?'fund-buy':'fund-no']" 
+                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+
         
         .fund-footer-content(v-if="PurchaseButton")
             .block__button--list
@@ -78,6 +91,15 @@
                 van-button.btn.button-width1(
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+
+        .fund-footer-content(v-if="!PurchaseButton && !this.btnShow")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            van-button.btn.button-width(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
         .fund-footer-contentShare(v-if="invate === 'share'")
             van-button(
@@ -329,7 +351,10 @@ export default {
              * invate 是否是邀请
              */
             return (
-                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
+                this.btnShow &&
+                this.isGrayAuthority &&
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         /*
@@ -343,7 +368,8 @@ export default {
                 this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
-                this.invate !== 'share'
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         chsFightButton() {
@@ -529,7 +555,8 @@ export default {
                 }
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
-            investmentShow: true
+            investmentShow: true,
+            investmentWhiteBit: true
         }
     },
     methods: {
@@ -886,6 +913,14 @@ export default {
                     .split('')
                     .reverse()
                     .join('')[5]
+                let investmentUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[10]
+                if (investmentUserBit) {
+                    this.investmentWhiteBit = false
+                }
                 if (!isWhiteUserBit) {
                     this.fightShow = true
                     return
