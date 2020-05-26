@@ -16,8 +16,9 @@
             p.tips--top {{$t('C31')}}
             p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}
     
-    .block__footer--check(@click="checkInfo = !checkInfo")
+    .block__footer--check()
         em.iconfont(
+            @click="checkInfo = !checkInfo"
             :class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
         span {{$t('agreement')}}
             em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
