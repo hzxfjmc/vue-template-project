@@ -49,7 +49,7 @@
     .fund-management-list
         h3.fund-management-title(class="border-bottom") {{$t('managermentLabel')}}
         FunCell(:cellList="managementList")
-    .fund-management-list
+    .fund-management-list(v-if="holidayList.length")
         h3.fund-management-title {{$t('holiday')}}
         table.trade-table(cellspacing="0" cellpadding="0")
             tr
