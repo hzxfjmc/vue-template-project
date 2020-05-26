@@ -17,7 +17,7 @@
                         .fund--header--list
                             .fund-left {{$t('A5')}}
                                 span.iconfont.icon-iconEBshoucang2(@click="show=true")
-                            .fund-right(v-if="fundTradeInfoVO.subscriptionFee != 0") {{HandlingFee}} ({{(fundTradeInfoVO.subscriptionFee * 100).toFixed(2)}}%)
+                            .fund-right {{HandlingFee}} ({{feeRate}}%)
                                 //- em 1.00港币
                         .fund--header--list
                             .fund-left {{$t('A7')}}
@@ -155,6 +155,7 @@ export default {
                 currency: ''
             },
             protocolVisible: false,
+            feeRate: '0.00',
             amount: '',
             isCheckedProtocol: true,
             placeholder: '',
@@ -169,6 +170,7 @@ export default {
             flag: false,
             fundFixedFeeVO: {},
             fixedFundInfo: {},
+            subscribeFeeVO: {},
             arrMarketENUM: {
                 2: {
                     0: this.$t([
@@ -226,35 +228,33 @@ export default {
             return (Number(this.amount) + Number(this.HandlingFee)).toFixed(2)
         },
         HandlingFee() {
-            if (
-                isNaN(this.fundTradeInfoVO.subscriptionFee * this.amount) ||
-                !Number(this.amount)
-            ) {
+            if (isNaN(this.feeRate * this.amount) || !Number(this.amount)) {
                 return '0.00'
             }
-            if (
-                Math.ceil(
-                    this.fundTradeInfoVO.subscriptionFee * this.amount * 100
-                ) /
-                    100 ===
-                0
-            ) {
+            if (Math.ceil(this.feeRate * this.amount * 100) / 100 === 0) {
                 return 0.01
             }
             return (
-                Math.ceil(
-                    this.fundTradeInfoVO.subscriptionFee * this.amount * 100
-                ) / 100
+                Math.ceil(this.feeRate * this.amount * 100) / 10000
             ).toFixed(2)
         }
     },
     methods: {
         //费用
         async getFundFeeConfigV1() {
-            const { fundFixedFeeVO } = await getFundFeeConfigV1({
-                fundId: this.$route.query.id
-            })
+            const { fundFixedFeeVO, subscribeFeeVO } = await getFundFeeConfigV1(
+                {
+                    fundId: this.$route.query.id
+                }
+            )
             this.fundFixedFeeVO = fundFixedFeeVO || {}
+            this.subscribeFeeVO = subscribeFeeVO
+            if (this.subscribeFeeVO.fundFeeLevelVOList.length === 0) {
+                this.feeRate = this.subscribeFeeVO.defaultFeeRate * 100
+            } else {
+                this.feeRate =
+                    this.subscribeFeeVO.fundFeeLevelVOList[0].feeRate * 100
+            }
         },
         //点击去修改
         modifyHandle(val) {
@@ -521,6 +521,15 @@ export default {
         },
         handlerAmount(val) {
             this.amount = val
+            this.subscribeFeeVO.fundFeeLevelVOList.map(item => {
+                if (
+                    Number(this.amount) >= Number(item.minAmount) &&
+                    Number(this.amount) < Number(item.maxAmount)
+                ) {
+                    this.feeRate = item.feeRate * 100
+                }
+            })
+            console.log(this.amount)
         },
         async handlerSubmitFilter() {
             if (isNaN(Number(this.amount)) || Number(this.amount) === 0)
