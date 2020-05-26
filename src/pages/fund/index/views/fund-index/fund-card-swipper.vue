@@ -3,8 +3,8 @@
      van-swipe(:autoplay="3000") 
         van-swipe-item(
             v-for="(item, index) in fundBarnnarList" 
-            :key="index"  
-            @click="goBanner(item)") 
+            :key="index" 
+            @click="toRoute(item)" ) 
             .block--swipper--content()
                 .block__swipper--content(:style="{background:`url(${item.picture_url}) no-repeat`,backgroundSize:'100% 100%'}")
                     .block--tilte {{item.banner_title}}
@@ -27,11 +27,14 @@
                         :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{Number(item.apy*100).toFixed(2)}}%
                     .block--fund-num.color-black(v-if="Number(item.apy)==0") {{Number(item.apy*100).toFixed(2)}}%
                     .block--fund--num__desc(v-if="item.FundCycle!=0") {{item.FundCycleName}}{{$t('nav')}}
-                    van-button(v-if="item.Button != ''") {{item.Button}}
+                    van-button(
+                        
+                        v-if="item.Button != ''") {{item.Button}}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { jumpUrl } from '@/utils/tools.js'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import './swipe.scss'
 export default {
@@ -62,7 +65,12 @@ export default {
         [SwipeItem.name]: SwipeItem,
         'fund-tag': fundTag
     },
-    methods: {},
+    methods: {
+        toRoute(item) {
+            jumpUrl(item.news_jump_type, item.jump_url)
+            console.log(item)
+        }
+    },
     created() {}
 }
 </script>
