@@ -19,9 +19,6 @@
                         .number(v-if="Number(item.apy)<0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}% 
                         .number(v-if="Number(item.apy) === 0") {{Number(item.apy).toFixed(2)}}%
                         .tag {{item.apyTypeName}}{{$t('day')}}
-                    //- .element--content-bottom(v-if="code != 1")
-                    //-     span {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                    //-     span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
                     .element--content-bottom-ch
                         fund-tag(
                             v-for="key of item.TagList"

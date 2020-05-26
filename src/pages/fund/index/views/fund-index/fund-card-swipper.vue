@@ -68,7 +68,6 @@ export default {
     methods: {
         toRoute(item) {
             jumpUrl(item.news_jump_type, item.jump_url)
-            console.log(item)
         }
     },
     created() {}
