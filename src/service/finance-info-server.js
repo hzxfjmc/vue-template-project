@@ -120,7 +120,7 @@ export const getFundRecommendList = params => {
     )
 }
 
-//获取友信宝基金详情
+//获取现金+基金详情
 export const getBaoFundInfo = params => {
     return axios.post(`/finance-info-server/api/get-bao-fund-info/v1`, params)
 }
@@ -136,4 +136,8 @@ export const getFundSimpleInfoList = params => {
         `/finance-info-server/api/get-fund-simple-info-list/v1`,
         params
     )
+}
+// 获取申购费用
+export const getFundFeeConfigV1 = params => {
+    return axios.post(`/finance-info-server/api/get-fund-fee-config/v1`, params)
 }

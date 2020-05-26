@@ -55,7 +55,7 @@ export const getFundPosition = params => {
  * }
  */
 export const fundPurchase = (params, config) => {
-    return axios.post(`/finance-server/api/fund-purchase/v1`, params, config)
+    return axios.post(`/finance-server/api/fund-purchase/v2`, params, config)
 }
 
 /**
@@ -69,7 +69,7 @@ export const fundPurchase = (params, config) => {
  * }
  */
 export const fundRedemption = params => {
-    return axios.post(`/finance-server/api/fund-redemption/v1`, params)
+    return axios.post(`/finance-server/api/fund-redemption/v2`, params)
 }
 
 // 基金交易记录列表
@@ -125,17 +125,17 @@ export const getBaoPostion = params => {
     return axios.post(`/finance-server/api/get-bao-position/v1`, params)
 }
 
-//友信宝转入转出列表
+//现金+转入转出列表
 export const getBaoCapitalTradeList = params => {
     return axios.post(`/finance-server/api/bao-capital-trade-page/v1`, params)
 }
 
-//友信宝转入转出
+//现金+转入转出
 export const getBaoCapitalTrade = params => {
     return axios.post(`/finance-server/api/bao-capital-trade/v1`, params)
 }
 
-//友信宝转入转出详情
+//现金+转入转出详情
 export const getBaoCapitalTradeDetails = params => {
     return axios.post(`/finance-server/api/bao-capital-trade-detail/v1`, params)
 }

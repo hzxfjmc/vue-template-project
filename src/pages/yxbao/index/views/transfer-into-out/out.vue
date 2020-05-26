@@ -39,6 +39,10 @@
             .right
                 p.sub-title {{$t('C19')}}
                 p.desc {{contentDesc}}
+    .block__footer--check(@click="checkInfo = !checkInfo")
+        em.iconfont(:class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
+        span {{$t('agreement')}}
+            em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
     van-button.btn(
         @click="getBaoCapitalTrade") {{$t('C8')}}
 
@@ -52,6 +56,7 @@ import { getBaoCapitalTrade, getBaoPostion } from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
+import { getCosUrl } from '@/utils/cos-utils'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
 export default {
@@ -98,6 +103,7 @@ export default {
         return {
             loading: true,
             check: true,
+            checkInfo: true,
             outType: '',
             amount: 0,
             placeholder: '',
@@ -112,10 +118,13 @@ export default {
             customerRemainderQuota: '',
             customerRemainderQuotaNum: '',
             positionMarketValue: '',
+            availableBaoBalance: '',
             contentDesc: '',
             buyProfitLoss: '',
             isWhiteUserBit: false,
-            customerDailyQuota: ''
+            customerDailyQuota: '',
+            ProtocolFile: '',
+            filePath: ''
         }
     },
     async created() {
@@ -124,6 +133,14 @@ export default {
         this.getFundUserInfo()
     },
     methods: {
+        async openProtocol(url) {
+            url = await getCosUrl(url)
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
+        },
         //灰度
         async getFundUserInfo() {
             try {
@@ -149,7 +166,7 @@ export default {
         goTradeRule() {
             this.$router.push({
                 name: 'trade-rule',
-                query: { id: this.$route.query.id, displayLocation: 3 }
+                query: { id: this.$route.query.id, displayLocation: 3, tab: 1 }
             })
         },
         async getBaoPostion() {
@@ -157,18 +174,20 @@ export default {
                 const {
                     customerRemainderQuota,
                     customerDailyQuota,
-                    positionMarketValue
+                    positionMarketValue,
+                    availableBaoBalance
                 } = await getBaoPostion({
                     currency: 2
                 })
                 this.positionMarketValue = positionMarketValue
-                this.showAllSellBtn.maxAmount = positionMarketValue
+                this.availableBaoBalance = availableBaoBalance
+                this.showAllSellBtn.maxAmount = availableBaoBalance
                 this.placeholder = this.$t([
-                    `可转出${Number(positionMarketValue).toFixed(2) || 0}港币`,
-                    `可轉出金額${Number(positionMarketValue).toFixed(2) ||
+                    `可转出${Number(availableBaoBalance).toFixed(2) || 0}港币`,
+                    `可轉出金額${Number(availableBaoBalance).toFixed(2) ||
                         0}港幣`,
                     `Transferable Amount HKD ${Number(
-                        positionMarketValue
+                        availableBaoBalance
                     ).toFixed(2) || 0}`
                 ])
                 this.customerDailyQuota = customerDailyQuota / 10000
@@ -188,7 +207,10 @@ export default {
         },
         async getFundDetail() {
             try {
-                const { fundTradeInfoVO } = await getFundDetail({
+                const {
+                    fundTradeInfoVO,
+                    buyProtocolFileList
+                } = await getFundDetail({
                     displayLocation: 3,
                     fundId: this.$route.query.id || this.id
                 })
@@ -216,6 +238,10 @@ export default {
                         this.customerRemainderQuota
                     }.`
                 ])
+                this.ProtocolFile = buyProtocolFileList[0].fileName.split(
+                    '.'
+                )[0]
+                this.filePath = buyProtocolFileList[0].filePath
                 let buyProfitLoss = this.$t([
                     `预计${fundTradeInfoVO.buyProfitLoss}10:00前到账，转出后可以立即认购新股和购买股票，无额度限制，期间正常享受收益`,
                     `預計${fundTradeInfoVO.buyProfitLoss}10:00前到賬，轉出後可以立即認購新股和購買股票，無額度限制，期間正常享受收益`,
@@ -230,7 +256,7 @@ export default {
             try {
                 if (this.amount == 0 || this.amount === this.placeholder)
                     return this.$toast(this.$t('C40'), 'middle')
-                if (this.amount > Number(this.positionMarketValue)) {
+                if (this.amount > Number(this.availableBaoBalance)) {
                     return this.$toast(this.$t('C84'), 'middle')
                 }
                 if (
@@ -272,6 +298,15 @@ export default {
                 ) {
                     return this.$toast(this.$t('C41'), 'middle')
                 }
+                if (!this.checkInfo)
+                    return this.$toast(
+                        this.$t([
+                            '请勾选同意协议',
+                            '請勾選同意協議',
+                            'Please Selct the Protocol'
+                        ]),
+                        'middle'
+                    )
                 let data = await jsBridge.callApp('command_trade_login', {
                     needToken: true
                 })
@@ -306,6 +341,21 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__footer--check {
+    width: 343px;
+    height: 48px;
+    margin: 12px 16px 0 16px;
+    color: rgba(25, 25, 25, 0.45);
+    font-size: 12px;
+    em {
+        font-style: normal;
+        color: #0d50d8;
+    }
+    .iconfont {
+        font-size: 12px;
+        margin: 0 5px 0 0;
+    }
+}
 .btn {
     background: #0d50d8;
     color: #fff;

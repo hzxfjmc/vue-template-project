@@ -12,6 +12,26 @@
             :curStep="3"
             :stepNames="[buySubmit.label,buyConfirm.label ,buyProfitLoss.label ]"
             :stepTimes="[buySubmit.value,buyConfirm.value ,buyProfitLoss.value ]")
+    .fund-management-list(v-if="showPositionInfo")
+        h3.fund-management-title {{$t('tradeTitleExplain')}}
+        table.trade-table(cellspacing="0" cellpadding="0")
+            tr
+                td {{$t('tradeMoneyLable')}}{{`（${currency}）`}}
+                td {{$t('feeLable')}}
+            template(v-for="(item,index) in subscribeFeeVO.fundFeeLevelVOList")
+                tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (times(subscribeFeeVO.fundFeeLevelVOList[index].feeRate,100)<Number(subscribeFeeVO.defaultFeeRate))")
+                    td 
+                        span {{unitName(item.minAmount)}}
+                            span(v-if="+item.minAmount") {{$t('million')}}
+                        span {{` ≤ ${$t('tradeDefaultPeriod')}`}}
+                        span(v-if="item.maxAmount") {{` < ${unitName(item.maxAmount)}`}}{{$t('million')}}
+                    td
+                        span {{`${discountRate(item.feeRate)}（`}}
+                        s {{`${subscribeFeeVO.defaultFeeRate}%`}}
+                        span ） 
+                tr(v-else)
+                    td {{`0 ≤ ${$t('tradeDefaultPeriod')}`}}
+                    td {{`${subscribeFeeVO.defaultFeeRate}%`}}
     .fund-redeem
         FundListItem(
             slot="fundStep"
@@ -26,16 +46,24 @@
                 :curStep="3"
                 :stepNames="[sellSubmit.label,sellConfirm.label ,sellProfitLoss.label ]"
                 :stepTimes="[sellSubmit.value,sellConfirm.value ,sellProfitLoss.value ]")
-
-    
     .fund-management-list
         h3.fund-management-title(class="border-bottom") {{$t('managermentLabel')}}
         FunCell(:cellList="managementList")
+    .fund-management-list
+        h3.fund-management-title {{$t('holiday')}}
+        table.trade-table(cellspacing="0" cellpadding="0")
+            tr
+                td {{$t('time')}}
+                td {{$t('Description')}}
+            tr(v-for="item in holidayList")
+                td {{item.date}}
+                td {{item.explanation}}
 </template>
 <script>
+import dayjs from 'dayjs'
+import NP from 'number-precision'
 import FundListItem from './components/fund-list-item'
 import FunCell from './components/common/fund-cell'
-
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getSource } from '@/service/customer-relationship-server'
 import { mapGetters } from 'vuex'
@@ -46,7 +74,11 @@ import {
     managementList,
     i18nTrudeRuleData
 } from './trade-rule'
-import { getFundDetail } from '@/service/finance-info-server.js'
+import {
+    getFundDetail,
+    getFundFeeConfigV1,
+    getFundHoliday
+} from '@/service/finance-info-server.js'
 export default {
     i18n: i18nTrudeRuleData,
     components: {
@@ -55,7 +87,11 @@ export default {
         FundSteps
     },
     computed: {
-        ...mapGetters(['isLogin', 'appType', 'openedAccount'])
+        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
+        showPositionInfo() {
+            // 登陆且已开户才展示持仓信息
+            return this.isLogin && this.openedAccount
+        }
     },
     data() {
         return {
@@ -88,10 +124,49 @@ export default {
             sellProfitLoss: {
                 label: '查看盈亏',
                 value: ''
-            }
+            },
+            subscribeFeeVO: {
+                defaultFeeRate: 0,
+                fundFeeLevelVOList: []
+            },
+            holidayList: [],
+            times: NP.times
         }
     },
     methods: {
+        unitName(val) {
+            return this.lang === 'en' ? val / (100 * 10000) : val / 10000
+        },
+        discountRate(val) {
+            return `${(val * 100).toFixed(2)}%`
+        },
+        async getFundFeeConfig() {
+            try {
+                let params = {
+                    fundId: this.$route.query.id
+                }
+                let { subscribeFeeVO, redeemFeeVO } = await getFundFeeConfigV1(
+                    params
+                )
+                this.redeemList.redemptionFee.value =
+                    redeemFeeVO.fundFeeLevelVOList.length &&
+                    Number(redeemFeeVO.fundFeeLevelVOList[0].feeRate) <
+                        Number(redeemFeeVO.defaultFeeRate)
+                        ? `${(
+                              redeemFeeVO.fundFeeLevelVOList[0].feeRate * 100
+                          ).toFixed(2)}%（<s>${(
+                              redeemFeeVO.defaultFeeRate * 100
+                          ).toFixed(2)}%</s>）`
+                        : `${redeemFeeVO.defaultFeeRate}%`
+                this.subscribeFeeVO.defaultFeeRate = `${(
+                    subscribeFeeVO.defaultFeeRate * 100
+                ).toFixed(2)}`
+                this.subscribeFeeVO.fundFeeLevelVOList =
+                    subscribeFeeVO.fundFeeLevelVOList
+            } catch (e) {
+                console.log('getFundFeeConfigV1: ', e)
+            }
+        },
         InitI18nState() {
             for (let key in this.tradeList) {
                 if (key != 'subscriptionFee') {
@@ -139,9 +214,9 @@ export default {
                     fundTradeInfoVO['continueInvestAmount']
                 )
 
-                this.tradeList['subscriptionFee'].value = `${Math.floor(
-                    Number(fundTradeInfoVO['subscriptionFee'] * 10000)
-                ) / 100}%`
+                // this.tradeList['subscriptionFee'].value = `${Math.floor(
+                //     Number(fundTradeInfoVO['subscriptionFee'] * 10000)
+                // ) / 100}%`
                 this.redeemList.minPositionShare.value = transNumToThousandMark(
                     fundTradeInfoVO.minPositionShare,
                     4
@@ -161,6 +236,11 @@ export default {
                 this.managementList.platformManagementFee.value = `${Math.floor(
                     Number(fundTradeInfoVO.platformManagementFee * 10000)
                 ) / 100}%`
+                console.log(
+                    this.managementList,
+                    this.managementList.managementFee.value,
+                    this.managementList.platformManagementFee.value
+                )
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -176,24 +256,73 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        //获取基金节假日
+        async getFundHoliday() {
+            try {
+                const res = await getFundHoliday({
+                    fundId: this.$route.query.id
+                })
+                this.holidayList = res
+                this.holidayList.map(item => {
+                    item.date = dayjs(item.date).format('YYYY-MM-DD')
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     created() {
         this.InitState()
         this.InitI18nState()
+        this.getFundFeeConfig()
+        this.getFundHoliday()
     }
 }
 </script>
 <style lang="scss" scoped>
-.fund-redeem {
-    margin: 6px 0 0 0;
-}
-.fund-management-list {
-    padding: 0 10px;
-    margin: 6px 0 0 0;
-    background: #fff;
-    .fund-management-title {
-        line-height: 50px;
+.tarde-rule {
+    padding-bottom: 20px;
+    .fund-redeem {
+        margin: 6px 0 0 0;
+    }
+    .fund-management-list {
+        padding: 0 10px 10px;
+        margin: 6px 0 0 0;
+        background: #fff;
+        .fund-management-title {
+            line-height: 50px;
+        }
+        .trade-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: 1px solid #ffffff;
+            border-radius: 4px;
+            tr:first-child {
+                td {
+                    background: rgba(0, 92, 229, 0.1975);
+                    color: #393939;
+                }
+            }
+            tr {
+                td {
+                    font-size: 12px;
+                    font-family: PingFangHK-Regular, PingFangHK;
+                    font-weight: 400;
+                    color: rgba(57, 57, 57, 1);
+                    display: table-cell;
+                    border: 1px solid #ffffff;
+                    background: rgba(47, 121, 255, 0.0645);
+                    padding: 10px 5px;
+                    min-width: 0;
+                    -webkit-box-sizing: border-box;
+                    box-sizing: border-box;
+                    text-overflow: ellipsis;
+                    vertical-align: middle;
+                    text-align: center;
+                }
+            }
+        }
     }
 }
 </style>

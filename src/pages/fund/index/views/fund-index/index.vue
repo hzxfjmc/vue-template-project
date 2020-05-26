@@ -296,7 +296,7 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
-        //获取友信宝详情
+        //获取现金+详情
         async getBaoFundInfo() {
             try {
                 const res = await getBaoFundInfo({
@@ -308,7 +308,7 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        //跳转友信宝
+        //跳转现金+
         toYxbao() {
             if (this.isWhiteUserBit)
                 return this.$dialog.alert({
@@ -320,7 +320,16 @@ export default {
         },
         //描述
         handlerDesc() {
-            let url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+            let url
+            if (this.lang === 'zhCHS') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
+            }
+            if (this.lang === 'zhCHT') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_TC`
+            }
+            if (this.lang === 'en') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_EN`
+            }
             jumpUrl(3, url)
         },
         toOrderList() {
@@ -728,5 +737,11 @@ export default {
         padding-bottom: 20px;
         color: $hk-text-line-color;
     }
+}
+.swipper-img {
+    width: 100%;
+}
+.block-bannar-sub-swiper {
+    margin: 6px 0 0 0;
 }
 </style>
