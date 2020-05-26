@@ -49,6 +49,13 @@ export default new Router({
                 import(`@/pages/fund/index/views/fund-details/index.vue`)
         },
         {
+            name: 'hold-fund-details',
+            path: '/hold-fund-details',
+            meta: { title: 'fundDetails', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-details/hold-index.vue`)
+        },
+        {
             name: 'risk-assessment',
             path: '/risk-assessment',
             meta: { title: 'riskAssessment', auth: true, cs: true },
