@@ -383,7 +383,7 @@
 .block--yxbao-container {
     width: 351px;
     height: 140px;
-    margin: 0 12px 0 12px;
+    margin: 20px 12px;
     background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
     background-size: 100% 100%;
     border-radius: 6px;
@@ -396,7 +396,7 @@
         align-items: center;
         h3 {
             font-size: 18px;
-            color:rgba(25,25,25,1);
+            color: #fff;
         }
         .iconfont {
             font-size: 14px;
@@ -405,7 +405,7 @@
         }
     }
     .block--desc {
-        color:rgba(25,25,25,1);
+        color: rgba(255, 255, 255, 0.6);
         line-height: 28px;
     }
     .block--bottom-content {
@@ -417,7 +417,7 @@
         align-items: center;
         margin: 7px 0 0 0;
         border-radius:4px;
-        background:rgba(255,244,238,1);
+        background: #fff;
         .number {
             font-size: 20px;
             font-family: yxFontDINPro-Medium;
@@ -430,12 +430,11 @@
         .van-button {
             // width: 80px;
             height: 32px !important;
-            padding:0 10px;
             line-height: 32px;
             font-size: 12px;
             color: #fff;
-            border-radius: 3px !important;
-            background: #FF7127;
+            border-radius: 32px !important;
+            background: #0d50d8;
         }
     }
 }
