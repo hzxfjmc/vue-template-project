@@ -97,8 +97,8 @@
                     .right {{Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}}%
                 .block--list--item
                     .left {{$t('A10')}}
-                    .right 第{{fundFixedFeeVO.feeRefund}}期
-                p 第{{fundFixedFeeVO.feeRefund}}期交易成功后返还前{{fundFixedFeeVO.feeRefund}}期的手续费折扣，以后每期交易成功后返还对应的手续费折扣
+                    .right {{$t([`第${fundFixedFeeVO.feeRefund}期`,``,``])}}第{{fundFixedFeeVO.feeRefund}}期
+                p {{$t([`第N期交易成功后返还前${fundFixedFeeVO.feeRefund}期的手续费折扣，之后每期交易成功后返还对应的手续费折扣`,`第N期交易成功後返還前${fundFixedFeeVO.feeRefund}期的手續費折扣，之後每期交易成功後返還對應的手續費折扣`,`After the successful transaction of the ${fundFixedFeeVO.feeRefund} period, the commission discount of the previous N periods shall be returned, and the corresponding commission discount shall be returned after the successful transaction of each subsequent period`])}}
 
 </template>
 <script>

@@ -54,6 +54,9 @@ export const zhCHT = {
         }
     },
     iknow: '我知道了',
+    investmentResult: '定投結果',
+    myInvestment: '我的定投',
+    InvestmenttransactionRecord: '定投詳情',
     A1: '繁体中文',
     A2: '定投',
     A3: '定投金額',

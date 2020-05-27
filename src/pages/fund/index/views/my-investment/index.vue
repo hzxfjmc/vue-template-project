@@ -67,7 +67,7 @@
             p {{$t('A84')}}
         .nomore(v-if="recordList.length === 0 && active === 1")
             img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
-            p 暂无历史计划
+            p {{$t([`暂无历史计划`,`暂无歷史計劃`,`No Historical Plan`])}}
     .inverstment--footer--btn
         van-button.btn-left(@click="toRouter('/index')") {{$t('A76')}}
         van-button.btn-right(@click="toRouter('/fund-account')") {{$t('A77')}}

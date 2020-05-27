@@ -54,6 +54,9 @@ export const en = {
         }
     },
     iknow: 'Got it',
+    investmentResult: 'AIP Result',
+    myInvestment: 'My AIP',
+    InvestmenttransactionRecord: 'AIP Details',
     A1: '英文',
     A2: 'AIP',
     A3: 'AIP AMount',

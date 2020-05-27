@@ -175,7 +175,7 @@ export default new Router({
         {
             name: 'fixed-investment',
             path: '/fixed-investment',
-            meta: { title: 'fixed-investment', auth: true, cs: true },
+            meta: { title: 'A2', auth: true, cs: true },
             component: () =>
                 import(
                     `@/pages/fund/index/views/fixed-investment/subscribe.vue`
@@ -184,14 +184,14 @@ export default new Router({
         {
             name: 'investment-result',
             path: '/investment-result',
-            meta: { title: 'investment-result', auth: true, cs: true },
+            meta: { title: 'investmentResult', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/investment-result/index.vue`)
         },
         {
             name: 'my-investment',
             path: '/my-investment',
-            meta: { title: 'my-investment', auth: true, cs: true },
+            meta: { title: 'myInvestment', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/my-investment/index.vue`)
         },
@@ -205,7 +205,7 @@ export default new Router({
         {
             name: 'transaction-record',
             path: '/transaction-record',
-            meta: { title: 'transactionRecord', auth: true },
+            meta: { title: 'InvestmenttransactionRecord', auth: true },
             component: () =>
                 import(`@/pages/fund/index/views/transaction-record/index.vue`)
         }
