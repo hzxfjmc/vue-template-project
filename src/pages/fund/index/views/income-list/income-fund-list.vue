@@ -9,19 +9,36 @@
             .num 12.34%
     .block__hr
     .block__list--wrapper
-        .block__list--item
+        .block__list--item(v-for="(item,index) in list")
             .block__item
                 .fund-name 贝莱德全球基金-环球高收益
                 .tag 持仓中
             .block__item
                 .desc 收益
                 .num -3000
+        .block-element-nomore(v-if="noMoreShow")
+            img.img(src="@/assets/img/fund/icon-norecord.png") 
+            .no-record-box {{$t('nomore')}}
 
 </template>
 <script>
 export default {
     data() {
-        return {}
+        return {
+            noMoreShow: true,
+            list: []
+        }
+    },
+    i18n: {
+        zhCHS: {
+            nomore: '暂无收益'
+        },
+        zhCHT: {
+            nomore: '暫無收益'
+        },
+        en: {
+            nomore: 'No Return'
+        }
     }
 }
 </script>
@@ -75,6 +92,18 @@ export default {
             line-height: 20px;
             color: #2f79ff;
         }
+    }
+}
+.block-element-nomore {
+    width: 100%;
+    text-align: center;
+    margin: 150px 0 0 0;
+    img {
+        width: 130px;
+    }
+    .no-record-box {
+        color: rgba(25, 25, 25, 0.5);
+        margin: 10px 0 0 0;
     }
 }
 </style>

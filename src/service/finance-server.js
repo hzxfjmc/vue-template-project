@@ -184,3 +184,8 @@ export const getRecentDeductionDate = params => {
 export const getFundFixedRecordPage = params => {
     return axios.post(`/finance-server/api/fund-fixed-record-page/v1`, params)
 }
+
+//获取当前客户基金分组收益
+export const getFundGroupEarnings = params => {
+    return axios.post(`/finance-server/api/get-fund-group-earnings/v1`, params)
+}

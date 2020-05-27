@@ -16,6 +16,7 @@
 </template>
 <script>
 import IncomeFundList from './income-fund-list'
+import { getFundGroupEarnings } from '@/service/finance-server'
 export default {
     components: {
         IncomeFundList
@@ -23,6 +24,21 @@ export default {
     data() {
         return {
             active: 0
+        }
+    },
+    created() {
+        this.getFundGroupEarnings()
+    },
+    methods: {
+        async getFundGroupEarnings() {
+            try {
+                const res = await getFundGroupEarnings({
+                    currency: 2
+                })
+                console.log(res)
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     }
 }

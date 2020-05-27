@@ -37,7 +37,7 @@
                     span.block__content--p(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
                     span.block__content--p(v-else) ****
         .header-footer-tab.border-top(class="border-bottom-active")
-            .nav--item(@click="toRouterPath('/income-details')")
+            .nav--item(@click="toRouterPath('/income-list')")
                 em.iconfont.icon-shouru
                 span {{$t('IncomeDetails')}}
             .nav--item(@click="toRouterPath('/fund-order-list')")
@@ -46,8 +46,6 @@
             .nav--item(@click="toRouterPath('/my-investment')")
                 em.iconfont.icon-dingtou
                 span  我的定投
-            //- span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
-            //- span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
         
     slot(name="fundList")
 </template>
