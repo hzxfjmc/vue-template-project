@@ -67,7 +67,7 @@
                         .item--content 
                             .item--left.item--block--wrapper {{fixedCycleTypeObj.key[0]}} {{fixedCycleTypeObj.key[1]}}
                                 .item--right.iconfont.icon-iconEBgengduoCopy
-                            p 下个转入日{{date}}
+                            p {{$t([`下个转入日${date}`,`下個轉入日${date}`,`Next Debit Date${date}`])}}
                            
                         
             .fund-footer-content
@@ -228,7 +228,11 @@ export default {
             return (Number(this.amount) + Number(this.HandlingFee)).toFixed(2)
         },
         HandlingFee() {
-            if (isNaN(this.feeRate * this.amount) || !Number(this.amount)) {
+            if (
+                isNaN(this.feeRate * this.amount) ||
+                !Number(this.amount) ||
+                this.feeRate == 0
+            ) {
                 return '0.00'
             }
             if (Math.ceil(this.feeRate * this.amount * 100) / 100 === 0) {
@@ -250,10 +254,13 @@ export default {
             this.fundFixedFeeVO = fundFixedFeeVO || {}
             this.subscribeFeeVO = subscribeFeeVO
             if (this.subscribeFeeVO.fundFeeLevelVOList.length === 0) {
-                this.feeRate = this.subscribeFeeVO.defaultFeeRate * 100
+                this.feeRate = Number(
+                    this.subscribeFeeVO.defaultFeeRate * 100
+                ).toFixed(2)
             } else {
-                this.feeRate =
+                this.feeRate = Number(
                     this.subscribeFeeVO.fundFeeLevelVOList[0].feeRate * 100
+                ).toFixed(2)
             }
         },
         //点击去修改
@@ -524,12 +531,12 @@ export default {
             this.subscribeFeeVO.fundFeeLevelVOList.map(item => {
                 if (
                     Number(this.amount) >= Number(item.minAmount) &&
-                    Number(this.amount) < Number(item.maxAmount)
+                    (!item.maxAmount ||
+                        Number(this.amount) < Number(item.maxAmount))
                 ) {
-                    this.feeRate = item.feeRate * 100
+                    this.feeRate = Number(item.feeRate * 100).toFixed(2)
                 }
             })
-            console.log(this.amount)
         },
         async handlerSubmitFilter() {
             if (isNaN(Number(this.amount)) || Number(this.amount) === 0)

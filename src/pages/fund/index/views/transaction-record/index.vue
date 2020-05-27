@@ -6,7 +6,7 @@
         .transaction__record__detail__line
         .transaction__record__detail__main
             .detail__main__item
-                .detail__main_title 订单状态
+                .detail__main_title {{$t('A99')}}
                 .detail__main_content {{fundInfo.externalName}}
             .detail__main__item(v-if="fundInfo.externalStatus === 4")
                 .detail__main_title 失败原因
@@ -22,7 +22,7 @@
                 .detail__amount_title 订单类别
                 .detail__amount_content {{fundInfo.tradeTypeName}}
             .detail__amount__item
-                .detail__amount_title 金额
+                .detail__amount_title {{$t('A98')}}
                 .detail__amount_content {{fundInfo.currency.name}} {{fundInfo.orderAmount | transNumToThousandMark}}
         .transaction__record__detail__btn
                 van-button(type="info" round size="large" @click="buyMoreHandle") 再买一笔

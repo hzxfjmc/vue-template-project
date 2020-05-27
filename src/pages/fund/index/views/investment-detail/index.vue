@@ -150,6 +150,7 @@ export default {
                         res.assetProp
                     ]
                 }
+                console.log(this.bankName)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -435,9 +436,11 @@ export default {
                 margin-bottom: 10px;
                 .left {
                     color: $text-color6;
+                    width: 90px;
                 }
                 .right {
                     color: $text-color;
+                    text-align: right;
                     em {
                         font-style: normal;
                     }
