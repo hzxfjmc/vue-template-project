@@ -600,7 +600,14 @@ export default {
                     5: this.$t('Index'),
                     6: this.$t('Financial')
                 }
-                item.TagList = JSON.parse(JSON.stringify(item.definedLabels))
+                if (item.definedLabels) {
+                    item.TagList = JSON.parse(
+                        JSON.stringify(item.definedLabels)
+                    )
+                } else {
+                    item.TagList = []
+                }
+
                 item.assetType = AssetsEumn[item.assetType]
                 item.initialInvestAmount = this.$t([
                     `${item.initialInvestAmount}${
@@ -637,11 +644,15 @@ export default {
                     5: item.dividendType
                 }
                 item.systemLabelsList = []
+
                 for (let i of item.systemLabels) {
                     item.systemLabelsList.push(arrList[i])
                     item.TagList.push(arrList[i])
                 }
+
                 this.choiceFundListShow = !obj.flag
+                console.log(!obj.flag)
+
                 this.blueChipFundListShow = !obj.flag2
                 this.robustFundListShow = !obj.flag1
             })
