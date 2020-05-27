@@ -60,6 +60,6 @@ export const en = {
     MMF: 'MMF',
     Index: 'Index',
     Financial: 'Financial Product',
-    NET_PRICE: 'Net value type',
+    NET_PRICE: 'Net Type',
     DIVIDEND: 'Bonus type'
 }

@@ -20,16 +20,14 @@
                                 v-for="i in item.TagList"
                                 :title="i")
                     .block--fund-num(
-                        v-if="Number(item.apy)>0"
-                        :class="stockColorType == 1 ? 'color-red' : 'color-green'") {{Number(item.apy*100).toFixed(2)}}%
+                        v-if="Number(item.apy)>0 && item.FundCycle != 0"
+                        :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{Number(item.apy*100).toFixed(2)}}%
                     .block--fund-num(
-                        v-if="Number(item.apy)<0"
+                        v-if="Number(item.apy)<0 && item.FundCycle != 0"
                         :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{Number(item.apy*100).toFixed(2)}}%
-                    .block--fund-num.color-black(v-if="Number(item.apy)==0") {{Number(item.apy*100).toFixed(2)}}%
+                    .block--fund-num.color-black(v-if="Number(item.apy)==0 && item.FundCycle != 0") {{Number(item.apy*100).toFixed(2)}}%
                     .block--fund--num__desc(v-if="item.FundCycle!=0") {{item.FundCycleName}}{{$t('nav')}}
-                    van-button(
-                        
-                        v-if="item.Button != ''") {{item.Button}}
+                    van-button(v-if="item.Button != ''") {{item.Button}}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'

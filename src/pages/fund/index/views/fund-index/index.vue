@@ -453,11 +453,12 @@ export default {
                     fundListInfo.map(items => {
                         if (item.Fund === items.fundCode) {
                             item.apy = items.apy
+                            console.log(item.apy)
                             item.assetType = AssetsEumn[items.assetType]
                             item.dividendType =
                                 items.dividendType == 2
-                                    ? this.$t('NET_PRICE')
-                                    : this.$t('DIVIDEND')
+                                    ? this.$t('DIVIDEND')
+                                    : this.$t('NET_PRICE')
                             let fundSize
                             if (this.code !== 1 && this.lang === 'en') {
                                 fundSize = items.fundSize / 1000000000
@@ -516,6 +517,7 @@ export default {
                     }
                 })
                 this.fundBarnnarList = res3.banner_list
+                console.log(this.fundBarnnarList)
             } catch (e) {
                 console.log(e)
                 if (flag) {
@@ -633,8 +635,8 @@ export default {
                 ])
                 item.dividendType =
                     item.dividendType == 2
-                        ? this.$t('NET_PRICE')
-                        : this.$t('DIVIDEND')
+                        ? this.$t('DIVIDEND')
+                        : this.$t('NET_PRICE')
                 item.riskLevel = this.$t('resultList')[item.riskLevel].type
                 const arrList = {
                     1: item.assetType,
