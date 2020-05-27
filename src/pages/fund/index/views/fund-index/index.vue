@@ -449,11 +449,11 @@ export default {
                     5: this.$t('Index'),
                     6: this.$t('Financial')
                 }
+
                 res3.banner_list.map(item => {
                     fundListInfo.map(items => {
                         if (item.Fund === items.fundCode) {
                             item.apy = items.apy
-                            console.log(item.apy)
                             item.assetType = AssetsEumn[items.assetType]
                             item.dividendType =
                                 items.dividendType == 2
@@ -465,20 +465,21 @@ export default {
                             } else {
                                 fundSize = items.fundSize / 100000000
                             }
+
                             item.fundSize = this.$t([
                                 `${fundSize.toFixed(2)}亿${
                                     CURRENCY_NAME[this.lang][
-                                        item.fundSizeCurrency
+                                        items.fundSizeCurrency
                                     ]
                                 }规模`,
                                 `${fundSize.toFixed(2)}億${
                                     CURRENCY_NAME[this.lang][
-                                        item.fundSizeCurrency
+                                        items.fundSizeCurrency
                                     ]
                                 }規模`,
                                 `AUM ${fundSize.toFixed(2)}B${
                                     CURRENCY_NAME[this.lang][
-                                        item.fundSizeCurrency
+                                        items.fundSizeCurrency
                                     ]
                                 }`
                             ])
