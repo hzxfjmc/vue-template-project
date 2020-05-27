@@ -19,16 +19,18 @@
                 td {{$t('tradeMoneyLable')}}{{`（${currency}）`}}
                 td {{$t('feeLable')}}
             template(v-for="(item,index) in subscribeFeeVO.fundFeeLevelVOList")
-                tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length && (times(subscribeFeeVO.fundFeeLevelVOList[index].feeRate,100)<Number(subscribeFeeVO.defaultFeeRate))")
+                tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length")
                     td 
                         span {{unitName(item.minAmount)}}
                             span(v-if="+item.minAmount") {{$t('million')}}
                         span {{` ≤ ${$t('tradeDefaultPeriod')}`}}
                         span(v-if="item.maxAmount") {{` < ${unitName(item.maxAmount)}`}}{{$t('million')}}
                     td
-                        span {{`${discountRate(item.feeRate)}（`}}
-                        s {{`${subscribeFeeVO.defaultFeeRate}%`}}
-                        span ） 
+                        span {{`${discountRate(item.feeRate)}`}}
+                        span(v-if="times(subscribeFeeVO.fundFeeLevelVOList[index].feeRate,100)<Number(subscribeFeeVO.defaultFeeRate)")
+                            span （
+                            s {{`${subscribeFeeVO.defaultFeeRate}%`}}
+                            span ） 
                 tr(v-else)
                     td {{`0 ≤ ${$t('tradeDefaultPeriod')}`}}
                     td {{`${subscribeFeeVO.defaultFeeRate}%`}}
