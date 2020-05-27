@@ -197,7 +197,8 @@ export default {
             if (!this.isLogin) {
                 await this.$dialog.alert({
                     message: this.$t('login'),
-                    confirmButtonText: this.$t('loginBtn')
+                    confirmButtonText: this.$t('loginBtn'),
+                    closeOnClickOverlay: true
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
@@ -206,7 +207,8 @@ export default {
                 // 跳转到开户页面
                 await this.$dialog.alert({
                     message: this.$t('openAccount'),
-                    confirmButtonText: this.$t('openAccountBtn')
+                    confirmButtonText: this.$t('openAccountBtn'),
+                    closeOnClickOverlay: true
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
