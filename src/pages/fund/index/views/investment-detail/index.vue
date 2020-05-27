@@ -26,7 +26,7 @@
                 .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} {{currency ==1?$t('usd'):$t('hkd')}}
             .card_content_item
                 .left {{$t('A15')}}
-                .right(v-if="bankName") ({{bankName}}) 
+                .right(v-if="bankName") ({{bankName}})
                     em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
                 .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 
                     em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
@@ -146,9 +146,41 @@ export default {
                 })
                 // 0代表现金，M代表孖展
                 if (this.investmentInfo.chargeType == 1) {
-                    this.bankName = this.arrMarketENUM[this.marketType][
-                        res.assetProp
-                    ]
+                    if (this.marketType == 2) {
+                        if (res.assetProp == 0) {
+                            this.bankName = this.$t([
+                                '港股现金账户',
+                                '港股現金賬戶',
+                                'Cash Account(HKD)'
+                            ])
+                        }
+                        if (res.assetProp == 'M') {
+                            this.bankName = this.$t([
+                                '港股保证金账户',
+                                '港股孖展賬戶',
+                                'Margin Account(HKD)'
+                            ])
+                        }
+                    }
+                    if (this.marketType == 3) {
+                        if (res.assetProp == 0) {
+                            this.bankName = this.$t([
+                                '港股现金账户',
+                                '美股現金賬戶',
+                                'Cash Account(USD)'
+                            ])
+                        }
+                        if (res.assetProp == 'M') {
+                            this.bankName = this.$t([
+                                '美股保证金账户',
+                                '美股孖展賬戶',
+                                'Margin Account(USD)'
+                            ])
+                        }
+                    }
+                    // this.bankName = this.arrMarketENUM[this.marketType][
+                    //     res.assetProp
+                    // ]
                 }
                 console.log(this.bankName)
             } catch (e) {
