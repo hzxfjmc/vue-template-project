@@ -16,8 +16,9 @@
             p.tips--top {{$t('C31')}}
             p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}
     
-    .block__footer--check(@click="checkInfo = !checkInfo")
+    .block__footer--check()
         em.iconfont(
+            @click="checkInfo = !checkInfo"
             :class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
         span {{$t('agreement')}}
             em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
@@ -99,10 +100,11 @@ export default {
                         fundTradeInfoVO.initialInvestAmount
                     )}HKD initial Subs`
                 ])
-                this.ProtocolFile = buyProtocolFileList[0].fileName.split(
-                    '.'
-                )[0]
-                this.filePath = buyProtocolFileList[0].filePath
+                this.ProtocolFile =
+                    buyProtocolFileList[0] &&
+                    buyProtocolFileList[0].fileName.split('.')[0]
+                this.filePath =
+                    buyProtocolFileList[0] && buyProtocolFileList[0].filePath
                 this.placeholder = placeholder
                 let desc = this.$t([
                     `预计${fundTradeInfoVO.buyProfitLoss}查看收益`,

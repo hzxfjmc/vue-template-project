@@ -72,8 +72,8 @@ export default {
                 jumpUrl(3, url)
             } else {
                 url = `${window.location.origin}/wealth/yxbao/index.html#/${params}?id=${this.fundId}&displayLocation=3`
+                jumpUrl(3, url)
             }
-            jumpUrl(3, url)
         },
         hidePopup() {
             this.popupVisible = false

@@ -39,8 +39,10 @@
             .right
                 p.sub-title {{$t('C19')}}
                 p.desc {{contentDesc}}
-    .block__footer--check(@click="checkInfo = !checkInfo")
-        em.iconfont(:class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
+    .block__footer--check()
+        em.iconfont(
+            @click="checkInfo = !checkInfo"
+            :class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
         span {{$t('agreement')}}
             em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
     van-button.btn(
@@ -118,6 +120,7 @@ export default {
             customerRemainderQuota: '',
             customerRemainderQuotaNum: '',
             positionMarketValue: '',
+            availableBaoBalance: '',
             contentDesc: '',
             buyProfitLoss: '',
             isWhiteUserBit: false,
@@ -173,18 +176,20 @@ export default {
                 const {
                     customerRemainderQuota,
                     customerDailyQuota,
-                    positionMarketValue
+                    positionMarketValue,
+                    availableBaoBalance
                 } = await getBaoPostion({
                     currency: 2
                 })
                 this.positionMarketValue = positionMarketValue
-                this.showAllSellBtn.maxAmount = positionMarketValue
+                this.availableBaoBalance = availableBaoBalance
+                this.showAllSellBtn.maxAmount = availableBaoBalance
                 this.placeholder = this.$t([
-                    `可转出${Number(positionMarketValue).toFixed(2) || 0}港币`,
-                    `可轉出金額${Number(positionMarketValue).toFixed(2) ||
+                    `可转出${Number(availableBaoBalance).toFixed(2) || 0}港币`,
+                    `可轉出金額${Number(availableBaoBalance).toFixed(2) ||
                         0}港幣`,
                     `Transferable Amount HKD ${Number(
-                        positionMarketValue
+                        availableBaoBalance
                     ).toFixed(2) || 0}`
                 ])
                 this.customerDailyQuota = customerDailyQuota / 10000
@@ -253,7 +258,7 @@ export default {
             try {
                 if (this.amount == 0 || this.amount === this.placeholder)
                     return this.$toast(this.$t('C40'), 'middle')
-                if (this.amount > Number(this.positionMarketValue)) {
+                if (this.amount > Number(this.availableBaoBalance)) {
                     return this.$toast(this.$t('C84'), 'middle')
                 }
                 if (
