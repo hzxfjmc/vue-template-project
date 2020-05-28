@@ -923,7 +923,7 @@ export default {
                     .toString(2)
                     .split('')
                     .reverse()
-                    .join('')[10]
+                    .join('')[9]
                 if (investmentUserBit) {
                     this.investmentWhiteBit = false
                 }
