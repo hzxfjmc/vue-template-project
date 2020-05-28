@@ -427,14 +427,13 @@ export default {
                     if (item.FundCycle != 0) {
                         item.FundCycleName = this.$t(`${item.FundCycle}`)
                     }
-                    if (item.FundCycle != undefined) {
+                    if (item.FundCycle != undefined && item.Fund) {
                         fundCodeList.push({
                             fundCode: item.Fund,
                             apyType: item.FundCycle
                         })
                     }
                 })
-                console.log(fundCodeList)
                 if (res3.banner_list.length === 0) return
                 let fundListInfo = []
                 if (fundCodeList.length > 0) {

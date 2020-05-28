@@ -1,6 +1,7 @@
 import env from './env'
 import { getUaValue } from '../html-utils'
 import { compareVersion } from '@/utils/tools.js'
+import jsBridge from '@/utils/js-bridge.js'
 const scheme = {
     mailandBase: 'yxstock://yx.stock.app',
     hkBase: 'yxusmart://yx.usmart.app',
@@ -81,6 +82,18 @@ const scheme = {
     },
 
     /**
+     * 跳转至app模块
+     * @param url
+     * @param isWaitingResult
+     * @returns {*|Promise<Object>}
+     */
+    gotoNativeModule(url, isWaitingResult = false) {
+        return this.callApp('goto_native_module', {
+            url,
+            isWaitingResult
+        })
+    },
+    /**
      * 跳转资讯详情
      * @param newsid
      * @param options
@@ -94,7 +107,7 @@ const scheme = {
             if (options.noShare) {
                 location.href = `/webapp/market/news.html?newsid=${newsid}&noShare=1`
             } else {
-                this.gotoNativeModule(
+                jsBridge.gotoNativeModule(
                     `yxzq_goto://info_detail?type=${options.type}&newsid=${newsid}`
                 )
             }
