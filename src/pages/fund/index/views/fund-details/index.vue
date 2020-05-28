@@ -178,6 +178,7 @@
     
 </template>
 <script>
+import NP from 'number-precision'
 import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
 import HoldfundDetails from './components/hold-fund-details'
@@ -415,7 +416,14 @@ export default {
             }
         },
         defaultRate() {
-            return `${(this.subscribeFeeVO.defaultFeeRate * 100).toFixed(2)}%`
+            console.log(
+                NP.times(+this.subscribeFeeVO.defaultFeeRate, 100),
+                '默认费率'
+            )
+            return `${NP.times(
+                +this.subscribeFeeVO.defaultFeeRate,
+                100
+            ).toFixed(2)}%`
         },
         discountRate() {
             return `${(
@@ -571,7 +579,7 @@ export default {
         async getFundFeeConfig() {
             try {
                 let params = {
-                    fundId: this.id
+                    fundId: this.$route.query.id || this.id
                 }
                 let {
                     subscribeFeeVO,
