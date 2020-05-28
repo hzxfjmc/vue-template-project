@@ -6,6 +6,7 @@
             :revenue="revenue"
             :tagShow="tagShow"
             :tagsShow="tagsShow"
+            :initState="holdInitState"
             :fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(

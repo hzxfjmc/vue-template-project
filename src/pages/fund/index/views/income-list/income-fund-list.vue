@@ -3,30 +3,59 @@
     .block__header--apy
         .block__left--num
             span 港币持仓收益(港币)
-            .num +2.33
-        .block__right--num
-            span 持有收益率
-            .num 12.34%
+            .num(
+                v-if="holdStateData.earnings>0"
+                :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{holdStateData.earnings|transNumToThousandMark}} 
+            .num(
+                v-if="holdStateData.earnings<0"
+                :class="stockColorType === 1 ? 'color-green' : 'color-red'") -{{holdStateData.earnings|transNumToThousandMark}} 
+            .num(v-if="holdStateData.earnings==0") {{holdStateData.earnings|transNumToThousandMark}} 
     .block__hr
     .block__list--wrapper
-        .block__list--item(v-for="(item,index) in list")
+        .block__list--item.border-bottom(
+            @click="goToHoldFundDetails(item)"
+            v-for="(item,index) in holdStateData.fundGroupEarningsVOList")
             .block__item
-                .fund-name 贝莱德全球基金-环球高收益
-                .tag 持仓中
+                .fund-name.ellipse {{item.fundName}}
+                .tag(v-if="item.havePosition") 持仓中
             .block__item
                 .desc 收益
-                .num -3000
-        .block-element-nomore(v-if="noMoreShow")
+                .num {{item.earnings}}
+        .block-element-nomore(v-if="holdStateData.fundGroupEarningsVOList.length === 0")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
             .no-record-box {{$t('nomore')}}
 
 </template>
 <script>
+import { transNumToThousandMark } from '@/utils/tools.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     data() {
         return {
-            noMoreShow: true,
+            noMoreShow: false,
             list: []
+        }
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
+        }
+    },
+    methods: {
+        goToHoldFundDetails(item) {
+            this.$router.push({
+                name: 'hold-fund-details',
+                query: { id: item.fundId }
+            })
+        }
+    },
+    props: {
+        holdStateData: {
+            type: Object,
+            default: () => {}
         }
     },
     i18n: {
@@ -69,6 +98,9 @@ export default {
     width: 100%;
     height: 6px;
     background: #f3f3f3;
+}
+.block__list--wrapper {
+    min-height: 400px;
 }
 .block__list--item {
     padding: 0 12px;

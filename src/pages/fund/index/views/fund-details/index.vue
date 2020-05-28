@@ -37,8 +37,9 @@
             v-if="isLogin"
             @click="toRouterGenerator('/order-record')")
             em.iconfont.icon-iconEBshoucang
-            span.title {{$t('trade')}}
+            span.title 持仓详情
             .block__list--right
+                span 资产、收益率
                 em.iconfont.icon-iconEBgengduoCopy
        
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")

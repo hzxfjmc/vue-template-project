@@ -26,7 +26,6 @@
                     v-if="inTransitOrder!=='0'"
                     @click="toRouterPath('/fund-order-list')")
                     span {{inTransitOrder}}{{$t('fundmsg')}}
-                //- em(class="iconfont icon-previewright")
             .header-content-right
                 .block__content--left
                     span.block__content--subtitle {{$t('SevenDayIncome')}} 

@@ -2,35 +2,33 @@
 .block--hold__wrapper
     .block--hold__header
         .block--header__left
-            .fund-name Pimco 亚洲投资级债券基金-A2
-            span ISIN:LU0538203018
-        .block--header__right
+            .fund-name.ellipse {{fundHeaderInfoVO.fundName}}
+            span ISIN:{{fundHeaderInfoVO.fundCode}}
+        .block--header__right(@click="goToFundDetails")
             span 基金详情
+            em.iconfont.icon-iconEBgengduoCopy
     .block--hold__content
         .blockk--hold__top  
             .block--top__item
                 span.top__l 持有资产
-                .num 152.333.000.98
-            .block--top__item.block--top_r
-                span.top__l 持有收益率
-                .num +1999%
+                .num {{initState.positionMarketValue}}
         .block--hold__list
             .block__item
                 span 持有份额
-                .num 2450.0000
+                .num {{initState.positionShare}}
             .block__item
                 span 近7日收益
-                .num +223,330.00
+                .num {{initState.weekEarnings}}
             .block__item.block--element_r
                 span 持有收益
-                .num -223,330.00
+                .num {{initState.positionEarnings}}
         .block--subscribe__content
-            .block__item
+            .block__item(v-if="initState.redeemDeliveryShare != 0")
                 span.block_span 赎回中
-                span.blpck_content 份额 10000
-            .block__item
+                span.blpck_content 份额 {{initState.redeemDeliveryShare}}
+            .block__item(v-if="initState.inTransitAmount != 0")
                 span.block_span 申购中
-                span.blpck_content 美元 5000.00
+                span.blpck_content 美元 {{initState.inTransitAmount}}
         .funds-details-footer
             .block__details--left
                 template(v-if="isMonetaryFund")
@@ -118,6 +116,10 @@ export default {
         }
     },
     props: {
+        initState: {
+            type: Object,
+            default: () => {}
+        },
         price: {
             type: String,
             default: ''
@@ -145,6 +147,14 @@ export default {
         }
     },
     methods: {
+        goToFundDetails() {
+            this.$router.push({
+                name: 'fund-details',
+                query: {
+                    id: this.fundHeaderInfoVO.fundId
+                }
+            })
+        },
         confirmAlter() {
             let contentMessage =
                 this.fundHeaderInfoVO.code === 1
@@ -238,7 +248,7 @@ export default {
     }
 }
 .block--subscribe__content {
-    height: 84px;
+    max-height: 84px;
     background: rgba(25, 25, 25, 0.03);
     margin: 14px 0 0 0;
     display: flex;
@@ -250,6 +260,9 @@ export default {
         flex-direction: row;
         justify-content: space-between;
         padding: 15px 10px 0 10px;
+    }
+    .block__item:last-child {
+        padding: 15px 10px 15px 10px;
     }
 }
 .blockk--hold__top {
