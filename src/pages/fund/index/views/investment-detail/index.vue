@@ -134,7 +134,7 @@ export default {
     },
     async created() {
         await this.getFundDetail()
-        this.getFundFixedPlanDetail()
+        await this.getFundFixedPlanDetail()
         this.getMarketValidFundAccount()
         this.investNum = this.$route.query.investNum
     },
@@ -146,43 +146,10 @@ export default {
                 })
                 // 0代表现金，M代表孖展
                 if (this.investmentInfo.chargeType == 1) {
-                    if (this.marketType == 2) {
-                        if (res.assetProp == 0) {
-                            this.bankName = this.$t([
-                                '港股现金账户',
-                                '港股現金賬戶',
-                                'Cash Account(HKD)'
-                            ])
-                        }
-                        if (res.assetProp == 'M') {
-                            this.bankName = this.$t([
-                                '港股保证金账户',
-                                '港股孖展賬戶',
-                                'Margin Account(HKD)'
-                            ])
-                        }
-                    }
-                    if (this.marketType == 3) {
-                        if (res.assetProp == 0) {
-                            this.bankName = this.$t([
-                                '港股现金账户',
-                                '美股現金賬戶',
-                                'Cash Account(USD)'
-                            ])
-                        }
-                        if (res.assetProp == 'M') {
-                            this.bankName = this.$t([
-                                '美股保证金账户',
-                                '美股孖展賬戶',
-                                'Margin Account(USD)'
-                            ])
-                        }
-                    }
-                    // this.bankName = this.arrMarketENUM[this.marketType][
-                    //     res.assetProp
-                    // ]
+                    this.bankName = this.arrMarketENUM[this.marketType][
+                        res.assetProp
+                    ]
                 }
-                console.log(this.bankName)
             } catch (e) {
                 this.$toast(e.msg)
             }
