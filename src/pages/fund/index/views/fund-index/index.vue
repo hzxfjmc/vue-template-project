@@ -427,13 +427,14 @@ export default {
                     if (item.FundCycle != 0) {
                         item.FundCycleName = this.$t(`${item.FundCycle}`)
                     }
-                    if (item.FundCycle) {
+                    if (item.FundCycle != undefined) {
                         fundCodeList.push({
                             fundCode: item.Fund,
                             apyType: item.FundCycle
                         })
                     }
                 })
+                console.log(fundCodeList)
                 if (res3.banner_list.length === 0) return
                 let fundListInfo = []
                 if (fundCodeList.length > 0) {
@@ -505,6 +506,7 @@ export default {
                             ].type
                         }
                     })
+                    console.log(item)
                     const arrList = {
                         1: item.assetType,
                         2: item.initialInvestAmount,
@@ -514,6 +516,7 @@ export default {
                     }
                     item.TagList = []
                     for (let i of item.TagContent) {
+                        console.log(i)
                         item.TagList.push(arrList[i])
                     }
                 })
@@ -654,8 +657,6 @@ export default {
                 }
 
                 this.choiceFundListShow = !obj.flag
-                console.log(!obj.flag)
-
                 this.blueChipFundListShow = !obj.flag2
                 this.robustFundListShow = !obj.flag1
             })
