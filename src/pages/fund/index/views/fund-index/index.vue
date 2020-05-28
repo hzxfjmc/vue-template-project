@@ -461,12 +461,11 @@ export default {
                                 items.dividendType == 2
                                     ? this.$t('DIVIDEND')
                                     : this.$t('NET_PRICE')
-
+                            console.log(items.fundSize)
                             item.fundSize = this.changeFundSizeLang(
                                 items.fundSize,
                                 items.fundSizeCurrency
                             )
-
                             item.initialInvestAmount = this.$t([
                                 `${items.initialInvestAmount}${
                                     CURRENCY_NAME[this.lang][
@@ -489,7 +488,6 @@ export default {
                             ].type
                         }
                     })
-                    console.log(item)
                     const arrList = {
                         1: item.assetType,
                         2: item.initialInvestAmount,
@@ -499,12 +497,10 @@ export default {
                     }
                     item.TagList = []
                     for (let i of item.TagContent) {
-                        console.log(i)
                         item.TagList.push(arrList[i])
                     }
                 })
                 this.fundBarnnarList = res3.banner_list
-                console.log(this.fundBarnnarList)
             } catch (e) {
                 console.log(e)
                 if (flag) {
@@ -571,12 +567,6 @@ export default {
                 robustFundList: this.robustFundList
             }
             arr_[type].data.map(item => {
-                if (this.code !== 1 && this.lang === 'en') {
-                    item.fundSize = item.fundSize / 1000000000
-                } else {
-                    item.fundSize = item.fundSize / 100000000
-                }
-                item.fundSize = transNumToThousandMark(item.fundSize, 2)
                 item.initialInvestAmount = transNumToThousandMark(
                     Number(item.initialInvestAmount).toFixed(0),
                     0
