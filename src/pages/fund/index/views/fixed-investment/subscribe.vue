@@ -186,7 +186,7 @@ export default {
                 },
                 1: {
                     0: this.$t([
-                        '港股现金账户',
+                        '美股现金账户',
                         '美股現金賬戶',
                         'Cash Account(USD)'
                     ]),
@@ -277,16 +277,17 @@ export default {
                 })
                 return
             }
-            this.$router.push({
-                name: 'modify-amount',
-                params: {
-                    datas: val
-                },
-                query: {
-                    id: val.id,
-                    from: this.$route.query.from === 'hk' ? 'hk' : 'dl'
-                }
-            })
+            this.openWebView(
+                `${window.location.origin}/webapp/open-account/deposit.html?isCloseWebView=true#/modify-amount?id=${val.id}`
+            )
+        },
+        //App页面跳转
+        async openWebView(url) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
         },
         //获取持仓数据
         async getFundPositionV2() {
@@ -514,7 +515,7 @@ export default {
                     item.check = true
                 }
             })
-            // this.flag = this.bankInfo.type === 2
+            this.flag = this.bankInfo.type === 2
             if (
                 this.bankInfo.type == 2 &&
                 this.fundTradeInfoVO.currency.type == 1
@@ -522,7 +523,14 @@ export default {
                 this.exchangeFlag = true
                 this.flag = true
             } else {
-                this.exchangeFlag = false
+                this.exchangeFlag = this.exchangeFlag
+                this.flag = false
+            }
+            if (
+                this.bankInfo.type == 1 &&
+                this.fundTradeInfoVO.currency.type == 1
+            ) {
+                this.exchangeFlag = this.exchangeFlag
                 this.flag = false
             }
         },
@@ -539,6 +547,14 @@ export default {
             })
         },
         async handlerSubmitFilter() {
+            if (!this.isCheckedProtocol)
+                return this.$toast(
+                    this.$t([
+                        `请阅读并勾选相关协议`,
+                        `請閱讀並勾選相關協議`,
+                        `Please read and check the relevant agreements`
+                    ])
+                )
             if (isNaN(Number(this.amount)) || Number(this.amount) === 0)
                 return this.$toast('请输入金额')
             if (!this.bankInfo.type) return this.$toast('请选择扣款方式')
