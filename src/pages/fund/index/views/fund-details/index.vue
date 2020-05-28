@@ -55,18 +55,23 @@
             p {{$t('msg1')}}
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
-        .fund-footer-content.fund-block--content(v-if="RedemptionButton")
-            .btn.colorbg.button-5width.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(4)")
-                    span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.  feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
-                    em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") 享申购费{{100-(fundFixedFeeVO.feeDiscount*100)}}%
-            van-button.button-5width.button-left.btn(
-                :class="[flag?'fund-check':'fund-no']" 
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-            van-button.btn.button-5width(
-                :class="[flag1?'fund-buy':'fund-no']" 
-                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        .fund-footer-content(v-if="RedemptionButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            .fund-block--content
+                .btn.colorbg.button-5width.btn-inverster(
+                        :class="[investmentShow? 'fund-footer':'fund-no']"
+                        @click="handleBuyOrSell(4)")
+                        span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.  feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                        em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") 享申购费{{100-(fundFixedFeeVO.feeDiscount*100)}}%
+                van-button.button-5width.button-left.btn(
+                    :class="[flag?'fund-check':'fund-no']" 
+                    @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-5width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
         .fund-footer-content(v-if="!RedemptionButton && this.btnShow")
             span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
@@ -82,6 +87,10 @@
 
         
         .fund-footer-content(v-if="PurchaseButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
             .block__button--list
                 .btn.colorbg.button-width1.btn-inverster(
                     :class="[investmentShow? 'fund-footer':'fund-no']"
