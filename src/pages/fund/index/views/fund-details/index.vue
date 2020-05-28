@@ -73,10 +73,10 @@
                 span （
                 s {{defaultRate}}
                 span ）
-            van-button.button-5width.button-left.btn(
+            van-button.button-6width.button-left.btn(
                 :class="[flag?'fund-check':'fund-no']" 
                 @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-            van-button.btn.button-5width(
+            van-button.btn.button-6width(
                 :class="[flag1?'fund-buy':'fund-no']" 
                 @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
@@ -354,7 +354,7 @@ export default {
                 this.btnShow &&
                 this.isGrayAuthority &&
                 this.invate !== 'share' &&
-                !this.investmentWhiteBit
+                this.investmentWhiteBit
             )
         },
         /*
@@ -369,7 +369,7 @@ export default {
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
                 this.invate !== 'share' &&
-                !this.investmentWhiteBit
+                this.investmentWhiteBit
             )
         },
         chsFightButton() {

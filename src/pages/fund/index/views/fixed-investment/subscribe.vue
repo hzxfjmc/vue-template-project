@@ -32,7 +32,7 @@
                             :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
                     p(v-if="exchangeFlag") 
                         span(v-if="!flag") {{$t('A14')}}
-                        span(v-else) 定投日自动于银行扣款{{isNaN(amount)?'0.00':(amount*7.9).toFixed(2)}}港币。并于证券账户扣款时按实时汇率兑换{{isNaN(amount)?'0.00':Number(amount).toFixed(2)}}美元。兑换后剩余的港币会留存于你的证券账户。
+                        span(v-else) {{$t([`定投日自动于银行扣款${isNaN(amount)?'0.00':(amount*7.9).toFixed(2)}港币。并于证券账户扣款时按实时汇率兑换${isNaN(amount)?'0.00':Number(amount).toFixed(2)}美元。兑换后剩余的港币会留存于你的证券账户。`,`定投日自動於銀行扣款${isNaN(amount)?'0.00':(amount*7.9).toFixed(2)}港幣。並於證券帳戶扣款時按即時匯率兌換${isNaN(amount)?'0.00':Number(amount).toFixed(2)}美元。兌換後剩餘的港幣會留存於你的證券帳戶。`,`HK$${isNaN(amount)?'0.00':(amount*7.9).toFixed(2)} will be automatically deducted from your bank account in the day of AIP. The capital will be changed into US$${isNaN(amount)?'0.00':Number(amount).toFixed(2)} according to the instant exchange rate of securities accounts. The remaining HK$ will be retained in your securities account after the exchange. `])}}
                    
 
                 .fund--block--floor
@@ -97,7 +97,7 @@
                     .right {{Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}}%
                 .block--list--item
                     .left {{$t('A10')}}
-                    .right {{$t([`第${fundFixedFeeVO.feeRefund}期`,``,``])}}第{{fundFixedFeeVO.feeRefund}}期
+                    .right {{$t([`第${fundFixedFeeVO.feeRefund}期`,`第${fundFixedFeeVO.feeRefund}期`,`Issue ${fundFixedFeeVO.feeRefund}`])}}第{{fundFixedFeeVO.feeRefund}}期
                 p {{$t([`第N期交易成功后返还前${fundFixedFeeVO.feeRefund}期的手续费折扣，之后每期交易成功后返还对应的手续费折扣`,`第N期交易成功後返還前${fundFixedFeeVO.feeRefund}期的手續費折扣，之後每期交易成功後返還對應的手續費折扣`,`After the successful transaction of the ${fundFixedFeeVO.feeRefund} period, the commission discount of the previous N periods shall be returned, and the corresponding commission discount shall be returned after the successful transaction of each subsequent period`])}}
 
 </template>
