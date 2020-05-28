@@ -190,7 +190,9 @@ import { getSource } from '@/service/customer-relationship-server'
 import { i18n } from './i18n'
 import FundCardSwipper from './fund-card-swipper'
 import FundArticle from './fund-article'
+import fundCommonMethods from '../../mixins/fund-common-methods.js'
 export default {
+    mixins: [fundCommonMethods],
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem,
@@ -459,30 +461,12 @@ export default {
                                 items.dividendType == 2
                                     ? this.$t('DIVIDEND')
                                     : this.$t('NET_PRICE')
-                            let fundSize
-                            if (this.code !== 1 && this.lang === 'en') {
-                                fundSize = items.fundSize / 1000000000
-                            } else {
-                                fundSize = items.fundSize / 100000000
-                            }
 
-                            item.fundSize = this.$t([
-                                `${fundSize.toFixed(2)}亿${
-                                    CURRENCY_NAME[this.lang][
-                                        items.fundSizeCurrency
-                                    ]
-                                }规模`,
-                                `${fundSize.toFixed(2)}億${
-                                    CURRENCY_NAME[this.lang][
-                                        items.fundSizeCurrency
-                                    ]
-                                }規模`,
-                                `AUM ${fundSize.toFixed(2)}B${
-                                    CURRENCY_NAME[this.lang][
-                                        items.fundSizeCurrency
-                                    ]
-                                }`
-                            ])
+                            item.fundSize = this.changeFundSizeLang(
+                                items.fundSize,
+                                items.fundSizeCurrency
+                            )
+
                             item.initialInvestAmount = this.$t([
                                 `${items.initialInvestAmount}${
                                     CURRENCY_NAME[this.lang][
@@ -625,17 +609,11 @@ export default {
                         CURRENCY_NAME[this.lang][item.tradeCurrency]
                     }`
                 ])
-                item.fundSize = this.$t([
-                    `${item.fundSize}亿${
-                        CURRENCY_NAME[this.lang][item.fundSizeCurrency]
-                    }规模`,
-                    `${item.fundSize}億${
-                        CURRENCY_NAME[this.lang][item.fundSizeCurrency]
-                    }規模`,
-                    `AUM ${item.fundSize}B${
-                        CURRENCY_NAME[this.lang][item.fundSizeCurrency]
-                    }`
-                ])
+                item.fundSize = this.changeFundSizeLang(
+                    item.fundSize,
+                    item.fundSizeCurrency
+                )
+
                 item.dividendType =
                     item.dividendType == 2
                         ? this.$t('DIVIDEND')
