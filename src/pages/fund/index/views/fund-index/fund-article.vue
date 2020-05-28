@@ -9,6 +9,7 @@
     .block--article--list
             .block--item(
                 v-for="(item,index) in news_list" 
+                @click="goToWebViewSubjectDetails(item)"
                 :class="[index != news_list.length-1?'border-bottom':'']")
                 van-skeleton.block--item(
                     title 
@@ -40,6 +41,7 @@
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
 import { getSpSubjectDetail } from '@/service/news-msgdisplay'
+import scheme from '@/utils/scheme'
 import dayjs from 'dayjs'
 export default {
     computed: {
@@ -51,6 +53,9 @@ export default {
         this.getSpSubjectDetail()
     },
     methods: {
+        goToWebViewSubjectDetails(item) {
+            scheme.gotoNewsDetail(item.newsid)
+        },
         //基金资讯
         async getSpSubjectDetail() {
             try {

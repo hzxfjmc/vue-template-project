@@ -81,6 +81,29 @@ const scheme = {
     },
 
     /**
+     * 跳转资讯详情
+     * @param newsid
+     * @param options
+     * @param options.type 1-普通资讯，2-必读资讯（旧版本需要区分，新版本可传1）
+     * @param options.noShare 默认false，是否在APP中展示分享和字体变大
+     */
+    gotoNewsDetail(newsid, options = {}) {
+        options.type = options.type === undefined ? 1 : options.type
+        options.noShare = !!options.noShare
+        if (env.isYouxinApp) {
+            if (options.noShare) {
+                location.href = `/webapp/market/news.html?newsid=${newsid}&noShare=1`
+            } else {
+                this.gotoNativeModule(
+                    `yxzq_goto://info_detail?type=${options.type}&newsid=${newsid}`
+                )
+            }
+        } else {
+            location.href = `/webapp/market/news.html?newsid=${newsid}`
+        }
+    },
+
+    /**
      * 跳转APP中的webview
      * @param url h5链接(全url)
      * @param options
