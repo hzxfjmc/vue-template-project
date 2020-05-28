@@ -354,7 +354,7 @@ export default {
                 this.btnShow &&
                 this.isGrayAuthority &&
                 this.invate !== 'share' &&
-                this.investmentWhiteBit
+                !this.investmentWhiteBit
             )
         },
         /*
@@ -369,7 +369,7 @@ export default {
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
                 this.invate !== 'share' &&
-                this.investmentWhiteBit
+                !this.investmentWhiteBit
             )
         },
         chsFightButton() {
