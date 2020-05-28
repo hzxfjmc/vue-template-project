@@ -8,9 +8,13 @@
             :key="index")
                 .element--fund--content
                     .element--content-sub-content
-                        .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(item.apy*100).toFixed(2)}}%
-                        .number(v-if="Number(item.apy)<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(item.apy*100).toFixed(2)}}%
-                        .number(v-if="Number(item.apy) === 0") {{Number(item.apy).toFixed(2)}}%
+                        .number(
+                            v-if="Number(item.apy)>0" :class="[stockColorType == 1 ? 'color-red' : 'color-green',item.apy.length<5?'':'fontSize20']") +{{(item.apy*100).toFixed(2)}}%
+                        .number(
+                            v-if="Number(item.apy)<0" 
+                            :class="[stockColorType == 1 ? 'color-green' : 'color-red',item.apy.length<5?'':'fontSize20']") -{{Math.abs(item.apy*100).toFixed(2)}}%
+                        .number(
+                            v-if="Number(item.apy) === 0") {{Number(item.apy).toFixed(2)}}%
                         .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom
                         .tag-title 
@@ -102,7 +106,19 @@ export default {
         stockColorType() {
             return +getStockColorType()
         },
-        ...mapGetters(['appType', 'lang'])
+        ...mapGetters(['appType', 'lang']),
+        h2Style() {
+            // 名称字体变化策略
+            let fundName = this.info.fundName || ''
+            if (fundName.length > 5) {
+                return {
+                    fontSize: '20px'
+                }
+            }
+            return {
+                fontSize: '22px'
+            }
+        }
     },
     methods: {
         // draw(canvasId, data, apy) {
@@ -212,6 +228,9 @@ export default {
                     font-size: 22px;
                     line-height: 23px;
                     font-family: yxFontDINPro-Medium;
+                }
+                .fontSize20 {
+                    font-size: 20px;
                 }
                 .tag {
                     font-size: 0.24rem;
