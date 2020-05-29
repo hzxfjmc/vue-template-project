@@ -78,12 +78,13 @@
                 span （
                 s {{defaultRate}}
                 span ）
-            van-button.button-6width.button-left.btn(
-                :class="[flag?'fund-check':'fund-no']" 
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-            van-button.btn.button-6width(
-                :class="[flag1?'fund-buy':'fund-no']" 
-                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+            .fund-block--content
+                van-button.button-6width.button-left.btn(
+                    :class="[flag?'fund-check':'fund-no']" 
+                    @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-6width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
         
         .fund-footer-content(v-if="PurchaseButton")
@@ -935,13 +936,12 @@ export default {
                     .split('')
                     .reverse()
                     .join('')[5]
-                console.log(this.userInfo.grayStatusBit)
                 let investmentUserBit = this.userInfo.grayStatusBit
                     .toString(2)
                     .split('')
                     .reverse()
                     .join('')[9]
-                if (investmentUserBit) {
+                if (investmentUserBit === '1') {
                     this.investmentWhiteBit = false
                 }
                 if (!isWhiteUserBit) {
@@ -986,10 +986,6 @@ export default {
                 this.fundHeaderInfoVO.derivativeType =
                     res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
-                // this.fundHeaderInfoVO.apy =
-                //     this.fundHeaderInfoVO.assetType === 4
-                //         ? Number(this.fundHeaderInfoVO.apy * 100).toFixed(4)
-                //         : Number(this.fundHeaderInfoVO.apy * 100).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice,
                     4

@@ -328,20 +328,17 @@ export default {
                 this.bankList.map(item => {
                     if (
                         this.bankInfo.bankAccountNo === item.bankAccountNo &&
-                        this.fixedFundInfo.exchangeFlag == 1
+                        this.bankInfo.type == 2
                     ) {
                         item.check = true
                     }
                     if (
-                        item.type == 1 &&
+                        this.bankInfo.type == 1 &&
                         this.fixedFundInfo.exchangeFlag == 0
                     ) {
                         item.check = true
                     }
-                    if (
-                        this.fixedFundInfo.exchangeFlag == 1 &&
-                        this.bankInfo.bankAccountNo == item.bankAccountNo
-                    ) {
+                    if (this.bankInfo.bankAccountNo == item.bankAccountNo) {
                         this.bankInfo = item
                     }
                 })
@@ -355,6 +352,7 @@ export default {
                 this.exchangeFlag = this.fixedFundInfo.exchangeFlag == 1
                 this.fixedCycleTypeObj.type = this.fixedFundInfo.fixedCycleType
                 this.fixedCycleTypeObj.value = this.fixedFundInfo.fixedCycleValue
+                console.log(this.bankInfo)
             }
         },
         hanlderExchangFlag() {
