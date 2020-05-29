@@ -117,6 +117,13 @@ export default {
             justify-content: space-between;
             .left {
                 color: $text-color5;
+                min-width: 80px;
+            }
+            .right {
+                text-align: right;
+                em {
+                    font-style: normal;
+                }
             }
         }
     }

@@ -146,6 +146,7 @@ export default {
                     2: 'edda'
                 }
                 this.list.map(item => {
+                    console.log(item.recentDeductionDate)
                     item.chargeType = EnumChargeType[item.chargeType]
                     item.week = this.getWeek(item.recentDeductionDate)
                     item.recentDeductionDate = dayjs(
@@ -164,6 +165,7 @@ export default {
         //计算周末公式
         getWeek(data) {
             let index = new Date(data).getDay()
+            console.log(index)
             let i18nObj = {
                 1: this.$t([`周一`, `週一`, `Mon.`]),
                 2: this.$t([`周二`, `週二`, `Tues.`]),
@@ -171,7 +173,7 @@ export default {
                 4: this.$t([`周四`, `週四`, `Thur.`]),
                 5: this.$t([`周五`, `週五`, `Fri.`]),
                 6: this.$t([`周六`, `週六`, `Sat.`]),
-                7: this.$t([`周天`, `週天`, `Sun.`])
+                0: this.$t([`周日`, `週日`, `Sun.`])
             }
             return i18nObj[index]
         },

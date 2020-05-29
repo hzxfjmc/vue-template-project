@@ -325,7 +325,6 @@ export default {
                 this.bankInfo.type = this.fixedFundInfo.chargeType
                 this.bankInfo.bankAccountNo = this.fixedFundInfo.eddaBankAccount
                 this.bankInfo.bankCode = this.fixedFundInfo.eddaBankCode
-                console.log(this.bankInfo)
                 this.bankList.map(item => {
                     if (
                         this.bankInfo.bankAccountNo === item.bankAccountNo &&
@@ -341,7 +340,7 @@ export default {
                     }
                     if (
                         this.bankInfo.bankAccountNo == item.bankAccountNo &&
-                        this.bankInfo === 2
+                        this.bankInfo.type == 2
                     ) {
                         this.bankInfo = item
                     }
