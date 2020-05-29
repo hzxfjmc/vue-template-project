@@ -157,8 +157,8 @@ export default {
     color: #ea3d3d;
 }
 .block__fund {
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
     margin: 10px 0 0 0;
     background: #fff;
     .block__fund-title {

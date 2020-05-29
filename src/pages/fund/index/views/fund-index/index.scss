@@ -9,7 +9,7 @@
     }
 }
 .block-fund-index{
-    background:#f7f7f7;
+    background:linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
 }
 .block__assets {
     width: 351px;
@@ -48,6 +48,7 @@
             .block--button{
                 height:30px;
                 padding:0 5px;
+                width:90px;
                 background:#fff;
                 border-radius:15px;
                 position: absolute;

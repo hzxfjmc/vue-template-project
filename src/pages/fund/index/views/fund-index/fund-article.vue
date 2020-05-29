@@ -88,9 +88,10 @@ export default {
 <style lang="scss" scoped>
 .block--article--wrapper {
     width: 351px;
-    border-radius: 6px;
     background: #fff;
     margin: 10px auto;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
     padding: 14px 12px;
     .van-skeleton {
         padding: 0;
