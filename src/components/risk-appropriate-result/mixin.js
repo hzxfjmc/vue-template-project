@@ -166,10 +166,10 @@ export default {
                         assessResult:
                             this.userInfo && this.userInfo.assessResult,
                         fundCode: this.fundCode,
-                        code: this.$route.query.cod
+                        code: this.$route.query.code
                     }
                 }
-                if (this.$route.query.code === 4) {
+                if (this.$route.query.code == 4) {
                     data.path =
                         (this.userInfo.extendStatusBit & 16) > 0
                             ? '/fixed-investment'
