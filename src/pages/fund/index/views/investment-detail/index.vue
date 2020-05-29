@@ -118,7 +118,7 @@ export default {
                 },
                 3: {
                     0: this.$t([
-                        '港股现金账户',
+                        '美股现金账户',
                         '美股現金賬戶',
                         'Cash Account(USD)'
                     ]),

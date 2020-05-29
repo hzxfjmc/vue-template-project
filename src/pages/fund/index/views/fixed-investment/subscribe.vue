@@ -325,6 +325,7 @@ export default {
                 this.bankInfo.type = this.fixedFundInfo.chargeType
                 this.bankInfo.bankAccountNo = this.fixedFundInfo.eddaBankAccount
                 this.bankInfo.bankCode = this.fixedFundInfo.eddaBankCode
+                console.log(this.bankInfo)
                 this.bankList.map(item => {
                     if (
                         this.bankInfo.bankAccountNo === item.bankAccountNo &&
@@ -334,17 +335,20 @@ export default {
                     }
                     if (
                         this.bankInfo.type == 1 &&
-                        this.fixedFundInfo.exchangeFlag == 0
+                        this.bankInfo.type == item.type
                     ) {
                         item.check = true
                     }
-                    if (this.bankInfo.bankAccountNo == item.bankAccountNo) {
+                    if (
+                        this.bankInfo.bankAccountNo == item.bankAccountNo &&
+                        this.bankInfo === 2
+                    ) {
                         this.bankInfo = item
                     }
                 })
                 this.flag =
                     this.fundTradeInfoVO.currency.type == 1 &&
-                    this.fixedFundInfo.exchangeFlag == 1
+                    this.bankInfo.type == 2
                 this.fixedCycleTypeObj.key = [
                     this.fixedFundInfo.fixedCycleMonth,
                     this.fixedFundInfo.fixedCycleWeek
