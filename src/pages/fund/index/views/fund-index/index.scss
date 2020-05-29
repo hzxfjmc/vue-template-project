@@ -303,7 +303,7 @@
 
 .block__tab {
     width: 100%;
-    margin: 20px 0 20px 0;
+    margin: 20px 0 10px 0;
     .block__tab--list {
         display: flex;
         flex-direction: row;
@@ -383,7 +383,7 @@
 .block--yxbao-container {
     width: 351px;
     height: 140px;
-    margin: 20px 12px;
+    margin: 10px 12px 0 12px;
     background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
     background-size: 100% 100%;
     border-radius: 6px;
