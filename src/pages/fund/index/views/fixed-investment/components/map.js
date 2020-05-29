@@ -98,7 +98,7 @@ export const MonthDay = {
             '26th',
             '27th',
             '28th',
-            '月末'
+            'Late of the month'
         ]
     }
 }

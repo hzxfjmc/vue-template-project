@@ -97,8 +97,8 @@
                     .right {{Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}}%
                 .block--list--item
                     .left {{$t('A10')}}
-                    .right {{$t([`第${fundFixedFeeVO.feeRefund}期`,`第${fundFixedFeeVO.feeRefund}期`,`Issue ${fundFixedFeeVO.feeRefund}`])}}第{{fundFixedFeeVO.feeRefund}}期
-                p {{$t([`第N期交易成功后返还前${fundFixedFeeVO.feeRefund}期的手续费折扣，之后每期交易成功后返还对应的手续费折扣`,`第N期交易成功後返還前${fundFixedFeeVO.feeRefund}期的手續費折扣，之後每期交易成功後返還對應的手續費折扣`,`After the successful transaction of the ${fundFixedFeeVO.feeRefund} period, the commission discount of the previous N periods shall be returned, and the corresponding commission discount shall be returned after the successful transaction of each subsequent period`])}}
+                    .right {{$t([`第${fundFixedFeeVO.feeRefund}期`,`第${fundFixedFeeVO.feeRefund}期`,`Issue ${fundFixedFeeVO.feeRefund}`])}}
+                p {{$t([`第${fundFixedFeeVO.feeRefund}期交易成功后返还前${fundFixedFeeVO.feeRefund}期的手续费折扣，以后每期交易成功后返还对应的手续费折扣`,`第${fundFixedFeeVO.feeRefund}期交易成功後返還前${fundFixedFeeVO.feeRefund}期的手續費折扣，以後每期交易成功後返還對應的手續費折扣`,`The fee discount of the first ${fundFixedFeeVO.feeRefund} periods will be returned after the successful of the ${fundFixedFeeVO.feeRefund}transaction. The corresponding fee discount will be returned after each successful transaction for the coming order.`])}}
 
 </template>
 <script>
@@ -163,7 +163,10 @@ export default {
             marketType: 1,
             fundHeaderInfoVO: {},
             fixedCycleTypeObj: {
-                key: ['每周', '周一'],
+                key: [
+                    this.$t(['每周', '每週', 'Weekly']),
+                    this.$t(['周一', '週一', 'Mon.'])
+                ],
                 type: 1,
                 value: 1
             },
@@ -305,16 +308,14 @@ export default {
         showEddaComfim() {
             this.$alert({
                 title: this.$t('A28'),
-                message:
-                    '如使用EDDA方式扣款，uSMART将会提前于您的银行账户进行扣款并存入您的证券账户，并随后进行证券账户扣款操作。资金存入后为可用资金，您可以使用该资金进行交易，提款等操作。请保证于证券扣款时证券账户有足够的资金以作月供供款。',
+                message: this.$t('eddaDesc'),
                 confirmButtonText: this.$t('iknow')
             })
         },
         ShowAutomaticExchange() {
             this.$alert({
-                title: '自动换汇',
-                message:
-                    '扣款时，如果扣款货币(例如港币)不足，差额部分将通过您其他货币(例如美元)的可取金额自动换汇补充，以避免扣款失败。汇率将遵循换汇发生时APP的最新汇率',
+                title: this.$t([`自动换汇`, `自動換匯`, `Automatic exchange`]),
+                message: this.$t('exchangeDesc'),
                 confirmButtonText: this.$t('iknow')
             })
         },
@@ -355,7 +356,7 @@ export default {
                 this.exchangeFlag = this.fixedFundInfo.exchangeFlag == 1
                 this.fixedCycleTypeObj.type = this.fixedFundInfo.fixedCycleType
                 this.fixedCycleTypeObj.value = this.fixedFundInfo.fixedCycleValue
-                console.log(this.bankInfo)
+                console.log(this.fixedCycleTypeObj)
             }
         },
         hanlderExchangFlag() {
@@ -482,7 +483,11 @@ export default {
                         type: 1,
                         check: false,
                         bankName: '',
-                        desc: '请保证扣款日当天证券账户中有足够资金'
+                        desc: this.$t([
+                            `请保证扣款日当天证券账户中有足够资金。`,
+                            `請保證扣款日當天證券賬戶中有足夠資金。`,
+                            `Please ensure that you have sufficient funds in your security account on the date of the debit.`
+                        ])
                     }
                 ]
                 let { list } = await queryMandateBank(params)
@@ -699,7 +704,11 @@ export default {
             cancel: '取消',
             continue: '继续申购',
             content:
-                '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
+                '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。',
+            exchangeDesc:
+                '扣款时，如果扣款货币(例如港币)不足，差额部分将通过您其他货币(例如美元)的可取金额自动换汇补充，以避免扣款失败。汇率将遵循换汇发生时APP的最新汇率',
+            eddaDesc:
+                '如使用EDDA方式扣款，uSMART将会提前于您的银行账户进行扣款并存入您的证券账户，并随后进行证券账户扣款操作。资金存入后为可用资金，您可以使用该资金进行交易，提款等操作。请保证于证券扣款时证券账户有足够的资金以作月供供款。'
         },
         zhCHT: {
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
@@ -707,7 +716,11 @@ export default {
             cancel: '取消',
             continue: '繼續申購',
             content:
-                '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。'
+                '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。',
+            exchangeDesc:
+                '扣款時，如果扣款貨幣(例如港幣)不足，差額部分將通過您其他貨幣(例如美元)的可取金額自動換匯補充，以避免扣款失敗。匯率將遵循換匯發生時APP的最新匯率',
+            eddaDesc:
+                '如使用EDDA方式扣款，uSMART將會提前於您的銀行賬戶進行扣款並存入您的證券賬戶，並隨後進行證券賬戶扣款操作。資金存入後為可用資金，您可以使用該資金進行交易，提款等操作。請保證於證券扣款時證券賬戶有足夠的資金以作月供供款。'
         },
         en: {
             protocolTips:
@@ -716,7 +729,11 @@ export default {
             cancel: 'cancel',
             continue: 'Continue ',
             content:
-                'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
+                'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.',
+            exchangeDesc:
+                'The exchange rate will follow the latest exchange rate of the APP when the exchange occurs',
+            eddaDesc:
+                'If you select EDDA as debit method, uSMART will deduct money from your bank account to your securities account, then deduct from your securities account later for contribution.If you select EDDA as debit method, uSMART will deduct money from your bank account to your securities account, then deduct from your securities account later for contribution.'
         }
     }
 }
