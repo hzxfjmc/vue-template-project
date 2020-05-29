@@ -105,7 +105,7 @@ export default {
             AboutuMoeny: '关于现金+'
         },
         zhCHT: {
-            login: '請登陸後進行操作 ',
+            login: '請登錄後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
             more: '更多基金',
