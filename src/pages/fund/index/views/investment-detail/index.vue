@@ -146,6 +146,7 @@ export default {
                 })
                 // 0代表现金，M代表孖展
                 if (this.investmentInfo.chargeType == 1) {
+                    console.log(res)
                     this.bankName = this.arrMarketENUM[this.marketType][
                         res.assetProp
                     ]

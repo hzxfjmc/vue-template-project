@@ -662,8 +662,8 @@ export default {
                 this.fundName = fundHeaderInfoVO.fundName
                 this.fundTradeInfoVO = fundTradeInfoVO
                 let marketTypeEMUN = {
-                    2: 3, //美股市场
-                    1: 2, //港股市场
+                    1: 3, //美股市场
+                    2: 2, //港股市场
                     3: 1 //a股市场
                 }
                 this.marketType =
