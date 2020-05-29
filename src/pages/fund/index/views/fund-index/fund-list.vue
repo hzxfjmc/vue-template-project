@@ -190,9 +190,10 @@ export default {
     background: #fff;
     .block__fund-title {
         font-size: 20px;
+        font-weight: bold;
         width: 100%;
-        line-height: 40px;
-        height: 40px;
+        line-height: 50px;
+        height: 50px;
         background: url('~@/assets/img/fund/fund-title-bg.png') no-repeat;
         background-size: 100% 100%;
         padding: 0 0 0 12px;

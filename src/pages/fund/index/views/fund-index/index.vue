@@ -44,25 +44,25 @@ div
                             v-if="moneyShow && currentPostion.weekEarnings==0") {{currentPostion.weekEarnings|transNumToThousandMark}}
                         p.num(v-if="!moneyShow") ****
                 
-                .block__left__bottom.border-top(v-if="!isWhiteUserBit") 
-                    .block__bottom--l.border-right(@click="toRouterAccount")
+                .block__left__bottom.border-top-left(v-if="!isWhiteUserBit") 
+                    .block__bottom--l.border-right-r(@click="toRouterAccount")
                         p {{$t('fund')}}
                             em.num(v-if="moneyShow") {{currentPostion.fundPositionAmount|transNumToThousandMark}}
                             em(v-else) ****
-                        em.iconfont.icon-previewright
+                            em.iconfont.icon-previewright
                     .block__bottom-r(@click="toYxbao")
                         p {{$t('uMoney')}}
                             em.num(v-if="moneyShow && !isWhiteUserBit") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
                             em(v-if="!moneyShow && !isWhiteUserBit") ****
                             em.word(v-if="isWhiteUserBit")  {{$t('tips')}}
-                        em.iconfont.icon-previewright(v-if="!isWhiteUserBit")
+                            em.iconfont.icon-previewright(v-if="!isWhiteUserBit")
                 .block__left__bottom.border-top.text-align(
                     v-else
                     @click="toRouterAccount")
                     span {{$t('holdData')}}
                     em.iconfont.icon-previewright
             .block__assets(v-else)
-                .block--assets--header.border-bottom
+                .block--assets--header
                     .block--left
                         p {{$t('descFund')}}
                         p {{$t('descFund1')}}
@@ -702,7 +702,7 @@ export default {
     margin: 20px 5%;
     img {
         height: 12px;
-        margin: 0 auto 20px;
+        margin: 0 auto 10px;
         display: block;
     }
     p {
@@ -710,14 +710,15 @@ export default {
         line-height: 17px;
         text-align: justify;
         color: #999999;
-        margin-bottom: 20px;
+        margin-bottom: 14px;
     }
     a {
         text-align: center;
         font-size: 12px;
         display: block;
         padding-bottom: 20px;
-        color: $hk-text-line-color;
+        color: rgba(25, 25, 25, 0.45);
+        text-decoration: underline;
     }
 }
 .swipper-img {

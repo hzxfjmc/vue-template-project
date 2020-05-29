@@ -167,6 +167,7 @@ export default {
         padding: 0 14px;
         border-top-left-radius: 5px;
         // color: #fff;
+        font-weight: bold;
         line-height: 57px;
         border-top-right-radius: 5px;
         font-size: 20px;

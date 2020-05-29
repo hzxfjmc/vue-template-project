@@ -28,11 +28,16 @@
         height:120px;
         display: flex;
         align-items: center;
+        border-bottom:1px solid rgba(255,255,255,0.1);
         padding:0 20px;
         justify-content: space-between;
         .block--left{
             font-size:20px;
+           
             color:#fff;
+            p{
+                font-weight:bolder;
+            }
         }
         .block--right{
             width:142px;
@@ -53,6 +58,9 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                .iconfont{
+                    margin:0 -5px 0 0;
+                }
             }
         }
     }
@@ -88,7 +96,7 @@
             line-height:36px;
         }
         .subtitle{
-            color:rgba(255, 255, 255, 0.6)
+            color:rgba(255, 255, 255, 0.4)
         }
        
     }
@@ -115,6 +123,7 @@
             }
             span{
                 color:#fff;
+                font-weight:bold;
             }
         }
         .block__right {
@@ -162,7 +171,7 @@
             flex-direction: column;
             flex:1;
             p{
-                color:rgba(255,255,255,0.6);
+                color:rgba(255,255,255,0.4);
             }
         }
         .block--element--number {
@@ -195,8 +204,11 @@
             font-size: 14px;
             padding:0 5px;
             font-weight: 600;
-            margin: 10px 0 0 5px;
+            margin: 10px 0 0 6px;
             position: relative;
+            span{
+                margin:0 0 0 3px;
+            }
             .icon-iconxiala {
                 margin: 0 0 0 5px;
                 color:rgba(255,255,255,0.4);
@@ -251,14 +263,20 @@
             }
         }
     }
+    .border-top-left{
+        border-top:1px solid rgba(255,255,255,0.1)
+    }
     .block__left__bottom{
         display: flex;
         height:42px;
         width:100%;
         align-items: center;
-        padding:0 10px;
+        padding:0 15px;
         justify-content: space-between;
         flex-direction: row;
+        .border-right-r{
+            border-right:1px solid rgba(255,255,255,0.1)
+        }
         .block__bottom--l,.block__bottom-r{
             display: flex;
             flex-direction: row;
@@ -293,7 +311,7 @@
             // border-right:1px solid #ebedf0;
         }
         .block__bottom-r{
-            padding:0 0 0 11px;
+            padding:0 0 0 22px;
         }
     }
     .text-align{
@@ -329,7 +347,7 @@
     background: #f7f7f7;
     display: flex;
     flex-direction: column;
-    padding: 0 0 20px 0;
+    // padding: 0 0 0 0;
     .block-bannar {
         width: 90%;
         margin: 0 5%;
@@ -348,7 +366,10 @@
     .block-bannar-sub-swiper{
         // width:100%;
         // margin:0 12px;
-        margin:20px 12px;
+        margin:0px 12px 0 12px;
+        .van-swipe{
+            border-radius:4px;
+        }
         img {
             width: 100%;
         }
@@ -380,10 +401,13 @@
     height: 65px;
     width: 70px;
 }
+.van-swipe-item{
+    border-radius:4px;
+}
 .block--yxbao-container {
     width: 351px;
     height: 140px;
-    margin: 10px 12px 0 12px;
+    margin: 6px 12px 10px 12px;
     background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
     background-size: 100% 100%;
     border-radius: 6px;

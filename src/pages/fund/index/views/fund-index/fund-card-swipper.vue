@@ -89,6 +89,7 @@ export default {
         height: 230px;
         .block--tilte {
             margin: 43px 0 0 0;
+            font-weight: bold;
             font-size: 18px;
         }
         .block--desc {
@@ -103,10 +104,12 @@ export default {
             font-weight: 400;
             color: rgba(25, 25, 25, 0.45);
             line-height: 20px;
+            margin: 2px 0 0 0;
         }
         .block--fund-num {
             font-size: 26px;
             line-height: 33px;
+            margin: 8px 0 0 0;
             font-family: yxFontDINPro-Medium;
         }
         .van-button {
@@ -114,6 +117,8 @@ export default {
             height: 44px;
             margin: 8px 0 0 0;
             color: #fff;
+            font-size: 14px;
+            font-weight: bold;
             background: #2971f0;
             border: none;
         }
