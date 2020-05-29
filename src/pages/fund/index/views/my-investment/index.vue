@@ -8,7 +8,7 @@
         v-model="active" 
         sticky
         swipeable) 
-        van-tab(title="定投计划")
+        van-tab(:title="$t(['定投计划','定投計劃','AIP'])")
             van-list.order-record-list(
                 v-model="loading" 
                 :finished="finished" 
@@ -35,7 +35,7 @@
                         .flex-item
                             .top {{$t('A83')}}
                             .bottom {{item.fixedPlanAmount}}
-        van-tab(title="历史计划")
+        van-tab(:title="$t(['历史计划','歷史計劃','Historical Plan'])")
             van-list.order-record-list(
                 v-model="recordLoading" 
                 :finished="recordFinished" 
