@@ -27,31 +27,36 @@ export const zhCHS = {
             registration: 'A1',
             riskStyle: '保守型',
             suitPro: '低风险产品',
-            type: '低风险'
+            type: '低风险',
+            registrationType: 'R1'
         },
         2: {
             registration: 'A2',
             riskStyle: '稳健型',
             suitPro: '中低风险产品',
-            type: '中低风险'
+            type: '中低风险',
+            registrationType: 'R2'
         },
         3: {
             registration: 'A3',
             riskStyle: '均衡型',
             suitPro: '中风险产品',
-            type: '中风险'
+            type: '中风险',
+            registrationType: 'R3'
         },
         4: {
             registration: 'A4',
             riskStyle: '增长型',
             suitPro: '中高风险产品',
-            type: '中高风险'
+            type: '中高风险',
+            registrationType: 'R4'
         },
         5: {
             registration: 'A5',
             riskStyle: '进取型',
             suitPro: '高风险产品',
-            type: '高风险'
+            type: '高风险',
+            registrationType: 'R5'
         }
     },
     Equity: '股票型',
