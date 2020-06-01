@@ -263,7 +263,7 @@ export default {
                     flex-direction: row;
                     span {
                         padding: 0 3px 0 3px;
-                        font-size: 12px;
+                        font-size: 10px;
                         color: $text-color6;
                         display: inline-block;
                         position: relative;
@@ -272,8 +272,8 @@ export default {
                     span::after {
                         content: '';
                         background: $text-color6;
-                        height: 12px;
-                        right: -1px;
+                        height: 11px;
+                        right: 0px;
                         top: 2px;
                         position: absolute;
                         width: 1px;

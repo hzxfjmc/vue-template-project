@@ -732,7 +732,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-@import './index.scss';
 .fund-echart-render {
     height: 65px;
     width: 70px;

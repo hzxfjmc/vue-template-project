@@ -54,7 +54,7 @@
             margin:-20px 0 0 0;
             .block--button{
                 height:30px;
-                padding:0 5px;
+                padding:0 10px;
                 background:#fff;
                 border-radius:15px;
                 position: absolute;
@@ -68,8 +68,7 @@
                 .iconfont{
                     // margin:0 -5px 0 0;
                     color:rgba(13,80,216,1);
-                    // color:rgba(255,255,255,0.4);
-                    margin:0 0 0 5px;
+                    margin:0 -3px 0 0px;
                 }
             }
         }
@@ -518,4 +517,19 @@
 .block__header--linear{
     width:100%;
     background:linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
+}
+
+.van-hairline--surround::after{
+    position: absolute;
+    box-sizing: border-box;
+    content: ' ';
+    pointer-events: none;
+    top: -50%;
+    right: -58%;
+    bottom: -50%;
+    left: -58%;
+    // border: 0 solid #ebedf0;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    // border:1px solid red;
 }
