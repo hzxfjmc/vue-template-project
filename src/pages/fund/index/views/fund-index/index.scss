@@ -413,7 +413,7 @@
     height: 140px;
     margin: 10px 12px 0 12px;
     background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
-    background-size: 105% 90%;
+    background-size: 105% 92%;
     border-radius: 6px;
     display: flex;
     flex-direction: column;
@@ -437,7 +437,7 @@
         line-height: 28px;
     }
     .block--desc_en{
-        font-size:0.1rem;
+        font-size:10px;
     }
     .block--bottom-content {
         width: 331px;
@@ -446,7 +446,7 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        margin: 10px 0 0 0;
+        margin: 3px 0 0 0;
         border-radius:4px;
         background:rgba(255,244,238,1);
         .block--desc{
