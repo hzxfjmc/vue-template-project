@@ -244,7 +244,7 @@ export default {
             risk: '風險提示',
             append: '續投',
             trade: '交易記錄',
-            login: '請登陸後進行操作 ',
+            login: '請登錄後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
             openAccount: '您尚未開戶，開戶成功即可交易',
