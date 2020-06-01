@@ -27,7 +27,7 @@
     border-radius:8px;
     display: flex;
     color:#fff;
-    height:156px;
+    // height:156px;
     flex-direction: column;
     .block--assets--header{
         width:100%;
@@ -174,6 +174,7 @@
         justify-content: space-between;
         // align-items: center;
         padding:10px 15px 5px 15px;
+        height:70px;
         width: 100%;
         .block__left--num{
             display: flex;
