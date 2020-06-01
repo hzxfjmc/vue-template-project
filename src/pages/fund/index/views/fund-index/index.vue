@@ -516,7 +516,7 @@ export default {
                             ])
                             item.riskLevel = this.$t('resultList')[
                                 items.riskLevel
-                            ].registrationType
+                            ].type
                         }
                     })
                     const arrList = {
@@ -639,9 +639,7 @@ export default {
                     item.dividendType == 2
                         ? this.$t('DIVIDEND')
                         : this.$t('NET_PRICE')
-                item.riskLevel = this.$t('resultList')[
-                    item.riskLevel
-                ].registrationType
+                item.riskLevel = this.$t('resultList')[item.riskLevel].type
                 const arrList = {
                     1: item.assetType,
                     2: item.initialInvestAmount,

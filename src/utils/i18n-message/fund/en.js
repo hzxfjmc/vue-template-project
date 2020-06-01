@@ -27,35 +27,35 @@ export const en = {
             registration: 'A1',
             riskStyle: 'Conservative',
             suitPro: 'Low Risk Products',
-            type: 'Low Rsik',
+            type: 'R1',
             registrationType: 'R1'
         },
         2: {
             registration: 'A2',
             riskStyle: 'Stable',
             suitPro: 'Low - Medium Risk Products',
-            type: 'Medium Low Risk',
+            type: 'R2',
             registrationType: 'R2'
         },
         3: {
             registration: 'A3',
             riskStyle: 'Balanced',
             suitPro: 'Medium Risk Products',
-            type: 'Medium Risk',
+            type: 'R3',
             registrationType: 'R3'
         },
         4: {
             registration: 'A4',
             riskStyle: 'Growth',
             suitPro: 'Medium - High Risk Products',
-            type: 'Medium High Risk',
+            type: 'R4',
             registrationType: 'R4'
         },
         5: {
             registration: 'A5',
             riskStyle: 'Aggressive',
             suitPro: 'High Risk Products',
-            type: 'High Risk',
+            type: 'R5',
             registrationType: 'R5'
         }
     },
