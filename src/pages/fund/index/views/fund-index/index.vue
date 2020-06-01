@@ -447,6 +447,9 @@ export default {
                 res3.banner_list.map(item => {
                     if (item.TagContent) {
                         item.TagContent = JSON.parse(item.TagContent)
+                        item.TagContent.sort((a, b) => {
+                            return a - b
+                        })
                     }
                     if (item.TagType === 2 && item.TagContent) {
                         for (let i of item.TagContent) {
@@ -623,7 +626,6 @@ export default {
                 } else {
                     item.TagList = []
                 }
-
                 item.assetType = AssetsEumn[item.assetType]
                 item.initialInvestAmount = this.$t([
                     `${item.initialInvestAmount}${
@@ -654,6 +656,7 @@ export default {
                     5: item.dividendType
                 }
                 item.systemLabelsList = []
+                item.systemLabels.sort()
 
                 for (let i of item.systemLabels) {
                     item.systemLabelsList.push(arrList[i])

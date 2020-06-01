@@ -176,7 +176,7 @@ export default {
         width: 100%;
         display: flex;
         // margin: 20px 0 0 0;
-        padding: 16px 14px;
+        padding: 14px 14px;
         flex-direction: row;
         .element--fund--content {
             display: flex;

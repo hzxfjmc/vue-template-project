@@ -205,7 +205,7 @@ export default {
         // height: 80px;
         display: flex;
         // border: 1px solid red;
-        padding: 20px 0 10px 0;
+        padding: 14px 0;
         flex-direction: row;
         .element--left--img {
             width: 20px;
