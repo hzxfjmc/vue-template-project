@@ -37,8 +37,8 @@ export default {
                     `${Number(fundSize / 10000).toFixed(2)}万${curreyType}${
                         type === 1 ? '规模' : ''
                     }`,
-                    `${Number(fundSize / 10000).toFixed(2)}万${curreyType}${
-                        type === 1 ? '规模' : ''
+                    `${Number(fundSize / 10000).toFixed(2)}萬${curreyType}${
+                        type === 1 ? '規模' : ''
                     }`
                 ])
             }
@@ -48,7 +48,7 @@ export default {
                         type === 1 ? '规模' : ''
                     }`,
                     `${Number(fundSize / 100000000).toFixed(2)}億${curreyType}${
-                        type === 1 ? '规模' : ''
+                        type === 1 ? '規模' : ''
                     }`
                 ])
             }
