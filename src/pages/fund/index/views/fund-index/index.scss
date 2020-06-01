@@ -350,6 +350,7 @@
 .block__container {
     width: 100%;
     display: flex;
+    background: #f3f3f3;
     flex-direction: column;
     .block-bannar {
         width: 90%;
@@ -378,6 +379,7 @@
             border-radius:4px;
         }
     }
+   
     .block-bannar-sub{
         margin:14px 0 0 0;
         width:100%;
@@ -400,7 +402,12 @@
         white-space:pre-line;
     }
 }
-
+.second__bannar{
+    margin:10px 12px 0 12px;
+    img{
+        border-radius:4px;
+    }
+}
 .fund-echart-render {
     height: 65px;
     width: 70px;
@@ -413,7 +420,7 @@
     height: 140px;
     margin: 10px 12px 0 12px;
     background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
-    background-size: 105% 92%;
+    background-size: 105% 100%;
     border-radius: 6px;
     display: flex;
     flex-direction: column;
@@ -425,16 +432,17 @@
         h3 {
             font-size: 18px;
             color:rgba(25,25,25,1);
+            font-weight:bold;
         }
         .iconfont {
             font-size: 14px;
-            margin: 5px 0 0 5px;
-            color:rgba(25,25,25,0.45);
+            margin: 0px 0 0 5px;
+            color:rgba(25,25,25,0.8);
         }
     }
     .block--desc {
         color:rgba(25,25,25,1);
-        line-height: 28px;
+        line-height: 35px;
     }
     .block--desc_en{
         font-size:10px;
@@ -446,7 +454,7 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        margin: 3px 0 0 0;
+        margin: 4px 0 0 0;
         border-radius:4px;
         background:rgba(255,244,238,1);
         .block--desc{
@@ -463,9 +471,9 @@
         }
         .van-button {
             // width: 80px;
-            height: 32px !important;
+            height: 27px !important;
             padding:0 10px;
-            line-height: 32px;
+            line-height: 27px;
             font-size: 12px;
             color: #fff;
             border-radius: 3px !important;
@@ -484,4 +492,9 @@
 
 .van-dialog__message--left{
     text-align: justify;
+}
+
+.block__header--linear{
+    width:100%;
+    background:linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
 }

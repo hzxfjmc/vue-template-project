@@ -2,106 +2,112 @@
 div
     .block-fund-index
         template
-            .block-hr
-            .block__assets(v-if="isLogin && openedAccount")
-                .block__top
-                    .block__left--label 
-                        span {{$t('protfolloAssets')}}
-                        em(
-                            class="iconfont" 
-                            @click="hideNumber"
-                            :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
-                    .block__right(@click="handlerDialog")
-                        span {{$t('aboutAssets')}}
-                        em(class="iconfont icon-icon_fund_index_2")
-                .block__left--number
-                    .block__left--num
-                        p {{$t('TotalAssets')}}
-                        .block__list-es
-                            .block--element--number.color-black(
-                                v-if="moneyShow") {{currentPostion.positionTotalAmount|transNumToThousandMark}}
-                            .block--element--number.close--eye(v-else) ******
-                            .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
-                                span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
-                                em(class="iconfont icon-iconxiala" @click="handlerCurrency")
-                                .block--master(
-                                    v-if="chooseCurrencyShow" 
-                                    @click="chooseCurrencyShow = !chooseCurrencyShow")
-                                .block__currey(v-if="chooseCurrencyShow")
-                                    span.border-bottom(
-                                        @click="chooseCurrency(0)"
-                                        :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
-                                    span(
-                                        @click="chooseCurrency(1)"
-                                        :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
+            .block__header--linear
+                .block-hr
+                .block__assets(v-if="isLogin && openedAccount")
+                    .block__top
+                        .block__left--label 
+                            span {{$t('protfolloAssets')}}
+                            em(
+                                class="iconfont" 
+                                @click="hideNumber"
+                                :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
+                        .block__right(@click="handlerDialog")
+                            span {{$t('aboutAssets')}}
+                            em(class="iconfont icon-icon_fund_index_2")
+                    .block__left--number
+                        .block__left--num
+                            p {{$t('TotalAssets')}}
+                            .block__list-es
+                                .block--element--number.color-black(
+                                    v-if="moneyShow") {{currentPostion.positionTotalAmount|transNumToThousandMark}}
+                                .block--element--number.close--eye(v-else) ******
+                                .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
+                                    span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
+                                    em(class="iconfont icon-iconxiala" @click="handlerCurrency")
+                                    .block--master(
+                                        v-if="chooseCurrencyShow" 
+                                        @click="chooseCurrencyShow = !chooseCurrencyShow")
+                                    .block__currey(v-if="chooseCurrencyShow")
+                                        span.border-bottom(
+                                            @click="chooseCurrency(0)"
+                                            :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
+                                        span(
+                                            @click="chooseCurrency(1)"
+                                            :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
 
-                    .block__right--yes
-                        p.subtitle {{$t('SevenDayIncome')}}
-                        p.num(
-                            v-if="moneyShow && currentPostion.weekEarnings>0" ) +{{currentPostion.weekEarnings|transNumToThousandMark}}
-                        p.num(
-                            v-if="moneyShow && currentPostion.weekEarnings<0" ) {{currentPostion.weekEarnings|transNumToThousandMark}}
-                        p.num(
-                            v-if="moneyShow && currentPostion.weekEarnings==0") {{currentPostion.weekEarnings|transNumToThousandMark}}
-                        p.num(v-if="!moneyShow") ****
-                
-                .block__left__bottom.border-top-left(v-if="!isWhiteUserBit") 
-                    .block__bottom--l.border-right-r(@click="toRouterAccount")
-                        p {{$t('fund')}}
-                            em.num(v-if="moneyShow") {{currentPostion.fundPositionAmount|transNumToThousandMark}}
-                            em(v-else) ****
-                            em.iconfont.icon-previewright
-                    .block__bottom-r(@click="toYxbao")
-                        p {{$t('uMoney')}}
-                            em.num(v-if="moneyShow && !isWhiteUserBit") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
-                            em(v-if="!moneyShow && !isWhiteUserBit") ****
-                            em.word(v-if="isWhiteUserBit")  {{$t('tips')}}
-                            em.iconfont.icon-previewright(v-if="!isWhiteUserBit")
-                .block__left__bottom.border-top.text-align(
-                    v-else
-                    @click="toRouterAccount")
-                    span {{$t('holdData')}}
-                    em.iconfont.icon-previewright
-            .block__assets(v-else)
-                .block--assets--header
-                    .block--left
-                        p {{$t('descFund')}}
-                        p {{$t('descFund1')}}
-                    .block--right(
-                        v-if="!isLogin" 
+                        .block__right--yes
+                            p.subtitle {{$t('SevenDayIncome')}}
+                            p.num(
+                                v-if="moneyShow && currentPostion.weekEarnings>0" ) +{{currentPostion.weekEarnings|transNumToThousandMark}}
+                            p.num(
+                                v-if="moneyShow && currentPostion.weekEarnings<0" ) {{currentPostion.weekEarnings|transNumToThousandMark}}
+                            p.num(
+                                v-if="moneyShow && currentPostion.weekEarnings==0") {{currentPostion.weekEarnings|transNumToThousandMark}}
+                            p.num(v-if="!moneyShow") ****
+                    
+                    .block__left__bottom.border-top-left(v-if="!isWhiteUserBit") 
+                        .block__bottom--l.border-right-r(@click="toRouterAccount")
+                            p {{$t('fund')}}
+                                em.num(
+                                    v-if="moneyShow"
+                                    :style="h2Style"
+                                    ) {{currentPostion.fundPositionAmount|transNumToThousandMark}}
+                                em(v-else) ****
+                                em.iconfont.icon-previewright
+                        .block__bottom-r(@click="toYxbao")
+                            p {{$t('uMoney')}}
+                                em.num(
+                                    v-if="moneyShow && !isWhiteUserBit"
+                                    :style="h2baoPositionAmountStyle") {{currentPostion.baoPositionAmount|transNumToThousandMark}}
+                                em(v-if="!moneyShow && !isWhiteUserBit") ****
+                                em.word(v-if="isWhiteUserBit")  {{$t('tips')}}
+                                em.iconfont.icon-previewright(v-if="!isWhiteUserBit")
+                    .block__left__bottom.border-top.text-align(
+                        v-else
                         @click="toRouterAccount")
-                        .block--button
-                            span {{$t('LoginNow')}}
-                            em.iconfont.icon-iconEBgengduoCopy
-                    .block--right(
-                        v-else 
-                        @click="toRouterAccount")
-                        .block--button
-                            span {{$t('OpenAccount')}}
-                            em.iconfont.icon-iconEBgengduoCopy
-                .block__assets--bottom
-                    p {{$t('types')}}
-    
-        .block__tab
-            .block__tab--list
-                .block__tab--Item(
-                    @click="handlerNavItem(item)"
-                    v-for="(item,index) in tabList" 
-                    :key="index") 
-                    img(:src="item.imgUrl1") 
-                    span {{item.label}}
+                        span {{$t('holdData')}}
+                        em.iconfont.icon-previewright
+                .block__assets(v-else)
+                    .block--assets--header
+                        .block--left
+                            p {{$t('descFund')}}
+                            p {{$t('descFund1')}}
+                        .block--right(
+                            v-if="!isLogin" 
+                            @click="toRouterAccount")
+                            .block--button
+                                span {{$t('LoginNow')}}
+                                em.iconfont.icon-iconEBgengduoCopy
+                        .block--right(
+                            v-else 
+                            @click="toRouterAccount")
+                            .block--button
+                                span {{$t('OpenAccount')}}
+                                em.iconfont.icon-iconEBgengduoCopy
+                    .block__assets--bottom
+                        p {{$t('types')}}
         
+                .block__tab
+                    .block__tab--list
+                        .block__tab--Item(
+                            @click="handlerNavItem(item)"
+                            v-for="(item,index) in tabList" 
+                            :key="index") 
+                            img(:src="item.imgUrl1") 
+                            span {{item.label}}
+                .block-bannar-sub-swiper.second__bannar(v-if="barnnarList1.length !== 0")
+                        van-swipe(:autoplay="3000")  
+                            van-swipe-item(
+                                v-for="(item, index) in barnnarList1" 
+                                @click="goBanner(item)"
+                                :key="index") 
+                                img(:src="item.picture_url") 
+                FundCardSwipper(
+                    v-if="fundBarnnarList.length != 0"
+                    :fundBarnnarList="fundBarnnarList")
         .block__container
-            .block-bannar-sub-swiper(v-if="barnnarList1.length !== 0")
-                van-swipe(:autoplay="3000")  
-                    van-swipe-item(
-                        v-for="(item, index) in barnnarList1" 
-                        @click="goBanner(item)"
-                        :key="index") 
-                        img(:src="item.picture_url") 
-            FundCardSwipper(
-                v-if="fundBarnnarList.length != 0"
-                :fundBarnnarList="fundBarnnarList")
+            
             .block--yxbao-container.margin_top(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
@@ -213,7 +219,31 @@ export default {
         stockColorType() {
             return +getStockColorType()
         },
-        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount'])
+        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount']),
+        h2Style() {
+            // 名称字体变化策略
+            let fundName = this.currentPostion.fundPositionAmount || ''
+            if (fundName.length > 13) {
+                return {
+                    fontSize: '12px'
+                }
+            }
+            return {
+                fontSize: '14px'
+            }
+        },
+        h2baoPositionAmountStyle() {
+            // 名称字体变化策略
+            let fundName = this.currentPostion.baoPositionAmount || ''
+            if (fundName.length > 13) {
+                return {
+                    fontSize: '12px'
+                }
+            }
+            return {
+                fontSize: '14px'
+            }
+        }
     },
     data() {
         return {
@@ -725,7 +755,7 @@ export default {
 .swipper-img {
     width: 100%;
 }
-.block-bannar-sub-swiper {
-    margin: 6px 0 0 0;
-}
+// .block-bannar-sub-swiper {
+//     margin: 6px 0 0 0;
+// }
 </style>
