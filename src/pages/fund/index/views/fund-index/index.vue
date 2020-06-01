@@ -2,6 +2,7 @@
 div
     .block-fund-index
         template
+            .block-hr
             .block__assets(v-if="isLogin && openedAccount")
                 .block__top
                     .block__left--label 
@@ -101,11 +102,12 @@ div
             FundCardSwipper(
                 v-if="fundBarnnarList.length != 0"
                 :fundBarnnarList="fundBarnnarList")
-            .block--yxbao-container(v-if="!isWhiteUserBit")
+            .block--yxbao-container.margin_top(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
                     em.iconfont.icon-attention(@click="handlerDesc")
-                p.block--desc {{$t('stockRedemption')}}
+                p.block--desc(v-if="lang != 'en'") {{$t('stockRedemption')}}
+                p.block--desc.block--desc_en(v-else) {{$t('stockRedemption')}}
                 .block--bottom-content(@click="toYxbao")
                     .left
                         .number(
@@ -228,11 +230,11 @@ export default {
             robustFundListShow: false,
             tabList: [
                 {
-                    imgUrl: require('@/assets/img/fund/icon_money.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
-                    label: '貨幣型',
-                    key: 'fundCurrency',
-                    value: '4'
+                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
+                    label: '股票型',
+                    key: 'fundShares',
+                    value: '1'
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
@@ -249,11 +251,11 @@ export default {
                     value: '3'
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
-                    label: '股票型',
-                    key: 'fundShares',
-                    value: '1'
+                    imgUrl: require('@/assets/img/fund/icon_money.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
+                    label: '貨幣型',
+                    key: 'fundCurrency',
+                    value: '4'
                 }
             ],
             choiceFundList: {}, //精选基金
@@ -461,7 +463,6 @@ export default {
                                 items.dividendType == 2
                                     ? this.$t('DIVIDEND')
                                     : this.$t('NET_PRICE')
-                            console.log(items.fundSize)
                             item.fundSize = this.changeFundSizeLang(
                                 items.fundSize,
                                 items.fundSizeCurrency

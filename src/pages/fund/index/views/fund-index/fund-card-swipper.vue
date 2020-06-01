@@ -44,7 +44,7 @@ export default {
             nav: '漲跌幅'
         },
         en: {
-            nav: 'Chg%'
+            nav: ''
         }
     },
     props: {

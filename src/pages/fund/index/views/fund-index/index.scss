@@ -11,12 +11,17 @@
 .block-fund-index{
     background:linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
 }
+.block-hr{
+    width:100%;
+    height:10px;
+}
 .block__assets {
     width: 351px;
     // height:160px;
-    position: relative;
+    // position: relative;
     z-index: 999;
-    margin: 10px 12px 0 12px;
+    margin: 0px 12px 0 12px;
+    padding:10px 0 0 0;
     background:linear-gradient(176deg,rgba(72,156,255,1) 0%,rgba(32,102,237,1) 100%);
     box-shadow:0px 2px 4px 0px rgba(57,57,57,0.2);
     border-radius:8px;
@@ -48,7 +53,6 @@
             .block--button{
                 height:30px;
                 padding:0 5px;
-                width:90px;
                 background:#fff;
                 border-radius:15px;
                 position: absolute;
@@ -345,10 +349,8 @@
 }
 .block__container {
     width: 100%;
-    background: #f7f7f7;
     display: flex;
     flex-direction: column;
-    // padding: 0 0 0 0;
     .block-bannar {
         width: 90%;
         margin: 0 5%;
@@ -358,21 +360,22 @@
     }
     .block-bannar-sub {
         height:85px;
+        border-radius:4px;
         img {
             width: 100%;
             height:100%;
+            border-radius:4px;
         }
         
     }
     .block-bannar-sub-swiper{
-        // width:100%;
-        // margin:0 12px;
-        margin:0px 12px 0 12px;
+        margin:10px 12px 0 12px;
         .van-swipe{
             border-radius:4px;
         }
         img {
             width: 100%;
+            border-radius:4px;
         }
     }
     .block-bannar-sub{
@@ -408,7 +411,7 @@
 .block--yxbao-container {
     width: 351px;
     height: 140px;
-    margin: 0 12px 0 12px;
+    margin: 10px 12px 0 12px;
     background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
     background-size: 100% 100%;
     border-radius: 6px;
@@ -426,12 +429,15 @@
         .iconfont {
             font-size: 14px;
             margin: 5px 0 0 5px;
-            color: rgba(255, 255, 255, 0.6);
+            color:rgba(25,25,25,0.45);
         }
     }
     .block--desc {
         color:rgba(25,25,25,1);
         line-height: 28px;
+    }
+    .block--desc_en{
+        font-size:10px;
     }
     .block--bottom-content {
         width: 331px;
@@ -440,9 +446,12 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        margin: 7px 0 0 0;
+        margin: 10px 0 0 0;
         border-radius:4px;
         background:rgba(255,244,238,1);
+        .block--desc{
+            line-height: 40px;
+        }
         .number {
             font-size: 20px;
             font-family: yxFontDINPro-Medium;
