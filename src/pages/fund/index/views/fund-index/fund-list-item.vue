@@ -173,10 +173,11 @@ export default {
         font-size: 20px;
     }
     .block__fund--list {
-        width: 100%;
+        // width: 100%;
         display: flex;
         // margin: 20px 0 0 0;
         padding: 14px 14px;
+        margin: 0 12px;
         flex-direction: row;
         .element--fund--content {
             display: flex;

@@ -201,11 +201,12 @@ export default {
         padding: 0 0 0 12px;
     }
     .block__fund--list {
-        width: 100%;
+        // width: 100%;
         // height: 80px;
         display: flex;
         // border: 1px solid red;
         padding: 14px 0;
+        margin: 0 12px;
         flex-direction: row;
         .element--left--img {
             width: 20px;
@@ -264,13 +265,24 @@ export default {
                         padding: 0 3px 0 3px;
                         font-size: 12px;
                         color: $text-color6;
-                        border-right: 1px solid #e1e1e1;
+                        display: inline-block;
+                        position: relative;
+                        // border-right: 1px solid #e1e1e1;
+                    }
+                    span::after {
+                        content: '';
+                        background: $text-color6;
+                        height: 12px;
+                        right: -1px;
+                        top: 2px;
+                        position: absolute;
+                        width: 1px;
                     }
                     span:first-child {
                         padding: 0 3px 0 0;
                     }
-                    span:last-child {
-                        border: none;
+                    span:last-child::after {
+                        width: 0;
                     }
                 }
             }
