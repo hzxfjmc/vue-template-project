@@ -439,7 +439,6 @@ export default {
                         12: 'December'
                     }
                     this.date = `${day} ${MONTHEUMC[month]}`
-                    console.log(month)
                 }
             } catch (e) {
                 this.$toast(e.msg)
