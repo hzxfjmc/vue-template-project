@@ -498,17 +498,23 @@ export default {
                                 items.fundSizeCurrency
                             )
                             item.initialInvestAmount = this.$t([
-                                `${items.initialInvestAmount}${
+                                `${transNumToThousandMark(
+                                    items.initialInvestAmount
+                                )}${
                                     CURRENCY_NAME[this.lang][
                                         items.tradeCurrency
                                     ]
                                 }起`,
-                                `${items.initialInvestAmount}${
+                                `${transNumToThousandMark(
+                                    items.initialInvestAmount
+                                )}${
                                     CURRENCY_NAME[this.lang][
                                         items.tradeCurrency
                                     ]
                                 }起`,
-                                `Min. ${items.initialInvestAmount}${
+                                `Min. ${transNumToThousandMark(
+                                    items.initialInvestAmount
+                                )}${
                                     CURRENCY_NAME[this.lang][
                                         items.tradeCurrency
                                     ]

@@ -21,7 +21,7 @@
     // position: relative;
     z-index: 999;
     margin: 0px 12px 0 12px;
-    padding:10px 0 0 0;
+    // padding:10px 0 0 0;
     background:linear-gradient(176deg,rgba(72,156,255,1) 0%,rgba(32,102,237,1) 100%);
     box-shadow:0px 2px 4px 0px rgba(57,57,57,0.2);
     border-radius:8px;
@@ -67,7 +67,8 @@
                 justify-content: center;
                 .iconfont{
                     // margin:0 -5px 0 0;
-                    color:rgba(255,255,255,0.4);
+                    color:rgba(13,80,216,1);
+                    // color:rgba(255,255,255,0.4);
                     margin:0 0 0 5px;
                 }
             }
@@ -344,7 +345,7 @@
 }
 .block__tab {
     width: 100%;
-    margin: 20px 0 10px 0;
+    margin: 20px 0 0 0;
     .block__tab--list {
         display: flex;
         flex-direction: row;
