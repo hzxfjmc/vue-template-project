@@ -142,7 +142,7 @@ export default {
                 this.planTotla = total
                 this.loading = false
                 let EnumChargeType = {
-                    1: '证券账户',
+                    1: this.$t(['证券账户', '證券帳戶', 'Securities Account']),
                     2: 'edda'
                 }
                 this.list.map(item => {

@@ -95,7 +95,7 @@ export default {
             dialogTitle: '',
             dialogMessage: '',
             cancelButtonText: this.$t('cancelButton'),
-            confirmButtonText: this.$t('确认', '確認', 'Confirm'),
+            confirmButtonText: this.$t(['确认', '確認', 'Confirm']),
             statusValue: '',
             fundHeaderInfoVO: {},
             investmentInfo: {},

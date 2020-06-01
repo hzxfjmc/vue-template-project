@@ -67,7 +67,7 @@
                         .item--content 
                             .item--left.item--block--wrapper {{fixedCycleTypeObj.key[0]}} {{fixedCycleTypeObj.key[1]}}
                                 .item--right.iconfont.icon-iconEBgengduoCopy
-                            p {{$t([`下个转入日${date}`,`下個轉入日${date}`,`Next Debit Date${date}`])}}
+                            p {{$t([`下个转入日${date}`,`下個轉入日${date}`,`Next Debit Date ${date}`])}}
                            
                         
             .fund-footer-content
@@ -414,7 +414,33 @@ export default {
                     data.fixedCycleValue = this.$route.query.fixedCycleValue
                 }
                 const res = await getRecentDeductionDate(data)
-                this.date = dayjs(res).format('MM月DD日')
+                if (this.lang != 'en') {
+                    this.date = dayjs(res).format(
+                        this.$t(['MM月DD日', 'MM月DD日'])
+                    )
+                } else {
+                    let month = new Date(res).getMonth()
+                    let day = new Date(res).getDay()
+                    if (day < 10) {
+                        day = `0${day}`
+                    }
+                    const MONTHEUMC = {
+                        1: 'January',
+                        2: 'February',
+                        3: 'March',
+                        4: 'April',
+                        5: 'May',
+                        6: 'June',
+                        7: 'July',
+                        8: 'August',
+                        9: 'September',
+                        10: 'October',
+                        11: 'November',
+                        12: 'December'
+                    }
+                    this.date = `${day} ${MONTHEUMC[month]}`
+                    console.log(month)
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }
