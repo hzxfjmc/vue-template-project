@@ -7,6 +7,7 @@
         :code ="code"
         :inTransitOrder="inTransitOrder"
         :holdData="holdData")
+    .fund--list--wrapper
         fundList(
             slot="fundList"
             bgColor="#0091FF"
@@ -227,5 +228,9 @@ export default {
         color: rgba(25, 25, 25, 0.5);
         margin: 10px 0 0 0;
     }
+}
+.fund--list--wrapper {
+    margin: 50px 0;
+    width: 100%;
 }
 </style>

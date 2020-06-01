@@ -165,13 +165,22 @@ export default {
                         currencyType: this.$route.query.currencyType,
                         assessResult:
                             this.userInfo && this.userInfo.assessResult,
-                        fundCode: this.fundCode
+                        fundCode: this.fundCode,
+                        code: this.$route.query.cod
                     }
                 }
-                data.path =
-                    (this.userInfo.extendStatusBit & 16) > 0
-                        ? '/fund-subscribe'
-                        : '/open-permissions'
+                if (this.$route.query.code === 4) {
+                    data.path =
+                        (this.userInfo.extendStatusBit & 16) > 0
+                            ? '/fixed-investment'
+                            : '/open-permissions'
+                } else {
+                    data.path =
+                        (this.userInfo.extendStatusBit & 16) > 0
+                            ? '/fund-subscribe'
+                            : '/open-permissions'
+                }
+
                 this.$router.push(data)
             } catch (e) {
                 console.log(e)

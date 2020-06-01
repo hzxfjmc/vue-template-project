@@ -84,7 +84,7 @@ export const fundOrderDetail = params => {
 
 // 撤单
 export const cancelFundOrder = params => {
-    return axios.post(`/finance-server/api/cancel-fund-order/v1`, params)
+    return axios.post(`/finance-server/api/cancel-fund-order/v2`, params)
 }
 
 //获取当前客户持仓收益列表
@@ -120,6 +120,36 @@ export const getFundPositionListV3 = () => {
     return axios.post(`/finance-server/api/get-fund-position-list/v3`)
 }
 
+//创建定投计划
+export const hanlderCreateFundFixedPlan = params => {
+    return axios.post(`/finance-server/api/create-fund-fixed-plan/v1`, params)
+}
+
+//定投计划列表详情
+export const getFundFixedPlanDetail = params => {
+    return axios.post(`/finance-server/api/fund-fixed-plan-detail/v1`, params)
+}
+
+//定投计划列表
+export const getFundFixedPlanPage = params => {
+    return axios.post(`/finance-server/api/fund-fixed-plan-page/v1`, params)
+}
+
+//修改定投计划
+export const getUpdateFundFixedPlanInfo = params => {
+    return axios.post(
+        `/finance-server/api/update-fund-fixed-plan-info/v1`,
+        params
+    )
+}
+
+//修改定投计划状态
+export const getUpdateFundFixedPlanStatus = params => {
+    return axios.post(
+        `/finance-server/api/update-fund-fixed-plan-status/v1`,
+        params
+    )
+}
 //友信获取客户持仓
 export const getBaoPostion = params => {
     return axios.post(`/finance-server/api/get-bao-position/v1`, params)
@@ -143,4 +173,19 @@ export const getBaoCapitalTradeDetails = params => {
 //获取当前客户基金总持仓(包含余额宝)
 export const getFundTotalPosition = params => {
     return axios.post(`/finance-server/api/get-fund-total-position/v1`, params)
+}
+
+//获取最近的扣款日
+export const getRecentDeductionDate = params => {
+    return axios.post(`/finance-server/api/recent-deduction-date/v1`, params)
+}
+
+//定投记录列表
+export const getFundFixedRecordPage = params => {
+    return axios.post(`/finance-server/api/fund-fixed-record-page/v1`, params)
+}
+
+//获取当前客户基金分组收益
+export const getFundGroupEarnings = params => {
+    return axios.post(`/finance-server/api/get-fund-group-earnings/v1`, params)
 }

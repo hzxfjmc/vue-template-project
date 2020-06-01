@@ -57,6 +57,7 @@ html {
 .text-color3 {
   color: $text-color3;
 }
+
 .flex-fixed {
   display: flex;
   flex-direction: column;
@@ -147,4 +148,11 @@ html {
     align-items:center;
     flex-direction: row;
     justify-content: center;
+}
+
+.color-green {
+    color: #04ba60;
+}
+.color-red {
+    color: #ea3d3d;
 }

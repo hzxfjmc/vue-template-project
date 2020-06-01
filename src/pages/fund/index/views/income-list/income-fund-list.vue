@@ -1,0 +1,141 @@
+<template lang="pug">
+.block__fund-list--wrapper
+    .block__header--apy
+        .block__left--num
+            span 港币持仓收益(港币)
+            .num(
+                v-if="holdStateData.earnings>0"
+                :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{holdStateData.earnings|transNumToThousandMark}} 
+            .num(
+                v-if="holdStateData.earnings<0"
+                :class="stockColorType === 1 ? 'color-green' : 'color-red'") -{{holdStateData.earnings|transNumToThousandMark}} 
+            .num(v-if="holdStateData.earnings==0") {{holdStateData.earnings|transNumToThousandMark}} 
+    .block__hr
+    .block__list--wrapper
+        .block__list--item.border-bottom(
+            @click="goToHoldFundDetails(item)"
+            v-for="(item,index) in holdStateData.fundGroupEarningsVOList")
+            .block__item
+                .fund-name.ellipse {{item.fundName}}
+                .tag(v-if="item.havePosition") 持仓中
+            .block__item
+                .desc 收益
+                .num {{item.earnings}}
+        .block-element-nomore(v-if="holdStateData.fundGroupEarningsVOList.length === 0")
+            img.img(src="@/assets/img/fund/icon-norecord.png") 
+            .no-record-box {{$t('nomore')}}
+
+</template>
+<script>
+import { transNumToThousandMark } from '@/utils/tools.js'
+import { getStockColorType } from '@/utils/html-utils.js'
+export default {
+    data() {
+        return {
+            noMoreShow: false,
+            list: []
+        }
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
+    },
+    computed: {
+        stockColorType() {
+            return +getStockColorType()
+        }
+    },
+    methods: {
+        goToHoldFundDetails(item) {
+            this.$router.push({
+                name: 'hold-fund-details',
+                query: { id: item.fundId }
+            })
+        }
+    },
+    props: {
+        holdStateData: {
+            type: Object,
+            default: () => {}
+        }
+    },
+    i18n: {
+        zhCHS: {
+            nomore: '暂无收益'
+        },
+        zhCHT: {
+            nomore: '暫無收益'
+        },
+        en: {
+            nomore: 'No Return'
+        }
+    }
+}
+</script>
+<style lang="scss" scoped>
+.block__header--apy {
+    padding: 0 12px;
+    height: 92px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    span {
+        color: rgba(25, 25, 25, 0.45);
+        font-size: 12px;
+    }
+    .num {
+        font-size: 28px;
+        font-family: yxFontDINPro-Bold;
+    }
+    .block__left--num {
+        text-align: left;
+    }
+    .block__right--num {
+        text-align: right;
+    }
+}
+.block__hr {
+    width: 100%;
+    height: 6px;
+    background: #f3f3f3;
+}
+.block__list--wrapper {
+    min-height: 400px;
+}
+.block__list--item {
+    padding: 0 12px;
+    height: 80px;
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+    .block__item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 12px 0 0 0;
+        .desc {
+            color: rgba(25, 25, 25, 0.65);
+        }
+        .tag {
+            border: 1px solid #2f79ff;
+            font-size: 10px;
+            border-radius: 3px;
+            padding: 0 2px;
+            line-height: 20px;
+            color: #2f79ff;
+        }
+    }
+}
+.block-element-nomore {
+    width: 100%;
+    text-align: center;
+    margin: 150px 0 0 0;
+    img {
+        width: 130px;
+    }
+    .no-record-box {
+        color: rgba(25, 25, 25, 0.5);
+        margin: 10px 0 0 0;
+    }
+}
+</style>
