@@ -36,6 +36,7 @@
         border-bottom:1px solid rgba(255,255,255,0.1);
         padding:0 20px;
         justify-content: space-between;
+
         .block--left{
             font-size:20px;
            
@@ -64,7 +65,9 @@
                 align-items: center;
                 justify-content: center;
                 .iconfont{
-                    margin:0 -5px 0 0;
+                    // margin:0 -5px 0 0;
+                    color:rgba(255,255,255,0.4);
+                    margin:0 0 0 5px;
                 }
             }
         }
@@ -276,7 +279,7 @@
         height:42px;
         width:100%;
         align-items: center;
-        padding:0 15px;
+        padding:0 12px;
         justify-content: space-between;
         flex-direction: row;
         .border-right-r{
@@ -290,6 +293,9 @@
             align-items: center;
             font-size:12px;
             justify-content: space-between;
+            p{
+                width:100%;
+            }
             .num{
                 font-size:14px;
                 margin:0 0 0 10px;
@@ -312,6 +318,9 @@
             margin:0px 0 0 3px;
             color:rgba(255,255,255,0.6);
         }
+        .previewright_left{
+            padding:0 12px 0 0;
+        }
         .block__bottom--l{
             // border-right:1px solid #ebedf0;
         }
@@ -323,7 +332,10 @@
        justify-content: center;
     }
 }
-
+.icon_about{
+    margin:0 0 0 5px;
+    color:rgba(255,255,255,0.4);
+}
 .block__tab {
     width: 100%;
     margin: 20px 0 10px 0;

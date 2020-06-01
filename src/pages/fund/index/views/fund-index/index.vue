@@ -14,7 +14,7 @@ div
                                 :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
                         .block__right(@click="handlerDialog")
                             span {{$t('aboutAssets')}}
-                            em(class="iconfont icon-icon_fund_index_2")
+                            em(class="iconfont icon-iconEBshoucang2 icon_about")
                     .block__left--number
                         .block__left--num
                             p {{$t('TotalAssets')}}
@@ -54,7 +54,7 @@ div
                                     :style="h2Style"
                                     ) {{currentPostion.fundPositionAmount|transNumToThousandMark}}
                                 em(v-else) ****
-                                em.iconfont.icon-previewright
+                                em.iconfont.icon-previewright.previewright_left
                         .block__bottom-r(@click="toYxbao")
                             p {{$t('uMoney')}}
                                 em.num(
@@ -225,11 +225,11 @@ export default {
             let fundName = this.currentPostion.fundPositionAmount || ''
             if (fundName.length > 13) {
                 return {
-                    fontSize: '12px'
+                    fontSize: '10px'
                 }
             }
             return {
-                fontSize: '14px'
+                fontSize: '12px'
             }
         },
         h2baoPositionAmountStyle() {
@@ -237,11 +237,11 @@ export default {
             let fundName = this.currentPostion.baoPositionAmount || ''
             if (fundName.length > 13) {
                 return {
-                    fontSize: '12px'
+                    fontSize: '10px'
                 }
             }
             return {
-                fontSize: '14px'
+                fontSize: '12px'
             }
         }
     },
