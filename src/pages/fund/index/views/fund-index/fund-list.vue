@@ -191,14 +191,14 @@ export default {
     width: 351px;
     background: #fff;
     .block__fund-title {
-        font-size: 20px;
+        font-size: 18px;
         font-weight: bold;
         width: 100%;
-        line-height: 50px;
-        height: 50px;
+        // line-height: 50px;
+        // height: 50px;
         background: url('~@/assets/img/fund/fund-title-bg.png') no-repeat;
         background-size: 100% 100%;
-        padding: 0 0 0 12px;
+        padding: 14px 0 14px 12px;
     }
     .block__fund--list {
         // width: 100%;

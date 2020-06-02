@@ -163,14 +163,14 @@ export default {
     background: #fff;
     .block__fund-title {
         width: 100%;
-        height: 57px;
-        padding: 0 14px;
+        // height: 50px;
+        padding: 14px;
         border-top-left-radius: 5px;
         // color: #fff;
         font-weight: bold;
-        line-height: 57px;
+        // line-height: 50px;
         border-top-right-radius: 5px;
-        font-size: 20px;
+        font-size: 18px;
     }
     .block__fund--list {
         // width: 100%;

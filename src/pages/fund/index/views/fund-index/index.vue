@@ -96,7 +96,7 @@ div
                             :key="index") 
                             img(:src="item.imgUrl1") 
                             span {{item.label}}
-                .block-bannar-sub-swiper.second__bannar(v-if="barnnarList1.length !== 0")
+                .block-bannar-sub-swiper.second__bannar.block__bannar__Tab(v-if="barnnarList1.length !== 0")
                         van-swipe(:autoplay="3000")  
                             van-swipe-item(
                                 v-for="(item, index) in barnnarList1" 
@@ -107,7 +107,6 @@ div
                     v-if="fundBarnnarList.length != 0"
                     :fundBarnnarList="fundBarnnarList")
         .block__container
-            
             .block--yxbao-container.margin_top(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
@@ -131,7 +130,7 @@ div
                     .right
                         van-button.block--subscribe {{$t('SubsNow')}}
             
-            .block-bannar-sub-swiper(v-if="barnnarList.length !== 0")
+            .block-bannar-sub-swiper.block__bannar__Tab(v-if="barnnarList.length !== 0")
                 van-swipe(:autoplay="3000")  
                     van-swipe-item(
                         v-for="(item, index) in barnnarList" 
@@ -158,7 +157,7 @@ div
                 :bgColor="code != 1 ? '#2B4F80':'#2F79FF'")
 
             FundArticle
-                .block-bannar-sub(
+                .block-bannar-sub.block__bannar__Tab(
                     slot="swipper"
                     v-if="barnnarUsList.length !== 0")
                     van-swipe(:autoplay="3000") 
@@ -696,7 +695,7 @@ export default {
                 } else {
                     this.code = this.appType.Hk ? 2 : 1
                 }
-                this.bannerAdvertisement(flag)
+                await this.bannerAdvertisement(flag)
             } catch (e) {
                 //解决ios上出现网络开小差的问题
                 if (flag) {
