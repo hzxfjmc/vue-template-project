@@ -404,29 +404,29 @@ export default {
         toRouterAccount() {
             // 未登录或未开户
             if (!this.isLogin) {
-                this.$dialog
-                    .alert({
-                        message: this.$t('login'),
-                        closeOnClickOverlay: true,
-                        overlay: true,
+                // this.$dialog
+                //     .alert({
+                //         message: this.$t('login'),
+                //         closeOnClickOverlay: true,
+                //         overlay: true,
 
-                        confirmButtonText: this.$t('loginBtn')
-                    })
-                    .then(() => {
-                        jsBridge.gotoNativeModule('yxzq_goto://user_login')
-                    })
+                //         confirmButtonText: this.$t('loginBtn')
+                //     })
+                //     .then(() => {
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+                // })
                 return
             }
             if (!this.openedAccount) {
-                this.$dialog
-                    .alert({
-                        message: this.$t('openAccount'),
-                        closeOnClickOverlay: true,
-                        confirmButtonText: this.$t('openAccountBtn')
-                    })
-                    .then(() => {
-                        jsBridge.gotoNativeModule('yxzq_goto://main_trade')
-                    })
+                // this.$dialog
+                //     .alert({
+                //         message: this.$t('openAccount'),
+                //         closeOnClickOverlay: true,
+                //         confirmButtonText: this.$t('openAccountBtn')
+                //     })
+                //     .then(() => {
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                // })
                 return
             }
             this.openWebView(
