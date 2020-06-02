@@ -525,11 +525,15 @@
     content: ' ';
     pointer-events: none;
     top: -50%;
-    right: -58%;
+    right: -56%;
     bottom: -50%;
     left: -58%;
     // border: 0 solid #ebedf0;
     -webkit-transform: scale(0.5);
     transform: scale(0.5);
     // border:1px solid red;
+}
+
+.fund-tag{
+    margin-right:1px;
 }
