@@ -227,7 +227,8 @@ export default {
                 height: 100%;
                 flex-direction: column;
                 width: 105px;
-                padding: 0 12px;
+                padding: 0 12px 0 0;
+                justify-content: center;
                 .number {
                     font-size: 22px;
                     line-height: 23px;
