@@ -58,7 +58,11 @@
         color: $text-color3;
         width: 100%;
         display: flex;
+       align-items: center;
         font-size: 0.24rem;
+        .block-left{
+            padding:0 0 0 14px;
+        }
     }
     .block-left {
         display: flex;

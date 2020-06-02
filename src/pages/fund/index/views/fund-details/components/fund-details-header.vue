@@ -4,16 +4,19 @@
         h3 {{fundHeaderInfoVO.fundName}}
         .funds-details-subtitle 
             span ISIN：{{fundHeaderInfoVO.isin}}
-        .block-left
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxiancopy-copy 
-                span {{ fundHeaderInfoVO.assetTypeName }}
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxian
-                span {{ fundHeaderInfoVO.fundRisk }}
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxiancopy-copy1
-                span {{ fundHeaderInfoVO.earningsTypeName }}
+            .block-left
+                fund-tag(:title="fundHeaderInfoVO.assetTypeName")
+                fund-tag(:title="fundHeaderInfoVO.fundRisk")
+                fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
+                //- .fund_tag
+                //-     em.iconfont.icon-iconsjijinfengxiancopy-copy 
+                //-     span {{ fundHeaderInfoVO.assetTypeName }}
+                //- .fund_tag
+                //-     em.iconfont.icon-iconsjijinfengxian
+                //-     span {{ fundHeaderInfoVO.fundRisk }}
+                //- .fund_tag
+                //-     em.iconfont.icon-iconsjijinfengxiancopy-copy1
+                //-     span {{ fundHeaderInfoVO.earningsTypeName }}
         .block__right--tag(
             @click="confirmAlter"
             v-if="tagShow")
@@ -57,9 +60,11 @@ import dayjs from 'dayjs'
 import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
+import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
     components: {
-        [Tag.name]: Tag
+        [Tag.name]: Tag,
+        'fund-tag': fundTag
     },
     i18n: {
         zhCHS: {
