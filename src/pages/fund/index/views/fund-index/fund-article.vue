@@ -1,5 +1,5 @@
 <template lang="pug">
-.block--article--wrapper(v-if="news_list.length != 0")  
+.block--article--wrapper(v-if="news_list.length != 0 && appType.Ch")  
     .block--article__title
         p {{$t(['基金看点','基金看點','Fund News'])}}
         //- span 查看更多
@@ -43,10 +43,14 @@ import { getStockColorType } from '@/utils/html-utils.js'
 import { getSpSubjectDetail } from '@/service/news-msgdisplay'
 import scheme from '@/utils/scheme'
 import dayjs from 'dayjs'
+import { appType } from '@/utils/html-utils.js'
 export default {
     computed: {
         stockColorType() {
             return +getStockColorType()
+        },
+        appType() {
+            return appType
         }
     },
     created() {
