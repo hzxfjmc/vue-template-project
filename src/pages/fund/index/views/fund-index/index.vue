@@ -731,6 +731,12 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block--subscribe {
+    border: none;
+}
+/deep/ .van-button::before {
+    background-color: #fff;
+}
 .fund-echart-render {
     height: 65px;
     width: 70px;
