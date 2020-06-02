@@ -107,7 +107,7 @@ export default {
         FundSteps
     },
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['lang', 'isLogin'])
     },
     i18n: trudeRuleNume,
     filters: {
@@ -152,13 +152,16 @@ export default {
             },
             fundTradeInfoVO: {},
             list: [],
-            isWhiteUserBit: false
+            isWhiteUserBit: true
         }
     },
     created() {
         this.getFundDetail()
         this.getFundHoliday()
-        this.getFundUserInfo()
+        if (this.isLogin) {
+            this.getFundUserInfo()
+        }
+
         if (this.$route.query.tab) {
             this.active = this.$route.query.tab
         }

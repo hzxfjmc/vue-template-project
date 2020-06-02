@@ -42,7 +42,17 @@ export const i18n = {
         yieldInLast7d: '近七日年化',
         tips: '暂未开放，敬请期待 ',
         tips1: '现金+业务暂未开放，敬请期待',
-        holdData: '我的持仓'
+        holdData: '我的持仓',
+        1: '近一周',
+        2: '近一月',
+        3: '近三月',
+        4: '近六月',
+        5: '近一年',
+        6: '近两年',
+        7: '近三年',
+        8: '近五年',
+        9: '今年来',
+        10: '成立来'
     },
     zhCHT: {
         fundHold: '基金持倉',
@@ -87,7 +97,17 @@ export const i18n = {
         yieldInLast7d: '近七日年化',
         tips: '暫未開放，敬請期待',
         tips1: '餘款+業務暫未開放，敬請期待',
-        holdData: '我的持倉'
+        holdData: '我的持倉',
+        1: '近一周',
+        2: '近一月',
+        3: '近三月',
+        4: '近六月',
+        5: '近一年',
+        6: '近两年',
+        7: '近三年',
+        8: '近五年',
+        9: '今年来',
+        10: '成立来'
     },
     en: {
         unit: 'B ',
@@ -132,6 +152,16 @@ export const i18n = {
         yieldInLast7d: 'Yield in Last 7d',
         tips: 'Not open yet！',
         tips1: 'cash+ Service not open yet, stay tuned！',
-        holdData: 'My Portfolio '
+        holdData: 'My Portfolio ',
+        1: 'Last 1-Week',
+        2: 'Last 1-Month',
+        3: 'Last 3-Month',
+        4: 'Last 6-Month',
+        5: 'Last 1-Year',
+        6: 'Last 2-Year',
+        7: 'Last 3-Year',
+        8: 'Last 5-Year',
+        9: 'YTD',
+        10: 'Since Inception'
     }
 }

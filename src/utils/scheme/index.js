@@ -1,6 +1,7 @@
 import env from './env'
 import { getUaValue } from '../html-utils'
 import { compareVersion } from '@/utils/tools.js'
+import jsBridge from '@/utils/js-bridge.js'
 const scheme = {
     mailandBase: 'yxstock://yx.stock.app',
     hkBase: 'yxusmart://yx.usmart.app',
@@ -77,6 +78,41 @@ const scheme = {
             document.body.appendChild(iframe)
         } else if (env.isIos) {
             location.href = appUrl
+        }
+    },
+
+    /**
+     * 跳转至app模块
+     * @param url
+     * @param isWaitingResult
+     * @returns {*|Promise<Object>}
+     */
+    gotoNativeModule(url, isWaitingResult = false) {
+        return this.callApp('goto_native_module', {
+            url,
+            isWaitingResult
+        })
+    },
+    /**
+     * 跳转资讯详情
+     * @param newsid
+     * @param options
+     * @param options.type 1-普通资讯，2-必读资讯（旧版本需要区分，新版本可传1）
+     * @param options.noShare 默认false，是否在APP中展示分享和字体变大
+     */
+    gotoNewsDetail(newsid, options = {}) {
+        options.type = options.type === undefined ? 1 : options.type
+        options.noShare = !!options.noShare
+        if (env.isYouxinApp) {
+            if (options.noShare) {
+                location.href = `/webapp/market/news.html?newsid=${newsid}&noShare=1`
+            } else {
+                jsBridge.gotoNativeModule(
+                    `yxzq_goto://info_detail?type=${options.type}&newsid=${newsid}`
+                )
+            }
+        } else {
+            location.href = `/webapp/market/news.html?newsid=${newsid}`
         }
     },
 
