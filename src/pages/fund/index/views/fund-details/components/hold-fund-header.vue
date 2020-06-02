@@ -61,13 +61,13 @@
         .block--tab__list
             .block--tab__item(@click="JumpUrl('/income-details')")
                 em.iconfont.icon-shouru
-                span 收益明细
+                span {{$t('incomeDetails')}}
             .block--tab__item(@click="JumpUrl('/order-record')")
                 em.iconfont.icon-zijin
-                span 订单记录
+                span {{$t('orderRecord')}}
             .block--tab__item(@click="JumpUrl('/my-investment')")
                 em.iconfont.icon-dingtou
-                span 定投管理
+                span {{$t('A75')}}
                             
 
 </template>
