@@ -16,19 +16,31 @@
             .block__item
                 span 持有份额
                 .num {{initState.positionShare}}
-            .block__item
+            .block__item.block--element_c
                 span 近7日收益
-                .num {{initState.weekEarnings}}
+                .num(
+                    v-if="initState.weekEarnings>0" 
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.weekEarnings|transNumToThousandMark}}
+                .num(
+                    v-if="initState.weekEarnings<0" 
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.weekEarnings|transNumToThousandMark}}
+                .num( v-if="initState.weekEarnings==0") {{initState.weekEarnings|transNumToThousandMark}}
             .block__item.block--element_r
                 span 持有收益
-                .num {{initState.positionEarnings}}
+                .num(
+                    v-if="initState.weekEarnings>0" 
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.positionEarnings|transNumToThousandMark}}
+                .num(
+                    v-if="initState.weekEarnings<0" 
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.positionEarnings|transNumToThousandMark}}
+                .num( v-if="initState.weekEarnings==0") {{initState.positionEarnings|transNumToThousandMark}}
         .block--subscribe__content
             .block__item(v-if="initState.redeemDeliveryShare != 0")
                 span.block_span 赎回中
-                span.blpck_content 份额 {{initState.redeemDeliveryShare}}
+                span.blpck_content 份额 {{initState.redeemDeliveryShare|transNumToThousandMark}}
             .block__item(v-if="initState.inTransitAmount != 0")
                 span.block_span 申购中
-                span.blpck_content 美元 {{initState.inTransitAmount}}
+                span.blpck_content 美元 {{initState.inTransitAmount|transNumToThousandMark}}
         .funds-details-footer
             .block__details--left
                 template(v-if="isMonetaryFund")
@@ -47,13 +59,13 @@
                 span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
     .block--element__tab
         .block--tab__list
-            .block--tab__item
+            .block--tab__item(@click="JumpUrl('/income-details')")
                 em.iconfont.icon-shouru
                 span 收益明细
-            .block--tab__item
+            .block--tab__item(@click="JumpUrl('/order-record')")
                 em.iconfont.icon-zijin
                 span 订单记录
-            .block--tab__item
+            .block--tab__item(@click="JumpUrl('/my-investment')")
                 em.iconfont.icon-dingtou
                 span 定投管理
                             
@@ -64,9 +76,13 @@ import dayjs from 'dayjs'
 import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 export default {
     components: {
         [Tag.name]: Tag
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
     },
     i18n: {
         zhCHS: {
@@ -155,6 +171,10 @@ export default {
                 }
             })
         },
+        JumpUrl(data) {
+            let url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.$route.query.id}`
+            jumpUrl(3, url)
+        },
         confirmAlter() {
             let contentMessage =
                 this.fundHeaderInfoVO.code === 1
@@ -238,6 +258,9 @@ export default {
     justify-content: space-between;
     .block--element_r {
         text-align: right;
+    }
+    .block--element_c {
+        text-align: center;
     }
     span {
         color: rgba(25, 25, 25, 0.45);
@@ -326,14 +349,15 @@ export default {
     font-size: 11px;
     justify-content: space-between;
     color: $text-color5;
-    .number-red {
-        color: rgba(234, 61, 61, 1);
-    }
-    .number-green {
-        color: #04ba60;
-    }
+
     .block__details--right {
         text-align: right;
     }
+}
+.number-red {
+    color: rgba(234, 61, 61, 1);
+}
+.number-green {
+    color: #04ba60;
 }
 </style>
