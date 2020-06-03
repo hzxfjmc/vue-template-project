@@ -10,9 +10,13 @@
         title-inactive-color="rgba(25,25,25,0.5)"
         title-active-color="#2F79FF")
             van-tab(title="港币基金" name="1")
-                IncomeFundList(:holdStateData="holdStateData")
+                IncomeFundList(
+                    :activeName="activeName"
+                    :holdStateData="holdStateData")
             van-tab(title="美元基金" name="2")
-                IncomeFundList(:holdStateData="holdStateData")
+                IncomeFundList(
+                    :activeName="activeName"
+                    :holdStateData="holdStateData")
                
 </template>
 <script>

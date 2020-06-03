@@ -2,7 +2,7 @@
 .block__fund-list--wrapper
     .block__header--apy
         .block__left--num
-            span 港币持仓收益(港币)
+            span {{activeName===0?$t('hkd'):$t('usd')}}{{$t('positionEarnings')}}({{activeName===0?$t('hkd'):$t('usd')}})
             .num(
                 v-if="holdStateData.earnings>0"
                 :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{holdStateData.earnings|transNumToThousandMark}} 
@@ -19,7 +19,7 @@
                 .fund-name.ellipse {{item.fundName}}
                 .tag(v-if="item.havePosition") 持仓中
             .block__item
-                .desc 收益
+                .desc {{$t('C1')}}
                 .num {{item.earnings}}
         .block-element-nomore(v-if="holdStateData.fundGroupEarningsVOList.length === 0")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
@@ -56,17 +56,27 @@ export default {
         holdStateData: {
             type: Object,
             default: () => {}
+        },
+        activeName: {
+            type: Number,
+            default: 0
         }
     },
     i18n: {
         zhCHS: {
-            nomore: '暂无收益'
+            nomore: '暂无收益',
+            positionEarnings: '持仓收益',
+            C1: '收益'
         },
         zhCHT: {
-            nomore: '暫無收益'
+            nomore: '暫無收益',
+            positionEarnings: '持有收益',
+            C1: '收益'
         },
         en: {
-            nomore: 'No Return'
+            nomore: 'No Return',
+            positionEarnings: 'Total P/L',
+            C1: 'Return'
         }
     }
 }
