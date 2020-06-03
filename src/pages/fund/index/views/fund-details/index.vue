@@ -11,8 +11,8 @@
         .block__fundheader--tips(
             v-if="isLogin"
             @click="toRouterGenerator('/order-record')")
-            em.iconfont.icon-iconEBshoucang
-            span.title 持仓详情
+            em.iconfont.icon-wallet2
+            span.title {{$t('A77')}}
             .block__list--right
                 //- span 资产、收益率
                 em.iconfont.icon-iconEBgengduoCopy
@@ -235,7 +235,8 @@ export default {
             msg2:
                 '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
-            Subscribenow: '立即认购'
+            Subscribenow: '立即认购',
+            holdFundTitle: '持仓详情'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -270,7 +271,8 @@ export default {
             msg2:
                 '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
-            Subscribenow: '立即認購'
+            Subscribenow: '立即認購',
+            holdFundTitle: '持倉詳情'
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -307,7 +309,8 @@ export default {
                 'The relevant data is for reference only. This page is not a legal document. Please carefully read the fund’s prospectus before investing. Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
-            Subscribenow: 'Subscribe now'
+            Subscribenow: 'Subscribe now',
+            holdFundTitle: 'Position'
         }
     },
     keepalive: true,
