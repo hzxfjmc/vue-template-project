@@ -64,7 +64,7 @@
                 .btn.colorbg.button-5width.btn-inverster(
                         :class="[investmentShow? 'fund-footer':'fund-no']"
                         @click="handleBuyOrSell(4)")
-                        span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.  feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                        span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
                         em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
                 van-button.button-5width.button-left.btn(
                     :class="[flag?'fund-check':'fund-no']" 
@@ -596,6 +596,7 @@ export default {
                     fundFixedFeeVO
                 } = await getFundFeeConfigV1(params)
                 this.fundFixedFeeVO = fundFixedFeeVO
+                console.log(this.fundFixedFeeVO)
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
                     ? subscribeFeeVO.defaultFeeRate
                     : ''
