@@ -14,7 +14,6 @@
             em.iconfont.icon-wallet2
             span.title {{$t('A77')}}
             .block__list--right
-                //- span 资产、收益率
                 em.iconfont.icon-iconEBgengduoCopy
 
         fundDetailsEchart(
@@ -42,8 +41,6 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
 
-        
-       
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
