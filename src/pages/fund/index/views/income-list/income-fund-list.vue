@@ -83,8 +83,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block__header--apy {
-    padding: 0 12px;
-    height: 92px;
+    padding: 20px 12px 14px 12px;
+    // height: 58px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -92,10 +92,12 @@ export default {
     span {
         color: rgba(25, 25, 25, 0.45);
         font-size: 12px;
+        line-height: 20px;
     }
     .num {
         font-size: 28px;
         font-family: yxFontDINPro-Bold;
+        line-height: 34px;
     }
     .block__left--num {
         text-align: left;
