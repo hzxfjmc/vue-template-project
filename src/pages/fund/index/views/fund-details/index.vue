@@ -939,10 +939,6 @@ export default {
                 this.fundHeaderInfoVO.derivativeType =
                     res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
-                // this.fundHeaderInfoVO.apy =
-                //     this.fundHeaderInfoVO.assetType === 4
-                //         ? Number(this.fundHeaderInfoVO.apy * 100).toFixed(4)
-                //         : Number(this.fundHeaderInfoVO.apy * 100).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice,
                     4
