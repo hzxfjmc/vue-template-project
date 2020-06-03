@@ -77,7 +77,7 @@ export const FUND_ASSET_TYPE = {
         value: 5
     },
     Financial: {
-        label_Cn: '理財產品',
+        label_Cn: '理财产品',
         label_Hk: '理財產品',
         label_En: 'Financial Product',
         type: 6,

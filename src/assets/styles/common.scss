@@ -149,3 +149,26 @@ html {
     flex-direction: row;
     justify-content: center;
 }
+
+.color-green {
+    color: #04ba60;
+}
+.color-green-bg {
+    background: rgba(0,186,96, 0.04);
+}
+.color-red {
+    color: #ea3d3d;
+}
+.color-red-bg {
+    background: rgba(234,61,61, 0.04);
+}
+.color-black {
+    color: #979797;
+}
+.color-black-bg{
+    background: rgba(186, 186, 186, 0.04);
+}
+
+.mergin_top{
+    margin-top:10px 0 0 0;
+}

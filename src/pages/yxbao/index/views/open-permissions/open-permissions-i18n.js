@@ -14,27 +14,32 @@ export const i18nOpenPermissions = {
             1: {
                 registration: 'A1',
                 riskStyle: '保守型',
-                suitPro: '低风险产品'
+                suitPro: '低风险产品',
+                type: '低风险'
             },
             2: {
                 registration: 'A2',
                 riskStyle: '稳健型',
-                suitPro: '中低风险产品'
+                suitPro: '中低风险产品',
+                type: '中低风险'
             },
             3: {
                 registration: 'A3',
                 riskStyle: '均衡型',
-                suitPro: '中风险产品'
+                suitPro: '中风险产品',
+                type: '中风险'
             },
             4: {
                 registration: 'A4',
                 riskStyle: '增长型',
-                suitPro: '中高风险产品'
+                suitPro: '中高风险产品',
+                type: '中高风险'
             },
             5: {
                 registration: 'A5',
                 riskStyle: '进取型',
-                suitPro: '高风险产品'
+                suitPro: '高风险产品',
+                type: '高风险'
             }
         },
         titleInfo: '为了降低您的投资风险，请您完整阅读风险披露内容',
@@ -56,27 +61,32 @@ export const i18nOpenPermissions = {
             1: {
                 registration: 'A1',
                 riskStyle: '保守型',
-                suitPro: '低風險產品'
+                suitPro: '低風險產品',
+                type: '低風險'
             },
             2: {
                 registration: 'A2',
                 riskStyle: '穩健型',
-                suitPro: '中低風險產品'
+                suitPro: '中低風險產品',
+                type: '中低風險'
             },
             3: {
                 registration: 'A3',
                 riskStyle: '均衡型',
-                suitPro: '中風險產品'
+                suitPro: '中風險產品',
+                type: '中風險'
             },
             4: {
                 registration: 'A4',
                 riskStyle: '增長型',
-                suitPro: '中高風險產品'
+                suitPro: '中高風險產品',
+                type: '中高風險'
             },
             5: {
                 registration: 'A5',
                 riskStyle: '進取型',
-                suitPro: '高風險產品'
+                suitPro: '高風險產品',
+                type: '高風險'
             }
         },
         titleInfo: '為了降低您的投資風險，請您完整閱讀風險披露內容',
@@ -98,27 +108,32 @@ export const i18nOpenPermissions = {
             1: {
                 registration: 'A1',
                 riskStyle: 'Conservative',
-                suitPro: 'Low Risk Products'
+                suitPro: 'Low Risk Products',
+                type: 'Low Rsik'
             },
             2: {
                 registration: 'A2',
                 riskStyle: 'Stable',
-                suitPro: 'Low - Medium Risk Products'
+                suitPro: 'Low - Medium Risk Products',
+                type: 'Medium Low Risk'
             },
             3: {
                 registration: 'A3',
                 riskStyle: 'Balanced',
-                suitPro: 'Medium Risk Products'
+                suitPro: 'Medium Risk Products',
+                type: 'Medium Risk'
             },
             4: {
                 registration: 'A4',
                 riskStyle: 'Growth',
-                suitPro: 'Medium - High Risk Products'
+                suitPro: 'Medium - High Risk Products',
+                type: 'Medium High Risk'
             },
             5: {
                 registration: 'A5',
                 riskStyle: 'Aggressive',
-                suitPro: 'High Risk Products'
+                suitPro: 'High Risk Products',
+                type: 'High Risk'
             }
         },
         titleInfo:

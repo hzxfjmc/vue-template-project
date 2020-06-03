@@ -23,13 +23,14 @@ if (Object.values(pages)[0]) {
     openPage = Object.values(pages)[0].filename // 当前项目的第一个单页
 }
 
-const jyApi = 'http://jy-sit.yxzq.com'
-const jy1Api = 'http://jy1-sit.yxzq.com'
 
-const hzApi = 'http://hz1-sit.yxzq.com'
-const hz1Api = 'http://hz1-sit.yxzq.com'
+const jyApi = `http://jy-${process.env.VUE_APP_ENV}.yxzq.com`
 
-const webappApi = 'http://m-sit.yxzq.com'
+const hzApi = `http://hz1-${process.env.VUE_APP_ENV}.yxzq.com`
+
+const webappApi = `http://m-${process.env.VUE_APP_ENV}.yxzq.com`
+
+console.log(`现在请求的是${process.env.VUE_APP_ENV}环境的接口${jyApi}`)
     // config 配置
 module.exports = {
     ...commonConfig(project),
