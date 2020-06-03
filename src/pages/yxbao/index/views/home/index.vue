@@ -105,7 +105,7 @@ export default {
             AboutuMoeny: '关于现金+'
         },
         zhCHT: {
-            login: '請登陸後進行操作 ',
+            login: '請登錄後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
             more: '更多基金',
@@ -197,7 +197,8 @@ export default {
             if (!this.isLogin) {
                 await this.$dialog.alert({
                     message: this.$t('login'),
-                    confirmButtonText: this.$t('loginBtn')
+                    confirmButtonText: this.$t('loginBtn'),
+                    closeOnClickOverlay: true
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
@@ -206,7 +207,8 @@ export default {
                 // 跳转到开户页面
                 await this.$dialog.alert({
                     message: this.$t('openAccount'),
-                    confirmButtonText: this.$t('openAccountBtn')
+                    confirmButtonText: this.$t('openAccountBtn'),
+                    closeOnClickOverlay: true
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return
@@ -236,7 +238,8 @@ export default {
             if (!this.isLogin) {
                 await this.$dialog.alert({
                     message: this.$t('login'),
-                    confirmButtonText: this.$t('loginBtn')
+                    confirmButtonText: this.$t('loginBtn'),
+                    closeOnClickOverlay: true
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
                 return
@@ -246,7 +249,8 @@ export default {
                 // 跳转到开户页面
                 await this.$dialog.alert({
                     message: this.$t('openAccount'),
-                    confirmButtonText: this.$t('openAccountBtn')
+                    confirmButtonText: this.$t('openAccountBtn'),
+                    closeOnClickOverlay: true
                 })
                 jsBridge.gotoNativeModule('yxzq_goto://main_trade')
                 return

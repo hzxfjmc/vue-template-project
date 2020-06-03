@@ -157,6 +157,20 @@ body {
 // .van-number-keyboard{
 //     z-index:9999999999999999 !important;
 // }
+.block__bannar__Tab{
+    .van-swipe__indicators {
+      bottom: 6px !important;
+    }
+    .van-swipe__indicator--active{
+        background-color:rgba(238,238,238,1);
+    }
+  .van-swipe__indicator{
+      width:8px;
+      height:2px;
+      border-radius:2px;
+  }
+}
+
 // .van-hairline--top-bottom{
 //     position: absolute !important;
 // }

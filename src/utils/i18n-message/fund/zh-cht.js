@@ -30,27 +30,37 @@ export const zhCHT = {
         1: {
             registration: 'A1',
             riskStyle: '保守型',
-            suitPro: '低風險產品'
+            suitPro: '低風險產品',
+            type: '低風險',
+            registrationType: 'R1'
         },
         2: {
             registration: 'A2',
             riskStyle: '穩健型',
-            suitPro: '中低風險產品'
+            suitPro: '中低風險產品',
+            type: '中低風險',
+            registrationType: 'R2'
         },
         3: {
             registration: 'A3',
             riskStyle: '均衡型',
-            suitPro: '中風險產品'
+            suitPro: '中風險產品',
+            type: '中風險',
+            registrationType: 'R3'
         },
         4: {
             registration: 'A4',
             riskStyle: '增長型',
-            suitPro: '中高風險產品'
+            suitPro: '中高風險產品',
+            type: '中高風險',
+            registrationType: 'R4'
         },
         5: {
             registration: 'A5',
             riskStyle: '進取型',
-            suitPro: '高風險產品'
+            suitPro: '高風險產品',
+            type: '高風險',
+            registrationType: 'R5'
         }
     },
     iknow: '我知道了',
@@ -173,5 +183,13 @@ export const zhCHT = {
     A111: '基金名稱',
     A112: '時間金額',
     A113: '自動換匯',
-    A114: '完成'
+    A114: '完成',
+    Equity: '股票型',
+    Bond: '債券型',
+    Balanced: '混合型',
+    MMF: '貨幣型',
+    Index: '指數型',
+    Financial: '理財產品',
+    NET_PRICE: '淨值型',
+    DIVIDEND: '分紅型'
 }

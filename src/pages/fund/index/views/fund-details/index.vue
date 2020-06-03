@@ -157,6 +157,7 @@
     
 </template>
 <script>
+import NP from 'number-precision'
 import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
 import HoldfundDetails from './components/hold-fund-details'
@@ -247,7 +248,7 @@ export default {
             risk: '風險提示',
             append: '續投',
             trade: '交易記錄',
-            login: '請登陸後進行操作 ',
+            login: '請登錄後進行操作 ',
             loginBtn: '立即登錄',
             openAccountBtn: '立即開戶',
             openAccount: '您尚未開戶，開戶成功即可交易',
@@ -390,7 +391,14 @@ export default {
             }
         },
         defaultRate() {
-            return `${(this.subscribeFeeVO.defaultFeeRate * 100).toFixed(2)}%`
+            console.log(
+                NP.times(+this.subscribeFeeVO.defaultFeeRate, 100),
+                '默认费率'
+            )
+            return `${NP.times(
+                +this.subscribeFeeVO.defaultFeeRate,
+                100
+            ).toFixed(2)}%`
         },
         discountRate() {
             return `${(
@@ -544,7 +552,7 @@ export default {
         async getFundFeeConfig() {
             try {
                 let params = {
-                    fundId: this.id
+                    fundId: this.$route.query.id || this.id
                 }
                 let { subscribeFeeVO } = await getFundFeeConfigV1(params)
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate

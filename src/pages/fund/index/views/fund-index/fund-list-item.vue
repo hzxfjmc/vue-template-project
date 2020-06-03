@@ -1,7 +1,8 @@
 <template lang="pug">
     .block__fund(
         :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
-        .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
+        //- .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
+        .block__fund-title.ellipse() {{title}}
         .block__fund--list.border-bottom(
             @click="goNext(item)"
             v-for="(item,index) in fundlist.data" 
@@ -18,16 +19,10 @@
                         .number(v-if="Number(item.apy)<0" :class="stockColorType === 1 ? 'color-green' : 'color-red'") - {{Math.abs(item.apy*100).toFixed(2)}}% 
                         .number(v-if="Number(item.apy) === 0") {{Number(item.apy).toFixed(2)}}%
                         .tag {{item.apyTypeName}}{{$t('day')}}
-                    .element--content-bottom(v-if="code != 1")
-                        //- span(v-if="lang != 'en'") {{item.assetTypeName}} 
-                        span {{lang === 'en' ? $t('described'):''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                        span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
-                    .element--content-bottom-ch(v-else)
+                    .element--content-bottom-ch
                         fund-tag(
-                            :title="`${lang === 'en' ? $t('described') : ''}${item.initialInvestAmount}${item.tradeCurrency}${lang != 'en' ? $t('described1'):''}`")
-                        fund-tag(
-                            v-if="item.fundSize != 0"
-                            :title="`${lang === 'en' ? $t('fundSizeIndex'):''}${item.fundSize}${$t('unit')}${item.fundSizeCurrency}${lang === 'en' ?'':$t('fundSizeIndex')}`")
+                            v-for="key of item.TagList"
+                            :title="key")
                 
 </template>
 <script>
@@ -162,23 +157,27 @@ export default {
     color: #ea3d3d;
 }
 .block__fund {
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    margin: 10px 0 0 0;
+    background: #fff;
     .block__fund-title {
         width: 100%;
-        height: 57px;
-        padding: 0 14px;
+        // height: 50px;
+        padding: 14px;
         border-top-left-radius: 5px;
-        color: #fff;
-        line-height: 57px;
+        // color: #fff;
+        font-weight: bold;
+        // line-height: 50px;
         border-top-right-radius: 5px;
-        font-size: 20px;
+        font-size: 18px;
     }
     .block__fund--list {
-        width: 100%;
+        // width: 100%;
         display: flex;
         // margin: 20px 0 0 0;
-        padding: 16px 14px;
+        padding: 14px 0;
+        margin: 0 12px;
         flex-direction: row;
         .element--fund--content {
             display: flex;
@@ -187,7 +186,7 @@ export default {
             flex: 1;
             .title {
                 font-size: 16px;
-                max-width: 230px;
+                max-width: 210px;
             }
             .element--content-sub-content {
                 display: flex;
@@ -235,11 +234,11 @@ export default {
     }
 }
 .block__fund-hk {
-    width: 90%;
-    margin: 20px 5% 0 5%;
+    width: 351px;
+    margin: 10px 12px 0 12px;
 }
 .block__fund-ch {
     width: 351px;
-    margin: 20px 12px 0 12px;
+    margin: 10px 12px 0 12px;
 }
 </style>

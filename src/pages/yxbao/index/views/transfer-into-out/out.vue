@@ -39,8 +39,10 @@
             .right
                 p.sub-title {{$t('C19')}}
                 p.desc {{contentDesc}}
-    .block__footer--check(@click="checkInfo = !checkInfo")
-        em.iconfont(:class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
+    .block__footer--check()
+        em.iconfont(
+            @click="checkInfo = !checkInfo"
+            :class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
         span {{$t('agreement')}}
             em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
     van-button.btn(
