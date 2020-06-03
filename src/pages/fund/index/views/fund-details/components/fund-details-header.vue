@@ -4,10 +4,8 @@
         h3 {{fundHeaderInfoVO.fundName}}
         .funds-details-subtitle 
             span ISIN：{{fundHeaderInfoVO.isin}}
-            .block-left
-                fund-tag(:title="fundHeaderInfoVO.assetTypeName")
-                fund-tag(:title="fundHeaderInfoVO.fundRisk")
-                fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
+            //- .block-left
+                
                 //- .fund_tag
                 //-     em.iconfont.icon-iconsjijinfengxiancopy-copy 
                 //-     span {{ fundHeaderInfoVO.assetTypeName }}
@@ -39,21 +37,24 @@
             span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $t('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
     .funds-details-footer
-        .block__details--left
-            template(v-if="isMonetaryFund")
-                span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
-                span {{this.revenue}}
-            template(v-else)
-                span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：{{fundHeaderInfoVO.netPrice}}
-                span(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="this.price>0") (+{{this.price}}%)
-                span(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="this.price<0") ({{this.price}}%)
-                span(v-else) ({{this.price}}%)
-        .block__details--right
-            span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
+        fund-tag(:title="fundHeaderInfoVO.assetTypeName")
+        fund-tag(:title="fundHeaderInfoVO.fundRisk")
+        fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
+        //- .block__details--left
+        //-     template(v-if="isMonetaryFund")
+        //-         span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
+        //-         span {{this.revenue}}
+        //-     template(v-else)
+        //-         span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：{{fundHeaderInfoVO.netPrice}}
+        //-         span(
+        //-             :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+        //-             v-if="this.price>0") (+{{this.price}}%)
+        //-         span(
+        //-             :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+        //-             v-else-if="this.price<0") ({{this.price}}%)
+        //-         span(v-else) ({{this.price}}%)
+        //- .block__details--right
+        //-     span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
 </template>
 <script>
 import dayjs from 'dayjs'

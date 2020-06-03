@@ -7,7 +7,16 @@
             :tagShow="tagShow"
             :tagsShow="tagsShow"
             :fundHeaderInfoVO="fundHeaderInfoVO")
-        
+
+        .block__fundheader--tips(
+            v-if="isLogin"
+            @click="toRouterGenerator('/order-record')")
+            em.iconfont.icon-iconEBshoucang
+            span.title 持仓详情
+            .block__list--right
+                //- span 资产、收益率
+                em.iconfont.icon-iconEBgengduoCopy
+
         fundDetailsEchart(
           @chooseTime = "getFundApyPointV1"
           :step="step"
@@ -17,9 +26,9 @@
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
-        HoldfundDetails(
-            v-if="holdDetailsShow"
-            :initState="holdInitState")
+        //- HoldfundDetails(
+        //-     v-if="holdDetailsShow"
+        //-     :initState="holdInitState")
 
         FightFundHk(
             v-if="!fightShow && code ===2"
@@ -33,14 +42,7 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
 
-        .block__fundheader--tips(
-            v-if="isLogin"
-            @click="toRouterGenerator('/order-record')")
-            em.iconfont.icon-iconEBshoucang
-            span.title 持仓详情
-            .block__list--right
-                span 资产、收益率
-                em.iconfont.icon-iconEBgengduoCopy
+        
        
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
