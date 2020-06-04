@@ -9,11 +9,11 @@
         @change="changeTabNav"
         title-inactive-color="rgba(25,25,25,0.5)"
         title-active-color="#2F79FF")
-            van-tab(title="港币基金" name="1")
+            van-tab(:title="$t('fundHkdType')" name="1")
                 IncomeFundList(
                     :activeName="activeName"
                     :holdStateData="holdStateData")
-            van-tab(title="美元基金" name="2")
+            van-tab(:title="$t('fundUsdType')" name="2")
                 IncomeFundList(
                     :activeName="activeName"
                     :holdStateData="holdStateData")
@@ -32,6 +32,23 @@ export default {
             holdStateData: {
                 fundGroupEarningsVOList: []
             }
+        }
+    },
+    i18n: {
+        zhCHS: {
+            fundHkdType: '港币基金',
+            fundUsdType: '美元基金',
+            nomore: '暂无持仓'
+        },
+        zhCHT: {
+            fundHkdType: '港幣基金',
+            fundUsdType: '美元基金',
+            nomore: '暫無持倉'
+        },
+        en: {
+            fundHkdType: 'HKD Fund',
+            fundUsdType: 'USD Fund',
+            nomore: 'No Holdings'
         }
     },
     created() {
