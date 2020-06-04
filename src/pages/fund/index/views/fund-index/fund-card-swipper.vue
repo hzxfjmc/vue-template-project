@@ -26,22 +26,24 @@
                         v-if="Number(item.apy)<0 && item.FundCycle != 0"
                         :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{Number(item.apy*100).toFixed(2)}}%
                     .block--fund-num.color-black(v-if="Number(item.apy)==0 && item.FundCycle != 0") {{Number(item.apy*100).toFixed(2)}}%
-                    .block--fund--num__desc(v-if="item.FundCycle!=0") {{item.FundCycleName}}{{$t('nav')}}
+                    .block--fund--num__desc(v-if="item.FundCycle!=0 && lang!='en'") {{item.FundCycleName}}{{$t('nav')}}
+                    .block--fund--num__desc(v-if="item.FundCycle!=0 && lang=='en'") The highest {{item.FundCycleName}}{{$t('nav')}} Rtn(Cum)
                     van-button(v-if="item.Button != ''") {{item.Button}}
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { jumpUrl } from '@/utils/tools.js'
+import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import './swipe.scss'
 export default {
     i18n: {
         zhCHS: {
-            nav: '涨跌幅'
+            nav: '涨跌幅高达'
         },
         zhCHT: {
-            nav: '漲跌幅'
+            nav: '漲跌幅高達'
         },
         en: {
             nav: ''
@@ -54,6 +56,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount']),
         stockColorType() {
             return +getStockColorType()
         }
