@@ -3,8 +3,9 @@
         :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
         //- .block__fund-title.ellipse(:style="{background:bgColor}") {{title}}
         .block__fund-title.ellipse() {{title}}
-        .block__fund--list.border-bottom(
+        .block__fund--list(
             @click="goNext(item)"
+            :class="[fundlist.data.length-1 == index ? '':'border-bottom']"
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .canvas-element--right
