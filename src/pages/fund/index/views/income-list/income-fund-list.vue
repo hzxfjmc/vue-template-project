@@ -18,6 +18,7 @@
             .block__item
                 .fund-name.ellipse {{item.fundName}}
                 .tag(v-if="item.havePosition") 持仓中
+                .tag(v-else) 已清仓
             .block__item
                 .desc {{$t('C1')}}
                 .num {{item.earnings}}

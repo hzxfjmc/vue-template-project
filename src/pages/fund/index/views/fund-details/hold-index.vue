@@ -18,10 +18,6 @@
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
-        HoldfundDetails(
-            v-if="holdDetailsShow"
-            :initState="holdInitState")
-
         FightFundHk(
             v-if="!fightShow && code ===2"
             :userList="userList"
