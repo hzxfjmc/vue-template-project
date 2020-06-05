@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund-account-header
-    .block-account-header(:class="[inTransitOrder!=='0'?'block--header-height':'block--header-height1']")
+    .block-account-header.block--header-height
         .header-content
             .header-content-left
                 span.title 
@@ -22,10 +22,10 @@
                             span(
                                 @click="chooseCurrency(1)"
                                 :class="[currencyNum === 1 ? 'active' :'']") {{$t('usd')}}
-                .block__footer--hold(
-                    v-if="inTransitOrder!=='0'"
-                    @click="toRouterPath('/fund-order-list')")
-                    span {{inTransitOrder}}{{$t('fundmsg')}}
+                .block__footer--hold
+                    span(
+                        v-if="inTransitOrder!=='0'"
+                        @click="toRouterPath('/fund-order-list')") {{inTransitOrder}}{{$t('fundmsg')}}
             .header-content-right
                 .block__content--left
                     span.block__content--subtitle {{$t('SevenDayIncome')}} 
@@ -434,7 +434,7 @@ export default {
 .block__footer--hold {
     height: 32px;
     line-height: 32px;
-    margin: 15px auto;
+    margin: 10px 0 22px 0;
     display: flex;
     justify-content: center;
     color: rgba(255, 255, 255, 0.6);
