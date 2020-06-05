@@ -9,7 +9,7 @@
             :fundHeaderInfoVO="fundHeaderInfoVO")
 
         .block__fundheader--tips(
-            v-if="isLogin"
+            v-if="isLogin && holdDetailsShow"
             @click="toRouterGenerator('/order-record')")
             em.iconfont.icon-wallet2
             span.title {{$t('A77')}}
