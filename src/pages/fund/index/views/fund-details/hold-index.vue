@@ -29,29 +29,32 @@
             p {{$t('msg1')}}
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
-        .fund-footer-content.fund-block--content(v-if="RedemptionButton")
-            .btn.colorbg.button-5width.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(4)")
-                    span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
-                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{100-fundTradeInfoVO.feeDiscount*100}}%
-            van-button.button-5width.button-left.btn(
-                :class="[flag?'fund-check':'fund-no']" 
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-            van-button.btn.button-5width(
-                :class="[flag1?'fund-buy':'fund-no']" 
-                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        .fund-footer-content(v-if="RedemptionButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            .fund-block--content
+                .btn.colorbg.button-5width.btn-inverster(
+                        :class="[investmentShow? 'fund-footer':'fund-no']"
+                        @click="handleBuyOrSell(4)")
+                        span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                        em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
+                van-button.button-5width.button-left.btn(
+                    :class="[flag?'fund-check':'fund-no']" 
+                    @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-5width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
         
-        .fund-footer-content(v-if="PurchaseButton")
-            .block__button--list
-                .btn.colorbg.button-width1.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(4)")
-                    span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
-                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{100-fundTradeInfoVO.feeDiscount*100}}%
-                van-button.btn.button-width1(
-                    :class="[flag2? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+        .fund-footer-content(v-if="!PurchaseButton && !this.btnShow")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            van-button.btn.button-width(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
         .fund-footer-contentShare(v-if="invate === 'share'")
             van-button(
@@ -127,9 +130,11 @@
         :src="shareIcon"
         ref="titlebarIcon")
            
+           
     
 </template>
 <script>
+import NP from 'number-precision'
 import fundDetailsHeader from './components/hold-fund-header'
 import fundDetailsEchart from './components/fund-details-echart'
 import fundDetailsList from './components/fund-details-list'
@@ -301,7 +306,10 @@ export default {
              * invate 是否是邀请
              */
             return (
-                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
+                this.btnShow &&
+                this.isGrayAuthority &&
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         /*
@@ -315,7 +323,8 @@ export default {
                 this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
-                this.invate !== 'share'
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         chsFightButton() {
@@ -361,7 +370,14 @@ export default {
             }
         },
         defaultRate() {
-            return `${(this.subscribeFeeVO.defaultFeeRate * 100).toFixed(2)}%`
+            console.log(
+                NP.times(+this.subscribeFeeVO.defaultFeeRate, 100),
+                '默认费率'
+            )
+            return `${NP.times(
+                +this.subscribeFeeVO.defaultFeeRate,
+                100
+            ).toFixed(2)}%`
         },
         discountRate() {
             return `${(
@@ -393,6 +409,7 @@ export default {
             },
             id: '',
             fundOverviewInfoVO: {},
+            fundFixedFeeVO: {},
             recommendList: [], //推荐基金
             fundCorrelationFileList: [],
             historyList: [],
@@ -517,13 +534,17 @@ export default {
                 let params = {
                     fundId: this.id
                 }
-                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
+                let {
+                    subscribeFeeVO,
+                    fundFixedFeeVO
+                } = await getFundFeeConfigV1(params)
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
                     ? subscribeFeeVO.defaultFeeRate
                     : ''
                 this.subscribeFeeVO.fundFeeLevelVOList = subscribeFeeVO.fundFeeLevelVOList
                     ? subscribeFeeVO.fundFeeLevelVOList
                     : []
+                this.fundFixedFeeVO = fundFixedFeeVO
             } catch (e) {
                 console.log('getFundFeeConfigV1: ', e)
             }
