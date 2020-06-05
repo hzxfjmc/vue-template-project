@@ -26,20 +26,20 @@
                 .fund__row--list.block__center
                     span {{$t('profitPostion')}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 0" 
+                        v-if="eyeTab && item.positionEarnings>0" 
                         :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings|parseThousands}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 1" 
+                        v-if="eyeTab && item.positionEarnings<0 " 
                         :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
+                        v-if="eyeTab && item.positionEarnings==0") {{item.positionEarnings}}
                     .block-element-number(v-if="!eyeTab") ****
                     
                 .fund__row--list.block__right
                     span {{$t('SevenDayIncome')}}
-                    .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
-                    .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
-                    .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab  && item.weekEarnings>0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab  && item.weekEarnings==0") {{item.weekEarnings||'0.00'}}
                     .block-element-number(v-if="!eyeTab") ****
                    
             //- .fund-row

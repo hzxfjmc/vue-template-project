@@ -22,13 +22,12 @@
             .block__item
                 .desc {{$t('C1')}}
                 .num( 
-                    v-if="holdStateData.earnings>0"
+                    v-if="item.earnings>0"
                     :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{item.earnings|transNumToThousandMark}}
                 .num( 
-                    v-if="holdStateData.earnings<0"
+                    v-if="item.earnings<0"
                     :class="stockColorType === 1 ? 'color-green' : 'color-red'") {{item.earnings|transNumToThousandMark}}
-                .num( 
-                    v-if="holdStateData.earnings==0") {{item.earnings|transNumToThousandMark}}
+                .num(v-if="item.earnings==0") {{item.earnings|transNumToThousandMark}}
         .block-element-nomore(v-if="holdStateData.fundGroupEarningsVOList.length === 0")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
             .no-record-box {{$t('nomore')}}
@@ -121,6 +120,7 @@ export default {
 }
 .block__list--wrapper {
     min-height: 400px;
+    background: #fff;
 }
 .block__list--item {
     padding: 0 12px;
