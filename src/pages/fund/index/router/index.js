@@ -51,7 +51,7 @@ export default new Router({
         {
             name: 'hold-fund-details',
             path: '/hold-fund-details',
-            meta: { title: 'fundDetails', auth: true, cs: true },
+            meta: { title: 'fundAccount', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-details/hold-index.vue`)
         },
