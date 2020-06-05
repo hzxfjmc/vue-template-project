@@ -182,7 +182,7 @@ export default new Router({
         {
             name: 'income-list',
             path: '/income-list',
-            meta: { title: 'incomeList', auth: true, cs: true },
+            meta: { title: 'incomeDetails', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/income-list/index.vue`)
         },
