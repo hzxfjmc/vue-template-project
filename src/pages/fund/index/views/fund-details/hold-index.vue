@@ -155,7 +155,6 @@
 <script>
 import fundDetailsHeader from './components/hold-fund-header'
 import fundDetailsEchart from './components/fund-details-echart'
-import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
 import FightFund from './components/fight-fund.vue'
 import FightFundHk from './components/fight-fund-hk.vue'
@@ -307,7 +306,6 @@ export default {
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
-        HoldfundDetails,
         fundDetailsList,
         Button,
         Dialog,
