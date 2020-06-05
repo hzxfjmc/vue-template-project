@@ -8,7 +8,7 @@
         v-model="active" 
         sticky
         swipeable) 
-        van-tab(title="定投计划")
+        van-tab(:title="$t(['定投计划','定投計劃','AIP'])")
             van-list.order-record-list(
                 v-model="loading" 
                 :finished="finished" 
@@ -35,7 +35,7 @@
                         .flex-item
                             .top {{$t('A83')}}
                             .bottom {{item.fixedPlanAmount}}
-        van-tab(title="历史计划")
+        van-tab(:title="$t(['历史计划','歷史計劃','Historical Plan'])")
             van-list.order-record-list(
                 v-model="recordLoading" 
                 :finished="recordFinished" 
@@ -67,7 +67,7 @@
             p {{$t('A84')}}
         .nomore(v-if="recordList.length === 0 && active === 1")
             img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
-            p 暂无历史计划
+            p {{$t([`暂无历史计划`,`暂无歷史計劃`,`No Historical Plan`])}}
     .inverstment--footer--btn
         van-button.btn-left(@click="toRouter('/index')") {{$t('A76')}}
         van-button.btn-right(@click="toRouter('/fund-account')") {{$t('A77')}}
@@ -142,10 +142,11 @@ export default {
                 this.planTotla = total
                 this.loading = false
                 let EnumChargeType = {
-                    1: '证券账户',
+                    1: this.$t(['证券账户', '證券帳戶', 'Securities Account']),
                     2: 'edda'
                 }
                 this.list.map(item => {
+                    console.log(item.recentDeductionDate)
                     item.chargeType = EnumChargeType[item.chargeType]
                     item.week = this.getWeek(item.recentDeductionDate)
                     item.recentDeductionDate = dayjs(
@@ -164,6 +165,7 @@ export default {
         //计算周末公式
         getWeek(data) {
             let index = new Date(data).getDay()
+            console.log(index)
             let i18nObj = {
                 1: this.$t([`周一`, `週一`, `Mon.`]),
                 2: this.$t([`周二`, `週二`, `Tues.`]),
@@ -171,7 +173,7 @@ export default {
                 4: this.$t([`周四`, `週四`, `Thur.`]),
                 5: this.$t([`周五`, `週五`, `Fri.`]),
                 6: this.$t([`周六`, `週六`, `Sat.`]),
-                7: this.$t([`周天`, `週天`, `Sun.`])
+                0: this.$t([`周日`, `週日`, `Sun.`])
             }
             return i18nObj[index]
         },

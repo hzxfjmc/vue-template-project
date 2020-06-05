@@ -44,7 +44,9 @@
                 span {{$t('OrderRecord')}}
             .nav--item(@click="toRouterPath('/my-investment')")
                 em.iconfont.icon-dingtou
-                span  我的定投
+                span  {{$t([`我的定投`,`我的定投`,`My AIP`])}}
+            //- span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
+            //- span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
         
     slot(name="fundList")
 </template>

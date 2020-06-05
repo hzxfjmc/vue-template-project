@@ -37,6 +37,7 @@
 <script>
 import { Popup } from 'vant'
 import { jumpUrl } from '@/utils/tools.js'
+import jsBridge from '@/utils/js-bridge.js'
 export default {
     components: {
         [Popup.name]: Popup
@@ -86,29 +87,21 @@ export default {
                 })
                 return
             }
-            this.$router.push({
-                name: 'modify-amount',
-                params: {
-                    datas: val
-                },
-                query: {
-                    id: val.id,
-                    from: this.$route.query.from === 'hk' ? 'hk' : 'dl'
-                }
-            })
+            this.openWebView(
+                `${window.location.origin}/webapp/open-account/deposit.html?isCloseWebView=true#/modify-amount?id=${val.id}`
+            )
+        },
+        //App页面跳转
+        async openWebView(url) {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
         },
         addEddaAccount() {
             let url = `${window.location.origin}/webapp/open-account/deposit.html?isCloseWebView=true#/edda-authorization`
             jumpUrl(3, url)
-            // this.$router.push({
-            //     name: 'authorization-information',
-            //     params: {
-            //         add: 'add'
-            //     },
-            //     query: {
-            //         isNoButton: 'yes'
-            //     }
-            // })
         },
         checkBankHandle(item) {
             this.$emit('checkBankHandle', item)

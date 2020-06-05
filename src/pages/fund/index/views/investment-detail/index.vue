@@ -10,7 +10,7 @@
         .investment__detail__header_amount
             .header_amount.left
                 .title(:class="!isNotStop?'gray-color':''") {{$t('A79')}}
-                .content(:class="!isNotStop?'black-color':''") {{investmentInfo.fixedPlanAmount|transNumToThousandMark}}
+                .content(:class="!isNotStop?'black-color':''") {{investmentInfo.fixedTotalAmount|transNumToThousandMark}}
             .header_amount.right
                 .title(:class="!isNotStop?'gray-color':''") {{$t('A80')}}
                 .content(:class="!isNotStop?'black-color':''") {{investNum}}
@@ -26,7 +26,7 @@
                 .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} {{currency ==1?$t('usd'):$t('hkd')}}
             .card_content_item
                 .left {{$t('A15')}}
-                .right(v-if="bankName") ({{bankName}}) 
+                .right(v-if="bankName") ({{bankName}})
                     em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
                 .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 
                     em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
@@ -75,17 +75,17 @@ export default {
                 {
                     val: 1,
                     url: require('@/assets/img/fund/icon-set.png'),
-                    text: '修改计划'
+                    text: this.$t('A87')
                 },
                 {
                     val: 2,
                     url: require('@/assets/img/fund/icon-pause.png'),
-                    text: '暂停定投'
+                    text: this.$t('A88')
                 },
                 {
                     val: 3,
                     url: require('@/assets/img/fund/icon-close.png'),
-                    text: '终止定投'
+                    text: this.$t('A89')
                 }
             ],
             isNotStop: true,
@@ -94,8 +94,8 @@ export default {
             isShowDialog: false,
             dialogTitle: '',
             dialogMessage: '',
-            cancelButtonText: '取消',
-            confirmButtonText: '确认',
+            cancelButtonText: this.$t('cancelButton'),
+            confirmButtonText: this.$t(['确认', '確認', 'Confirm']),
             statusValue: '',
             fundHeaderInfoVO: {},
             investmentInfo: {},
@@ -118,7 +118,7 @@ export default {
                 },
                 3: {
                     0: this.$t([
-                        '港股现金账户',
+                        '美股现金账户',
                         '美股現金賬戶',
                         'Cash Account(USD)'
                     ]),
@@ -134,7 +134,7 @@ export default {
     },
     async created() {
         await this.getFundDetail()
-        this.getFundFixedPlanDetail()
+        await this.getFundFixedPlanDetail()
         this.getMarketValidFundAccount()
         this.investNum = this.$route.query.investNum
     },
@@ -146,6 +146,7 @@ export default {
                 })
                 // 0代表现金，M代表孖展
                 if (this.investmentInfo.chargeType == 1) {
+                    console.log(res)
                     this.bankName = this.arrMarketENUM[this.marketType][
                         res.assetProp
                     ]
@@ -202,6 +203,7 @@ export default {
             if (val === 1) {
                 this.investmentInfo.type = 1
                 this.investmentInfo.id = this.fundId
+                console.log(this.investmentInfo)
                 // 修改计划 跳定投申购页面
                 this.$router.push({
                     name: 'fixed-investment',
@@ -211,23 +213,20 @@ export default {
                 // 暂停定投
                 this.fixedPlanStatusval = 2
                 this.isShowDialog = true
-                this.dialogTitle = '暂停定投'
-                this.dialogMessage =
-                    '定投是一种良好的投资习惯，确定暂停定投吗？'
+                this.dialogTitle = this.$t('A88')
+                this.dialogMessage = this.$t('A94')
             } else if (val === 3) {
                 // 终止定投
                 this.fixedPlanStatusval = 3
                 this.isShowDialog = true
-                this.dialogTitle = '终止定投'
-                this.dialogMessage =
-                    '定投是一种良好的投资习惯，终止定投后不可恢复确定终止定投吗？'
+                this.dialogTitle = this.$t('A90')
+                this.dialogMessage = this.$t('A93')
             } else if (val === 4) {
                 // 恢复定投
                 this.fixedPlanStatusval = 1
                 this.isShowDialog = true
-                this.dialogTitle = '恢复定投'
-                this.dialogMessage =
-                    '恢复定投后将会执行扣款操作，请注意下次扣款日期，确保扣款时您的账户中有足够金额'
+                this.dialogTitle = this.$t('A89')
+                this.dialogMessage = this.$t('A96')
             }
         },
         async confirmDialogHandle() {
@@ -252,45 +251,45 @@ export default {
                 4: this.$t([`周四`, `週四`, `Thur.`]),
                 5: this.$t([`周五`, `週五`, `Fri.`]),
                 6: this.$t([`周六`, `週六`, `Sat.`]),
-                7: this.$t([`周天`, `週天`, `Sun.`])
+                0: this.$t([`周天`, `週天`, `Sun.`])
             }
             return i18nObj[index]
         },
         init() {
             if (this.fixedPlanStatus === 2) {
                 // 暂停状态
-                this.statusValue = '暂停中'
+                this.statusValue = this.$t('A85')
                 this.tagImgList = [
                     {
                         val: 4,
                         url: require('@/assets/img/fund/icon-start.png'),
-                        text: '恢复定投'
+                        text: this.$t('A89')
                     },
                     {
                         val: 3,
                         url: require('@/assets/img/fund/icon-close.png'),
-                        text: '终止定投'
+                        text: this.$t('A90')
                     }
                 ]
             } else if (this.fixedPlanStatus === 3) {
-                this.statusValue = '已终止'
+                this.statusValue = this.$t('A86')
                 this.isNotStop = false
             } else if (this.fixedPlanStatus === 1) {
                 this.tagImgList = [
                     {
                         val: 1,
                         url: require('@/assets/img/fund/icon-set.png'),
-                        text: '修改计划'
+                        text: this.$t('A87')
                     },
                     {
                         val: 2,
                         url: require('@/assets/img/fund/icon-pause.png'),
-                        text: '暂停定投'
+                        text: this.$t('A88')
                     },
                     {
                         val: 3,
                         url: require('@/assets/img/fund/icon-close.png'),
-                        text: '终止定投'
+                        text: this.$t('A90')
                     }
                 ]
             }
@@ -308,24 +307,35 @@ export default {
                     this.investmentInfo.recentDeductionDate
                 ).format('YYYY-MM-DD')}(${this.getWeek(
                     this.investmentInfo.recentDeductionDate
-                )}),请保证账户资金充足`
+                )}),${this.$t([
+                    '请保证账户资金充足',
+                    '請保證賬戶資金充足',
+                    'Please make sure you have enough money in your account.'
+                ])}`
                 let monthValue = {
-                    1: '周一',
-                    2: '周二',
-                    3: '周三',
-                    4: '周四',
-                    5: '周五'
+                    1: this.$t([`周一`, `週一`, `Mon.`]),
+                    2: this.$t([`周二`, `週二`, `Tues.`]),
+                    3: this.$t([`周三`, `週三`, `Wed.`]),
+                    4: this.$t([`周四`, `週四`, `Thurs.`]),
+                    5: this.$t([`周五`, `週五`, `Fri.`])
                 }
                 this.investmentInfo.fixedCycleWeek =
                     this.investmentInfo.fixedCycleType === 1
                         ? monthValue[this.investmentInfo.fixedCycleValue]
                         : this.investmentInfo.fixedCycleValue == '0'
-                        ? '月末'
-                        : `${this.investmentInfo.fixedCycleValue}号`
+                        ? this.$t([`月末`, `月末`, `Late of the month`])
+                        : this.$t([
+                              `${this.investmentInfo.fixedCycleValue}日`,
+                              `${this.investmentInfo.fixedCycleValue}日`,
+                              `${this.investmentInfo.fixedCycleValue}th`
+                          ])
                 this.investmentInfo.fixedCycleMonth =
-                    this.investmentInfo.fixedCycleType === 1 ? '每周' : '每月'
+                    this.investmentInfo.fixedCycleType === 1
+                        ? this.$t(['每周', '每週', 'Weekly'])
+                        : this.$t(['每月', '每月', 'Monthly'])
                 this.init()
             } catch (e) {
+                console.log(e)
                 e.msg && this.$toast(e.msg)
             }
         }
@@ -435,9 +445,11 @@ export default {
                 margin-bottom: 10px;
                 .left {
                     color: $text-color6;
+                    width: 90px;
                 }
                 .right {
                     color: $text-color;
+                    text-align: right;
                     em {
                         font-style: normal;
                     }

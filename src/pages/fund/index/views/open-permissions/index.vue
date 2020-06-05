@@ -82,12 +82,11 @@ export default {
                 let params = {
                     autograph: this.autograph
                 }
-                let res = await fundRiskAutograph(params)
+                await fundRiskAutograph(params)
                 // 签名成功，本地设置标记，用与返回时候保留签名，刷新则清除
                 LS.put('signName', this.autograph)
-                console.log(res)
                 // 跳申购页
-                if (this.$route.query.code === 4) {
+                if (this.$route.query.code == 4) {
                     this.$router.replace({
                         path: '/fixed-investment',
                         query: {
