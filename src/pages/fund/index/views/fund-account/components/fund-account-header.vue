@@ -5,7 +5,7 @@
             .header-content-left
                 span.title 
                     em {{$t('accountTotal')}}
-                    i.iconfont(:class="chooseCurrencyShow?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
+                    i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
                 .fund__content
                     .number-price(
                         v-if="showPsd") {{firstPositionAmount || '--'}}.
@@ -211,13 +211,11 @@ export default {
     position: relative;
 }
 .block--header-height {
-    height: 284px;
+    height: 268px;
     background: linear-gradient(
-        360deg,
-        rgba(47, 121, 255, 0) 0%,
-        rgba(43, 116, 250, 0.67) 14%,
-        rgba(41, 113, 247, 0.89) 25%,
-        rgba(13, 80, 216, 1) 100%
+        176deg,
+        rgba(72, 156, 255, 1) 0%,
+        rgba(32, 102, 237, 1) 100%
     );
 }
 .block--header-height1 {
@@ -287,7 +285,7 @@ export default {
             height: 40px;
             justify-content: center;
             width: 100%;
-            margin: 10px 0;
+            // margin: 10px 0;
             flex-direction: row;
             .number-price {
                 font-size: 32px;
@@ -301,11 +299,13 @@ export default {
             }
             .number-price-active {
                 width: 55px;
-                height: 40px;
-                line-height: 55px;
-                margin: 0 0 0 5px;
+                height: 21px;
+                line-height: 16px;
+                margin: 16px 0 0 5px;
                 text-align: right;
-                height: 100%;
+                border: 1px solid rgba(255, 255, 255, 0.6);
+                border-radius: 2px;
+                font-size: 12px;
                 position: relative;
                 .block--master {
                     position: fixed;
@@ -317,14 +317,14 @@ export default {
                     background: rgba(0, 0, 0, 0.5);
                 }
                 .block__currey {
-                    width: 120px;
+                    width: 80px;
                     position: absolute;
                     height: 100px;
                     z-index: 9999999;
                     text-align: left;
                     border-radius: 10px;
                     left: 0px;
-                    top: 55px;
+                    top: 45px;
                     background: #fff;
                     display: flex;
                     justify-content: center;
@@ -411,7 +411,7 @@ export default {
     width: 351px;
     position: absolute;
     height: 80px;
-    bottom: -40px;
+    bottom: -50px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
     border-radius: 6px;
     background: #fff;
@@ -434,7 +434,7 @@ export default {
 .block__footer--hold {
     height: 32px;
     line-height: 32px;
-    margin: 10px auto;
+    margin: 15px auto;
     display: flex;
     justify-content: center;
     color: rgba(255, 255, 255, 0.6);
@@ -444,7 +444,7 @@ export default {
         background: rgba(255, 255, 255, 0.15);
         position: relative;
         padding: 0 10px;
-        border-radius: 2px 0px 0px 0px;
+        border-radius: 2px;
     }
     span:after {
         content: '';

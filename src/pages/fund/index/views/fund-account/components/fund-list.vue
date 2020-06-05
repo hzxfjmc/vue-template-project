@@ -214,13 +214,13 @@ export default {
         span {
             display: block;
             width: 4px;
-            height: 16px;
-            margin: 14px 0;
+            height: 14px;
+            margin: 6px 0 6px 4px;
         }
         p {
             width: 85%;
             font-size: 16px;
-            margin: 0 0 0 18px;
+            margin: 0 0 0 6px;
         }
         em {
             padding: 0 12px;
