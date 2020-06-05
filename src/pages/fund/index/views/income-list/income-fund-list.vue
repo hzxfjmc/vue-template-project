@@ -8,7 +8,7 @@
                 :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{holdStateData.earnings|transNumToThousandMark}} 
             .num(
                 v-if="holdStateData.earnings<0"
-                :class="stockColorType === 1 ? 'color-green' : 'color-red'") -{{holdStateData.earnings|transNumToThousandMark}} 
+                :class="stockColorType === 1 ? 'color-green' : 'color-red'") {{holdStateData.earnings|transNumToThousandMark}} 
             .num(v-if="holdStateData.earnings==0") {{holdStateData.earnings|transNumToThousandMark}} 
     .block__hr
     .block__list--wrapper
@@ -21,7 +21,14 @@
                 .tag(v-else) 已清仓
             .block__item
                 .desc {{$t('C1')}}
-                .num {{item.earnings}}
+                .num( 
+                    v-if="holdStateData.earnings>0"
+                    :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{item.earnings|transNumToThousandMark}}
+                .num( 
+                    v-if="holdStateData.earnings<0"
+                    :class="stockColorType === 1 ? 'color-green' : 'color-red'") {{item.earnings|transNumToThousandMark}}
+                .num( 
+                    v-if="holdStateData.earnings==0") {{item.earnings|transNumToThousandMark}}
         .block-element-nomore(v-if="holdStateData.fundGroupEarningsVOList.length === 0")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
             .no-record-box {{$t('nomore')}}

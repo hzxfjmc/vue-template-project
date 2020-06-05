@@ -24,30 +24,7 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
-        FightFund(
-            v-if="!fightShow && code === 1"
-            :userList="userList"
-            :swipeShow="swipeShow"
-            :actionInfo = "actionInfo")   
-
-        .block__fundheader--tips(
-            v-if="isLogin"
-            @click="toRouterGenerator('/order-record')")
-            em.iconfont.icon-iconEBshoucang
-            span.title {{$t('trade')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
        
-        fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
-        fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
-        .block__fundheader--tips(@click="toRouterGenerator('/generator')")
-            em.iconfont.icon-iconEBshoucang2
-            span.title {{$t('risk')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
-        fundCardList(
-            v-if="recommendList.length != 0"
-            :recommendList="recommendList")
         .fund___list--p
             p {{$t('msg1')}}
             p {{$t('msg2')}}
