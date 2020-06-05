@@ -22,10 +22,10 @@
                             span(
                                 @click="chooseCurrency(1)"
                                 :class="[currencyNum === 1 ? 'active' :'']") {{$t('usd')}}
-                .block__footer--hold
-                    span(
+                .block__footer--hold( 
                         v-if="inTransitOrder!=='0'"
-                        @click="toRouterPath('/fund-order-list')") {{inTransitOrder}}{{$t('fundmsg')}}
+                        @click="toRouterPath('/fund-order-list')")
+                    span {{inTransitOrder}}{{$t('fundmsg')}}
             .header-content-right
                 .block__content--left
                     span.block__content--subtitle {{$t('SevenDayIncome')}} 
@@ -210,22 +210,7 @@ export default {
     width: 100%;
     position: relative;
 }
-.block--header-height {
-    height: 268px;
-    background: linear-gradient(
-        176deg,
-        rgba(72, 156, 255, 1) 0%,
-        rgba(32, 102, 237, 1) 100%
-    );
-}
-.block--header-height1 {
-    height: 239px;
-    background: linear-gradient(
-        360deg,
-        rgba(47, 121, 255, 1) 0%,
-        rgba(13, 80, 216, 1) 100%
-    );
-}
+
 .bg-hk {
     background: linear-gradient(
         162deg,
@@ -256,9 +241,10 @@ export default {
     }
 }
 .header-content {
-    width: 100%;
+    // width: 351px;
     display: flex;
-    padding: 0 3% 20px 3%;
+    width: 100%;
+    padding: 0 0 22px 0;
     float: left;
     margin: 30px 0 0 0;
     flex-direction: column;
@@ -282,13 +268,13 @@ export default {
         }
         .fund__content {
             display: flex;
-            height: 40px;
+            height: 46px;
             justify-content: center;
             width: 100%;
             // margin: 10px 0;
             flex-direction: row;
             .number-price {
-                font-size: 32px;
+                font-size: 38px;
                 font-family: 'yxFontDINPro-Medium';
                 em {
                     font-size: 0.4rem;
@@ -301,7 +287,7 @@ export default {
                 width: 55px;
                 height: 21px;
                 line-height: 16px;
-                margin: 16px 0 0 5px;
+                margin: 24px 0 0 5px;
                 text-align: right;
                 border: 1px solid rgba(255, 255, 255, 0.6);
                 border-radius: 2px;
@@ -370,7 +356,7 @@ export default {
     .header-content-right {
         display: flex;
         flex-direction: row;
-        margin: 5px 0 0 0;
+        margin: 24px 0 0 0;
         width: 100%;
         .block__content--left,
         .block__content--right {
@@ -407,11 +393,10 @@ export default {
     }
 }
 .header-footer-tab {
-    margin: 0 12px;
+    // margin: 0 6px;
     width: 351px;
-    position: absolute;
     height: 80px;
-    bottom: -50px;
+    margin: 0 12px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
     border-radius: 6px;
     background: #fff;
@@ -434,7 +419,7 @@ export default {
 .block__footer--hold {
     height: 32px;
     line-height: 32px;
-    margin: 10px 0 22px 0;
+    margin: 10px 0 0 0;
     display: flex;
     justify-content: center;
     color: rgba(255, 255, 255, 0.6);

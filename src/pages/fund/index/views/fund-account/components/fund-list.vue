@@ -339,11 +339,11 @@ export default {
     }
 }
 .block-fund-list-content-hk {
-    width: 90%;
-    margin: 20px 5% 0 5%;
+    width: 351px;
+    margin: 20px 12px 0 12px;
 }
 .block-fund-list-content-ch {
-    width: 96%;
-    margin: 14px 2% 0 2%;
+    width: 351px;
+    margin: 14px 12px 0 12px;
 }
 </style>

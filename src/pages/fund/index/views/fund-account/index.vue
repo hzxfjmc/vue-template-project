@@ -215,7 +215,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-account-container {
-    padding: 0 0 20px 0;
+    width: 100%;
+    height: 284px;
+    background: linear-gradient(
+        360deg,
+        rgba(47, 121, 255, 0) 0%,
+        rgba(69, 152, 253, 1) 28%,
+        rgba(36, 108, 239, 1) 100%
+    );
 }
 .block-element-nomore {
     width: 100%;
@@ -228,9 +235,5 @@ export default {
         color: rgba(25, 25, 25, 0.5);
         margin: 10px 0 0 0;
     }
-}
-.fund--list--wrapper {
-    margin: 60px 0;
-    width: 100%;
 }
 </style>
