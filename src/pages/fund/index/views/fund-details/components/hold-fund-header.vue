@@ -4,7 +4,9 @@
         .block--header__left
             .fund-name.ellipse {{fundHeaderInfoVO.fundName}}
             span ISIN:{{fundHeaderInfoVO.fundCode}}
-        .block--header__right(@click="goToFundDetails")
+        .block--header__right(
+            v-if="fundHeaderInfoVO.release"
+            @click="goToFundDetails")
             span 基金详情
             em.iconfont.icon-iconEBgengduoCopy
     .block--hold__content
