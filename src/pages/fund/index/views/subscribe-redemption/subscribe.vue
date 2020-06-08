@@ -11,17 +11,11 @@
             .fund-content
                 .fond-buy
                     .block__fund--header.border-bottom
-                        span.fund__title--block {{$t('buyMoneyNumber')}}
-                        .block__fund--input(@click="focusEvent")
-                            span.usaspan(v-if="currency.type == 1") US$
-                            span.hkspan(v-else) HK$
-                            p {{money}}
-                            input(
-                                v-model="purchaseAmount" 
-                                type="text"
-                                :disabled="disabledInput"
-                                @input="changeNumber"
-                                :placeHolder="`${initialInvestAmount}${currency.type == 1 ? $t('usd') : $t('hkd') }${$t('buyMoneyPlaceHolder')} `" )
+                        NumberKeyboard( 
+                            :currency= "currency.name"
+                            :placeholder="placeholder"
+                            @handlerAmount="handlerAmount")
+
                     .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
@@ -121,12 +115,14 @@ import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
 import LS from '@/utils/local-storage'
 import './index.scss'
+import NumberKeyboard from './components/number-keyboard'
 export default {
     name: 'subscribe',
     components: {
         FundSteps,
         protocolPopup,
         shareWay,
+        NumberKeyboard,
         Loading
     },
     data() {
@@ -175,7 +171,8 @@ export default {
             subscribeFeeVO: {
                 defaultFeeRate: 0,
                 fundFeeLevelVOList: []
-            }
+            },
+            placeholder: '请输入'
         }
     },
     filters: {
@@ -261,6 +258,18 @@ export default {
         }
     },
     methods: {
+        handlerAmount(val) {
+            this.amount = val
+            // this.subscribeFeeVO.fundFeeLevelVOList.map(item => {
+            //     if (
+            //         Number(this.amount) >= Number(item.minAmount) &&
+            //         (!item.maxAmount ||
+            //             Number(this.amount) < Number(item.maxAmount))
+            //     ) {
+            //         this.feeRate = Number(item.feeRate * 100).toFixed(2)
+            //     }
+            // })
+        },
         async getFundFeeConfig() {
             try {
                 let params = {
@@ -619,6 +628,10 @@ export default {
                     )
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
+                this.placeholder = `${this.initialInvestAmount}${
+                    this.currency.type == 1 ? this.$t('usd') : this.$t('hkd')
+                }${this.$t('buyMoneyPlaceHolder')} `
+                console.log(this.placeholder)
                 this.tips = this.$t([
                     `*友信暂不支持使用${
                         this.currency.type == 1
