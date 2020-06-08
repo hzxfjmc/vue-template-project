@@ -77,15 +77,19 @@ export default {
         },
         async getFundPositionEarningsListV1() {
             try {
+                let data = {
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize
+                }
+                if (this.$route.query.id) {
+                    data.fundId = this.$route.query.id
+                }
                 const {
                     list,
                     pageSize,
                     pageNum,
                     total
-                } = await getFundPositionEarningsListV1({
-                    pageNum: this.pageNum,
-                    pageSize: this.pageSize
-                })
+                } = await getFundPositionEarningsListV1(data)
                 list.map(item => {
                     item.msg =
                         Number(item.earnings) > 0

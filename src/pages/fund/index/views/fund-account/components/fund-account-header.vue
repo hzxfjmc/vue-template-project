@@ -397,7 +397,7 @@ export default {
     width: 351px;
     height: 80px;
     margin: 0 12px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
     border-radius: 6px;
     background: #fff;
     display: flex;
