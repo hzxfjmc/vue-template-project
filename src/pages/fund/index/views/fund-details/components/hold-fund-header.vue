@@ -12,14 +12,14 @@
     .block--hold__content
         .blockk--hold__top  
             .block--top__item
-                span.top__l 持有资产
-                .num {{initState.positionMarketValue}}
+                span.top__l {{$t('positionMarketValue')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})
+                .num {{initState.positionMarketValue|transNumToThousandMark}}
         .block--hold__list
             .block__item
-                span 持有份额
+                span {{$t('positionShare')}}
                 .num {{initState.positionShare}}
             .block__item.block--element_c
-                span 近7日收益
+                span {{$t('weekEarnings')}}
                 .num(
                     v-if="initState.weekEarnings>0" 
                     :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.weekEarnings|transNumToThousandMark}}
@@ -30,12 +30,12 @@
             .block__item.block--element_r
                 span 持有收益
                 .num(
-                    v-if="initState.weekEarnings>0" 
+                    v-if="initState.positionEarnings>0" 
                     :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.positionEarnings|transNumToThousandMark}}
                 .num(
-                    v-if="initState.weekEarnings<0" 
+                    v-if="initState.positionEarnings<0" 
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.positionEarnings|transNumToThousandMark}}
-                .num( v-if="initState.weekEarnings==0") {{initState.positionEarnings|transNumToThousandMark}}
+                .num( v-if="initState.positionEarnings==0") {{initState.positionEarnings|transNumToThousandMark}}
         .block--subscribe__content
             .block__item(v-if="initState.redeemDeliveryShare != 0")
                 span.block_span 赎回中
@@ -100,7 +100,10 @@ export default {
             hkd: '港币',
             usd: '美元',
             iknow: '我知道了',
-            tenKRTN: '萬元收益'
+            tenKRTN: '萬元收益',
+            positionShare: '持有份额',
+            weekEarnings: '近7日收益',
+            positionMarketValue: '持有资产'
         },
         zhCHT: {
             Derivatives: '衍生產品',
@@ -115,7 +118,10 @@ export default {
             pirchaseHk: '最低認購金額',
             update: '更新時間',
             iknow: '我知道了',
-            tenKRTN: '万元收益'
+            tenKRTN: '万元收益',
+            positionShare: '持有份額',
+            weekEarnings: '近7日收益',
+            positionMarketValue: '持有市值'
         },
         en: {
             Derivatives: 'Derivatives',
@@ -130,7 +136,10 @@ export default {
             pirchaseHk: 'Min. Subs. Amount',
             update: 'Update Time',
             iknow: 'Got it',
-            tenKRTN: '10K RTN'
+            tenKRTN: '10K RTN',
+            positionShare: 'Holding Units',
+            weekEarnings: 'Last 1 week',
+            positionMarketValue: 'Holding Value'
         }
     },
     props: {
