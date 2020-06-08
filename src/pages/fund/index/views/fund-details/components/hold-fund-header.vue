@@ -7,7 +7,7 @@
         .block--header__right(
             v-if="fundHeaderInfoVO.release"
             @click="goToFundDetails")
-            span 基金详情
+            span {{$t('fundDetails')}}
             em.iconfont.icon-iconEBgengduoCopy
     .block--hold__content
         .blockk--hold__top  
@@ -28,7 +28,7 @@
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.weekEarnings|transNumToThousandMark}}
                 .num( v-if="initState.weekEarnings==0") {{initState.weekEarnings|transNumToThousandMark}}
             .block__item.block--element_r
-                span 持有收益
+                span {{$t('profitPosition')}}
                 .num(
                     v-if="initState.positionEarnings>0" 
                     :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.positionEarnings|transNumToThousandMark}}
@@ -36,13 +36,13 @@
                     v-if="initState.positionEarnings<0" 
                     :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.positionEarnings|transNumToThousandMark}}
                 .num( v-if="initState.positionEarnings==0") {{initState.positionEarnings|transNumToThousandMark}}
-        .block--subscribe__content
+        .block--subscribe__content(@click="JumpUrl('/order-record')")
             .block__item(v-if="initState.redeemDeliveryShare != 0")
-                span.block_span 赎回中
-                span.blpck_content 份额 {{initState.redeemDeliveryShare|transNumToThousandMark}}
+                span.block_span {{$t('Redemption')}}
+                span.blpck_content {{$t('')}} {{initState.redeemDeliveryShare|transNumToThousandMark}}
             .block__item(v-if="initState.inTransitAmount != 0")
-                span.block_span 申购中
-                span.blpck_content 美元 {{initState.inTransitAmount|transNumToThousandMark}}
+                span.block_span {{$t('subscribe')}}
+                span.blpck_content {{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}} {{initState.inTransitAmount|transNumToThousandMark}}
         .funds-details-footer
             .block__details--left
                 template(v-if="isMonetaryFund")
@@ -103,6 +103,10 @@ export default {
             tenKRTN: '萬元收益',
             positionShare: '持有份额',
             weekEarnings: '近7日收益',
+            profitPosition: '持有收益',
+            Redemption: '赎回中',
+            subscribe: '申购中',
+            share: '份额',
             positionMarketValue: '持有资产'
         },
         zhCHT: {
@@ -121,6 +125,10 @@ export default {
             tenKRTN: '万元收益',
             positionShare: '持有份額',
             weekEarnings: '近7日收益',
+            profitPosition: '持倉收益',
+            Redemption: '贖回中',
+            subscribe: '認購中',
+            share: '份額',
             positionMarketValue: '持有市值'
         },
         en: {
@@ -139,6 +147,10 @@ export default {
             tenKRTN: '10K RTN',
             positionShare: 'Holding Units',
             weekEarnings: 'Last 1 week',
+            profitPosition: 'Total Return',
+            Redemption: 'Redeming',
+            subscribe: 'Purchasing',
+            share: 'Unit',
             positionMarketValue: 'Holding Value'
         }
     },
