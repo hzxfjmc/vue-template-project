@@ -10,7 +10,7 @@
 
         .block__fundheader--tips(
             v-if="isLogin && holdDetailsShow"
-            @click="toRouterGenerator('/order-record')")
+            @click="toRouterGenerator('/hold-fund-details')")
             em.iconfont.icon-wallet2
             span.title {{$t('A77')}}
             .block__list--right
@@ -24,10 +24,6 @@
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
-
-        //- HoldfundDetails(
-        //-     v-if="holdDetailsShow"
-        //-     :initState="holdInitState")
 
         FightFundHk(
             v-if="!fightShow && code ===2"
@@ -66,9 +62,9 @@
                         @click="handleBuyOrSell(4)")
                         span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
                         em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
-                van-button.button-5width.button-left.btn(
-                    :class="[flag?'fund-check':'fund-no']" 
-                    @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                //- van-button.button-5width.button-left.btn(
+                //-     :class="[flag?'fund-check':'fund-no']" 
+                //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
                 van-button.btn.button-5width(
                     :class="[flag1?'fund-buy':'fund-no']" 
                     @click="toRouter('/fund-subscribe')") {{$t('append')}}
@@ -79,9 +75,9 @@
                 s {{defaultRate}}
                 span ）
             .fund-block--content
-                van-button.button-6width.button-left.btn(
-                    :class="[flag?'fund-check':'fund-no']" 
-                    @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                //- van-button.button-6width.button-left.btn(
+                //-     :class="[flag?'fund-check':'fund-no']" 
+                //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
                 van-button.btn.button-6width(
                     :class="[flag1?'fund-buy':'fund-no']" 
                     @click="toRouter('/fund-subscribe')") {{$t('append')}}
@@ -1696,7 +1692,7 @@ export default {
         color: rgba(255, 255, 255, 0.6);
     }
     .button-5width {
-        width: 33.33%;
+        width: 50%;
     }
     .button-6width {
         width: 50%;

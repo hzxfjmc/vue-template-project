@@ -60,7 +60,7 @@ export default {
         },
         async getFundGroupEarnings() {
             try {
-                let currency = this.activeName + 1
+                let currency = this.activeName === 0 ? 2 : 1
                 const res = await getFundGroupEarnings({
                     currency: currency
                 })
