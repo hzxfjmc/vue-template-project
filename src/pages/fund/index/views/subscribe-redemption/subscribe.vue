@@ -19,21 +19,28 @@
                             span(v-for="item in tagList") {{item}}
                     .block__tags(v-if="tagShow")
                         span 可申购金额不足
-                    .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
+                    .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney' && index != 'withdrawBalance'")
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value|transNumToThousandMark(2)}}%)
                                 span.msg(v-if="discountShow && code == 1") {{descrbeDiscount}}
                                 span.msg(v-if="discountShow && code == 2") {{descrbeDiscountHk}}
-                            .right-item-other(v-else-if="index === 'withdrawBalance'")
-                                span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
+                            //- .right-item-other(v-else-if="index === 'withdrawBalance'")
+                            //-     span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
                                 span {{item.value}}
-                    span.block__fund-tip {{tips}}
-                        em.block__fund--button(
-                            v-if="tipShow" 
-                            @click="toExchangePage") {{Exchange}}
+                   
+                .block__payment--type
+                    .block__header--title
+                        span 扣款方式
+                        span {{currency.type == 1 ? $t('usd'):$t('hkd')}}融资账户
+                    .block__bottom
+                        span {{subscribeObj['withdrawBalance'].label}}：{{subscribeObj['withdrawBalance'].value}}{{currency.type == 1 ? $t('usd'):$t('hkd')}}
+                .block__fund-tip 美元不足？友信支持7x24换汇服务
+                    em.block__fund--button(
+                        v-if="tipShow" 
+                        @click="toExchangePage") 点此查看详情
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
@@ -266,15 +273,6 @@ export default {
     methods: {
         handlerAmount(val) {
             this.amount = val
-            // this.subscribeFeeVO.fundFeeLevelVOList.map(item => {
-            //     if (
-            //         Number(this.amount) >= Number(item.minAmount) &&
-            //         (!item.maxAmount ||
-            //             Number(this.amount) < Number(item.maxAmount))
-            //     ) {
-            //         this.feeRate = Number(item.feeRate * 100).toFixed(2)
-            //     }
-            // })
         },
         async getFundFeeConfig() {
             try {
@@ -573,12 +571,11 @@ export default {
                     this.subscribeObj[key].label = this.$t('subscribeObj')[key]
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
-                const CurrencyName =
-                    this.currency.type == 1 ? this.$t('usd') : this.$t('hkd')
                 const CURRENCYEUMN = {
                     1: this.$t('usd'),
                     2: this.$t('hkd')
                 }
+                const CurrencyName = CURRENCYEUMN[this.currency.type]
                 const initialInvestAmount =
                     fundDetail.fundTradeInfoVO.initialInvestAmount
                 const formatInitialInvesetAmount = transNumToThousandMark(
@@ -620,7 +617,7 @@ export default {
                 this.placeholder = `${
                     this.initialInvestAmount
                 }${CurrencyName}${this.$t('buyMoneyPlaceHolder')} `
-                console.log(this.placeholder)
+
                 this.tips = this.$t([
                     `*友信暂不支持使用${CURRENCYEUMN[this.currency.type]}购买${
                         CURRENCYEUMN[this.currency.type]

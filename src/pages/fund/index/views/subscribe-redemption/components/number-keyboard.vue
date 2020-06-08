@@ -10,9 +10,9 @@
         div.number-board(
             v-else
             :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
-        span.block__all--out(
+        span.block__all--out.iconfont.icon-close(
             @click="allSell"
-            v-if="showAllSellBtn.show") {{$t('all')}}
+            v-if="amount != placeholder") 
     .block__footter-num
         van-number-keyboard(
             theme="custom"
@@ -40,6 +40,10 @@ export default {
             default: () => {
                 return { show: false, desc: '' }
             }
+        },
+        deletIcon: {
+            type: Boolean,
+            default: true
         },
         currency: {
             type: String
@@ -176,7 +180,7 @@ export default {
         },
         //全部卖出
         allSell() {
-            this.amount = this.showAllSellBtn.maxAmount
+            this.amount = this.placeholder
             this.$emit('handlerAmount', this.amount)
         },
         handlerAmount() {
@@ -295,7 +299,7 @@ export default {
         right: 0;
         width: 80px;
         display: inline-block;
-        color: #2f79ff;
+        color: rgba(25, 25, 25, 0.65);
         text-align: right;
     }
 }
