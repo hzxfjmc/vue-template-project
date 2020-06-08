@@ -69,7 +69,7 @@
                 span {{$t('orderRecord')}}
             .block--tab__item(@click="JumpUrl('/my-investment')")
                 em.iconfont.icon-dingtou
-                span {{$t('A75')}}
+                span {{$t('A75')}}({{fixedPlanNum}})
                             
 
 </template>
@@ -78,6 +78,7 @@ import dayjs from 'dayjs'
 import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { getFundFixedPlanCount } from '@/service/finance-server.js'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 export default {
     components: {
@@ -182,10 +183,24 @@ export default {
     },
     data() {
         return {
-            nowDate: dayjs(Date.parse(new Date())).format('MMDDYYYY')
+            nowDate: dayjs(Date.parse(new Date())).format('MMDDYYYY'),
+            fixedPlanNum: 0
         }
     },
+    created() {
+        this.getFundFixedPlanCount()
+    },
     methods: {
+        async getFundFixedPlanCount() {
+            try {
+                const { fixedPlanNum } = await getFundFixedPlanCount({
+                    fundId: this.$route.query.id
+                })
+                this.fixedPlanNum = fixedPlanNum
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         goToFundDetails() {
             this.$router.push({
                 name: 'fund-details',
