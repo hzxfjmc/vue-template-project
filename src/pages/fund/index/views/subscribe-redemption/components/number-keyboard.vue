@@ -1,6 +1,6 @@
 <template lang="pug">
 .block__numberkeyboard--wrapper
-    .block__out--wrapper.border-bottom(
+    .block__out--wrapper(
         @click="showNumberKeyboard")
         span.label {{currency}}
         span.block__tip--number {{unit}}

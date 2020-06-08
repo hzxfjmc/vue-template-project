@@ -15,7 +15,12 @@
                             :currency= "currency.name"
                             :placeholder="placeholder"
                             @handlerAmount="handlerAmount")
-
+                        .block__fund--tag--list
+                            span() 1000美元
+                            span 1000美元
+                            span 1000美元
+                    .block__tags
+                        span 可申购金额不足
                     .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
                         .right-item 
@@ -172,7 +177,8 @@ export default {
                 defaultFeeRate: 0,
                 fundFeeLevelVOList: []
             },
-            placeholder: '请输入'
+            placeholder: '请输入',
+            tagList: []
         }
     },
     filters: {
@@ -614,51 +620,67 @@ export default {
                 for (let key in this.subscribeObj) {
                     this.subscribeObj[key].label = this.$t('subscribeObj')[key]
                 }
-                if (this.positionStatus !== 1) {
-                    this.initialInvestAmount = transNumToThousandMark(
-                        Number(
-                            fundDetail.fundTradeInfoVO.initialInvestAmount
-                        ).toFixed(2)
-                    )
-                } else {
-                    this.initialInvestAmount = transNumToThousandMark(
-                        Number(
-                            fundDetail.fundTradeInfoVO.continueInvestAmount
-                        ).toFixed(2)
-                    )
-                }
                 this.currency = fundDetail.fundTradeInfoVO.currency
-                this.placeholder = `${this.initialInvestAmount}${
+                const CurrencyName =
                     this.currency.type == 1 ? this.$t('usd') : this.$t('hkd')
-                }${this.$t('buyMoneyPlaceHolder')} `
+                const CURRENCYEUMN = {
+                    1: this.$t('usd'),
+                    2: this.$t('hkd')
+                }
+                const formatInitialInvesetAmount = transNumToThousandMark(
+                    Number(
+                        fundDetail.fundTradeInfoVO.initialInvestAmount
+                    ).toFixed(2)
+                )
+                this.tagList =
+                    this.initialInvestAmount <= 1000
+                        ? [
+                              `1,000${CurrencyName}`,
+                              `2,000${CurrencyName}`,
+                              `3,000${CurrencyName}`
+                          ]
+                        : [
+                              `${transNumToThousandMark(
+                                  Number(
+                                      fundDetail.fundTradeInfoVO
+                                          .initialInvestAmount
+                                  ).toFixed(2)
+                              )}${CurrencyName}`,
+                              `${transNumToThousandMark(
+                                  Number(
+                                      fundDetail.fundTradeInfoVO
+                                          .initialInvestAmount * 2
+                                  ).toFixed(2)
+                              )}${CurrencyName}`,
+                              `${transNumToThousandMark(
+                                  Number(
+                                      fundDetail.fundTradeInfoVO
+                                          .initialInvestAmount * 4
+                                  ).toFixed(2)
+                              )}${CurrencyName}`
+                          ]
+                console.log(this.tagList)
+                if (this.positionStatus !== 1) {
+                    this.initialInvestAmount = formatInitialInvesetAmount
+                } else {
+                    this.initialInvestAmount = formatInitialInvesetAmount
+                }
+
+                this.placeholder = `${
+                    this.initialInvestAmount
+                }${CurrencyName}${this.$t('buyMoneyPlaceHolder')} `
                 console.log(this.placeholder)
                 this.tips = this.$t([
-                    `*友信暂不支持使用${
-                        this.currency.type == 1
-                            ? this.$t('hkd')
-                            : this.$t('usd')
-                    }购买${
-                        this.currency.type == 2
-                            ? this.$t('hkd')
-                            : this.$t('usd')
+                    `*友信暂不支持使用${CURRENCYEUMN[this.currency.type]}购买${
+                        CURRENCYEUMN[this.currency.type]
                     }基金，如有需要，您可以手动换汇后进行申购`,
-                    `*友信暫不支持使用${
-                        this.currency.type == 1
-                            ? this.$t('hkd')
-                            : this.$t('usd')
-                    }購買${
-                        this.currency.type == 2
-                            ? this.$t('hkd')
-                            : this.$t('usd')
+                    `*友信暫不支持使用${CURRENCYEUMN[this.currency.type]}購買${
+                        CURRENCYEUMN[this.currency.type]
                     }基金，如有需要，您可以手動換匯後進行申購`,
                     `*uSMART does not support the use of ${
-                        this.currency.type == 1
-                            ? this.$t('hkd')
-                            : this.$t('usd')
+                        CURRENCYEUMN[this.currency.type]
                     } to purchase ${
-                        this.currency.type == 2
-                            ? this.$t('hkd')
-                            : this.$t('usd')
+                        CURRENCYEUMN[this.currency.type]
                     } funds, If there is a need, you can manually exchange and then purchase the funds.`
                 ])
                 this.Exchange = this.$t('Exchange')
