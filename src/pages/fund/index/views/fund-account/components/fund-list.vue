@@ -65,10 +65,9 @@
 </template>
 <script>
 import localStorage from '@/utils/local-storage'
-import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { mapGetters } from 'vuex'
-import { parseThousands } from '@/utils/tools.js'
+import { parseThousands, jumpUrl } from '@/utils/tools.js'
 export default {
     props: {
         bgColor: {
@@ -169,7 +168,7 @@ export default {
         },
         toFundDetails(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/hold-fund-details?id=${item.fundId}`
-            gotoNewWebView(url)
+            jumpUrl(3, url)
         },
         changeEye() {
             this.eyeTab = localStorage.get('showMoney')
