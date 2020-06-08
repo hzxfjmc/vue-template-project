@@ -30,7 +30,7 @@ export default {
     components: {},
     props: {},
     computed: {
-        ...mapGetters(['stockColorType'])
+        ...mapGetters(['stockColorTypeClass'])
     },
     data() {
         return {}
