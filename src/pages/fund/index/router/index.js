@@ -171,6 +171,15 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fund-index/declare-agreement.vue`
                 )
+        },
+        {
+            name: 'fund-analyze-data',
+            path: '/fund-analyze-data',
+            meta: { title: 'fundAnalyzeData', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fund-details/components/fund-analyze-data/index.vue`
+                )
         }
     ]
 })

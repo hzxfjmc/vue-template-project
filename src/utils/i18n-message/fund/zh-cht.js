@@ -1,4 +1,5 @@
 export const zhCHT = {
+    fundAnalyzeData: '分析数据',
     fundDetails: '基金詳情',
     fundList: '基金列表',
     fundIntroduce: '基金概况',

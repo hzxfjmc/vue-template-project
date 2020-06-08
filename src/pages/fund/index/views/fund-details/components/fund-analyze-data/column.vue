@@ -10,13 +10,19 @@
         .fund-colunm__content
             .content__item
                 .item-title 夏普比率
-                .item-value(:class="stockColorTypeClass") +2.33   
+                .item-value(
+                    :class="stockColorTypeClass"
+                ) +2.33   
             .content__item
                 .item-title 上行捕获率
-                .item-value(:class="stockColorTypeClass") +2.33
+                .item-value(
+                    :class="stockColorTypeClass"
+                ) +2.33
             .content__item
                 .item-title 最大回撤
-                .item-value(:class="stockColorTypeClass") -2.33
+                .item-value(
+                    :class="stockColorTypeClass"
+                ) -2.33
 </template>
 <script>
 /**
