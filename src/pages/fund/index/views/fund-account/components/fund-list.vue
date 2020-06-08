@@ -168,7 +168,7 @@ export default {
             this.listShow = !this.listShow
         },
         toFundDetails(item) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
+            let url = `${window.location.origin}/wealth/fund/index.html#/hold-fund-details?id=${item.fundId}`
             gotoNewWebView(url)
         },
         changeEye() {
