@@ -126,16 +126,20 @@ export default {
         //定投计划列表
         async getFundFixedPlanPage() {
             try {
+                let data = {
+                    fixedPlanStatus: [1, 2],
+                    pageNum: this.planPageNum,
+                    pageSize: this.planPageSize
+                }
+                if (this.$route.query.id) {
+                    data.fundId = this.$route.query.id
+                }
                 const {
                     list,
                     pageSize,
                     pageNum,
                     total
-                } = await getFundFixedPlanPage({
-                    fixedPlanStatus: [1, 2],
-                    pageNum: this.planPageNum,
-                    pageSize: this.planPageSize
-                })
+                } = await getFundFixedPlanPage(data)
                 this.list = this.list.concat(list)
                 this.planPageNum = pageNum
                 this.planPageSize = pageSize
