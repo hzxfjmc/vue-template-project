@@ -15,11 +15,9 @@
                             :currency= "currency.name"
                             :placeholder="placeholder"
                             @handlerAmount="handlerAmount")
-                        .block__fund--tag--list
-                            span() 1000美元
-                            span 1000美元
-                            span 1000美元
-                    .block__tags
+                        .block__fund--tag--list(v-if="tagList.length!=0")
+                            span(v-for="item in tagList") {{item}}
+                    .block__tags(v-if="tagShow")
                         span 可申购金额不足
                     .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
                         .left-item {{item.label}}
@@ -226,7 +224,6 @@ export default {
             }
         }
     },
-
     async created() {
         if (LS.get('groupId') != undefined) {
             this.groupId = LS.get('groupId')
@@ -251,6 +248,9 @@ export default {
             'openedAccount',
             'appVersion'
         ]),
+        tagShow() {
+            return false
+        },
         // 预计完成时间多语言配置
         predictDay() {
             return {
@@ -527,54 +527,6 @@ export default {
                 return
             }
         },
-        changeNumber(e) {
-            let obj = {
-                en: {
-                    5: 'Ten Thousand',
-                    6: 'Hundred Thousand',
-                    7: 'Million',
-                    8: 'Ten Million',
-                    9: 'Hundred Million'
-                },
-                zhCHT: {
-                    5: '萬',
-                    6: '十萬',
-                    7: '百萬',
-                    8: '千萬',
-                    9: '億'
-                },
-                zhCHS: {
-                    5: '万',
-                    6: '十万',
-                    7: '百万',
-                    8: '千万',
-                    9: '亿'
-                }
-            }
-            let match =
-                (this.purchaseAmount &&
-                    this.purchaseAmount.match(/^(\d+)(\.)?(\d{1,2})?/)) ||
-                []
-            this.purchaseAmount = `${match[1] || ''}${match[2] ||
-                ''}${match[3] || ''}`
-            if (e.target.value.indexOf('.') > 0) {
-                this.money =
-                    obj[this.lang][this.purchaseAmount.split('.')[0].length]
-            } else {
-                this.money = obj[this.lang][this.purchaseAmount.length]
-            }
-            if (e.target.value > +this.withdrawBalance) {
-                this.purchaseAmount = +this.withdrawBalance
-                this.purchaseAmount = this.purchaseAmount + ''
-                this.money =
-                    this.purchaseAmount.indexOf('.') > 0
-                        ? obj[this.lang][
-                              this.purchaseAmount.split('.')[0].length
-                          ]
-                        : obj[this.lang][this.purchaseAmount.length]
-                return
-            }
-        },
         async openProtocol(url) {
             url = await getCosUrl(url)
             if (jsBridge.isYouxinApp) {
@@ -627,39 +579,38 @@ export default {
                     1: this.$t('usd'),
                     2: this.$t('hkd')
                 }
+                const initialInvestAmount =
+                    fundDetail.fundTradeInfoVO.initialInvestAmount
                 const formatInitialInvesetAmount = transNumToThousandMark(
-                    Number(
-                        fundDetail.fundTradeInfoVO.initialInvestAmount
-                    ).toFixed(2)
+                    Number(initialInvestAmount).toFixed(2)
                 )
-                this.tagList =
-                    this.initialInvestAmount <= 1000
-                        ? [
-                              `1,000${CurrencyName}`,
-                              `2,000${CurrencyName}`,
-                              `3,000${CurrencyName}`
-                          ]
-                        : [
-                              `${transNumToThousandMark(
-                                  Number(
-                                      fundDetail.fundTradeInfoVO
-                                          .initialInvestAmount
-                                  ).toFixed(2)
-                              )}${CurrencyName}`,
-                              `${transNumToThousandMark(
-                                  Number(
-                                      fundDetail.fundTradeInfoVO
-                                          .initialInvestAmount * 2
-                                  ).toFixed(2)
-                              )}${CurrencyName}`,
-                              `${transNumToThousandMark(
-                                  Number(
-                                      fundDetail.fundTradeInfoVO
-                                          .initialInvestAmount * 4
-                                  ).toFixed(2)
-                              )}${CurrencyName}`
-                          ]
-                console.log(this.tagList)
+                if (
+                    Number(this.subscribeObj['withdrawBalance'].value) >
+                    initialInvestAmount
+                ) {
+                    this.tagList =
+                        initialInvestAmount <= 1000
+                            ? [
+                                  `1,000${CurrencyName}`,
+                                  `2,000${CurrencyName}`,
+                                  `3,000${CurrencyName}`
+                              ]
+                            : [
+                                  `${transNumToThousandMark(
+                                      Number(initialInvestAmount),
+                                      0
+                                  )}${CurrencyName}`,
+                                  `${transNumToThousandMark(
+                                      Number(initialInvestAmount * 2),
+                                      0
+                                  )}${CurrencyName}`,
+                                  `${transNumToThousandMark(
+                                      Number(initialInvestAmount * 4),
+                                      0
+                                  )}${CurrencyName}`
+                              ]
+                }
+
                 if (this.positionStatus !== 1) {
                     this.initialInvestAmount = formatInitialInvesetAmount
                 } else {
