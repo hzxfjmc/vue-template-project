@@ -17,6 +17,7 @@
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
+        AnalyzeData
         HoldfundDetails(
             v-if="holdDetailsShow"
             :initState="holdInitState")
@@ -163,6 +164,7 @@ import FightFundHk from './components/fight-fund-hk.vue'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
+import AnalyzeData from './components/analyze-data'
 import scheme from '@/utils/scheme'
 import env from '@/utils/scheme/env'
 import dayjs from 'dayjs'
@@ -317,7 +319,8 @@ export default {
         fundSurvey,
         fundCardList,
         fundTradingRules,
-        FightFundHk
+        FightFundHk,
+        AnalyzeData
     },
     computed: {
         RedemptionButton() {
