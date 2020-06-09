@@ -378,7 +378,7 @@ export default {
         }
     }
     .block--header__right {
-        width: 87px;
+        // width: 87px;
         height: 27px;
         background: rgba(47, 121, 255, 0.05);
         border-radius: 100px 0px 0px 100px;
