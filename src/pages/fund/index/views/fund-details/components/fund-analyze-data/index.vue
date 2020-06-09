@@ -24,34 +24,40 @@
                         th 5年   
                     tr
                         td 夏普比率                            
-                        td {{riskMeasureApiVO.sharpeRatio1Yr}}                           
-                        td {{riskMeasureApiVO.sharpeRatio3Yr}}                           
-                        td {{riskMeasureApiVO.sharpeRatio5Yr}}                            
+                        td(
+                            v-for="item,index in keyList1" 
+                            :key="`key_${index}`"
+                            ) {{riskMeasureApiVO[`sharpeRatio${item}Yr`] | filterRatio}}                                                    
                     tr
-                        td 最大回撤                            
-                        td {{riskMeasureApiVO.maxDrawDown1Yr}}                           
-                        td {{riskMeasureApiVO.maxDrawDown3Yr}}                            
-                        td {{riskMeasureApiVO.maxDrawDown5Yr}}                            
+                        td 最大回撤
+                        td(
+                            v-for="item,index in keyList1" 
+                            :key="`key_${index}`"
+                            ) {{riskMeasureApiVO[`maxDrawDown${item}Yr`] | filterRatio}}                                                        
                     tr
-                        td 上行捕获比                            
-                        td {{relativeRiskMeasureCategoryApiVO.captureRatioUpside1Yr}}                            
-                        td {{relativeRiskMeasureCategoryApiVO.captureRatioUpside3Yr}}                            
-                        td {{relativeRiskMeasureCategoryApiVO.captureRatioUpside5Yr}}                            
+                        td 上行捕获比 
+                        td(
+                            v-for="item,index in keyList1" 
+                            :key="`key_${index}`"
+                            ) {{relativeRiskMeasureCategoryApiVO[`captureRatioUpside${item}Yr`] | filterRatio}}                                                       
                     tr
-                        td 下行捕获比                            
-                        td {{relativeRiskMeasureCategoryApiVO.captureRatioDownside1Yr}}                            
-                        td {{relativeRiskMeasureCategoryApiVO.captureRatioDownside3Yr}}                            
-                        td {{relativeRiskMeasureCategoryApiVO.captureRatioDownside5Yr}}                            
+                        td 下行捕获比   
+                        td(
+                            v-for="item,index in keyList1" 
+                            :key="`key_${index}`"
+                            ) {{relativeRiskMeasureCategoryApiVO[`captureRatioDownside${item}Yr`] | filterRatio}}                                                     
                     tr
-                        td Alpha                            
-                        td {{mptStatisticsPrimaryIndexApiVO.alpha1Yr}}                            
-                        td {{mptStatisticsPrimaryIndexApiVO.alpha3Yr}}                            
-                        td {{mptStatisticsPrimaryIndexApiVO.alpha5Yr}}                            
+                        td Alpha      
+                        td(
+                            v-for="item,index in keyList1" 
+                            :key="`key_${index}`"
+                            ) {{mptStatisticsPrimaryIndexApiVO[`alpha${item}Yr`] | filterRatio}}                                                 
                     tr
-                        td Beta                            
-                        td {{mptStatisticsPrimaryIndexApiVO.beta1Yr}}                            
-                        td {{mptStatisticsPrimaryIndexApiVO.beta3Yr}}                            
-                        td {{mptStatisticsPrimaryIndexApiVO.beta5Yr}}                             
+                        td Beta  
+                        td(
+                            v-for="item,index in keyList1" 
+                            :key="`key_${index}`"
+                            ) {{mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`] | filterRatio}}                           
         .fund-block
             .fund-block__header
                 .title 投资风格箱（大盘平衡型）
@@ -66,24 +72,24 @@
                         td.label-title （规模）
                     tr
                         td &nbsp;
-                        td.value.td-col-1 2
-                        td.value.td-col-2 1
-                        td.value.td-col-3 1
+                        td.value.td-col-1 {{styleBoxBreakDown.largeValue}}
+                        td.value.td-col-2 {{styleBoxBreakDown.largeBlend}}
+                        td.value.td-col-3 {{styleBoxBreakDown.largeGrowth}}
                         td.label 大盘
                     tr
                         td &nbsp;
-                        td.value 1
-                        td.value 1
-                        td.value 1
+                        td.value {{styleBoxBreakDown.midValue}}
+                        td.value {{styleBoxBreakDown.midBlend}}
+                        td.value {{styleBoxBreakDown.midGrowth}}
                         td.label 中盘
                     tr
                         td &nbsp;
-                        td.value 1
-                        td.value 1
-                        td.value 1
+                        td.value {{styleBoxBreakDown.smallValue}}
+                        td.value {{styleBoxBreakDown.smallBlend}}
+                        td.value {{styleBoxBreakDown.smallGrowth}}
                         td.label 小盘
                     tr
-                        td.label-title （风格）
+                        td.label-title （{{equityStyleBoxApiVO.equityStyleBox}}）
                         td.label 价值型
                         td.label 平衡型
                         td.label 成长型
@@ -118,7 +124,6 @@ export default {
             currency: getCurrencyName
         }
     },
-    components: {},
     props: {
         fundId: {
             type: [String, Number],
@@ -126,16 +131,29 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['lang']),
+        styleBoxBreakDown() {
+            return this.equityStyleBoxApiVO.styleBoxBreakDown
+        }
+    },
+    filters: {
+        filterRatio(val) {
+            return val ? `${Number(val).toFixed(2)}%` : `--`
+        }
     },
     data() {
         return {
+            keyList1: [1, 3, 5],
+            keyList2: ['largeValue', 'largeBlend', 'largeGrowth'],
+            keyList3: ['midValue', 'midBlend', 'midGrowth'],
+            keyList4: ['smallValue', 'smallBlend', 'smallGrowth'],
             fundName: '',
             isin: '',
             analyzeData: {},
             mptStatisticsPrimaryIndexApiVO: {},
             relativeRiskMeasureCategoryApiVO: {},
-            riskMeasureApiVO: {}
+            riskMeasureApiVO: {},
+            equityStyleBoxApiVO: {}
         }
     },
     methods: {
@@ -145,11 +163,14 @@ export default {
                     fundId: this.$route.query.fundId
                 }
                 this.analyzeData = await getFundAnalysisDataV1(params)
-                this.mptStatisticsPrimaryIndexApiVO =
-                    this.analyzeData.mptStatisticsPrimaryIndexApiVO || {}
-                this.relativeRiskMeasureCategoryApiVO =
-                    this.analyzeData.relativeRiskMeasureCategoryApiVO || {}
-                this.riskMeasureApiVO = this.analyzeData.riskMeasureApiVO || {}
+                ;[
+                    'mptStatisticsPrimaryIndexApiVO',
+                    'relativeRiskMeasureCategoryApiVO',
+                    'riskMeasureApiVO',
+                    'equityStyleBoxApiVO'
+                ].forEach(key => {
+                    this[key] = this.analyzeData[key] || {}
+                })
             } catch (e) {
                 this.$toast(e.msg)
             }

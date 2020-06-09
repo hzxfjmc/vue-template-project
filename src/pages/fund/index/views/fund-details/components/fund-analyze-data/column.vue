@@ -54,8 +54,8 @@ export default {
     filters: {
         filterRatio(val) {
             return Number(val) > 0
-                ? `+${Number(val * 100).toFixed(2)}%`
-                : `${Number(val * 100).toFixed(2)}%`
+                ? `+${Number(val).toFixed(2)}%`
+                : `${Number(val).toFixed(2)}%`
         }
     },
     methods: {
