@@ -943,6 +943,7 @@ export default {
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.fundOverviewInfoVO.currencyName = this.fundOverviewInfoVO.currency.name
+                //基金是否下架
                 if (res.release) {
                     //赎回按钮是否置灰
                     this.flag =
