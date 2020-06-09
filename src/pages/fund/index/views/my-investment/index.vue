@@ -18,7 +18,7 @@
                     @click="toInvestmentDetails(item,index)"
                     v-for="(item,index) in list")
                     .block--item--header.bg-color.ellipse {{item.fundName}}
-                    .block--item--content.border-bottom
+                    .block--item--content(:class="[item.fixedPlanStatus== 2?'':'border-bottom']")
                         .item--left 
                             .top {{$t('A79')}}({{item.currency === 1 ? $t('usd'):item.currency === 2 ? $t('hkd'):''}})
                             .bottom {{item.fixedTotalAmount|transNumToThousandMark}}
@@ -29,13 +29,14 @@
                     .block--item--footer
                         .flex-item
                             .top {{$t('A81')}}
-                            .bottom {{item.recentDeductionDate}}({{item.week}})
+                            .bottom(v-if="item.fixedPlanStatus!= 2") {{item.recentDeductionDate}}({{item.week}})
+                            .bottom(v-else) --
                         .flex-item
                             .top {{$t('A82')}}
-                            .bottom {{item.chargeType}}
+                            .bottom {{item.fixedPlanStatus!= 2 ? item.chargeType :'--'}}
                         .flex-item
                             .top {{$t('A83')}}
-                            .bottom {{item.fixedPlanAmount}}
+                            .bottom {{item.fixedPlanStatus!= 2 ? item.fixedPlanAmount :'--'}}
                     .block__tags(v-if="item.fixedPlanStatus == 2") 已暂停
         van-tab(:title="$t(['历史计划','歷史計劃','Historical Plan'])")
             van-list.order-record-list(
