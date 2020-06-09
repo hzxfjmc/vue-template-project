@@ -17,8 +17,8 @@
             v-for="(item,index) in holdStateData.fundGroupEarningsVOList")
             .block__item
                 .fund-name.ellipse {{item.fundName}}
-                .tag(v-if="item.havePosition") 持仓中
-                .tag(v-else) 已清仓
+                .tag(v-if="item.havePosition") {{$t('hold')}}
+                .tag(v-else) {{$t('ClosedPosition')}}
             .block__item
                 .desc {{$t('C1')}}
                 .num( 
@@ -71,17 +71,26 @@ export default {
         zhCHS: {
             nomore: '暂无收益',
             positionEarnings: '持仓收益',
-            C1: '收益'
+            C1: '收益',
+            hold: '持仓中',
+            ClosedPosition: '已清仓',
+            NotSupport: '暂不支持'
         },
         zhCHT: {
             nomore: '暫無收益',
             positionEarnings: '持有收益',
-            C1: '收益'
+            C1: '收益',
+            hold: '持倉中',
+            ClosedPosition: '已清倉',
+            NotSupport: '暫不支持'
         },
         en: {
             nomore: 'No Return',
             positionEarnings: 'Total P/L',
-            C1: 'Return'
+            C1: 'Return',
+            hold: 'Hold Position',
+            ClosedPosition: 'Closed Position',
+            NotSupport: 'Not Support'
         }
     }
 }

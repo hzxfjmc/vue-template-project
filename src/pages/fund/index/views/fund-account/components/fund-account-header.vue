@@ -310,8 +310,8 @@ export default {
                     z-index: 9999999;
                     text-align: left;
                     border-radius: 10px;
-                    left: 0px;
-                    top: 45px;
+                    left: -15px;
+                    top: 40px;
                     background: #fff;
                     display: flex;
                     justify-content: center;
@@ -332,11 +332,12 @@ export default {
                     content: '';
                     width: 0px;
                     height: 0px;
-                    top: -10px;
+                    top: -8px;
                     left: 20px;
                     border-left: 10px solid transparent;
                     border-right: 10px solid transparent;
                     border-bottom: 10px solid #fff;
+                    transform: translateX(10px);
                     position: absolute;
                 }
                 em {

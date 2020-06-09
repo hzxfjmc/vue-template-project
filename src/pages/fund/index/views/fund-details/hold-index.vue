@@ -1072,7 +1072,7 @@ export default {
                 !this.release
             ) {
                 return this.$toast(
-                    this.$t(['暂不支持', '暂不支持', '暂不支持'])
+                    this.$t(['暂不支持', '暫不支持', 'Not Support'])
                 )
             }
             if (!this.flag2 || !this.flag1)
