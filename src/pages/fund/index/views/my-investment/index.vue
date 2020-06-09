@@ -21,10 +21,10 @@
                     .block--item--content.border-bottom
                         .item--left 
                             .top {{$t('A79')}}({{item.currency === 1 ? $t('usd'):item.currency === 2 ? $t('hkd'):''}})
-                            .bottom {{item.fixedTotalAmount}}
+                            .bottom {{item.fixedTotalAmount|transNumToThousandMark}}
                         .item--left 
                             .top {{$t('A80')}}
-                            .bottom {{item.investNum}}
+                            .bottom.bolder {{item.investNum}}
                        
                     .block--item--footer
                         .flex-item
@@ -77,12 +77,15 @@
 <script>
 import './index.scss'
 import { getFundFixedPlanPage } from '@/service/finance-server.js'
-import { jumpUrl } from '@/utils/tools.js'
+import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import { List } from 'vant'
 import dayjs from 'dayjs'
 export default {
     components: {
         [List.name]: List
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
     },
     data() {
         return {

@@ -463,7 +463,8 @@ export default {
     .investment__detail__tag {
         margin: 0 12px;
         display: flex;
-        justify-content: space-around;
+        padding: 0 12px;
+        justify-content: space-between;
         .investment__detail__tag_item {
             display: flex;
             align-items: center;

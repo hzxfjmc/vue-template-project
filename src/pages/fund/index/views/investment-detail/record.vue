@@ -4,7 +4,7 @@
         p(:class="!isNotStop?'black':''") {{$t('A96')}}
     .investment__record__container(v-if="!hasRecord")
         .investment__record_title
-            span(v-for="(item,index) in titleList" :key='index') {{item}}
+            .block__title(v-for="(item,index) in titleList" :key='index' :class="`item${index}`") {{item}}
         .investment__record_content
             van-list.record_content_list(
                 v-model="loading" 
@@ -121,13 +121,22 @@ export default {
             font-size: 16px;
             color: $text-link-color;
             margin-bottom: 12px;
+            font-weight: bold;
         }
     }
     .investment__record_title {
         display: flex;
         justify-content: space-between;
-        span {
+        flex-direction: row;
+        .block__title {
             color: $text-color6;
+            flex: 1;
+        }
+        .item1 {
+            text-align: center;
+        }
+        .item2 {
+            text-align: right;
         }
     }
     .investment__record_content {
@@ -144,7 +153,7 @@ export default {
                     flex: 1;
                 }
                 .list_item_amount {
-                    text-align: left;
+                    text-align: center;
                     flex: 1;
                     // text-align: center;
                 }
