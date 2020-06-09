@@ -437,16 +437,16 @@ export default {
     }
     span:after {
         content: '';
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-bottom: 6px solid rgba(255, 255, 255, 0.15);
-        border-top: 6px solid transparent;
+        border-left: 0.12rem solid transparent;
+        border-right: 0.12rem solid transparent;
+        border-bottom: 0.115rem solid rgba(255, 255, 255, 0.15);
+        border-top: 0.12rem solid transparent;
         position: absolute;
         width: 0;
         height: 0;
-        top: -11px;
+        top: -0.23rem;
         left: 50%;
-        transform: translateX(-3px);
+        transform: translateX(-0.06rem);
     }
     em {
         font-size: 20px;
