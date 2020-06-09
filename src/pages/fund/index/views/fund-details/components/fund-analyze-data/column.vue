@@ -4,7 +4,7 @@
             .col-left
                 .iconfont.icon-iconEBshoucang
                 .title 分析数据（3年）   
-            .col-right
+            .col-right(@click="handleGoDetail")
                 span.title 查看更多
                 span.iconfont.icon-iconEBgengduoCopy    
         .fund-colunm__content
@@ -41,7 +41,18 @@ export default {
     data() {
         return {}
     },
-    methods: {},
+    methods: {
+        handleGoDetail() {
+            let url =
+                window.location.origin +
+                '/wealth/fund/index.html#/fund-analyze-data'
+            if (this.$jsBridge.isYouxinApp) {
+                this.$jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
+        }
+    },
     created() {}
 }
 </script>
