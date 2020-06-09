@@ -66,9 +66,9 @@
                         td.label-title （规模）
                     tr
                         td &nbsp;
-                        td.value 2
-                        td.value 1
-                        td.value 1
+                        td.value.td-col-1 2
+                        td.value.td-col-2 1
+                        td.value.td-col-3 1
                         td.label 大盘
                     tr
                         td &nbsp;
@@ -194,6 +194,15 @@ export default {
             td.value {
                 height: 60px;
                 background-color: $primary-color-line-1;
+            }
+            td.td-col-1 {
+                background-color: $primary-color-line-3;
+            }
+            td.td-col-2 {
+                background-color: $primary-color-line;
+            }
+            td.td-col-3 {
+                background-color: $primary-color-line-6;
             }
             td.label {
                 color: $text-color5;
