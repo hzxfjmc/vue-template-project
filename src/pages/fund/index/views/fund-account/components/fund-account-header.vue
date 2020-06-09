@@ -439,11 +439,11 @@ export default {
         border-left: 6px solid transparent;
         border-right: 6px solid transparent;
         border-bottom: 6px solid rgba(255, 255, 255, 0.15);
-        border-top: 5px solid transparent;
+        border-top: 6px solid transparent;
         position: absolute;
         width: 0;
         height: 0;
-        top: -10px;
+        top: -12px;
         left: 50%;
         transform: translateX(-3px);
     }
