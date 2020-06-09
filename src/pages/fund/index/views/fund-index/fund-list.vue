@@ -2,8 +2,9 @@
     .block__fund(
         :class="[code != 1 ? 'block__fund-ch' : 'block__fund-ch']")
         .block__fund-title.ellipse {{fundlist.masterTitle}}
-        .block__fund--list.border-bottom(
+        .block__fund--list(
             @click="goNext(item)"
+            :class="[fundlist.data.length-1 == index ? '':'border-bottom']"
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .element--fund--content
