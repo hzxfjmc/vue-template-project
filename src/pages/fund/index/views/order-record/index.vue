@@ -3,7 +3,7 @@
         .fund-introduce
             .fund-name {{fundIntro}}
             .fund-detail
-                span isin：{{isin}}
+                span ISIN:{{isin}}
                 //- fund-tag(:title="assetType")
                 //- fund-tag(:title="fundRisk")
         .order-record-box

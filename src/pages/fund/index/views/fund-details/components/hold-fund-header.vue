@@ -3,7 +3,7 @@
     .block--hold__header
         .block--header__left
             .fund-name.ellipse {{fundHeaderInfoVO.fundName}}
-            span ISIN:{{fundHeaderInfoVO.fundCode}}
+            span ISIN:{{fundHeaderInfoVO.isin}}
         .block--header__right(
             v-if="fundHeaderInfoVO.release"
             @click="goToFundDetails")

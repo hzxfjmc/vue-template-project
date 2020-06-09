@@ -916,6 +916,7 @@ export default {
                     isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fundHeaderInfoVO.release = res.release
                 this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
