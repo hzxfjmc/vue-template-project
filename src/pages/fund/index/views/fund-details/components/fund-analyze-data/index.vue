@@ -72,21 +72,25 @@
                         td.label-title （规模）
                     tr
                         td &nbsp;
-                        td.value.td-col-1 {{styleBoxBreakDown.largeValue}}
-                        td.value.td-col-2 {{styleBoxBreakDown.largeBlend}}
-                        td.value.td-col-3 {{styleBoxBreakDown.largeGrowth}}
+                        td.value( 
+                            v-for="item,index in keyList2" 
+                            :key="`key_${index}`"
+                            :class="`td-col-${index+1}`"
+                            ) {{styleBoxBreakDown[item] | filterRatio}}
                         td.label 大盘
                     tr
                         td &nbsp;
-                        td.value {{styleBoxBreakDown.midValue}}
-                        td.value {{styleBoxBreakDown.midBlend}}
-                        td.value {{styleBoxBreakDown.midGrowth}}
+                        td.value( 
+                            v-for="item,index in keyList3" 
+                            :key="`key_${index}`"
+                            ) {{styleBoxBreakDown[item] | filterRatio}}
                         td.label 中盘
                     tr
                         td &nbsp;
-                        td.value {{styleBoxBreakDown.smallValue}}
-                        td.value {{styleBoxBreakDown.smallBlend}}
-                        td.value {{styleBoxBreakDown.smallGrowth}}
+                        td.value( 
+                            v-for="item,index in keyList3" 
+                            :key="`key_${index}`"
+                            ) {{styleBoxBreakDown[item] | filterRatio}}
                         td.label 小盘
                     tr
                         td.label-title （{{equityStyleBoxApiVO.equityStyleBox}}）
