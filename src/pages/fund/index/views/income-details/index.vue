@@ -1,7 +1,7 @@
 <template lang="pug">
 .income-details-content
     .block__element--header
-        span 持仓收益({{positionInfo.curreny}})
+        span {{$t('positionEarnings')}}({{positionInfo.curreny}})
         .num(
             v-if="positionInfo.positionEarnings>0"
             :class="stockColorType === 1 ?'element-price-red':'element-price-green'") +{{positionInfo.positionEarnings}}
@@ -12,8 +12,8 @@
     span.hr
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad") 
         .block__title.border-bottom
-            .item--title 时间
-            .item--title 收益({{positionInfo.curreny}})
+            .item--title {{$t('A97')}}
+            .item--title {{$t('C11')}}({{positionInfo.curreny}})
         .list(class="border-bottom" v-for="(item,index) in list" :key="index")
             span {{item.belongDate}}
             span(v-if="item.msg == 0" :class="stockColorType === 1 ?'element-price-red':'element-price-green'") +{{item.earnings}}
@@ -40,21 +40,27 @@ export default {
             amountMoney: '金额',
             time: '日期',
             nomore: '暂无收益',
-            nomore1: '无更多内容'
+            nomore1: '无更多内容',
+            positionEarnings: '持仓收益',
+            C11: '收益'
         },
         zhCHT: {
             FundNmae: '基金名稱',
             amountMoney: '金額',
             time: '日期',
             nomore: '暫無收益',
-            nomore1: '無更多內容'
+            nomore1: '無更多內容',
+            positionEarnings: '持有收益',
+            C11: '收益'
         },
         en: {
             FundNmae: 'Fund Name',
             amountMoney: 'Amount',
             time: 'Date',
             nomore: 'No Return',
-            nomore1: 'No More Content'
+            nomore1: 'No More Content',
+            positionEarnings: 'Total P/L',
+            C11: 'Return'
         }
     },
     data() {
@@ -130,8 +136,9 @@ export default {
     },
     mounted() {
         this.getFundPositionEarningsListV1()
-        if (this.$route.query.positionInfo) {
-            this.positionInfo = JSON.parse(this.$route.query.positionInfo)
+        if (this.$route.query.positionEarnings) {
+            this.positionInfo.positionEarnings = this.$route.query.positionEarnings
+            this.positionInfo.curreny = this.$route.query.curreny
         }
     }
 }

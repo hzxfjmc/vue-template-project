@@ -1,7 +1,7 @@
 <template lang="pug">
     .order-record-container(v-if='orderRecordList.length>0')
         .fund-introduce
-            .fund-name {{fundIntro}}
+            .fund-name.ellipse {{fundIntro}}
             .fund-detail
                 span ISIN:{{isin}}
                 //- fund-tag(:title="assetType")
@@ -191,6 +191,7 @@ export default {
             font-size: 16px;
             line-height: 22px;
             margin-bottom: 6px;
+            width: 80%;
             font-family: '';
         }
         .fund-detail {
