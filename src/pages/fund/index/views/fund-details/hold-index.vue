@@ -24,110 +24,106 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
-       
         .fund___list--p
             p {{$t('msg1')}}
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
-        .block__fund--dismount(v-if="fundHeaderInfoVO.release")
-            .fund-footer-content(v-if="RedemptionButton")
-                span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
-                    span （
-                    s {{defaultRate}}
-                    span ）
-                .fund-block--content
-                    .btn.colorbg.button-5width.btn-inverster(
-                            :class="[investmentShow? 'fund-footer':'fund-no']"
-                            @click="handleBuyOrSell(4)")
-                            span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
-                            em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
-                    van-button.button-5width.button-left.btn(
-                        :class="[flag?'fund-check':'fund-no']" 
-                        @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-                    van-button.btn.button-5width(
-                        :class="[flag1?'fund-buy':'fund-no']" 
-                        @click="toRouter('/fund-subscribe')") {{$t('append')}}
-            
-            .fund-footer-content(v-if="!PurchaseButton && !this.btnShow")
-                span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
-                    span （
-                    s {{defaultRate}}
-                    span ）
-                van-button.btn.button-width(
-                    :class="[flag2? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+        .fund-footer-content(v-if="RedemptionButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            .fund-block--content
+                .btn.colorbg.button-5width.btn-inverster(
+                        :class="[investmentShow? 'fund-footer':'fund-no']"
+                        @click="handleBuyOrSell(4)")
+                        span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                        em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
+                van-button.button-5width.button-left.btn(
+                    :class="[flag?'fund-check':'fund-no']" 
+                    @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-5width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        
+        .fund-footer-content(v-if="!PurchaseButton && !this.btnShow")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            van-button.btn.button-width(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
-            .fund-footer-contentShare(v-if="invate === 'share'")
+        .fund-footer-contentShare(v-if="invate === 'share'")
+            van-button(
+                class="fund-footer btn button-width"
+                @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
+
+        .fund-footer-content(
+            v-if="chsFightButton")
+            .block__list--header(v-if="shareHeaderShow")
+                .block__footer-avat
+                    img(:src="avatImg") 
+                .block__footer--content
+                    .block__footer--bottom {{contentmsg}}
+                    .block__footer--top
+                        span 剩余
+                        .vant-count-down
+                            CountDown( 
+                                millisecond
+                                :time="time"
+                                format="DD天 HH:mm:ss")
+                    
+                .block__footer-right(v-if="figthComeShow")
+                    van-button(
+                        @click="handleBuyOrSell(3)"
+                        :disabled="differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
+            .block__button--list(v-if="figthBtnShow")
                 van-button(
-                    class="fund-footer btn button-width"
-                    @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
+                    class="fund-footer btn button-width1"
+                    @click="handleBuyOrSell(1)" 
+                    :class="[flag2 ? 'fund-footer':'fund-no']") {{$t('buy')}}
+                .block__fight--btn.btn(
+                    :class="[flag2 ?'fund-footer1':'fund-footer2']" 
+                    @click="handleBuyOrSell(2)")
+                    span 发起拼团申购
+                    em 申购费最高可返{{100-discount}}%
+            .block__button--list(v-if="!figthBtnShow")
+                .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
+                    span 参与拼团申购
+                    em 申购费最高可返{{100-discount}}%
 
-            .fund-footer-content(
-                v-if="chsFightButton")
-                .block__list--header(v-if="shareHeaderShow")
-                    .block__footer-avat
-                        img(:src="avatImg") 
-                    .block__footer--content
-                        .block__footer--bottom {{contentmsg}}
-                        .block__footer--top
-                            span 剩余
+        .fund-footer-content.fund-footer-hk(
+            v-if="chtFightButton")
+            .block__list--header-hk(v-if="subscribeButtonShow")
+                .block__footer-left
+                p {{applyAfter}}
+                .block__footer-right
+                    van-button(
+                        class="van-button"
+                        @click="handleBuyOrSell(2)") {{$t('aloneScribe')}}
+            .block__button--list-hk(v-if="subscribeButtonShow")
+                .block__fight--btn-hk( @click="handleBuyOrSell(3)")
+                    .block__fight--left
+                        img(:src="avatImg")
+                    .block__fight--right
+                        .block__fight--top
+                            p  {{$t('togetherScribe')}}
+                            p ({{$t('Surplus')}}
                             .vant-count-down
                                 CountDown( 
                                     millisecond
                                     :time="time"
-                                    format="DD天 HH:mm:ss")
-                        
-                    .block__footer-right(v-if="figthComeShow")
-                        van-button(
-                            @click="handleBuyOrSell(3)"
-                            :disabled="differenceNumer === 0") {{differenceNumer === 0 ? '已成团' : '参与拼团'}}
-                .block__button--list(v-if="figthBtnShow")
+                                    :format="$t('format')")
+                            p )
+                        .block__fight--bottom {{subscribeButtonHk}}
+            .block__button--list-hk(v-if="!subscribeButtonShow")
+                .block__buy-hk
                     van-button(
-                        class="fund-footer btn button-width1"
-                        @click="handleBuyOrSell(1)" 
-                        :class="[flag2 ? 'fund-footer':'fund-no']") {{$t('buy')}}
-                    .block__fight--btn.btn(
-                        :class="[flag2 ?'fund-footer1':'fund-footer2']" 
-                        @click="handleBuyOrSell(2)")
-                        span 发起拼团申购
-                        em 申购费最高可返{{100-discount}}%
-                .block__button--list(v-if="!figthBtnShow")
-                    .block__fight--btn1.btn(@click="handleBuyOrSell(3)")
-                        span 参与拼团申购
-                        em 申购费最高可返{{100-discount}}%
-
-            .fund-footer-content.fund-footer-hk(
-                v-if="chtFightButton")
-                .block__list--header-hk(v-if="subscribeButtonShow")
-                    .block__footer-left
-                    p {{applyAfter}}
-                    .block__footer-right
-                        van-button(
-                            class="van-button"
-                            @click="handleBuyOrSell(2)") {{$t('aloneScribe')}}
-                .block__button--list-hk(v-if="subscribeButtonShow")
-                    .block__fight--btn-hk( @click="handleBuyOrSell(3)")
-                        .block__fight--left
-                            img(:src="avatImg")
-                        .block__fight--right
-                            .block__fight--top
-                                p  {{$t('togetherScribe')}}
-                                p ({{$t('Surplus')}}
-                                .vant-count-down
-                                    CountDown( 
-                                        millisecond
-                                        :time="time"
-                                        :format="$t('format')")
-                                p )
-                            .block__fight--bottom {{subscribeButtonHk}}
-                .block__button--list-hk(v-if="!subscribeButtonShow")
-                    .block__buy-hk
-                        van-button(
-                            class="btn"
-                            @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
-        .block__fund--dismount(v-else)
-            van-button.btn.button-width.fund-footer(
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                        class="btn"
+                        @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
+       
     
     img(
         v-show="false"
@@ -947,19 +943,35 @@ export default {
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.fundOverviewInfoVO.currencyName = this.fundOverviewInfoVO.currency.name
-                //赎回按钮是否置灰
-                this.flag =
-                    (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
-                //追加按钮是否置灰
-                this.flag1 =
-                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
-                //申购按钮是否置灰
-                this.flag2 =
-                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
-                // alert(this.fundOverviewInfoVO.tradeAuth & 4)
-                //是否开启定投
-                this.investmentShow =
-                    (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
+                if (res.release) {
+                    //赎回按钮是否置灰
+                    this.flag =
+                        (this.fundOverviewInfoVO.tradeAuth & 2) > 0
+                            ? true
+                            : false
+                    //追加按钮是否置灰
+                    this.flag1 =
+                        (this.fundOverviewInfoVO.tradeAuth & 1) > 0
+                            ? true
+                            : false
+                    //申购按钮是否置灰
+                    this.flag2 =
+                        (this.fundOverviewInfoVO.tradeAuth & 1) > 0
+                            ? true
+                            : false
+                    // alert(this.fundOverviewInfoVO.tradeAuth & 4)
+                    //是否开启定投
+                    this.investmentShow =
+                        (this.fundOverviewInfoVO.tradeAuth & 4) > 0
+                            ? true
+                            : false
+                } else {
+                    this.flag = true
+                    this.flag1 = false
+                    this.flag2 = false
+                    this.investmentShow = false
+                }
+
                 //合规信息
                 this.tagShow = this.fundHeaderInfoVO.derivativeType !== 1
                 this.tagsShow = this.fundHeaderInfoVO.derivativeType !== 3
