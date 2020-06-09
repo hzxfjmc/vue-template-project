@@ -12,17 +12,17 @@
                 .item-title 夏普比率
                 .item-value(
                     :class="stockColorTypeClass"
-                ) +2.33   
+                ) {{sharpeRatio3Yr | filterRatio}}  
             .content__item
                 .item-title 上行捕获率
                 .item-value(
                     :class="stockColorTypeClass"
-                ) +2.33
+                ) {{captureRatioUpside3Yr | filterRatio}}
             .content__item
                 .item-title 最大回撤
                 .item-value(
                     :class="stockColorTypeClass"
-                ) -2.33
+                ) {{maxDrawDown3Yr | filterRatio}}
 </template>
 <script>
 /**
@@ -31,29 +31,67 @@
  * @date 2020/06/03
  */
 import { mapGetters } from 'vuex'
+import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
 export default {
     i18n: {},
     components: {},
-    props: {},
+    props: {
+        fundHeaderInfoVO: {
+            type: Object,
+            default: () => {}
+        }
+    },
     computed: {
         ...mapGetters(['stockColorTypeClass'])
     },
     data() {
-        return {}
+        return {
+            sharpeRatio3Yr: '',
+            captureRatioUpside3Yr: '',
+            maxDrawDown3Yr: ''
+        }
+    },
+    filters: {
+        filterRatio(val) {
+            return Number(val) > 0
+                ? `+${Number(val * 100).toFixed(2)}%`
+                : `${Number(val * 100).toFixed(2)}%`
+        }
     },
     methods: {
         handleGoDetail() {
-            let url =
-                window.location.origin +
-                '/wealth/fund/index.html#/fund-analyze-data'
+            let queryString = ''
+            ;['fundId', 'fundName', 'isin'].forEach(key => {
+                queryString += `${key}=${this.fundHeaderInfoVO[key]}&`
+            })
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-analyze-data?${queryString}`
             if (this.$jsBridge.isYouxinApp) {
                 this.$jsBridge.gotoNewWebview(url)
             } else {
                 location.href = url
             }
+        },
+        async getFundAnalysisData() {
+            try {
+                const params = {
+                    fundId: this.fundHeaderInfoVO.fundId
+                }
+                const {
+                    relativeRiskMeasureCategoryApiVO = {},
+                    riskMeasureApiVO = {}
+                } = await getFundAnalysisDataV1(params)
+                this.sharpeRatio3Yr = riskMeasureApiVO.sharpeRatio3Yr
+                this.captureRatioUpside3Yr =
+                    relativeRiskMeasureCategoryApiVO.captureRatioUpside1Yr
+                this.maxDrawDown3Yr = riskMeasureApiVO.maxDrawDown3Yr
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
-    created() {}
+    created() {
+        this.getFundAnalysisData()
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -103,6 +141,8 @@ export default {
         }
         .item-value {
             font-size: 20px;
+            font-family: yxFontDINPro-Medium;
+            font-weight: 500;
         }
         &:nth-child(2) {
             border-left: 1px solid rgba(25, 25, 25, 0.05);

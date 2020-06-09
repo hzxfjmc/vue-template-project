@@ -17,7 +17,10 @@
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
-        FundAnalyzeDataColumn
+        FundAnalyzeDataColumn(
+            v-if="fundHeaderInfoVO.fundId"
+            :fundHeaderInfoVO="fundHeaderInfoVO"
+        )
         HoldfundDetails(
             v-if="holdDetailsShow"
             :initState="holdInitState")

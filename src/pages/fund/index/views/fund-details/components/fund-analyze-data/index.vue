@@ -2,15 +2,15 @@
     .fund-analyze-container.fund-container
         .fund-info__header
             .header__top
-                .title Pimco 亚洲投资级债券基金-A2
-                .desc ISIN:LU0538203018
+                .title {{fundName}}
+                .desc ISIN:{{isin}}
             .header__bottom
                 .item
-                    span.item__label 基金规模(美元)：
-                    span.item__value 1,234.89
+                    span.item__label 基金规模({{$t('currency',analyzeData.currency,lang)}})：
+                    span.item__value {{analyzeData.fundSize}}
                 .item
                     span.item__label 数据更新时间：
-                    span.item__value 2020-10-23    
+                    span.item__value {{analyzeData.updateTime}}    
         .fund-block
             .fund-block__header
                 .title 风险指标
@@ -24,34 +24,34 @@
                         th 5年   
                     tr
                         td 夏普比率                            
-                        td 1                            
-                        td 3                            
-                        td 5                            
+                        td {{riskMeasureApiVO.sharpeRatio1Yr}}                           
+                        td {{riskMeasureApiVO.sharpeRatio3Yr}}                           
+                        td {{riskMeasureApiVO.sharpeRatio5Yr}}                            
+                    tr
+                        td 最大回撤                            
+                        td {{riskMeasureApiVO.maxDrawDown1Yr}}                           
+                        td {{riskMeasureApiVO.maxDrawDown3Yr}}                            
+                        td {{riskMeasureApiVO.maxDrawDown5Yr}}                            
                     tr
                         td 上行捕获比                            
-                        td 1                            
-                        td 3                            
-                        td 5                            
+                        td {{relativeRiskMeasureCategoryApiVO.captureRatioUpside1Yr}}                            
+                        td {{relativeRiskMeasureCategoryApiVO.captureRatioUpside3Yr}}                            
+                        td {{relativeRiskMeasureCategoryApiVO.captureRatioUpside5Yr}}                            
                     tr
                         td 下行捕获比                            
-                        td 1                            
-                        td 3                            
-                        td 5                            
+                        td {{relativeRiskMeasureCategoryApiVO.captureRatioDownside1Yr}}                            
+                        td {{relativeRiskMeasureCategoryApiVO.captureRatioDownside3Yr}}                            
+                        td {{relativeRiskMeasureCategoryApiVO.captureRatioDownside5Yr}}                            
                     tr
                         td Alpha                            
-                        td 1                            
-                        td 3                            
-                        td 5                            
+                        td {{mptStatisticsPrimaryIndexApiVO.alpha1Yr}}                            
+                        td {{mptStatisticsPrimaryIndexApiVO.alpha3Yr}}                            
+                        td {{mptStatisticsPrimaryIndexApiVO.alpha5Yr}}                            
                     tr
-                        td 夏普比率                            
-                        td 1                            
-                        td 3                            
-                        td 5                            
-                    tr
-                        td Alpha                            
-                        td 1                            
-                        td 3                            
-                        td 5                            
+                        td Beta                            
+                        td {{mptStatisticsPrimaryIndexApiVO.beta1Yr}}                            
+                        td {{mptStatisticsPrimaryIndexApiVO.beta3Yr}}                            
+                        td {{mptStatisticsPrimaryIndexApiVO.beta5Yr}}                             
         .fund-block
             .fund-block__header
                 .title 投资风格箱（大盘平衡型）
@@ -99,16 +99,71 @@
  * @author Aaron Lam
  * @date 2020/06/08
  */
+import { mapGetters } from 'vuex'
+import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
+import { CURRENCY_NAME } from '@/pages/fund/index/map'
+
+const getCurrencyName = (val, lang) => {
+    return CURRENCY_NAME[lang][val]
+}
 export default {
-    i18n: {},
-    components: {},
-    props: {},
-    computed: {},
-    data() {
-        return {}
+    i18n: {
+        en: {
+            currency: getCurrencyName
+        },
+        zhCHS: {
+            currency: getCurrencyName
+        },
+        zhCHT: {
+            currency: getCurrencyName
+        }
     },
-    methods: {},
-    created() {}
+    components: {},
+    props: {
+        fundId: {
+            type: [String, Number],
+            default: ''
+        }
+    },
+    computed: {
+        ...mapGetters(['lang'])
+    },
+    data() {
+        return {
+            fundName: '',
+            isin: '',
+            analyzeData: {},
+            mptStatisticsPrimaryIndexApiVO: {},
+            relativeRiskMeasureCategoryApiVO: {},
+            riskMeasureApiVO: {}
+        }
+    },
+    methods: {
+        async getFundAnalysisData() {
+            try {
+                const params = {
+                    fundId: this.$route.query.fundId
+                }
+                this.analyzeData = await getFundAnalysisDataV1(params)
+                this.mptStatisticsPrimaryIndexApiVO =
+                    this.analyzeData.mptStatisticsPrimaryIndexApiVO || {}
+                this.relativeRiskMeasureCategoryApiVO =
+                    this.analyzeData.relativeRiskMeasureCategoryApiVO || {}
+                this.riskMeasureApiVO = this.analyzeData.riskMeasureApiVO || {}
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
+        init() {
+            let { fundName, isin } = this.$route.query
+            this.fundName = fundName
+            this.isin = isin
+            this.getFundAnalysisData()
+        }
+    },
+    created() {
+        this.init()
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -187,9 +242,11 @@ export default {
             width: 90%;
             margin: 0 auto;
             text-align: center;
+            padding-bottom: 15px;
             td {
                 width: 60px;
                 height: 30px;
+                font-size: 12px;
             }
             td.value {
                 height: 60px;

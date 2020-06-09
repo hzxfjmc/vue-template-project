@@ -141,3 +141,10 @@ export const getFundSimpleInfoList = params => {
 export const getFundFeeConfigV1 = params => {
     return axios.post(`/finance-info-server/api/get-fund-fee-config/v1`, params)
 }
+// 获取基金分析数据
+export const getFundAnalysisDataV1 = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-analysis-data/v1`,
+        params
+    )
+}
