@@ -1,21 +1,22 @@
 <template lang="pug">
 .block__fund--historical
-    .block__fund--item.border-bottom
+    .block__fund--item.border-bottom.block__title
         span.block__fund--left {{$t('timeMore')}}
         span.block__fund--right {{$t('nav')}}
-    .block__fund--item.border-bottom(
-        v-for="(item,index) in timeList" 
-        :key="index")
-        span.block__fund--left {{item.label}}
-        span.block__fund--right(
-            :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-            v-if="item.value>0") +{{item.value}}%
-        span.block__fund--right(
-            :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-            v-else-if="item.value<0") {{item.value}}%
-        //- span.block__fund--right(v-else-if="item.value==='--'") {{item.value}}
-        span.block__fund--right(v-if="item.value==='--'") {{item.value}}
-        span.block__fund--right(v-if="item.value==0") {{item.value}}%
+    .block__content
+        .block__fund--item.border-bottom(
+            v-for="(item,index) in timeList" 
+            :key="index")
+            span.block__fund--left {{item.label}}
+            span.block__fund--right(
+                :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                v-if="item.value>0") +{{item.value}}%
+            span.block__fund--right(
+                :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                v-else-if="item.value<0") {{item.value}}%
+            //- span.block__fund--right(v-else-if="item.value==='--'") {{item.value}}
+            span.block__fund--right(v-if="item.value==='--'") {{item.value}}
+            span.block__fund--right(v-if="item.value==0") {{item.value}}%
     .block__fund-p
         p {{$t('msg1')}}
         p {{$t('msg2')}}
@@ -167,6 +168,17 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.block__title {
+    position: fixed;
+    width: 100%;
+    height: 40px;
+    background: #fff;
+    top: 0;
+    z-index: 999999;
+}
+.block__content {
+    margin: 40px 0 0 0;
+}
 .block__fund--historical {
     background: #fff;
     position: relative;

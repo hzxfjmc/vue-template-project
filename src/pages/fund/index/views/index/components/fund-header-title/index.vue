@@ -221,10 +221,10 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund__header--nav {
-    position: fixed;
-    top: 0;
-    z-index: 9999;
-    width: 100%;
+    // position: fixed;
+    // top: 0;
+    // z-index: 9999;
+    // width: 100%;
 }
 .fund__header--subnav {
     width: 100%;

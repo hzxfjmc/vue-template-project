@@ -273,9 +273,13 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund__banner {
-    margin: 42px 0 0 0;
+    // margin: 42px 0 0 0;
 }
-
+.block__fund--header {
+    // position: fixed;
+    // top: 0;
+    // float: left;
+}
 .block__fund--master {
     position: fixed;
     width: 100%;
@@ -330,8 +334,11 @@ export default {
     }
 }
 .bond-index-wrapper {
-    min-height: 100%;
-    padding-bottom: 77px;
+    // padding-bottom: 77px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
     .banner {
         width: 375px;
         height: 150px;
@@ -346,6 +353,9 @@ export default {
     }
     .bond-list {
         padding: 0 10px;
+        height: 600px;
+        // float: left;
+        overflow: auto;
     }
     .no-data {
         padding: 10px 0 7px;

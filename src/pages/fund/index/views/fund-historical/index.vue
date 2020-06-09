@@ -1,19 +1,20 @@
 <template lang="pug">
     .fund-historacal
         van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="$t('finishedText')" @load="onLoad")
-            .block-list.border-bottom(class="block-header")
+            .block-list.border-bottom.block__title(class="block-header")
                 .block-left {{$t('time')}}
                 .block-content {{$t('nav')}}
                 .block-right {{isMMF?$t('RTNDetail'):$t('dayChg')}}
-            .block-list(class="border-bottom" v-for="(item,index) in list")
-                .block-left {{item.belongDay}}
-                .block-content {{item.netPrice}}
-                template(v-if="isMMF")
-                    .block-right {{item.revenue}}
-                template(v-else)
-                    .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price }}%
-                    .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price}}%
-                    .block-right(v-else) {{item.price}}%
+            .block__content
+                .block-list(class="border-bottom" v-for="(item,index) in list")
+                    .block-left {{item.belongDay}}
+                    .block-content {{item.netPrice}}
+                    template(v-if="isMMF")
+                        .block-right {{item.revenue}}
+                    template(v-else)
+                        .block-right(v-if="item.price > 0" :class="stockColorType === 1 ? 'block-red' : 'block-green'") +{{item.price }}%
+                        .block-right(v-else-if="item.price < 0" :class="stockColorType === 1 ? 'block-green' : 'block-red'") {{item.price}}%
+                        .block-right(v-else) {{item.price}}%
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/icon-norecord.png") 
             .no-record-box {{$t('finishedText')}}
@@ -171,6 +172,16 @@ export default {
     float: left;
     width: 100%;
     // height: 100%;
+}
+.block__title {
+    position: fixed;
+    top: 0;
+    height: 40px;
+    background: #fff;
+    z-index: 99999;
+}
+.block__content {
+    margin: 40px 0 0 0;
 }
 .block-list {
     width: 96%;
