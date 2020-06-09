@@ -518,7 +518,8 @@ export default {
                 }
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
-            investmentShow: true
+            investmentShow: true,
+            release: true
         }
     },
     methods: {
@@ -944,6 +945,7 @@ export default {
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.fundOverviewInfoVO.currencyName = this.fundOverviewInfoVO.currency.name
+                this.release = res.release
                 //基金是否下架
                 if (res.release) {
                     //赎回按钮是否置灰
@@ -1065,6 +1067,14 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
+            if (
+                (!this.flag2 || !this.flag1 || !this.investmentShow) &&
+                !this.release
+            ) {
+                return this.$toast(
+                    this.$t(['暂不支持', '暂不支持', '暂不支持'])
+                )
+            }
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
 
