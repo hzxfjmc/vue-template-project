@@ -35,7 +35,7 @@
                     span.block__content--subtitle {{$t('profitPosition')}} 
                     span.block__content--p(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
                     span.block__content--p(v-else) ****
-        .header-footer-tab.border-top(class="border-bottom-active")
+        .header-footer-tab
             .nav--item(@click="toRouterPath('/income-list')")
                 em.iconfont.icon-shouru
                 span {{$t('IncomeDetails')}}
@@ -248,6 +248,7 @@ export default {
     float: left;
     margin: 30px 0 0 0;
     flex-direction: column;
+    // border: none;
     .header-content-left {
         width: 100%;
         .title {
@@ -289,7 +290,7 @@ export default {
                 line-height: 16px;
                 margin: 24px 0 0 5px;
                 text-align: right;
-                border: 1px solid rgba(255, 255, 255, 0.6);
+                border: 1px solid rgba(255, 255, 255, 0.4);
                 border-radius: 2px;
                 font-size: 12px;
                 position: relative;
@@ -340,6 +341,7 @@ export default {
                 }
                 em {
                     margin: 0 5px 0 0;
+                    color: rgba(255, 255, 255, 0.4);
                 }
                 .number__price--subcontent {
                     position: absolute;
@@ -398,6 +400,7 @@ export default {
     height: 80px;
     margin: 0 12px;
     box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
+    border: none;
     border-radius: 6px;
     background: #fff;
     display: flex;
@@ -440,7 +443,7 @@ export default {
         position: absolute;
         width: 0;
         height: 0;
-        top: -11px;
+        top: -10px;
         left: 50%;
         transform: translateX(-3px);
     }
