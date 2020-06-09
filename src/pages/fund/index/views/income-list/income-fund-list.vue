@@ -34,7 +34,7 @@
 
 </template>
 <script>
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     data() {
@@ -53,10 +53,8 @@ export default {
     },
     methods: {
         goToHoldFundDetails(item) {
-            this.$router.push({
-                name: 'hold-fund-details',
-                query: { id: item.fundId }
-            })
+            let url = `${window.location.origin}/wealth/fund/index.html#/hold-fund-details?id=${item.fundId}`
+            jumpUrl(3, url)
         }
     },
     props: {

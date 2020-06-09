@@ -3,8 +3,9 @@
         .fund-introduce
             .fund-name {{fundIntro}}
             .fund-detail
-                fund-tag(:title="assetType")
-                fund-tag(:title="fundRisk")
+                span isin：{{isin}}
+                //- fund-tag(:title="assetType")
+                //- fund-tag(:title="fundRisk")
         .order-record-box
             van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="$t('noMore')" @load="onLoad")
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
@@ -70,6 +71,7 @@ export default {
             fundRisk: '',
             fundType: '',
             fundIntro: '',
+            isin: '',
             pageNum: 1,
             pageSize: 20,
             total: 0
@@ -137,6 +139,7 @@ export default {
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
                     this.fundRisk = item.fundBaseInfoVO.fundRisk
                     _this.fundIntro = item.fundBaseInfoVO.fundName
+                    this.isin = item.fundBaseInfoVO.isin
                 })
                 this.orderRecordList = this.orderRecordList.concat(arr)
                 this.loading = false
@@ -189,6 +192,10 @@ export default {
         .fund-detail {
             display: flex;
             justify-content: flex-start;
+            span {
+                font-size: 14px;
+                color: rgba(25, 25, 25, 0.45);
+            }
         }
     }
     .order-record-box {

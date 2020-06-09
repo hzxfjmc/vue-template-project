@@ -67,7 +67,9 @@
             .block--tab__item(@click="JumpUrl('/order-record')")
                 em.iconfont.icon-zijin
                 span {{$t('orderRecord')}}
-            .block--tab__item(@click="JumpUrl('/my-investment')")
+            .block--tab__item(
+                v-if="fixedPlanNum!=0"
+                @click="JumpUrl('/my-investment')")
                 em.iconfont.icon-dingtou
                 span {{$t('A75')}}({{fixedPlanNum}})
                             

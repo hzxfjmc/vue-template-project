@@ -25,6 +25,7 @@
                         .item--left 
                             .top {{$t('A80')}}
                             .bottom {{item.investNum}}
+                       
                     .block--item--footer
                         .flex-item
                             .top {{$t('A81')}}
@@ -35,6 +36,7 @@
                         .flex-item
                             .top {{$t('A83')}}
                             .bottom {{item.fixedPlanAmount}}
+                    .block__tags(v-if="item.fixedPlanStatus == 2") 已暂停
         van-tab(:title="$t(['历史计划','歷史計劃','Historical Plan'])")
             van-list.order-record-list(
                 v-model="recordLoading" 
@@ -184,16 +186,20 @@ export default {
         //定投历史列表
         async getFundFixedRecordPage() {
             try {
+                let data = {
+                    fixedPlanStatus: [3],
+                    pageNum: this.recordPageNum,
+                    pageSize: this.recordPageSize
+                }
+                if (this.$route.query.id) {
+                    data.fundId = this.$route.query.id
+                }
                 const {
                     list,
                     pageSize,
                     pageNum,
                     total
-                } = await getFundFixedPlanPage({
-                    fixedPlanStatus: [3],
-                    pageNum: this.recordPageNum,
-                    pageSize: this.recordPageSize
-                })
+                } = await getFundFixedPlanPage(data)
                 this.recordLoading = false
                 this.recordList = this.recordList.concat(list)
                 let EnumChargeType = {
