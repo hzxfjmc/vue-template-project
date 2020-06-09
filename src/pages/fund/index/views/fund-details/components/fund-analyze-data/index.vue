@@ -56,7 +56,38 @@
             .fund-block__header
                 .title 投资风格箱（大盘平衡型）
                 .link 风格箱说明 
-            .fund-block__content  
+            .fund-block__content 
+                table.table-box
+                    tr
+                        td &nbsp;
+                        td &nbsp;
+                        td &nbsp;
+                        td &nbsp;
+                        td.label-title （规模）
+                    tr
+                        td &nbsp;
+                        td.value 2
+                        td.value 1
+                        td.value 1
+                        td.label 大盘
+                    tr
+                        td &nbsp;
+                        td.value 1
+                        td.value 1
+                        td.value 1
+                        td.label 中盘
+                    tr
+                        td &nbsp;
+                        td.value 1
+                        td.value 1
+                        td.value 1
+                        td.label 小盘
+                    tr
+                        td.label-title （风格）
+                        td.label 价值型
+                        td.label 平衡型
+                        td.label 成长型
+                        td &nbsp;
         .fund-block
              .fund-block__content
                 p.text *本页面资料来源于基金管理公司、晨星资讯（深圳）有限公司（“晨星”）、其他基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。                                
@@ -150,6 +181,25 @@ export default {
                 &:last-child {
                     text-align: right;
                 }
+            }
+        }
+        .table-box {
+            width: 90%;
+            margin: 0 auto;
+            text-align: center;
+            td {
+                width: 60px;
+                height: 30px;
+            }
+            td.value {
+                height: 60px;
+                background-color: $primary-color-line-1;
+            }
+            td.label {
+                color: $text-color5;
+            }
+            td.label-title {
+                color: $text-color2;
             }
         }
         .text {
