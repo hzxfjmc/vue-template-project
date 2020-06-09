@@ -181,8 +181,12 @@ export default {
     flex-direction: column;
     .fund-introduce {
         padding: 15px 12px;
+        width: 100%;
+        z-index: 999999;
         background-color: $background-color;
-        margin-bottom: 6px;
+        // margin-bottom: 6px;
+        position: fixed;
+        top: 0;
         .fund-name {
             font-size: 16px;
             line-height: 22px;
@@ -200,6 +204,7 @@ export default {
     }
     .order-record-box {
         flex: 1;
+        margin: 86px 0 0 0;
         .order-record-list {
             // border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
             .van-cell-item {
