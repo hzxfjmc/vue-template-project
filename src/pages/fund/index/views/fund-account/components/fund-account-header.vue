@@ -426,6 +426,7 @@ export default {
     display: flex;
     justify-content: center;
     color: rgba(255, 255, 255, 0.6);
+
     span {
         font-size: 14px;
         display: inline-block;
@@ -443,7 +444,7 @@ export default {
         position: absolute;
         width: 0;
         height: 0;
-        top: -12px;
+        top: -11px;
         left: 50%;
         transform: translateX(-3px);
     }
