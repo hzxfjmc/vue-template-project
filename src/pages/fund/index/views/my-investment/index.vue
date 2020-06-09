@@ -37,7 +37,7 @@
                         .flex-item
                             .top {{$t('A83')}}
                             .bottom {{item.fixedPlanStatus!= 2 ? item.fixedPlanAmount :'--'}}
-                    .block__tags(v-if="item.fixedPlanStatus == 2") 已暂停
+                    .block__tags(v-if="item.fixedPlanStatus == 2") {{$t('stopped')}}
         van-tab(:title="$t(['历史计划','歷史計劃','Historical Plan'])")
             van-list.order-record-list(
                 v-model="recordLoading" 
@@ -87,6 +87,17 @@ export default {
     },
     filters: {
         transNumToThousandMark: transNumToThousandMark
+    },
+    i18n: {
+        zhCHS: {
+            stopped: '已暂停'
+        },
+        zhCHT: {
+            stopped: '已暫停'
+        },
+        en: {
+            stopped: 'Stopped'
+        }
     },
     data() {
         return {
