@@ -15,7 +15,43 @@
             .fund-block__header
                 .title 风险指标
                 .link 指标说明 
-            .fund-block__content                             
+            .fund-block__content
+                table.table
+                    tr
+                        th 指标                             
+                        th 1年                           
+                        th 3年                           
+                        th 5年   
+                    tr
+                        td 夏普比率                            
+                        td 1                            
+                        td 3                            
+                        td 5                            
+                    tr
+                        td 上行捕获比                            
+                        td 1                            
+                        td 3                            
+                        td 5                            
+                    tr
+                        td 下行捕获比                            
+                        td 1                            
+                        td 3                            
+                        td 5                            
+                    tr
+                        td Alpha                            
+                        td 1                            
+                        td 3                            
+                        td 5                            
+                    tr
+                        td 夏普比率                            
+                        td 1                            
+                        td 3                            
+                        td 5                            
+                    tr
+                        td Alpha                            
+                        td 1                            
+                        td 3                            
+                        td 5                            
         .fund-block
             .fund-block__header
                 .title 投资风格箱（大盘平衡型）
@@ -94,8 +130,31 @@ export default {
         }
     }
     .fund-block__content {
+        padding: 0 12px;
+        .table {
+            width: 100%;
+            text-align: center;
+
+            th {
+                color: $text-color5;
+                font-size: 12px;
+            }
+            th,
+            td {
+                padding: 10px 0;
+                border-bottom: 1px solid $text-color8;
+                &:first-child {
+                    width: 30%;
+                    text-align: left;
+                }
+                &:last-child {
+                    text-align: right;
+                }
+            }
+        }
         .text {
-            padding: 12px;
+            font-size: 12px;
+            padding: 12px 0;
             color: $text-color5;
         }
     }
