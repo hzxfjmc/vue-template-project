@@ -7,23 +7,13 @@
             .rate-wrap(@click="morningstarRateAlert")
                 span {{fundHeaderInfoVO.morningRating ? this.$t('hasRate') : this.$t('noRate')}}
                 star(:score="fundHeaderInfoVO.morningRating")
-        .block-left
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxiancopy-copy 
-                span {{ fundHeaderInfoVO.assetTypeName }}
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxian
-                span {{ fundHeaderInfoVO.fundRisk }}
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxiancopy-copy1
-                span {{ fundHeaderInfoVO.earningsTypeName }}
-        .block__right--tag(
-            @click="confirmAlter"
-            v-if="tagShow")
-            .blcok__tag--left.iconfont.icon-warning1
-            .block__tag--right
-                p(v-if="tagsShow") {{$t('Derivatives')}} 
-                p {{$t('Complex')}}
+    .block__right--tag(
+        @click="confirmAlter"
+        v-if="tagShow")
+        //- .blcok__tag--left.iconfont.icon-warning1
+        .block__tag--right
+            p(v-if="tagsShow") {{$t('Derivatives')}} 
+            p {{$t('Complex')}}
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
@@ -39,21 +29,24 @@
             span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $t('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
     .funds-details-footer
-        .block__details--left
-            template(v-if="isMonetaryFund")
-                span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
-                span {{this.revenue}}
-            template(v-else)
-                span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：{{fundHeaderInfoVO.netPrice}}
-                span(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="this.price>0") (+{{this.price}}%)
-                span(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="this.price<0") ({{this.price}}%)
-                span(v-else) ({{this.price}}%)
-        .block__details--right
-            span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
+        fund-tag(:title="fundHeaderInfoVO.assetTypeName")
+        fund-tag(:title="fundHeaderInfoVO.fundRisk")
+        fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
+        //- .block__details--left
+        //-     template(v-if="isMonetaryFund")
+        //-         span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
+        //-         span {{this.revenue}}
+        //-     template(v-else)
+        //-         span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：{{fundHeaderInfoVO.netPrice}}
+        //-         span(
+        //-             :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+        //-             v-if="this.price>0") (+{{this.price}}%)
+        //-         span(
+        //-             :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+        //-             v-else-if="this.price<0") ({{this.price}}%)
+        //-         span(v-else) ({{this.price}}%)
+        //- .block__details--right
+        //-     span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
 </template>
 <script>
 import dayjs from 'dayjs'
@@ -61,10 +54,12 @@ import star from '@/components/yx-star'
 import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
+import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
     components: {
-        star,
-        [Tag.name]: Tag
+        [Tag.name]: Tag,
+        'fund-tag': fundTag,
+        star
     },
     i18n: {
         zhCHS: {
@@ -80,7 +75,7 @@ export default {
             hkd: '港币',
             usd: '美元',
             iknow: '我知道了',
-            hasRate: '展星评级',
+            hasRate: '晨星评级',
             noRate: '暂无评级',
             content:
                 '您目前期望申购的开放式公募基金为获香港证监会认可的衍生产品及复杂产品，请根据您自身风险偏好和风险承受能力做出审慎判断。请注意投资此类产品或可导致阁下遭受巨大损失，损失金额或可大于投资本金。也请注意证监会认可不等同于对该产品作出推介或认许，亦不是对该产品的商业利弊或业绩表现作出保证。点击继续操作将视为您自愿承担该产品风险及损失，友信并未主动向您推荐该产品。\n若您未有衍生品相关知识，请注意购买此类产品或可存在一些您无法理解的风险及损失，请依据自己的实际情况、风险承受能力以及风险偏好做出谨慎选择。',
@@ -105,7 +100,7 @@ export default {
             pirchaseHk: '最低認購金額',
             update: '更新時間',
             iknow: '我知道了',
-            hasRate: '展星評級',
+            hasRate: '晨星評級',
             noRate: '暫無評級',
             content:
                 '您目前期望的申購購置的開放式公募基金為獲香港證監會認可的衍生產品及復雜產品，請根據您自身的風險和風險承受能力作出審慎判斷。請注意投資此類產品或可導致重大的重大損失 ，則損失金額或可增加投資本金。也請注意證監會認可不相等於該產品承諾推廣或認許，亦不是該產品的商業利弊或業績表現作出保證。 承擔該產品風險及損失，友信重新主動向您推薦該產品。\n若您未有衍生品相關知識，請注意購買此類產品或可存在一些您無法理解的風險及損失，請根據自己的實際情況，風險承受能力以及風險做出適當的選擇。',

@@ -46,20 +46,26 @@ export default {
             this.fundInfo.recentDeductionDate
         ).format('YYYY-MM-DD')
         let monthValue = {
-            1: '一',
-            2: '二',
-            3: '三',
-            4: '四',
-            5: '五'
+            1: this.$t([`周一`, `週一`, `Mon.`]),
+            2: this.$t([`周二`, `週二`, `Tues.`]),
+            3: this.$t([`周三`, `週三`, `Wed.`]),
+            4: this.$t([`周四`, `週四`, `Thurs.`]),
+            5: this.$t([`周五`, `週五`, `Fri.`])
         }
         this.fundInfo.fixedCycleValue =
             this.fundInfo.fixedCycleType === 1
                 ? monthValue[this.fundInfo.fixedCycleValue]
                 : this.fundInfo.fixedCycleValue == '0'
-                ? '月末'
-                : `${this.fundInfo.fixedCycleValue}号`
+                ? this.$t([`月末`, `月末`, `Late of the month`])
+                : this.$t([
+                      `${this.fundInfo.fixedCycleValue}日`,
+                      `${this.fundInfo.fixedCycleValue}日`,
+                      `${this.fundInfo.fixedCycleValue}th`
+                  ])
         this.fundInfo.fixedCycleType =
-            this.fundInfo.fixedCycleType === 1 ? '每周' : '每月'
+            this.fundInfo.fixedCycleType === 1
+                ? this.$t(['每周', '每週', 'Weekly'])
+                : this.$t(['每月', '每月', 'Monthly'])
     },
     methods: {
         toRouterPath(path) {
@@ -117,6 +123,13 @@ export default {
             justify-content: space-between;
             .left {
                 color: $text-color5;
+                min-width: 80px;
+            }
+            .right {
+                text-align: right;
+                em {
+                    font-style: normal;
+                }
             }
         }
     }

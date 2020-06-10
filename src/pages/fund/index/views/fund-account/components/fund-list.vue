@@ -26,20 +26,20 @@
                 .fund__row--list.block__center
                     span {{$t('profitPostion')}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 0" 
+                        v-if="eyeTab && item.positionEarnings>0" 
                         :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings|parseThousands}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 1" 
+                        v-if="eyeTab && item.positionEarnings<0 " 
                         :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
+                        v-if="eyeTab && item.positionEarnings==0") {{item.positionEarnings}}
                     .block-element-number(v-if="!eyeTab") ****
                     
                 .fund__row--list.block__right
                     span {{$t('SevenDayIncome')}}
-                    .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
-                    .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
-                    .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab  && item.weekEarnings>0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab  && item.weekEarnings==0") {{item.weekEarnings||'0.00'}}
                     .block-element-number(v-if="!eyeTab") ****
                    
             //- .fund-row
@@ -65,10 +65,9 @@
 </template>
 <script>
 import localStorage from '@/utils/local-storage'
-import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { mapGetters } from 'vuex'
-import { parseThousands } from '@/utils/tools.js'
+import { parseThousands, jumpUrl } from '@/utils/tools.js'
 export default {
     props: {
         bgColor: {
@@ -168,8 +167,8 @@ export default {
             this.listShow = !this.listShow
         },
         toFundDetails(item) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
-            gotoNewWebView(url)
+            let url = `${window.location.origin}/wealth/fund/index.html#/hold-fund-details?id=${item.fundId}`
+            jumpUrl(3, url)
         },
         changeEye() {
             this.eyeTab = localStorage.get('showMoney')
@@ -214,13 +213,13 @@ export default {
         span {
             display: block;
             width: 4px;
-            height: 16px;
-            margin: 14px 0;
+            height: 14px;
+            margin: 6px 0 6px 4px;
         }
         p {
             width: 85%;
             font-size: 16px;
-            margin: 0 0 0 18px;
+            margin: 0 0 0 6px;
         }
         em {
             padding: 0 12px;
@@ -339,11 +338,11 @@ export default {
     }
 }
 .block-fund-list-content-hk {
-    width: 90%;
-    margin: 20px 5% 0 5%;
+    width: 351px;
+    margin: 20px 12px 0 12px;
 }
 .block-fund-list-content-ch {
-    width: 96%;
-    margin: 14px 2% 0 2%;
+    width: 351px;
+    margin: 14px 12px 0 12px;
 }
 </style>

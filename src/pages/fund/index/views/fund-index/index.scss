@@ -9,50 +9,67 @@
     }
 }
 .block-fund-index{
-    background:rgba(251,252,254,1);
+    background:linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
+}
+.block-hr{
+    width:100%;
+    height:10px;
 }
 .block__assets {
     width: 351px;
     // height:160px;
-    position: relative;
+    // position: relative;
     z-index: 999;
-    margin: -48px 12px 0 12px;
-    background:linear-gradient(180deg,rgba(232,240,255,1) 0%,rgba(252,252,255,1) 100%);
-    box-shadow:0px 0px 10px 0px rgba(0,0,0,0.1);
+    margin: 0px 12px 0 12px;
+    // padding:10px 0 0 0;
+    background:linear-gradient(176deg,rgba(72,156,255,1) 0%,rgba(32,102,237,1) 100%);
+    box-shadow:0px 2px 4px 0px rgba(57,57,57,0.2);
     border-radius:8px;
     display: flex;
+    color:#fff;
+    // height:156px;
     flex-direction: column;
     .block--assets--header{
         width:100%;
         height:120px;
         display: flex;
         align-items: center;
+        border-bottom:1px solid rgba(255,255,255,0.1);
         padding:0 20px;
         justify-content: space-between;
+
         .block--left{
             font-size:20px;
-            color:rgba(13,80,216,1);
+           
+            color:#fff;
+            p{
+                font-weight:bolder;
+            }
         }
         .block--right{
             width:142px;
             height:77px;
-            background: url('~@/assets/img/fund/bgzoushi.png') no-repeat;
             background-size:100% 100%;
             position: relative;
             margin:-20px 0 0 0;
             .block--button{
                 height:30px;
-                color:#fff;
-                padding:0 5px;
-                background:rgba(47,121,255,1);
+                padding:0 10px;
+                background:#fff;
                 border-radius:15px;
                 position: absolute;
                 right:0;
+                color:rgba(13,80,216,1);
                 bottom:0;
                 text-align: center;
                 display: flex;
                 align-items: center;
                 justify-content: center;
+                .iconfont{
+                    // margin:0 -5px 0 0;
+                    color:rgba(13,80,216,1);
+                    margin:0 -3px 0 0px;
+                }
             }
         }
     }
@@ -62,7 +79,8 @@
         align-items: center;
         height:40px;
         padding:0 20px;
-        color:rgba(13,80,216,1);
+        font-size:12px;
+        color:#fff;
     }
     .block__bottom--num{
         display: flex;
@@ -87,7 +105,7 @@
             line-height:36px;
         }
         .subtitle{
-            color:rgba(25,25,25,0.45);
+            color:rgba(255, 255, 255, 0.4)
         }
        
     }
@@ -106,14 +124,15 @@
             align-items: center;
             flex-direction: row;
             line-height: 20px;
-            color:$text-color5;
+            color:#fff;
             em {
                 font-size: 15px;
                 margin: 0px 0 0 5px;
-                color:#8C8C8C;
+                color:rgba(255,255,255,0.6);
             }
             span{
-                color:rgba(25,25,25,1);
+                color:#fff;
+                font-weight:bold;
             }
         }
         .block__right {
@@ -124,16 +143,16 @@
             align-items: center;
             span{
                 margin:0 0 0 6px;
-                color:rgba(25,25,25,0.45);
+                color:rgba(255,255,255,0.6);
                 font-size:12px;
             }
             em {
-                font-size: 18px;
+                font-size: 15px;
             }
             .icon-icon_fund_index_2{
                 font-size:15px;
                 margin:0 0 0 8px;
-                color:rgba(25,25,25,0.45);
+                color:rgba(255,255,255,0.6);
             }
             .block--label--list {
                 text-align: right;
@@ -154,14 +173,15 @@
         flex-direction: row;
         justify-content: space-between;
         // align-items: center;
-        padding:12px 15px;
+        padding:10px 15px 5px 15px;
+        height:70px;
         width: 100%;
         .block__left--num{
             display: flex;
             flex-direction: column;
             flex:1;
             p{
-                color:rgba(25,25,25,0.45);
+                color:rgba(255,255,255,0.4);
             }
         }
         .block--element--number {
@@ -172,10 +192,10 @@
            
         }
         .color-blue{
-                color: rgba(0, 145, 255, 1);
+            color: #fff;
         }
         .color-black{
-            color:#191919;
+            color:#fff;
         }
         .close--eye {
             line-height: 50px;
@@ -184,21 +204,27 @@
         .block__list-es{
             display: flex;
             flex-direction: row;
-            line-height: 21px;
+            line-height: 0px;
+            margin:-5px 0 0 0;
+            height:20px;
+            // 
         }
         .block--element--select {
             line-height: 18px;
             height:21px;
             border-radius:5px;
-            border:1px solid #e1e1e1;
+            border:1px solid rgba(255,255,255,0.4);
             font-size: 14px;
             padding:0 5px;
             font-weight: 600;
-            margin: 10px 0 0 5px;
+            margin: 10px 0 0 6px;
             position: relative;
+            span{
+                margin:0 0 0 3px;
+            }
             .icon-iconxiala {
                 margin: 0 0 0 5px;
-                color: rgba(25, 25, 25, 0.65);
+                color:rgba(255,255,255,0.4);
             }
             .icon-icon_fund_index_2 {
                 color: #8C8C8C;
@@ -214,27 +240,28 @@
                 background: rgba(0, 0, 0, 0.5);
             }
             .block__currey {
-                width: 120px;
+                // width: 120px;
                 position: absolute;
                 height: 100px;
                 z-index: 9999999;
-                border-radius: 10px;
+                border-radius: 4px;
                 left: 0px;
-                top: 55px;
+                top: 35px;
                 background: #fff;
                 display: flex;
                 justify-content: center;
                 flex-direction: column;
                 span {
                     color: #000;
-                    width: 100px;
+                    width: 60px;
                     height: 50px;
                     line-height: 50px;
                     display: block;
-                    margin: 0 10px;
+                    text-align: center;
+                    // padding: 0 20px;
                 }
                 .active {
-                    color: #0091ff;
+                    color: #2F79FF;
                 }
             }
             .block__currey:before {
@@ -242,7 +269,8 @@
                 width: 0px;
                 height: 0px;
                 top: -10px;
-                left: 20px;
+                left:50%;
+                transform:translate(-50%,0);
                 border-left: 10px solid transparent;
                 border-right: 10px solid transparent;
                 border-bottom: 10px solid #fff;
@@ -250,14 +278,20 @@
             }
         }
     }
+    .border-top-left{
+        border-top:1px solid rgba(255,255,255,0.1)
+    }
     .block__left__bottom{
         display: flex;
         height:42px;
         width:100%;
         align-items: center;
-        padding:0 10px;
+        padding:0 12px;
         justify-content: space-between;
         flex-direction: row;
+        .border-right-r{
+            border-right:1px solid rgba(255,255,255,0.1)
+        }
         .block__bottom--l,.block__bottom-r{
             display: flex;
             flex-direction: row;
@@ -266,6 +300,9 @@
             align-items: center;
             font-size:12px;
             justify-content: space-between;
+            p{
+                width:100%;
+            }
             .num{
                 font-size:14px;
                 margin:0 0 0 10px;
@@ -286,20 +323,27 @@
         .icon-previewright{
             font-size:15px;
             margin:0px 0 0 3px;
-            color:$text-color5;
+            color:rgba(255,255,255,0.6);
+        }
+        .previewright_left{
+            padding:0 12px 0 0;
         }
         .block__bottom--l{
             // border-right:1px solid #ebedf0;
         }
         .block__bottom-r{
-            padding:0 0 0 11px;
+            padding:0 0 0 22px;
         }
     }
     .text-align{
        justify-content: center;
     }
 }
-
+.icon_about{
+    margin:0 0 0 5px;
+    font-size:15px;
+    color:rgba(255,255,255,0.4);
+}
 .block__tab {
     width: 100%;
     margin: 20px 0 0 0;
@@ -325,8 +369,9 @@
 }
 .block__container {
     width: 100%;
-    background: #fff;
-    padding: 0 0 20px 0;
+    display: flex;
+    background: #f3f3f3;
+    flex-direction: column;
     .block-bannar {
         width: 90%;
         margin: 0 5%;
@@ -336,36 +381,35 @@
     }
     .block-bannar-sub {
         height:85px;
+        border-radius:4px;
         img {
             width: 100%;
             height:100%;
+            border-radius:4px;
         }
         
     }
     .block-bannar-sub-swiper{
-        width:100%;
-        margin:20px 0;
-        .swipper-img{
-            width:100%;
-        }
-        .van-swipe-item{
-            img{
-                width:10;
-            }
+        margin:10px 12px 0 12px;
+        .van-swipe{
+            border-radius:4px;
         }
         img {
             width: 100%;
+            border-radius:4px;
         }
     }
-    .block__fund-hk {
-         width:90%;
-         margin: 20px 5% 0 5%;
-
+   
+    .block-bannar-sub{
+        margin:14px 0 0 0;
+        width:100%;
+        img{
+            width:100%;
+        }
     }
-    .block__fund-ch {
-        width:351px;
-        margin: 20px 12px 0 12px;
-    }
+}
+.block--bannar-swipper{
+    margin:10px 0 0 0;
 }
 .canvas-list {
     opacity: 0;
@@ -378,17 +422,26 @@
         white-space:pre-line;
     }
 }
-
+.second__bannar{
+    margin:10px 12px 0 12px;
+    img{
+        width:100%;
+        border-radius:4px;
+    }
+}
 .fund-echart-render {
     height: 65px;
     width: 70px;
 }
+.van-swipe-item{
+    border-radius:4px;
+}
 .block--yxbao-container {
     width: 351px;
     height: 140px;
-    margin: 20px 12px;
+    margin: 10px 12px 0 12px;
     background: url('~@/assets/img/fund/yxbao-bg.png') no-repeat;
-    background-size: 100% 100%;
+    background-size: 105% 100%;
     border-radius: 6px;
     display: flex;
     flex-direction: column;
@@ -397,19 +450,26 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        padding:2px 0 0 0;
         h3 {
             font-size: 18px;
-            color: #fff;
+            // padding:14px 0 0 0;
+            color:rgba(25,25,25,1);
+            font-weight:bold;
         }
         .iconfont {
             font-size: 14px;
-            margin: 5px 0 0 5px;
-            color: rgba(255, 255, 255, 0.6);
+            margin: 0px 0 0 5px;
+            color:rgba(25,25,25,0.8);
         }
     }
     .block--desc {
-        color: rgba(255, 255, 255, 0.6);
+        color:rgba(25,25,25,1);
         line-height: 28px;
+        font-size:12px;
+    }
+    .block--desc_en{
+        font-size:10px;
     }
     .block--bottom-content {
         width: 331px;
@@ -418,9 +478,12 @@
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        margin: 7px 0 0 0;
+        margin: 4px 0 0 0;
         border-radius:4px;
-        background: #fff;
+        background:rgba(255,244,238,1);
+        .block--desc{
+            line-height: 40px;
+        }
         .number {
             font-size: 20px;
             font-family: yxFontDINPro-Medium;
@@ -432,15 +495,17 @@
         }
         .van-button {
             // width: 80px;
-            height: 32px !important;
-            line-height: 32px;
+            height: 27px !important;
+            padding:0 10px;
+            line-height: 27px;
             font-size: 12px;
             color: #fff;
-            border-radius: 32px !important;
-            background: #0d50d8;
+            border-radius: 3px !important;
+            background: #FF7127;
         }
     }
 }
+
 
 .color-green {
     color: #04ba60;
@@ -451,4 +516,28 @@
 
 .van-dialog__message--left{
     text-align: justify;
+}
+
+.block__header--linear{
+    width:100%;
+    background:linear-gradient(180deg,rgba(255,255,255,1) 0%,rgba(243,243,243,1) 100%);
+}
+
+.van-hairline--surround::after{
+    position: absolute;
+    box-sizing: border-box;
+    content: ' ';
+    pointer-events: none;
+    top: -50%;
+    right: -56%;
+    bottom: -50%;
+    left: -58%;
+    // border: 0 solid #ebedf0;
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+    // border:1px solid red;
+}
+
+.fund-tag{
+    margin-right:1px;
 }

@@ -3,32 +3,46 @@
     .block--hold__header
         .block--header__left
             .fund-name.ellipse {{fundHeaderInfoVO.fundName}}
-            span ISIN:{{fundHeaderInfoVO.fundCode}}
-        .block--header__right(@click="goToFundDetails")
-            span 基金详情
+            span ISIN:{{fundHeaderInfoVO.isin}}
+        .block--header__right(
+            v-if="fundHeaderInfoVO.release"
+            @click="goToFundDetails")
+            span {{$t('fundDetails')}}
             em.iconfont.icon-iconEBgengduoCopy
     .block--hold__content
         .blockk--hold__top  
             .block--top__item
-                span.top__l 持有资产
-                .num {{initState.positionMarketValue}}
+                span.top__l {{$t('positionMarketValue')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})
+                .num {{initState.positionMarketValue|transNumToThousandMark}}
         .block--hold__list
             .block__item
-                span 持有份额
+                span {{$t('positionShare')}}
                 .num {{initState.positionShare}}
-            .block__item
-                span 近7日收益
-                .num {{initState.weekEarnings}}
+            .block__item.block--element_c
+                span {{$t('weekEarnings')}}
+                .num(
+                    v-if="initState.weekEarnings>0" 
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.weekEarnings|transNumToThousandMark}}
+                .num(
+                    v-if="initState.weekEarnings<0" 
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.weekEarnings|transNumToThousandMark}}
+                .num( v-if="initState.weekEarnings==0") {{initState.weekEarnings|transNumToThousandMark}}
             .block__item.block--element_r
-                span 持有收益
-                .num {{initState.positionEarnings}}
-        .block--subscribe__content
+                span {{$t('profitPosition')}}
+                .num(
+                    v-if="initState.positionEarnings>0" 
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.positionEarnings|transNumToThousandMark}}
+                .num(
+                    v-if="initState.positionEarnings<0" 
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.positionEarnings|transNumToThousandMark}}
+                .num( v-if="initState.positionEarnings==0") {{initState.positionEarnings|transNumToThousandMark}}
+        .block--subscribe__content(@click="JumpUrl('/order-record')")
             .block__item(v-if="initState.redeemDeliveryShare != 0")
-                span.block_span 赎回中
-                span.blpck_content 份额 {{initState.redeemDeliveryShare}}
+                span.block_span {{$t('Redemption')}}
+                span.blpck_content {{$t('')}} {{initState.redeemDeliveryShare|transNumToThousandMark}}
             .block__item(v-if="initState.inTransitAmount != 0")
-                span.block_span 申购中
-                span.blpck_content 美元 {{initState.inTransitAmount}}
+                span.block_span {{$t('subscribe')}}
+                span.blpck_content {{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}} {{initState.inTransitAmount|transNumToThousandMark}}
         .funds-details-footer
             .block__details--left
                 template(v-if="isMonetaryFund")
@@ -47,15 +61,17 @@
                 span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
     .block--element__tab
         .block--tab__list
-            .block--tab__item
+            .block--tab__item(@click="JumpUrl('/income-details')")
                 em.iconfont.icon-shouru
-                span 收益明细
-            .block--tab__item
+                span {{$t('incomeDetails')}}
+            .block--tab__item(@click="JumpUrl('/order-record')")
                 em.iconfont.icon-zijin
-                span 订单记录
-            .block--tab__item
+                span {{$t('orderRecord')}}
+            .block--tab__item(
+                v-if="fixedPlanNum!=0"
+                @click="JumpUrl('/my-investment')")
                 em.iconfont.icon-dingtou
-                span 定投管理
+                span {{$t('A75')}}({{fixedPlanNum}})
                             
 
 </template>
@@ -64,9 +80,14 @@ import dayjs from 'dayjs'
 import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { getFundFixedPlanCount } from '@/service/finance-server.js'
+import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 export default {
     components: {
         [Tag.name]: Tag
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
     },
     i18n: {
         zhCHS: {
@@ -82,7 +103,14 @@ export default {
             hkd: '港币',
             usd: '美元',
             iknow: '我知道了',
-            tenKRTN: '萬元收益'
+            tenKRTN: '萬元收益',
+            positionShare: '持有份额',
+            weekEarnings: '近7日收益',
+            profitPosition: '持有收益',
+            Redemption: '赎回中',
+            subscribe: '申购中',
+            share: '份额',
+            positionMarketValue: '持有资产'
         },
         zhCHT: {
             Derivatives: '衍生產品',
@@ -97,7 +125,14 @@ export default {
             pirchaseHk: '最低認購金額',
             update: '更新時間',
             iknow: '我知道了',
-            tenKRTN: '万元收益'
+            tenKRTN: '万元收益',
+            positionShare: '持有份額',
+            weekEarnings: '近7日收益',
+            profitPosition: '持倉收益',
+            Redemption: '贖回中',
+            subscribe: '認購中',
+            share: '份額',
+            positionMarketValue: '持有市值'
         },
         en: {
             Derivatives: 'Derivatives',
@@ -112,7 +147,14 @@ export default {
             pirchaseHk: 'Min. Subs. Amount',
             update: 'Update Time',
             iknow: 'Got it',
-            tenKRTN: '10K RTN'
+            tenKRTN: '10K RTN',
+            positionShare: 'Holding Units',
+            weekEarnings: 'Last 1 week',
+            profitPosition: 'Total Return',
+            Redemption: 'Redeming',
+            subscribe: 'Purchasing',
+            share: 'Unit',
+            positionMarketValue: 'Holding Value'
         }
     },
     props: {
@@ -143,10 +185,24 @@ export default {
     },
     data() {
         return {
-            nowDate: dayjs(Date.parse(new Date())).format('MMDDYYYY')
+            nowDate: dayjs(Date.parse(new Date())).format('MMDDYYYY'),
+            fixedPlanNum: 0
         }
     },
+    created() {
+        this.getFundFixedPlanCount()
+    },
     methods: {
+        async getFundFixedPlanCount() {
+            try {
+                const { fixedPlanNum } = await getFundFixedPlanCount({
+                    fundId: this.$route.query.id
+                })
+                this.fixedPlanNum = fixedPlanNum
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         goToFundDetails() {
             this.$router.push({
                 name: 'fund-details',
@@ -154,6 +210,23 @@ export default {
                     id: this.fundHeaderInfoVO.fundId
                 }
             })
+        },
+        JumpUrl(data) {
+            let url
+            if (data === '/income-details') {
+                let params = {
+                    curreny:
+                        this.fundHeaderInfoVO.currencyType === 'HKD'
+                            ? this.$t('hkd')
+                            : this.$t('usd'),
+                    positionEarnings: this.initState.positionEarnings
+                }
+                url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.$route.query.id}&curreny=${params.curreny}&positionEarnings=${this.initState.positionEarnings}`
+            } else {
+                url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.$route.query.id}`
+            }
+            console.log(url)
+            jumpUrl(3, url)
         },
         confirmAlter() {
             let contentMessage =
@@ -239,6 +312,9 @@ export default {
     .block--element_r {
         text-align: right;
     }
+    .block--element_c {
+        text-align: center;
+    }
     span {
         color: rgba(25, 25, 25, 0.45);
         line-height: 20px;
@@ -302,7 +378,7 @@ export default {
         }
     }
     .block--header__right {
-        width: 87px;
+        // width: 87px;
         height: 27px;
         background: rgba(47, 121, 255, 0.05);
         border-radius: 100px 0px 0px 100px;
@@ -326,14 +402,15 @@ export default {
     font-size: 11px;
     justify-content: space-between;
     color: $text-color5;
-    .number-red {
-        color: rgba(234, 61, 61, 1);
-    }
-    .number-green {
-        color: #04ba60;
-    }
+
     .block__details--right {
         text-align: right;
     }
+}
+.number-red {
+    color: rgba(234, 61, 61, 1);
+}
+.number-green {
+    color: #04ba60;
 }
 </style>
