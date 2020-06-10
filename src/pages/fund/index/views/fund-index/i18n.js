@@ -56,7 +56,7 @@ export const i18n = {
         fundBlend: '混合型',
         fundShares: '股票型',
         confirm: '確認',
-        login: '請登陸後進行操作 ',
+        login: '請登錄後進行操作 ',
         loginBtn: '立即登錄',
         fundmsg: '筆交易確認中',
         openAccountBtn: '立即開戶',
