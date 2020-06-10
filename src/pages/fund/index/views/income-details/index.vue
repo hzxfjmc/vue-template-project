@@ -1,7 +1,7 @@
 <template lang="pug">
 .income-details-content
     .block__element--header
-        span {{$t('positionEarnings')}}({{positionInfo.curreny}})
+        span {{$t('positionEarnings')}}({{positionInfo.curreny === 'HKD' ?$t('hkd'):$t('usd')}})
         .num(
             v-if="positionInfo.positionEarnings>0"
             :class="stockColorType === 1 ?'element-price-red':'element-price-green'") +{{positionInfo.positionEarnings}}

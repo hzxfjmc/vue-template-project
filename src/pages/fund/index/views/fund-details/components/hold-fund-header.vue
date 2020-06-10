@@ -214,18 +214,10 @@ export default {
         JumpUrl(data) {
             let url
             if (data === '/income-details') {
-                let params = {
-                    curreny:
-                        this.fundHeaderInfoVO.currencyType === 'HKD'
-                            ? this.$t('hkd')
-                            : this.$t('usd'),
-                    positionEarnings: this.initState.positionEarnings
-                }
-                url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.$route.query.id}&curreny=${params.curreny}&positionEarnings=${this.initState.positionEarnings}`
+                url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.$route.query.id}&curreny=${this.fundHeaderInfoVO.currencyType}&positionEarnings=${this.initState.positionEarnings}`
             } else {
                 url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.$route.query.id}`
             }
-            console.log(url)
             jumpUrl(3, url)
         },
         confirmAlter() {
