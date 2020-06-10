@@ -7,7 +7,7 @@
             .header__bottom
                 .item
                     span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
-                    span.item__value {{analyzeData.fundSize}}
+                    span.item__value {{(analyzeData.fundSize/100000000).toFixed(2)}} {{$t('unit')}}
                 .item
                     span.item__label {{$t('A12')}}：
                     span.item__value {{analyzeData.updateTime}}    
@@ -60,7 +60,7 @@
                             ) {{mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`] | filterRatio}}                           
         .fund-block
             .fund-block__header
-                .title {{$t('A26')}}（{{equityStyleBoxApiVO.equityStyleBox}}）
+                .title {{$t('A26')}}（{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
                 .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
             .fund-block__content 
                 table.table-box
@@ -110,11 +110,14 @@
  * @date 2020/06/08
  */
 
+import Vue from 'vue'
 import { mapGetters } from 'vuex'
 import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import i18n from './i18n'
 import { jumpUrl } from '@/utils/tools.js'
+
+const $t = Vue.prototype.$t
 
 const getCurrencyName = (val, lang) => {
     return CURRENCY_NAME[lang][val]
@@ -164,6 +167,20 @@ export default {
     filters: {
         filterRatio(val) {
             return val ? `${Number(val).toFixed(2)}%` : `--`
+        },
+        filterStyleBox(val) {
+            const styleMap = {
+                1: $t(['大盘价值型', '大盘价值型', 'Large Value']),
+                2: $t(['大盘平衡型', '大盘平衡型', 'Large Blend']),
+                3: $t(['大盘成长型', '大盘成长型', 'Large Growth']),
+                4: $t(['中盘价值型', '中盘价值型', 'Mid Value']),
+                5: $t(['中盘平衡型', '中盘平衡型', 'Mid Blend']),
+                6: $t(['中盘成长型', '中盘成长型', 'Mid Growth']),
+                7: $t(['小盘价值型', '小盘价值型', 'Small Value']),
+                8: $t(['小盘平衡型', '小盘平衡型', 'Small Blend']),
+                9: $t(['小盘成长型', '小盘成长型', 'Small Growth'])
+            }
+            return styleMap[val]
         }
     },
     data() {

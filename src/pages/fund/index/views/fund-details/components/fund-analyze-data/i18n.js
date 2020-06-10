@@ -25,7 +25,8 @@ export default {
         A32: '风格',
         A33: '价值型',
         A34: '平衡型',
-        A35: '成长型'
+        A35: '成长型',
+        unit: '亿'
     },
     en: {
         C10: 'Analytical Figure',
@@ -53,7 +54,8 @@ export default {
         A32: 'Style',
         A33: 'Value',
         A34: 'Balanced',
-        A35: 'Growth'
+        A35: 'Growth',
+        unit: 'B '
     },
     zhCHT: {
         A10: '分析數據',
@@ -81,6 +83,7 @@ export default {
         A32: '風格',
         A33: '價值型',
         A34: '平衡型',
-        A35: '成長型'
+        A35: '成長型',
+        unit: '億'
     }
 }
