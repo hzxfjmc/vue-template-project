@@ -2,7 +2,7 @@
     .fund-colunm
         .fund-colunm__header
             .col-left
-                .iconfont.icon-iconEBshoucang
+                .iconfont.icon-icon_collect
                 .title {{$t('A10')}}（{{$t('A24')}}）   
             .col-right(@click="handleGoDetail")
                 span.title {{$t('A11')}}
@@ -11,17 +11,17 @@
             .content__item
                 .item-title {{$t('A17')}}
                 .item-value(
-                    :class="stockColorTypeClass"
+                     :class="sharpeRatio3Yr ? stockColorTypeClass:''"
                 ) {{sharpeRatio3Yr | filterRatio}}  
             .content__item
                 .item-title {{$t('A19')}}
                 .item-value(
-                    :class="stockColorTypeClass"
+                   :class="captureRatioUpside3Yr ? stockColorTypeClass:''"
                 ) {{captureRatioUpside3Yr | filterRatio}}
             .content__item
                 .item-title {{$t('A18')}}
                 .item-value(
-                    :class="stockColorTypeClass"
+                    :class="maxDrawDown3Yr ? stockColorTypeClass:''"
                 ) {{maxDrawDown3Yr | filterRatio}}
 </template>
 <script>
@@ -54,9 +54,11 @@ export default {
     },
     filters: {
         filterRatio(val) {
-            return Number(val) > 0
-                ? `+${Number(val).toFixed(2)}%`
-                : `${Number(val).toFixed(2)}%`
+            return val
+                ? Number(val) > 0
+                    ? `+${Number(val).toFixed(2)}%`
+                    : `${Number(val).toFixed(2)}%`
+                : '--'
         }
     },
     methods: {
@@ -123,7 +125,7 @@ export default {
             padding-left: 10px;
         }
         .iconfont {
-            font-size: 20px;
+            font-size: 18px;
         }
     }
     .col-right {
