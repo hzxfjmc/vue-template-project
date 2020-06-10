@@ -10,7 +10,7 @@
     .block__right--tag(
         @click="confirmAlter"
         v-if="tagShow")
-        //- .blcok__tag--left.iconfont.icon-warning1
+        .blcok__tag--left.iconfont.icon-warning1
         .block__tag--right
             p(v-if="tagsShow") {{$t('Derivatives')}} 
             p {{$t('Complex')}}
