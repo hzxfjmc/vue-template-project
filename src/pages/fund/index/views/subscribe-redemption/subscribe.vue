@@ -60,16 +60,12 @@
                 .buy-row
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
-                    span.text-color5 {{ $t('predict') }} 
-                    span(style="margin: 0 3px;") {{ buyConfirm }}
-                    span.text-color5 {{ $t('confirmTheShare') }}
+                    span.text-color5(v-html="$t('confirmTheShare', buyConfirm)")
                 .line
                 .buy-row
                     .icon
                         .point
-                    span.text-color5 {{ $t('predict') }}
-                    span(style="margin: 0 3px;") {{ buyProfitLoss }}
-                    span.text-color5 {{ $t('earnings') }}
+                    span.text-color5(v-html="$t('earnings', buyProfitLoss)")
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8  {{$t('orderAmount')}}
@@ -865,7 +861,6 @@ export default {
             buyMoneyNumber: '申购金额',
             continueBalance: '续投金额',
             redemption: '申购费',
-            predict: '预计',
             submitButtonText: '同意协议并提交',
             dayDone: '日完成',
             day: '日',
@@ -873,8 +868,10 @@ export default {
             stepOne: '申购提交',
             stepTwo: '确认份额',
             stepThree: '查看盈亏',
-            confirmTheShare: '确认份额并开始计算收益',
-            earnings: '查看份额、收益',
+            confirmTheShare: date =>
+                `预计 <span class="text-color">${date}<span/> 确认份额，开始计算收益`,
+            earnings: date =>
+                `预计 <span class="text-color">${date}<span/> 查看份额、收益`,
             money: '金额',
             done: '完成',
             iKnow: '我知道了',
@@ -915,7 +912,6 @@ export default {
             buyMoneyNumber: '認購金額',
             continueBalance: '續投金額',
             redemption: '申購費',
-            predict: '預計',
             hkd: '港幣',
             usd: '美元',
             submitButtonText: '同意協議並提交',
@@ -925,8 +921,10 @@ export default {
             stepOne: '認購提交',
             stepTwo: '確認份額',
             stepThree: '查看盈虧',
-            confirmTheShare: '確認份額並開始計算收益',
-            earnings: '查看份額、收益',
+            confirmTheShare: date =>
+                `預計 <span class="text-color">${date}<span/> 確認份額，開始計算收益`,
+            earnings: date =>
+                `預計 <span class="text-color">${date}<span/> 查看份額、收益`,
             money: '金額',
             done: '完成',
             iKnow: '我知道了',
@@ -965,7 +963,6 @@ export default {
             buyMoneyNumber: 'Investment Amount',
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
-            predict: 'Estimated',
             submitButtonText: 'Agree to agreement and submit',
             dayDone: 'Complete in X days',
             day: 'Days',
@@ -973,8 +970,10 @@ export default {
             stepOne: 'Submit',
             stepTwo: 'Fund Units Allocation',
             stepThree: 'Check P/L',
-            confirmTheShare: 'Fund Units Allocation',
-            earnings: 'Check P/L and Units',
+            confirmTheShare: date =>
+                `Estimate Fund Units Allocation in <span class="text-color">${date}<span/>`,
+            earnings: date =>
+                `Estimate Fund Units Allocation in <span class="text-color">${date}<span/>`,
             money: 'Amount',
             done: 'Completed',
             iKnow: 'Got it',
