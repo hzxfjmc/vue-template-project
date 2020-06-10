@@ -37,7 +37,7 @@
             p(v-else) {{apy}}%
         .header-right
             span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $t('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
-            p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
+            p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
         .block__details--left
             template(v-if="isMonetaryFund")
@@ -72,8 +72,8 @@ export default {
             Complex: '复杂产品',
             fundPrice: '基金净值',
             minInvestment: '起投金额',
-            purchase: '起购金额',
-            pirchaseHk: '起购金额',
+            purchase: '单位净值',
+            pirchaseHk: '单位净值',
             update: '更新时间',
             oneYearShow: '近一年涨跌幅',
             yieldInLast7d: '近七日年化',
@@ -101,8 +101,8 @@ export default {
             yieldInLast7d: '近七日年化',
             hkd: '港幣',
             usd: '美元',
-            purchase: '起購金額',
-            pirchaseHk: '最低認購金額',
+            purchase: '基金價格',
+            pirchaseHk: '基金價格',
             update: '更新時間',
             iknow: '我知道了',
             hasRate: '晨星評級',
@@ -126,8 +126,8 @@ export default {
             hkd: 'HKD',
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',
-            purchase: 'Min. Subs. Amount',
-            pirchaseHk: 'Min. Subs. Amount',
+            purchase: 'NAV',
+            pirchaseHk: 'NAV',
             update: 'Update Time',
             iknow: 'Got it',
             hasRate: 'MorningStar Rating',
