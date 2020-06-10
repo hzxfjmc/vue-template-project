@@ -48,23 +48,23 @@
                     @click="toInvestmentDetails(item,index)"
                     v-for="(item,index) in recordList")
                     .block--item--header.bg-uncolor.ellipse {{item.fundName}}
-                    .block--item--content.border-bottom
+                    .block--item--content
                         .item--left 
                             .top {{$t('A79')}}({{item.currency === 1 ? $t('usd'):item.currency === 2 ? $t('hkd'):''}})
                             .bottom {{item.fixedTotalAmount}}
                         .item--left 
                             .top {{$t('A80')}}
                             .bottom {{item.investNum}}
-                    .block--item--footer
-                        .flex-item
-                            .top {{$t('A81')}}
-                            .bottom {{item.recentDeductionDate}}({{item.week}})
-                        .flex-item
-                            .top {{$t('A82')}}
-                            .bottom {{item.chargeType}}
-                        .flex-item
-                            .top {{$t('A83')}}
-                            .bottom {{item.fixedPlanAmount}}
+                    //- .block--item--footer
+                    //-     .flex-item
+                    //-         .top {{$t('A81')}}
+                    //-         .bottom {{item.recentDeductionDate}}({{item.week}})
+                    //-     .flex-item
+                    //-         .top {{$t('A82')}}
+                    //-         .bottom {{item.chargeType}}
+                    //-     .flex-item
+                    //-         .top {{$t('A83')}}
+                    //-         .bottom {{item.fixedPlanAmount}}
         .nomore(v-if="list.length === 0 && active === 0")
             img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
             p {{$t('A84')}}
@@ -96,7 +96,7 @@ export default {
             stopped: '已暫停'
         },
         en: {
-            stopped: 'Stopped'
+            stopped: 'Suspended'
         }
     },
     data() {

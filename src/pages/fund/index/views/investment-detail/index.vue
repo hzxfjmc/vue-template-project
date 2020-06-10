@@ -3,7 +3,7 @@
     .investment__detail__header(:class="!isNotStop?'no-color':'has-color'")
         .investment__detail__header_info(@click="toFundDetailHandle")
             .header_info_left(:class="!isNotStop?'header_info_gray-left':''")
-                .name {{fundHeaderInfoVO.fundName}}
+                .name.ellipse {{fundHeaderInfoVO.fundName}}
                 .code ISIN:{{fundHeaderInfoVO.fundCode}}
             .header_info_right
                 img(src="@/assets/img/fund/icon-right.png")
@@ -41,7 +41,9 @@
             img(:src="item.url")
             span {{item.text}}
     .investment__detail__record.card(:class="!isNotStop?'mt5':''")
-        record(:isNotStop="isNotStop")
+        record(
+            :currencyType = "currency"
+            :isNotStop="isNotStop")
     van-dialog(
         v-model='isShowDialog' 
         :title="dialogTitle" 
@@ -361,6 +363,7 @@ export default {
                 .name {
                     color: $background-color;
                     font-size: 16px;
+                    width: 70%;
                 }
                 .code {
                     color: rgba($background-color, 0.4);

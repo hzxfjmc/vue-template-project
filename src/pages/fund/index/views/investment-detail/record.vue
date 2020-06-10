@@ -4,7 +4,9 @@
         p(:class="!isNotStop?'black':''") {{$t('A96')}}
     .investment__record__container(v-if="!hasRecord")
         .investment__record_title
-            .block__title(v-for="(item,index) in titleList" :key='index' :class="`item${index}`") {{item}}
+            .block__title.item0 {{$t('A97')}}
+            .block__title.item1 {{$t('A98')}}({{currencyName}})
+            .block__title.item2 {{$t('A99')}}
         .investment__record_content
             van-list.record_content_list(
                 v-model="loading" 
@@ -35,7 +37,7 @@ export default {
     components: {
         [List.name]: List
     },
-    props: ['isNotStop'],
+    props: ['isNotStop', 'currencyType'],
     data() {
         return {
             loading: false,
@@ -44,14 +46,19 @@ export default {
             pageNum: 1,
             pageSize: 20,
             finishedText: '',
-            titleList: ['时间', '金额(港币)', '订单状态'],
             recordList: [],
             statusMap,
-            hasRecord: false
+            hasRecord: false,
+            currencyName: ''
         }
     },
     created() {
         this.getFundFixedRecordPage()
+        const CURRENCYEUMN = {
+            1: this.$t('usd'),
+            2: this.$t('hkd')
+        }
+        this.currencyName = CURRENCYEUMN[this.currencyType]
     },
     methods: {
         // 跳转到详情
@@ -64,6 +71,7 @@ export default {
                     currencyType: this.$route.query.currency
                 }
             }
+
             if (item.actionInfo) {
                 data.query.groupId = item.actionInfo.group.group_id
             }
