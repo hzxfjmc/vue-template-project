@@ -3,23 +3,23 @@
         .fund-colunm__header
             .col-left
                 .iconfont.icon-iconEBshoucang
-                .title 分析数据（3年）   
+                .title {{$t('A10')}}（{{$t('A24')}}）   
             .col-right(@click="handleGoDetail")
-                span.title 查看更多
+                span.title {{$t('A11')}}
                 span.iconfont.icon-iconEBgengduoCopy    
         .fund-colunm__content
             .content__item
-                .item-title 夏普比率
+                .item-title {{$t('A17')}}
                 .item-value(
                     :class="stockColorTypeClass"
                 ) {{sharpeRatio3Yr | filterRatio}}  
             .content__item
-                .item-title 上行捕获率
+                .item-title {{$t('A19')}}
                 .item-value(
                     :class="stockColorTypeClass"
                 ) {{captureRatioUpside3Yr | filterRatio}}
             .content__item
-                .item-title 最大回撤
+                .item-title {{$t('A18')}}
                 .item-value(
                     :class="stockColorTypeClass"
                 ) {{maxDrawDown3Yr | filterRatio}}
@@ -32,10 +32,9 @@
  */
 import { mapGetters } from 'vuex'
 import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
-import mixin from './mixin'
+import i18n from './i18n'
 export default {
-    mixins: [mixin],
-    i18n: {},
+    i18n: i18n,
     components: {},
     props: {
         fundHeaderInfoVO: {

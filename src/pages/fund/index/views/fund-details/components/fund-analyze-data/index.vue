@@ -6,62 +6,62 @@
                 .desc ISIN:{{isin}}
             .header__bottom
                 .item
-                    span.item__label 基金规模({{$t('currency',analyzeData.currency,lang)}})：
+                    span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
                     span.item__value {{analyzeData.fundSize}}
                 .item
-                    span.item__label 数据更新时间：
+                    span.item__label {{$t('A12')}}：
                     span.item__value {{analyzeData.updateTime}}    
         .fund-block
             .fund-block__header
-                .title 风险指标
-                .link(@click="handleGoDetail('risk')") 指标说明 
+                .title {{$t('A14')}}
+                .link(@click="handleGoDetail('risk')") {{$t('A15')}} 
             .fund-block__content
                 table.table
                     tr
-                        th 指标                             
-                        th 1年                           
-                        th 3年                           
-                        th 5年   
+                        th {{$t('A16')}}                             
+                        th {{$t('A23')}}                           
+                        th {{$t('A24')}}                           
+                        th {{$t('A25')}}                              
                     tr
-                        td 夏普比率                            
+                        td {{$t('A17')}}                            
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
                             ) {{riskMeasureApiVO[`sharpeRatio${item}Yr`] | filterRatio}}                                                    
                     tr
-                        td 最大回撤
+                        td {{$t('A18')}}  
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
                             ) {{riskMeasureApiVO[`maxDrawDown${item}Yr`] | filterRatio}}                                                        
                     tr
-                        td 上行捕获比 
+                        td {{$t('A19')}}   
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
                             ) {{relativeRiskMeasureCategoryApiVO[`captureRatioUpside${item}Yr`] | filterRatio}}                                                       
                     tr
-                        td 下行捕获比   
+                        td {{$t('A20')}}     
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
                             ) {{relativeRiskMeasureCategoryApiVO[`captureRatioDownside${item}Yr`] | filterRatio}}                                                     
                     tr
-                        td Alpha      
+                        td {{$t('A21')}}        
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
                             ) {{mptStatisticsPrimaryIndexApiVO[`alpha${item}Yr`] | filterRatio}}                                                 
                     tr
-                        td Beta  
+                        td {{$t('A22')}}    
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
                             ) {{mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`] | filterRatio}}                           
         .fund-block
             .fund-block__header
-                .title 投资风格箱（大盘平衡型）
-                .link(@click="handleGoDetail('stylebox')") 风格箱说明 
+                .title {{$t('A26')}}（{{equityStyleBoxApiVO.equityStyleBox}}）
+                .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
             .fund-block__content 
                 table.table-box
                     tr
@@ -69,7 +69,7 @@
                         td &nbsp;
                         td &nbsp;
                         td &nbsp;
-                        td.label-title （规模）
+                        td.label-title （{{$t('A28')}}）
                     tr
                         td &nbsp;
                         td.value( 
@@ -77,31 +77,31 @@
                             :key="`key_${index}`"
                             :class="`td-col-${index+1}`"
                             ) {{styleBoxBreakDown[item] | filterRatio}}
-                        td.label 大盘
+                        td.label {{$t('A31')}}
                     tr
                         td &nbsp;
                         td.value( 
                             v-for="item,index in keyList3" 
                             :key="`key_${index}`"
                             ) {{styleBoxBreakDown[item] | filterRatio}}
-                        td.label 中盘
+                        td.label {{$t('A30')}}
                     tr
                         td &nbsp;
                         td.value( 
                             v-for="item,index in keyList3" 
                             :key="`key_${index}`"
                             ) {{styleBoxBreakDown[item] | filterRatio}}
-                        td.label 小盘
+                        td.label {{$t('A29')}}
                     tr
-                        td.label-title （{{equityStyleBoxApiVO.equityStyleBox}}）
-                        td.label 价值型
-                        td.label 平衡型
-                        td.label 成长型
+                        td.label-title （{{$t('A32')}}）
+                        td.label {{$t('A33')}}
+                        td.label {{$t('A34')}}
+                        td.label {{$t('A35')}}
                         td &nbsp;
         .fund-block
              .fund-block__content
-                p.text *本页面资料来源于基金管理公司、晨星资讯（深圳）有限公司（“晨星”）、其他基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。                                
-                p.text 相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。                               
+                p.text {{text1}}                               
+                p.text {{text2}}                        
 </template>
 <script>
 /**
@@ -109,27 +109,32 @@
  * @author Aaron Lam
  * @date 2020/06/08
  */
+
 import { mapGetters } from 'vuex'
 import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
-import mixin from './mixin'
+import i18n from './i18n'
 import { jumpUrl } from '@/utils/tools.js'
+
 const getCurrencyName = (val, lang) => {
     return CURRENCY_NAME[lang][val]
 }
+
 export default {
     i18n: {
         en: {
+            ...i18n.en,
             currency: getCurrencyName
         },
         zhCHS: {
+            ...i18n.zhCHS,
             currency: getCurrencyName
         },
         zhCHT: {
+            ...i18n.zhCHT,
             currency: getCurrencyName
         }
     },
-    mixins: [mixin],
     props: {
         fundId: {
             type: [String, Number],
@@ -139,7 +144,21 @@ export default {
     computed: {
         ...mapGetters(['lang']),
         styleBoxBreakDown() {
-            return this.equityStyleBoxApiVO.styleBoxBreakDown
+            return this.equityStyleBoxApiVO.styleBoxBreakDown || {}
+        },
+        text1() {
+            return this.$t([
+                '*本页面资料来源于基金管理公司、晨星资讯（深圳）有限公司（“晨星”）、其他基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。 ',
+                '*本頁面資料來源於基金管理公司、晨星資訊（深圳）有限公司（“晨星”）和/或其他基金服務提供供應商。所有數據截至最新淨值日期（除特殊標註外）,友信對基金的業績表現計算是按該時期的資產淨值、相關類別貨幣計算。如有未顯示年度/時期的表現，則指該年度/時期未有足夠資料計算。',
+                "* The information on this page comes from fund management companies, Morningstar ShenZhen Limited（“Morningstar”）and/or fund service providers. All data are up to the date of the latest net worth (unless otherwise specified). uSMART calculates the fund's performance on a NAV-to-NAV basis in the relevant share class currency. Whenever there is no past performance shown, no sufficient data available in that year to calculate performance."
+            ])
+        },
+        text2() {
+            return this.$t([
+                '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
+                '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
+                'The relevant data is for reference only. This page is not a legal document. Please carefully read the fund’s prospectus before investing. Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.'
+            ])
         }
     },
     filters: {
