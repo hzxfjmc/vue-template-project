@@ -14,11 +14,12 @@
                         NumberKeyboard( 
                             :currency= "currency.name"
                             :placeholder="placeholder"
-                            @handlerAmount="handlerAmount")
+                            @handlerAmount="handlerAmount"
+                            )
                         .block__fund--tag--list(v-if="tagList.length!=0")
                             span(v-for="item in tagList") {{item}}
-                    .block__tags(v-if="tagShow")
-                        span 可申购金额不足
+                    .block__tags()
+                        span {{tagText}}
                     .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney' && index != 'withdrawBalance'")
                         .left-item {{item.label}}
                         .right-item 
@@ -183,7 +184,8 @@ export default {
                 fundFeeLevelVOList: []
             },
             placeholder: '请输入',
-            tagList: []
+            tagList: [],
+            tagText: ''
         }
     },
     filters: {
@@ -216,15 +218,15 @@ export default {
                         +numberInt < +item.maxAmount
                     ) {
                         this.subscribeObj.subscriptionFee.value =
-                            item.feeRate * 100
+                            item.feeRate * 100 || 0
                     }
                 })
             } else {
                 this.subscribeObj.subscriptionFee.value =
-                    this.subscribeFeeVO.defaultFeeRate * 100
+                    this.subscribeFeeVO.defaultFeeRate * 100 || 0
             }
             this.subscriptionFee =
-                (numberInt * this.subscribeObj.subscriptionFee.value) / 100
+                (numberInt * this.subscribeObj.subscriptionFee.value) / 100 || 0
             if (numberInt > +this.withdrawBalance) {
                 this.purchaseAmount = +this.withdrawBalance
                 return
@@ -255,9 +257,6 @@ export default {
             'openedAccount',
             'appVersion'
         ]),
-        tagShow() {
-            return false
-        },
         // 预计完成时间多语言配置
         predictDay() {
             return {
@@ -272,7 +271,8 @@ export default {
     },
     methods: {
         handlerAmount(val) {
-            this.amount = val
+            this.purchaseAmount = +val || ''
+            this.getTagText()
         },
         async getFundFeeConfig() {
             try {
@@ -503,28 +503,6 @@ export default {
             }
             // }
         },
-        focusEvent() {
-            if (this.withdrawBalance <= 0) {
-                this.$dialog
-                    .confirm({
-                        message: this.$t('subscribemsg'),
-                        confirmButtonText: this.$t('confirm'),
-                        closeOnClickOverlay: true,
-                        cancelButtonText: this.$t('iknow')
-                    })
-                    .then(() => {
-                        jumpUrl(
-                            3,
-                            `${window.location.origin}/webapp/open-account/deposit.html#/`
-                        )
-                    })
-                    .catch(() => {
-                        // on cancel
-                    })
-
-                return
-            }
-        },
         async openProtocol(url) {
             url = await getCosUrl(url)
             if (jsBridge.isYouxinApp) {
@@ -699,15 +677,13 @@ export default {
             }
         },
         handlerSubmitFilter() {
-            if (this.purchaseAmount <= 0) {
-                return this.$toast(
-                    this.$t([
-                        '请输入申购金额',
-                        '請輸入申購金額',
-                        'Please Enter The Purchase Amount'
-                    ]),
-                    'middle'
-                )
+            let state = this.checkBuy(true)
+            if (state === false) {
+                return
+            }
+            if (state !== '') {
+                this.$toast(state, 'middle')
+                return
             }
             if (
                 this.purchaseAmount / this.withdrawBalance >= 0.5 &&
@@ -811,6 +787,62 @@ export default {
                 fundId: this.$route.query.id
             })
             this.positionStatus = res.positionStatus.type
+        },
+        // 校驗，showDialog表示是否展示彈窗提示
+        checkBuy(showDialog) {
+            console.log(
+                this.purchaseAmount,
+                this.withdrawBalance,
+                this.initialInvestAmount
+            )
+            if (this.purchaseAmount <= 0) {
+                return this.$t('inputMoney')
+            }
+            if (!(+this.withdrawBalance > 0)) {
+                if (showDialog) {
+                    this.$dialog
+                        .confirm({
+                            message: this.$t('subscribemsg'),
+                            confirmButtonText: this.$t('confirm'),
+                            closeOnClickOverlay: true,
+                            cancelButtonText: this.$t('iknow')
+                        })
+                        .then(() => {
+                            jumpUrl(
+                                3,
+                                `${window.location.origin}/webapp/open-account/deposit.html#/`
+                            )
+                        })
+                        .catch(() => {
+                            // on cancel
+                        })
+                    return false
+                } else {
+                    return this.$t('noEnoughMoney')
+                }
+            }
+            if (
+                +this.subscribeObj.totalOrderAmount.value >
+                +this.withdrawBalance
+            ) {
+                return this.$t('noEnoughMoney')
+            }
+            if (this.purchaseAmount < this.initialInvestAmount) {
+                const CURRENCYEUMN = {
+                    1: this.$t('usd'),
+                    2: this.$t('hkd')
+                }
+                return this.$t(
+                    'mixBuyMoney',
+                    this.initialInvestAmount,
+                    CURRENCYEUMN[this.currency.type]
+                )
+            }
+            return ''
+        },
+        // 錯誤提示文案
+        getTagText() {
+            this.tagText = this.checkBuy(false) || ''
         }
     },
     i18n: {
@@ -859,7 +891,10 @@ export default {
             hkd: '港币',
             usd: '美元',
             content:
-                '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
+                '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。',
+            inputMoney: '请输入申购金额',
+            mixBuyMoney: (price, currency) => `最低申购${price}${currency}`,
+            noEnoughMoney: `可用余额不足`
         },
         zhCHT: {
             FundReturn: '拼团最低可返',
@@ -906,7 +941,10 @@ export default {
             continue: '繼續申購',
             Exchange: '點此去換匯',
             content:
-                '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。'
+                '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。',
+            inputMoney: '請輸入申購金額',
+            mixBuyMoney: (price, currency) => `最低申購${price}${currency}`,
+            noEnoughMoney: `可用餘額不足`
         },
         en: {
             FundReturn: '拼团最低可返',
@@ -955,7 +993,11 @@ export default {
             hkd: 'HKD',
             usd: 'USD',
             content:
-                'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
+                'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.',
+            inputMoney: 'Please Enter The Purchase Amount',
+            mixBuyMoney: (price, currency) =>
+                `Minimum purchase ${price} ${currency}`,
+            noEnoughMoney: `Insufficient available balance`
         }
     }
 }
