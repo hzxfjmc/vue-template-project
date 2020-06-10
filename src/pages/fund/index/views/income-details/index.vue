@@ -9,16 +9,17 @@
             v-if="positionInfo.positionEarnings<0"
             :class="stockColorType === 1 ?'element-price-green':'element-price-red'") {{positionInfo.positionEarnings}}
         .num(v-if="positionInfo.positionEarnings==0") {{positionInfo.positionEarnings}}
-    span.hr
+        span.hr
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad") 
         .block__title.border-bottom
             .item--title {{$t('A97')}}
-            .item--title {{$t('C11')}}({{positionInfo.curreny}})
-        .list(class="border-bottom" v-for="(item,index) in list" :key="index")
-            span {{item.belongDate}}
-            span(v-if="item.msg == 0" :class="stockColorType === 1 ?'element-price-red':'element-price-green'") +{{item.earnings}}
-            span(v-if="item.msg == 1" :class="stockColorType === 1 ?'element-price-green':'element-price-red'") {{item.earnings}}
-            span.element-price(v-if="item.msg == 2") {{item.earnings}}
+            .item--title {{$t('C11')}}({{positionInfo.curreny === 'HKD' ?$t('hkd'):$t('usd')}})
+        .block__list--content
+            .list(class="border-bottom" v-for="(item,index) in list" :key="index")
+                span {{item.belongDate}}
+                span(v-if="item.msg == 0" :class="stockColorType === 1 ?'element-price-red':'element-price-green'") +{{item.earnings}}
+                span(v-if="item.msg == 1" :class="stockColorType === 1 ?'element-price-green':'element-price-red'") {{item.earnings}}
+                span.element-price(v-if="item.msg == 2") {{item.earnings}}
                
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/fund/icon-norecord.png") 
@@ -159,19 +160,28 @@ export default {
     flex-direction: row;
     justify-content: space-between;
 }
+.block__list--content {
+    position: relative;
+    top: 40px;
+    padding: 0 0 40px 0;
+}
 .block__title {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     padding: 0 16px;
+    width: 100%;
     height: 44px;
+    background: #fff;
+    position: fixed;
+    z-index: 9999;
     color: rgba(25, 25, 25, 0.5);
     margin: -6px 0 0 0;
     align-items: center;
 }
 .block__element--header {
     width: 100%;
-    height: 92px;
+    height: 98px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -194,7 +204,9 @@ export default {
     height: 6px;
     background: #f3f3f3;
     display: inline-block;
-    margin: 92px 0 0 0;
+    margin: 0 0 0 0;
+    position: absolute;
+    bottom: 0;
 }
 .income-details-content {
     // display: flex;
@@ -205,7 +217,7 @@ export default {
     // overflow: hidden;
     // overflow-y: auto;
     .order-record-list {
-        margin: 0px 0 0 0;
+        margin: 98px 0 0 0;
         background: #fff;
     }
     .list {
@@ -238,6 +250,9 @@ export default {
                 line-height: 25px;
             }
         }
+    }
+    .list:first-child {
+        margin: 44px 0 0 0;
     }
 }
 .element-price-red {
