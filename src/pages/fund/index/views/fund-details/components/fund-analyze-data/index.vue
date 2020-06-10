@@ -170,15 +170,15 @@ export default {
         },
         filterStyleBox(val) {
             const styleMap = {
-                1: $t(['大盘价值型', '大盘价值型', 'Large Value']),
-                2: $t(['大盘平衡型', '大盘平衡型', 'Large Blend']),
-                3: $t(['大盘成长型', '大盘成长型', 'Large Growth']),
-                4: $t(['中盘价值型', '中盘价值型', 'Mid Value']),
-                5: $t(['中盘平衡型', '中盘平衡型', 'Mid Blend']),
-                6: $t(['中盘成长型', '中盘成长型', 'Mid Growth']),
-                7: $t(['小盘价值型', '小盘价值型', 'Small Value']),
-                8: $t(['小盘平衡型', '小盘平衡型', 'Small Blend']),
-                9: $t(['小盘成长型', '小盘成长型', 'Small Growth'])
+                1: $t(['大盘价值型', '大盤價值型', 'Large Value']),
+                2: $t(['大盘平衡型', '大盤平衡型', 'Large Blend']),
+                3: $t(['大盘成长型', '大盤成長型', 'Large Growth']),
+                4: $t(['中盘价值型', '中盤價值型', 'Mid Value']),
+                5: $t(['中盘平衡型', '中盤平衡型', 'Mid Blend']),
+                6: $t(['中盘成长型', '中盤成長型', 'Mid Growth']),
+                7: $t(['小盘价值型', '小盤價值型', 'Small Value']),
+                8: $t(['小盘平衡型', '小盤平衡型', 'Small Blend']),
+                9: $t(['小盘成长型', '小盤成長型', 'Small Growth'])
             }
             return styleMap[val]
         }
