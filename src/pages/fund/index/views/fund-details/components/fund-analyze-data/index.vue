@@ -14,7 +14,7 @@
         .fund-block
             .fund-block__header
                 .title 风险指标
-                .link 指标说明 
+                .link(@click="handleGoDetail('risk')") 指标说明 
             .fund-block__content
                 table.table
                     tr
@@ -61,7 +61,7 @@
         .fund-block
             .fund-block__header
                 .title 投资风格箱（大盘平衡型）
-                .link 风格箱说明 
+                .link(@click="handleGoDetail('stylebox')") 风格箱说明 
             .fund-block__content 
                 table.table-box
                     tr
@@ -112,7 +112,8 @@
 import { mapGetters } from 'vuex'
 import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
-
+import mixin from './mixin'
+import { jumpUrl } from '@/utils/tools.js'
 const getCurrencyName = (val, lang) => {
     return CURRENCY_NAME[lang][val]
 }
@@ -128,6 +129,7 @@ export default {
             currency: getCurrencyName
         }
     },
+    mixins: [mixin],
     props: {
         fundId: {
             type: [String, Number],
@@ -161,6 +163,28 @@ export default {
         }
     },
     methods: {
+        handleGoDetail(type) {
+            let url = 'https://m.yxzq.com/webapp/market/generator.html'
+            let queryString = ''
+            let idMap = {}
+            if (type === 'stylebox') {
+                idMap = {
+                    en: 10879,
+                    zhCHS: 10872,
+                    zhCHT: 10800
+                }
+                queryString = `id=${idMap[this.lang]}`
+            }
+            if (type === 'risk') {
+                idMap = {
+                    en: 10878,
+                    zhCHS: 10875,
+                    zhCHT: 10877
+                }
+                queryString = `id=${idMap[this.lang]}`
+            }
+            jumpUrl('', `${url}?${queryString}`)
+        },
         async getFundAnalysisData() {
             try {
                 const params = {

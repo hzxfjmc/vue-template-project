@@ -32,7 +32,9 @@
  */
 import { mapGetters } from 'vuex'
 import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
+import mixin from './mixin'
 export default {
+    mixins: [mixin],
     i18n: {},
     components: {},
     props: {
