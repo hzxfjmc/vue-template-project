@@ -993,10 +993,10 @@ export default {
             usd: 'USD',
             content:
                 'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.',
-            inputMoney: 'Please Enter The Purchase Amount',
+            inputMoney: 'Please Entry Amount',
             mixBuyMoney: (price, currency) =>
-                `Minimum purchase ${price} ${currency}`,
-            noEnoughMoney: `Insufficient available balance`
+                `Mini. Subs. ${currency} ${price}`,
+            noEnoughMoney: `Insufficient in Available Balance`
         }
     }
 }

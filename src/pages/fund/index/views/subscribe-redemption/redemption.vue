@@ -20,7 +20,14 @@
                                 @input="changeNumber"
                                 :placeHolder="$t('entryUnit')" 
                                 )
-                            .block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}
+                            <!--.block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}-->
+                        .buy-row
+                            .btn-fast(@click="handlerFastSellCount(0.25)") 1/4
+                            .btn-fast(@click="handlerFastSellCount(0.33)") 1/3
+                            .btn-fast(@click="handlerFastSellCount(0.5)") 1/2
+                            .btn-fast(@click="handlerFastSellCount(1)") 全部
+                    .buy-row.block__tags(v-show="tagText")
+                        span {{tagText}}
                     .buy-row
                         .left {{ $t('positionShare') }}
                         .right {{ positionShare |  parseThousands}}
@@ -32,8 +39,8 @@
                             span {{ $t('redemption') }}
                             span ({{ $t('predict')}}) :
                         .right
-                            span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | parseThousands }}
-                            span ({{redemptionFeeScale}}%)
+                            //span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | parseThousands }}
+                            span {{redemptionFeeScale}}%
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('balanceRule')"
@@ -118,7 +125,10 @@ export default {
             netPrice: 0,
             protocolVisible: false,
             isCheckedProtocol: true,
-            sellProtocolFileList: []
+            sellProtocolFileList: [],
+            tagText: '',
+            // 最小交易金額
+            minTradeAmount: ''
         }
     },
     async created() {
@@ -155,6 +165,7 @@ export default {
                 this.redemptionShare = this.sliceDeci(this.positionShare, 4)
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
+            this.getTagText()
         }
     },
     methods: {
@@ -186,9 +197,11 @@ export default {
             let deci = s.split('.')[1].slice(0, l)
             return s.split('.')[0] + '.' + deci
         },
-        //全部卖出
-        HandlerAllSell() {
-            this.redemptionShare = this.positionShare
+        //快速卖出
+        handlerFastSellCount(percent) {
+            this.redemptionShare = Number(
+                (this.positionShare * percent).toFixed(4)
+            )
         },
         async openProtocol(url) {
             url = await getCosUrl(url)
@@ -235,6 +248,7 @@ export default {
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
                 this.minPositionShare =
                     fundDetail.fundTradeInfoVO.minPositionShare
+                this.minTradeAmount = fundDetail.fundTradeInfoVO.minTradeAmount
                 // this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
                 this.setCosUrl(
                     'sellProtocol',
@@ -281,6 +295,11 @@ export default {
             })
         },
         async handleSubmit() {
+            let remindStr = this.check()
+            if (remindStr) {
+                this.$toast(remindStr)
+                return
+            }
             let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功
             let token = null
             try {
@@ -326,6 +345,28 @@ export default {
             if (submitStep === 2) {
                 this.step = 2
             }
+        },
+        // 計算最小赎回份额
+        getMinRedemptionPrice() {
+            return (this.minTradeAmount / this.netPrice).toFixed(8)
+        },
+        check() {
+            console.log(this.redemptionShare)
+            if (!+this.redemptionShare) {
+                return this.$t('emptyInput')
+            }
+            let minRedemptionPrice = Number(this.getMinRedemptionPrice())
+            // 最小赎回份额
+            if (+this.redemptionShare < minRedemptionPrice) {
+                return this.$t('minAmount', minRedemptionPrice)
+            }
+            if (+this.positionShare < +this.redemptionShare) {
+                return this.$t('notEnough')
+            }
+            return ''
+        },
+        getTagText() {
+            this.tagText = this.check() || ''
         }
     },
     i18n: {
@@ -355,7 +396,10 @@ export default {
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
             sellAll: '全部卖出',
             entryUnit: '输入卖出份额',
-            predictSellAmount: '订单总金额'
+            predictSellAmount: '订单总金额',
+            emptyInput: '请输入赎回份额',
+            minAmount: money => `最小赎回${money}份额`,
+            notEnough: '可赎份额不足'
         },
         zhCHT: {
             sellSuccess: '贖回成功',
@@ -383,7 +427,10 @@ export default {
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
             sellAll: '全部賣出',
             entryUnit: '輸入賣出份額',
-            predictSellAmount: '訂單總金額'
+            predictSellAmount: '訂單總金額',
+            emptyInput: '請輸入贖回份額',
+            minAmount: money => `最小贖回${money}份額`,
+            notEnough: '可贖份額不足'
         },
         en: {
             sellSuccess: 'Redemption Successful',
@@ -412,7 +459,10 @@ export default {
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
             sellAll: 'Sell All',
             entryUnit: 'Entry Unit',
-            predictSellAmount: 'Total Amount of Orders'
+            predictSellAmount: 'Total Amount of Orders',
+            emptyInput: 'Please Entry Units',
+            minAmount: money => `Mini. Redemption ${money} Units`,
+            notEnough: 'Insufficient in Available Units'
         }
     }
 }
