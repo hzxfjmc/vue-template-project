@@ -63,9 +63,16 @@ export default {
         handleGoDetail() {
             let queryString = ''
             ;['fundId', 'fundName', 'isin'].forEach(key => {
-                queryString += `${key}=${this.fundHeaderInfoVO[key]}&`
+                queryString += `${key}=${encodeURIComponent(
+                    this.fundHeaderInfoVO[key]
+                )}&`
             })
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-analyze-data?${queryString}`
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/fund-analyze-data?${queryString.slice(
+                0,
+                -1
+            )}`
             if (this.$jsBridge.isYouxinApp) {
                 this.$jsBridge.gotoNewWebview(url)
             } else {
