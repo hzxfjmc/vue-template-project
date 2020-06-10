@@ -206,6 +206,7 @@ export default {
     // overflow-y: auto;
     .order-record-list {
         margin: 0px 0 0 0;
+        background: #fff;
     }
     .list {
         width: 100%;
