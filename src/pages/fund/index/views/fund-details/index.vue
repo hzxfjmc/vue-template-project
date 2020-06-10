@@ -93,7 +93,7 @@
                     :class="[investmentShow? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(4)")
                     span(:class="[subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
-                    em(v-if="subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") 享申购费{{100-(fundFixedFeeVO.feeDiscount*100)}}%
+                    em(v-if="subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
                 van-button.btn.button-width1(
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
@@ -464,7 +464,9 @@ export default {
             },
             id: '',
             fundOverviewInfoVO: {},
-            fundFixedFeeVO: {},
+            fundFixedFeeVO: {
+                feeDiscount: 0
+            },
             recommendList: [], //推荐基金
             fundCorrelationFileList: [],
             historyList: [],
@@ -594,8 +596,7 @@ export default {
                     subscribeFeeVO,
                     fundFixedFeeVO
                 } = await getFundFeeConfigV1(params)
-                this.fundFixedFeeVO = fundFixedFeeVO
-                console.log(this.fundFixedFeeVO)
+                this.fundFixedFeeVO = fundFixedFeeVO || {}
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
                     ? subscribeFeeVO.defaultFeeRate
                     : ''
