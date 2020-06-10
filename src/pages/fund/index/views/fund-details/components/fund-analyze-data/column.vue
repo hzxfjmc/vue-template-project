@@ -11,17 +11,17 @@
             .content__item
                 .item-title {{$t('A17')}}
                 .item-value(
-                     :class="sharpeRatio3Yr ? stockColorTypeClass:''"
+                     :class="getStockClass(sharpeRatio3Yr)"
                 ) {{sharpeRatio3Yr | filterRatio}}  
             .content__item
                 .item-title {{$t('A19')}}
                 .item-value(
-                   :class="captureRatioUpside3Yr ? stockColorTypeClass:''"
+                   :class="getStockClass(captureRatioUpside3Yr)"
                 ) {{captureRatioUpside3Yr | filterRatio}}
             .content__item
                 .item-title {{$t('A18')}}
                 .item-value(
-                    :class="maxDrawDown3Yr ? stockColorTypeClass:''"
+                    :class="getStockClass(maxDrawDown3Yr)"
                 ) {{maxDrawDown3Yr | filterRatio}}
 </template>
 <script>
@@ -62,6 +62,13 @@ export default {
         }
     },
     methods: {
+        getStockClass(val) {
+            return val > 0
+                ? this.stockColorTypeClass.up
+                : val < 0
+                ? this.stockColorTypeClass.down
+                : ''
+        },
         handleGoDetail() {
             let queryString = ''
             ;['fundId', 'fundName', 'isin'].forEach(key => {
