@@ -143,6 +143,9 @@ export default {
         .desc {
             color: rgba(25, 25, 25, 0.65);
         }
+        .fund-name {
+            width: 72%;
+        }
         .tag {
             border: 1px solid #2f79ff;
             font-size: 10px;
