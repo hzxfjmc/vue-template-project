@@ -596,7 +596,7 @@ export default {
                     subscribeFeeVO,
                     fundFixedFeeVO
                 } = await getFundFeeConfigV1(params)
-                this.fundFixedFeeVO = fundFixedFeeVO || {}
+                this.fundFixedFeeVO = fundFixedFeeVO || { feeDiscount: 0 }
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
                     ? subscribeFeeVO.defaultFeeRate
                     : ''
