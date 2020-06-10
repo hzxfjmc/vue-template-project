@@ -6,11 +6,11 @@
                 .desc ISIN:{{isin}}
             .header__bottom
                 .item
-                    span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
-                    span.item__value {{(analyzeData.fundSize/100000000).toFixed(2)}} {{$t('unit')}}
-                .item
                     span.item__label {{$t('A12')}}：
                     span.item__value {{analyzeData.updateTime}}    
+                .item
+                    span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
+                    span.item__value {{(analyzeData.fundSize/100000000).toFixed(2)}} {{$t('unit')}}
         .fund-block
             .fund-block__header
                 .title {{$t('A14')}}
