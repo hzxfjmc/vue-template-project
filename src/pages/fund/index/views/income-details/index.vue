@@ -176,7 +176,6 @@ export default {
     position: fixed;
     z-index: 9999;
     color: rgba(25, 25, 25, 0.5);
-    margin: -6px 0 0 0;
     align-items: center;
 }
 .block__element--header {
