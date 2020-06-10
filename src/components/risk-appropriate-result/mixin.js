@@ -166,20 +166,21 @@ export default {
                         assessResult:
                             this.userInfo && this.userInfo.assessResult,
                         fundCode: this.fundCode,
-                        code: this.$route.query.cod
+                        code: this.$route.query.code
                     }
                 }
-                if (this.$route.query.code === 4) {
+                if (this.$route.query.code == 4) {
                     data.path =
                         (this.userInfo.extendStatusBit & 16) > 0
                             ? '/fixed-investment'
-                            : '/open-permissions'
+                            : '/open-permissions?code=4'
                 } else {
                     data.path =
                         (this.userInfo.extendStatusBit & 16) > 0
                             ? '/fund-subscribe'
                             : '/open-permissions'
                 }
+                console.log(data)
 
                 this.$router.push(data)
             } catch (e) {
@@ -255,10 +256,21 @@ export default {
                             fundCode: this.fundCode
                         }
                     }
-                    data.path =
-                        (this.userInfo.extendStatusBit & 16) > 0
-                            ? '/fund-subscribe'
-                            : '/open-permissions'
+                    if (this.$route.query.code == 4) {
+                        data.path =
+                            (this.userInfo.extendStatusBit & 16) > 0
+                                ? '/fixed-investment'
+                                : '/open-permissions?code=4'
+                    } else {
+                        data.path =
+                            (this.userInfo.extendStatusBit & 16) > 0
+                                ? '/fund-subscribe'
+                                : '/open-permissions'
+                    }
+                    // data.path =
+                    //     (this.userInfo.extendStatusBit & 16) > 0
+                    //         ? '/fund-subscribe'
+                    //         : '/open-permissions'
                     this.$router.push(data)
                 }
             }

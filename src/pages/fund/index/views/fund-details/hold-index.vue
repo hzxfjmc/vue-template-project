@@ -18,67 +18,42 @@
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
-        HoldfundDetails(
-            v-if="holdDetailsShow"
-            :initState="holdInitState")
-
         FightFundHk(
             v-if="!fightShow && code ===2"
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
-        FightFund(
-            v-if="!fightShow && code === 1"
-            :userList="userList"
-            :swipeShow="swipeShow"
-            :actionInfo = "actionInfo")   
-
-        .block__fundheader--tips(
-            v-if="isLogin"
-            @click="toRouterGenerator('/order-record')")
-            em.iconfont.icon-iconEBshoucang
-            span.title {{$t('trade')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
-       
-        fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
-        fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
-        .block__fundheader--tips(@click="toRouterGenerator('/generator')")
-            em.iconfont.icon-iconEBshoucang2
-            span.title {{$t('risk')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
-        fundCardList(
-            v-if="recommendList.length != 0"
-            :recommendList="recommendList")
         .fund___list--p
             p {{$t('msg1')}}
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
-        .fund-footer-content.fund-block--content(v-if="RedemptionButton")
-            .btn.colorbg.button-5width.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(4)")
-                    span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
-                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{100-fundTradeInfoVO.feeDiscount*100}}%
-            van-button.button-5width.button-left.btn(
-                :class="[flag?'fund-check':'fund-no']" 
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-            van-button.btn.button-5width(
-                :class="[flag1?'fund-buy':'fund-no']" 
-                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        .fund-footer-content(v-if="RedemptionButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            .fund-block--content
+                .btn.colorbg.button-5width.btn-inverster(
+                        :class="[investmentShow? 'fund-footer':'fund-no']"
+                        @click="handleBuyOrSell(4)")
+                        span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                        em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
+                van-button.button-5width.button-left.btn(
+                    :class="[flag?'fund-check':'fund-no']" 
+                    @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-5width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
         
-        .fund-footer-content(v-if="PurchaseButton")
-            .block__button--list
-                .btn.colorbg.button-width1.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(4)")
-                    span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
-                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{100-fundTradeInfoVO.feeDiscount*100}}%
-                van-button.btn.button-width1(
-                    :class="[flag2? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+        .fund-footer-content(v-if="!PurchaseButton && !this.btnShow")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            van-button.btn.button-width(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
         .fund-footer-contentShare(v-if="invate === 'share'")
             van-button(
@@ -148,18 +123,20 @@
                     van-button(
                         class="btn"
                         @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
-
+       
+    
     img(
         v-show="false"
         :src="shareIcon"
         ref="titlebarIcon")
            
+           
     
 </template>
 <script>
+import NP from 'number-precision'
 import fundDetailsHeader from './components/hold-fund-header'
 import fundDetailsEchart from './components/fund-details-echart'
-import HoldfundDetails from './components/hold-fund-details'
 import fundDetailsList from './components/fund-details-list'
 import FightFund from './components/fight-fund.vue'
 import FightFundHk from './components/fight-fund-hk.vue'
@@ -228,7 +205,7 @@ export default {
                 all: '成立来'
             },
             msg1:
-                '*本页面资料来源于基金管理公司、基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。',
+                '*本页面资料来源于基金管理公司、基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,uSMART友信证券对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。',
             msg2:
                 '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
@@ -263,7 +240,7 @@ export default {
                 all: '成立来'
             },
             msg1:
-                '*本頁面資料來源於基金管理公司、基金服務提供供應商。所有數據截至最新淨值日期（除特殊標註外）,友信對基金的業績表現計算是按該時期的資產淨值、相關類別貨幣計算。如有未顯示年度/時期的表現，則指該年度/時期未有足夠資料計算。',
+                '*本頁面資料來源於基金管理公司、基金服務提供供應商。所有數據截至最新淨值日期（除特殊標註外）,uSMART友信證券對基金的業績表現計算是按該時期的資產淨值、相關類別貨幣計算。如有未顯示年度/時期的表現，則指該年度/時期未有足夠資料計算。',
             msg2:
                 '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
@@ -311,7 +288,6 @@ export default {
     components: {
         fundDetailsHeader,
         fundDetailsEchart,
-        HoldfundDetails,
         fundDetailsList,
         Button,
         Dialog,
@@ -330,7 +306,10 @@ export default {
              * invate 是否是邀请
              */
             return (
-                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
+                this.btnShow &&
+                this.isGrayAuthority &&
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         /*
@@ -344,7 +323,8 @@ export default {
                 this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
-                this.invate !== 'share'
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         chsFightButton() {
@@ -390,7 +370,14 @@ export default {
             }
         },
         defaultRate() {
-            return `${(this.subscribeFeeVO.defaultFeeRate * 100).toFixed(2)}%`
+            console.log(
+                NP.times(+this.subscribeFeeVO.defaultFeeRate, 100),
+                '默认费率'
+            )
+            return `${NP.times(
+                +this.subscribeFeeVO.defaultFeeRate,
+                100
+            ).toFixed(2)}%`
         },
         discountRate() {
             return `${(
@@ -422,6 +409,7 @@ export default {
             },
             id: '',
             fundOverviewInfoVO: {},
+            fundFixedFeeVO: {},
             recommendList: [], //推荐基金
             fundCorrelationFileList: [],
             historyList: [],
@@ -530,7 +518,8 @@ export default {
                 }
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
-            investmentShow: true
+            investmentShow: true,
+            release: true
         }
     },
     methods: {
@@ -546,13 +535,17 @@ export default {
                 let params = {
                     fundId: this.id
                 }
-                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
+                let {
+                    subscribeFeeVO,
+                    fundFixedFeeVO
+                } = await getFundFeeConfigV1(params)
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
                     ? subscribeFeeVO.defaultFeeRate
                     : ''
                 this.subscribeFeeVO.fundFeeLevelVOList = subscribeFeeVO.fundFeeLevelVOList
                     ? subscribeFeeVO.fundFeeLevelVOList
                     : []
+                this.fundFixedFeeVO = fundFixedFeeVO
             } catch (e) {
                 console.log('getFundFeeConfigV1: ', e)
             }
@@ -924,15 +917,13 @@ export default {
                     isin: this.$route.query.isin
                 })
                 this.fundHeaderInfoVO = res.fundHeaderInfoVO
+                this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
+                this.fundHeaderInfoVO.release = res.release
                 this.id = res.fundHeaderInfoVO.fundId
                 this.fundHeaderInfoVO.isin = res.fundOverviewInfoVO.isin
                 this.fundHeaderInfoVO.derivativeType =
                     res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
-                // this.fundHeaderInfoVO.apy =
-                //     this.fundHeaderInfoVO.assetType === 4
-                //         ? Number(this.fundHeaderInfoVO.apy * 100).toFixed(4)
-                //         : Number(this.fundHeaderInfoVO.apy * 100).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice,
                     4
@@ -954,19 +945,37 @@ export default {
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.fundOverviewInfoVO.currencyName = this.fundOverviewInfoVO.currency.name
-                //赎回按钮是否置灰
-                this.flag =
-                    (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
-                //追加按钮是否置灰
-                this.flag1 =
-                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
-                //申购按钮是否置灰
-                this.flag2 =
-                    (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
-                // alert(this.fundOverviewInfoVO.tradeAuth & 4)
-                //是否开启定投
-                this.investmentShow =
-                    (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
+                this.release = res.release
+                //基金是否下架
+                if (res.release) {
+                    //赎回按钮是否置灰
+                    this.flag =
+                        (this.fundOverviewInfoVO.tradeAuth & 2) > 0
+                            ? true
+                            : false
+                    //追加按钮是否置灰
+                    this.flag1 =
+                        (this.fundOverviewInfoVO.tradeAuth & 1) > 0
+                            ? true
+                            : false
+                    //申购按钮是否置灰
+                    this.flag2 =
+                        (this.fundOverviewInfoVO.tradeAuth & 1) > 0
+                            ? true
+                            : false
+                    // alert(this.fundOverviewInfoVO.tradeAuth & 4)
+                    //是否开启定投
+                    this.investmentShow =
+                        (this.fundOverviewInfoVO.tradeAuth & 4) > 0
+                            ? true
+                            : false
+                } else {
+                    this.flag = true
+                    this.flag1 = false
+                    this.flag2 = false
+                    this.investmentShow = false
+                }
+
                 //合规信息
                 this.tagShow = this.fundHeaderInfoVO.derivativeType !== 1
                 this.tagsShow = this.fundHeaderInfoVO.derivativeType !== 3
@@ -1058,6 +1067,14 @@ export default {
         },
         //用户是否能申购或者是否需要测评
         async handleBuyOrSell(params) {
+            if (
+                (!this.flag2 || !this.flag1 || !this.investmentShow) &&
+                !this.release
+            ) {
+                return this.$toast(
+                    this.$t(['暂不支持', '暫不支持', 'Not Support'])
+                )
+            }
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
 

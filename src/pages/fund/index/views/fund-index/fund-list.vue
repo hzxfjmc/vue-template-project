@@ -1,33 +1,32 @@
 <template lang="pug">
     .block__fund(
-        :class="[code != 1 ? 'block__fund-hk' : 'block__fund-ch']")
+        :class="[code != 1 ? 'block__fund-ch' : 'block__fund-ch']")
         .block__fund-title.ellipse {{fundlist.masterTitle}}
-        .block__fund--list.border-bottom(
+        .block__fund--list(
             @click="goNext(item)"
+            :class="[fundlist.data.length-1 == index ? '':'border-bottom']"
             v-for="(item,index) in fundlist.data" 
             :key="index")
                 .element--fund--content
-                    .canvas-element--right
-                        canvas(
-                            :id="'chartId'+item.fundId" 
-                        )
-                    //- span.title.ellipse {{item.title}}
                     .element--content-sub-content
-                        .number(v-if="Number(item.apy)>0" :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{(item.apy*100).toFixed(2)}}%
-                        .number(v-if="Number(item.apy)<0" :class="stockColorType == 1 ? 'color-green' : 'color-red'") -{{Math.abs(item.apy*100).toFixed(2)}}%
-                        .number(v-if="Number(item.apy) === 0") {{Number(item.apy).toFixed(2)}}%
+                        .number(
+                            v-if="Number(item.apy)>0" :class="[stockColorType == 1 ? 'color-red' : 'color-green',item.apy.length<5?'':'fontSize20']") +{{(item.apy*100).toFixed(2)}}%
+                        .number(
+                            v-if="Number(item.apy)<0" 
+                            :class="[stockColorType == 1 ? 'color-green' : 'color-red',item.apy.length<5?'':'fontSize20']") -{{Math.abs(item.apy*100).toFixed(2)}}%
+                        .number(
+                            v-if="Number(item.apy) === 0") {{Number(item.apy).toFixed(2)}}%
                         .tag {{item.apyTypeName}}{{$t('day')}}
                     .element--content-bottom
                         .tag-title 
                             span.title.ellipse {{item.title}}
-                        .tag-list--element(v-if="code !== 1")
-                            span(v-if="lang != 'en'") {{item.assetTypeName}}
-                            span {{lang === 'en' ? $t('described') : ''}}{{item.initialInvestAmount}}{{item.tradeCurrency}}{{lang != 'en' ? $t('described'):''}}
-                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}{{lang === 'en' ?'':$t('fundSizeIndex')}}
-                        .tag-list--element(v-else)
-                            span {{item.assetTypeName}}
-                            span {{`${item.initialInvestAmount}${item.tradeCurrency}${$t('described1')}`}}
-                            span(v-if="item.fundSize != 0") {{lang === 'en' ? $t('fundSizeIndex'):''}}{{item.fundSize}}{{$t('unit')}}{{item.fundSizeCurrency}}
+                        .tag-list--element
+                            span(v-for="i of item.systemLabelsList") {{i}}
+                        .tag-list--element
+                            fund-tag(
+                                v-for="key of item.definedLabels"
+                                :title="key")
+                        
                 
 </template>
 <script>
@@ -36,8 +35,8 @@ import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { debounce } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
-import dayjs from 'dayjs'
-import F2 from '@antv/f2'
+// import dayjs from 'dayjs'
+// import F2 from '@antv/f2'
 export default {
     props: {
         fundlist: {
@@ -92,71 +91,85 @@ export default {
     components: {
         'fund-tag': fundTag
     },
-    updated() {
-        this.$nextTick(() => {
-            this.fundlist.data.forEach(item => {
-                this.draw(
-                    `chartId${item.fundId}`,
-                    item.fundHomepagePointList,
-                    item.apy
-                )
-            })
-        })
-    },
+    // updated() {
+    //     this.$nextTick(() => {
+    //         this.fundlist.data.forEach(item => {
+    //             console.log(item.fundId)
+    //             this.draw(
+    //                 `chartId${item.fundId}`,
+    //                 item.fundHomepagePointList,
+    //                 item.apy
+    //             )
+    //         })
+    //     })
+    // },
     computed: {
         stockColorType() {
             return +getStockColorType()
         },
-        ...mapGetters(['appType', 'lang'])
+        ...mapGetters(['appType', 'lang']),
+        h2Style() {
+            // 名称字体变化策略
+            let fundName = this.info.fundName || ''
+            if (fundName.length > 5) {
+                return {
+                    fontSize: '20px'
+                }
+            }
+            return {
+                fontSize: '22px'
+            }
+        }
     },
     methods: {
-        draw(canvasId, data, apy) {
-            const chart = new F2.Chart({
-                id: canvasId
-            })
-            data.map(item => {
-                item.pointData = Number(item.pointData)
-            })
-            chart.source(data, {
-                pointData: {
-                    formatter: function formatter(val) {
-                        return Number(val).toFixed(2)
-                    }
-                },
-                belongDay: {
-                    type: 'timeCat',
-                    tickCount: 3000,
-                    formatter: function formatter(val) {
-                        return dayjs(val).format('YYYY-MM-DD')
-                    }
-                }
-            })
-            chart.tooltip({
-                custom: true,
-                showXTip: true,
-                showYTip: true,
-                snap: true,
-                crosshairsType: 'xy',
-                crosshairsStyle: {
-                    lineDash: [2]
-                }
-            })
-            chart.axis(false)
-            let stockColor
-            if (this.stockColorType === 1) {
-                stockColor = Number(apy) >= 0 ? '#ea3d3d' : '#04ba60'
-            } else {
-                stockColor = Number(apy) >= 0 ? '#04ba60' : '#ea3d3d'
-            }
-            chart
-                .line()
-                .position('belongDay*pointData')
-                .color(`${stockColor}`)
-                .style({
-                    lineWidth: 10
-                })
-            chart.render()
-        },
+        // draw(canvasId, data, apy) {
+        //     console.log(canvasId)
+        //     const chart = new F2.Chart({
+        //         id: canvasId
+        //     })
+        //     data.map(item => {
+        //         item.pointData = Number(item.pointData)
+        //     })
+        //     chart.source(data, {
+        //         pointData: {
+        //             formatter: function formatter(val) {
+        //                 return Number(val).toFixed(2)
+        //             }
+        //         },
+        //         belongDay: {
+        //             type: 'timeCat',
+        //             tickCount: 3000,
+        //             formatter: function formatter(val) {
+        //                 return dayjs(val).format('YYYY-MM-DD')
+        //             }
+        //         }
+        //     })
+        //     chart.tooltip({
+        //         custom: true,
+        //         showXTip: true,
+        //         showYTip: true,
+        //         snap: true,
+        //         crosshairsType: 'xy',
+        //         crosshairsStyle: {
+        //             lineDash: [2]
+        //         }
+        //     })
+        //     chart.axis(false)
+        //     let stockColor
+        //     if (this.stockColorType === 1) {
+        //         stockColor = Number(apy) >= 0 ? '#ea3d3d' : '#04ba60'
+        //     } else {
+        //         stockColor = Number(apy) >= 0 ? '#04ba60' : '#ea3d3d'
+        //     }
+        //     chart
+        //         .line()
+        //         .position('belongDay*pointData')
+        //         .color(`${stockColor}`)
+        //         .style({
+        //             lineWidth: 10
+        //         })
+        //     chart.render()
+        // },
         goNext(item) {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
             debounce(gotoNewWebView(url), 300)
@@ -173,18 +186,28 @@ export default {
 }
 .block__fund {
     width: 100%;
-    margin: 20px 0 0 0;
-
+    margin: 10px 12px 0 12px;
+    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    width: 351px;
     background: #fff;
     .block__fund-title {
-        font-size: 20px;
+        font-size: 18px;
+        font-weight: bold;
+        width: 100%;
+        // line-height: 50px;
+        // height: 50px;
+        background: url('~@/assets/img/fund/fund-title-bg.png') no-repeat;
+        background-size: 100% 100%;
+        padding: 14px 0 14px 12px;
     }
     .block__fund--list {
-        width: 100%;
+        // width: 100%;
         // height: 80px;
         display: flex;
         // border: 1px solid red;
-        padding: 20px 0 10px 0;
+        padding: 14px 0;
+        margin: 0 12px;
         flex-direction: row;
         .element--left--img {
             width: 20px;
@@ -205,11 +228,15 @@ export default {
                 height: 100%;
                 flex-direction: column;
                 width: 105px;
-                padding: 0 10px;
+                padding: 0 12px 0 0;
+                justify-content: center;
                 .number {
-                    font-size: 0.4rem;
+                    font-size: 22px;
                     line-height: 23px;
                     font-family: yxFontDINPro-Medium;
+                }
+                .fontSize20 {
+                    font-size: 20px;
                 }
                 .tag {
                     font-size: 0.24rem;
@@ -220,7 +247,7 @@ export default {
             .element--content-bottom {
                 flex: 1;
                 .tag-title {
-                    max-width: 180px;
+                    max-width: 220px;
                     span {
                         height: 22px;
                         // margin: 10px 0 0 0;
@@ -234,17 +261,30 @@ export default {
                     flex-direction: row;
                 }
                 .tag-list--element {
+                    display: flex;
+                    flex-direction: row;
                     span {
                         padding: 0 3px 0 3px;
-                        font-size: 12px;
+                        font-size: 10px;
                         color: $text-color6;
-                        border-right: 1px solid #e1e1e1;
+                        display: inline-block;
+                        position: relative;
+                        // border-right: 1px solid #e1e1e1;
+                    }
+                    span::after {
+                        content: '';
+                        background: $text-color6;
+                        height: 11px;
+                        right: 0px;
+                        top: 2px;
+                        position: absolute;
+                        width: 1px;
                     }
                     span:first-child {
                         padding: 0 3px 0 0;
                     }
-                    span:last-child {
-                        border: none;
+                    span:last-child::after {
+                        width: 0;
                     }
                 }
             }
@@ -266,6 +306,6 @@ export default {
     padding: 10px 0;
 }
 .block__fund-ch {
-    padding: 10px 12px;
+    // padding: 10px 12px;
 }
 </style>

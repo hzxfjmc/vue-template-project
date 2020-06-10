@@ -30,30 +30,43 @@ export const en = {
         1: {
             registration: 'A1',
             riskStyle: 'Conservative',
-            suitPro: 'Low Risk Products'
+            suitPro: 'Low Risk Products',
+            type: 'R1',
+            registrationType: 'R1'
         },
         2: {
             registration: 'A2',
             riskStyle: 'Stable',
-            suitPro: 'Low - Medium Risk Products'
+            suitPro: 'Low - Medium Risk Products',
+            type: 'R2',
+            registrationType: 'R2'
         },
         3: {
             registration: 'A3',
             riskStyle: 'Balanced',
-            suitPro: 'Medium Risk Products'
+            suitPro: 'Medium Risk Products',
+            type: 'R3',
+            registrationType: 'R3'
         },
         4: {
             registration: 'A4',
             riskStyle: 'Growth',
-            suitPro: 'Medium - High Risk Products'
+            suitPro: 'Medium - High Risk Products',
+            type: 'R4',
+            registrationType: 'R4'
         },
         5: {
             registration: 'A5',
             riskStyle: 'Aggressive',
-            suitPro: 'High Risk Products'
+            suitPro: 'High Risk Products',
+            type: 'R5',
+            registrationType: 'R5'
         }
     },
     iknow: 'Got it',
+    investmentResult: 'AIP Result',
+    myInvestment: 'My AIP',
+    InvestmenttransactionRecord: 'AIP Details',
     A1: '英文',
     A2: 'AIP',
     A3: 'AIP AMount',
@@ -176,5 +189,13 @@ export const en = {
     A111: 'Fund name',
     A112: 'Amount and Time',
     A113: 'Automatic exchange',
-    A114: 'Finsh'
+    A114: 'Finsh',
+    Equity: 'Equity',
+    Bond: 'Bond',
+    Balanced: 'Balanced',
+    MMF: 'MMF',
+    Index: 'Index',
+    Financial: 'Financial Product',
+    NET_PRICE: 'Net Type',
+    DIVIDEND: 'Bonus type'
 }

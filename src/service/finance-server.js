@@ -189,3 +189,11 @@ export const getFundFixedRecordPage = params => {
 export const getFundGroupEarnings = params => {
     return axios.post(`/finance-server/api/get-fund-group-earnings/v1`, params)
 }
+
+//统计客户基金定投计划
+export const getFundFixedPlanCount = params => {
+    return axios.post(
+        `/finance-server/api/get-fund-fixed-plan-count/v1`,
+        params
+    )
+}

@@ -11,8 +11,8 @@ import {
     Dialog,
     Field
 } from 'vant'
-import { NumberKeyboard } from 'vant-fork'
 import { Picker } from 'vant-fork'
+import { NumberKeyboard, Skeleton } from 'vant-fork'
 import { lang } from '@/utils/html-utils'
 const langMap = {
     zhCHS: {
@@ -38,6 +38,7 @@ const langMap = {
 Vue.use(Dialog)
 Vue.use(NumberKeyboard)
 Vue.use(Picker)
+Vue.use(Skeleton)
 export const closeModule = () => {
     Toast.clear()
 }

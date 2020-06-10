@@ -111,89 +111,7 @@ export default {
             }
             this.usdPositionAmount = transNumToThousandMark(usdPositionAmount)
             this.hkdPositionAmount = transNumToThousandMark(hkdPositionAmount)
-            this.usPositionList.map(item => {
-                item.currency = item.currency.type
-                for (let key in item) {
-                    if (
-                        key != 'fundId' &&
-                        key != 'fundName' &&
-                        key != 'currency'
-                    ) {
-                        item.flag =
-                            item['positionEarnings'] > 0
-                                ? 0
-                                : item['positionEarnings'] < 0
-                                ? 1
-                                : 2
-                        item.flag1 =
-                            item['weekEarnings'] > 0
-                                ? 0
-                                : item['weekEarnings'] < 0
-                                ? 1
-                                : 2
-                    }
-                }
-            })
-            this.usPositionList.map(item => {
-                for (let key in item) {
-                    if (
-                        key === 'inTransitAmount' ||
-                        key === 'positionAmount' ||
-                        key === 'weekEarnings' ||
-                        key === 'positionEarnings'
-                    ) {
-                        item[key] = transNumToThousandMark(item[key], 2)
-                    }
-                    if (
-                        key === 'redeemDeliveryShare' ||
-                        key === 'positionShare'
-                    ) {
-                        item[key] = transNumToThousandMark(item[key], 4)
-                    }
-                }
-            })
-            this.hkPositionList.map(item => {
-                item.currency = item.currency.shortSymbol
-                for (let key in item) {
-                    if (
-                        key != 'fundId' &&
-                        key != 'fundName' &&
-                        key != 'currency'
-                    ) {
-                        // item[key] = transNumToThousandMark(item[key], 4)
-                        item.flag =
-                            item['positionEarnings'] > 0
-                                ? 0
-                                : item['positionEarnings'] < 0
-                                ? 1
-                                : 2
-                        item.flag1 =
-                            item['weekEarnings'] > 0
-                                ? 0
-                                : item['weekEarnings'] < 0
-                                ? 1
-                                : 2
-                    }
-                }
-            })
-            this.hkPositionList.map(item => {
-                for (let key in item) {
-                    if (
-                        key === 'inTransitAmount' ||
-                        key === 'positionAmount' ||
-                        key === 'weekEarnings' ||
-                        key === 'positionEarnings'
-                    ) {
-                        item[key] = transNumToThousandMark(item[key], 2)
-                    }
-                    if (
-                        key === 'redeemDeliveryShare' ||
-                        key === 'positionShare'
-                    ) {
-                        item[key] = transNumToThousandMark(item[key], 4)
-                    }
-                }
-            })
+            console.log(this.hkPositionList)
         },
         //获取用户归属 1大陆 2香港
         async getSource() {
@@ -215,7 +133,14 @@ export default {
 </script>
 <style lang="scss" scoped>
 .fund-account-container {
-    padding: 0 0 20px 0;
+    width: 100%;
+    height: 284px;
+    background: linear-gradient(
+        360deg,
+        rgba(47, 121, 255, 0) 0%,
+        rgba(69, 152, 253, 1) 28%,
+        rgba(36, 108, 239, 1) 100%
+    );
 }
 .block-element-nomore {
     width: 100%;
@@ -228,9 +153,5 @@ export default {
         color: rgba(25, 25, 25, 0.5);
         margin: 10px 0 0 0;
     }
-}
-.fund--list--wrapper {
-    margin: 50px 0;
-    width: 100%;
 }
 </style>

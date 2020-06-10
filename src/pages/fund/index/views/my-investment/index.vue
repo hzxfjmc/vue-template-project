@@ -8,7 +8,7 @@
         v-model="active" 
         sticky
         swipeable) 
-        van-tab(title="定投计划")
+        van-tab(:title="$t(['定投计划','定投計劃','AIP'])")
             van-list.order-record-list(
                 v-model="loading" 
                 :finished="finished" 
@@ -18,24 +18,27 @@
                     @click="toInvestmentDetails(item,index)"
                     v-for="(item,index) in list")
                     .block--item--header.bg-color.ellipse {{item.fundName}}
-                    .block--item--content.border-bottom
+                    .block--item--content(:class="[item.fixedPlanStatus== 2?'':'border-bottom']")
                         .item--left 
                             .top {{$t('A79')}}({{item.currency === 1 ? $t('usd'):item.currency === 2 ? $t('hkd'):''}})
-                            .bottom {{item.fixedTotalAmount}}
+                            .bottom {{item.fixedTotalAmount|transNumToThousandMark}}
                         .item--left 
                             .top {{$t('A80')}}
-                            .bottom {{item.investNum}}
+                            .bottom.bolder {{item.investNum}}
+                       
                     .block--item--footer
                         .flex-item
                             .top {{$t('A81')}}
-                            .bottom {{item.recentDeductionDate}}({{item.week}})
+                            .bottom(v-if="item.fixedPlanStatus!= 2") {{item.recentDeductionDate}}({{item.week}})
+                            .bottom(v-else) --
                         .flex-item
                             .top {{$t('A82')}}
-                            .bottom {{item.chargeType}}
+                            .bottom {{item.fixedPlanStatus!= 2 ? item.chargeType :'--'}}
                         .flex-item
                             .top {{$t('A83')}}
-                            .bottom {{item.fixedPlanAmount}}
-        van-tab(title="历史计划")
+                            .bottom {{item.fixedPlanStatus!= 2 ? item.fixedPlanAmount :'--'}}
+                    .block__tags(v-if="item.fixedPlanStatus == 2") {{$t('stopped')}}
+        van-tab(:title="$t(['历史计划','歷史計劃','Historical Plan'])")
             van-list.order-record-list(
                 v-model="recordLoading" 
                 :finished="recordFinished" 
@@ -45,29 +48,29 @@
                     @click="toInvestmentDetails(item,index)"
                     v-for="(item,index) in recordList")
                     .block--item--header.bg-uncolor.ellipse {{item.fundName}}
-                    .block--item--content.border-bottom
+                    .block--item--content
                         .item--left 
                             .top {{$t('A79')}}({{item.currency === 1 ? $t('usd'):item.currency === 2 ? $t('hkd'):''}})
                             .bottom {{item.fixedTotalAmount}}
                         .item--left 
                             .top {{$t('A80')}}
                             .bottom {{item.investNum}}
-                    .block--item--footer
-                        .flex-item
-                            .top {{$t('A81')}}
-                            .bottom {{item.recentDeductionDate}}({{item.week}})
-                        .flex-item
-                            .top {{$t('A82')}}
-                            .bottom {{item.chargeType}}
-                        .flex-item
-                            .top {{$t('A83')}}
-                            .bottom {{item.fixedPlanAmount}}
+                    //- .block--item--footer
+                    //-     .flex-item
+                    //-         .top {{$t('A81')}}
+                    //-         .bottom {{item.recentDeductionDate}}({{item.week}})
+                    //-     .flex-item
+                    //-         .top {{$t('A82')}}
+                    //-         .bottom {{item.chargeType}}
+                    //-     .flex-item
+                    //-         .top {{$t('A83')}}
+                    //-         .bottom {{item.fixedPlanAmount}}
         .nomore(v-if="list.length === 0 && active === 0")
             img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
             p {{$t('A84')}}
         .nomore(v-if="recordList.length === 0 && active === 1")
             img(:src="require(`@/assets/img/fund/icon-norecord.png`)")
-            p 暂无历史计划
+            p {{$t([`暂无历史计划`,`暂无歷史計劃`,`No Historical Plan`])}}
     .inverstment--footer--btn
         van-button.btn-left(@click="toRouter('/index')") {{$t('A76')}}
         van-button.btn-right(@click="toRouter('/fund-account')") {{$t('A77')}}
@@ -75,12 +78,26 @@
 <script>
 import './index.scss'
 import { getFundFixedPlanPage } from '@/service/finance-server.js'
-import { jumpUrl } from '@/utils/tools.js'
+import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import { List } from 'vant'
 import dayjs from 'dayjs'
 export default {
     components: {
         [List.name]: List
+    },
+    filters: {
+        transNumToThousandMark: transNumToThousandMark
+    },
+    i18n: {
+        zhCHS: {
+            stopped: '已暂停'
+        },
+        zhCHT: {
+            stopped: '已暫停'
+        },
+        en: {
+            stopped: 'Suspended'
+        }
     },
     data() {
         return {
@@ -126,26 +143,31 @@ export default {
         //定投计划列表
         async getFundFixedPlanPage() {
             try {
+                let data = {
+                    fixedPlanStatus: [1, 2],
+                    pageNum: this.planPageNum,
+                    pageSize: this.planPageSize
+                }
+                if (this.$route.query.id) {
+                    data.fundId = this.$route.query.id
+                }
                 const {
                     list,
                     pageSize,
                     pageNum,
                     total
-                } = await getFundFixedPlanPage({
-                    fixedPlanStatus: [1, 2],
-                    pageNum: this.planPageNum,
-                    pageSize: this.planPageSize
-                })
+                } = await getFundFixedPlanPage(data)
                 this.list = this.list.concat(list)
                 this.planPageNum = pageNum
                 this.planPageSize = pageSize
                 this.planTotla = total
                 this.loading = false
                 let EnumChargeType = {
-                    1: '证券账户',
+                    1: this.$t(['证券账户', '證券帳戶', 'Securities Account']),
                     2: 'edda'
                 }
                 this.list.map(item => {
+                    console.log(item.recentDeductionDate)
                     item.chargeType = EnumChargeType[item.chargeType]
                     item.week = this.getWeek(item.recentDeductionDate)
                     item.recentDeductionDate = dayjs(
@@ -164,6 +186,7 @@ export default {
         //计算周末公式
         getWeek(data) {
             let index = new Date(data).getDay()
+            console.log(index)
             let i18nObj = {
                 1: this.$t([`周一`, `週一`, `Mon.`]),
                 2: this.$t([`周二`, `週二`, `Tues.`]),
@@ -171,23 +194,27 @@ export default {
                 4: this.$t([`周四`, `週四`, `Thur.`]),
                 5: this.$t([`周五`, `週五`, `Fri.`]),
                 6: this.$t([`周六`, `週六`, `Sat.`]),
-                7: this.$t([`周天`, `週天`, `Sun.`])
+                0: this.$t([`周日`, `週日`, `Sun.`])
             }
             return i18nObj[index]
         },
         //定投历史列表
         async getFundFixedRecordPage() {
             try {
+                let data = {
+                    fixedPlanStatus: [3],
+                    pageNum: this.recordPageNum,
+                    pageSize: this.recordPageSize
+                }
+                if (this.$route.query.id) {
+                    data.fundId = this.$route.query.id
+                }
                 const {
                     list,
                     pageSize,
                     pageNum,
                     total
-                } = await getFundFixedPlanPage({
-                    fixedPlanStatus: [3],
-                    pageNum: this.recordPageNum,
-                    pageSize: this.recordPageSize
-                })
+                } = await getFundFixedPlanPage(data)
                 this.recordLoading = false
                 this.recordList = this.recordList.concat(list)
                 let EnumChargeType = {

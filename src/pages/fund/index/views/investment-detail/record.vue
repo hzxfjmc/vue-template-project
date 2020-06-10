@@ -4,7 +4,9 @@
         p(:class="!isNotStop?'black':''") {{$t('A96')}}
     .investment__record__container(v-if="!hasRecord")
         .investment__record_title
-            span(v-for="(item,index) in titleList" :key='index') {{item}}
+            .block__title.item0 {{$t('A97')}}
+            .block__title.item1 {{$t('A98')}}({{currencyName}})
+            .block__title.item2 {{$t('A99')}}
         .investment__record_content
             van-list.record_content_list(
                 v-model="loading" 
@@ -35,7 +37,7 @@ export default {
     components: {
         [List.name]: List
     },
-    props: ['isNotStop'],
+    props: ['isNotStop', 'currencyType'],
     data() {
         return {
             loading: false,
@@ -44,14 +46,19 @@ export default {
             pageNum: 1,
             pageSize: 20,
             finishedText: '',
-            titleList: ['时间', '金额(港币)', '订单状态'],
             recordList: [],
             statusMap,
-            hasRecord: false
+            hasRecord: false,
+            currencyName: ''
         }
     },
     created() {
         this.getFundFixedRecordPage()
+        const CURRENCYEUMN = {
+            1: this.$t('usd'),
+            2: this.$t('hkd')
+        }
+        this.currencyName = CURRENCYEUMN[this.currencyType]
     },
     methods: {
         // 跳转到详情
@@ -64,6 +71,7 @@ export default {
                     currencyType: this.$route.query.currency
                 }
             }
+
             if (item.actionInfo) {
                 data.query.groupId = item.actionInfo.group.group_id
             }
@@ -121,13 +129,22 @@ export default {
             font-size: 16px;
             color: $text-link-color;
             margin-bottom: 12px;
+            font-weight: bold;
         }
     }
     .investment__record_title {
         display: flex;
         justify-content: space-between;
-        span {
+        flex-direction: row;
+        .block__title {
             color: $text-color6;
+            flex: 1;
+        }
+        .item1 {
+            text-align: center;
+        }
+        .item2 {
+            text-align: right;
         }
     }
     .investment__record_content {
@@ -144,7 +161,7 @@ export default {
                     flex: 1;
                 }
                 .list_item_amount {
-                    text-align: left;
+                    text-align: center;
                     flex: 1;
                     // text-align: center;
                 }

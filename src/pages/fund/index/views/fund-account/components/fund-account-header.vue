@@ -1,11 +1,11 @@
 <template lang="pug">
 .fund-account-header
-    .block-account-header(:class="[inTransitOrder!=='0'?'block--header-height':'block--header-height1']")
+    .block-account-header.block--header-height
         .header-content
             .header-content-left
                 span.title 
                     em {{$t('accountTotal')}}
-                    i.iconfont(:class="chooseCurrencyShow?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
+                    i.iconfont(:class="showPsd?'icon-icon-eye':'icon-icon-eye-hide'" @click="hideNumber")
                 .fund__content
                     .number-price(
                         v-if="showPsd") {{firstPositionAmount || '--'}}.
@@ -22,9 +22,9 @@
                             span(
                                 @click="chooseCurrency(1)"
                                 :class="[currencyNum === 1 ? 'active' :'']") {{$t('usd')}}
-                .block__footer--hold(
-                    v-if="inTransitOrder!=='0'"
-                    @click="toRouterPath('/fund-order-list')")
+                .block__footer--hold( 
+                        v-if="inTransitOrder!=='0'"
+                        @click="toRouterPath('/fund-order-list')")
                     span {{inTransitOrder}}{{$t('fundmsg')}}
             .header-content-right
                 .block__content--left
@@ -35,7 +35,7 @@
                     span.block__content--subtitle {{$t('profitPosition')}} 
                     span.block__content--p(v-if="showPsd") {{positionDation.positionEarnings>0 ? '+' : positionDation.positionEarnings<0 ? '' :''}} {{positionDation.positionEarnings|transNumToThousandMark}}
                     span.block__content--p(v-else) ****
-        .header-footer-tab.border-top(class="border-bottom-active")
+        .header-footer-tab
             .nav--item(@click="toRouterPath('/income-list')")
                 em.iconfont.icon-shouru
                 span {{$t('IncomeDetails')}}
@@ -44,7 +44,9 @@
                 span {{$t('OrderRecord')}}
             .nav--item(@click="toRouterPath('/my-investment')")
                 em.iconfont.icon-dingtou
-                span  我的定投
+                span  {{$t([`我的定投`,`我的定投`,`My AIP`])}}
+            //- span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
+            //- span(@click="toRouterPath('/fund-order-list')") {{$t('OrderRecord')}}
         
     slot(name="fundList")
 </template>
@@ -208,24 +210,7 @@ export default {
     width: 100%;
     position: relative;
 }
-.block--header-height {
-    height: 284px;
-    background: linear-gradient(
-        360deg,
-        rgba(47, 121, 255, 0) 0%,
-        rgba(43, 116, 250, 0.67) 14%,
-        rgba(41, 113, 247, 0.89) 25%,
-        rgba(13, 80, 216, 1) 100%
-    );
-}
-.block--header-height1 {
-    height: 239px;
-    background: linear-gradient(
-        360deg,
-        rgba(47, 121, 255, 1) 0%,
-        rgba(13, 80, 216, 1) 100%
-    );
-}
+
 .bg-hk {
     background: linear-gradient(
         162deg,
@@ -256,12 +241,14 @@ export default {
     }
 }
 .header-content {
-    width: 100%;
+    // width: 351px;
     display: flex;
-    padding: 0 3% 20px 3%;
+    width: 100%;
+    padding: 0 0 22px 0;
     float: left;
     margin: 30px 0 0 0;
     flex-direction: column;
+    // border: none;
     .header-content-left {
         width: 100%;
         .title {
@@ -282,13 +269,13 @@ export default {
         }
         .fund__content {
             display: flex;
-            height: 40px;
+            height: 46px;
             justify-content: center;
             width: 100%;
-            margin: 10px 0;
+            // margin: 10px 0;
             flex-direction: row;
             .number-price {
-                font-size: 32px;
+                font-size: 38px;
                 font-family: 'yxFontDINPro-Medium';
                 em {
                     font-size: 0.4rem;
@@ -299,11 +286,13 @@ export default {
             }
             .number-price-active {
                 width: 55px;
-                height: 40px;
-                line-height: 55px;
-                margin: 0 0 0 5px;
+                height: 21px;
+                line-height: 16px;
+                margin: 24px 0 0 5px;
                 text-align: right;
-                height: 100%;
+                border: 1px solid rgba(255, 255, 255, 0.4);
+                border-radius: 2px;
+                font-size: 12px;
                 position: relative;
                 .block--master {
                     position: fixed;
@@ -315,14 +304,14 @@ export default {
                     background: rgba(0, 0, 0, 0.5);
                 }
                 .block__currey {
-                    width: 120px;
+                    width: 80px;
                     position: absolute;
                     height: 100px;
                     z-index: 9999999;
                     text-align: left;
                     border-radius: 10px;
-                    left: 0px;
-                    top: 55px;
+                    left: -15px;
+                    top: 40px;
                     background: #fff;
                     display: flex;
                     justify-content: center;
@@ -343,15 +332,17 @@ export default {
                     content: '';
                     width: 0px;
                     height: 0px;
-                    top: -10px;
+                    top: -8px;
                     left: 20px;
                     border-left: 10px solid transparent;
                     border-right: 10px solid transparent;
                     border-bottom: 10px solid #fff;
+                    transform: translateX(10px);
                     position: absolute;
                 }
                 em {
                     margin: 0 5px 0 0;
+                    color: rgba(255, 255, 255, 0.4);
                 }
                 .number__price--subcontent {
                     position: absolute;
@@ -368,7 +359,7 @@ export default {
     .header-content-right {
         display: flex;
         flex-direction: row;
-        margin: 5px 0 0 0;
+        margin: 24px 0 0 0;
         width: 100%;
         .block__content--left,
         .block__content--right {
@@ -405,12 +396,12 @@ export default {
     }
 }
 .header-footer-tab {
-    margin: 0 12px;
+    // margin: 0 6px;
     width: 351px;
-    position: absolute;
     height: 80px;
-    bottom: -40px;
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
+    margin: 0 12px;
+    box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.05);
+    border: none;
     border-radius: 6px;
     background: #fff;
     display: flex;
@@ -432,30 +423,31 @@ export default {
 .block__footer--hold {
     height: 32px;
     line-height: 32px;
-    margin: 10px auto;
+    margin: 10px 0 0 0;
     display: flex;
     justify-content: center;
     color: rgba(255, 255, 255, 0.6);
+
     span {
         font-size: 14px;
         display: inline-block;
         background: rgba(255, 255, 255, 0.15);
         position: relative;
         padding: 0 10px;
-        border-radius: 2px 0px 0px 0px;
+        border-radius: 2px;
     }
     span:after {
         content: '';
-        border-left: 6px solid transparent;
-        border-right: 6px solid transparent;
-        border-bottom: 6px solid rgba(255, 255, 255, 0.15);
-        border-top: 5px solid transparent;
+        border-left: 0.12rem solid transparent;
+        border-right: 0.12rem solid transparent;
+        border-bottom: 0.115rem solid rgba(255, 255, 255, 0.15);
+        border-top: 0.12rem solid transparent;
         position: absolute;
         width: 0;
         height: 0;
-        top: -11px;
+        top: -0.23rem;
         left: 50%;
-        transform: translateX(-3px);
+        transform: translateX(-0.06rem);
     }
     em {
         font-size: 20px;

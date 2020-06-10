@@ -7,7 +7,15 @@
             :tagShow="tagShow"
             :tagsShow="tagsShow"
             :fundHeaderInfoVO="fundHeaderInfoVO")
-        
+
+        .block__fundheader--tips(
+            v-if="isLogin && holdDetailsShow"
+            @click="toRouterGenerator('/hold-fund-details')")
+            em.iconfont.icon-wallet2
+            span.title {{$t('A77')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
+
         fundDetailsEchart(
           @chooseTime = "getFundApyPointV1"
           :step="step"
@@ -16,10 +24,6 @@
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
-
-        HoldfundDetails(
-            v-if="holdDetailsShow"
-            :initState="holdInitState")
 
         FightFundHk(
             v-if="!fightShow && code ===2"
@@ -33,15 +37,6 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
 
-        .block__fundheader--tips(
-            v-if="isLogin"
-            @click="toRouterGenerator('/order-record')")
-            em.iconfont.icon-iconEBshoucang
-            span.title 持仓详情
-            .block__list--right
-                span 资产、收益率
-                em.iconfont.icon-iconEBgengduoCopy
-       
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -56,29 +51,61 @@
             p {{$t('msg1')}}
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
-        .fund-footer-content.fund-block--content(v-if="RedemptionButton")
-            .btn.colorbg.button-5width.btn-inverster(
-                    :class="[investmentShow? 'fund-footer':'fund-no']"
-                    @click="handleBuyOrSell(4)")
-                    span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
-                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{100-fundTradeInfoVO.feeDiscount*100}}%
-            van-button.button-5width.button-left.btn(
-                :class="[flag?'fund-check':'fund-no']" 
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-            van-button.btn.button-5width(
-                :class="[flag1?'fund-buy':'fund-no']" 
-                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+        .fund-footer-content(v-if="RedemptionButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            .fund-block--content
+                .btn.colorbg.button-5width.btn-inverster(
+                        :class="[investmentShow? 'fund-footer':'fund-no']"
+                        @click="handleBuyOrSell(4)")
+                        span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                        em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
+                //- van-button.button-5width.button-left.btn(
+                //-     :class="[flag?'fund-check':'fund-no']" 
+                //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-5width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
+
+        .fund-footer-content(v-if="!RedemptionButton && this.btnShow")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            .fund-block--content
+                //- van-button.button-6width.button-left.btn(
+                //-     :class="[flag?'fund-check':'fund-no']" 
+                //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-6width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
+
         
         .fund-footer-content(v-if="PurchaseButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
             .block__button--list
                 .btn.colorbg.button-width1.btn-inverster(
                     :class="[investmentShow? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(4)")
-                    span(:class="[fundTradeInfoVO.feeDiscount*100 === 0?'span-lineHeight1':'span-lineHeight']") {{$t('A2')}}
-                    em(v-if="fundTradeInfoVO.feeDiscount*100 != 0") 享申购费{{100-fundTradeInfoVO.feeDiscount*100}}%
+                    span(:class="[subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                    em(v-if="subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
                 van-button.btn.button-width1(
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+
+        .fund-footer-content(v-if="!PurchaseButton && !this.btnShow")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            van-button.btn.button-width(
+                :class="[flag2? 'fund-footer':'fund-no']"
+                @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
         .fund-footer-contentShare(v-if="invate === 'share'")
             van-button(
@@ -229,11 +256,12 @@ export default {
                 all: '成立来'
             },
             msg1:
-                '*本页面资料来源于基金管理公司、基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。',
+                '*本页面资料来源于基金管理公司、基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,uSMART友信证券对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。',
             msg2:
                 '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
-            Subscribenow: '立即认购'
+            Subscribenow: '立即认购',
+            holdFundTitle: '持仓详情'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -264,11 +292,12 @@ export default {
                 all: '成立来'
             },
             msg1:
-                '*本頁面資料來源於基金管理公司、基金服務提供供應商。所有數據截至最新淨值日期（除特殊標註外）,友信對基金的業績表現計算是按該時期的資產淨值、相關類別貨幣計算。如有未顯示年度/時期的表現，則指該年度/時期未有足夠資料計算。',
+                '*本頁面資料來源於基金管理公司、基金服務提供供應商。所有數據截至最新淨值日期（除特殊標註外）,uSMART友信證券對基金的業績表現計算是按該時期的資產淨值、相關類別貨幣計算。如有未顯示年度/時期的表現，則指該年度/時期未有足夠資料計算。',
             msg2:
                 '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
-            Subscribenow: '立即認購'
+            Subscribenow: '立即認購',
+            holdFundTitle: '持倉詳情'
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -305,7 +334,8 @@ export default {
                 'The relevant data is for reference only. This page is not a legal document. Please carefully read the fund’s prospectus before investing. Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
-            Subscribenow: 'Subscribe now'
+            Subscribenow: 'Subscribe now',
+            holdFundTitle: 'Position'
         }
     },
     keepalive: true,
@@ -331,7 +361,10 @@ export default {
              * invate 是否是邀请
              */
             return (
-                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
+                this.btnShow &&
+                this.isGrayAuthority &&
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         /*
@@ -345,7 +378,8 @@ export default {
                 this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
-                this.invate !== 'share'
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         chsFightButton() {
@@ -430,6 +464,9 @@ export default {
             },
             id: '',
             fundOverviewInfoVO: {},
+            fundFixedFeeVO: {
+                feeDiscount: 0
+            },
             recommendList: [], //推荐基金
             fundCorrelationFileList: [],
             historyList: [],
@@ -538,7 +575,8 @@ export default {
                 }
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
-            investmentShow: true
+            investmentShow: true,
+            investmentWhiteBit: true
         }
     },
     methods: {
@@ -554,7 +592,11 @@ export default {
                 let params = {
                     fundId: this.$route.query.id || this.id
                 }
-                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
+                let {
+                    subscribeFeeVO,
+                    fundFixedFeeVO
+                } = await getFundFeeConfigV1(params)
+                this.fundFixedFeeVO = fundFixedFeeVO || { feeDiscount: 0 }
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
                     ? subscribeFeeVO.defaultFeeRate
                     : ''
@@ -895,6 +937,14 @@ export default {
                     .split('')
                     .reverse()
                     .join('')[5]
+                let investmentUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[9]
+                if (investmentUserBit === '1') {
+                    this.investmentWhiteBit = false
+                }
                 if (!isWhiteUserBit) {
                     this.fightShow = true
                     return
@@ -937,10 +987,6 @@ export default {
                 this.fundHeaderInfoVO.derivativeType =
                     res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
-                // this.fundHeaderInfoVO.apy =
-                //     this.fundHeaderInfoVO.assetType === 4
-                //         ? Number(this.fundHeaderInfoVO.apy * 100).toFixed(4)
-                //         : Number(this.fundHeaderInfoVO.apy * 100).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice,
                     4
@@ -1647,7 +1693,7 @@ export default {
         color: rgba(255, 255, 255, 0.6);
     }
     .button-5width {
-        width: 33.33%;
+        width: 50%;
     }
     .button-6width {
         width: 50%;

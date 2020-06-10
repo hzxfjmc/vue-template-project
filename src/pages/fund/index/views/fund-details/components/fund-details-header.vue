@@ -7,23 +7,13 @@
             .rate-wrap(@click="morningstarRateAlert")
                 span {{fundHeaderInfoVO.morningRating ? this.$t('hasRate') : this.$t('noRate')}}
                 star(:score="fundHeaderInfoVO.morningRating")
-        .block-left
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxiancopy-copy 
-                span {{ fundHeaderInfoVO.assetTypeName }}
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxian
-                span {{ fundHeaderInfoVO.fundRisk }}
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxiancopy-copy1
-                span {{ fundHeaderInfoVO.earningsTypeName }}
-        .block__right--tag(
-            @click="confirmAlter"
-            v-if="tagShow")
-            .blcok__tag--left.iconfont.icon-warning1
-            .block__tag--right
-                p(v-if="tagsShow") {{$t('Derivatives')}} 
-                p {{$t('Complex')}}
+    .block__right--tag(
+        @click="confirmAlter"
+        v-if="tagShow")
+        //- .blcok__tag--left.iconfont.icon-warning1
+        .block__tag--right
+            p(v-if="tagsShow") {{$t('Derivatives')}} 
+            p {{$t('Complex')}}
     .funds-details-number.border-bottom
         .header-left
             span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
@@ -39,21 +29,24 @@
             span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $t('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
-        .block__details--left
-            template(v-if="isMonetaryFund")
-                span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
-                span {{this.revenue}}
-            template(v-else)
-                span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：{{fundHeaderInfoVO.netPrice}}
-                span(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="this.price>0") (+{{this.price}}%)
-                span(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-else-if="this.price<0") ({{this.price}}%)
-                span(v-else) ({{this.price}}%)
-        .block__details--right
-            span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
+        fund-tag(:title="fundHeaderInfoVO.assetTypeName")
+        fund-tag(:title="fundHeaderInfoVO.fundRisk")
+        fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
+        //- .block__details--left
+        //-     template(v-if="isMonetaryFund")
+        //-         span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
+        //-         span {{this.revenue}}
+        //-     template(v-else)
+        //-         span {{$t('fundPrice')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：{{fundHeaderInfoVO.netPrice}}
+        //-         span(
+        //-             :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+        //-             v-if="this.price>0") (+{{this.price}}%)
+        //-         span(
+        //-             :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+        //-             v-else-if="this.price<0") ({{this.price}}%)
+        //-         span(v-else) ({{this.price}}%)
+        //- .block__details--right
+        //-     span {{$t('update')}}：{{fundHeaderInfoVO.belongDay}}
 </template>
 <script>
 import dayjs from 'dayjs'
@@ -61,10 +54,12 @@ import star from '@/components/yx-star'
 import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
+import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
     components: {
-        star,
-        [Tag.name]: Tag
+        [Tag.name]: Tag,
+        'fund-tag': fundTag,
+        star
     },
     i18n: {
         zhCHS: {
