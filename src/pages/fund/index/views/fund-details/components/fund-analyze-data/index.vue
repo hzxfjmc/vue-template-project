@@ -1,5 +1,5 @@
 <template lang="pug">
-    .fund-analyze-container.fund-container
+    .fund-analyze-container.fund-container(:class="lang")
         .fund-info__header
             .header__top
                 .title {{fundName}}
@@ -282,6 +282,15 @@ export default {
         font-size: 12px;
         .item__label {
             color: $text-color5;
+        }
+    }
+}
+.fund-container.en {
+    .fund-block {
+        .fund-block__header {
+            .title {
+                font-size: 14px;
+            }
         }
     }
 }

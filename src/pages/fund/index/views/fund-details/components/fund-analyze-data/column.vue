@@ -1,5 +1,5 @@
 <template lang="pug">
-    .fund-colunm
+    .fund-colunm(:class="lang")
         .fund-colunm__header
             .col-left
                 .iconfont.icon-icon_collect
@@ -43,7 +43,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['stockColorTypeClass'])
+        ...mapGetters(['stockColorTypeClass', 'lang'])
     },
     data() {
         return {
@@ -164,6 +164,13 @@ export default {
         &:nth-child(2) {
             border-left: 1px solid rgba(25, 25, 25, 0.05);
             border-right: 1px solid rgba(25, 25, 25, 0.05);
+        }
+    }
+}
+.fund-colunm.en {
+    .fund-colunm__content {
+        .item-title {
+            font-size: 10px;
         }
     }
 }
