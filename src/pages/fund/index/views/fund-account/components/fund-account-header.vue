@@ -42,7 +42,9 @@
             .nav--item(@click="toRouterPath('/fund-order-list')")
                 em.iconfont.icon-zijin
                 span {{$t('OrderRecord')}}
-            .nav--item(@click="toRouterPath('/my-investment')")
+            .nav--item(
+                v-if="investmentWhiteBit"
+                @click="toRouterPath('/my-investment')")
                 em.iconfont.icon-dingtou
                 span  {{$t([`我的定投`,`我的定投`,`My AIP`])}}
             //- span.header-footer-left(@click="toRouterPath('/income-details')") {{$t('IncomeDetails')}}
@@ -64,6 +66,10 @@ export default {
         inTransitOrder: {
             type: String,
             default: ''
+        },
+        investmentWhiteBit: {
+            type: Boolean,
+            default: false
         },
         code: {
             type: Number

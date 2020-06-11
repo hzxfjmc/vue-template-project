@@ -5,6 +5,7 @@
             :price="price"
             :revenue="revenue"
             :tagShow="tagShow"
+            :investmentWhiteBit="!investmentWhiteBit"
             :tagsShow="tagsShow"
             :initState="holdInitState"
             :fundHeaderInfoVO="fundHeaderInfoVO")
@@ -519,7 +520,8 @@ export default {
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
             investmentShow: true,
-            release: true
+            release: true,
+            investmentWhiteBit: true
         }
     },
     methods: {
@@ -880,6 +882,15 @@ export default {
                     .split('')
                     .reverse()
                     .join('')[5]
+                let investmentUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[9]
+
+                if (investmentUserBit === '1') {
+                    this.investmentWhiteBit = false
+                }
                 if (!isWhiteUserBit) {
                     this.fightShow = true
                     return

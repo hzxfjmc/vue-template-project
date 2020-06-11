@@ -15,7 +15,7 @@
         @click="toFundDetails(item)")
         .fund-name 
             p {{item.fundName}}
-            span(v-if="item.fixedFlag") {{$t('A2')}}
+            span(v-if="item.fixedFlag && investmentWhiteBit") {{$t('A2')}}
         .fund-list-num
             .fund-row
                 .fund__row--list
@@ -77,6 +77,10 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        investmentWhiteBit: {
+            type: Boolean,
+            default: false
         },
         fundList: {
             type: Array,
