@@ -12,16 +12,16 @@
                 .fond-buy
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('redeemShares')}}
-                        <!--number-keyboard.keyboard(-->
+                        <!--number-keyboard(-->
                         <!--v-model="redemptionShare"-->
                         <!--@input="changeNumber"-->
-                        <!--:placeHolder="$t('entryUnit')"-->
+                        <!--:placeholder="$t('entryUnit')"-->
                         <!--)-->
                         .block__fund--input1
                             //- span {{currencyType == 1 ? '':'HK'}}$
                             input(
                                 v-model="redemptionShare"
-                                type="text"
+                                type="number"
                                 @input="changeNumber"
                                 :placeHolder="$t('entryUnit')"
                                 )
@@ -474,8 +474,3 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped>
-.keyboard {
-    height: 30px;
-}
-</style>
