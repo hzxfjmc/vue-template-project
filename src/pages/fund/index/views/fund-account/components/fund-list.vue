@@ -37,8 +37,8 @@
                     
                 .fund__row--list.block__right
                     span {{$t('SevenDayIncome')}}
-                    .block-element-number(v-if="eyeTab  && item.weekEarnings>0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
-                    .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab  && item.weekEarnings>0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings|parseThousands(2)}}
+                    .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings|parseThousands(2)}}
                     .block-element-number(v-if="eyeTab  && item.weekEarnings==0") {{item.weekEarnings||'0.00'}}
                     .block-element-number(v-if="!eyeTab") ****
                    
