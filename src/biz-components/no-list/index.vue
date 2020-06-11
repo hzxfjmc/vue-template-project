@@ -1,5 +1,5 @@
 <template lang="pug">
-.yx-no-list.full-height
+.yx-no-list
     img(:src="imgSrc")
     p {{ showText}}
 </template>
@@ -41,7 +41,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 120px;
     background-color: #ffffff;
     color: #b4ceec;
     img {

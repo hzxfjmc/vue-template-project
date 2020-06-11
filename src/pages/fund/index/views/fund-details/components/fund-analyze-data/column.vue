@@ -34,7 +34,7 @@ import { mapGetters } from 'vuex'
 import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
 import i18n from './i18n'
 export default {
-    i18n: i18n,
+    i18n,
     components: {},
     props: {
         fundHeaderInfoVO: {

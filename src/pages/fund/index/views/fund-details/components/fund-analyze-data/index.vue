@@ -60,10 +60,12 @@
                             ) {{mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`] | filterRatio}}                           
         .fund-block
             .fund-block__header
-                .title {{$t('A26')}}（{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
+                .title 
+                    span {{$t('A26')}}
+                    span(v-if="equityStyleBoxApiVO.equityStyleBox") （{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
                 .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
-            .fund-block__content 
-                table.table-box
+            .fund-block__content.style-box 
+                table.table-box(v-if="equityStyleBoxApiVO.equityStyleBox")
                     tr
                         td &nbsp;
                         td &nbsp;
@@ -98,6 +100,7 @@
                         td.label {{$t('A34')}}
                         td.label {{$t('A35')}}
                         td &nbsp;
+                yx-no-list(v-else)        
         .fund-block
              .fund-block__content
                 p.text {{text1}}                               
@@ -311,6 +314,9 @@ export default {
             color: $primary-color-line;
         }
     }
+    .fund-block__content.style-box {
+        padding-bottom: 15px;
+    }
     .fund-block__content {
         padding: 0 12px;
         .table {
@@ -338,7 +344,6 @@ export default {
             width: 90%;
             margin: 0 auto;
             text-align: center;
-            padding-bottom: 15px;
             td {
                 width: 60px;
                 height: 30px;
