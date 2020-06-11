@@ -17,7 +17,7 @@
         .block--hold__list
             .block__item
                 span {{$t('positionShare')}}
-                .num {{initState.positionShare}}
+                .num {{initState.positionShare|transNumToThousandMark(4)}}
             .block__item.block--element_c
                 span {{$t('weekEarnings')}}
                 .num(
@@ -43,7 +43,7 @@
             .block__item(v-if="initState.inTransitAmount != 0")
                 span.block_span {{$t('subscribe')}}
                 span.blpck_content {{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}} {{initState.inTransitAmount|transNumToThousandMark}}
-        .funds-details-footer
+        .funds-details-footer.border-top
             .block__details--left
                 template(v-if="isMonetaryFund")
                     span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
@@ -318,7 +318,7 @@ export default {
 .block--subscribe__content {
     max-height: 84px;
     background: rgba(25, 25, 25, 0.03);
-    margin: 14px 0 0 0;
+    margin: 14px 0;
     display: flex;
     flex-direction: column;
     align-content: center;
@@ -358,20 +358,24 @@ export default {
     flex-direction: row;
     justify-content: space-between;
     height: 77px;
-    align-items: center;
+    // align-items: center;
     .block--header__left {
         width: 70%;
         .fund-name {
             font-size: 16px;
+            padding: 21px 0 0 0;
         }
         span {
             font-size: 12px;
+            margin: 4px 0 0 0;
             color: rgba(25, 25, 25, 0.3);
         }
     }
     .block--header__right {
         // width: 87px;
         height: 27px;
+        padding: 0 17px 0 12px;
+        margin: 28px 0 0 0;
         background: rgba(47, 121, 255, 0.05);
         border-radius: 100px 0px 0px 100px;
         font-size: 12px;
@@ -380,7 +384,7 @@ export default {
         flex-direction: row;
         align-items: center;
         span {
-            padding: 0 0 0 10px;
+            // padding: 0 0 0 10px;
             display: inline-block;
         }
     }

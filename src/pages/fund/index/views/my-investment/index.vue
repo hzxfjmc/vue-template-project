@@ -167,7 +167,6 @@ export default {
                     2: 'edda'
                 }
                 this.list.map(item => {
-                    console.log(item.recentDeductionDate)
                     item.chargeType = EnumChargeType[item.chargeType]
                     item.week = this.getWeek(item.recentDeductionDate)
                     item.recentDeductionDate = dayjs(

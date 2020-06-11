@@ -11,7 +11,7 @@
                         v-if="showPsd") {{firstPositionAmount || '--'}}.
                         em(v-if="showPsd") {{secondPositionAmount || '--'}}
                     .number-price.close-eye(v-if="!showPsd") ******
-                    .number-price-active 
+                    .number-price-active.border 
                         span(@click="handlerCurrencyName") {{currencyNum===0?$t('hkd'):$t('usd')}}
                         em(class="iconfont icon-icon-bottom" @click="handlerCurrencyName") 
                         .block--master(v-if="chooseCurrencyShow" @click="chooseCurrencyShow = !chooseCurrencyShow")
@@ -285,15 +285,21 @@ export default {
                 line-height: 64px;
             }
             .number-price-active {
-                width: 55px;
+                // width: 55px;
                 height: 21px;
-                line-height: 16px;
-                margin: 24px 0 0 5px;
+                // line-height: 16px;
+                // margin: 24px 0 0 5px;
+                padding: 0 4px;
+                margin: 26px 0 0 10px;
                 text-align: right;
                 border: 1px solid rgba(255, 255, 255, 0.4);
                 border-radius: 2px;
                 font-size: 12px;
                 position: relative;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-content: center;
                 .block--master {
                     position: fixed;
                     width: 100%;
@@ -341,8 +347,10 @@ export default {
                     position: absolute;
                 }
                 em {
-                    margin: 0 5px 0 0;
+                    // margin: 0 5px 0 0;
+                    line-height: 21px;
                     color: rgba(255, 255, 255, 0.4);
+                    // line-height: 42px;
                 }
                 .number__price--subcontent {
                     position: absolute;

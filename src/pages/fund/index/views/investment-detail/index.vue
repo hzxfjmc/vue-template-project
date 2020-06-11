@@ -353,11 +353,10 @@ export default {
     background: $background-bottom-color;
     .investment__detail__header {
         .investment__detail__header_info {
-            // padding: 0 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 14px 12px;
+            padding: 14px 12px 10px 12px;
             border-bottom: 1px solid rgba($background-color, 0.05);
             .header_info_left {
                 .name {

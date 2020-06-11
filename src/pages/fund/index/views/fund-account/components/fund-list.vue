@@ -2,7 +2,7 @@
 .block-fund-list-content(:class="[code!=1? 'block-fund-list-content-ch' : 'block-fund-list-content-ch']")
     .block__fund-title(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
-        p {{title}}
+        p.title {{title}}
         .block__fund--right
             p {{currency === '2'?$t('hkdAssets') :$t('usdAssets')}} {{currency === '2'?'HKD' :'USD'}} 
                 em.block__em(v-if="eyeTab") {{amount}}
@@ -20,7 +20,7 @@
             .fund-row
                 .fund__row--list
                     span {{$t('positionMarketValue')}}
-                    .block-element-number(v-if="eyeTab") {{item.positionAmount}}
+                    .block-element-number(v-if="eyeTab") {{item.positionAmount|parseThousands(2)}}
                     .block-element-number(v-else) ****
                     
                 .fund__row--list.block__center
@@ -190,6 +190,9 @@ export default {
         align-items: center;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         line-height: 44px;
+        // .title {
+        //     font-weight: bolder;
+        // }
         .block__fund--right {
             font-size: 11px;
             width: 300px;
@@ -222,7 +225,8 @@ export default {
             margin: 0 0 0 6px;
         }
         em {
-            padding: 0 12px;
+            padding: 0 12px 0 10px;
+            color: rgba(25, 25, 25, 0.45);
         }
     }
     .list-item-content {
@@ -246,12 +250,12 @@ export default {
             }
             span {
                 display: block;
-                padding: 0 5px;
+                padding: 0 8px;
                 font-size: 10px;
                 background: rgba(47, 121, 255, 1);
                 color: #fff;
                 border-radius: 1px;
-                margin: 0 0 0 5px;
+                margin: 0 0 0 6px;
             }
         }
         .fund-list-num {
@@ -279,7 +283,7 @@ export default {
                     color: rgba(25, 25, 25, 0.5);
                 }
                 .block-element-number {
-                    font-size: 20px;
+                    font-size: 14px;
                     font-family: 'yxFontDINPro-Medium';
                     // font-weight: bold;
                 }
