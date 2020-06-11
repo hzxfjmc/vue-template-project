@@ -77,7 +77,7 @@
                         td.value( 
                             v-for="item,index in keyList2" 
                             :key="`key_${index}`"
-                            :class="`td-col-${index+1}`"
+                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
                             ) {{styleBoxBreakDown[item] | filterRatio}}
                         td.label {{$t('A31')}}
                     tr
@@ -85,6 +85,7 @@
                         td.value( 
                             v-for="item,index in keyList3" 
                             :key="`key_${index}`"
+                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
                             ) {{styleBoxBreakDown[item] | filterRatio}}
                         td.label {{$t('A30')}}
                     tr
@@ -92,6 +93,7 @@
                         td.value( 
                             v-for="item,index in keyList4" 
                             :key="`key_${index}`"
+                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
                             ) {{styleBoxBreakDown[item] | filterRatio}}
                         td.label {{$t('A29')}}
                     tr
@@ -198,10 +200,31 @@ export default {
             mptStatisticsPrimaryIndexApiVO: {},
             relativeRiskMeasureCategoryApiVO: {},
             riskMeasureApiVO: {},
-            equityStyleBoxApiVO: {}
+            equityStyleBoxApiVO: {},
+            largeKey: '',
+            midKey: '',
+            smallKey: ''
         }
     },
     methods: {
+        getSortStyleBoxData() {
+            const styleBoxBreakDownList = []
+            let sortList = []
+            Object.keys(this.styleBoxBreakDown).forEach(key => {
+                styleBoxBreakDownList.push({
+                    key: key,
+                    value: this.styleBoxBreakDown[key]
+                })
+            })
+            const sortfunc = (a, b) => {
+                return Number(b.value) - Number(a.value)
+            }
+            sortList = styleBoxBreakDownList.sort(sortfunc)
+            if (!sortList.length) return
+            this.largeKey = sortList[0].key
+            this.midKey = sortList[1].key
+            this.smallKey = sortList[2].key
+        },
         handleGoDetail(type) {
             let url = 'https://m.yxzq.com/webapp/market/generator.html'
             let queryString = ''
@@ -242,11 +265,12 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        init() {
+        async init() {
             let { fundName, isin } = this.$route.query
             this.fundName = fundName
             this.isin = isin
-            this.getFundAnalysisData()
+            await this.getFundAnalysisData()
+            await this.getSortStyleBoxData()
         }
     },
     created() {
@@ -353,13 +377,13 @@ export default {
                 height: 60px;
                 background-color: $primary-color-line-1;
             }
-            td.td-col-1 {
+            td.bg-color-small {
                 background-color: $primary-color-line-3;
             }
-            td.td-col-2 {
+            td.bg-color-large {
                 background-color: $primary-color-line;
             }
-            td.td-col-3 {
+            td.bg-color-mid {
                 background-color: $primary-color-line-6;
             }
             td.label {
