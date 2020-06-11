@@ -68,7 +68,7 @@
                 em.iconfont.icon-zijin
                 span {{$t('orderRecord')}}
             .block--tab__item(
-                v-if="fixedPlanNum!=0"
+                v-if="fixedPlanNum!=0 && investmentWhiteBit"
                 @click="JumpUrl('/my-investment')")
                 em.iconfont.icon-dingtou
                 span {{$t('A75')}}({{fixedPlanNum}})
@@ -158,6 +158,10 @@ export default {
         }
     },
     props: {
+        investmentWhiteBit: {
+            type: Boolean,
+            default: false
+        },
         initState: {
             type: Object,
             default: () => {}

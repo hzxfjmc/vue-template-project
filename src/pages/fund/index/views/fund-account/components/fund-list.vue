@@ -15,7 +15,7 @@
         @click="toFundDetails(item)")
         .fund-name 
             p {{item.fundName}}
-            span(v-if="item.fixedFlag") {{$t('A2')}}
+            span(v-if="item.fixedFlag && investmentWhiteBit") {{$t('A2')}}
         .fund-list-num
             .fund-row
                 .fund__row--list
@@ -37,8 +37,8 @@
                     
                 .fund__row--list.block__right
                     span {{$t('SevenDayIncome')}}
-                    .block-element-number(v-if="eyeTab  && item.weekEarnings>0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
-                    .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
+                    .block-element-number(v-if="eyeTab  && item.weekEarnings>0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings|parseThousands(2)}}
+                    .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings|parseThousands(2)}}
                     .block-element-number(v-if="eyeTab  && item.weekEarnings==0") {{item.weekEarnings||'0.00'}}
                     .block-element-number(v-if="!eyeTab") ****
                    
@@ -77,6 +77,10 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        investmentWhiteBit: {
+            type: Boolean,
+            default: false
         },
         fundList: {
             type: Array,

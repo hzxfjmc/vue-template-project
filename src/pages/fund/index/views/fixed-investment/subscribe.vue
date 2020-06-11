@@ -478,6 +478,7 @@ export default {
                     data.fixedPlanCode = this.$route.query.fixedPlanCode
                     await getUpdateFundFixedPlanInfo(data)
                     url = 'my-investment'
+                    this.$toast('修改成功')
                 } else {
                     res = await hanlderCreateFundFixedPlan(data)
                     url = 'investment-result'
@@ -588,6 +589,18 @@ export default {
                 )
             if (isNaN(Number(this.amount)) || Number(this.amount) === 0)
                 return this.$toast('请输入金额')
+            if (
+                this.positionStatus != 1 &&
+                Number(this.amount) < this.fundHeaderInfoVO.initialInvestAmount
+            ) {
+                return this.$toast('起投金额太低')
+            }
+            if (
+                this.positionStatus == 1 &&
+                Number(this.amount) < this.fundHeaderInfoVO.continueInvestAmount
+            ) {
+                return this.$toast('续投金额太小')
+            }
             if (!this.bankInfo.type) return this.$toast('请选择扣款方式')
             //判断是否修改内容
             let exchangeFlag = this.exchangeFlag ? 1 : 0

@@ -5,12 +5,14 @@
         @changeEyeTab = "changeEyeTab"
         @handlerCurrency="handlerCurrency"
         :code ="code"
+        :investmentWhiteBit="investmentWhiteBit"
         :inTransitOrder="inTransitOrder"
         :holdData="holdData")
     .fund--list--wrapper
         fundList(
             slot="fundList"
             bgColor="#0091FF"
+            :investmentWhiteBit="investmentWhiteBit"
             currency="2"
             :title = "$t('fundHkdType')"
             v-if="!noMoreShow"
@@ -21,6 +23,7 @@
         fundList(
             slot="fundList"
             bgColor="#FFBA00"
+            :investmentWhiteBit="investmentWhiteBit"
             currency="1"
             :title = "$t('fundUsdType')"
             v-if="!noMoreShow"
@@ -40,6 +43,7 @@ import { getFundPositionListV3 } from '@/service/finance-server'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import LS from '@/utils/local-storage'
 import { gotoNewWebView } from '@/utils/js-bridge.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 import { enumCurrency } from '@/pages/fund/index/map'
 import { getSource } from '@/service/customer-relationship-server'
 export default {
@@ -54,6 +58,8 @@ export default {
             code: 0,
             hkPositionList: [],
             usPositionList: [],
+            userInfo: {},
+            investmentWhiteBit: false,
             inTransitOrder: '',
             eyeTab: LS.get('showMoney')
         }
@@ -80,6 +86,27 @@ export default {
         fundList
     },
     methods: {
+        //获取用户信息
+        async getFundUserInfo() {
+            try {
+                const res = await getFundUserInfo()
+                this.userInfo = res
+                //白名单
+
+                let investmentUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[9]
+
+                if (investmentUserBit === '1') {
+                    this.investmentWhiteBit = true
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
+            }
+        },
         toRouterPath(path) {
             let url = `${window.location.origin}/wealth/fund/index.html#${path}?currency=${this.currency}`
             gotoNewWebView(url)
@@ -123,11 +150,12 @@ export default {
             }
         }
     },
-    mounted() {
+    created() {
         this.currency =
             LS.get('activeTab') === 0 ? enumCurrency.HKD : enumCurrency.USD
         this.getFundPositionListV3()
         this.getSource()
+        this.getFundUserInfo()
     }
 }
 </script>
