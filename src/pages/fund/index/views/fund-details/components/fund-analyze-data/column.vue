@@ -12,17 +12,17 @@
                 .item-title {{$t('A17')}}
                 .item-value(
                      :class="getStockClass(sharpeRatio3Yr)"
-                ) {{sharpeRatio3Yr | filterRatio}}  
+                ) {{sharpeRatio3Yr | filterRatio}} 
+            .content__item
+                .item-title {{$t('A18')}}
+                .item-value(
+                    :class="getStockClass(maxDrawDown3Yr)"
+                ) {{maxDrawDown3Yr | filterRatio}}     
             .content__item
                 .item-title {{$t('A19')}}
                 .item-value(
                    :class="getStockClass(captureRatioUpside3Yr)"
                 ) {{captureRatioUpside3Yr | filterRatio}}
-            .content__item
-                .item-title {{$t('A18')}}
-                .item-value(
-                    :class="getStockClass(maxDrawDown3Yr)"
-                ) {{maxDrawDown3Yr | filterRatio}}
 </template>
 <script>
 /**
