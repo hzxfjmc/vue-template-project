@@ -422,7 +422,7 @@ export default {
 }
 .block__footer--hold {
     height: 32px;
-    line-height: 32px;
+    line-height: 36px;
     margin: 10px 0 0 0;
     display: flex;
     justify-content: center;
@@ -431,24 +431,26 @@ export default {
     span {
         font-size: 14px;
         display: inline-block;
-        background: rgba(255, 255, 255, 0.15);
+        // background: rgba(255, 255, 255, 0.15);
+        background: url('~@/assets/img/fund/icon_after.png') center no-repeat;
         position: relative;
         padding: 0 10px;
         border-radius: 2px;
+        background-size: 100%;
     }
-    span:after {
-        content: '';
-        border-left: 0.12rem solid transparent;
-        border-right: 0.12rem solid transparent;
-        border-bottom: 0.115rem solid rgba(255, 255, 255, 0.15);
-        border-top: 0.12rem solid transparent;
-        position: absolute;
-        width: 0;
-        height: 0;
-        top: -0.23rem;
-        left: 50%;
-        transform: translateX(-0.06rem);
-    }
+    // span:after {
+    //     content: '';
+    //     border-left: 0.12rem solid transparent;
+    //     border-right: 0.12rem solid transparent;
+    //     border-bottom: 0.115rem solid rgba(255, 255, 255, 0.15);
+    //     border-top: 0.12rem solid transparent;
+    //     position: absolute;
+    //     width: 0;
+    //     height: 0;
+    //     top: -0.23rem;
+    //     left: 50%;
+    //     transform: translateX(-0.06rem);
+    // }
     em {
         font-size: 20px;
         line-height: 40px;
