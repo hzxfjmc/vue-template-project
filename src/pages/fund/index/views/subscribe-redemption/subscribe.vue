@@ -14,7 +14,8 @@
                         NumberKeyboard( 
                             :currency= "currency.name"
                             :placeholder="placeholder"
-                            @handlerAmount="handlerAmount"
+                            v-model="purchaseAmount"
+                            @input="handlerAmount"
                             )
                         .block__fund--tag--list(v-if="tagList.length!=0")
                             span(v-for="item in tagList") {{item}}
@@ -148,7 +149,7 @@ export default {
             isin: '',
             currency: {},
             code: null,
-            purchaseAmount: null,
+            purchaseAmount: '',
             withdrawBalance: 0,
             subscriptionFee: null,
             descrbeDiscount: '',
@@ -181,7 +182,8 @@ export default {
             },
             placeholder: '请输入',
             tagList: [],
-            tagText: ''
+            tagText: '',
+            fundDetail: {}
         }
     },
     filters: {
@@ -266,8 +268,8 @@ export default {
         }
     },
     methods: {
-        handlerAmount(val) {
-            this.purchaseAmount = +val || ''
+        handlerAmount() {
+            // this.purchaseAmount = +val || ''
             this.getTagText()
         },
         async getFundFeeConfig() {
@@ -537,6 +539,7 @@ export default {
                     displayLocation: 1,
                     fundId: this.$route.query.id
                 })
+                this.fundDetail = fundDetail
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.derivativeType =
@@ -823,7 +826,11 @@ export default {
             ) {
                 return this.$t('noEnoughMoney')
             }
-            if (this.purchaseAmount < this.initialInvestAmount) {
+            // 這裡兩個都是字符串，initialInvestAmount為帶,分割的字符串
+            if (
+                +this.purchaseAmount <
+                this.fundDetail.fundTradeInfoVO.initialInvestAmount
+            ) {
                 const CURRENCYEUMN = {
                     1: this.$t('usd'),
                     2: this.$t('hkd')

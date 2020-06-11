@@ -58,7 +58,8 @@ export default {
         openTips: {
             type: Boolean,
             default: false
-        }
+        },
+        value: {}
     },
     i18n: {
         zhCHS: {
@@ -93,11 +94,19 @@ export default {
     },
     data() {
         return {
-            show: false,
-            amount: ''
+            show: false
+            // amount: ''
         }
     },
     computed: {
+        amount: {
+            get() {
+                return this.value
+            },
+            set(v) {
+                this.$emit('input', v)
+            }
+        },
         ...mapGetters(['lang']),
         isPhoneX() {
             return (
@@ -191,22 +200,26 @@ export default {
         },
         //输入
         onInput(val) {
+            console.log('onInput', this.amount)
+            let amount = this.amount
             let re = /^\d{0,9}(\.\d{0,2})?$/
-            if (this.amount === this.placeholder && (val == 0 || val === '.')) {
-                return (this.amount = '0.')
-            }
-            if (this.amount.indexOf('.') > 0 && val === '.') return
-            if (
-                this.amount >= 0 ||
-                this.amount === this.placeholder ||
-                this.amount === '0.'
+            let noDeal = false
+            if (amount === this.placeholder && (val == 0 || val === '.')) {
+                amount = '0.'
+            } else if (amount.indexOf('.') > 0 && val === '.') {
+                noDeal = true
+            } else if (
+                amount >= 0 ||
+                amount === this.placeholder ||
+                amount === '0.'
             ) {
-                if (this.amount === this.placeholder) this.amount = ''
-                if (re.test(Number(this.amount.toString() + val.toString()))) {
-                    this.amount = this.amount.toString() + val.toString()
+                if (amount === this.placeholder) amount = ''
+                if (re.test(Number(amount.toString() + val.toString()))) {
+                    amount = amount.toString() + val.toString()
                 }
             }
-            this.$emit('handlerAmount', this.amount)
+            !noDeal && (this.amount = amount)
+            // this.$emit('handlerAmount', this.amount)
         },
         //删除
         onDelete() {

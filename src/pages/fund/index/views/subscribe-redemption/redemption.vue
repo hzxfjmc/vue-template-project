@@ -12,13 +12,18 @@
                 .fond-buy
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('redeemShares')}}
+                        <!--number-keyboard.keyboard(-->
+                        <!--v-model="redemptionShare"-->
+                        <!--@input="changeNumber"-->
+                        <!--:placeHolder="$t('entryUnit')"-->
+                        <!--)-->
                         .block__fund--input1
                             //- span {{currencyType == 1 ? '':'HK'}}$
                             input(
-                                v-model="redemptionShare" 
+                                v-model="redemptionShare"
                                 type="text"
                                 @input="changeNumber"
-                                :placeHolder="$t('entryUnit')" 
+                                :placeHolder="$t('entryUnit')"
                                 )
                             <!--.block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}-->
                         .buy-row
@@ -95,11 +100,13 @@ import { generateUUID } from '@/utils/tools.js'
 import { parseThousands } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
+import NumberKeyboard from './components/number-keyboard'
 export default {
     name: 'subscribe',
     components: {
         FundSteps,
-        protocolPopup
+        protocolPopup,
+        NumberKeyboard
     },
     data() {
         return {
@@ -112,7 +119,7 @@ export default {
             positionMarketValue: 0, // 持仓市值
             lowestInvestAmount: 0, // 最低持有金额
             minPositionShare: 0, // 最低持有份额
-            redemptionShare: null, // 赎回份额
+            redemptionShare: '', // 赎回份额
             fundName: '',
             isin: '',
             redemptionFee: null,
@@ -467,3 +474,8 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+.keyboard {
+    height: 30px;
+}
+</style>
