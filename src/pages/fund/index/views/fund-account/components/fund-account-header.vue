@@ -285,9 +285,9 @@ export default {
                 line-height: 80px;
             }
             .number-price-active {
-                height: 21px;
                 padding: 0 4px;
                 margin: 26px 0 0 10px;
+                line-height: 20px;
                 text-align: right;
                 // border: 1px solid rgba(255, 255, 255, 0.6);
                 border-radius: 2px;
