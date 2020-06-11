@@ -158,7 +158,6 @@ export default {
                     total
                 } = await getFundFixedPlanPage(data)
                 this.list = this.list.concat(list)
-                this.list = [{}]
                 this.planPageNum = pageNum
                 this.planPageSize = pageSize
                 this.planTotla = total
