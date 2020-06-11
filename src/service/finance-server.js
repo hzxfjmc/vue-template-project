@@ -55,7 +55,7 @@ export const getFundPosition = params => {
  * }
  */
 export const fundPurchase = (params, config) => {
-    return axios.post(`/finance-server/api/fund-purchase/v2`, params, config)
+    return axios.post(`/finance-server/api/fund-purchase/v3`, params, config)
 }
 
 /**

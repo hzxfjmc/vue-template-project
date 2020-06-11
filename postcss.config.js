@@ -10,7 +10,8 @@ module.exports = {
                 '!font*',
                 '!border-bottom',
                 '!border-width',
-                '!box-shadow'
+                '!box-shadow',
+                '!border'
             ],
             selectorBlackList: ['html', 'body']
         }

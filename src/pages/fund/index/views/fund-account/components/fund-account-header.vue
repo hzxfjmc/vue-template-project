@@ -11,7 +11,7 @@
                         v-if="showPsd") {{firstPositionAmount || '--'}}.
                         em(v-if="showPsd") {{secondPositionAmount || '--'}}
                     .number-price.close-eye(v-if="!showPsd") ******
-                    .number-price-active.border 
+                    .number-price-active.border
                         span(@click="handlerCurrencyName") {{currencyNum===0?$t('hkd'):$t('usd')}}
                         em(class="iconfont icon-icon-bottom" @click="handlerCurrencyName") 
                         .block--master(v-if="chooseCurrencyShow" @click="chooseCurrencyShow = !chooseCurrencyShow")
@@ -282,13 +282,10 @@ export default {
                 }
             }
             .close-eye {
-                line-height: 64px;
+                line-height: 80px;
             }
             .number-price-active {
-                // width: 55px;
                 height: 21px;
-                // line-height: 16px;
-                // margin: 24px 0 0 5px;
                 padding: 0 4px;
                 margin: 26px 0 0 10px;
                 text-align: right;
