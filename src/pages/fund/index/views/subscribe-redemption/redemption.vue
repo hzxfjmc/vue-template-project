@@ -100,13 +100,13 @@ import { generateUUID } from '@/utils/tools.js'
 import { parseThousands } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
-import NumberKeyboard from './components/number-keyboard'
+// import NumberKeyboard from './components/number-keyboard'
 export default {
     name: 'subscribe',
     components: {
         FundSteps,
-        protocolPopup,
-        NumberKeyboard
+        protocolPopup
+        // NumberKeyboard
     },
     data() {
         return {
