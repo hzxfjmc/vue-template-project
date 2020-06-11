@@ -11,7 +11,6 @@ module.exports = {
                 '!border-bottom',
                 '!border-width',
                 '!box-shadow',
-                '!border'
             ],
             selectorBlackList: ['html', 'body']
         }

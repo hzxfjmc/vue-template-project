@@ -67,20 +67,10 @@ html {
 }
 
 
-.border {
-    position: relative;
-    &::after {
-        content: '';
-        position: absolute;
-        z-index: 1;
-        pointer-events: none;
-        background-color:rgba(255,255,255,0.6);
-        height: 1px;
-        width:1px;
-        @media only screen and (min-resolution: 2dppx) {
-            // 非标准的
-            -webkit-transform: scaleY(0.5);
-            transform: scaleY(0.5);
-        }
-    }
+.border { border: 1px solid  rgba(255, 255, 255, 0.4)}
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    .border { border: 0.5px solid  rgba(255, 255, 255, 0.4)}
+}
+@media screen and (-webkit-min-device-pixel-ratio: 3) {
+    .border { border: 0.333333px solid rgba(255, 255, 255, 0.4) }
 }
