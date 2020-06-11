@@ -29,7 +29,7 @@ export default {
         unit: '亿'
     },
     en: {
-        C10: 'Analytical Figure',
+        A10: 'Analytical Figure',
         A11: 'More',
         A12: 'As of ',
         A13: 'Fund Scale',

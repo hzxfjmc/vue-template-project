@@ -99,7 +99,7 @@ export default {
                 } = await getFundAnalysisDataV1(params)
                 this.sharpeRatio3Yr = riskMeasureApiVO.sharpeRatio3Yr
                 this.captureRatioUpside3Yr =
-                    relativeRiskMeasureCategoryApiVO.captureRatioUpside1Yr
+                    relativeRiskMeasureCategoryApiVO.captureRatioUpside3Yr
                 this.maxDrawDown3Yr = riskMeasureApiVO.maxDrawDown3Yr
             } catch (e) {
                 this.$toast(e.msg)

@@ -10,7 +10,7 @@
                     span.item__value {{analyzeData.updateTime}}    
                 .item
                     span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
-                    span.item__value {{(analyzeData.fundSize/100000000).toFixed(2)}} {{$t('unit')}}
+                    span.item__value {{(analyzeData.fundSize/100000000).toFixed(3).slice(0,-1)}} {{$t('unit')}}
         .fund-block
             .fund-block__header
                 .title {{$t('A14')}}
@@ -88,7 +88,7 @@
                     tr
                         td &nbsp;
                         td.value( 
-                            v-for="item,index in keyList3" 
+                            v-for="item,index in keyList4" 
                             :key="`key_${index}`"
                             ) {{styleBoxBreakDown[item] | filterRatio}}
                         td.label {{$t('A29')}}
@@ -256,6 +256,8 @@ export default {
     background-color: $background-bottom-color;
 }
 .fund-info__header {
+    position: sticky;
+    top: 0;
     background-color: $background-color;
     .header__top {
         padding: 20px 12px 14px;
