@@ -10,7 +10,7 @@
                     span.item__value {{analyzeData.updateTime}}    
                 .item
                     span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
-                    span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency)}}
+                    span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency) | filterFundSize}}
         .fund-block
             .fund-block__header
                 .title {{$t('A14')}}
@@ -172,6 +172,9 @@ export default {
         }
     },
     filters: {
+        filterFundSize(val) {
+            return val && val.slice(0, -2)
+        },
         filterRatio(val) {
             return val ? `${Number(val).toFixed(2)}%` : `--`
         },
