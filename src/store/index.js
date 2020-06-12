@@ -9,7 +9,8 @@ import {
     isYouxinAndroid,
     isYouxinApp,
     appType,
-    lang
+    lang,
+    getStockColorType
 } from '@/utils/html-utils'
 // import { alertModule } from '@/utils/common/plugins/vant'
 Vue.use(Vuex)
@@ -129,6 +130,14 @@ export default modules =>
             isYouxinApp: () => isYouxinApp,
             appType: () => appType,
             lang: () => lang, // ['1', 'zhCHS'](简体), ['2', 'zhCHT']（繁体）, ['3', 'en']
-            openedAccount: state => state.user.openedAccount // 是否已开户 true-已开户 false-未开户
+            openedAccount: state => state.user.openedAccount, // 是否已开户 true-已开户 false-未开户
+            stockColorTypeClass: () => {
+                const greenCls = 'color-green'
+                const redCls = 'color-red'
+                return {
+                    up: +getStockColorType() === 1 ? redCls : greenCls,
+                    down: +getStockColorType() === 2 ? redCls : greenCls
+                }
+            }
         }
     })
