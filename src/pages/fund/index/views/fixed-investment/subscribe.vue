@@ -478,7 +478,7 @@ export default {
                     data.fixedPlanCode = this.$route.query.fixedPlanCode
                     await getUpdateFundFixedPlanInfo(data)
                     url = 'my-investment'
-                    this.$toast('修改成功')
+                    this.$toast(this.$t('A91'))
                 } else {
                     res = await hanlderCreateFundFixedPlan(data)
                     url = 'investment-result'
@@ -588,20 +588,32 @@ export default {
                     ])
                 )
             if (isNaN(Number(this.amount)) || Number(this.amount) === 0)
-                return this.$toast('请输入金额')
+                return this.$toast(this.$t('A69'))
             if (
                 this.positionStatus != 1 &&
                 Number(this.amount) < this.fundHeaderInfoVO.initialInvestAmount
             ) {
-                return this.$toast('起投金额太低')
+                return this.$toast(
+                    this.$t([
+                        `最小申购金额为${this.fundHeaderInfoVO.initialInvestAmount}`,
+                        `最小申購金額為${this.fundHeaderInfoVO.initialInvestAmount}`,
+                        `minBugBalance${this.fundHeaderInfoVO.initialInvestAmount}`
+                    ])
+                )
             }
             if (
                 this.positionStatus == 1 &&
                 Number(this.amount) < this.fundHeaderInfoVO.continueInvestAmount
             ) {
-                return this.$toast('续投金额太小')
+                return this.$toast(
+                    this.$t([
+                        `续投金额为${this.fundHeaderInfoVO.continueInvestAmount}`,
+                        `續投金額為${this.fundHeaderInfoVO.continueInvestAmount}`,
+                        `Subsequent${this.fundHeaderInfoVO.continueInvestAmount}`
+                    ])
+                )
             }
-            if (!this.bankInfo.type) return this.$toast('请选择扣款方式')
+            if (!this.bankInfo.type) return this.$toast(this.$t('A17'))
             //判断是否修改内容
             let exchangeFlag = this.exchangeFlag ? 1 : 0
             if (
