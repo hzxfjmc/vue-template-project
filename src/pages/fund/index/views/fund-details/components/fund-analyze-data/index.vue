@@ -10,7 +10,7 @@
                     span.item__value {{analyzeData.updateTime}}    
                 .item
                     span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
-                    span.item__value {{(analyzeData.fundSize/100000000).toFixed(3).slice(0,-1)}} {{$t('unit')}}
+                    span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency)}}
         .fund-block
             .fund-block__header
                 .title {{$t('A14')}}
@@ -121,6 +121,7 @@ import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import i18n from './i18n'
 import { jumpUrl } from '@/utils/tools.js'
+import methodsMixin from '@/pages/fund/index/mixins/fund-common-methods'
 
 const $t = Vue.prototype.$t
 
@@ -143,6 +144,7 @@ export default {
             currency: getCurrencyName
         }
     },
+    mixins: [methodsMixin],
     props: {
         fundId: {
             type: [String, Number],
