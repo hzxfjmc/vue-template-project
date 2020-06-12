@@ -199,7 +199,6 @@ export default {
         // }
         .block__fund--right {
             font-size: 11px;
-            width: 300px;
             text-align: right;
             margin: 5px 0;
             p {
@@ -229,7 +228,7 @@ export default {
             margin: 0 0 0 6px;
         }
         em {
-            padding: 0 12px 0 10px;
+            padding: 0 12px 0 6px;
             color: rgba(25, 25, 25, 0.45);
         }
     }
