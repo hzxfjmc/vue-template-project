@@ -10,39 +10,40 @@
             span {{$t('fundDetails')}}
             em.iconfont.icon-iconEBgengduoCopy
     .block--hold__content
-        .blockk--hold__top  
-            .block--top__item
-                span.top__l {{$t('positionMarketValue')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})
-                .num {{initState.positionMarketValue|transNumToThousandMark}}
-        .block--hold__list
-            .block__item
-                span {{$t('positionShare')}}
-                .num {{initState.positionShare|transNumToThousandMark(4)}}
-            .block__item.block--element_c
-                span {{$t('weekEarnings')}}
-                .num(
-                    v-if="initState.weekEarnings>0" 
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.weekEarnings|transNumToThousandMark}}
-                .num(
-                    v-if="initState.weekEarnings<0" 
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.weekEarnings|transNumToThousandMark}}
-                .num( v-if="initState.weekEarnings==0") {{initState.weekEarnings|transNumToThousandMark}}
-            .block__item.block--element_r
-                span {{$t('profitPosition')}}
-                .num(
-                    v-if="initState.positionEarnings>0" 
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.positionEarnings|transNumToThousandMark}}
-                .num(
-                    v-if="initState.positionEarnings<0" 
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.positionEarnings|transNumToThousandMark}}
-                .num( v-if="initState.positionEarnings==0") {{initState.positionEarnings|transNumToThousandMark}}
-        .block--subscribe__content(@click="JumpUrl('/order-record')")
-            .block__item(v-if="initState.redeemDeliveryShare != 0")
-                span.block_span {{$t('Redemption')}}
-                span.blpck_content {{$t('')}} {{initState.redeemDeliveryShare|transNumToThousandMark}}
-            .block__item(v-if="initState.inTransitAmount != 0")
-                span.block_span {{$t('subscribe')}}
-                span.blpck_content {{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}} {{initState.inTransitAmount|transNumToThousandMark}}
+        .content__inner
+            .blockk--hold__top  
+                .block--top__item
+                    span.top__l {{$t('positionMarketValue')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})
+                    .num {{initState.positionMarketValue|transNumToThousandMark}}
+            .block--hold__list
+                .block__item
+                    span {{$t('positionShare')}}
+                    .num {{initState.positionShare|transNumToThousandMark(4)}}
+                .block__item.block--element_c
+                    span {{$t('weekEarnings')}}
+                    .num(
+                        v-if="initState.weekEarnings>0" 
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.weekEarnings|transNumToThousandMark}}
+                    .num(
+                        v-if="initState.weekEarnings<0" 
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.weekEarnings|transNumToThousandMark}}
+                    .num( v-if="initState.weekEarnings==0") {{initState.weekEarnings|transNumToThousandMark}}
+                .block__item.block--element_r
+                    span {{$t('profitPosition')}}
+                    .num(
+                        v-if="initState.positionEarnings>0" 
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'") +{{initState.positionEarnings|transNumToThousandMark}}
+                    .num(
+                        v-if="initState.positionEarnings<0" 
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{initState.positionEarnings|transNumToThousandMark}}
+                    .num( v-if="initState.positionEarnings==0") {{initState.positionEarnings|transNumToThousandMark}}
+            .block--subscribe__content(@click="JumpUrl('/order-record')")
+                .block__item(v-if="initState.redeemDeliveryShare != 0")
+                    span.block_span {{$t('Redemption')}}
+                    span.blpck_content {{$t('')}} {{initState.redeemDeliveryShare|transNumToThousandMark}}
+                .block__item(v-if="initState.inTransitAmount != 0")
+                    span.block_span {{$t('subscribe')}}
+                    span.blpck_content {{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}} {{initState.inTransitAmount|transNumToThousandMark}}
         .funds-details-footer.border-top
             .block__details--left
                 template(v-if="isMonetaryFund")
@@ -298,7 +299,9 @@ export default {
 .block--hold__content {
     background: #fff;
     margin: 6px 0 0 0;
-    padding: 0 12px;
+    .content__inner {
+        padding: 0 12px;
+    }
 }
 .block--hold__list {
     display: flex;
@@ -398,7 +401,7 @@ export default {
     background: #fff;
     display: flex;
     flex-direction: row;
-    padding: 10px 0;
+    padding: 10px 12px;
     font-size: 11px;
     justify-content: space-between;
     color: $text-color5;

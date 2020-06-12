@@ -233,7 +233,9 @@ export default {
         }
     }
     .list-item-content {
-        padding: 10px 5% 14px 5%;
+        width: 90%;
+        margin: 0 5%;
+        padding: 10px 0 14px 0;
         background: #fff;
         .fund-name {
             font-size: 0.32rem;
