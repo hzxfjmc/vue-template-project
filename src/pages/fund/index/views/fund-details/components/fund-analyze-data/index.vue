@@ -10,7 +10,7 @@
                     span.item__value {{analyzeData.updateTime}}    
                 .item
                     span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
-                    span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency) | filterFundSize}}
+                    span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency,'')}}
         .fund-block
             .fund-block__header
                 .title {{$t('A14')}}
@@ -121,7 +121,6 @@ import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import i18n from './i18n'
 import { jumpUrl } from '@/utils/tools.js'
-import methodsMixin from '@/pages/fund/index/mixins/fund-common-methods'
 
 const $t = Vue.prototype.$t
 
@@ -144,7 +143,6 @@ export default {
             currency: getCurrencyName
         }
     },
-    mixins: [methodsMixin],
     props: {
         fundId: {
             type: [String, Number],
@@ -173,7 +171,7 @@ export default {
     },
     filters: {
         filterFundSize(val) {
-            return val && val.slice(0, -2)
+            return val && val.slice(0, -4)
         },
         filterRatio(val) {
             return val ? `${Number(val).toFixed(2)}%` : `--`
@@ -212,6 +210,55 @@ export default {
         }
     },
     methods: {
+        changeFundSizeLang(fundSize, currey, type) {
+            if (!type) {
+                type = 1
+            }
+            let fundEnSize = ''
+            if (this.lang === 'en' && fundSize < 100000) {
+                fundEnSize = `${Number(fundSize / 1000)
+                    .toFixed(3)
+                    .slice(0, -1)}K`
+                return fundEnSize
+            }
+            if (
+                this.lang === 'en' &&
+                fundSize >= 100000 &&
+                fundSize < 100000000
+            ) {
+                fundEnSize = `${Number(fundSize / 1000000)
+                    .toFixed(3)
+                    .slice(0, -1)}M`
+                return fundEnSize
+            }
+            if (this.lang === 'en' && fundSize >= 100000000) {
+                fundEnSize = `${Number(fundSize / 1000000000)
+                    .toFixed(3)
+                    .slice(0, -1)}B `
+                return fundEnSize
+            }
+            if (fundSize < 100000000 && this.lang != 'en') {
+                return this.$t([
+                    `${Number(fundSize / 10000)
+                        .toFixed(3)
+                        .slice(0, -1)}万`,
+                    `${Number(fundSize / 10000)
+                        .toFixed(3)
+                        .slice(0, -1)}萬`
+                ])
+            }
+            if (fundSize >= 100000000 && this.lang != 'en') {
+                return this.$t([
+                    `${Number(fundSize / 100000000)
+                        .toFixed(3)
+                        .slice(0, -1)}亿`,
+                    `${Number(fundSize / 100000000)
+                        .toFixed(3)
+                        .slice(0, -1)}億`
+                ])
+            }
+        },
+
         getSortStyleBoxData() {
             const styleBoxBreakDownList = []
             let sortList = []
