@@ -29,21 +29,24 @@
             p {{$t('msg1')}}
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
-        .fund-footer-content(v-if="RedemptionButton")
+        .fund-footer-content
             span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
                 s {{defaultRate}}
                 span ）
             .fund-block--content
-                .btn.colorbg.button-5width.btn-inverster(
+                .btn.colorbg.btn-inverster(
+                        v-if="isFundFixedGray"
                         :class="[investmentShow? 'fund-footer':'fund-no']"
                         @click="handleBuyOrSell(4)")
                         span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
                         em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
-                van-button.button-5width.button-left.btn(
+                van-button.button-left.btn(
+                    v-if="RedemptionButton"
                     :class="[flag?'fund-check':'fund-no']" 
                     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-                van-button.btn.button-5width(
+                van-button.btn(
+                    v-if="RedemptionButton"
                     :class="[flag1?'fund-buy':'fund-no']" 
                     @click="toRouter('/fund-subscribe')") {{$t('append')}}
         
@@ -300,6 +303,10 @@ export default {
         FightFundHk
     },
     computed: {
+        isFundFixedGray() {
+            // 基金定投灰度
+            return this.invate !== 'share' && !this.investmentWhiteBit
+        },
         RedemptionButton() {
             /*
              * btnShow 是否持仓
@@ -307,10 +314,7 @@ export default {
              * invate 是否是邀请
              */
             return (
-                this.btnShow &&
-                this.isGrayAuthority &&
-                this.invate !== 'share' &&
-                !this.investmentWhiteBit
+                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
             )
         },
         /*
@@ -324,8 +328,7 @@ export default {
                 this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
-                this.invate !== 'share' &&
-                !this.investmentWhiteBit
+                this.invate !== 'share'
             )
         },
         chsFightButton() {
@@ -1682,6 +1685,9 @@ export default {
 .fund-block--content {
     display: flex;
     flex-direction: row;
+    .btn {
+        flex: 1;
+    }
 }
 .fund-footer-content {
     width: 100%;
