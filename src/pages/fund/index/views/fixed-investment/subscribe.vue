@@ -91,7 +91,7 @@
         .block__footer--loading(v-if="loading")
             Loading(type="spinner" color="#2F79FF")
         van-dialog(v-model="show" :title="$t('A106')" :confirmButtonText="$t('iknow')")
-            .block--content
+            .block--content.van-dialog__message--has-title
                 .block--list--item
                     .left {{$t('A105')}}
                     .right {{Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}}%
