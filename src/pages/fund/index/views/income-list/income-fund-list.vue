@@ -2,14 +2,14 @@
 .block__fund-list--wrapper
     .block__header--apy
         .block__left--num
-            span {{activeName===0?$t('hkd'):$t('usd')}}{{$t('positionEarnings')}}({{activeName===0?$t('hkd'):$t('usd')}})
+            span {{$t('positionEarnings')}}({{activeName===0?$t('hkd'):$t('usd')}})
             .num(
                 v-if="holdStateData.earnings>0"
                 :class="stockColorType === 1 ? 'color-red' : 'color-green'") +{{holdStateData.earnings|transNumToThousandMark}} 
             .num(
                 v-if="holdStateData.earnings<0"
                 :class="stockColorType === 1 ? 'color-green' : 'color-red'") {{holdStateData.earnings|transNumToThousandMark}} 
-            .num(v-if="holdStateData.earnings==0") {{holdStateData.earnings|transNumToThousandMark}} 
+            .num(v-if="holdStateData.earnings==0") 0.00 
     .block__hr
     .block__list--wrapper
         .block__list--item.border-bottom(

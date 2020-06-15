@@ -40,7 +40,7 @@
             .block--subscribe__content(@click="JumpUrl('/order-record')")
                 .block__item(v-if="initState.redeemDeliveryShare != 0")
                     span.block_span {{$t('Redemption')}}
-                    span.blpck_content {{$t('')}} {{initState.redeemDeliveryShare|transNumToThousandMark}}
+                    span.blpck_content {{$t(['份额','份額','Units'])}} {{initState.redeemDeliveryShare|transNumToThousandMark}}
                 .block__item(v-if="initState.inTransitAmount != 0")
                     span.block_span {{$t('subscribe')}}
                     span.blpck_content {{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}} {{initState.inTransitAmount|transNumToThousandMark}}
