@@ -317,10 +317,13 @@
         justify-content: space-between;
         padding-bottom:10px;
         .left{
+            flex: 5;
             color:#191919;
             opacity: 0.5;
         }
         .right{
+            flex: 1;
+            text-align: left;
             color:rgba(25,25,25,1);
         }
     }
