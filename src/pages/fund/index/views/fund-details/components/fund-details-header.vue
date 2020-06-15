@@ -202,7 +202,7 @@ export default {
         },
         toFundRisk() {
             let params = getUaValue('langType')
-            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-risk-level?fundRiskType=${this.fundHeaderInfoVO.fundRiskType}`
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-risk-level?fundRiskType=${this.fundHeaderInfoVO.fundRiskType}&id=${this.fundHeaderInfoVO.fundId}`
             jumpUrl(3, url)
         }
     },

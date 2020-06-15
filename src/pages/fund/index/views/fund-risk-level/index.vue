@@ -31,11 +31,13 @@
             .fund-block__userRisk(v-if="userRiskLevel")
                 .fund-risk__header
                     .title {{this.$t('userRiskLevel')}}
-                    .content {{this.$t('growth')}}
-                    .tips.user(@click="userTipsHandle")
+                    .content {{this.$t(userRiskType)}}
+                    .tips.user(
+                        v-if="this.userRiskLevel === 1"
+                        @click="userTipsHandle")
                         span 易受损客户
                         span.iconfont.icon-icon_fund_index_2
-                    .desc {{this.$t('A4')}}
+                    .desc {{this.$t(`A${userRiskLevel}`)}}
                 table.table
                     tr
                         th {{this.$t('riskTolerance')}}
@@ -59,6 +61,7 @@
                 van-button(
                     type="primary" 
                     size="large"
+                    @click="handleAction"
                 ) 重新评测
             van-dialog(
                 v-model = "show"
@@ -111,6 +114,16 @@ export default {
         cancel() {
             this.show = false
         },
+        handleAction() {
+            this.$router.push({
+                path: '/risk-assessment',
+                query: {
+                    id: this.$route.query.id,
+                    fundRiskType: this.$route.query.fundRiskType,
+                    displayLocation: 1
+                }
+            })
+        },
         async handleRiskAssessResult() {
             try {
                 let res = await riskAssessResult()
@@ -125,7 +138,7 @@ export default {
     },
     computed: {
         fundRiskType() {
-            let fundRiskType = this.$route.query.fundRiskType
+            let fundRiskType = this.$route.query.fundRiskType || 0
             const riskTypeList = [
                 'lowRsik',
                 'mediumLowRisk',
@@ -134,6 +147,16 @@ export default {
                 'highRisk'
             ]
             return riskTypeList[Number(fundRiskType) - 1]
+        },
+        userRiskType() {
+            const userRiskTypeList = [
+                'conservative',
+                'stable',
+                'balanced',
+                'growth',
+                'aggressive'
+            ]
+            return userRiskTypeList[this.userRiskLevel - 1]
         }
     }
 }
