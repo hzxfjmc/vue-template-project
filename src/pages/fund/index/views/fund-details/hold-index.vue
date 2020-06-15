@@ -1333,7 +1333,7 @@ export default {
             'appVisible',
             'appInvisible'
         )
-        this.setShareButton()
+        //this.setShareButton()
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
