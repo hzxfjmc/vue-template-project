@@ -61,8 +61,9 @@
     }
     .van-dialog {
         width: 285px;
+        border-radius:10px;
         .van-button {
-            font-size: 14px;
+            font-size: 16px;
         }
     }
     .van-tag::after {
@@ -171,9 +172,26 @@ body {
   }
 }
 
+/*弹窗样式规范*/
+.van-dialog {
+    border-radius:10px;
+    .van-button {
+        font-size: 16px;
+    }
+}
 .van-dialog__header{
     padding-top: 20px;
+    font-weight: 400;
 }
+
+.van-dialog__message{
+    padding-left: 16px;
+    padding-right: 16px;
+}
+.van-dialog__message--has-title{
+    padding: 6px 16px 20px;   
+}
+
 // .van-hairline--top-bottom{
 //     position: absolute !important;
 // }
