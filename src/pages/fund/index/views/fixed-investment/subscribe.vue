@@ -624,9 +624,13 @@ export default {
                 this.fixedCycleTypeObj.value ==
                     this.fixedFundInfo.fixedCycleValue &&
                 exchangeFlag == this.fixedFundInfo.exchangeFlag &&
-                this.bankInfo.type == this.fixedFundInfo.chargeType
+                this.bankInfo.type == this.fixedFundInfo.chargeType &&
+                this.bankInfo.bankAccountNo ==
+                    this.fixedFundInfo.eddaBankAccount
             ) {
-                return this.$toast('未做任何修改')
+                return this.$toast(
+                    this.$t(['未做任何修改', '未做任何修改', 'No Change Made'])
+                )
             }
             if (
                 this.$route.query.type == 2 &&
@@ -637,10 +641,12 @@ export default {
                     this.fixedFundInfo.fixedCycleValue &&
                 exchangeFlag == this.fixedFundInfo.exchangeFlag &&
                 this.bankInfo.type == this.fixedFundInfo.chargeType &&
-                this.bankInfo.eddaBankAccount ==
+                this.bankInfo.bankAccountNo ==
                     this.fixedFundInfo.eddaBankAccount
             ) {
-                return this.$toast('未做任何修改')
+                return this.$toast(
+                    this.$t(['未做任何修改', '未做任何修改', 'No Change Made'])
+                )
             }
 
             if (this.derivativeType != 1) {
