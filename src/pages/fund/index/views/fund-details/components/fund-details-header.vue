@@ -30,7 +30,9 @@
             p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
         fund-tag(:title="fundHeaderInfoVO.assetTypeName")
-        fund-tag(:title="fundHeaderInfoVO.fundRisk")
+        fund-tag(
+            :title="fundHeaderInfoVO.fundRisk"
+            @toFundRisk="toFundRisk")
         fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
         //- .block__details--left
         //-     template(v-if="isMonetaryFund")
@@ -55,6 +57,8 @@ import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 import fundTag from '@/biz-components/fund-tag/index.vue'
+import { jumpUrl } from '@/utils/tools.js'
+import { getUaValue } from '@/utils/html-utils'
 export default {
     components: {
         [Tag.name]: Tag,
@@ -195,6 +199,11 @@ export default {
                 confirmButtonColor: '#3c78fa',
                 messageAlign: 'left'
             })
+        },
+        toFundRisk() {
+            let params = getUaValue('langType')
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-risk-level?fundRiskType=${this.fundHeaderInfoVO.fundRiskType}`
+            jumpUrl(3, url)
         }
     },
     computed: {

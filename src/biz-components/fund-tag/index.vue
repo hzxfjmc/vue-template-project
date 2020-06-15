@@ -1,5 +1,5 @@
 <template lang="pug">
-    .fund-tag
+    .fund-tag(@click="handleClick")
         van-tag(
             color="#2177FF"
             plain
@@ -17,6 +17,11 @@ export default {
         title: {
             type: String,
             default: ''
+        }
+    },
+    methods: {
+        handleClick() {
+            this.$emit('toFundRisk')
         }
     }
 }
