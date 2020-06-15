@@ -131,14 +131,17 @@ export default {
         },
         //跳转
         toInvestmentDetails(item) {
-            this.$router.push({
-                name: 'investment-detail',
-                query: {
-                    fixedPlanCode: item.fixedPlanCode,
-                    id: item.fundId,
-                    investNum: item.investNum
+            let url = `${window.location.origin}/wealth/fund/index.html#/investment-detail`
+            let queryString = ''
+            ;['fixedPlanCode', 'id', 'investNum'].forEach(key => {
+                if (key === 'id') {
+                    queryString += `${key}=${item['fundId']}&`
+                } else {
+                    queryString += `${key}=${item[key]}&`
                 }
             })
+            url = `${url}?${queryString.slice(0, -1)}`
+            jumpUrl('', url)
         },
         //定投计划列表
         async getFundFixedPlanPage() {
