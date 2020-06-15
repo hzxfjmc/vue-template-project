@@ -8,7 +8,7 @@
         .num(
             v-if="positionInfo.positionEarnings<0"
             :class="stockColorType === 1 ?'element-price-green':'element-price-red'") {{positionInfo.positionEarnings}}
-        .num(v-if="positionInfo.positionEarnings==0") {{positionInfo.positionEarnings}}
+        .num(v-if="positionInfo.positionEarnings==0") 0.00
         span.hr
     van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="finishedText" @load="onLoad") 
         .block__title.border-bottom
