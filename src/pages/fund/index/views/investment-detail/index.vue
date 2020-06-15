@@ -359,10 +359,10 @@ export default {
             padding: 14px 12px 10px 12px;
             border-bottom: 1px solid rgba($background-color, 0.05);
             .header_info_left {
+                width: 90%;
                 .name {
                     color: $background-color;
                     font-size: 16px;
-                    width: 70%;
                 }
                 .code {
                     color: rgba($background-color, 0.4);
@@ -465,12 +465,12 @@ export default {
     .investment__detail__tag {
         margin: 0 12px;
         display: flex;
-        padding: 0 12px;
-        justify-content: space-between;
+        justify-content: space-evenly;
         .investment__detail__tag_item {
             display: flex;
             align-items: center;
             height: 48px;
+            padding: 0 10px;
             img {
                 width: 15px;
                 height: 15px;
