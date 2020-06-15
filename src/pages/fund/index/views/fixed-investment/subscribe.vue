@@ -70,12 +70,12 @@
                             p {{$t([`下个转入日${date}`,`下個轉入日${date}`,`Next Debit Date ${date}`])}}
                            
                         
-            .fund-footer-content
-                .protocol
-                    .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
-                    .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
-                    .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
-                van-button(@click="handlerSubmitFilter") {{$t('A104')}}
+        .fund-footer-content
+            .protocol
+                .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
+                .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
+                .protocol__button.iconfont.icon-iconshouqi(@click="showProtocol")
+            van-button(@click="handlerSubmitFilter") {{$t('A104')}}
         
         picker(
             v-model="showBankType"
