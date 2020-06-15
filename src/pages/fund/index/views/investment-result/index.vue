@@ -29,7 +29,7 @@
 </template>
 <script>
 import dayjs from 'dayjs'
-import { gotoNewWebView } from '@/utils/js-bridge.js'
+import jsBridge from '@/utils/js-bridge.js'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     data() {
@@ -68,9 +68,10 @@ export default {
                 : this.$t(['每月', '每月', 'Monthly'])
     },
     methods: {
-        toRouterPath(path) {
-            let url = `${window.location.origin}/wealth/fund/index.html#${path}?currency=${this.currency}`
-            gotoNewWebView(url)
+        toRouterPath() {
+            jsBridge.callApp('command_close_webview')
+            // let url = `${window.location.origin}/wealth/fund/index.html#${path}?currency=${this.currency}`
+            // gotoNewWebView(url)
         }
     }
 }

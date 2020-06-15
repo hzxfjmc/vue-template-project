@@ -131,6 +131,7 @@ import { queryMandateBank } from '@/service/stock-capital-server'
 
 import './index.scss'
 import dayjs from 'dayjs'
+
 export default {
     name: 'subscribe',
     components: {
@@ -478,7 +479,6 @@ export default {
                     data.fixedPlanCode = this.$route.query.fixedPlanCode
                     await getUpdateFundFixedPlanInfo(data)
                     url = 'my-investment'
-                    this.$toast(this.$t('A91'))
                 } else {
                     res = await hanlderCreateFundFixedPlan(data)
                     url = 'investment-result'
@@ -487,10 +487,19 @@ export default {
                 if (data.chargeType == 1) {
                     res.bankName = this.bankList[0].bankName
                 }
-                this.$router.push({
-                    query: res,
-                    name: url
-                })
+                if (url === 'my-investment') {
+                    this.$imgToast({
+                        message: this.$t('A91'),
+                        cb: () => {
+                            jsBridge.callApp('command_close_webview')
+                        }
+                    })
+                } else {
+                    this.$router.push({
+                        query: res,
+                        name: url
+                    })
+                }
                 // }
             } catch (e) {
                 console.log(e)
