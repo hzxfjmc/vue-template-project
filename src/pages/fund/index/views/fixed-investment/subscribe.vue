@@ -94,7 +94,7 @@
             .block--content
                 .block--list--item
                     .left {{$t('A105')}}
-                    .right {{Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}}%
+                    .right {{Number((1-fundFixedFeeVO.feeDiscount)*100).toFixed(2)}}%
                 .block--list--item
                     .left {{$t('A10')}}
                     .right {{$t([`第${fundFixedFeeVO.feeRefund}期`,`第${fundFixedFeeVO.feeRefund}期`,`Issue ${fundFixedFeeVO.feeRefund}`])}}
