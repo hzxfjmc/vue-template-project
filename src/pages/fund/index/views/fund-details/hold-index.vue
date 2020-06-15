@@ -1252,6 +1252,8 @@ export default {
             await this.$store.dispatch('initAction')
             if (this.isLogin) {
                 await this.getFundUserInfo()
+                await this.getFundDetail()
+                await this.getFundPositionV2()
             }
         },
         init18inState() {

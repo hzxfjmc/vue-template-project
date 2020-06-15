@@ -42,10 +42,11 @@ import fundList from './components/fund-list'
 import { getFundPositionListV3 } from '@/service/finance-server'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import LS from '@/utils/local-storage'
-import { gotoNewWebView } from '@/utils/js-bridge.js'
+import jsBridge, { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { enumCurrency } from '@/pages/fund/index/map'
 import { getSource } from '@/service/customer-relationship-server'
+import { debounce } from '@/utils/tools.js'
 export default {
     data() {
         return {
@@ -148,14 +149,35 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            this.init()
+        },
+        init() {
+            this.currency =
+                LS.get('activeTab') === 0 ? enumCurrency.HKD : enumCurrency.USD
+            this.getFundPositionListV3()
+            this.getSource()
+            this.getFundUserInfo()
         }
     },
     created() {
-        this.currency =
-            LS.get('activeTab') === 0 ? enumCurrency.HKD : enumCurrency.USD
-        this.getFundPositionListV3()
-        this.getSource()
-        this.getFundUserInfo()
+        this.init()
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.appVisibleHandle, 300)
     }
 }
 </script>
