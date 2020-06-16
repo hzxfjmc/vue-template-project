@@ -33,7 +33,7 @@
                     .title {{this.$t('userRiskLevel')}}
                     .content {{this.$t(userRiskType)}}
                     .tips.user(
-                        v-if="this.userRiskLevel === 1"
+                        v-if="damagedStatus"
                         @click="userTipsHandle")
                         span 易受损客户
                         span.iconfont.icon-icon_fund_index_2
@@ -73,7 +73,7 @@
                     .typeUser {{this.$t(['你为“易受损客户”','',''])}}
                     .content {{this.$t(['什么是易损型用户?'])}}
                         ul
-                            li(v-for="(index, item) in this.$t('vulnerableList')" :key="index") {{item}}
+                            li(v-for="(item, index) in this.$t('vulnerableList')" :key="index") {{item}}
                     .description {{this.$t('description')}}
                     .info {{this.$t('info')}}
                     van-button(
@@ -91,7 +91,8 @@ export default {
     data() {
         return {
             show: false,
-            userRiskLevel: null
+            userRiskLevel: null,
+            damagedStatus: null
         }
     },
     components: {
@@ -128,6 +129,7 @@ export default {
             try {
                 let res = await riskAssessResult()
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
+                this.damagedStatus = res.damagedStatus || 0
             } catch (e) {
                 if (e.msg) {
                     this.$alert(e.msg)
@@ -189,7 +191,7 @@ export default {
         color: rgba(47, 121, 255, 1);
         background-color: #e0f2ff;
         &.user {
-            width: 90px;
+            width: 95px;
         }
         .iconfont {
             margin-left: 4px;
