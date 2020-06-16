@@ -1,4 +1,4 @@
-export const TRADE_TYPE = {
+export const TRADE_TYPES = {
     // 申购
     SUBSCRIBE: 1,
     // 赎回
@@ -20,4 +20,11 @@ export const ORDER_STATUS = {
     FAILED: 4,
     // 交易成功
     SUCCEED: 5
+}
+
+export const accountTypeMap = {
+    // 现金
+    CASH: 1,
+    // 融资
+    FINANCING: 2
 }

@@ -10,37 +10,43 @@
                 :beginTime='beginTime' 
                 :endTime='endTime' 
                 :tradeType='tradeType' 
-                v-if="[1,2].includes(orderStatus)")
+                v-if="orderFlag")
             van-cell-group(class="order-group")
                 van-cell(class="order-time")
-                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="!orderFlag")
                         span.itemName {{$t('orderStatus')}}
                         span(:class='differenceColor') {{orderStatusValue}}
-                    .order-item.flex(v-if="orderStatus===4")
+                    .order-item.flex(v-if="orderStatus===ORDER_STATUS.FAILED")
                         span.itemName {{$t('failedRemark')}}
                         span.block-right {{failedRemarkValue}}
                     .order-item.flex
                         span.itemName {{$t('orderTime')}}
                         span.block-right {{orderTimeValue}}
-                    .order-item.flex(v-if="![1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="!orderFlag")
                         span.itemName {{$t('orderFinish')}}
                         span {{orderFinishValue}}
                     .order-item.flex
                         span.itemName {{$t('orderNum')}}
                         span {{orderNumValue}}
-                    .order-item.flex(v-if="[1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="orderFlag")
                             span.itemName {{$t('orderName')}}
                             span.type {{orderType}}
-                    .order-item.flex(v-if="orderShare != 0 && [1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="orderShare != 0 && orderFlag")
                         span.itemName {{$t('orderShares')}}
-                        span {{orderShare|transNumToThousandMark(4)}} 
-                    .order-item.flex(v-if="netPrice && [1,2].includes(orderStatus)")
+                        span {{orderShare|transNumToThousandMark(4)}}
+                    .order-item.flex(v-if="(tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest) && ORDER_STATUS.SUCCEED === orderStatus")
+                        span.itemName {{$t('confirmOrderShares')}}
+                        span {{orderShare|transNumToThousandMark(4)}}
+                    .order-item.flex(v-if="netPrice && orderFlag")
                         span.itemName {{$t('orderNetWorth')}}
                         span {{netPrice|transNumToThousandMark(4)}}
-                    .order-item.flex(v-if="moneyNum != 0 && [1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="moneyNum != 0 && orderFlag")
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
-                van-cell(class="order-time" v-if="![1,2].includes(orderStatus)")
+                    .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE")
+                        span.itemName {{$t('fee')}}
+                        span.type-text {{orderFee|transNumToThousandMark}}
+                van-cell(class="order-time" v-if="!orderFlag")
                     .order-item.flex()
                         span.itemName {{$t('orderName')}}
                         span.type {{orderType}}
@@ -56,6 +62,12 @@
                     .order-item.flex(v-if="orderFee")
                             span.itemName {{$t('orderFree')}}
                             span.type {{orderFee|transNumToThousandMark}}
+                    .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
+                        span.itemName {{$t('debitWay')}}
+                        span.type {{accountTypeFilter(accountType)}}
+                    .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
+                        span.itemName {{$t('orderAmount')}}
+                        span.type {{(moneyNum + orderFee)|transNumToThousandMark}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('confirmButtonText')" @confirm='confirmBackoutHandle')
@@ -74,6 +86,7 @@ import dayjs from 'dayjs'
 import { i18nOrderStatusData } from './order-status-detail-i18n'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { differColor } from '../order-record/differColor.js'
+import { TRADE_TYPES, accountTypeMap, ORDER_STATUS } from './map'
 
 export default {
     i18n: i18nOrderStatusData,
@@ -134,7 +147,17 @@ export default {
             fundRiskType: '',
             fundTradeInfoVO: {},
             fundHeaderInfoVO: {},
-            fundOverviewInfoVO: {}
+            fundOverviewInfoVO: {},
+            TRADE_TYPES,
+            accountType: '',
+            fixedInvest: false
+        }
+    },
+    computed: {
+        orderFlag() {
+            return [ORDER_STATUS.CONFIRMING, ORDER_STATUS.DEALING].includes(
+                this.orderStatus
+            )
         }
     },
     filters: {
@@ -197,6 +220,8 @@ export default {
                 this.failedRemarkValue = res.rejectReason || '--'
                 this.allowRevoke = res.allowRevoke
                 this.orderFee = res.orderFee
+                this.accountType = res.accountType
+                this.fixedInvest = res.fixedInvest
                 if (this.orderStatus === 1 && this.allowRevoke) {
                     this.setTitleBarBOButton()
                 }
@@ -425,6 +450,14 @@ export default {
                     clickCallback: ''
                 })
             }
+        },
+        accountTypeFilter(v) {
+            let accountStr =
+                (v === accountTypeMap.CASH && this.$t('cashAccount')) ||
+                (v === accountTypeMap.FINANCING &&
+                    this.$t('financingAccount')) ||
+                ''
+            return this.currency + accountStr
         }
     },
     beforeRouteLeave(to, from, next) {

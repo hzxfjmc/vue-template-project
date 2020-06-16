@@ -13,13 +13,14 @@ export const i18nOrderStatusData = {
         cancelButtonText: '取消',
         confirmButtonText: '确认',
         backoutBtnText: '撤销',
-        orderFree: '费用',
         beConfirmed: '待确认',
         failedRemark: '订单失败原因',
         fee: '手续费',
         debitWay: '扣款方式',
-        orderFee: '订单金额',
-        confirmOrderShares: '确认份额'
+        orderAmount: '订单金额',
+        confirmOrderShares: '确认份额',
+        cashAccount: '现金账户',
+        financingAccount: '融资账户'
     },
     zhCHT: {
         amount: '申購金額',
@@ -35,13 +36,14 @@ export const i18nOrderStatusData = {
         cancelButtonText: '取消',
         confirmButtonText: '確認',
         backoutBtnText: '撤銷',
-        orderFree: '費用',
         beConfirmed: '待確認',
         failedRemark: '訂單失敗原因',
         fee: '手續費',
-        debit: '扣款方式',
-        orderFee: '訂單金額',
-        confirmOrderShares: '確認份額'
+        debitWay: '扣款方式',
+        orderAmount: '訂單金額',
+        confirmOrderShares: '確認份額',
+        cashAccount: '現金賬戶',
+        financingAccount: '融資賬戶'
     },
     en: {
         amount: 'Subscription Investment Amount',
@@ -57,12 +59,13 @@ export const i18nOrderStatusData = {
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Confirm',
         backoutBtnText: 'Cancel',
-        orderFree: 'Cost',
         beConfirmed: 'To Be Confirmed',
         failedRemark: 'Reason',
         fee: 'Fee',
-        debit: 'Debit Way',
-        orderFee: 'Order Fee',
-        confirmOrderShares: 'Confirm Units'
+        debitWay: 'Debit Way',
+        orderAmount: 'Order Fee',
+        confirmOrderShares: 'Confirm Units',
+        cashAccount: 'Cash Account',
+        financingAccount: 'Financing Account'
     }
 }
