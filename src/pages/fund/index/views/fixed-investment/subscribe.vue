@@ -588,7 +588,7 @@ export default {
             })
         },
         async handlerSubmitFilter() {
-            if (!this.isCheckedProtocol)
+            if (!this.isCheckedProtocol) {
                 return this.$toast(
                     this.$t([
                         `请阅读并勾选相关协议`,
@@ -596,17 +596,25 @@ export default {
                         `Please read and check the relevant agreements`
                     ])
                 )
-            if (isNaN(Number(this.amount)) || Number(this.amount) === 0)
+            }
+            if (isNaN(Number(this.amount)) || Number(this.amount) === 0) {
                 return this.$toast(this.$t('A69'))
+            }
             if (
                 this.positionStatus != 1 &&
                 Number(this.amount) < this.fundHeaderInfoVO.initialInvestAmount
             ) {
                 return this.$toast(
                     this.$t([
-                        `最小申购金额为${this.fundHeaderInfoVO.initialInvestAmount}`,
-                        `最小申購金額為${this.fundHeaderInfoVO.initialInvestAmount}`,
-                        `minBugBalance${this.fundHeaderInfoVO.initialInvestAmount}`
+                        `最小申购金额为${Number(
+                            this.fundHeaderInfoVO.initialInvestAmount
+                        ).toFixed(2)}`,
+                        `最小申購金額為${Number(
+                            this.fundHeaderInfoVO.initialInvestAmount
+                        ).toFixed(2)}`,
+                        `minBugBalance${Number(
+                            this.fundHeaderInfoVO.initialInvestAmount
+                        ).toFixed(2)}`
                     ])
                 )
             }
@@ -616,9 +624,15 @@ export default {
             ) {
                 return this.$toast(
                     this.$t([
-                        `续投金额为${this.fundHeaderInfoVO.continueInvestAmount}`,
-                        `續投金額為${this.fundHeaderInfoVO.continueInvestAmount}`,
-                        `Subsequent${this.fundHeaderInfoVO.continueInvestAmount}`
+                        `续投金额为${Number(
+                            this.fundHeaderInfoVO.continueInvestAmount
+                        ).toFixed(2)}`,
+                        `續投金額為${Number(
+                            this.fundHeaderInfoVO.continueInvestAmount
+                        ).toFixed(2)}`,
+                        `Subsequent${Number(
+                            this.fundHeaderInfoVO.continueInvestAmount
+                        ).toFixed(2)}`
                     ])
                 )
             }
@@ -745,7 +759,9 @@ export default {
                 if (this.fundTradeInfoVO.continueInvestAmount === undefined) {
                     this.fundTradeInfoVO.continueInvestAmount = 0
                 }
+                this.fundHeaderInfoVO.continueInvestAmount = this.fundTradeInfoVO.continueInvestAmount
                 this.derivativeType = fundOverviewInfoVO.derivativeType
+
                 this.placeholder = `${
                     this.positionStatus != 1
                         ? Number(
