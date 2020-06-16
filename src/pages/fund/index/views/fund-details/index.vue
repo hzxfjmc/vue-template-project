@@ -1023,22 +1023,25 @@ export default {
                 })
                 this.copyinitEchartList = dataList
                 this.initEchartList = []
-                dataList.forEach(item => {
-                    Object.keys(item).forEach(key => {
-                        if (key !== 'belongDay') {
-                            const typeMap = {
-                                thisFundPointData: '本基金',
-                                categoryPointData: '同类平均',
-                                benchmarkPointData: 'benchmark'
+                dataList.length &&
+                    dataList.forEach(item => {
+                        Object.keys(item).forEach(key => {
+                            if (key !== 'belongDay') {
+                                const typeMap = {
+                                    thisFundPointData: '本基金',
+                                    categoryPointData: '同类平均',
+                                    benchmarkPointData: 'benchmark'
+                                }
+                                if (item[key] !== null) {
+                                    this.initEchartList.push({
+                                        type: typeMap[key],
+                                        pointData: item[key],
+                                        belongDay: item.belongDay
+                                    })
+                                }
                             }
-                            this.initEchartList.push({
-                                type: typeMap[key],
-                                pointData: item[key],
-                                belongDay: item.belongDay
-                            })
-                        }
+                        })
                     })
-                })
                 console.log(this.initEchartList)
                 let month = {
                     1: '1个月',

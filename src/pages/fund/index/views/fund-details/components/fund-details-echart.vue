@@ -59,33 +59,6 @@
             .block__list--more(@click="toFundHistory")
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
-        .block__fund--title(v-if="fundHeaderInfoVO.assetType != 4") 
-            span {{tabObj.label}}{{$t('incomeRate')}}：
-            span(
-                :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                v-if="tabObj.value>0") +{{tabObj.value}}%
-            span(
-                :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                v-else-if="tabObj.value<0") {{tabObj.value}}%
-            span(v-else) {{tabObj.value}}%
-        .fund-echart-header(v-if="masterShow")
-            .header-left  {{$t('time')}}：{{masterData.belongDay}}
-            .header-right
-                span.number(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType === 4") +{{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType !== 4") +{{Number(masterData.pointData)| sliceFixedTwo(2)}}%
-                span.number(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
-                span.number(v-if="masterData.pointData==0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number(v-if="masterData.pointData===0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
-                p.day {{fundHeaderInfoVO.assetType === 4 ? $t('yieldInLast7d'):$t('nav')}}：
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
         .fund-date-list
@@ -101,6 +74,7 @@ import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import { FUND_ASSET_TYPE } from '@/pages/fund/index/map'
+import { cloneDeep, values } from 'lodash'
 export default {
     i18n: {
         zhCHS: {
@@ -259,7 +233,6 @@ export default {
             if (this.initEchartList.length === 0) return
             this.chart.source(this.initEchartList, {
                 pointData: {
-                    alias: '今日净值',
                     tickCount: 5,
                     formatter: val => {
                         if (this.fundHeaderInfoVO.assetType === 4) {
@@ -296,19 +269,32 @@ export default {
             })
             this.chart.tooltip({
                 showCrosshairs: true,
-                custom: true, // 自定义 tooltip 内容框
+                custom: true,
                 onChange: obj => {
-                    this.masterData = obj.items[0].origin
-                    this.masterData.belongDay = dayjs(
-                        this.masterData.belongDay
-                    ).format('YYYY-MM-DD')
-                    this.masterShow = true
-                    this.flag = true
+                    const legend = this.chart.get('legendController').legends
+                        .top[0]
+                    const tooltipItems = obj.items
+                    const legendItems = legend.items
+                    const map = {}
+                    legendItems.forEach(function(item) {
+                        map[item.name] = cloneDeep(item)
+                    })
+                    tooltipItems.forEach(function(item) {
+                        const name = item.name
+                        const value = item.value
+                        if (map[name]) {
+                            map[name].value = value
+                        }
+                    })
+                    console.log(tooltipItems)
+                    console.log(legendItems)
+                    console.log(values(map))
+                    legend.setItems(values(map))
                 },
                 onHide: () => {
-                    setTimeout(() => {
-                        this.masterShow = false
-                    }, 2000)
+                    const legend = this.chart.get('legendController').legends
+                        .top[0]
+                    legend.setItems(this.chart.getLegendItems().country)
                 }
             })
             this.chart
@@ -337,13 +323,14 @@ export default {
         }
     },
     watch: {
-        initEchartList() {
+        initEchartList(val) {
             let cavas = document.createElement('canvas')
             this.$refs.renderEchart.innerHTML = ''
             cavas.id = this.chartId
             this.$refs.renderEchart.appendChild(cavas)
             let canvaStyle = document.querySelector(`#${this.chartId}`)
             canvaStyle.style.width = '100%'
+            if (val.length === 0) return
             this.draw(this.chartId)
             this.chart.render()
         }
