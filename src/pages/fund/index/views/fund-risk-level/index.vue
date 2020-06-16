@@ -3,7 +3,10 @@
         .fund-risk__header
             .title {{this.$t('fundRiskLevel')}}
             .content {{this.$t(fundRiskType)}}
-            .tips(@click="fundTipsHandle") 
+            .tips(
+                v-if="tagsShow"
+                @click="fundTipsHandle" 
+                ) 
                 span {{this.$t('riskTips')}}
                 span.iconfont.icon-icon_fund_index_2   
             .desc {{this.$t(`R${this.$route.query.fundRiskType}`)}}
@@ -70,8 +73,8 @@
                 .alert-wrap
                     .type {{this.$t('conservative')}}
                     .typeDesc {{this.$t('A1')}}
-                    .typeUser {{this.$t(['你为“易受损客户”','',''])}}
-                    .content {{this.$t(['什么是易损型用户?'])}}
+                    .typeUser {{this.$t(['您为“易受损客户”','您為“易受損客戶”','You are vulnerable client'])}}
+                    .content {{this.$t(['什么是易损型用户?','什麽是易損型用戶?','What is vulnerable client'])}}
                         ul
                             li(v-for="(item, index) in this.$t('vulnerableList')" :key="index") {{item}}
                     .description {{this.$t('description')}}
@@ -159,6 +162,13 @@ export default {
                 'aggressive'
             ]
             return userRiskTypeList[this.userRiskLevel - 1]
+        },
+        tagsShow() {
+            if (this.$route.query.tagsShow === 'true') {
+                return true
+            } else {
+                return false
+            }
         }
     }
 }
@@ -173,7 +183,7 @@ export default {
     padding: 14px;
     background-color: #fff;
     .title {
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         font-size: 16px;
         margin-left: -14px;
         padding-left: 10px;
@@ -184,7 +194,7 @@ export default {
     .tips {
         width: 150px;
         height: 20px;
-        margin-bottom: 20px;
+        margin-bottom: 15px;
         text-align: center;
         border-radius: 2px;
         font-size: 14px;

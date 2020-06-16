@@ -26,7 +26,7 @@
                 :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{apy}}%
             p(v-else) {{apy}}%
         .header-right
-            span {{isMonetaryFund ? $t('rtn10K') : $t('purchase')}}
+            span {{isMonetaryFund ? $t('tenKRTN') : $t('purchase')}}
             span(v-if="!isMonetaryFund") （{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
@@ -78,7 +78,6 @@ export default {
             fundPrice: '基金净值',
             minInvestment: '起投金额',
             purchase: '单位净值',
-            rtn10K: '万元收益',
             update: '更新时间',
             oneYearShow: '近一年涨跌幅',
             yieldInLast7d: '近七日年化',
@@ -107,7 +106,6 @@ export default {
             hkd: '港幣',
             usd: '美元',
             purchase: '基金價格',
-            rtn10K: '萬元收益',
             update: '更新時間',
             iknow: '我知道了',
             hasRate: '晨星評級',
@@ -132,7 +130,6 @@ export default {
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',
             purchase: 'NAV',
-            rtn10K: '10K Rtn',
             update: 'Update Time',
             iknow: 'Got it',
             hasRate: 'MorningStar Rating',
@@ -208,7 +205,7 @@ export default {
         },
         toFundRisk() {
             let params = getUaValue('langType')
-            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-risk-level?fundRiskType=${this.fundHeaderInfoVO.fundRiskType}&id=${this.fundHeaderInfoVO.fundId}`
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-risk-level?fundRiskType=${this.fundHeaderInfoVO.fundRiskType}&id=${this.fundHeaderInfoVO.fundId}&tagsShow=${this.tagShow}`
             jumpUrl(3, url)
         },
         toFundType() {
