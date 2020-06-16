@@ -9,14 +9,17 @@
             :fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
-          @chooseTime = "getFundApyPointV1"
+          @chooseTime = "getFundApyPoint"
           :step="step"
           :timeList="timeList"
           :tabObj="tabObj"
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
-
+        FundAnnualizedIncome(
+            v-if="fundHeaderInfoVO.fundId"
+            :fundId="fundHeaderInfoVO.fundId"
+        )
         HoldfundDetails(
             v-if="holdDetailsShow"
             :initState="holdInitState")
@@ -163,13 +166,14 @@ import FightFundHk from './components/fight-fund-hk.vue'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
+import FundAnnualizedIncome from './components/fund-annualized-income'
 import scheme from '@/utils/scheme'
 import env from '@/utils/scheme/env'
 import dayjs from 'dayjs'
 import {
     getFundDetail,
     getFundPerformanceHistory,
-    getFundApyPointV1,
+    getFundApyPointV2,
     getFundNetPriceHistoryV1,
     getFundRecommendList,
     getFundFeeConfigV1
@@ -317,7 +321,8 @@ export default {
         fundSurvey,
         fundCardList,
         fundTradingRules,
-        FightFundHk
+        FightFundHk,
+        FundAnnualizedIncome
     },
     computed: {
         RedemptionButton() {
@@ -1010,17 +1015,31 @@ export default {
             }
         },
         //echart图的数据获取
-        async getFundApyPointV1(time) {
+        async getFundApyPoint(time) {
             try {
-                const res = await getFundApyPointV1({
+                const dataList = await getFundApyPointV2({
                     fundId: this.id,
                     apyType: time || 1
                 })
-                this.copyinitEchartList = res
-                this.initEchartList = res
-                this.initEchartList.map(item => {
-                    item.pointData = Number(item.pointData * 100)
+                this.copyinitEchartList = dataList
+                this.initEchartList = []
+                dataList.forEach(item => {
+                    Object.keys(item).forEach(key => {
+                        if (key !== 'belongDay') {
+                            const typeMap = {
+                                thisFundPointData: '本基金',
+                                categoryPointData: '同类平均',
+                                benchmarkPointData: 'benchmark'
+                            }
+                            this.initEchartList.push({
+                                type: typeMap[key],
+                                pointData: item[key],
+                                belongDay: item.belongDay
+                            })
+                        }
+                    })
                 })
+                console.log(this.initEchartList)
                 let month = {
                     1: '1个月',
                     2: '3个月',
@@ -1049,7 +1068,7 @@ export default {
                     )
                 }
             } catch (e) {
-                console.log('getFundApyPointV1:error:>>>', e)
+                console.log('getFundApyPoint:error:>>>', e)
             }
         },
         //用户是否能申购或者是否需要测评
@@ -1269,7 +1288,7 @@ export default {
             this.getFundNetPriceHistoryV1()
             this.getFundRecommendList()
             this.getFundPerformanceHistory()
-            this.getFundApyPointV1()
+            this.getFundApyPoint()
             if (this.isLogin) {
                 this.getFundFeeConfig()
                 await this.getFundUserInfo()

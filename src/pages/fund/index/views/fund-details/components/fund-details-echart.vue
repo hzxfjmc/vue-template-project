@@ -253,8 +253,8 @@ export default {
             }
             params.padding =
                 this.fundHeaderInfoVO.assetType === 4
-                    ? [20, 0, 33, 52]
-                    : [20, 0, 33, 45]
+                    ? [40, 0, 33, 52]
+                    : [40, 0, 33, 45]
             this.chart = new F2.Chart(params)
             if (this.initEchartList.length === 0) return
             this.chart.source(this.initEchartList, {
@@ -314,7 +314,7 @@ export default {
             this.chart
                 .line()
                 .position('belongDay*pointData')
-                .color('#518DFE')
+                .color('type')
                 .animate({
                     update: {
                         animation: 'lineUpdate'
