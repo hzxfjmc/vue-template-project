@@ -1,6 +1,9 @@
 <template lang="pug">
-    .fund-tag(@click="handleClick")
+    .fund-tag(
+        @click="handleClick"
+        )
         van-tag(
+            @click="toFundType"
             color="#2177FF"
             plain
         ) {{ title }}
@@ -22,6 +25,9 @@ export default {
     methods: {
         handleClick() {
             this.$emit('toFundRisk')
+        },
+        toFundType() {
+            this.$emit('toFundType')
         }
     }
 }

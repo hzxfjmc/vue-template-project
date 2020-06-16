@@ -73,7 +73,7 @@
                     .typeUser {{this.$t(['你为“易受损客户”','',''])}}
                     .content {{this.$t(['什么是易损型用户?'])}}
                         ul
-                            li(v-for="item in this.$t('vulnerableList')" :key="index") {{item}}
+                            li(v-for="(index, item) in this.$t('vulnerableList')" :key="index") {{item}}
                     .description {{this.$t('description')}}
                     .info {{this.$t('info')}}
                     van-button(
