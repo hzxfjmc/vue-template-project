@@ -46,7 +46,7 @@
                         .tips.user(
                             v-if="damagedStatus"
                             @click="userTipsHandle")
-                            span {{this.$t(['易受损客户','易受損客戶','vulnerable client'])}}
+                            span {{this.$t(['易受损客户','易受損客戶','Vulnerable Customer'])}}
                             span.iconfont.icon-icon_fund_index_2
                         .desc {{this.$t(`A${userRiskLevel}`)}}
                     .desc(v-else) {{this.$t('noAssess')}}
@@ -128,6 +128,8 @@ export default {
         fundTipsHandle() {
             this.$alert({
                 message: this.$t('tipsDesc'),
+                className: 'text-align-justify',
+                confirmButtonColor: '#0D50D8',
                 confirmButtonText: this.$t('iKnow')
             })
         },
@@ -200,6 +202,10 @@ export default {
 }
 </script>
 <style lang="scss">
+.text-align-justify .van-dialog__message {
+    text-align: justify;
+    white-space: pre-line;
+}
 .fund-container {
     background-color: $background-bottom-color;
 }
@@ -218,7 +224,7 @@ export default {
         border-left: 4px solid rgba(47, 121, 255, 1);
     }
     .tips {
-        width: 90px;
+        width: 95px;
         height: 20px;
         margin-bottom: 15px;
         text-align: center;
@@ -227,10 +233,10 @@ export default {
         color: rgba(47, 121, 255, 1);
         background-color: #e0f2ff;
         &.derivatives {
-            width: 150px;
+            width: 160px;
         }
         &.user {
-            width: 95px;
+            width: 100px;
         }
         .iconfont {
             margin-left: 4px;
@@ -285,7 +291,8 @@ export default {
         padding: 10px;
         background-color: #e0f2ff;
         &:last-child {
-            text-align-last: left;
+            text-align: justify;
+            white-space: pre-line;
         }
     }
 }

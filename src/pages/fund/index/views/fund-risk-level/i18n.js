@@ -37,7 +37,8 @@ export default {
             '您接受高度程度的损失，以换取高程度的潜在投资回报。资本价值可能有相当大幅的波动并跌至颇低于您原本的投资额。您明白风险越大，回报越高的原则，而您可接受此程度的波动。',
         A5:
             '您接受重大的损失，以换取得重大的潜在投资回报。资本价值可能大幅波动并跌至远低于您原本的投资额。您明白风险越大，回报越高的原则，而您可接受此程度的波动。',
-        tipsDesc: `您目前期望申购的开放式公募基金为获香港证监会认可的衍生产品及复杂产品，请根据您自身风险偏好和风险承受能力做出审慎判断。请注意投资此类产品或可导致阁下遭受巨大损失，损失金额或可大于投资本金。也请注意证监会认可不等同于对该产品作出推介或认许，亦不是对该产品的商业利弊或业绩表现作出保证。点击继续操作将视为您自愿承担该产品风险及损失，友信并未主动向您推荐该产品。若您未有衍生品相关知识，请注意购买此类产品或可存在一些您无法理解的风险及损失，请依据自己的实际情况、风险承受能力以及风险偏好做出谨慎选择。`,
+        tipsDesc:
+            '您目前期望申购的开放式公募基金为获香港证监会认可的衍生产品及复杂产品，请根据您自身风险偏好和风险承受能力做出审慎判断。请注意投资此类产品或可导致阁下遭受巨大损失，损失金额或可大于投资本金。也请注意证监会认可不等同于对该产品作出推介或认许，亦不是对该产品的商业利弊或业绩表现作出保证。点击继续操作将视为您自愿承担该产品风险及损失，友信并未主动向您推荐该产品。\n若您未有衍生品相关知识，请注意购买此类产品或可存在一些您无法理解的风险及损失，请依据自己的实际情况、风险承受能力以及风险偏好做出谨慎选择。',
         vulnerableList: [
             '(1) 65岁或以上；或',
             '(2) 教育程度在小学或以下；或',
@@ -89,7 +90,8 @@ export default {
             '您接受以承受高度程度的損失風險換取高程度的潛在投資回報。資本價值可能有相當大幅的波動並跌至頗低於您原本的投資額。您明白風險越大，回報越高的原則，而您可接受此程度的波動。',
         A5:
             '您接受重大的損失，以換取得重大的潛在投資回報。資本價值可能大幅波動並跌至遠低於您原本的投資額。您明白風險越大，回報越高的原則，而您可接受此程度的波動。',
-        tipsDesc: `您目前期望認購的開放式公募基金為獲香港證監會認可的衍生產品及復雜產品，請根據您自身的風險和風險承受能力作出審慎判斷。請注意投資此類產品或可導致重大的重大損失 ，則損失金額或可增加投資本金。也請注意證監會認可不相等於該產品承諾推廣或認許，亦不是該產品的商業利弊或業績表現作出保證。 承擔該產品風險及損失，友信重新主動向您推薦該產品。若您未有衍生品相關知識，請注意購買此類產品或可存在一些您無法理解的風險及損失，請根據自己的實際情況，風險承受能力以及風險做出適當的選擇。`,
+        tipsDesc:
+            '您目前期望的認購購置的開放式公募基金為獲香港證監會認可的衍生產品及復雜產品，請根據您自身的風險和風險承受能力作出審慎判斷。請注意投資此類產品或可導致重大的重大損失 ，則損失金額或可增加投資本金。也請注意證監會認可不相等於該產品承諾推廣或認許，亦不是該產品的商業利弊或業績表現作出保證。 承擔該產品風險及損失，友信重新主動向您推薦該產品。\n若您未有衍生品相關知識，請注意購買此類產品或可存在一些您無法理解的風險及損失，請根據自己的實際情況，風險承受能力以及風險做出適當的選擇。',
         vulnerableList: [
             '(1) 65歲或以上；或',
             '(2) 教育程度在小學或以下；或',
@@ -143,9 +145,8 @@ export default {
             'You are comfortable with achieving a high level of return potential on your investment coupled with high level of risk. Capital values can fluctuate significantly and may fall quite substantially below your original investment. You understand the risk/reward equation, and are comfortable with this level of fluctuation.',
         A5:
             'You are comfortable with maximizing your return potential on investment coupled with maximized risk. Capital values can fluctuate widely and may fall substantially below your original investment. You understand the risk/reward equation, and are comfortable with this level of fluctuation.',
-        tipsDesc: `This SFC authorized open-ended fund to be purchased is a derivative product and a complex product. Please note that investment in such products may cause huge losses, which might be greater than the original investment amount. Please cautiously evaluate your own risk appetite and risk tolerance prior to subscription. The SFC authorization does not imply official recommendation, or that SFC authorization is not a recommendation or endorsement of a product nor does it guarantee the commercial merits of a product or its performance.
-        Clicking on the operation will be deemed as voluntarily bearing the risks and losses of the product, and uSMART has made no recommendation of this product.
-        If you do not have knowledge of derivatives or other complex investments, please note that there may be risks and losses that you cannot understand when purchasing such products. Please evaluate your actual situation, risk tolerance, and risk appetite prior to making any investments, please be prudent and wise.`,
+        tipsDesc:
+            'This SFC authorized open-ended fund to be purchased is a derivative product and a complex product. Please note that investment in such products may cause huge losses, which might be greater than the original investment amount. Please cautiously evaluate your own risk appetite and risk tolerance prior to subscription. The SFC authorization does not imply official recommendation, or that SFC authorization is not a recommendation or endorsement of a product nor does it guarantee the commercial merits of a product or its performance.\nClicking on the operation will be deemed as voluntarily bearing the risks and losses of the product, and uSMART has made no recommendation of this product.\nIf you do not have knowledge of derivatives or other complex investments, please note that there may be risks and losses that you cannot understand when purchasing such products. Please evaluate your actual situation, risk tolerance, and risk appetite prior to making any investments, please be prudent and wise.',
         vulnerableList: [
             '(1) 65 years or older, or',
             '(2) level of educations is to or below primary school level, or',
