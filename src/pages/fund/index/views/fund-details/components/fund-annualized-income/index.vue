@@ -10,9 +10,9 @@
             .body-item.body-item__right
                 .item  
                     .title 近一年           
-                    .label +1.1          
-                    .label +22.32          
-                    .label +22.32  
+                    .label(:class="getStockClass(thisFundReturn.nearYear)") {{thisFundReturn.nearYear | filterRatio}}         
+                    .label(:class="getStockClass(categoryReturn.nearYear)") {{categoryReturn.nearYear | filterRatio}}           
+                    .label {{categoryRank.nearYearRank}}/{{categoryRank.nearYearTotal}}   
                 .item  
                     .title 近三年           
                     .label +1.1          
@@ -54,17 +54,45 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['stockColorTypeClass', 'lang'])
     },
+    filters: {
+        filterRatio(val) {
+            return val
+                ? Number(val) > 0
+                    ? `+${Number(val).toFixed(2)}%`
+                    : `${Number(val).toFixed(2)}%`
+                : '--'
+        }
+    },
+
     data() {
-        return {}
+        return {
+            thisFundReturn: {},
+            categoryReturn: {},
+            categoryRank: {}
+        }
     },
     methods: {
+        getStockClass(val) {
+            return val > 0
+                ? this.stockColorTypeClass.up
+                : val < 0
+                ? this.stockColorTypeClass.down
+                : ''
+        },
         async getFundReturn() {
             const params = {
                 fundId: this.fundId
             }
-            await getFundReturnV1(params)
+            let {
+                thisFundReturn = {},
+                categoryReturn = {},
+                categoryRank = {}
+            } = await getFundReturnV1(params)
+            this.thisFundReturn = thisFundReturn
+            this.categoryReturn = categoryReturn
+            this.categoryRank = categoryRank
         },
         init() {
             this.getFundReturn()
