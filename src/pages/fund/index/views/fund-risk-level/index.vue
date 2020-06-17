@@ -194,7 +194,7 @@ export default {
         border-left: 4px solid rgba(47, 121, 255, 1);
     }
     .tips {
-        width: 150px;
+        width: 155px;
         height: 20px;
         margin-bottom: 15px;
         text-align: center;
