@@ -1,6 +1,39 @@
 <template lang="pug">
- .fund-income-container.fund-container(:class="lang")
-    span 年化收益
+    .fund-income-container(:class="lang")
+        .fund-income__body
+            .body-item.body-item__left
+                .item  
+                    .title 年化收益           
+                    .label 本基金          
+                    .label 同类平均          
+                    .label 同类排名          
+            .body-item.body-item__right
+                .item  
+                    .title 近一年           
+                    .label +1.1          
+                    .label +22.32          
+                    .label +22.32  
+                .item  
+                    .title 近三年           
+                    .label +1.1          
+                    .label +22.32          
+                    .label +22.32  
+                .item  
+                    .title 近五年           
+                    .label +1.1          
+                    .label +22.32          
+                    .label +22.32  
+                .item  
+                    .title 近十年           
+                    .label +1.1          
+                    .label +22.32          
+                    .label +22.32  
+                .item  
+                    .title 今年来           
+                    .label +1.1          
+                    .label +22.32          
+                    .label +22.32  
+
 </template>
 <script>
 /**
@@ -42,4 +75,48 @@ export default {
     }
 }
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.fund-income-container {
+    margin: 6px 0;
+    background-color: $background-color;
+}
+.fund-income__body {
+    display: flex;
+    padding: 13px 0 13px 12px;
+    .body-item {
+        .item {
+            .title {
+                font-weight: 400;
+            }
+            .label {
+                padding-top: 13px;
+            }
+        }
+    }
+    .body-item__left {
+        width: 25%;
+        text-align: left;
+        .item {
+            .label {
+                color: $text-color5;
+            }
+        }
+    }
+    .body-item__right {
+        width: 75%;
+        overflow-x: scroll;
+        display: flex;
+        text-align: center;
+        .item {
+            flex-shrink: 0;
+            width: 76px;
+            .title {
+                color: $text-color5;
+            }
+            .label {
+                font-family: yxFontDINPro-Medium;
+            }
+        }
+    }
+}
+</style>
