@@ -25,9 +25,19 @@
                 v-else-if="apy<0" 
                 :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{apy}}%
             p(v-else) {{apy}}%
-        .header-right
-            span {{isMonetaryFund ? $t('tenKRTN') : $t('purchase')}}
-            span(v-if="!isMonetaryFund") （{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
+        .header-right(v-if="isMonetaryFund")
+            span {{$t('tenKRTN')}}
+            p(
+                v-if="this.tenKRtn > 0" 
+                :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+            ) +{{tenKRtn}}
+            p(
+                v-else="this.tenKRtn < 0" 
+                :class="stockColorType === 1 ?  'number-green' : 'number-red' "
+            ) {{tenKRtn}}
+        .header-right(v-else)
+            span {{$t('purchase')}}
+            span （{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
         fund-tag(
@@ -158,6 +168,10 @@ export default {
             type: Object,
             default: () => {}
         },
+        // historyList: {
+        //     type: Array,
+        //     default: () => {}
+        // },
         tagShow: {
             type: Boolean,
             default: false
@@ -251,6 +265,9 @@ export default {
                           func((this.fundHeaderInfoVO.apy - 0) * 10000) / 100
                       ).toFixed(2)
             return this.fundHeaderInfoVO && apyNum
+        },
+        tenKRtn() {
+            return Number.parseFloat(this.revenue)
         }
     }
 }

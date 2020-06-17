@@ -44,8 +44,10 @@ export default {
         description:
             '你的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型（A1）',
         info: '如果你的资料需要调整，请联系客服',
-        noResult:
-            '您还未进行风险测评，请根据您的实际情况完成测评后返回查看您的风评结果。'
+        noAssess:
+            '您还未进行风险测评，请根据您的实际情况完成测评后返回查看您的风评结果。',
+        assessAgain: '重新评测',
+        assessNow: '立即评测'
     },
     zhCHT: {
         fundRiskLevel: '基金風險等級',
@@ -83,7 +85,7 @@ export default {
             '您接受中度的損失，以換取中度的投資回報。可能適合您的產品之資本價值可能波動並跌至低於您原本的投資額。預期在正常市況下波動較小(縱使不能保證)，而您可接受此程度的波動。',
         A5:
             '您接受重大的損失，以換取得重大的潛在投資回報。資本價值可能大幅波動並跌至遠低於您原本的投資額。您明白風險越大，回報越高的原則，而您可接受此程度的波動。',
-        tipsDesc: `您目前期望申購的開放式公募基金為獲香港證監會認可的衍生產品及復雜產品，請根據您自身風險偏好和風險承受能力做出審慎判斷。請註意投資此類產品或可導致閣下遭受巨大損失，損失金額或可大於投資本金。也請註意證監會認可不等同於對該產品作出推介或認許，亦不是對該產品的商業利弊或業績表現作出保證。點擊繼續操作將視為您自願承擔該產品風險及損失，友信並未主動向您推薦該產品。若您未有衍生品相關知識，請註意購買此類產品或可存在壹些您無法理解的風險及損失，請依據自己的實際情況、風險承受能力以及風險偏好做出謹慎選擇。`,
+        tipsDesc: `您目前期望認購的開放式公募基金為獲香港證監會認可的衍生產品及復雜產品，請根據您自身的風險和風險承受能力作出審慎判斷。請注意投資此類產品或可導致重大的重大損失 ，則損失金額或可增加投資本金。也請注意證監會認可不相等於該產品承諾推廣或認許，亦不是該產品的商業利弊或業績表現作出保證。 承擔該產品風險及損失，友信重新主動向您推薦該產品。若您未有衍生品相關知識，請注意購買此類產品或可存在一些您無法理解的風險及損失，請根據自己的實際情況，風險承受能力以及風險做出適當的選擇。`,
         vulnerableList: [
             '(1) 65歲或以上；或',
             '(2) 教育程度在小學或以下；或',
@@ -92,8 +94,10 @@ export default {
         description:
             '妳的資料中，滿足以上任意壹項，為“易受損客戶”，“易受損客戶”的風評為保守型（A1）',
         info: '如果妳的資料需要調整，請聯系客服',
-        noResult:
-            '您還未進行風險測評，請根據您的實際情況完成測評後返回查看您的風評結果。'
+        noAssess:
+            '您還未進行風險測評，請根據您的實際情況完成測評後返回查看您的風評結果。',
+        assessAgain: '重新測評',
+        assessNow: '立即測評'
     },
     en: {
         fundRiskLevel: 'Fund risk rating',
@@ -143,7 +147,9 @@ export default {
             'You are infomation meet of the above, the risk tolerance of "vulnerable customers" add "vulnerable customer" is conservative (A1)',
         info:
             'if the information is incorrect, please contact customer service for revision',
-        noResult:
-            'You have not made the risk assessment, please return to check your risk assessment results after completing the assessment according to your actual situation.'
+        noAssess:
+            'You have not made the risk assessment, please return to check your risk assessment results after completing the assessment according to your actual situation.',
+        assessAgain: 'Assess Again',
+        assessNow: 'Assess Now'
     }
 }

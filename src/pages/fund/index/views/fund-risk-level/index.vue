@@ -31,16 +31,18 @@
                     tr
                         td {{this.$t('highRisk')}}
                         td {{this.$t('R5')}}
-            .fund-block__userRisk(v-if="userRiskLevel")
+            .fund-block__userRisk
                 .fund-risk__header
                     .title {{this.$t('userRiskLevel')}}
-                    .content {{this.$t(userRiskType)}}
-                    .tips.user(
-                        v-if="damagedStatus"
-                        @click="userTipsHandle")
-                        span 易受损客户
-                        span.iconfont.icon-icon_fund_index_2
-                    .desc {{this.$t(`A${userRiskLevel}`)}}
+                    .fund-risk__top(v-if="userRiskLevel")
+                        .content {{this.$t(userRiskType)}}
+                        .tips.user(
+                            v-if="damagedStatus"
+                            @click="userTipsHandle")
+                            span 易受损客户
+                            span.iconfont.icon-icon_fund_index_2
+                        .desc {{this.$t(`A${userRiskLevel}`)}}
+                    .desc(v-else) {{this.$t('noAssess')}}
                 table.table
                     tr
                         th {{this.$t('riskTolerance')}}
@@ -60,12 +62,12 @@
                     tr
                         td {{this.$t('aggressive')}}
                         td {{this.$t('A5')}}
-            .fund-risk__fotter(v-if="userRiskLevel")
+            .fund-risk__fotter
                 van-button(
                     type="primary" 
                     size="large"
                     @click="handleAction"
-                ) 重新评测
+                ) {{userRiskLevel ? this.$t('assessAgain') : this.$t('assessNow')}}
             van-dialog(
                 v-model = "show"
                 :showConfirmButton = "false"

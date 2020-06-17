@@ -6,7 +6,9 @@
             :revenue="revenue"
             :tagShow="tagShow"
             :tagsShow="tagsShow"
-            :fundHeaderInfoVO="fundHeaderInfoVO")
+            :fundHeaderInfoVO="fundHeaderInfoVO"
+            :historyList="historyList"
+            )
 
         .block__fundheader--tips(
             v-if="isLogin && holdDetailsShow"
