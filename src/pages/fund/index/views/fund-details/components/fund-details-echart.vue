@@ -59,6 +59,19 @@
             .block__list--more(@click="toFundHistory")
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
+        .chart-custom-legend
+            .legend__category 
+                .legend__maker.maker-1
+                .legend__title 本基金
+                .legend__value(:class="getStockClass(lengendData.thisFundPointData)") {{lengendData.thisFundPointData | filterRatio}}
+            .legend__category(v-if="lengendData.categoryPointData") 
+                .legend__maker.maker-2
+                .legend__title 同类平均
+                .legend__value(:class="getStockClass(lengendData.categoryPointData)") {{lengendData.categoryPointData | filterRatio}}
+            .legend__category(v-if="lengendData.benchmarkPointData") 
+                .legend__maker.maker-3
+                .legend__title 纳斯达克
+                .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
         .fund-date-list
@@ -74,7 +87,7 @@ import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import { FUND_ASSET_TYPE } from '@/pages/fund/index/map'
-import { cloneDeep, values } from 'lodash'
+import { mapGetters } from 'vuex'
 export default {
     i18n: {
         zhCHS: {
@@ -151,7 +164,15 @@ export default {
         }
     },
     filters: {
-        transNumToThousandMark: transNumToThousandMark
+        transNumToThousandMark,
+        filterRatio(val) {
+            val = val.slice(0, -1)
+            return val
+                ? Number(val) > 0
+                    ? `+${Number(val).toFixed(2)}%`
+                    : `${Number(val).toFixed(2)}%`
+                : '--'
+        }
     },
     props: {
         fundHeaderInfoVO: {
@@ -200,10 +221,23 @@ export default {
                 belongDay: '-',
                 pointData: '-'
             },
-            flag: true
+            flag: true,
+            lengendData: {
+                thisFundPointData: '',
+                categoryPointData: '',
+                benchmarkPointData: ''
+            }
         }
     },
     methods: {
+        getStockClass(val) {
+            val = val.slice(0, -1)
+            return val > 0
+                ? this.stockColorTypeClass.up
+                : val < 0
+                ? this.stockColorTypeClass.down
+                : ''
+        },
         toFundHistorylist() {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-historical-list?id=${this.fundHeaderInfoVO.fundId}`
             jumpUrl(3, url)
@@ -222,13 +256,13 @@ export default {
         draw(data) {
             let params = {
                 id: data,
-                padding: [20, 0, 33, 45],
+                padding: [],
                 pixelRatio: window.devicePixelRatio
             }
             params.padding =
                 this.fundHeaderInfoVO.assetType === 4
-                    ? [40, 0, 33, 52]
-                    : [40, 0, 33, 45]
+                    ? [20, 0, 33, 52]
+                    : [10, 0, 33, 45]
             this.chart = new F2.Chart(params)
             if (this.initEchartList.length === 0) return
             this.chart.source(this.initEchartList, {
@@ -267,40 +301,48 @@ export default {
                     return textCfg
                 }
             })
+            this.chart.legend(false)
             this.chart.tooltip({
                 showCrosshairs: true,
+                crosshairsStyle: {
+                    // 配置辅助线的样式
+                    stroke: '#2F79FF',
+                    lineWidth: 0.3
+                },
                 custom: true,
                 onChange: obj => {
-                    const legend = this.chart.get('legendController').legends
-                        .top[0]
                     const tooltipItems = obj.items
-                    const legendItems = legend.items
-                    const map = {}
-                    legendItems.forEach(function(item) {
-                        map[item.name] = cloneDeep(item)
-                    })
-                    tooltipItems.forEach(function(item) {
-                        const name = item.name
-                        const value = item.value
-                        if (map[name]) {
-                            map[name].value = value
+                    tooltipItems.forEach(item => {
+                        if (item.name === '本基金') {
+                            this.lengendData.thisFundPointData = item.value
+                        }
+                        if (item.name === '同类平均') {
+                            this.lengendData.categoryPointData = item.value
+                        }
+                        if (item.name === '纳斯达克') {
+                            this.lengendData.benchmarkPointData = item.value
                         }
                     })
-                    console.log(tooltipItems)
-                    console.log(legendItems)
-                    console.log(values(map))
-                    legend.setItems(values(map))
                 },
-                onHide: () => {
-                    const legend = this.chart.get('legendController').legends
-                        .top[0]
-                    legend.setItems(this.chart.getLegendItems().country)
-                }
+                onHide: () => {}
             })
             this.chart
                 .line()
                 .position('belongDay*pointData')
-                .color('type')
+                .size('type', type => {
+                    if (type === '本基金') {
+                        return 1
+                    }
+                    return 1
+                })
+                .color('type', type => {
+                    if (type === '本基金') {
+                        return '#2F79FF'
+                    }
+                    if (type === '同类平均') {
+                        return '#00BA60'
+                    }
+                })
                 .animate({
                     update: {
                         animation: 'lineUpdate'
@@ -315,6 +357,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['stockColorTypeClass', 'lang']),
         stockColorType() {
             return +getStockColorType()
         },
@@ -342,6 +385,34 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.chart-custom-legend {
+    display: flex;
+    font-size: 12px;
+    font-weight: 400;
+    .legend__category {
+        display: flex;
+        flex: 1;
+        align-items: center;
+        justify-content: center;
+        .legend__maker {
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            &.maker-1 {
+                background-color: #2f79ff;
+            }
+            &.maker-2 {
+                background-color: rgba(0, 186, 96, 0.4);
+            }
+            &.maker-3 {
+                background-color: rgba(255, 191, 50, 0.6);
+            }
+        }
+        .legend__title {
+            padding: 0 6px;
+        }
+    }
+}
 .fund-echart-content2 {
     .block__list--more {
         width: 100%;
