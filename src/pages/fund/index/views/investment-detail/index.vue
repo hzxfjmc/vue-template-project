@@ -26,9 +26,9 @@
                 .right {{investmentInfo.fixedCycleMonth}}{{investmentInfo.fixedCycleWeek}} {{$t('A2')}} {{investmentInfo.fixedPlanAmount|transNumToThousandMark}} {{currency ==1?$t('usd'):$t('hkd')}}
             .card_content_item
                 .left {{$t('A15')}}
-                .right(v-if="bankName") ({{bankName}})
+                .right(v-if="bankName") {{bankName}}
                     em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
-                .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount}}) 
+                .right(v-else) {{investmentInfo.eddaBankName}}({{investmentInfo.eddaBankAccount && investmentInfo.eddaBankAccount.slice(-4)}}) 
                     em(v-if="investmentInfo.exchangeFlag != 0") {{$t('A113')}}
             .card_content_item(v-if="fixedPlanStatus!=2&&fixedPlanStatus!=3")
                 .left {{$t('A81')}}
