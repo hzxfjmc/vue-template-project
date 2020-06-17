@@ -62,7 +62,7 @@ import {
 import { getMarketValidFundAccount } from '@/service/user-account-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import dayjs from 'dayjs'
-import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 export default {
     components: {
@@ -135,12 +135,34 @@ export default {
         }
     },
     async created() {
-        await this.getFundDetail()
-        await this.getFundFixedPlanDetail()
-        this.getMarketValidFundAccount()
-        this.investNum = this.$route.query.investNum
+        this.initData()
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.appVisibleHandle, 300)
     },
     methods: {
+        async initData() {
+            await this.getFundDetail()
+            await this.getFundFixedPlanDetail()
+            this.getMarketValidFundAccount()
+            this.investNum = this.$route.query.investNum
+        },
+        async appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            console.log(re)
+            this.initData()
+        },
         async getMarketValidFundAccount() {
             try {
                 const res = await getMarketValidFundAccount({
@@ -206,11 +228,20 @@ export default {
                 this.investmentInfo.type = 1
                 this.investmentInfo.id = this.fundId
                 console.log(this.investmentInfo)
-                // 修改计划 跳定投申购页面
-                this.$router.push({
-                    name: 'fixed-investment',
-                    query: this.investmentInfo
+                let url = `${window.location.origin}/wealth/fund/index.html#/fixed-investment`
+                let queryString = ''
+                Object.keys(this.investmentInfo).forEach(key => {
+                    queryString += `${key}=${encodeURIComponent(
+                        this.investmentInfo[key]
+                    )}&`
                 })
+                url = `${url}?${queryString.slice(0, -1)}`
+                jumpUrl('', url)
+                // 修改计划 跳定投申购页面
+                // this.$router.push({
+                //     name: 'fixed-investment',
+                //     query: this.investmentInfo
+                // })
             } else if (val === 2) {
                 // 暂停定投
                 this.fixedPlanStatusval = 2

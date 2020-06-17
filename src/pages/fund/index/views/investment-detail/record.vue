@@ -48,17 +48,20 @@ export default {
             finishedText: '',
             recordList: [],
             statusMap,
-            hasRecord: false,
-            currencyName: ''
+            hasRecord: false
+        }
+    },
+    computed: {
+        currencyName() {
+            const CURRENCYEUMN = {
+                1: this.$t('usd'),
+                2: this.$t('hkd')
+            }
+            return CURRENCYEUMN[this.currencyType]
         }
     },
     created() {
         this.getFundFixedRecordPage()
-        const CURRENCYEUMN = {
-            1: this.$t('usd'),
-            2: this.$t('hkd')
-        }
-        this.currencyName = CURRENCYEUMN[this.currencyType]
     },
     methods: {
         // 跳转到详情
