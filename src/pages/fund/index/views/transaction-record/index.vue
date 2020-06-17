@@ -9,23 +9,23 @@
                 .detail__main_title {{$t('A99')}}
                 .detail__main_content {{fundInfo.externalName}}
             .detail__main__item(v-if="fundInfo.externalStatus === 4")
-                .detail__main_title {{$t(`失败原因`,`失敗原因`,`Cause of failure`)}}
+                .detail__main_title {{$t([`失败原因`,`失敗原因`,`Cause of failure`])}}
                 .detail__main_content {{fundInfo.rejectReason}}
             .detail__main__item
-                .detail__main_title {{$t(`生成时间`,`訂單時間`,`Order Time`)}}
+                .detail__main_title {{$t([`生成时间`,`訂單時間`,`Order Time`])}}
                 .detail__main_content {{fundInfo.orderTime}}
             .detail__main__item
-                .detail__main_title {{$t(`订单号`,`訂單號`,`Order Number`)}}
+                .detail__main_title {{$t([`订单号`,`訂單號`,`Order Number`])}}
                 .detail__main_content {{fundInfo.orderNo}}
         .transaction__record__detail__amount
             .detail__amount__item
-                .detail__amount_title {{$t(`订单类别`,`訂單類別`,`Order Type`)}}
+                .detail__amount_title {{$t([`订单类别`,`訂單類別`,`Order Type`])}}
                 .detail__amount_content {{fundInfo.tradeTypeName}}
             .detail__amount__item
                 .detail__amount_title {{$t('A98')}}
                 .detail__amount_content {{fundInfo.currency.name}} {{fundInfo.orderAmount | transNumToThousandMark}}
         .transaction__record__detail__btn
-                van-button(type="info" round size="large" @click="buyMoreHandle") {{$t(`再买一笔`,`再買一筆`,`Make a transaction again`)}}
+                van-button(type="info" round size="large" @click="buyMoreHandle") {{$t([`再买一笔`,`再買一筆`,`Make a transaction again`])}}
 </template>
 
 <script>
@@ -110,6 +110,15 @@ export default {
             justify-content: space-between;
             color: rgba($text-color, 0.5);
             margin-bottom: 10px;
+
+            .detail__main_content {
+                color: rgba($text-color, 1);
+            }
+            &:first-child {
+                .detail__main_content {
+                    color: rgba($text-color, 0.5);
+                }
+            }
         }
     }
     .transaction__record__detail__amount {
