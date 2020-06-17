@@ -8,32 +8,11 @@
                     .label 同类平均          
                     .label 同类排名          
             .body-item.body-item__right
-                .item  
-                    .title 近一年           
-                    .label(:class="getStockClass(thisFundReturn.nearYear)") {{thisFundReturn.nearYear | filterRatio}}         
-                    .label(:class="getStockClass(categoryReturn.nearYear)") {{categoryReturn.nearYear | filterRatio}}           
-                    .label {{categoryRank.nearYearRank}}/{{categoryRank.nearYearTotal}}   
-                .item  
-                    .title 近三年           
-                    .label +1.1          
-                    .label +22.32          
-                    .label +22.32  
-                .item  
-                    .title 近五年           
-                    .label +1.1          
-                    .label +22.32          
-                    .label +22.32  
-                .item  
-                    .title 近十年           
-                    .label +1.1          
-                    .label +22.32          
-                    .label +22.32  
-                .item  
-                    .title 今年来           
-                    .label +1.1          
-                    .label +22.32          
-                    .label +22.32  
-
+                .item(v-for="item,index in keyList" :key="`key_${index}`")  
+                    .title {{item.title}}           
+                    .label(:class="getStockClass(thisFundReturn[item.key])") {{thisFundReturn[item.key] | filterRatio}}         
+                    .label(:class="getStockClass(categoryReturn[item.key])") {{categoryReturn[item.key] | filterRatio}}           
+                    .label {{categoryRank[`${[item.key]}Rank`]}}/{{categoryRank[`${[item.key]}Total`]}}
 </template>
 <script>
 /**
@@ -68,6 +47,13 @@ export default {
 
     data() {
         return {
+            keyList: [
+                { title: '近一年', key: 'nearYear' },
+                { title: '近三年', key: 'near3Year' },
+                { title: '近五年', key: 'near5Year' },
+                { title: '近十年', key: 'near10Year' },
+                { title: '今年来', key: 'toYear' }
+            ],
             thisFundReturn: {},
             categoryReturn: {},
             categoryRank: {}
