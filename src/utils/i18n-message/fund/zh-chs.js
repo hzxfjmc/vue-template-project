@@ -67,6 +67,7 @@ export const zhCHS = {
     investmentResult: '定投结果',
     myInvestment: '我的定投',
     InvestmenttransactionRecord: '定投详情',
+    fundRiskLevels: '风险等级说明',
     A1: '简体中文',
     A2: '定投',
     A3: '定投金额',

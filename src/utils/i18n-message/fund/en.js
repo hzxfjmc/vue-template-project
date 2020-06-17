@@ -67,6 +67,7 @@ export const en = {
     investmentResult: 'AIP Result',
     myInvestment: 'My AIP',
     InvestmenttransactionRecord: 'AIP Details',
+    fundRiskLevels: 'Description of risk level',
     A1: '英文',
     A2: 'AIP',
     A3: 'AIP AMount',

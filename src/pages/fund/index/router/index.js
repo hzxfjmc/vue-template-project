@@ -23,7 +23,7 @@ export default new Router({
         {
             name: 'fund-risk-level',
             path: '/fund-risk-level',
-            meta: { title: '风险等级说明', auth: true, cs: true },
+            meta: { title: 'fundRiskLevels', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-risk-level/index.vue`)
         },
