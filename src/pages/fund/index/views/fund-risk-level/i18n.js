@@ -1,9 +1,10 @@
 export default {
     zhCHS: {
+        Derivatives: '衍生产品、',
+        Complex: '复杂产品',
         fundRiskLevel: '基金风险等级',
         Risklevel: '风险等级',
         RiskDesc: '风险说明',
-        riskTips: '衍生产品、复杂产品',
         userRiskLevel: '您的风评结果',
         riskTolerance: '风险承受程度',
         lowRsik: '低风险（R1）',
@@ -17,6 +18,7 @@ export default {
         growth: '增长型（A4）',
         aggressive: '进取型（A5）',
         iKnow: '我知道了',
+        all: '查看全部',
         R1:
             '多为银行间市场、交易所市场债券，资金拆借、信托计划及其他金融资产等。通常来看，R1级别投资低风险部分的比例更高。',
         R2: '投资范围和R1基本一样，投资低风险部分的比例少于R1。',
@@ -50,6 +52,8 @@ export default {
         assessNow: '立即评测'
     },
     zhCHT: {
+        Derivatives: '衍生產品、',
+        Complex: '複雜產品',
         fundRiskLevel: '基金風險等級',
         Risklevel: '風險等級',
         RiskDesc: '風險說明',
@@ -97,14 +101,16 @@ export default {
         noAssess:
             '您還未進行風險測評，請根據您的實際情況完成測評後返回查看您的風評結果。',
         assessAgain: '重新測評',
-        assessNow: '立即測評'
+        assessNow: '立即測評',
+        all: '查看全部'
     },
     en: {
+        Derivatives: 'Derivatives、',
+        Complex: 'Complex',
         fundRiskLevel: 'Fund risk rating',
         Risklevel: 'Risk Level',
         RiskDesc: 'Description',
         userRiskLevel: 'Result of  Risk Assessment',
-        riskTips: 'Derivatives、Complex',
         riskTolerance: 'Level of Risk Tolerance',
         lowRsik: 'Low Rsik（R1）',
         mediumLowRisk: 'Medium Low Risk（R2）',
@@ -152,6 +158,7 @@ export default {
         noAssess:
             'You have not made the risk assessment, please return to check your risk assessment results after completing the assessment according to your actual situation.',
         assessAgain: 'Assess Again',
-        assessNow: 'Assess Now'
+        assessNow: 'Assess Now',
+        all: 'ALL'
     }
 }

@@ -4,14 +4,16 @@
             .title {{this.$t('fundRiskLevel')}}
             .content {{this.$t(fundRiskType)}}
             .tips(
-                v-if="tagsShow"
-                @click="fundTipsHandle" 
+                v-if="tagShow"
+                @click="fundTipsHandle"
+                :class="{derivatives: tagsShow}"
                 ) 
-                span {{this.$t('riskTips')}}
+                span(v-if="tagsShow") {{this.$t('Derivatives')}}
+                span {{this.$t('Complex')}}
                 span.iconfont.icon-icon_fund_index_2   
             .desc {{this.$t(`R${this.$route.query.fundRiskType}`)}}
         .fund-block
-            .fund-block__fundRisk
+            .fund-block__fundRisk(:style="{height: tableHeight}")
                 table.table
                     tr
                         th {{this.$t('Risklevel')}}
@@ -31,6 +33,11 @@
                     tr
                         td {{this.$t('highRisk')}}
                         td {{this.$t('R5')}}
+            .mask(v-if="all")
+            .all(v-if="all")
+                .content-wrap(@click="showAll")
+                    span {{this.$t('all')}}
+                    span.iconfont.icon-icon-bottom
             .fund-block__userRisk
                 .fund-risk__header
                     .title {{this.$t('userRiskLevel')}}
@@ -39,29 +46,35 @@
                         .tips.user(
                             v-if="damagedStatus"
                             @click="userTipsHandle")
-                            span 易受损客户
+                            span {{this.$t(['易受损客户','易受損客戶','vulnerable client'])}}
                             span.iconfont.icon-icon_fund_index_2
                         .desc {{this.$t(`A${userRiskLevel}`)}}
                     .desc(v-else) {{this.$t('noAssess')}}
-                table.table
-                    tr
-                        th {{this.$t('riskTolerance')}}
-                        th {{this.$t('RiskDesc')}}
-                    tr
-                        td {{this.$t('conservative')}}
-                        td {{this.$t('A1')}}
-                    tr
-                        td {{this.$t('stable')}}
-                        td {{this.$t('A2')}}
-                    tr
-                        td {{this.$t('balanced')}}
-                        td {{this.$t('A3')}}
-                    tr
-                        td {{this.$t('growth')}}
-                        td {{this.$t('A4')}}
-                    tr
-                        td {{this.$t('aggressive')}}
-                        td {{this.$t('A5')}}
+                .fund-risk__table(:style="{height: tableHeight2}")
+                    table.table
+                        tr
+                            th {{this.$t('riskTolerance')}}
+                            th {{this.$t('RiskDesc')}}
+                        tr
+                            td {{this.$t('conservative')}}
+                            td {{this.$t('A1')}}
+                        tr
+                            td {{this.$t('stable')}}
+                            td {{this.$t('A2')}}
+                        tr
+                            td {{this.$t('balanced')}}
+                            td {{this.$t('A3')}}
+                        tr
+                            td {{this.$t('growth')}}
+                            td {{this.$t('A4')}}
+                        tr
+                            td {{this.$t('aggressive')}}
+                            td {{this.$t('A5')}}
+            .mask(v-if="all2")
+            .all(v-if="all2")
+                .content-wrap(@click="showAll2")
+                    span {{this.$t('all')}}
+                    span.iconfont.icon-icon-bottom    
             .fund-risk__fotter
                 van-button(
                     type="primary" 
@@ -96,8 +109,12 @@ export default {
     data() {
         return {
             show: false,
+            all: true,
+            all2: true,
             userRiskLevel: null,
-            damagedStatus: null
+            damagedStatus: null,
+            tableHeight: '150px',
+            tableHeight2: '150px'
         }
     },
     components: {
@@ -113,6 +130,14 @@ export default {
                 message: this.$t('tipsDesc'),
                 confirmButtonText: this.$t('iKnow')
             })
+        },
+        showAll() {
+            this.all = false
+            this.tableHeight = 'auto'
+        },
+        showAll2() {
+            this.all2 = false
+            this.tableHeight2 = 'auto'
         },
         userTipsHandle() {
             this.show = true
@@ -166,11 +191,10 @@ export default {
             return userRiskTypeList[this.userRiskLevel - 1]
         },
         tagsShow() {
-            if (this.$route.query.tagsShow === 'true') {
-                return true
-            } else {
-                return false
-            }
+            return JSON.parse(this.$route.query.tagsShow)
+        },
+        tagShow() {
+            return JSON.parse(this.$route.query.tagShow)
         }
     }
 }
@@ -194,7 +218,7 @@ export default {
         border-left: 4px solid rgba(47, 121, 255, 1);
     }
     .tips {
-        width: 160px;
+        width: 90px;
         height: 20px;
         margin-bottom: 15px;
         text-align: center;
@@ -202,6 +226,9 @@ export default {
         font-size: 14px;
         color: rgba(47, 121, 255, 1);
         background-color: #e0f2ff;
+        &.derivatives {
+            width: 150px;
+        }
         &.user {
             width: 95px;
         }
@@ -222,6 +249,28 @@ export default {
 .fund-block__fundRisk {
     padding: 6px 14px;
     background-color: #fff;
+    overflow: hidden;
+}
+.mask {
+    position: relative;
+    margin-top: -83px;
+    height: 83px;
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.32) 0%,
+        rgba(255, 255, 255, 1) 100%
+    );
+}
+.all {
+    padding: 12px 0;
+    text-align: center;
+    line-height: 20px;
+    font-size: 15px;
+    background-color: #fff;
+    color: rgba(25, 25, 25, 0.45);
+    span {
+        margin-right: 5px;
+    }
 }
 .table {
     text-align: center;
@@ -229,7 +278,7 @@ export default {
         height: 40px;
         background-color: rgba(0, 92, 229, 0.4);
         &:first-child {
-            width: 85px;
+            width: 90px;
         }
     }
     td {
@@ -244,8 +293,11 @@ export default {
     margin-top: 10px;
     padding-bottom: 20px;
     background-color: #fff;
-    .table {
-        padding: 6px 14px;
+    .fund-risk__table {
+        overflow: hidden;
+        .table {
+            padding: 6px 14px;
+        }
     }
 }
 .alert-wrap {
