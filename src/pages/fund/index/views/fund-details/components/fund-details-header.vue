@@ -243,11 +243,11 @@ export default {
             if (this.fundHeaderInfoVO.currencyType === 'HKD') {
                 return `${this.fundHeaderInfoVO.initialInvestAmount}${this.$t(
                     'hkd'
-                )}${this.$t(['起', '起', 'above'])}`
+                )}${this.$t(['起', '起', ''])}`
             } else {
                 return `${this.fundHeaderInfoVO.initialInvestAmount}${this.$t(
                     'usd'
-                )}${this.$t(['起', '起', 'above'])}`
+                )}${this.$t(['起', '起', ''])}`
             }
         },
         apy() {
