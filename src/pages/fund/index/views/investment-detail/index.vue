@@ -340,11 +340,7 @@ export default {
                     this.investmentInfo.recentDeductionDate
                 ).format('YYYY-MM-DD')}(${this.getWeek(
                     this.investmentInfo.recentDeductionDate
-                )}),${this.$t([
-                    '请保证账户资金充足',
-                    '請保證賬戶資金充足',
-                    'Please make sure you have enough money in your account.'
-                ])}`
+                )})`
                 let monthValue = {
                     1: this.$t([`周一`, `週一`, `Mon.`]),
                     2: this.$t([`周二`, `週二`, `Tues.`]),
