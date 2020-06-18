@@ -152,7 +152,7 @@ export default {
             },
             fundTradeInfoVO: {},
             list: [],
-            isWhiteUserBit: true
+            isWhiteUserBit: false
         }
     },
     created() {
