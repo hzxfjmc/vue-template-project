@@ -10,6 +10,7 @@
         
         fundDetailsEchart(
           @chooseTime = "getFundApyPoint"
+          :benchmarkNameObj="benchmarkNameObj"
           :step="step"
           :timeList="timeList"
           :tabObj="tabObj"
@@ -541,7 +542,9 @@ export default {
                     value: ''
                 }
             },
-            shareIcon: require('@/assets/img/fund/icon/icon-share.png')
+            shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
+            benchmarkNameObj: null,
+            benchmarkName: ''
         }
     },
     methods: {
@@ -979,6 +982,7 @@ export default {
                     res.fundHeaderInfoVO.fundId,
                     res.fundHeaderInfoVO.fundName
                 )
+                this.benchmarkNameObj = res.benchmarkName
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
@@ -1033,7 +1037,11 @@ export default {
                                 const typeMap = {
                                     thisFundPointData: '本基金',
                                     categoryPointData: '同类平均',
-                                    benchmarkPointData: 'benchmark'
+                                    benchmarkPointData: this.$t([
+                                        this.benchmarkNameObj.zhCn,
+                                        this.benchmarkNameObj.zhHk,
+                                        this.benchmarkNameObj.en
+                                    ])
                                 }
                                 if (item[key] !== null) {
                                     this.initEchartList.push({

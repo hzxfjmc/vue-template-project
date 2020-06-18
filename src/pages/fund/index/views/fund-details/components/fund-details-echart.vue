@@ -70,7 +70,7 @@
                 .legend__value(:class="getStockClass(lengendData.categoryPointData)") {{lengendData.categoryPointData | filterRatio}}
             .legend__category(v-if="lengendData.benchmarkPointData") 
                 .legend__maker.maker-3
-                .legend__title 纳斯达克
+                .legend__title {{benchmarkName}}
                 .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
@@ -179,6 +179,10 @@ export default {
             type: Object,
             default: () => {}
         },
+        benchmarkNameObj: {
+            type: Object,
+            default: () => {}
+        },
         initEchartList: {
             type: Array,
             default: () => []
@@ -228,7 +232,8 @@ export default {
                 categoryPointDataDefault: '',
                 benchmarkPointData: '',
                 benchmarkPointDataDefault: ''
-            }
+            },
+            benchmarkName: ''
         }
     },
     methods: {
@@ -323,7 +328,7 @@ export default {
                         if (item.name === '同类平均') {
                             this.lengendData.categoryPointData = item.value
                         }
-                        if (item.name === '纳斯达克') {
+                        if (item.name === this.benchmarkName) {
                             this.lengendData.benchmarkPointData = item.value
                         }
                     })
@@ -344,6 +349,9 @@ export default {
                     }
                     if (type === '同类平均') {
                         return '#00BA60'
+                    }
+                    if (type === this.benchmarkName) {
+                        return '#FFD984'
                     }
                 })
                 .animate({
@@ -395,6 +403,15 @@ export default {
                 this.lengendData.benchmarkPointDataDefault = benchmarkPointData
             } else {
                 this.lengendData = this.$options.data().lengendData
+            }
+        },
+        benchmarkNameObj(val) {
+            if (val) {
+                this.benchmarkName = this.$t([
+                    this.benchmarkNameObj.zhCn,
+                    this.benchmarkNameObj.zhHk,
+                    this.benchmarkNameObj.en
+                ])
             }
         }
     },
