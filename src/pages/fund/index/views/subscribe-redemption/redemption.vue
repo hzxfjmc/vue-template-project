@@ -206,9 +206,16 @@ export default {
         },
         //快速卖出
         handlerFastSellCount(percent) {
-            this.redemptionShare = Number(
-                (this.positionShare * percent).toFixed(4)
-            )
+            let result = (this.positionShare * percent).toString()
+            result = result.split('.')
+            if (result[1]) {
+                result[1] = result[1].substr(0, 4)
+            } else {
+                result[1] = 0
+            }
+            result = result[0] + '.' + result[1]
+            console.log(this.positionShare, percent, result)
+            this.redemptionShare = Number(result) || ''
         },
         async openProtocol(url) {
             url = await getCosUrl(url)

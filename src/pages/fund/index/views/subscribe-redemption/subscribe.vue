@@ -656,7 +656,10 @@ export default {
                     .split('/')
                     .pop()
 
-                this.buyProtocolFileList = fundDetail.buyProtocolFileList
+                this.buyProtocolFileList = [
+                    ...fundDetail.buyProtocolFileList,
+                    ...fundDetail.fundCorrelationFileList
+                ]
                 this.buyProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
