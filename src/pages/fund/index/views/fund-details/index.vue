@@ -15,7 +15,9 @@
           :tabObj="tabObj"
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
-          :initEchartList="initEchartList")
+          :initEchartList="initEchartList"
+          :originChartList="originChartList"
+          )
         FundAnnualizedIncome(
             v-if="fundHeaderInfoVO.fundId"
             :fundId="fundHeaderInfoVO.fundId"
@@ -436,6 +438,7 @@ export default {
             historyList: [],
             fundTradeInfoVO: {},
             initEchartList: [],
+            originChartList: [],
             copyinitEchartList: [],
             holdInitState: {
                 yesterdayEarnings: null,
@@ -1021,7 +1024,7 @@ export default {
                     fundId: this.id,
                     apyType: time || 1
                 })
-                this.copyinitEchartList = dataList
+                this.originChartList = dataList
                 this.initEchartList = []
                 dataList.length &&
                     dataList.forEach(item => {

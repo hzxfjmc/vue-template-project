@@ -60,7 +60,7 @@
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
         .chart-custom-legend
-            .legend__category 
+            .legend__category(v-if="lengendData.thisFundPointData") 
                 .legend__maker.maker-1
                 .legend__title 本基金
                 .legend__value(:class="getStockClass(lengendData.thisFundPointData)") {{lengendData.thisFundPointData | filterRatio}}
@@ -181,7 +181,11 @@ export default {
         },
         initEchartList: {
             type: Array,
-            default: () => {}
+            default: () => []
+        },
+        originChartList: {
+            type: Array,
+            default: () => []
         },
         step: {
             type: Number,
@@ -224,8 +228,11 @@ export default {
             flag: true,
             lengendData: {
                 thisFundPointData: '',
+                thisFundPointDataDefault: '',
                 categoryPointData: '',
-                benchmarkPointData: ''
+                categoryPointDataDefault: '',
+                benchmarkPointData: '',
+                benchmarkPointDataDefault: ''
             }
         }
     },
@@ -324,17 +331,16 @@ export default {
                         }
                     })
                 },
-                onHide: () => {}
+                onHide: () => {
+                    this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
+                    this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
+                    this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
+                }
             })
             this.chart
                 .line()
                 .position('belongDay*pointData')
-                .size('type', type => {
-                    if (type === '本基金') {
-                        return 1
-                    }
-                    return 1
-                })
+                .size(1)
                 .color('type', type => {
                     if (type === '本基金') {
                         return '#2F79FF'
@@ -376,6 +382,21 @@ export default {
             if (val.length === 0) return
             this.draw(this.chartId)
             this.chart.render()
+        },
+        originChartList(val) {
+            if (val.length) {
+                const {
+                    thisFundPointData,
+                    categoryPointData,
+                    benchmarkPointData
+                } = val[val.length - 1]
+                this.lengendData.thisFundPointData = thisFundPointData
+                this.lengendData.categoryPointData = categoryPointData
+                this.lengendData.benchmarkPointData = benchmarkPointData
+                this.lengendData.thisFundPointDataDefault = thisFundPointData
+                this.lengendData.categoryPointDataDefault = categoryPointData
+                this.lengendData.benchmarkPointDataDefault = benchmarkPointData
+            }
         }
     },
     mounted() {
@@ -391,9 +412,9 @@ export default {
     font-weight: 400;
     .legend__category {
         display: flex;
-        flex: 1;
         align-items: center;
         justify-content: center;
+        flex: 1;
         .legend__maker {
             height: 6px;
             width: 6px;
@@ -410,6 +431,9 @@ export default {
         }
         .legend__title {
             padding: 0 6px;
+        }
+        .legend__value {
+            width: 50px;
         }
     }
 }
