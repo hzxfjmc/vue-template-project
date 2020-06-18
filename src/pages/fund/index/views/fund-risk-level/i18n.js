@@ -50,7 +50,9 @@ export default {
         noAssess:
             '您还未进行风险测评，请根据您的实际情况完成测评后返回查看您的风评结果。',
         assessAgain: '重新评测',
-        assessNow: '立即评测'
+        assessNow: '立即评测',
+        login: '请登录后进行操作 ',
+        loginBtn: '立即登录'
     },
     zhCHT: {
         Derivatives: '衍生產品、',
@@ -104,7 +106,9 @@ export default {
             '您還未進行風險測評，請根據您的實際情況完成測評後返回查看您的風評結果。',
         assessAgain: '重新測評',
         assessNow: '立即測評',
-        all: '查看全部'
+        all: '查看全部',
+        login: '請登陸後進行操作 ',
+        loginBtn: '立即登錄'
     },
     en: {
         Derivatives: 'Derivatives、',
@@ -160,6 +164,8 @@ export default {
             'You have not made the risk assessment, please return to check your risk assessment results after completing the assessment according to your actual situation.',
         assessAgain: 'Assess Again',
         assessNow: 'Assess Now',
-        all: 'ALL'
+        all: 'ALL',
+        login: 'Please login in',
+        loginBtn: 'Login'
     }
 }

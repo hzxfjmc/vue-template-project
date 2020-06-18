@@ -106,6 +106,7 @@
                 ) {{userRiskLevel ? this.$t('assessAgain') : this.$t('assessNow')}}
 </template>
 <script>
+import jsBridge from '@/utils/js-bridge'
 import { Button, Dialog } from 'vant'
 import { riskAssessResult } from '@/service/user-server.js'
 import i18n from './i18n'
@@ -155,15 +156,23 @@ export default {
         cancel() {
             this.show = false
         },
-        handleAction() {
-            this.$router.push({
-                path: '/risk-assessment',
-                query: {
-                    id: this.$route.query.id,
-                    fundRiskType: this.$route.query.fundRiskType,
-                    displayLocation: 1
-                }
-            })
+        async handleAction() {
+            if (this.isLogin) {
+                this.$router.push({
+                    path: '/risk-assessment',
+                    query: {
+                        id: this.$route.query.id,
+                        fundRiskType: this.$route.query.fundRiskType,
+                        displayLocation: 1
+                    }
+                })
+            } else {
+                await this.$dialog.alert({
+                    message: this.$t('login'),
+                    confirmButtonText: this.$t('loginBtn')
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+            }
         },
         async handleRiskAssessResult() {
             try {
