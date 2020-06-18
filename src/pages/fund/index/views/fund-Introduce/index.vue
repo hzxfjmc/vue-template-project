@@ -30,8 +30,11 @@
                 van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
                     .dividend-detail-container(v-if="active===1")
                         dividend-detail
+                van-tab(:title="$t('list')['fundManager'].label" :name="1")
+                    .fund-manager-container(v-if="active===2")
+                        fund-manager
                 van-tab(:title="$t('list')['fundFiles'].label" :name="2")
-                    .dividend-detail-container(v-if="active===2")
+                    .dividend-detail-container(v-if="active===3")
                         .fund-files
                             .file-list(v-if="filelist.length != 0")
                                 van-row(gutter="20")
@@ -57,6 +60,7 @@
 import './index.scss'
 import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
 import dividendDetail from './dividend-detail'
+import fundManager from './fund-manager'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import Vue from 'vue'
@@ -72,6 +76,7 @@ export default {
     i18n: i18nIntroducelist,
     components: {
         dividendDetail,
+        fundManager,
         Row,
         Col
     },

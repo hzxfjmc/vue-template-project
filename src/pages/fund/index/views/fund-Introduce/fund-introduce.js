@@ -98,6 +98,9 @@ export const i18nIntroducelist = {
             },
             dividendDeatail: {
                 label: '派息详情'
+            },
+            fundManager: {
+                label: '基金经理'
             }
         }
     },
@@ -161,6 +164,9 @@ export const i18nIntroducelist = {
             },
             dividendDeatail: {
                 label: '派息詳情'
+            },
+            fundManager: {
+                label: '基金經理'
             }
         }
     },
@@ -224,6 +230,9 @@ export const i18nIntroducelist = {
             },
             dividendDeatail: {
                 label: 'Dividend Details'
+            },
+            fundManager: {
+                label: 'Fund Manager'
             }
         }
     }
