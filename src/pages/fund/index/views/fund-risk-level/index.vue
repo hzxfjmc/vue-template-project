@@ -1,89 +1,87 @@
 <template lang="pug">
-    .fund-risk-container.fund-container
-        .fund-risk__header
-            .title {{this.$t('fundRiskLevel')}}
-            .content {{this.$t(fundRiskType)}}
-            .tips(
-                v-if="tagShow"
-                @click="fundTipsHandle"
-                :class="{derivatives: tagsShow}"
-                ) 
-                span(v-if="tagsShow") {{this.$t('Derivatives')}}
-                span {{this.$t('Complex')}}
-                span.iconfont.icon-icon_fund_index_2   
-            .desc {{this.$t(`R${this.$route.query.fundRiskType}`)}}
-        .fund-block
-            .fund-block__fundRisk(:style="{height: tableHeight}")
-                table.table
-                    tr
-                        th {{this.$t('Risklevel')}}
-                        th {{this.$t('RiskDesc')}}
-                    tr
-                        td {{this.$t('lowRsik')}}
-                        td {{this.$t('R1')}}
-                    tr
-                        td {{this.$t('mediumLowRisk')}}
-                        td {{this.$t('R2')}}
-                    tr
-                        td {{this.$t('mediumRisk')}}
-                        td {{this.$t('R3')}}
-                    tr
-                        td {{this.$t('mediumHighRisk')}}
-                        td {{this.$t('R4')}}
-                    tr
-                        td {{this.$t('highRisk')}}
-                        td {{this.$t('R5')}}
-            .mask(v-if="all")
-            .all(v-if="all")
-                .content-wrap(@click="showAll")
-                    span {{this.$t('all')}}
-                    span.iconfont.icon-icon-bottom
-            .fund-block__userRisk
-                .fund-risk__header
-                    .title {{this.$t('userRiskLevel')}}
-                    .fund-risk__top(v-if="userRiskLevel")
-                        .content {{this.$t(userRiskType)}}
-                        .tips.user(
-                            v-if="damagedStatus"
-                            @click="userTipsHandle")
-                            span {{this.$t(['易受损客户','易受損客戶','Vulnerable Customer'])}}
-                            span.iconfont.icon-icon_fund_index_2
-                        .desc {{this.$t(`A${userRiskLevel}`)}}
-                    .desc(v-else) {{this.$t('noAssess')}}
-                .fund-risk__table(:style="{height: tableHeight2}")
+    yx-container
+        .fund-risk-container.fund-container(slot="main")
+            .fund-risk__header
+                .title {{this.$t('fundRiskLevel')}}
+                .content {{this.$t(fundRiskType)}}
+                .tips(
+                    v-if="tagShow"
+                    @click="fundTipsHandle"
+                    :class="{derivatives: tagsShow}"
+                    ) 
+                    span(v-if="tagsShow") {{this.$t('Derivatives')}}
+                    span {{this.$t('Complex')}}
+                    span.iconfont.icon-icon_fund_index_2   
+                .desc {{this.$t(`R${this.$route.query.fundRiskType}`)}}
+            .fund-block
+                .fund-block__fundRisk(:style="{height: tableHeight}")
                     table.table
                         tr
-                            th {{this.$t('riskTolerance')}}
+                            th {{this.$t('Risklevel')}}
                             th {{this.$t('RiskDesc')}}
                         tr
-                            td {{this.$t('conservative')}}
-                            td {{this.$t('A1')}}
+                            td {{this.$t('lowRsik')}}
+                            td {{this.$t('R1')}}
                         tr
-                            td {{this.$t('stable')}}
-                            td {{this.$t('A2')}}
+                            td {{this.$t('mediumLowRisk')}}
+                            td {{this.$t('R2')}}
                         tr
-                            td {{this.$t('balanced')}}
-                            td {{this.$t('A3')}}
+                            td {{this.$t('mediumRisk')}}
+                            td {{this.$t('R3')}}
                         tr
-                            td {{this.$t('growth')}}
-                            td {{this.$t('A4')}}
+                            td {{this.$t('mediumHighRisk')}}
+                            td {{this.$t('R4')}}
                         tr
-                            td {{this.$t('aggressive')}}
-                            td {{this.$t('A5')}}
-            .mask(v-if="all2")
-            .all(v-if="all2")
-                .content-wrap(@click="showAll2")
-                    span {{this.$t('all')}}
-                    span.iconfont.icon-icon-bottom    
-            .fund-risk__fotter
-                van-button(
-                    type="primary" 
-                    size="large"
-                    @click="handleAction"
-                ) {{userRiskLevel ? this.$t('assessAgain') : this.$t('assessNow')}}
+                            td {{this.$t('highRisk')}}
+                            td {{this.$t('R5')}}
+                .mask(v-if="all")
+                .all(v-if="all")
+                    .content-wrap(@click="showAll")
+                        span {{this.$t('all')}}
+                        span.iconfont.icon-icon-bottom
+                .block_wrap(v-if="isLogin")
+                    .fund-block__userRisk
+                        .fund-risk__header
+                            .title {{this.$t('userRiskLevel')}}
+                            .fund-risk__top(v-if="userRiskLevel")
+                                .content {{this.$t(userRiskType)}}
+                                .tips.user(
+                                    v-if="damagedStatus"
+                                    @click="userTipsHandle")
+                                    span {{this.$t(['易受损客户','易受損客戶','Vulnerable Customer'])}}
+                                    span.iconfont.icon-icon_fund_index_2
+                                .desc {{this.$t(`A${userRiskLevel}`)}}
+                            .desc(v-else) {{this.$t('noAssess')}}
+                        .fund-risk__table(:style="{height: tableHeight2}")
+                            table.table
+                                tr
+                                    th {{this.$t('riskTolerance')}}
+                                    th {{this.$t('RiskDesc')}}
+                                tr
+                                    td {{this.$t('conservative')}}
+                                    td {{this.$t('A1')}}
+                                tr
+                                    td {{this.$t('stable')}}
+                                    td {{this.$t('A2')}}
+                                tr
+                                    td {{this.$t('balanced')}}
+                                    td {{this.$t('A3')}}
+                                tr
+                                    td {{this.$t('growth')}}
+                                    td {{this.$t('A4')}}
+                                tr
+                                    td {{this.$t('aggressive')}}
+                                    td {{this.$t('A5')}}
+                    .mask(v-if="all2")
+                    .all(v-if="all2")
+                        .content-wrap(@click="showAll2")
+                            span {{this.$t('all')}}
+                            span.iconfont.icon-icon-bottom    
             van-dialog(
                 v-model = "show"
                 :showConfirmButton = "false"
+                :closeOnClickOverlay="true"
+                :width="400"
             )
                 .alert-wrap
                     .type {{this.$t('conservative')}}
@@ -98,12 +96,20 @@
                         type="primary" 
                         size="large"
                         @click="cancel"
-                    ) {{this.$t('iKnow')}}
+                    ) {{this.$t('iKnow')}}       
+        .fund-risk__fotter( slot="bottom" )
+                van-button(
+                    class="foot-button"
+                    type="primary" 
+                    size="large"
+                    @click="handleAction"
+                ) {{userRiskLevel ? this.$t('assessAgain') : this.$t('assessNow')}}
 </template>
 <script>
 import { Button, Dialog } from 'vant'
 import { riskAssessResult } from '@/service/user-server.js'
 import i18n from './i18n'
+import { mapGetters } from 'vuex'
 export default {
     i18n,
     data() {
@@ -122,7 +128,9 @@ export default {
         [Dialog.name]: Dialog
     },
     created() {
-        this.handleRiskAssessResult()
+        if (this.isLogin) {
+            this.handleRiskAssessResult()
+        }
     },
     methods: {
         fundTipsHandle() {
@@ -171,6 +179,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['isLogin']),
         fundRiskType() {
             let fundRiskType = this.$route.query.fundRiskType || 0
             const riskTypeList = [
@@ -213,7 +222,7 @@ export default {
     display: flex;
     flex-direction: column;
     padding: 14px;
-    background-color: #fff;
+    background-color: $background-color;
     .title {
         margin-bottom: 15px;
         font-size: 16px;
@@ -221,28 +230,23 @@ export default {
         padding-left: 10px;
         font-weight: 400;
         color: rgba(53, 53, 71, 1);
-        border-left: 4px solid rgba(47, 121, 255, 1);
+        border-left: 4px solid $text-link-color;
     }
     .tips {
-        width: 95px;
-        height: 20px;
         margin-bottom: 15px;
-        text-align: center;
         border-radius: 2px;
         font-size: 14px;
-        color: rgba(47, 121, 255, 1);
-        background-color: #e0f2ff;
-        &.derivatives {
-            width: 160px;
-        }
-        &.user {
-            width: 100px;
+        color: $primary-color;
+        span {
+            padding: 3px;
+            background-color: #e0f2ff;
         }
         .iconfont {
-            margin-left: 4px;
-            font-size: 13px;
+            padding: 5px;
+            font-size: 14px;
         }
     }
+
     .content {
         margin-bottom: 10px;
         height: 30px;
@@ -254,7 +258,7 @@ export default {
 }
 .fund-block__fundRisk {
     padding: 6px 14px;
-    background-color: #fff;
+    background-color: $background-color;
     overflow: hidden;
 }
 .mask {
@@ -272,7 +276,7 @@ export default {
     text-align: center;
     line-height: 20px;
     font-size: 15px;
-    background-color: #fff;
+    background-color: $background-color;
     color: rgba(25, 25, 25, 0.45);
     span {
         margin-right: 5px;
@@ -300,6 +304,9 @@ export default {
     margin-top: 10px;
     padding-bottom: 20px;
     background-color: #fff;
+    .desc {
+        margin-top: 15px;
+    }
     .fund-risk__table {
         overflow: hidden;
         .table {
@@ -344,6 +351,10 @@ export default {
         color: $text-color;
         font-size: 15px;
         padding-bottom: 20px;
+    }
+    .fund-risk__fotter {
+        position: absolute;
+        bottom: 0px;
     }
 }
 </style>
