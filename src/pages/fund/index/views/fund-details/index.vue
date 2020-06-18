@@ -1035,8 +1035,16 @@ export default {
                         Object.keys(item).forEach(key => {
                             if (key !== 'belongDay') {
                                 const typeMap = {
-                                    thisFundPointData: '本基金',
-                                    categoryPointData: '同类平均',
+                                    thisFundPointData: this.$t([
+                                        '本基金',
+                                        '本基金',
+                                        'Fund'
+                                    ]),
+                                    categoryPointData: this.$t([
+                                        '同类平均',
+                                        '同類平均',
+                                        'Sector AVG'
+                                    ]),
                                     benchmarkPointData: this.$t([
                                         this.benchmarkNameObj.zhCn,
                                         this.benchmarkNameObj.zhHk,

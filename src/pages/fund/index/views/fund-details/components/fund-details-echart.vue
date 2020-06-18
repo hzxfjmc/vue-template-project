@@ -62,15 +62,15 @@
         .chart-custom-legend
             .legend__category(v-if="lengendData.thisFundPointData") 
                 .legend__maker.maker-1
-                .legend__title 本基金
+                .legend__title {{ thisFundName }}
                 .legend__value(:class="getStockClass(lengendData.thisFundPointData)") {{lengendData.thisFundPointData | filterRatio}}
             .legend__category(v-if="lengendData.categoryPointData") 
                 .legend__maker.maker-2
-                .legend__title 同类平均
+                .legend__title {{ categoryName }}
                 .legend__value(:class="getStockClass(lengendData.categoryPointData)") {{lengendData.categoryPointData | filterRatio}}
             .legend__category(v-if="lengendData.benchmarkPointData") 
                 .legend__maker.maker-3
-                .legend__title {{benchmarkName}}
+                .legend__title {{ benchmarkName }}
                 .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
@@ -232,8 +232,7 @@ export default {
                 categoryPointDataDefault: '',
                 benchmarkPointData: '',
                 benchmarkPointDataDefault: ''
-            },
-            benchmarkName: ''
+            }
         }
     },
     methods: {
@@ -321,11 +320,11 @@ export default {
                     //console.log(obj)
                     const tooltipItems = obj.items
                     tooltipItems.forEach(item => {
-                        if (item.name === '本基金') {
+                        if (item.name === this.thisFundName) {
                             this.lengendData.thisFundPointData = item.value
                             console.log(this.lengendData.thisFundPointData)
                         }
-                        if (item.name === '同类平均') {
+                        if (item.name === this.categoryName) {
                             this.lengendData.categoryPointData = item.value
                         }
                         if (item.name === this.benchmarkName) {
@@ -344,10 +343,10 @@ export default {
                 .position('belongDay*pointData')
                 .size(1)
                 .color('type', type => {
-                    if (type === '本基金') {
+                    if (type === this.thisFundName) {
                         return '#2F79FF'
                     }
-                    if (type === '同类平均') {
+                    if (type === this.categoryName) {
                         return '#00BA60'
                     }
                     if (type === this.benchmarkName) {
@@ -374,6 +373,19 @@ export default {
         },
         isMMF() {
             return FUND_ASSET_TYPE.MMF.value === this.fundHeaderInfoVO.assetType
+        },
+        benchmarkName() {
+            return this.$t([
+                this.benchmarkNameObj.zhCn,
+                this.benchmarkNameObj.zhHk,
+                this.benchmarkNameObj.en
+            ])
+        },
+        thisFundName() {
+            return this.$t(['本基金', '本基金', 'Fund'])
+        },
+        categoryName() {
+            return this.$t(['同类平均', '同類平均', 'Sector AVG'])
         }
     },
     watch: {
@@ -403,15 +415,6 @@ export default {
                 this.lengendData.benchmarkPointDataDefault = benchmarkPointData
             } else {
                 this.lengendData = this.$options.data().lengendData
-            }
-        },
-        benchmarkNameObj(val) {
-            if (val) {
-                this.benchmarkName = this.$t([
-                    this.benchmarkNameObj.zhCn,
-                    this.benchmarkNameObj.zhHk,
-                    this.benchmarkNameObj.en
-                ])
             }
         }
     },
