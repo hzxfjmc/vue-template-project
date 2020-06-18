@@ -20,7 +20,7 @@
           :originChartList="originChartList"
           )
         FundAnnualizedIncome(
-            v-if="fundHeaderInfoVO.fundId"
+            v-if="fundHeaderInfoVO.fundId && !isMmf"
             :fundId="fundHeaderInfoVO.fundId"
         )
         HoldfundDetails(
@@ -177,6 +177,7 @@ import {
     getFundDetail,
     getFundPerformanceHistory,
     getFundApyPointV2,
+    getFundApyPointV1,
     getFundNetPriceHistoryV1,
     getFundRecommendList,
     getFundFeeConfigV1
@@ -328,6 +329,10 @@ export default {
         FundAnnualizedIncome
     },
     computed: {
+        isMmf() {
+            //货币基金
+            return this.fundHeaderInfoVO.assetType === 4
+        },
         RedemptionButton() {
             /*
              * btnShow 是否持仓
@@ -1024,10 +1029,14 @@ export default {
         //echart图的数据获取
         async getFundApyPoint(time) {
             try {
-                const dataList = await getFundApyPointV2({
+                const isMMF = this.fundHeaderInfoVO.assetType === 4
+                const params = {
                     fundId: this.id,
                     apyType: time || 1
-                })
+                }
+                const dataList = isMMF
+                    ? await getFundApyPointV1(params)
+                    : await getFundApyPointV2(params)
                 this.originChartList = dataList
                 this.initEchartList = []
                 dataList.length &&
@@ -1053,7 +1062,13 @@ export default {
                                 }
                                 if (item[key] !== null) {
                                     this.initEchartList.push({
-                                        type: typeMap[key],
+                                        type:
+                                            typeMap[key] ||
+                                            this.$t([
+                                                '本基金',
+                                                '本基金',
+                                                'Fund'
+                                            ]),
                                         pointData: item[key],
                                         belongDay: item.belongDay
                                     })

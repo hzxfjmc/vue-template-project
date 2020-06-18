@@ -3,10 +3,10 @@
         .fund-income__body
             .body-item.body-item__left
                 .item  
-                    .title 年化收益           
-                    .label 本基金          
-                    .label 同类平均          
-                    .label 同类排名          
+                    .title {{$t(['年化收益','年化收益','Annualized Return'])}}           
+                    .label {{$t(['本基金', '本基金', 'Fund'])}}          
+                    .label {{$t(['同类平均', '同類平均', 'Sector AVG'])}}          
+                    .label {{$t(['同类排名', '同類排名', 'Sector Rank'])}}          
             .body-item.body-item__right
                 .item(v-for="item,index in keyList" :key="`key_${index}`")  
                     .title {{item.title}}           
@@ -23,6 +23,8 @@
 
 import { mapGetters } from 'vuex'
 import { getFundReturnV1 } from '@/service/finance-info-server.js'
+import Vue from 'vue'
+const $t = Vue.prototype.$t
 export default {
     i18n: {},
     components: {},
@@ -30,6 +32,10 @@ export default {
         fundId: {
             type: [String, Number],
             default: ''
+        },
+        fundHeaderInfoVO: {
+            type: Object,
+            default: () => {}
         }
     },
     computed: {
@@ -48,11 +54,23 @@ export default {
     data() {
         return {
             keyList: [
-                { title: '近一年', key: 'nearYear' },
-                { title: '近三年', key: 'near3Year' },
-                { title: '近五年', key: 'near5Year' },
-                { title: '近十年', key: 'near10Year' },
-                { title: '今年来', key: 'toYear' }
+                {
+                    title: $t(['近一年', '近一年', 'Last 1-Year']),
+                    key: 'nearYear'
+                },
+                {
+                    title: $t(['近三年', '近三年', 'Last 3-Year']),
+                    key: 'near3Year'
+                },
+                {
+                    title: $t(['近五年', '近五年', 'Last 5-Year']),
+                    key: 'near5Year'
+                },
+                {
+                    title: $t(['近十年', '近十年', 'Last 10-Year']),
+                    key: 'near10Year'
+                },
+                { title: $t(['今年来', '今年来', 'YTD']), key: 'toYear' }
             ],
             thisFundReturn: {},
             categoryReturn: {},

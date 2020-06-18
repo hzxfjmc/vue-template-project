@@ -59,7 +59,7 @@
             .block__list--more(@click="toFundHistory")
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
-        .chart-custom-legend
+        .chart-custom-legend(v-if="!isMMF")
             .legend__category(v-if="lengendData.thisFundPointData") 
                 .legend__maker.maker-1
                 .legend__title {{ thisFundName }}
@@ -72,6 +72,15 @@
                 .legend__maker.maker-3
                 .legend__title {{ benchmarkName }}
                 .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
+        .chart-header-tips(v-if="isMMF && showMmf")
+            .header__item  
+                .item__label {{$t('time')}}：
+                .item__value {{mmfData.belongDay}}
+            .header__item
+                .item__label {{$t('yieldInLast7d')}}：
+                .item__value(
+                    :class="getStockClass(mmfData.pointData)"
+                ) {{mmfData.pointData| filterRatio(4)}}
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
         .fund-date-list
@@ -165,12 +174,13 @@ export default {
     },
     filters: {
         transNumToThousandMark,
-        filterRatio(val) {
+        filterRatio(val, fixCount) {
+            fixCount = fixCount || 2
             val = val.slice(0, -1)
             return val
                 ? Number(val) > 0
-                    ? `+${Number(val).toFixed(2)}%`
-                    : `${Number(val).toFixed(2)}%`
+                    ? `+${Number(val).toFixed(fixCount)}%`
+                    : `${Number(val).toFixed(fixCount)}%`
                 : '--'
         }
     },
@@ -232,7 +242,9 @@ export default {
                 categoryPointDataDefault: '',
                 benchmarkPointData: '',
                 benchmarkPointDataDefault: ''
-            }
+            },
+            mmfData: {},
+            showMmf: false
         }
     },
     methods: {
@@ -317,12 +329,17 @@ export default {
                 },
                 custom: true,
                 onChange: obj => {
-                    //console.log(obj)
+                    console.log(obj)
                     const tooltipItems = obj.items
                     tooltipItems.forEach(item => {
                         if (item.name === this.thisFundName) {
                             this.lengendData.thisFundPointData = item.value
                             console.log(this.lengendData.thisFundPointData)
+                            this.showMmf = true
+                            this.mmfData = item.origin
+                            this.mmfData.belongDay = dayjs(
+                                this.mmfData.belongDay
+                            ).format('YYYY-MM-DD')
                         }
                         if (item.name === this.categoryName) {
                             this.lengendData.categoryPointData = item.value
@@ -333,6 +350,7 @@ export default {
                     })
                 },
                 onHide: () => {
+                    this.showMmf = false
                     this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
                     this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
                     this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
@@ -425,6 +443,26 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.chart-header-tips {
+    background: rgba(244, 248, 255, 1);
+    z-index: 99999;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 40px;
+    font-size: 12px;
+    line-height: 40px;
+    position: absolute;
+    display: flex;
+    justify-content: space-between;
+    .header__item {
+        display: flex;
+        padding: 0 10px;
+        .item__value {
+            text-align: right;
+        }
+    }
+}
 .chart-custom-legend {
     display: flex;
     font-size: 12px;
