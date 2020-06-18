@@ -220,11 +220,6 @@ export default {
             initList: [],
             chart: null,
             chartId: 'myChart_master',
-            masterShow: false,
-            masterData: {
-                belongDay: '-',
-                pointData: '-'
-            },
             flag: true,
             lengendData: {
                 thisFundPointData: '',
@@ -318,10 +313,12 @@ export default {
                 },
                 custom: true,
                 onChange: obj => {
+                    //console.log(obj)
                     const tooltipItems = obj.items
                     tooltipItems.forEach(item => {
                         if (item.name === '本基金') {
                             this.lengendData.thisFundPointData = item.value
+                            console.log(this.lengendData.thisFundPointData)
                         }
                         if (item.name === '同类平均') {
                             this.lengendData.categoryPointData = item.value
@@ -396,6 +393,8 @@ export default {
                 this.lengendData.thisFundPointDataDefault = thisFundPointData
                 this.lengendData.categoryPointDataDefault = categoryPointData
                 this.lengendData.benchmarkPointDataDefault = benchmarkPointData
+            } else {
+                this.lengendData = this.$options.data().lengendData
             }
         }
     },

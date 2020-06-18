@@ -41,7 +41,6 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 120px;
     background-color: #ffffff;
     color: #b4ceec;
     img {
