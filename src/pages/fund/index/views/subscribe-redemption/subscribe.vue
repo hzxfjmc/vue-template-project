@@ -12,14 +12,15 @@
                 .fond-buy
                     .block__fund--header.border-bottom
                         NumberKeyboard( 
-                            :currency= "currency.name"
+                            :currency= "currency.type"
                             :placeholder="placeholder"
                             v-model="purchaseAmount"
                             @input="handlerAmount"
+                            @clickBoard="isInit = false"
                             )
                         .block__fund--tag--list(v-if="tagList.length!=0")
-                            span(v-for="item in tagList") {{item}}
-                    .block__tags()
+                            span(v-for="item in tagList" @click="handleClickTag(item)") {{item.label}}
+                    .block__tags(v-show="!isInit")
                         span {{tagText}}
                     .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney' && index != 'withdrawBalance'")
                         .left-item {{item.label}}
@@ -183,7 +184,8 @@ export default {
             placeholder: '请输入',
             tagList: [],
             tagText: '',
-            fundDetail: {}
+            fundDetail: {},
+            isInit: true
         }
     },
     filters: {
@@ -198,13 +200,6 @@ export default {
             } else {
                 numberInt = val
             }
-            this.subscribeObj.totalOrderAmount.value =
-                Number(numberInt) +
-                    (numberInt * this.subscribeObj.subscriptionFee.value) /
-                        100 || '0.00'
-            this.subscribeObj.totalOrderAmount.value = transNumToThousandMark(
-                Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
-            )
             if (numberInt) {
                 this.subscribeFeeVO.fundFeeLevelVOList.map(item => {
                     item.minAmount =
@@ -223,11 +218,18 @@ export default {
                 this.subscribeObj.subscriptionFee.value =
                     this.subscribeFeeVO.defaultFeeRate * 100 || 0
             }
+            this.subscribeObj.totalOrderAmount.value =
+                Number(numberInt) +
+                    (numberInt * this.subscribeObj.subscriptionFee.value) /
+                        100 || '0.00'
+            this.subscribeObj.totalOrderAmount.value = transNumToThousandMark(
+                Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
+            )
             this.subscriptionFee =
                 (numberInt * this.subscribeObj.subscriptionFee.value) / 100 || 0
             if (numberInt > +this.withdrawBalance) {
-                this.purchaseAmount = +this.withdrawBalance
-                return
+                this.purchaseAmount = String(this.withdrawBalance)
+                // return
             }
         }
     },
@@ -558,30 +560,62 @@ export default {
                 const formatInitialInvesetAmount = transNumToThousandMark(
                     Number(initialInvestAmount).toFixed(2)
                 )
-                if (
-                    Number(this.subscribeObj['withdrawBalance'].value) >
+                console.log(
+                    this.subscribeObj,
+                    Number(
+                        this.subscribeObj['withdrawBalance'].value.replace(
+                            /,/g,
+                            ''
+                        )
+                    ),
                     initialInvestAmount
+                )
+                if (
+                    Number(
+                        this.subscribeObj['withdrawBalance'].value.replace(
+                            /,/g,
+                            ''
+                        )
+                    ) > +initialInvestAmount
                 ) {
                     this.tagList =
                         initialInvestAmount <= 1000
                             ? [
-                                  `1,000${CurrencyName}`,
-                                  `2,000${CurrencyName}`,
-                                  `3,000${CurrencyName}`
+                                  {
+                                      label: `1,000${CurrencyName}`,
+                                      value: '1000'
+                                  },
+                                  {
+                                      label: `2,000${CurrencyName}`,
+                                      value: '2000'
+                                  },
+                                  {
+                                      label: `3,000${CurrencyName}`,
+                                      value: '3000'
+                                  }
                               ]
                             : [
-                                  `${transNumToThousandMark(
-                                      Number(initialInvestAmount),
-                                      0
-                                  )}${CurrencyName}`,
-                                  `${transNumToThousandMark(
-                                      Number(initialInvestAmount * 2),
-                                      0
-                                  )}${CurrencyName}`,
-                                  `${transNumToThousandMark(
-                                      Number(initialInvestAmount * 4),
-                                      0
-                                  )}${CurrencyName}`
+                                  {
+                                      label: `${transNumToThousandMark(
+                                          Number(initialInvestAmount),
+                                          0
+                                      )}${CurrencyName}`,
+                                      value: initialInvestAmount
+                                  },
+                                  {
+                                      label: `${transNumToThousandMark(
+                                          Number(initialInvestAmount * 2),
+                                          0
+                                      )}${CurrencyName}`,
+                                      value: initialInvestAmount * 2
+                                  },
+                                  {
+                                      label: `${transNumToThousandMark(
+                                          Number(initialInvestAmount * 4),
+                                          0
+                                      )}${CurrencyName}`,
+                                      value: initialInvestAmount * 4
+                                  }
                               ]
                 }
 
@@ -794,7 +828,7 @@ export default {
                 this.withdrawBalance,
                 this.initialInvestAmount
             )
-            if (this.purchaseAmount <= 0) {
+            if (!+this.purchaseAmount) {
                 return this.$t('inputMoney')
             }
             if (!(+this.withdrawBalance > 0)) {
@@ -846,6 +880,10 @@ export default {
         // 錯誤提示文案
         getTagText() {
             this.tagText = this.checkBuy(false) || ''
+        },
+        handleClickTag(item) {
+            console.log(item)
+            this.purchaseAmount = item.value + ''
         }
     },
     i18n: {

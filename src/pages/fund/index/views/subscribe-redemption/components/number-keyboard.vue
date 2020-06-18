@@ -2,14 +2,14 @@
 .block__numberkeyboard--wrapper
     .block__out--wrapper(
         @click="showNumberKeyboard")
-        span.label {{currency}}
+        span.label {{currency == 1 ? 'US$': 'HK$'}}
         span.block__tip--number {{unit}}
         div.number-board(
             v-if="show"
-            :class="[amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
+            :class="[+amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
         div.number-board(
             v-else
-            :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
+            :class="[+amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
         span.block__all--out.iconfont.icon-close(
             @click="allSell"
             v-if="amount != placeholder") 
@@ -46,7 +46,7 @@ export default {
             default: true
         },
         currency: {
-            type: String
+            type: Number
         },
         placeholder: {
             type: String
@@ -201,7 +201,7 @@ export default {
         //输入
         onInput(val) {
             console.log('onInput', this.amount)
-            let amount = this.amount
+            let amount = String(this.amount)
             let re = /^\d{0,9}(\.\d{0,2})?$/
             let noDeal = false
             if (amount === this.placeholder && (val == 0 || val === '.')) {
@@ -209,7 +209,7 @@ export default {
             } else if (amount.indexOf('.') > 0 && val === '.') {
                 noDeal = true
             } else if (
-                amount >= 0 ||
+                +amount >= 0 ||
                 amount === this.placeholder ||
                 amount === '0.'
             ) {
@@ -219,6 +219,7 @@ export default {
                 }
             }
             !noDeal && (this.amount = amount)
+            this.$emit('clickBoard')
             // this.$emit('handlerAmount', this.amount)
         },
         //删除
