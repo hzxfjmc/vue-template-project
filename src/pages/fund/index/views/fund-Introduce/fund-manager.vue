@@ -6,34 +6,33 @@
                 .roof__left {{this.$t('fundManager')}}
                 .roof__center {{this.$t('tenure')}}
                 .roof__right {{this.$t('return')}}
-            .header__content
-                .content__left
-                    .name JUNJIE
-                    .now 2009-04-20 {{this.$t('upToNow')}}
-                .content__center R5高风险
-                .content__right
-                    span(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    ) +140.57%
-            .line
-            .header__content
-                .content__left
-                    .name JUNJIE
-                    .now 2009-04-20 {{this.$t('upToNow')}}
-                .content__center R5高风险
-                .content__right
-                    span(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    ) +140.57%
+            .content__wrap
+                .header__content
+                    .content__left
+                        .name JUNJIE
+                        .now 2009-04-20 {{this.$t('upToNow')}}
+                    .content__center R5高风险
+                    .content__right
+                        span(
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        ) +140.57%
+                .header__content
+                    .content__left
+                        .name JUNJIE
+                        .now 2009-04-20 {{this.$t('upToNow')}}
+                    .content__center R5高风险
+                    .content__right
+                        span(
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        ) +140.57%
         .fund-manager__wrap
+            .content__title {{this.$t('manageInfo')}}
             .fund-manager__content
-                .content__title {{this.$t('manageInfo')}}
-                .content__middle JUNJIE
-                .content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理有…
+                .content__name JUNJIE
+                .content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司 
             .fund-manager__content
-                .content__title {{this.$t('manageInfo')}}
-                .content__middle JUNJIE
-                .content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理有…
+                .content__name JUNJIE
+                .content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
@@ -72,15 +71,23 @@ export default {
 }
 </script>
 <style lang="scss">
+.fund-manager__container {
+    display: flex;
+    flex-direction: column;
+}
 .fund-manager__header {
     padding: 12px;
-    display: flex;
     flex-direction: column;
     background-color: $background-color;
 }
 .header__title {
     font-size: 16px;
     margin-bottom: 14px;
+}
+.content__wrap {
+    & :last-child {
+        border-bottom: 0;
+    }
 }
 .header__roof,
 .header__content {
@@ -93,7 +100,9 @@ export default {
     margin-bottom: 10px;
 }
 .header__content {
+    border-bottom: $text-color8 solid 1px;
     font-size: 14px;
+    padding: 5px 0;
     .number-red {
         color: rgba(234, 61, 61, 1);
     }
@@ -113,26 +122,33 @@ export default {
         font-size: 16px;
     }
 }
-.line {
-    margin: 10px 0;
-    border-bottom: $text-color8 solid 1px;
-}
 .fund-manager__wrap {
+    flex: 1;
     margin-top: 6px;
     padding: 12px;
     background-color: $background-color;
-    & :first-child {
-        border-bottom: $text-color8 solid 1px;
+    .content__title {
+        font-size: 16px;
+    }
+    & :last-child {
+        border-bottom: 0;
     }
 }
 .fund-manager__content {
-    .content__title {
-        margin-bottom: 10px;
-        font-size: 16px;
-    }
-    .content__middle {
+    padding: 14px 0;
+    border-bottom: $text-color8 solid 1px;
+    .content__name {
         margin-bottom: 10px;
         font-size: 14px;
+    }
+    .content_desc {
+        height: 72px;
+        overflow: hidden;
+        line-height: 24px;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 3;
+        overflow: hidden;
     }
 }
 </style>
