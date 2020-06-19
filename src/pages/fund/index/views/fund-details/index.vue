@@ -548,7 +548,7 @@ export default {
                 }
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
-            benchmarkNameObj: null,
+            benchmarkNameObj: {},
             benchmarkName: ''
         }
     },
@@ -1069,7 +1069,7 @@ export default {
                                                 '本基金',
                                                 'Fund'
                                             ]),
-                                        pointData: item[key],
+                                        pointData: Number(item[key]),
                                         belongDay: item.belongDay
                                     })
                                 }

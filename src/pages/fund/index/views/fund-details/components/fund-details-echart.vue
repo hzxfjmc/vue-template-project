@@ -176,7 +176,7 @@ export default {
         transNumToThousandMark,
         filterRatio(val, fixCount) {
             fixCount = fixCount || 2
-            val = val.slice(0, -1)
+            val = (val + '').indexOf('%') !== -1 ? (val + '').slice(0, -1) : val
             return val
                 ? Number(val) > 0
                     ? `+${Number(val).toFixed(fixCount)}%`
@@ -249,7 +249,7 @@ export default {
     },
     methods: {
         getStockClass(val) {
-            val = val.slice(0, -1)
+            val = (val + '').indexOf('%') !== -1 ? (val + '').slice(0, -1) : val
             return val > 0
                 ? this.stockColorTypeClass.up
                 : val < 0
