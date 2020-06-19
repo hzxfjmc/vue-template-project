@@ -19,7 +19,8 @@ export const enablePullRefresh = enable => {
 export const setAppVisibleCallback = function(cb, context, options) {
     context = context || window
     const defaultOpts = {
-        delay: 300
+        delay: 300,
+        inVisibleCb: function() {}
     }
     options = Object.assign({}, defaultOpts, options)
     jsBridge.callAppNoPromise(
@@ -34,11 +35,13 @@ export const setAppVisibleCallback = function(cb, context, options) {
         if (data && typeof data === 'string') {
             res = JSON.parse(data)
         }
-        if (res && res.data.status !== 'visible') {
-            return
+        if (res && res.data.status === 'visible') {
+            cb && cb.call(context, res)
         }
-        cb && cb.apply(context)
-        prevAppVisible(data)
+        if (res && res.data.status === 'invisible') {
+            options.inVisibleCb.call(context, res)
+        }
+        prevAppVisible(res)
     }, options.delay)
 }
 
