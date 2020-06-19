@@ -1,4 +1,5 @@
 import { jsBridge } from 'yx-base-h5'
+import { debounce } from './tools'
 
 //h5页面跳转
 export const gotoNewWebView = url => {
@@ -12,6 +13,29 @@ export const gotoNewWebView = url => {
 //下拉刷新
 export const enablePullRefresh = enable => {
     jsBridge.callApp('command_enable_pull_refresh', { enable: enable })
+}
+
+// 设置Webview可见时回调函数
+export const setAppVisibleCallback = function(cb, context) {
+    context = context || window
+    jsBridge.callAppNoPromise(
+        'command_watch_activity_status',
+        {},
+        'appVisible',
+        'appInvisible'
+    )
+    const prevAppVisible = window.appVisible || function() {}
+    window.appVisible = debounce(function(data) {
+        let res = data
+        if (data && typeof data === 'string') {
+            res = JSON.parse(data)
+        }
+        if (res && res.data.status !== 'visible') {
+            return
+        }
+        cb && cb.apply(context)
+        prevAppVisible(data)
+    }, 300)
 }
 
 export default jsBridge

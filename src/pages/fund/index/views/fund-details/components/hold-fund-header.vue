@@ -83,6 +83,7 @@ import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { getFundFixedPlanCount } from '@/service/finance-server.js'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
+import { setAppVisibleCallback } from '@/utils/js-bridge'
 export default {
     components: {
         [Tag.name]: Tag
@@ -196,8 +197,12 @@ export default {
     },
     created() {
         this.getFundFixedPlanCount()
+        setAppVisibleCallback(this.appVisibleHandle, this)
     },
     methods: {
+        appVisibleHandle() {
+            this.getFundFixedPlanCount()
+        },
         async getFundFixedPlanCount() {
             try {
                 const { fixedPlanNum } = await getFundFixedPlanCount({

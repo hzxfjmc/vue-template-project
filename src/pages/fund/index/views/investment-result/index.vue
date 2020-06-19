@@ -16,9 +16,9 @@
                 .right {{fundInfo.fixedCycleType}}{{fundInfo.fixedCycleValue}} {{$t('A2')}} {{fundInfo.fixedPlanAmount|transNumToThousandMark}} {{fundInfo.currency == 1 ? $t('usd'): fundInfo.currency == 2 ? $t('hkd'):''}}
             .investmnet--list--item
                 .left {{$t('A15')}}
-                .right(v-if="fundInfo.chargeType == 2") {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount}}) 
+                .right(v-if="fundInfo.chargeType == 2") {{fundInfo.eddaBankName}}({{fundInfo.eddaBankAccount && fundInfo.eddaBankAccount.slice(-4)}}) 
                     em(v-if="fundInfo.exchangeFlag === 1") {{$t('A113')}}
-                .right(v-else) ({{fundInfo.bankName}}) 
+                .right(v-else) {{fundInfo.bankName}}
                     em(v-if="fundInfo.exchangeFlag === 1") {{$t('A113')}}
             .investmnet--list--item
                 .left {{$t('A31')}}

@@ -172,10 +172,9 @@ import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { Button, Dialog } from 'vant'
 import { getShortUrl } from '@/service/news-shorturl.js'
-import jsBridge from '@/utils/js-bridge'
+import jsBridge, { setAppVisibleCallback } from '@/utils/js-bridge'
 import { browseFundDetails, clickFundDetails } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
-import { debounce } from '@/utils/tools.js'
 import { CountDown } from 'vant-fork'
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
@@ -1241,14 +1240,7 @@ export default {
                 }
             }
         },
-        async appVisibleHandle(data) {
-            let re = data
-            if (typeof data === 'string') {
-                re = JSON.parse(data)
-            }
-            if (re.data.status !== 'visible') {
-                return
-            }
+        async appVisibleHandle() {
             await this.$store.dispatch('initAction')
             if (this.isLogin) {
                 await this.getFundUserInfo()
@@ -1329,15 +1321,16 @@ export default {
             this.loading = false
         }
         this.getSource()
-        jsBridge.callAppNoPromise(
-            'command_watch_activity_status',
-            {},
-            'appVisible',
-            'appInvisible'
-        )
-        //this.setShareButton()
-        // 解决ios系统快速切换tab后，报网络开小差的情况
-        window.appVisible = debounce(this.appVisibleHandle, 100)
+        // jsBridge.callAppNoPromise(
+        //     'command_watch_activity_status',
+        //     {},
+        //     'appVisible',
+        //     'appInvisible'
+        // )
+        // //this.setShareButton()
+        // // 解决ios系统快速切换tab后，报网络开小差的情况
+        // window.appVisible = debounce(this.appVisibleHandle, 100)
+        setAppVisibleCallback(this.appVisibleHandle, this)
         //app点击分享按钮回调
         window.handlerFundShare = async () => {
             let langMun = {
