@@ -16,8 +16,12 @@ export const enablePullRefresh = enable => {
 }
 
 // 设置Webview可见时回调函数
-export const setAppVisibleCallback = function(cb, context) {
+export const setAppVisibleCallback = function(cb, context, options) {
     context = context || window
+    const defaultOpts = {
+        delay: 300
+    }
+    options = Object.assign({}, defaultOpts, options)
     jsBridge.callAppNoPromise(
         'command_watch_activity_status',
         {},
@@ -35,7 +39,7 @@ export const setAppVisibleCallback = function(cb, context) {
         }
         cb && cb.apply(context)
         prevAppVisible(data)
-    }, 300)
+    }, options.delay)
 }
 
 export default jsBridge
