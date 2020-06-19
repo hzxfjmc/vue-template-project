@@ -268,8 +268,11 @@ export default {
                     needToken: true
                 })
                 let token = data && data.token
+                this.$loading()
                 this.getUpdateFundFixedPlanStatus(token)
+                this.$close()
             } catch (error) {
+                this.$close()
                 this.$toast(error.desc.errorMessage)
                 console.log('申购页面-tradeErrorMsg :', error)
             }

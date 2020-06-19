@@ -128,7 +128,7 @@ import NumberKeyboard from './components/number-keyboard'
 import protocolPopup from './components/protocol-popup'
 import twoPicker from './components/two-picker'
 import { queryMandateBank } from '@/service/stock-capital-server'
-
+import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import './index.scss'
 import dayjs from 'dayjs'
 
@@ -225,6 +225,9 @@ export default {
             'openedAccount',
             'appVersion'
         ]),
+        currencyName() {
+            return CURRENCY_NAME[this.lang][this.fundTradeInfoVO.currency.type]
+        },
         actulAmount() {
             if (isNaN(Number(this.amount) + Number(this.HandlingFee))) {
                 return '0.00'
@@ -475,14 +478,17 @@ export default {
                 let res = {},
                     url
                 data.exchangeFlag = this.exchangeFlag ? 1 : 0
+                this.$loading()
                 if (this.$route.query.fixedPlanCode) {
                     data.fixedPlanCode = this.$route.query.fixedPlanCode
                     await getUpdateFundFixedPlanInfo(data)
                     url = 'my-investment'
                 } else {
                     res = await hanlderCreateFundFixedPlan(data)
+
                     url = 'investment-result'
                 }
+                this.$close()
                 res.fundName = this.fundName
                 if (data.chargeType == 1) {
                     res.bankName = this.bankList[0].bankName
@@ -502,7 +508,7 @@ export default {
                 }
                 // }
             } catch (e) {
-                console.log(e)
+                this.$close()
                 this.$toast(e.msg)
             }
         },
@@ -606,13 +612,13 @@ export default {
             ) {
                 return this.$toast(
                     this.$t([
-                        `最小申购金额为${Number(
+                        `最低申购${Number(
                             this.fundHeaderInfoVO.initialInvestAmount
-                        ).toFixed(2)}`,
-                        `最小申購金額為${Number(
+                        ).toFixed(2)} ${this.currencyName}`,
+                        `最低申購${Number(
                             this.fundHeaderInfoVO.initialInvestAmount
-                        ).toFixed(2)}`,
-                        `minBugBalance${Number(
+                        ).toFixed(2)} ${this.currencyName}`,
+                        `Mini. Subs ${this.currencyName} ${Number(
                             this.fundHeaderInfoVO.initialInvestAmount
                         ).toFixed(2)}`
                     ])
@@ -624,13 +630,13 @@ export default {
             ) {
                 return this.$toast(
                     this.$t([
-                        `续投金额为${Number(
+                        `最低申购${Number(
                             this.fundHeaderInfoVO.continueInvestAmount
-                        ).toFixed(2)}`,
-                        `續投金額為${Number(
+                        ).toFixed(2)} ${this.currencyName}`,
+                        `最低申購${Number(
                             this.fundHeaderInfoVO.continueInvestAmount
-                        ).toFixed(2)}`,
-                        `Subsequent${Number(
+                        ).toFixed(2)} ${this.currencyName}`,
+                        `Mini. Subs ${this.currencyName} ${Number(
                             this.fundHeaderInfoVO.continueInvestAmount
                         ).toFixed(2)}`
                     ])
