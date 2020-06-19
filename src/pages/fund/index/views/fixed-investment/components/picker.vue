@@ -9,7 +9,7 @@
                     li(v-for="item in bankList" @click="checkBankHandle(item)")
                         template(v-if="item.type !=1")
                             .block--left
-                                .bank-name {{item.bankName}}
+                                .bank-name {{item.bankName}} ({{item.bankAccountNo && item.bankAccountNo.slice(-4)}})
                                     span {{item.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
                                 .limit-text 
                                     .text-show
