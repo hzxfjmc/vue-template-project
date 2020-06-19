@@ -81,6 +81,7 @@ import { getFundFixedPlanPage } from '@/service/finance-server.js'
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import { List } from 'vant'
 import dayjs from 'dayjs'
+import { setAppVisibleCallback } from '@/utils/js-bridge'
 export default {
     components: {
         [List.name]: List
@@ -258,11 +259,15 @@ export default {
                 if (this.recordFinished) return
                 this.getFundFixedRecordPage()
             }
+        },
+        init() {
+            this.getFundFixedPlanPage()
+            this.getFundFixedRecordPage()
         }
     },
     created() {
-        this.getFundFixedPlanPage()
-        this.getFundFixedRecordPage()
+        this.init()
+        setAppVisibleCallback(this.init, this)
     }
 }
 </script>

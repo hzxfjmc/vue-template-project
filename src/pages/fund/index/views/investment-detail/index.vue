@@ -182,13 +182,16 @@ export default {
         //修改定投计划
         async getUpdateFundFixedPlanStatus(token) {
             try {
+                this.$loading()
                 await getUpdateFundFixedPlanStatus({
                     fixedPlanCode: this.$route.query.fixedPlanCode,
                     fixedPlanStatus: this.fixedPlanStatusval,
                     tradeToken: token
                 })
+                this.$close()
                 this.getFundFixedPlanDetail()
             } catch (e) {
+                this.$close()
                 this.$toast(e.msg)
             }
         },
@@ -259,7 +262,7 @@ export default {
                 this.fixedPlanStatusval = 1
                 this.isShowDialog = true
                 this.dialogTitle = this.$t('A89')
-                this.dialogMessage = this.$t('A96')
+                this.dialogMessage = this.$t('A95')
             }
         },
         async confirmDialogHandle() {
@@ -268,11 +271,8 @@ export default {
                     needToken: true
                 })
                 let token = data && data.token
-                this.$loading()
                 this.getUpdateFundFixedPlanStatus(token)
-                this.$close()
             } catch (error) {
-                this.$close()
                 this.$toast(error.desc.errorMessage)
                 console.log('申购页面-tradeErrorMsg :', error)
             }
