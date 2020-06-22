@@ -127,6 +127,7 @@ export default {
     margin: 6px 0;
     background-color: $background-color;
 }
+
 .fund-income__body {
     display: flex;
     padding: 13px 0 13px 12px;
@@ -182,6 +183,16 @@ export default {
                     font-family: yxFontDINPro-Regular;
                     color: $text-color5;
                 }
+            }
+        }
+    }
+}
+.fund-income-container.en {
+    .fund-income__body {
+        .body-item {
+            .title,
+            .label {
+                font-size: 12px;
             }
         }
     }

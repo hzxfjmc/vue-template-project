@@ -60,17 +60,14 @@
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
         .chart-custom-legend(v-if="!isMmf")
-            .legend__category(v-if="lengendData.thisFundPointData") 
-                .legend__maker.maker-1
-                .legend__title {{ thisFundName }}
+            .legend__category
+                .legend__title.maker-1 {{ thisFundName }}
                 .legend__value(:class="getStockClass(lengendData.thisFundPointData)") {{lengendData.thisFundPointData | filterRatio}}
             .legend__category(v-if="lengendData.categoryPointData") 
-                .legend__maker.maker-2
-                .legend__title {{ categoryName }}
+                .legend__title.maker-2 {{ categoryName }}
                 .legend__value(:class="getStockClass(lengendData.categoryPointData)") {{lengendData.categoryPointData | filterRatio}}
             .legend__category(v-if="lengendData.benchmarkPointData") 
-                .legend__maker.maker-3
-                .legend__title {{ benchmarkName }}
+                .legend__title.maker-3 {{ benchmarkName }}
                 .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
         .chart-header-tips(v-if="showTopTips")
             template(v-if="isMmf")
@@ -198,11 +195,9 @@ export default {
         filterRatio(val, fixCount) {
             fixCount = fixCount || 2
             val = (val + '').indexOf('%') !== -1 ? (val + '').slice(0, -1) : val
-            return val
-                ? Number(val) > 0
-                    ? `+${Number(val).toFixed(fixCount)}%`
-                    : `${Number(val).toFixed(fixCount)}%`
-                : '--'
+            return Number(val) > 0
+                ? `+${Number(val).toFixed(fixCount)}%`
+                : `${Number(val).toFixed(fixCount)}%`
         }
     },
     props: {
@@ -529,6 +524,25 @@ export default {
         }
         .legend__title {
             padding: 0 6px;
+            position: relative;
+            &::before {
+                content: ' ';
+                height: 6px;
+                width: 6px;
+                border-radius: 50%;
+                position: absolute;
+                left: -6px;
+                top: 6px;
+            }
+            &.maker-1::before {
+                background-color: #2f79ff;
+            }
+            &.maker-2::before {
+                background-color: rgba(0, 186, 96, 0.4);
+            }
+            &.maker-3::before {
+                background-color: rgba(255, 191, 50, 0.6);
+            }
         }
         .legend__value {
             width: 50px;
