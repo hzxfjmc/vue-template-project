@@ -3,7 +3,9 @@
         .fund-income__body
             .body-item.body-item__left
                 .item  
-                    .title {{$t(['年化收益','年化收益','Annualized Return'])}}           
+                    .title 
+                        .text {{$t(['年化收益','年化收益','Annualized Return'])}} 
+                        .iconfont.icon-warning          
                     .label {{$t(['本基金', '本基金', 'Fund'])}}          
                     .label {{$t(['同类平均', '同類平均', 'Sector AVG'])}}          
                     .label {{$t(['同类排名', '同類排名', 'Sector Rank'])}}          
@@ -12,7 +14,10 @@
                     .title {{item.title}}           
                     .label(:class="getStockClass(thisFundReturn[item.key])") {{thisFundReturn[item.key] | filterRatio}}         
                     .label(:class="getStockClass(categoryReturn[item.key])") {{categoryReturn[item.key] | filterRatio}}           
-                    .label {{categoryRank[`${[item.key]}Rank`]||'--'}}/{{categoryRank[`${[item.key]}Total`]||'--'}}
+                    .label.last 
+                        span.first-num {{categoryRank[`${[item.key]}Rank`]||'--'}}
+                        span /
+                        span.last-num {{categoryRank[`${[item.key]}Total`]||'--'}}
 </template>
 <script>
 /**
@@ -129,6 +134,14 @@ export default {
         width: 25%;
         text-align: left;
         .item {
+            .title {
+                display: flex;
+                align-items: center;
+                .iconfont {
+                    font-size: 15px;
+                    padding-left: 6px;
+                }
+            }
             .label {
                 color: $text-color5;
             }
@@ -147,6 +160,18 @@ export default {
             }
             .label {
                 font-family: yxFontDINPro-Medium;
+            }
+            .last {
+                padding-top: 15px;
+                font-size: 13px;
+                font-weight: 400;
+                .first-num {
+                    font-weight: 500;
+                }
+                .last-num {
+                    font-family: yxFontDINPro-Regular;
+                    color: $text-color5;
+                }
             }
         }
     }
