@@ -29,14 +29,37 @@
             .content__title {{this.$t('manageInfo')}}
             .fund-manager__content
                 .content__name JUNJIE
-                .content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司 
+                .content_desc__wrap
+                    span.content_desc(
+                        :class="{all: showMore}"
+                    ) PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的
+                .more(
+                    v-if="!showMore"
+                    @click="showMore = true"
+                ) 查看更多
+                .more(
+                    v-else
+                    @click="showMore = false"
+                ) 收起
             .fund-manager__content
                 .content__name JUNJIE
-                .content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司
+                .content_desc__wrap
+                    span.content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司
+                    span.more 查看更多
+            .fund-manager__content
+                .content__name JUNJIE
+                .content_desc__wrap
+                    span.content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司
+                    span.more 查看更多
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
+    data() {
+        return {
+            showMore: false
+        }
+    },
     i18n: {
         zhCHS: {
             fundManager: '基金经理',
@@ -142,13 +165,19 @@ export default {
         font-size: 14px;
     }
     .content_desc {
-        height: 72px;
+        height: 120px;
         overflow: hidden;
         line-height: 24px;
         display: -webkit-box;
         -webkit-box-orient: vertical;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 5;
         overflow: hidden;
+        &.all {
+            height: 200px;
+        }
+    }
+    .more {
+        color: $primary-color-line;
     }
 }
 </style>
