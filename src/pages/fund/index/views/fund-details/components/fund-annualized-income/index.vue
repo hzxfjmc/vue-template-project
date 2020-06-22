@@ -5,7 +5,7 @@
                 .item  
                     .title 
                         .text {{$t(['年化收益','年化收益','Annualized Return'])}} 
-                        .iconfont.icon-warning          
+                        .iconfont.icon-warning(@click="showTips")          
                     .label {{$t(['本基金', '本基金', 'Fund'])}}          
                     .label {{$t(['同类平均', '同類平均', 'Sector AVG'])}}          
                     .label {{$t(['同类排名', '同類排名', 'Sector Rank'])}}          
@@ -55,7 +55,6 @@ export default {
                 : '--'
         }
     },
-
     data() {
         return {
             keyList: [
@@ -83,6 +82,18 @@ export default {
         }
     },
     methods: {
+        showTips() {
+            this.$confirm({
+                title: this.$t(['年化收益', '年化收益', 'Annualized Return']),
+                showCancelButton: false,
+                message: $t([
+                    '年化收益率是把当前收益率（日/月/年/持有期收益率）换算成年收益率，即让投资者大致了解到持有该产品每年能获得的收益。',
+                    '年化收益率是把當前收益率（日/月/年/持有期收益率）換算整年收益率，即讓投資者大致瞭解到持有該產品每年能獲得的收益。',
+                    'Annualized return is the calculation of changing current return (day/month/year/holding period return) to the yearly return for helping investors to figure out the estimated annual return on investing the product.'
+                ]),
+                confirmButtonText: this.$t(['我知道了', '我知道了', 'ok'])
+            })
+        },
         getStockClass(val) {
             return val > 0
                 ? this.stockColorTypeClass.up
