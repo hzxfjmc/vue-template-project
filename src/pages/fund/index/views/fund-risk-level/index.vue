@@ -8,10 +8,11 @@
                     v-if="tagShow"
                     @click="fundTipsHandle"
                     :class="{derivatives: tagsShow}"
-                    ) 
-                    span(v-if="tagsShow") {{this.$t('Derivatives')}}
-                    span {{this.$t('Complex')}}
-                    span.iconfont.icon-icon_fund_index_2   
+                    )
+                    span 
+                        span(v-if="tagsShow") {{this.$t('Derivatives')}}
+                        span {{this.$t('Complex')}}
+                        span.iconfont.icon-icon_fund_index_2   
                 .desc {{this.$t(`R${this.$route.query.fundRiskType}`)}}
             .fund-block
                 .fund-block__fundRisk(:style="{height: tableHeight}")
@@ -243,15 +244,14 @@ export default {
     }
     .tips {
         margin-bottom: 15px;
-        border-radius: 2px;
         font-size: 14px;
         color: $primary-color;
         span {
+            border-radius: 4px;
             padding: 3px;
-            background-color: #e0f2ff;
+            background-color: rgba(224, 242, 255, 0.4);
         }
         .iconfont {
-            padding: 5px;
             font-size: 14px;
         }
     }
@@ -295,14 +295,18 @@ export default {
     text-align: center;
     th {
         height: 40px;
-        background-color: rgba(0, 92, 229, 0.4);
+        background-color: rgba(0, 92, 229, 0.19);
         &:first-child {
             width: 90px;
+            border-top-left-radius: 4px;
+        }
+        &:last-child {
+            border-top-right-radius: 4px;
         }
     }
     td {
         padding: 10px;
-        background-color: #e0f2ff;
+        background-color: $text-link-color06;
         &:last-child {
             text-align: justify;
             white-space: pre-line;
