@@ -11,6 +11,8 @@
         fundDetailsEchart(
           @chooseTime = "getFundApyPoint"
           :benchmarkNameObj="benchmarkNameObj"
+          :displayCategory="displayCategory"
+          :displayBenchmark="displayBenchmark"
           :step="step"
           :timeList="timeList"
           :tabObj="tabObj"
@@ -549,7 +551,8 @@ export default {
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
             benchmarkNameObj: {},
-            benchmarkName: ''
+            displayBenchmark: false,
+            displayCategory: false
         }
     },
     methods: {
@@ -988,6 +991,7 @@ export default {
                     res.fundHeaderInfoVO.fundName
                 )
                 this.benchmarkNameObj = res.benchmarkName
+                this.displayBenchmark = res.displayBenchmark
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
@@ -1060,7 +1064,11 @@ export default {
                                         this.benchmarkNameObj.en
                                     ])
                                 }
+                                this.displayCategory = false
                                 if (item[key] !== null) {
+                                    if (key === 'categoryPointData') {
+                                        this.displayCategory = true
+                                    }
                                     this.initEchartList.push({
                                         type:
                                             typeMap[key] ||

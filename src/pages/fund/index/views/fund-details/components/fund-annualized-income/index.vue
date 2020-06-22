@@ -12,7 +12,7 @@
                     .title {{item.title}}           
                     .label(:class="getStockClass(thisFundReturn[item.key])") {{thisFundReturn[item.key] | filterRatio}}         
                     .label(:class="getStockClass(categoryReturn[item.key])") {{categoryReturn[item.key] | filterRatio}}           
-                    .label {{categoryRank[`${[item.key]}Rank`]}}/{{categoryRank[`${[item.key]}Total`]}}
+                    .label {{categoryRank[`${[item.key]}Rank`]||'--'}}/{{categoryRank[`${[item.key]}Total`]||'--'}}
 </template>
 <script>
 /**

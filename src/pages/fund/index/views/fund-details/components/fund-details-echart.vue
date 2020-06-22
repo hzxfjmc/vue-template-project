@@ -92,16 +92,16 @@
                         .item__value(
                             :class="getStockClass(mmfData.pointData)"
                         ) {{lengendData.thisFundPointData | filterRatio}}
-                    .header__item(v-if="lengendData.categoryPointData")
-                        .item__label {{categoryName}}：
-                        .item__value(
-                            :class="getStockClass(lengendData.categoryPointData)"
-                        ) {{lengendData.categoryPointData| filterRatio}}
-                    .header__item(v-else)
+                    .header__item(v-if="displayBenchmark")
                         .item__label {{benchmarkName}}：
                         .item__value(
                             :class="getStockClass(lengendData.benchmarkPointData)"
-                        ) {{lengendData.benchmarkPointData | filterRatio}}                
+                        ) {{lengendData.benchmarkPointData | filterRatio}}  
+                    .header__item(v-if="!displayBenchmark && displayCategory")
+                        .item__label {{categoryName}}：
+                        .item__value(
+                            :class="getStockClass(lengendData.categoryPointData)"
+                        ) {{lengendData.categoryPointData| filterRatio}}            
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
         .fund-date-list
@@ -237,6 +237,14 @@ export default {
         tabObj: {
             type: Object,
             default: () => {}
+        },
+        displayCategory: {
+            type: Boolean,
+            default: false
+        },
+        displayBenchmark: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
