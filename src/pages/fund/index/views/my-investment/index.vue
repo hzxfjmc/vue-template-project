@@ -145,7 +145,7 @@ export default {
             jumpUrl('', url)
         },
         //定投计划列表
-        async getFundFixedPlanPage() {
+        async getFundFixedPlanPage(isFirsLoad) {
             try {
                 let data = {
                     fixedPlanStatus: [1, 2],
@@ -156,27 +156,28 @@ export default {
                     data.fundId = this.$route.query.id
                 }
                 const {
-                    list,
+                    list = [],
                     pageSize,
                     pageNum,
                     total
                 } = await getFundFixedPlanPage(data)
-                this.list = this.list.concat(list)
-                this.planPageNum = pageNum
-                this.planPageSize = pageSize
-                this.planTotla = total
-                this.loading = false
                 let EnumChargeType = {
                     1: this.$t(['证券账户', '證券帳戶', 'Securities Account']),
                     2: 'edda'
                 }
-                this.list.map(item => {
+                list.forEach(item => {
                     item.chargeType = EnumChargeType[item.chargeType]
                     item.week = this.getWeek(item.recentDeductionDate)
                     item.recentDeductionDate = dayjs(
                         item.recentDeductionDate
                     ).format('MM-DD')
                 })
+                this.list = isFirsLoad ? list : this.list.concat(list)
+                this.planPageNum = pageNum
+                this.planPageSize = pageSize
+                this.planTotla = total
+                this.loading = false
+
                 if (this.list.length >= this.planTotla) {
                     this.finished = true
                 }
@@ -202,7 +203,7 @@ export default {
             return i18nObj[index]
         },
         //定投历史列表
-        async getFundFixedRecordPage() {
+        async getFundFixedRecordPage(isFirstLoad) {
             try {
                 let data = {
                     fixedPlanStatus: [3],
@@ -213,24 +214,26 @@ export default {
                     data.fundId = this.$route.query.id
                 }
                 const {
-                    list,
+                    list = [],
                     pageSize,
                     pageNum,
                     total
                 } = await getFundFixedPlanPage(data)
-                this.recordLoading = false
-                this.recordList = this.recordList.concat(list)
                 let EnumChargeType = {
                     1: '证券账户',
                     2: 'edda'
                 }
-                this.recordList.map(item => {
+                list.forEach(item => {
                     item.chargeType = EnumChargeType[item.chargeType]
                     item.week = this.getWeek(item.recentDeductionDate)
                     item.recentDeductionDate = dayjs(
                         item.recentDeductionDate
                     ).format('MM-DD')
                 })
+                this.recordLoading = false
+                this.recordList = isFirstLoad
+                    ? list
+                    : this.recordList.concat(list)
                 this.recordPageNum = pageNum
                 this.recordPageSize = pageSize
                 this.recordTotla = total
@@ -261,8 +264,10 @@ export default {
             }
         },
         init() {
-            this.getFundFixedPlanPage()
-            this.getFundFixedRecordPage()
+            this.planPageNum = 1
+            this.recordPageNum = 1
+            this.getFundFixedPlanPage(true)
+            this.getFundFixedRecordPage(true)
         }
     },
     created() {
