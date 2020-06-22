@@ -49,8 +49,9 @@
                                 .tips.user(
                                     v-if="damagedStatus"
                                     @click="userTipsHandle")
-                                    span {{this.$t(['易受损客户','易受損客戶','Vulnerable Customer'])}}
-                                    span.iconfont.icon-icon_fund_index_2
+                                    span
+                                        span {{this.$t(['易受损客户','易受損客戶','Vulnerable Customer'])}}
+                                        span.iconfont.icon-icon_fund_index_2
                                 .desc {{this.$t(`A${userRiskLevel}`)}}
                             .desc(v-else) {{this.$t('noAssess')}}
                         .fund-risk__table(:style="{height: tableHeight2}")
