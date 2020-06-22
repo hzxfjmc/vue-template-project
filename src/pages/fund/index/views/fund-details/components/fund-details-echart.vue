@@ -3,13 +3,13 @@
     .block__fund--echart.border-bottom
         .block__fund--item(
             :class="activeTab==1?'activeItem':''"
-            @click="handlerActiveTab(1)") {{isMMF?$t('yieldInLast7d'):$t('trendCharts')}}
+            @click="handlerActiveTab(1)") {{isMmf?$t('yieldInLast7d'):$t('trendCharts')}}
         .block__fund--item(
             :class="activeTab==2?'activeItem':''"
             @click="handlerActiveTab(2)") {{$t('historicalRTN')}}
         .block__fund--item(
             :class="activeTab==3?'activeItem':''"
-            @click="handlerActiveTab(3)") {{isMMF?$t('tenKRTN'):$t('NAVHistory')}}
+            @click="handlerActiveTab(3)") {{isMmf?$t('tenKRTN'):$t('NAVHistory')}}
     .fund-echart-content2(v-show ="activeTab ==2")
         .block__fund--yj
             .block__list--item.fund__list--headerjy
@@ -34,13 +34,13 @@
             .block__list--item.fund__list--headerjy.fund__list--content
                 p.list__left {{$t('time')}}
                 p.list__content {{$t('navChg')}}
-                p.list__right {{isMMF?$t('RTNDetail'):$t('dayChg')}}
+                p.list__right {{isMmf?$t('RTNDetail'):$t('dayChg')}}
             .block__list--item.border-bottom(
                 v-for="(item,index) in historyList" 
                 :key="index")
                 p.list__left {{item.belongDay}}
                 p.list__content {{item.netPrice}}
-                template(v-if="isMMF")
+                template(v-if="isMmf")
                     p.list__right(
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                         v-if="item.revenue>0") +{{item.revenue}}
@@ -59,7 +59,7 @@
             .block__list--more(@click="toFundHistory")
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
-        .chart-custom-legend(v-if="!isMMF")
+        .chart-custom-legend(v-if="!isMmf")
             .legend__category(v-if="lengendData.thisFundPointData") 
                 .legend__maker.maker-1
                 .legend__title {{ thisFundName }}
@@ -72,15 +72,37 @@
                 .legend__maker.maker-3
                 .legend__title {{ benchmarkName }}
                 .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
-        .chart-header-tips(v-if="isMMF && showMmf")
-            .header__item  
-                .item__label {{$t('time')}}：
-                .item__value {{mmfData.belongDay}}
-            .header__item
-                .item__label {{$t('yieldInLast7d')}}：
-                .item__value(
-                    :class="getStockClass(mmfData.pointData)"
-                ) {{mmfData.pointData| filterRatio(4)}}
+        .chart-header-tips(v-if="showTopTips")
+            template(v-if="isMmf")
+                .tips__body.mmf-tips__body
+                    .header__item  
+                        .item__label {{$t('time')}}：
+                        .item__value {{lengendData.belongDay}}
+                    .header__item
+                        .item__label {{$t('yieldInLast7d')}}：
+                        .item__value(
+                            :class="getStockClass(mmfData.pointData)"
+                        ) {{mmfData.pointData| filterRatio(4)}}
+            template(v-else)
+                .tips__body.notmmf-tips__body
+                    .header__item  
+                        .item__label {{$t('time')}}：
+                        .item__value {{mmfData.belongDay}}
+                    .header__item
+                        .item__label {{thisFundName}}：
+                        .item__value(
+                            :class="getStockClass(mmfData.pointData)"
+                        ) {{lengendData.thisFundPointData | filterRatio}}
+                    .header__item(v-if="lengendData.categoryPointData")
+                        .item__label {{categoryName}}：
+                        .item__value(
+                            :class="getStockClass(lengendData.categoryPointData)"
+                        ) {{lengendData.categoryPointData| filterRatio}}
+                    .header__item(v-else)
+                        .item__label {{benchmarkName}}：
+                        .item__value(
+                            :class="getStockClass(lengendData.benchmarkPointData)"
+                        ) {{lengendData.benchmarkPointData | filterRatio}}                
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
         .fund-date-list
@@ -236,15 +258,16 @@ export default {
             chartId: 'myChart_master',
             flag: true,
             lengendData: {
+                belongDay: '',
                 thisFundPointData: '',
-                thisFundPointDataDefault: '',
                 categoryPointData: '',
-                categoryPointDataDefault: '',
                 benchmarkPointData: '',
+                thisFundPointDataDefault: '',
+                categoryPointDataDefault: '',
                 benchmarkPointDataDefault: ''
             },
             mmfData: {},
-            showMmf: false
+            showTopTips: false
         }
     },
     methods: {
@@ -335,11 +358,12 @@ export default {
                         if (item.name === this.thisFundName) {
                             this.lengendData.thisFundPointData = item.value
                             console.log(this.lengendData.thisFundPointData)
-                            this.showMmf = true
+                            this.showTopTips = true
                             this.mmfData = item.origin
                             this.mmfData.belongDay = dayjs(
                                 this.mmfData.belongDay
                             ).format('YYYY-MM-DD')
+                            this.lengendData.belongDay = this.mmfData.belongDay
                         }
                         if (item.name === this.categoryName) {
                             this.lengendData.categoryPointData = item.value
@@ -350,10 +374,12 @@ export default {
                     })
                 },
                 onHide: () => {
-                    this.showMmf = false
-                    this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
-                    this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
-                    this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
+                    this.showTopTips = false
+                    setTimeout(() => {
+                        this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
+                        this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
+                        this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
+                    }, 500)
                 }
             })
             this.chart
@@ -389,7 +415,8 @@ export default {
         stockColorType() {
             return +getStockColorType()
         },
-        isMMF() {
+        isMmf() {
+            // 货币基金
             return FUND_ASSET_TYPE.MMF.value === this.fundHeaderInfoVO.assetType
         },
         benchmarkName() {
@@ -453,14 +480,19 @@ export default {
     font-size: 12px;
     line-height: 40px;
     position: absolute;
-    display: flex;
-    justify-content: space-between;
-    .header__item {
+    .tips__body {
         display: flex;
-        padding: 0 10px;
-        .item__value {
-            text-align: right;
+        justify-content: space-between;
+        .header__item {
+            display: flex;
+            padding: 0 10px;
+            .item__value {
+                text-align: right;
+            }
         }
+    }
+    .notmmf-tips__body {
+        justify-content: flex-start;
     }
 }
 .chart-custom-legend {
