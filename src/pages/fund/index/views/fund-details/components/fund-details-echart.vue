@@ -86,7 +86,6 @@
             template(v-else)
                 .tips__body.notmmf-tips__body
                     .header__item  
-                        .item__label {{$t('time')}}：
                         .item__value {{mmfData.belongDay}}
                     .header__item
                         .item__label {{thisFundName}}：
