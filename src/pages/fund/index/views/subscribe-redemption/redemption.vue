@@ -28,7 +28,7 @@
                             <!--.block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}-->
                         .buy-row
                             .btn-fast(@click="handlerFastSellCount(0.25)") 1/4
-                            .btn-fast(@click="handlerFastSellCount(0.33)") 1/3
+                            .btn-fast(@click="handlerFastSellCount(1/3)") 1/3
                             .btn-fast(@click="handlerFastSellCount(0.5)") 1/2
                             .btn-fast(@click="handlerFastSellCount(1)") 全部
                     .buy-row.block__tags(v-show="tagText")
