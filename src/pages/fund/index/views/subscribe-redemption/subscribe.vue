@@ -560,63 +560,39 @@ export default {
                 const formatInitialInvesetAmount = transNumToThousandMark(
                     Number(initialInvestAmount).toFixed(2)
                 )
-                console.log(
-                    this.subscribeObj,
-                    Number(
-                        this.subscribeObj['withdrawBalance'].value.replace(
-                            /,/g,
-                            ''
-                        )
-                    ),
-                    initialInvestAmount
+                // 余额
+                let withdrawAmount = Number(
+                    this.subscribeObj['withdrawBalance'].value.replace(/,/g, '')
                 )
+                // 起始档位
+                let startStepAmount = Math.max(+initialInvestAmount, 1000)
                 if (
-                    Number(
-                        this.subscribeObj['withdrawBalance'].value.replace(
-                            /,/g,
-                            ''
-                        )
-                    ) > +initialInvestAmount
+                    withdrawAmount >= +initialInvestAmount &&
+                    withdrawAmount >= startStepAmount
                 ) {
-                    this.tagList =
-                        initialInvestAmount <= 1000
-                            ? [
-                                  {
-                                      label: `1,000${CurrencyName}`,
-                                      value: '1000'
-                                  },
-                                  {
-                                      label: `2,000${CurrencyName}`,
-                                      value: '2000'
-                                  },
-                                  {
-                                      label: `3,000${CurrencyName}`,
-                                      value: '3000'
-                                  }
-                              ]
-                            : [
-                                  {
-                                      label: `${transNumToThousandMark(
-                                          Number(initialInvestAmount),
-                                          0
-                                      )}${CurrencyName}`,
-                                      value: initialInvestAmount
-                                  },
-                                  {
-                                      label: `${transNumToThousandMark(
-                                          Number(initialInvestAmount * 2),
-                                          0
-                                      )}${CurrencyName}`,
-                                      value: initialInvestAmount * 2
-                                  },
-                                  {
-                                      label: `${transNumToThousandMark(
-                                          Number(initialInvestAmount * 4),
-                                          0
-                                      )}${CurrencyName}`,
-                                      value: initialInvestAmount * 4
-                                  }
-                              ]
+                    this.tagList = [
+                        {
+                            label: `${transNumToThousandMark(
+                                startStepAmount,
+                                0
+                            )}${CurrencyName}`,
+                            value: startStepAmount
+                        },
+                        {
+                            label: `${transNumToThousandMark(
+                                Number(startStepAmount * 2),
+                                0
+                            )}${CurrencyName}`,
+                            value: startStepAmount * 2
+                        },
+                        {
+                            label: `${transNumToThousandMark(
+                                Number(startStepAmount * 4),
+                                0
+                            )}${CurrencyName}`,
+                            value: startStepAmount * 4
+                        }
+                    ]
                 }
 
                 if (this.positionStatus !== 1) {
