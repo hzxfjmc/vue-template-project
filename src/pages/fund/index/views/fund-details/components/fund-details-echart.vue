@@ -351,6 +351,7 @@ export default {
             })
             this.chart.legend(false)
             this.chart.tooltip({
+                triggerOn: ['touchmove'],
                 showCrosshairs: true,
                 crosshairsStyle: {
                     // 配置辅助线的样式
@@ -382,11 +383,9 @@ export default {
                 },
                 onHide: () => {
                     this.showTopTips = false
-                    setTimeout(() => {
-                        this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
-                        this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
-                        this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
-                    }, 500)
+                    this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
+                    this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
+                    this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
                 }
             })
             this.chart

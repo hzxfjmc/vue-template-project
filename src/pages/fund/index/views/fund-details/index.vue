@@ -1077,7 +1077,7 @@ export default {
                                                 '本基金',
                                                 'Fund'
                                             ]),
-                                        pointData: Number(item[key]),
+                                        pointData: Number(item[key] * 100),
                                         belongDay: item.belongDay
                                     })
                                 }
