@@ -1064,7 +1064,6 @@ export default {
                                         this.benchmarkNameObj.en
                                     ])
                                 }
-                                this.displayCategory = false
                                 if (item[key] !== null) {
                                     if (key === 'categoryPointData') {
                                         this.displayCategory = true

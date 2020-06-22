@@ -90,7 +90,7 @@
                     .header__item
                         .item__label {{thisFundName}}：
                         .item__value(
-                            :class="getStockClass(mmfData.pointData)"
+                            :class="getStockClass(lengendData.thisFundPointData )"
                         ) {{lengendData.thisFundPointData | filterRatio}}
                     .header__item(v-if="displayBenchmark")
                         .item__label {{benchmarkName}}：
@@ -309,8 +309,8 @@ export default {
             }
             params.padding =
                 this.fundHeaderInfoVO.assetType === 4
-                    ? [20, 0, 33, 52]
-                    : [10, 0, 33, 45]
+                    ? [20, 5, 33, 52]
+                    : [10, 5, 33, 45]
             this.chart = new F2.Chart(params)
             if (this.initEchartList.length === 0) return
             this.chart.source(this.initEchartList, {
@@ -453,11 +453,14 @@ export default {
         },
         originChartList(val) {
             if (val.length) {
-                const {
+                let {
                     thisFundPointData,
                     categoryPointData,
                     benchmarkPointData
                 } = val[val.length - 1]
+                thisFundPointData = thisFundPointData * 100
+                categoryPointData = categoryPointData * 100
+                benchmarkPointData = benchmarkPointData * 100
                 this.lengendData.thisFundPointData = thisFundPointData
                 this.lengendData.categoryPointData = categoryPointData
                 this.lengendData.benchmarkPointData = benchmarkPointData

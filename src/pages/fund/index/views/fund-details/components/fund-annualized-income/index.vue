@@ -73,8 +73,7 @@ export default {
                 {
                     title: $t(['近十年', '近十年', 'Last 10-Year']),
                     key: 'near10Year'
-                },
-                { title: $t(['今年来', '今年来', 'YTD']), key: 'toYear' }
+                }
             ],
             thisFundReturn: {},
             categoryReturn: {},
