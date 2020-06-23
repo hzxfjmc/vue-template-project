@@ -65,3 +65,12 @@ html {
         }
     }
 }
+
+
+.border { border: 1px solid  rgba(255, 255, 255, 0.3)}
+@media screen and (-webkit-min-device-pixel-ratio: 2) {
+    .border { border: 0.5px solid  rgba(255, 255, 255, 0.3)}
+}
+@media screen and (-webkit-min-device-pixel-ratio: 3) {
+    .border { border: 0.333333px solid rgba(255, 255, 255, 0.3) }
+}

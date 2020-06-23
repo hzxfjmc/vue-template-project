@@ -7,7 +7,15 @@
             :tagShow="tagShow"
             :tagsShow="tagsShow"
             :fundHeaderInfoVO="fundHeaderInfoVO")
-        
+
+        .block__fundheader--tips(
+            v-if="isLogin && holdDetailsShow"
+            @click="toRouterGenerator('/hold-fund-details')")
+            em.iconfont.icon-wallet2
+            span.title {{$t('A77')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
+
         fundDetailsEchart(
           @chooseTime = "getFundApyPointV1"
           :step="step"
@@ -16,10 +24,6 @@
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
-
-        HoldfundDetails(
-            v-if="holdDetailsShow"
-            :initState="holdInitState")
 
         FightFundHk(
             v-if="!fightShow && code ===2"
@@ -33,14 +37,6 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
 
-        .block__fundheader--tips(
-            v-if="isLogin"
-            @click="toRouterGenerator('/order-record')")
-            em.iconfont.icon-iconEBshoucang
-            span.title {{$t('trade')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
-       
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -56,19 +52,54 @@
             p {{$t('msg2')}}
     .fund__block--btn(v-if="!loading")
         .fund-footer-content(v-if="RedemptionButton")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            .fund-block--content
+                .btn.colorbg.button-5width.btn-inverster(
+                        :class="[investmentShow? 'fund-footer':'fund-no']"
+                        @click="handleBuyOrSell(4)")
+                        span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                        em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
+                //- van-button.button-5width.button-left.btn(
+                //-     :class="[flag?'fund-check':'fund-no']" 
+                //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-5width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
+
+        .fund-footer-content(v-if="!RedemptionButton && this.btnShow")
             span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
                 s {{defaultRate}}
                 span ）
-            van-button.button-5width.button-left.btn(
-                :class="[flag?'fund-check':'fund-no']" 
-                @click="toRouter('/fund-redemption')") {{$t('redeem')}}
-            van-button.btn.button-5width(
-                :class="[flag1?'fund-buy':'fund-no']" 
-                @click="toRouter('/fund-subscribe')") {{$t('append')}}
+            .fund-block--content
+                //- van-button.button-6width.button-left.btn(
+                //-     :class="[flag?'fund-check':'fund-no']" 
+                //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
+                van-button.btn.button-6width(
+                    :class="[flag1?'fund-buy':'fund-no']" 
+                    @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
+        
         .fund-footer-content(v-if="PurchaseButton")
-            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
+                span （
+                s {{defaultRate}}
+                span ）
+            .block__button--list
+                .btn.colorbg.button-width1.btn-inverster(
+                    :class="[investmentShow? 'fund-footer':'fund-no']"
+                    @click="handleBuyOrSell(4)")
+                    span(:class="[subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
+                    em(v-if="subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
+                van-button.btn.button-width1(
+                    :class="[flag2? 'fund-footer':'fund-no']"
+                    @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
+
+        .fund-footer-content(v-if="!PurchaseButton && !this.btnShow")
+            span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
                 s {{defaultRate}}
                 span ）
@@ -229,7 +260,8 @@ export default {
             msg2:
                 '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
-            Subscribenow: '立即认购'
+            Subscribenow: '立即认购',
+            holdFundTitle: '持仓详情'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -264,7 +296,8 @@ export default {
             msg2:
                 '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
-            Subscribenow: '立即認購'
+            Subscribenow: '立即認購',
+            holdFundTitle: '持倉詳情'
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -301,7 +334,8 @@ export default {
                 'The relevant data is for reference only. This page is not a legal document. Please carefully read the fund’s prospectus before investing. Past performance is not an indicator of future performance. All investments involve risk. Investors should consider all available information before making any investment decisions.',
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
-            Subscribenow: 'Subscribe now'
+            Subscribenow: 'Subscribe now',
+            holdFundTitle: 'Position'
         }
     },
     keepalive: true,
@@ -327,7 +361,10 @@ export default {
              * invate 是否是邀请
              */
             return (
-                this.btnShow && this.isGrayAuthority && this.invate !== 'share'
+                this.btnShow &&
+                this.isGrayAuthority &&
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         /*
@@ -341,7 +378,8 @@ export default {
                 this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
-                this.invate !== 'share'
+                this.invate !== 'share' &&
+                !this.investmentWhiteBit
             )
         },
         chsFightButton() {
@@ -426,6 +464,9 @@ export default {
             },
             id: '',
             fundOverviewInfoVO: {},
+            fundFixedFeeVO: {
+                feeDiscount: 0
+            },
             recommendList: [], //推荐基金
             fundCorrelationFileList: [],
             historyList: [],
@@ -533,7 +574,9 @@ export default {
                     value: ''
                 }
             },
-            shareIcon: require('@/assets/img/fund/icon/icon-share.png')
+            shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
+            investmentShow: true,
+            investmentWhiteBit: true
         }
     },
     methods: {
@@ -549,7 +592,11 @@ export default {
                 let params = {
                     fundId: this.$route.query.id || this.id
                 }
-                let { subscribeFeeVO } = await getFundFeeConfigV1(params)
+                let {
+                    subscribeFeeVO,
+                    fundFixedFeeVO
+                } = await getFundFeeConfigV1(params)
+                this.fundFixedFeeVO = fundFixedFeeVO || { feeDiscount: 0 }
                 this.subscribeFeeVO.defaultFeeRate = subscribeFeeVO.defaultFeeRate
                     ? subscribeFeeVO.defaultFeeRate
                     : ''
@@ -890,6 +937,14 @@ export default {
                     .split('')
                     .reverse()
                     .join('')[5]
+                let investmentUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[9]
+                if (investmentUserBit === '1') {
+                    this.investmentWhiteBit = false
+                }
                 if (!isWhiteUserBit) {
                     this.fightShow = true
                     return
@@ -908,6 +963,9 @@ export default {
         toRouter(routerPath) {
             if (routerPath == '/fund-subscribe') {
                 this.handleBuyOrSell(1)
+            } else if (routerPath == '/fixed-investment') {
+                if (!this.investmentShow) return this.$toast(this.forbidPrompt)
+                this.handleBuyOrSell(4)
             } else {
                 if (!this.flag) return this.$toast(this.forbidPrompt)
                 let url = `${window.location.origin}/wealth/fund/index.html#${routerPath}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
@@ -929,10 +987,6 @@ export default {
                 this.fundHeaderInfoVO.derivativeType =
                     res.fundOverviewInfoVO.derivativeType
                 this.fundCode = this.fundHeaderInfoVO.fundCode
-                // this.fundHeaderInfoVO.apy =
-                //     this.fundHeaderInfoVO.assetType === 4
-                //         ? Number(this.fundHeaderInfoVO.apy * 100).toFixed(4)
-                //         : Number(this.fundHeaderInfoVO.apy * 100).toFixed(2)
                 this.fundHeaderInfoVO.netPrice = transNumToThousandMark(
                     this.fundHeaderInfoVO.netPrice,
                     4
@@ -963,6 +1017,10 @@ export default {
                 //申购按钮是否置灰
                 this.flag2 =
                     (this.fundOverviewInfoVO.tradeAuth & 1) > 0 ? true : false
+                // alert(this.fundOverviewInfoVO.tradeAuth & 4)
+                //是否开启定投
+                this.investmentShow =
+                    (this.fundOverviewInfoVO.tradeAuth & 4) > 0 ? true : false
                 //合规信息
                 this.tagShow = this.fundHeaderInfoVO.derivativeType !== 1
                 this.tagsShow = this.fundHeaderInfoVO.derivativeType !== 3
@@ -1056,6 +1114,12 @@ export default {
         async handleBuyOrSell(params) {
             if (!this.flag2 || !this.flag1)
                 return this.$toast(this.forbidPrompt)
+
+            //定投提示
+            if (!this.investmentShow && params === 4) {
+                return this.$toast(this.forbidPrompt)
+            }
+
             //拼团埋点描述
             let fundDesc = params === 1 ? '申购' : '拼团'
             clickFundDetails(
@@ -1093,7 +1157,7 @@ export default {
             if (params === 4) {
                 LS.put('groupId', this.$route.query.group_id || 0)
             }
-            if (params === 1) {
+            if (params === 1 || params === 4) {
                 LS.remove('groupId')
             }
             if (
@@ -1101,7 +1165,7 @@ export default {
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
             ) {
-                let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment?id=${this.id}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}`
+                let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment?id=${this.id}&fundRiskType=${this.fundRiskType}&currencyType=${this.fundTradeInfoVO.currency.type}&code=${params}`
                 jumpUrl(3, url)
                 return
             } else {
@@ -1110,7 +1174,7 @@ export default {
                     this.fundHeaderInfoVO.fundRiskType
                 ) {
                     if (this.userInfo.damagedStatus === 1) {
-                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
+                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-assessment-result?id=${this.id}&fundRiskType=${this.fundRiskType}&code=${params}`
                         jumpUrl(3, url)
                         return
                     }
@@ -1118,7 +1182,7 @@ export default {
                         this.fundHeaderInfoVO.derivativeType === 2 ||
                         this.fundHeaderInfoVO.derivativeType === 3
                     ) {
-                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-appropriate-result?id=${this.id}&fundRiskType=${this.fundRiskType}`
+                        let url = `${window.location.origin}/wealth/fund/index.html#/risk-appropriate-result?id=${this.id}&fundRiskType=${this.fundRiskType}&code=${params}`
                         jumpUrl(3, url)
                         return
                     }
@@ -1168,7 +1232,11 @@ export default {
                                 let extendStatusBit =
                                     this.userInfo.extendStatusBit & 16
                                 if (extendStatusBit > 0) {
-                                    url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                    if (params === 4) {
+                                        url = `${window.location.origin}/wealth/fund/index.html#/fixed-investment?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                    } else {
+                                        url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                                    }
                                 } else {
                                     url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
                                 }
@@ -1184,9 +1252,13 @@ export default {
                     let url
                     let extendStatusBit = this.userInfo.extendStatusBit & 16
                     if (extendStatusBit > 0) {
-                        url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                        if (params === 4) {
+                            url = `${window.location.origin}/wealth/fund/index.html#/fixed-investment?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}&code=${params}`
+                        } else {
+                            url = `${window.location.origin}/wealth/fund/index.html#/fund-subscribe?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}&code=${params}`
+                        }
                     } else {
-                        url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}`
+                        url = `${window.location.origin}/wealth/fund/index.html#/open-permissions?id=${this.id}&assessResult=${this.userInfo.assessResult}&currencyType=${this.fundTradeInfoVO.currency.type}&fundCode=${this.fundCode}&code=${params}`
                     }
                     jumpUrl(3, url)
                 }
@@ -1203,6 +1275,8 @@ export default {
             await this.$store.dispatch('initAction')
             if (this.isLogin) {
                 await this.getFundUserInfo()
+                await this.getFundDetail()
+                await this.getFundPositionV2()
             }
         },
         init18inState() {
@@ -1524,8 +1598,30 @@ export default {
     .button-width {
         width: 100%;
     }
+
     .button-width1 {
         width: 50%;
+    }
+    .btn-inverster {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        span {
+            height: 25px;
+
+            font-size: 16px;
+        }
+        .span-lineHeight {
+            line-height: 25px;
+        }
+        .span-lineHeight1 {
+            line-height: 50px;
+        }
+        em {
+            line-height: 20px;
+            font-size: 12px;
+            font-style: normal;
+        }
     }
     .fund-footer {
         background: $primary-color;
@@ -1536,14 +1632,19 @@ export default {
     .fund-footer2 {
         background: #c7c7c7;
     }
+
     .btn {
-        height: 50px;
+        height: 48px;
         color: #fff;
         text-align: center;
-        line-height: 50px;
+        line-height: 48px;
         font-size: 0.32rem;
         border-radius: 0;
         border: none;
+    }
+    .colorbg {
+        background: #fff;
+        color: #2f79ff;
     }
     .block__fight--btn {
         width: 50%;
@@ -1591,8 +1692,12 @@ export default {
     }
     .fund-no {
         background: rgba(25, 25, 25, 0.2);
+        color: rgba(255, 255, 255, 0.6);
     }
     .button-5width {
+        width: 50%;
+    }
+    .button-6width {
         width: 50%;
     }
     .button-left {
@@ -1601,6 +1706,10 @@ export default {
     .van-button {
         border-radius: 0 !important;
     }
+}
+.fund-block--content {
+    display: flex;
+    flex-direction: row;
 }
 .fund-footer-content {
     width: 100%;

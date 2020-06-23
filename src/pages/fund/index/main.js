@@ -22,7 +22,11 @@ Vue.use(i18n, {
     messages
 })
 
+import imgToast from '@/components/img-toast/index.js'
+Vue.use(imgToast)
+
 import '@/utils/common'
+
 // mock
 // import '@/mock/index.js'
 
