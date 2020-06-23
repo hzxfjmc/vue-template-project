@@ -4,7 +4,7 @@
             .body-item.body-item__left
                 .item  
                     .title 
-                        .text {{$t(['年化收益','年化收益','Annualized Return'])}} 
+                        .text {{$t(['年化收益','年化收益','ANN RTN'])}} 
                         .iconfont.icon-warning(@click="showTips")          
                     .label {{$t(['本基金', '本基金', 'Fund'])}}          
                     .label {{$t(['同类平均', '同類平均', 'Sector AVG'])}}          
