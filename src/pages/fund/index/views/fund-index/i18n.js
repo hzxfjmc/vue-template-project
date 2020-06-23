@@ -52,7 +52,8 @@ export const i18n = {
         7: '近三年',
         8: '近五年',
         9: '今年来',
-        10: '成立来'
+        10: '成立来',
+        loadingText: '数据加载中，请稍后'
     },
     zhCHT: {
         fundHold: '基金持倉',
@@ -107,7 +108,8 @@ export const i18n = {
         7: '近三年',
         8: '近五年',
         9: '今年来',
-        10: '成立来'
+        10: '成立来',
+        loadingText: '數據加載中，請稍後'
     },
     en: {
         unit: 'B ',
@@ -162,6 +164,7 @@ export const i18n = {
         7: 'Last 3-Year',
         8: 'Last 5-Year',
         9: 'YTD',
-        10: 'Since Inception'
+        10: 'Since Inception',
+        loadingText: 'Loading'
     }
 }
