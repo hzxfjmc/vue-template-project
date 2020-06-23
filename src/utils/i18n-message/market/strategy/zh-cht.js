@@ -47,7 +47,7 @@ export const zhCHT = {
     unlock: '解鎖',
     gotoUnlock: '去解鎖',
     skimInApp: '請在APP中查看',
-    pleaseLogin: '您當前暫無權限，請先登錄',
+    pleaseLogin: '您當前暫無權限，請先登入',
     pleaseOpenAccount: '您當前暫無權限，請先開戶',
     noStock: '今日無推薦股票'
 }
