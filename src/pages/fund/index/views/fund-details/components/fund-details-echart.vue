@@ -60,14 +60,14 @@
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
         .chart-custom-legend(v-if="!isMmf")
-            .legend__category
-                .legend__title.maker-1 {{ thisFundName }}
+            .legend__category.maker-1
+                .legend__title {{ thisFundName }}
                 .legend__value(:class="getStockClass(lengendData.thisFundPointData)") {{lengendData.thisFundPointData | filterRatio}}
-            .legend__category(v-if="lengendData.categoryPointData") 
-                .legend__title.maker-2 {{ categoryName }}
+            .legend__category.maker-2(v-if="displayCategory") 
+                .legend__title {{ categoryName }}
                 .legend__value(:class="getStockClass(lengendData.categoryPointData)") {{lengendData.categoryPointData | filterRatio}}
-            .legend__category(v-if="lengendData.benchmarkPointData") 
-                .legend__title.maker-3 {{ benchmarkName }}
+            .legend__category.maker-3(v-if="displayBenchmark") 
+                .legend__title {{ benchmarkName }}
                 .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
         .chart-header-tips(v-if="showTopTips")
             template(v-if="isMmf")
@@ -487,11 +487,20 @@ export default {
     .tips__body {
         display: flex;
         justify-content: space-between;
+        padding: 0 10px;
         .header__item {
             display: flex;
-            padding: 0 10px;
+            flex: 1;
             .item__value {
                 text-align: right;
+            }
+            &:last-child {
+                .item__label {
+                    width: 85px;
+                    overflow: hidden;
+                    white-space: nowrap;
+                    text-overflow: ellipsis;
+                }
             }
         }
     }
@@ -503,49 +512,37 @@ export default {
     display: flex;
     font-size: 12px;
     font-weight: 400;
+    justify-content: space-evenly;
     .legend__category {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex: 1;
-        .legend__maker {
+        position: relative;
+        &::before {
+            content: ' ';
             height: 6px;
             width: 6px;
             border-radius: 50%;
-            &.maker-1 {
-                background-color: #2f79ff;
-            }
-            &.maker-2 {
-                background-color: rgba(0, 186, 96, 0.4);
-            }
-            &.maker-3 {
-                background-color: rgba(255, 191, 50, 0.6);
-            }
+            position: absolute;
+            left: -6px;
+            top: 6px;
+        }
+        &.maker-1::before {
+            background-color: #2f79ff;
+        }
+        &.maker-2::before {
+            background-color: rgba(0, 186, 96, 0.4);
+        }
+        &.maker-3::before {
+            background-color: rgba(255, 191, 50, 0.6);
         }
         .legend__title {
             padding: 0 6px;
-            position: relative;
-            &::before {
-                content: ' ';
-                height: 6px;
-                width: 6px;
-                border-radius: 50%;
-                position: absolute;
-                left: -6px;
-                top: 6px;
-            }
-            &.maker-1::before {
-                background-color: #2f79ff;
-            }
-            &.maker-2::before {
-                background-color: rgba(0, 186, 96, 0.4);
-            }
-            &.maker-3::before {
-                background-color: rgba(255, 191, 50, 0.6);
-            }
+
+            max-width: 100px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
         .legend__value {
-            width: 50px;
+            padding-left: 6px;
         }
     }
 }
