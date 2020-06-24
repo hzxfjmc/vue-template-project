@@ -285,7 +285,7 @@ export default {
                 'MM-DD'
             )
             if (this.isMonetaryFund) {
-                return `${this.$t('yieldInLast7d')}(${belongDay})`
+                return `${this.$t('yieldInLast7d')}`
             } else {
                 return `${this.$t('oneYearShow')}(${belongDay})`
             }
