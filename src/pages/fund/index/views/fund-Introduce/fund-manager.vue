@@ -10,7 +10,7 @@
                 .header__content(v-for="(item, index) in managerList" :key="index")
                     .content__left
                         .name {{item.managerName}}
-                        span.now {{item.startDate}}
+                        span.now {{item.startDate | formatDate}}
                     .content__center {{item.days | formatDays}}
                     .content__right
                         span(
@@ -92,10 +92,13 @@ export default {
         }
     },
     filters: {
+        formatDate(value) {
+            return `${value} ${$t('upToNow')}`
+        },
         formatDays(value) {
             let year = Math.floor(value / 365)
             let days = value % 365
-            return `${year}年零${days}天 ${$t('upToNow')}`
+            return `${year}年零${days}天`
         },
         formatRtn(value) {
             let rtn = Number.parseFloat(value).toFixed(2)
@@ -161,6 +164,7 @@ export default {
         color: #04ba60;
     }
     .content__left {
+        width: 33%;
         .now {
             color: $text-color5;
         }
