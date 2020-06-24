@@ -762,7 +762,7 @@ export default {
 
             // test:
             // submitStep = 1
-            let purchaseAmount = this.purchaseAmount.replace(/\.$/, '')
+            let purchaseAmount = this.purchaseAmount.replace(/\.+$/, '')
             if (submitStep === 1) {
                 try {
                     this.$loading()
