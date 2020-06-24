@@ -3,13 +3,13 @@
     .block__fundheader--survey(@click="tofundSurvey")
         em.iconfont.icon-icon-gaishu
         span.title {{$t('survey')}}
-        .block__list--right
-            span {{$t('surveytips')}}
-            em.iconfont.icon-iconEBgengduoCopy
+        //- .block__list--right
+        //-     span {{$t('surveytips')}}
+        //-     em.iconfont.icon-iconEBgengduoCopy
 
     .block__fundcontent--list
         .block__fund--item
-            .block__fund--title {{$t('fundCompanyName')}}
+            .block__fund--title {{$t('fundOverview')}}
             p {{fundOverviewInfoVO.fundCompanyName}}
         .block__fund--item
             .block__fund--title {{$t('assetSubType')}}
@@ -39,7 +39,11 @@ export default {
             unit: '亿',
             survey: '基金概况',
             surveytips: '概況、分红、文件',
-            fundCompanyName: '基金公司',
+            fundOverview: '基金概况',
+            fundManager: '基金经理',
+            docs: '基金文件',
+            dividend: '拍戏详情',
+            fundCompanyName: '基金经理',
             assetSubType: '资产类别',
             investArea: '投资地区',
             fundSize: '基金规模'
