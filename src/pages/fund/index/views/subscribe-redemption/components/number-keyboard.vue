@@ -190,10 +190,10 @@ export default {
         //全部卖出
         allSell() {
             this.amount = this.placeholder
-            this.$emit('handlerAmount', this.amount)
+            // this.$emit('handlerAmount', this.amount)
         },
         handlerAmount() {
-            this.$emit('handlerAmount', this.amount)
+            // this.$emit('handlerAmount', this.amount)
         },
         close() {
             this.show = false
@@ -227,7 +227,7 @@ export default {
             if (this.amount === this.placeholder) return
             if (this.amount === '0.') return (this.amount = this.placeholder)
             this.amount = this.amount.substr(0, this.amount.length - 1)
-            this.$emit('handlerAmount', this.amount)
+            // this.$emit('handlerAmount', this.amount)
             if (this.amount.length === 0 || this.amount === this.placeholder) {
                 return (this.amount = this.placeholder)
             }

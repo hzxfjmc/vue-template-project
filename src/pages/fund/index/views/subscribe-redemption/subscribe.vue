@@ -6,12 +6,11 @@
         .fond-des
             .fond-name {{ fundName }}
             .ISIN ISIN:{{ isin }}
-
         template(v-if="step === 1")
             .fund-content
                 .fond-buy
                     .block__fund--header.border-bottom
-                        NumberKeyboard( 
+                        NumberKeyboard(
                             :currency= "currency.type"
                             :placeholder="placeholder"
                             v-model="purchaseAmount"
@@ -227,10 +226,10 @@ export default {
             )
             this.subscriptionFee =
                 (numberInt * this.subscribeObj.subscriptionFee.value) / 100 || 0
-            if (numberInt > +this.withdrawBalance) {
-                this.purchaseAmount = String(this.withdrawBalance)
-                // return
-            }
+            // if (numberInt > +this.withdrawBalance) {
+            //     this.purchaseAmount = String(this.withdrawBalance)
+            //     // return
+            // }
         }
     },
     async created() {
@@ -666,6 +665,7 @@ export default {
             try {
                 const hsInfo = await hsAccountInfo(currencyType)
                 this.withdrawBalance = hsInfo.withdrawBalance
+                console.log('this.withdrawBalance', this.withdrawBalance)
                 if (this.withdrawBalance > 0) {
                     this.disabledInput = false
                 }
