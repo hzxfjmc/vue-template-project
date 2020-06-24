@@ -9,27 +9,54 @@
 
     .block__fundcontent--list
         .block__fund--item
-            .block__fund--title {{$t('fundOverview')}}
-            p {{fundOverviewInfoVO.fundCompanyName}}
+            .block__fund--title {{$t('fundIntro')}}
+            .block__fund--content {{establishDay}}
+                i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
-            .block__fund--title {{$t('assetSubType')}}
-            p {{fundOverviewInfoVO.assetSubType}}
+            .block__fund--title {{$t('fundManager')}}
+            .block__fund--content {{managerNameList}}
+                i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
-            .block__fund--title {{$t('investArea')}}
-            p {{fundOverviewInfoVO.investArea}}
+            .block__fund--title {{$t('docs')}}
+            .block__fund--content {{$t('summary')}}
+                i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
-            .block__fund--title {{$t('fundSize')}}
-            p(v-if="lang != 'en'") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/100000000).toFixed(2)}} {{$t('unit')}}
-            p(v-if="lang === 'en' && fundOverviewInfoVO.fundSize/100000000 >= 10 ") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/1000000000).toFixed(2)}} Billion
-            p(v-if="lang === 'en' && fundOverviewInfoVO.fundSize/100000000 < 10 ") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/10000000).toFixed(2)}} Million
+            .block__fund--title {{$t('dividend')}}
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
+import { getFundManagerData } from '@/service/finance-info-server'
 import { getUaValue } from '@/utils/html-utils'
 import { mapGetters } from 'vuex'
+import dayjs from 'dayjs'
 export default {
+    data() {
+        return {
+            managerList: []
+        }
+    },
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['lang']),
+        establishDay() {
+            if (this.fundOverviewInfoVO.establishDay) {
+                let establishDay = dayjs(
+                    this.fundOverviewInfoVO.establishDay
+                ).format('YYYY-MM-DD')
+                return `${this.$t('establishDay')}: ${establishDay}`
+            } else {
+                return this.$t('fundDes')
+            }
+        },
+        managerNameList() {
+            if (this.managerList.length) {
+                let nameList = this.managerList.map(item => {
+                    return item.managerName
+                })
+                return nameList.join('、')
+            } else {
+                return this.$t('noData')
+            }
+        }
     },
     filters: {
         transNumToThousandMark: transNumToThousandMark
@@ -39,11 +66,15 @@ export default {
             unit: '亿',
             survey: '基金概况',
             surveytips: '概況、分红、文件',
-            fundOverview: '基金概况',
+            fundIntro: '基金档案',
             fundManager: '基金经理',
             docs: '基金文件',
-            dividend: '拍戏详情',
+            dividend: '派息详情',
             fundCompanyName: '基金经理',
+            fundDes: '基金介绍',
+            establishDay: '成立日期',
+            noData: '暂无数据',
+            summary: '基金简报、基金概要',
             assetSubType: '资产类别',
             investArea: '投资地区',
             fundSize: '基金规模'
@@ -78,21 +109,37 @@ export default {
             let params = getUaValue('langType')
             let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}`
             jumpUrl(3, url)
+        },
+        async getFundManagerData() {
+            try {
+                const res = await getFundManagerData({
+                    fundId: this.$route.query.id
+                })
+                this.managerList = res
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+            }
         }
+    },
+    created() {
+        this.getFundManagerData()
     }
 }
 </script>
 <style lang="scss" scoped>
 .block__fundcontent--list {
     .block__fund--item {
-        margin: 10px 0;
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid $text-color8;
         .block__fund--title {
-            font-size: 12px;
-            color: #999999;
+            color: $text-color5;
         }
-        p {
-            font-size: 14px;
-            // color: #666666;
+        .iconfont {
+            margin-left: 6px;
         }
     }
     .block__fund--item:first-child {
