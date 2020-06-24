@@ -45,14 +45,14 @@
                         .fund-risk__header
                             .title {{this.$t('userRiskLevel')}}
                             .fund-risk__top(v-if="userRiskLevel")
-                                .content {{this.$t(userRiskType)}}
+                                .content {{ isExpried? this.$t('expired') : this.$t(userRiskType)}}
                                 .tips.user(
-                                    v-if="damagedStatus"
+                                    v-if="damagedStatus===1 && !isExpried"
                                     @click="userTipsHandle")
                                     span
                                         span {{this.$t(['易受损客户','易受損客戶','Vulnerable Customer'])}}
                                         span.iconfont.icon-icon_fund_index_2
-                                .desc {{this.$t(`A${userRiskLevel}`)}}
+                                .desc(v-if="!isExpried") {{this.$t(`A${userRiskLevel}`)}}
                             .desc(v-else) {{this.$t('noAssess')}}
                         .fund-risk__table(:style="{height: tableHeight2}")
                             table.table
@@ -98,7 +98,17 @@
                         type="primary" 
                         size="large"
                         @click="cancel"
-                    ) {{this.$t('iKnow')}}       
+                    ) {{this.$t('iKnow')}}
+            van-dialog.remaining-container(
+                    v-model="showRemainingNum" 
+                    :show-cancel-button='true' 
+                    :confirm-button-text="number===0?$t('toCall'):$t('startRisk')" @confirm="startRiskHandle(number)" :cancel-button-text="number===0?$t('toClose'):$t('toCancel')" @cancel="callOrCancel(number)" 
+                )
+                    .title {{$t('leastNum')}} {{number}} {{$t('times')}}
+                    .years-info(v-if="number!==0") {{resetTimes}}
+                    .years-info(v-if="number===0")
+                        .p {{resetTimes}}
+                        .p {{ $t('yearsInfoToCall')}}       
         .fund-risk__fotter( slot="bottom" )
                 van-button(
                     class="foot-button"
@@ -106,12 +116,14 @@
                     size="large"
                     @click="handleAction"
                 ) {{userRiskLevel ? this.$t('assessAgain') : this.$t('assessNow')}}
+        
 </template>
 <script>
 import jsBridge from '@/utils/js-bridge'
 import { Button, Dialog } from 'vant'
 import { riskAssessResult } from '@/service/user-server.js'
 import i18n from './i18n'
+import dayjs from 'dayjs'
 import { mapGetters } from 'vuex'
 export default {
     i18n,
@@ -120,8 +132,15 @@ export default {
             show: false,
             all: true,
             all2: true,
-            userRiskLevel: null,
-            damagedStatus: null,
+            isExpried: false, // 是否过期
+            assessmentTime: 0, // 上次风评时间
+            userRiskLevel: 0,
+            damagedStatus: 0,
+            showRemainingNum: false,
+            assessResultName: '',
+            assessDefinition: '',
+            number: 0,
+            resetTime: '',
             tableHeight: '150px',
             tableHeight2: '150px'
         }
@@ -160,14 +179,19 @@ export default {
         },
         async handleAction() {
             if (this.isLogin) {
-                this.$router.push({
-                    path: '/risk-assessment',
-                    query: {
-                        id: this.$route.query.id,
-                        fundRiskType: this.$route.query.fundRiskType,
-                        displayLocation: 1
-                    }
-                })
+                if (this.isExpried || !this.userRiskLevel) {
+                    // 已过期，直接跳转到风评页面
+                    this.$router.push({
+                        path: '/risk-assessment',
+                        query: {
+                            id: this.$route.query.id,
+                            fundRiskType: this.$route.query.fundRiskType,
+                            displayLocation: 1
+                        }
+                    })
+                } else {
+                    this.showRemainingNum = true
+                }
             } else {
                 await this.$dialog.alert({
                     message: this.$t('login'),
@@ -176,16 +200,57 @@ export default {
                 jsBridge.gotoNativeModule('yxzq_goto://user_login')
             }
         },
+        startRiskHandle(number) {
+            if (number === 0) {
+                jsBridge.gotoCustomerService()
+            } else {
+                // 跳转到风险测评
+                this.$router.push({
+                    path: '/risk-assessment',
+                    query: {
+                        id: this.$route.query.id,
+                        fundRiskType: this.$route.query.fundRiskType,
+                        displayLocation: 1
+                    }
+                })
+            }
+        },
+        // 关闭
+        callOrCancel() {
+            this.showRemainingNum = false
+        },
         async handleRiskAssessResult() {
             try {
-                let res = await riskAssessResult()
-                this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
-                this.damagedStatus = res.damagedStatus || 0
-            } catch (e) {
-                if (e.msg) {
-                    this.$alert(e.msg)
+                let {
+                    assessResult,
+                    createTime,
+                    validTime,
+                    assessResultName,
+                    assessDefinition,
+                    damagedStatus,
+                    validCount,
+                    resetTime
+                } = await riskAssessResult()
+                if (validTime && new Date() > new Date(validTime)) {
+                    // 当前时间大于测评有效时间，测评过期
+                    this.userRiskLevel = 100
+                    this.isExpried = true
+                } else {
+                    this.userRiskLevel = assessResult || 0 // 用户风险测评等级
                 }
-                console.log('riskAssessResult:error:>>>', e)
+                this.assessmentTime = createTime || 0
+                this.assessResultName = assessResultName
+                this.assessDefinition = assessDefinition
+                this.damagedStatus = damagedStatus
+                this.number = validCount
+                this.resetTime = resetTime
+                console.log(
+                    'riskAssessResult:data:>>> ',
+                    assessResult,
+                    this.assessResultName
+                )
+            } catch (error) {
+                console.log('riskAssessResult:error:>>>', error)
             }
         }
     },
@@ -211,6 +276,15 @@ export default {
                 'aggressive'
             ]
             return userRiskTypeList[this.userRiskLevel - 1]
+        },
+        resetTimes() {
+            return {
+                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
+                en:
+                    'Reset on 1st January ' +
+                    dayjs(this.resetTime).format('YYYY')
+            }[this.$i18n.lang]
         },
         tagsShow() {
             return JSON.parse(this.$route.query.tagsShow)
@@ -369,6 +443,18 @@ export default {
     .fund-risk__fotter {
         position: absolute;
         bottom: 0px;
+    }
+}
+.remaining-container {
+    text-align: center;
+    padding-top: 20px;
+    .title {
+        margin-bottom: 20px;
+    }
+    .years-info {
+        font-size: 14px;
+        color: $text-color6;
+        margin-bottom: 20px;
     }
 }
 </style>
