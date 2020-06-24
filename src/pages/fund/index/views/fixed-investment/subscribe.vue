@@ -46,7 +46,7 @@
                                 .item--right.iconfont.icon-iconEBgengduoCopy
                             .li(v-if="bankInfo.type == 2")
                                 .block--left
-                                    .bank-name {{bankInfo.bankName}}
+                                    .bank-name {{bankInfo.bankName}} ({{bankInfo.bankAccountNo && bankInfo.bankAccountNo.slice(-4)}})
                                         span {{bankInfo.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
                                     .limit-text 
                                         .text-show
@@ -94,7 +94,7 @@
             .block--content
                 .block--list--item
                     .left {{$t('A105')}}
-                    .right {{Number((1-fundFixedFeeVO.feeDiscount)*100).toFixed(2)}}%
+                    .right {{Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}}%
                 .block--list--item
                     .left {{$t('A10')}}
                     .right {{$t([`第${fundFixedFeeVO.feeRefund}期`,`第${fundFixedFeeVO.feeRefund}期`,`Issue ${fundFixedFeeVO.feeRefund}`])}}

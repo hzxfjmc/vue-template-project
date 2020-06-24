@@ -61,7 +61,7 @@
                         :class="[investmentShow? 'fund-footer':'fund-no']"
                         @click="handleBuyOrSell(4)")
                         span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
-                        em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
+                        em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`,`享認購費${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`,`Enjoy Subs. Fee ${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`])}}
                 //- van-button.button-5width.button-left.btn(
                 //-     :class="[flag?'fund-check':'fund-no']" 
                 //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
@@ -93,7 +93,7 @@
                     :class="[investmentShow? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(4)")
                     span(:class="[subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
-                    em(v-if="subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${100-(fundFixedFeeVO.feeDiscount*100)}%`,`享認購費${100-(fundFixedFeeVO.feeDiscount*100)}%`,`Enjoy Subs. Fee ${100-(fundFixedFeeVO.feeDiscount*100)}%`])}}
+                    em(v-if="subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`,`享認購費${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`,`Enjoy Subs. Fee ${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`])}}
                 van-button.btn.button-width1(
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
