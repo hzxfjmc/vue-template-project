@@ -16,7 +16,7 @@
             p {{$t('Complex')}}
     .funds-details-number.border-bottom
         .header-left
-            span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
+            span {{upOrDown}}
             img(v-if="isMonetaryFund" src="@/assets/img/fund/tip.png" class="tipWarning" @click="yieldInLast7dClick")
             p(
                 v-if="apy >0" 
@@ -74,7 +74,7 @@ import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import { jumpUrl } from '@/utils/tools.js'
-import { getUaValue } from '@/utils/html-utils'
+import { langType, getUaValue } from '@/utils/html-utils'
 export default {
     components: {
         [Tag.name]: Tag,
@@ -241,13 +241,23 @@ export default {
         },
         startAmount() {
             if (this.fundHeaderInfoVO.currencyType === 'HKD') {
+                if (langType.En) {
+                    return `Min. ${
+                        this.fundHeaderInfoVO.initialInvestAmount
+                    } ${this.$t('hkd')}`
+                }
                 return `${this.fundHeaderInfoVO.initialInvestAmount}${this.$t(
                     'hkd'
-                )}${this.$t(['起', '起', ''])}`
+                )}起`
             } else {
+                if (langType.En) {
+                    return `Min. ${
+                        this.fundHeaderInfoVO.initialInvestAmount
+                    } ${this.$t('usd')}`
+                }
                 return `${this.fundHeaderInfoVO.initialInvestAmount}${this.$t(
                     'usd'
-                )}${this.$t(['起', '起', ''])}`
+                )}起`
             }
         },
         apy() {
@@ -268,6 +278,17 @@ export default {
         },
         tenKRtn() {
             return Number.parseFloat(this.revenue)
+        },
+        //- span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
+        upOrDown() {
+            let belongDay = dayjs(this.fundHeaderInfoVO.belongDay).format(
+                'MM-DD'
+            )
+            if (this.isMonetaryFund) {
+                return `${this.$t('yieldInLast7d')}(${belongDay})`
+            } else {
+                return `${this.$t('oneYearShow')}(${belongDay})`
+            }
         }
     }
 }
