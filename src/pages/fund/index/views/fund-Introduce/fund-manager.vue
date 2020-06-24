@@ -1,63 +1,57 @@
 <template lang="pug">
     .fund-manager__container
         .fund-manager__header
-            .header__title {{this.$t('overview')}}
+            .header__title {{$t('overview')}}
             .header__roof
-                .roof__left {{this.$t('fundManager')}}
-                .roof__center {{this.$t('tenure')}}
-                .roof__right {{this.$t('return')}}
+                .roof__left {{$t('fundManager')}}
+                .roof__center {{$t('tenure')}}
+                .roof__right {{$t('return')}}
             .content__wrap
-                .header__content
+                .header__content(v-for="(item, index) in managerList" :key="index")
                     .content__left
-                        .name JUNJIE
-                        .now 2009-04-20 {{this.$t('upToNow')}}
-                    .content__center R5高风险
+                        .name {{item.managerName}}
+                        span.now {{item.startDate}}
+                    .content__center {{item.days | formatDays}}
                     .content__right
                         span(
+                            v-if="+item.inReturn > 0"
                         :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                        ) +140.57%
-                .header__content
-                    .content__left
-                        .name JUNJIE
-                        .now 2009-04-20 {{this.$t('upToNow')}}
-                    .content__center R5高风险
-                    .content__right
+                        ) +{{item.inReturn | formatRtn}}%
                         span(
-                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                        ) +140.57%
+                            v-else 
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                        ) {{item.inReturn}}%
         .fund-manager__wrap
-            .content__title {{this.$t('manageInfo')}}
-            .fund-manager__content
-                .content__name JUNJIE
+            .content__title {{$t('manageInfo')}}
+            .fund-manager__content(
+                v-for="(item, index) in managerList" 
+                :key="index"
+                v-if="item.managerProvidedBiography"
+                )
+                .content__name {{item.managerName}}
                 .content_desc__wrap
-                    span.content_desc(
-                        :class="{all: showMore}"
-                    ) PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的
+                    .content_desc(
+                        :class="{all: showMore}"    
+                    ) {{item.managerProvidedBiography || ''}}
                 .more(
                     v-if="!showMore"
                     @click="showMore = true"
-                ) 查看更多
-                .more(
+                ) {{$t('more')}}
+                .less(
                     v-else
                     @click="showMore = false"
-                ) 收起
-            .fund-manager__content
-                .content__name JUNJIE
-                .content_desc__wrap
-                    span.content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司
-                    span.more 查看更多
-            .fund-manager__content
-                .content__name JUNJIE
-                .content_desc__wrap
-                    span.content_desc PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司
-                    span.more 查看更多
+                ) {{$t('less')}}
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
+import { getFundManagerData } from '@/service/finance-info-server'
+import Vue from 'vue'
+const $t = Vue.prototype.$t
 export default {
     data() {
         return {
-            showMore: false
+            showMore: false,
+            managerList: []
         }
     },
     i18n: {
@@ -67,7 +61,9 @@ export default {
             tenure: '任期',
             return: '任期回报',
             upToNow: '至今',
-            manageInfo: '基金经理简介'
+            manageInfo: '基金经理简介',
+            more: '查看更多',
+            less: '收起'
         },
         zhCHT: {
             fundManager: '基金經理',
@@ -75,7 +71,9 @@ export default {
             tenure: '任期',
             return: '任期回報',
             upToNow: '至今',
-            manageInfo: '基金經理簡介'
+            manageInfo: '基金經理簡介',
+            more: '查看更多',
+            less: '收起'
         },
         en: {
             fundManager: 'Fund Manager',
@@ -83,12 +81,42 @@ export default {
             tenure: 'Tenure',
             return: 'Return',
             upToNow: 'Up To Now',
-            manageInfo: 'Fund Manager Info'
+            manageInfo: 'Fund Manager Info',
+            more: 'More',
+            less: 'Less'
         }
     },
     computed: {
         stockColorType() {
             return +getStockColorType()
+        }
+    },
+    filters: {
+        formatDays(value) {
+            let year = Math.floor(value / 365)
+            let days = value % 365
+            return `${year}年零${days}天 ${$t('upToNow')}`
+        },
+        formatRtn(value) {
+            let rtn = Number.parseFloat(value).toFixed(2)
+            return rtn
+        }
+    },
+    created() {
+        this.getFundManagerData()
+    },
+    methods: {
+        async getFundManagerData() {
+            try {
+                const res = await getFundManagerData({
+                    fundId: this.$route.query.id
+                })
+                this.managerList = res
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+            }
         }
     }
 }
@@ -162,21 +190,27 @@ export default {
     border-bottom: $text-color8 solid 1px;
     .content__name {
         margin-bottom: 10px;
-        font-size: 14px;
     }
     .content_desc {
         height: 120px;
         overflow: hidden;
         line-height: 24px;
+        text-align: justify;
+        white-space: pre-line;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 5;
         overflow: hidden;
         &.all {
-            height: 200px;
+            display: inline-block;
+            height: auto;
         }
     }
+
     .more {
+        color: $primary-color-line;
+    }
+    .less {
         color: $primary-color-line;
     }
 }
