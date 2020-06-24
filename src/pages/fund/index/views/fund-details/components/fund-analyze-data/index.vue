@@ -27,7 +27,7 @@
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
-                            ) {{riskMeasureApiVO[`sharpeRatio${item}Yr`] | filterRatio}}                                                    
+                            ) {{Number(riskMeasureApiVO[`sharpeRatio${item}Yr`]).toFixed(2)}}                                                    
                     tr
                         td {{$t('A18')}}  
                         td(
@@ -57,7 +57,7 @@
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
-                            ) {{mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`] | filterRatio}}                           
+                            ) {{Number(mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`]).toFixed(2)}}                           
         .fund-block
             .fund-block__header
                 .title 
@@ -412,7 +412,7 @@ export default {
                     text-align: left;
                 }
                 &:last-child {
-                    text-align: right;
+                    text-align: center;
                 }
             }
         }
