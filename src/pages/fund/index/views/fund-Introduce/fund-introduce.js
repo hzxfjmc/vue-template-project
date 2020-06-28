@@ -46,7 +46,7 @@ export const i18nIntroducelist = {
         zq: '折起',
         list: {
             fundFiles: {
-                label: '相关文件'
+                label: '基金文件'
             },
             fundCompanyName: {
                 label: '基金公司'
@@ -112,7 +112,7 @@ export const i18nIntroducelist = {
         nomore: '暫無文件',
         list: {
             fundFiles: {
-                label: '相關文件'
+                label: '基金文件'
             },
             fundCompanyName: {
                 label: '基金公司'
@@ -178,7 +178,7 @@ export const i18nIntroducelist = {
         zq: 'Less',
         list: {
             fundFiles: {
-                label: 'Related Docs'
+                label: 'Docs'
             },
             fundCompanyName: {
                 label: 'Fund Company'

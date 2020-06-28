@@ -27,14 +27,11 @@
                         .fund-introduce-objective(v-for="item in otherList")
                             .title {{item.label}}
                             .content {{item.value}}
-                van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
-                    .dividend-detail-container(v-if="active===1")
-                        dividend-detail
                 van-tab(:title="$t('list')['fundManager'].label" :name="1")
-                    .fund-manager-container(v-if="active===2")
+                    .fund-manager-container(v-if="active===1")
                         fund-manager
                 van-tab(:title="$t('list')['fundFiles'].label" :name="2")
-                    .dividend-detail-container(v-if="active===3")
+                    .dividend-detail-container(v-if="active===2")
                         .fund-files
                             .file-list(v-if="filelist.length != 0")
                                 van-row(gutter="20")
@@ -50,6 +47,9 @@
 
                             .no-bond-box(v-else)
                                 .no-bond {{$t('nomore')}}
+                van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
+                    .dividend-detail-container(v-if="active===3")
+                        dividend-detail
     
     
 

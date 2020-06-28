@@ -1,5 +1,5 @@
 <template lang="pug">
-    .fund-manager__container
+    .fund-manager__container(v-if="managerList.length")
         .fund-manager__header
             .header__title {{$t('overview')}}
             .header__roof
@@ -50,6 +50,8 @@ const $t = Vue.prototype.$t
 export default {
     data() {
         return {
+            loading: false,
+            finished: false,
             showMore: false,
             managerList: []
         }
@@ -63,7 +65,8 @@ export default {
             upToNow: '至今',
             manageInfo: '基金经理简介',
             more: '查看更多',
-            less: '收起'
+            less: '收起',
+            noData: '暂无数据'
         },
         zhCHT: {
             fundManager: '基金經理',
@@ -217,5 +220,10 @@ export default {
     .less {
         color: $primary-color-line;
     }
+}
+.no-data {
+    text-align: center;
+    padding: 10px;
+    color: $text-color5;
 }
 </style>

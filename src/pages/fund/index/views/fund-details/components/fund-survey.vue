@@ -22,17 +22,23 @@
                 i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
             .block__fund--title {{$t('dividend')}}
+            .block__fund--content {{dividendDetail}}
+                i.iconfont.icon-iconEBgengduoCopy
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
-import { getFundManagerData } from '@/service/finance-info-server'
+import {
+    getFundManagerData,
+    getFundDividendList
+} from '@/service/finance-info-server'
 import { getUaValue } from '@/utils/html-utils'
 import { mapGetters } from 'vuex'
 import dayjs from 'dayjs'
 export default {
     data() {
         return {
-            managerList: []
+            managerList: [],
+            dividendPaymentDate: ''
         }
     },
     computed: {
@@ -52,9 +58,18 @@ export default {
                 let nameList = this.managerList.map(item => {
                     return item.managerName
                 })
-                return nameList.join('、')
+                return nameList.slice(0, 2).join('、')
             } else {
                 return this.$t('noData')
+            }
+        },
+        dividendDetail() {
+            if (this.dividendPaymentDate) {
+                return `${this.$t('latestDividend')}：${
+                    this.dividendPaymentDate
+                }`
+            } else {
+                return this.$t('noDividend')
             }
         }
     },
@@ -74,6 +89,8 @@ export default {
             fundDes: '基金介绍',
             establishDay: '成立日期',
             noData: '暂无数据',
+            noDividend: '暂无派息',
+            latestDividend: '最新派息',
             summary: '基金简报、基金概要',
             assetSubType: '资产类别',
             investArea: '投资地区',
@@ -121,10 +138,31 @@ export default {
                     this.$alert(e.msg)
                 }
             }
+        },
+        async getFundDividendListFun() {
+            try {
+                this.loading = true
+                let params = {
+                    fundId: this.$route.query.id,
+                    pageNum: 1,
+                    pageSize: 20
+                }
+                let res = await getFundDividendList(params)
+                this.dividendPaymentDate = res.list.length
+                    ? dayjs(res[0].dividendPaymentDate).format('YYYY-MM-DD')
+                    : ''
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+            } finally {
+                this.loading = false
+            }
         }
     },
     created() {
         this.getFundManagerData()
+        this.getFundDividendListFun()
     }
 }
 </script>
@@ -139,11 +177,8 @@ export default {
             color: $text-color5;
         }
         .iconfont {
-            margin-left: 6px;
+            border: 0;
         }
-    }
-    .block__fund--item:first-child {
-        margin: 0;
     }
 }
 
