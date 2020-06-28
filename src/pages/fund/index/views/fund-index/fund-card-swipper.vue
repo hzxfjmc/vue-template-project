@@ -81,7 +81,7 @@ export default {
     min-height: 220px;
     .block--swipper--content {
         width: 100%;
-        height: 250px;
+        height: 230px;
         padding: 0 12px;
     }
     .block__swipper--content {
