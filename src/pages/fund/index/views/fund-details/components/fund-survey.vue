@@ -1,28 +1,25 @@
 <template lang="pug">
 .block__fund--survey
-    .block__fundheader--survey(@click="tofundSurvey")
+    .block__fundheader--survey
         em.iconfont.icon-icon-gaishu
         span.title {{$t('survey')}}
-        //- .block__list--right
-        //-     span {{$t('surveytips')}}
-        //-     em.iconfont.icon-iconEBgengduoCopy
 
     .block__fundcontent--list
         .block__fund--item
             .block__fund--title {{$t('fundIntro')}}
-            .block__fund--content {{establishDay}}
+            .block__fund--content(@click="tofundSurvey(0)") {{establishDay}}
                 i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
             .block__fund--title {{$t('fundManager')}}
-            .block__fund--content {{managerNameList}}
+            .block__fund--content(@click="tofundSurvey(1)") {{managerNameList}}
                 i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
             .block__fund--title {{$t('docs')}}
-            .block__fund--content {{$t('summary')}}
+            .block__fund--content(@click="tofundSurvey(2)") {{fundFileList}}
                 i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
             .block__fund--title {{$t('dividend')}}
-            .block__fund--content {{dividendDetail}}
+            .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
                 i.iconfont.icon-iconEBgengduoCopy
 </template>
 <script>
@@ -63,6 +60,16 @@ export default {
                 return this.$t('noData')
             }
         },
+        fundFileList() {
+            if (this.fundCorrelationFileList.length) {
+                let fliterList = this.fundCorrelationFileList.map(item => {
+                    return item.fileName.split('.')[0]
+                })
+                return fliterList.slice(0, 2).join('、')
+            } else {
+                return this.$t('noDocs')
+            }
+        },
         dividendDetail() {
             if (this.dividendPaymentDate) {
                 return `${this.$t('latestDividend')}：${
@@ -78,53 +85,59 @@ export default {
     },
     i18n: {
         zhCHS: {
-            unit: '亿',
             survey: '基金概况',
-            surveytips: '概況、分红、文件',
             fundIntro: '基金档案',
             fundManager: '基金经理',
             docs: '基金文件',
+            noDocs: '暂无文件',
             dividend: '派息详情',
-            fundCompanyName: '基金经理',
-            fundDes: '基金介绍',
             establishDay: '成立日期',
             noData: '暂无数据',
             noDividend: '暂无派息',
             latestDividend: '最新派息',
-            summary: '基金简报、基金概要',
-            assetSubType: '资产类别',
-            investArea: '投资地区',
-            fundSize: '基金规模'
+            fundDes: '基金介绍'
         },
         zhCHT: {
-            unit: '億',
             survey: '基金概況',
-            surveytips: '概況、分紅、文件',
-            fundCompanyName: '基金公司',
-            assetSubType: '資產類別',
-            investArea: '投資地區',
-            fundSize: '基金規模'
+            fundIntro: '基金簡介',
+            fundManager: '基金經理',
+            docs: '基金文件',
+            noDocs: '暫無文件',
+            dividend: '派息详情',
+            establishDay: '成立日期',
+            noData: '暫無數據',
+            noDividend: '暫無派息',
+            latestDividend: '最新派息',
+            fundDes: '基金介紹'
         },
         en: {
-            unit: 'B ',
             survey: 'Fund Overview',
-            surveytips: 'Details,Dividend,Docs',
-            fundCompanyName: 'Fund Company',
-            assetSubType: 'Asset Class',
-            investArea: 'Geographical Allocation',
-            fundSize: 'Fund Size'
+            fundIntro: 'Fund Intro.',
+            fundManager: 'Fund Manager',
+            docs: 'Docs',
+            noDocs: 'no Docs',
+            dividend: 'Dividend',
+            establishDay: 'Establishment Day',
+            noData: 'No Data',
+            noDividend: 'No Dividend',
+            latestDividend: 'Latest Dividend',
+            fundDes: 'Fund Intro.'
         }
     },
     props: {
         fundOverviewInfoVO: {
             type: Object,
             default: () => {}
+        },
+        fundCorrelationFileList: {
+            type: Array,
+            default: () => []
         }
     },
     methods: {
-        tofundSurvey() {
+        tofundSurvey(val) {
             let params = getUaValue('langType')
-            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}`
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}&active=${val}`
             jumpUrl(3, url)
         },
         async getFundManagerData() {
@@ -141,7 +154,6 @@ export default {
         },
         async getFundDividendListFun() {
             try {
-                this.loading = true
                 let params = {
                     fundId: this.$route.query.id,
                     pageNum: 1,
@@ -149,7 +161,9 @@ export default {
                 }
                 let res = await getFundDividendList(params)
                 this.dividendPaymentDate = res.list.length
-                    ? dayjs(res[0].dividendPaymentDate).format('YYYY-MM-DD')
+                    ? dayjs(res.list[0].dividendPaymentDate).format(
+                          'YYYY-MM-DD'
+                      )
                     : ''
             } catch (e) {
                 if (e.msg) {
@@ -177,6 +191,9 @@ export default {
             color: $text-color5;
         }
         .iconfont {
+            border: 0;
+        }
+        &:last-child {
             border: 0;
         }
     }

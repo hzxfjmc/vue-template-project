@@ -40,8 +40,10 @@
             span.title {{$t('trade')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
-       
-        fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
+        fundSurvey(
+            :fundOverviewInfoVO="fundOverviewInfoVO"
+            :fundCorrelationFileList="fundCorrelationFileList"
+        )
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
             em.iconfont.icon-iconEBshoucang2

@@ -29,7 +29,7 @@
                             .content {{item.value}}
                 van-tab(:title="$t('list')['fundManager'].label" :name="1")
                     .fund-manager-container(v-if="active===1")
-                        fund-manager
+                        fund-manager(:managerList="managerList")
                 van-tab(:title="$t('list')['fundFiles'].label" :name="2")
                     .dividend-detail-container(v-if="active===2")
                         .fund-files
@@ -62,7 +62,10 @@ import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
 import dividendDetail from './dividend-detail'
 import fundManager from './fund-manager'
 import { transNumToThousandMark } from '@/utils/tools.js'
-import { getFundDetail } from '@/service/finance-info-server.js'
+import {
+    getFundDetail,
+    getFundManagerData
+} from '@/service/finance-info-server.js'
 import Vue from 'vue'
 import { List, Row, Col } from 'vant'
 import { getCosUrl } from '@/utils/cos-utils'
@@ -89,6 +92,7 @@ export default {
             currency: null,
             active: 0,
             filelist: [],
+            managerList: [],
             currencyName: '',
             otherList: JSON.parse(JSON.stringify(otherList))
         }
@@ -104,6 +108,18 @@ export default {
         },
         foldItem(index) {
             this.list[index].flag = this.list[index].flag == 1 ? 2 : 1
+        },
+        async getFundManagerData() {
+            try {
+                const res = await getFundManagerData({
+                    fundId: this.$route.query.id
+                })
+                this.managerList = res
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+            }
         },
         async initState() {
             try {
@@ -165,8 +181,10 @@ export default {
         }
     },
     mounted() {
+        this.active = this.$route.query.active
         this.initState()
         this.initIn18State()
+        this.getFundManagerData()
     }
 }
 </script>

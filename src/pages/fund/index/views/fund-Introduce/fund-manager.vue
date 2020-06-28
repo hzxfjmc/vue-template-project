@@ -24,36 +24,34 @@
         .fund-manager__wrap
             .content__title {{$t('manageInfo')}}
             .fund-manager__content(
-                v-for="(item, index) in managerList" 
+                v-for="(item, index) in managerList2" 
                 :key="index"
                 v-if="item.managerProvidedBiography"
                 )
                 .content__name {{item.managerName}}
                 .content_desc__wrap
                     .content_desc(
-                        :class="{all: showMore}"    
+                        :class="{all: item.showMore}"    
                     ) {{item.managerProvidedBiography || ''}}
                 .more(
-                    v-if="!showMore"
-                    @click="showMore = true"
+                    v-if="!item.showMore"
+                    @click="item.showMore = true"
                 ) {{$t('more')}}
                 .less(
                     v-else
-                    @click="showMore = false"
+                    @click="item.showMore = false"
                 ) {{$t('less')}}
+    .no-data(v-else) {{$t('noData')}}
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
-import { getFundManagerData } from '@/service/finance-info-server'
 import Vue from 'vue'
 const $t = Vue.prototype.$t
 export default {
-    data() {
-        return {
-            loading: false,
-            finished: false,
-            showMore: false,
-            managerList: []
+    props: {
+        managerList: {
+            type: Array,
+            default: () => []
         }
     },
     i18n: {
@@ -76,7 +74,8 @@ export default {
             upToNow: '至今',
             manageInfo: '基金經理簡介',
             more: '查看更多',
-            less: '收起'
+            less: '收起',
+            noData: '暫無數據'
         },
         en: {
             fundManager: 'Fund Manager',
@@ -86,12 +85,19 @@ export default {
             upToNow: 'Up To Now',
             manageInfo: 'Fund Manager Info',
             more: 'More',
-            less: 'Less'
+            less: 'Less',
+            noData: 'No Data'
         }
     },
     computed: {
         stockColorType() {
             return +getStockColorType()
+        },
+        managerList2() {
+            this.managerList.forEach(item => {
+                this.$set(item, 'showMore', false)
+            })
+            return this.managerList
         }
     },
     filters: {
@@ -106,23 +112,6 @@ export default {
         formatRtn(value) {
             let rtn = Number.parseFloat(value).toFixed(2)
             return rtn
-        }
-    },
-    created() {
-        this.getFundManagerData()
-    },
-    methods: {
-        async getFundManagerData() {
-            try {
-                const res = await getFundManagerData({
-                    fundId: this.$route.query.id
-                })
-                this.managerList = res
-            } catch (e) {
-                if (e.msg) {
-                    this.$alert(e.msg)
-                }
-            }
         }
     }
 }
@@ -167,10 +156,11 @@ export default {
         color: #04ba60;
     }
     .content__left {
-        width: 33%;
+        width: 30%;
         .now {
             color: $text-color5;
         }
+        overflow: hidden;
     }
     .content__center,
     .content__right {
