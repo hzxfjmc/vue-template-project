@@ -16,6 +16,7 @@
                             v-model="purchaseAmount"
                             @input="handlerAmount"
                             @clickBoard="isInit = false"
+                            @onShow="onKeyboardShow"
                             )
                         .block__fund--tag--list(v-if="tagList.length!=0")
                             span(v-for="item in tagList" @click="handleClickTag(item)") {{item.label}}
@@ -50,7 +51,7 @@
                     :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
                     :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
                 )
-            .fund-footer-content
+            .fund-footer-content(v-if="!keyboardShow")
                 .protocol
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
@@ -184,7 +185,8 @@ export default {
             tagList: [],
             tagText: '',
             fundDetail: {},
-            isInit: true
+            isInit: true,
+            keyboardShow: false
         }
     },
     filters: {
@@ -863,6 +865,10 @@ export default {
         handleClickTag(item) {
             console.log(item)
             this.purchaseAmount = item.value + ''
+        },
+        onKeyboardShow(flag) {
+            console.log('onShow', flag)
+            this.keyboardShow = flag
         }
     },
     i18n: {
