@@ -98,7 +98,7 @@
                     :class="[flag2? 'fund-footer':'fund-no']"
                     @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
 
-        .fund-footer-content(v-if="!PurchaseButton && !this.btnShow && !chsFightButton && !chtFightButton")
+        .fund-footer-content(v-if="!PurchaseButton && !this.btnShow && !chsFightButton && !chtFightButton && invate !== 'share'")
             span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
                 s {{defaultRate}}
