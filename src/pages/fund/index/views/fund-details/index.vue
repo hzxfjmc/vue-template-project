@@ -21,10 +21,7 @@
             v-if="fundHeaderInfoVO.fundId"
             :fundHeaderInfoVO="fundHeaderInfoVO"
         )
-        HoldfundDetails(
-            v-if="holdDetailsShow"
-            :initState="holdInitState")
-
+        
         FightFundHk(
             v-if="!fightShow && code ===2"
             :userList="userList"
@@ -35,7 +32,7 @@
             v-if="!fightShow && code === 1"
             :userList="userList"
             :swipeShow="swipeShow"
-            :actionInfo = "actionInfo")   
+            :actionInfo = "actionInfo") 
 
         .block__fundheader--tips(
             v-if="isLogin"

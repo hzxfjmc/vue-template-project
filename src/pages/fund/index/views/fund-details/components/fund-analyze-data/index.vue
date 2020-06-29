@@ -7,10 +7,10 @@
             .header__bottom
                 .item
                     span.item__label {{$t('A12')}}：
-                    span.item__value {{analyzeData.updateTime}}    
+                    span.item__value {{analyzeData.updateTime || '--'}}    
                 .item
                     span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
-                    span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency,'')}}
+                    span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency,'') || '--'}}
         .fund-block
             .fund-block__header
                 .title {{$t('A14')}}
@@ -27,7 +27,7 @@
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
-                            ) {{Number(riskMeasureApiVO[`sharpeRatio${item}Yr`]).toFixed(2)}}                                                    
+                            ) {{riskMeasureApiVO[`sharpeRatio${item}Yr`] ? Number(riskMeasureApiVO[`sharpeRatio${item}Yr`]).toFixed(2):'--'}}                                                    
                     tr
                         td {{$t('A18')}}  
                         td(
@@ -57,7 +57,7 @@
                         td(
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
-                            ) {{Number(mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`]).toFixed(2)}}                           
+                            ) {{mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`] ? Number(mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`]).toFixed(2):'--'}}                           
         .fund-block
             .fund-block__header
                 .title 
