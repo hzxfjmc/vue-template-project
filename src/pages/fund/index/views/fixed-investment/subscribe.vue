@@ -470,8 +470,10 @@ export default {
                     data.eddaBankAccount = this.bankInfo.bankAccountNo
                     data.eddaBankCode = this.bankInfo.bankCode
                     data.eddaBankName = {
-                        en: this.bankInfo.bankCode,
-                        zhCn: this.bankInfo.bankNameEnglish,
+                        en: this.bankInfo.bankNameEnglish,
+                        zhCn:
+                            this.bankInfo.bankNameSimple ||
+                            this.bankInfo.bankName,
                         zhHk: this.bankInfo.bankNameTraditional
                     }
                 }
