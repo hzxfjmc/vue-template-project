@@ -26,21 +26,22 @@
             .fund-manager__content(
                 v-for="(item, index) in managerList2" 
                 :key="index"
-                v-if="item.managerProvidedBiography"
                 )
                 .content__name {{item.managerName}}
-                .content_desc__wrap
+                .content_desc__wrap( v-if="item.managerProvidedBiography")
                     .content_desc(
                         :class="{all: item.showMore}"    
                     ) {{item.managerProvidedBiography || ''}}
-                .more(
-                    v-if="!item.showMore"
-                    @click="item.showMore = true"
-                ) {{$t('more')}}
-                .less(
-                    v-else
-                    @click="item.showMore = false"
-                ) {{$t('less')}}
+                    .show-wrap
+                        .more(
+                            v-if="!item.showMore"
+                            @click="item.showMore = true"
+                        ) {{$t('more')}}
+                        .less(
+                            v-else
+                            @click="item.showMore = false"
+                        ) {{$t('less')}}
+                .no-data(v-else) {{$t('noIntroduction')}}
     .no-data(v-else) {{$t('noData')}}
 </template>
 <script>
@@ -64,7 +65,8 @@ export default {
             manageInfo: '基金经理简介',
             more: '查看更多',
             less: '收起',
-            noData: '暂无数据'
+            noData: '暂无数据',
+            noIntroduction: '暂无简介'
         },
         zhCHT: {
             fundManager: '基金經理',
@@ -75,7 +77,8 @@ export default {
             manageInfo: '基金經理簡介',
             more: '查看更多',
             less: '收起',
-            noData: '暫無數據'
+            noData: '暫無數據',
+            noIntroduction: '暂无简介'
         },
         en: {
             fundManager: 'Fund Manager',
@@ -86,7 +89,8 @@ export default {
             manageInfo: 'Fund Manager Info',
             more: 'More',
             less: 'Less',
-            noData: 'No Data'
+            noData: 'No Data',
+            noIntroduction: 'No Introduction'
         }
     },
     computed: {
@@ -192,6 +196,7 @@ export default {
         height: 120px;
         overflow: hidden;
         line-height: 24px;
+        color: $text-color6;
         text-align: justify;
         white-space: pre-line;
         display: -webkit-box;

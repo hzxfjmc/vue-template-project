@@ -183,9 +183,10 @@ export default {
 <style lang="scss" scoped>
 .block__fundcontent--list {
     .block__fund--item {
+        line-height: 14px;
         display: flex;
         justify-content: space-between;
-        padding: 10px 0;
+        padding: 15px 0;
         border-bottom: 1px solid $text-color8;
         .block__fund--title {
             color: $text-color5;
