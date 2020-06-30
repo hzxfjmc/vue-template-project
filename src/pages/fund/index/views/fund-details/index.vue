@@ -1245,20 +1245,20 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
-        },
-        //设置app分享按钮
-        async setShareButton() {
-            const base64 = this.$refs.titlebarIcon.src.replace(
-                /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
-                ''
-            )
-            jsBridge.callApp('command_set_titlebar_button', {
-                position: 1, //position取值1、2
-                clickCallback: 'handlerFundShare',
-                type: 'custom_icon',
-                custom_icon: base64
-            })
         }
+        //设置app分享按钮
+        // async setShareButton() {
+        //     const base64 = this.$refs.titlebarIcon.src.replace(
+        //         /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
+        //         ''
+        //     )
+        //     jsBridge.callApp('command_set_titlebar_button', {
+        //         position: 1, //position取值1、2
+        //         clickCallback: 'handlerFundShare',
+        //         type: 'custom_icon',
+        //         custom_icon: base64
+        //     })
+        // }
     },
     async created() {
         try {
