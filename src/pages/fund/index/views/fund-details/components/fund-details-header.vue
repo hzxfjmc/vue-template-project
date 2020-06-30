@@ -4,13 +4,13 @@
         h3 {{fundHeaderInfoVO.fundName}}
         .funds-details-subtitle 
             span ISIN：{{fundHeaderInfoVO.isin}}
-            //- .rate-wrap(@click="morningstarRateAlert")
-            //-     span {{fundHeaderInfoVO.morningRating ? this.$t('hasRate') : this.$t('noRate')}}
-                //- star(:score="fundHeaderInfoVO.morningRating")
+            .rate-wrap(@click="morningstarRateAlert")
+                span {{fundHeaderInfoVO.morningRating ? this.$t('hasRate') : this.$t('noRate')}}
+                star(:score="fundHeaderInfoVO.morningRating")
     .block__right--tag(
         @click="confirmAlter"
         v-if="tagShow")
-        .blcok__tag--left.iconfont.icon-warning1
+        //- .blcok__tag--left.iconfont.icon-warning1
         .block__tag--right
             p(v-if="tagsShow") {{$t('Derivatives')}} 
             p {{$t('Complex')}}
