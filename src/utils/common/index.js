@@ -93,6 +93,30 @@ function parentIsAlive(component) {
     return false
 }
 
+//设置分享按钮
+const setShareButton = async function() {
+    const base64 = require('@/assets/img/fund/icon/icon-share-hk.png').replace(
+        /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
+        ''
+    )
+    jsBridge.callApp('command_set_titlebar_button', {
+        position: 1, //position取值1、2
+        clickCallback: 'clickShareCallback',
+        type: 'custom_icon',
+        custom_icon: base64
+    })
+}
+
+// 清除客服按钮
+const clearShareButton = function() {
+    jsBridge.callApp('command_set_titlebar_button', {
+        position: 1,
+        clickCallback: '',
+        type: 'hide',
+        custom_icon: ''
+    })
+}
+
 // 设置客服按钮
 const setTitleBarCSButton = function() {
     if (isYouxinApp) {
@@ -152,6 +176,9 @@ Vue.mixin({
                     if (to.meta.cs) {
                         setTitleBarCSButton()
                     }
+                    if (to.meta.share) {
+                        setShareButton()
+                    }
 
                     // 自定义分享内容
                     if (to.meta.ismgm !== 'yes') {
@@ -178,6 +205,9 @@ Vue.mixin({
             beforeRouteLeave(to, from, next) {
                 if (from.meta.cs) {
                     clearTitleBarCSButton()
+                }
+                if (from.meta.share) {
+                    clearShareButton()
                 }
                 next()
             },
