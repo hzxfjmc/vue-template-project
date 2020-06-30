@@ -230,7 +230,6 @@ export default {
         }
         this.compareVersionFund()
         this.getSource()
-
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
@@ -763,6 +762,7 @@ export default {
 
             // test:
             // submitStep = 1
+            let purchaseAmount = this.purchaseAmount.replace(/\.+$/, '')
             if (submitStep === 1) {
                 try {
                     this.$loading()
@@ -771,7 +771,7 @@ export default {
                         re = await fundPurchase({
                             displayLocation: 1,
                             fundId: this.$route.query.id,
-                            purchaseAmount: this.purchaseAmount,
+                            purchaseAmount: purchaseAmount,
                             requestId: generateUUID(),
                             tradeToken: token
                         })
@@ -788,7 +788,7 @@ export default {
                                 order_detail: JSON.stringify({
                                     displayLocation: 1,
                                     fundId: this.$route.query.id,
-                                    purchaseAmount: this.purchaseAmount,
+                                    purchaseAmount: purchaseAmount,
                                     requestId: requestId,
                                     tradeToken: token
                                 })

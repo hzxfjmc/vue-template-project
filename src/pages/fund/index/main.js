@@ -8,8 +8,8 @@ import LS from '@/utils/local-storage.js'
 import { messages } from '@/utils/i18n-message/fund/index.js'
 import storeMethod from '@/store/index.js'
 import i18n from '@/utils/common/plugins/yx-i18n/index.js'
-import '@/utils/common'
 import jsBridge from '@/utils/js-bridge'
+import imgToast from '@/components/img-toast/index.js'
 
 const store = storeMethod()
 
@@ -20,8 +20,14 @@ Vue.use(i18n, {
     lang: store.getters.lang,
     messages
 })
+Vue.use(imgToast)
 
 Vue.prototype.$jsBridge = jsBridge
+
+import '@/utils/common'
+
+// mock
+// import '@/mock/index.js'
 
 let init = async () => {
     try {

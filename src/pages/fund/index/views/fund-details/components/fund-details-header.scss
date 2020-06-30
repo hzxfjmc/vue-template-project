@@ -10,38 +10,44 @@
     width: 100%;
     min-height: 174px;
     background: #fff;
+    position: relative;
+    .block__right--tag {
+        position: absolute;
+        min-width: 76px;
+        // height: 38px;
+        padding:2px 8px 0 0;
+        border-top-left-radius: 32px;
+        border-bottom-left-radius: 32px;
+        border: 1px solid #edc92c;
+        color:#FFBF32;
+        border-right: none;
+        line-height: 32px;
+        display: flex;
+        align-items: center;
+        top: 87px;
+        right: 0;
+        z-index:999999;
+        .iconfont {
+            color: #edc92c;
+            margin: 0 0 0 10px;
+        }
+        .block__tag--right {
+            font-size: 9px;
+            width:100%;
+            font-weight: 400;
+            text-align: center;
+            color:#FFBF32;
+            p {
+                line-height: 16px;
+                margin: 0 0 0 2px;
+            }
+        }
+    }
     .fund-details-header-top {
         width: 100%;
         padding: 10px;
-        background: #fbfcfe;
         position: relative;
-        .block__right--tag {
-            position: absolute;
-            width: 86px;
-            height: 38px;
-            border-top-left-radius: 32px;
-            border-bottom-left-radius: 32px;
-            border: 1px solid #edc92c;
-            border-right: none;
-            line-height: 32px;
-            display: flex;
-            align-items: center;
-            bottom: 14px;
-            right: 0;
-            .iconfont {
-                color: #edc92c;
-                margin: 0 0 0 10px;
-            }
-            .block__tag--right {
-                font-size: 9px;
-                font-weight: 400;
-                color: rgba(153, 153, 153, 1);
-                p {
-                    line-height: 16px;
-                    margin: 0 0 0 2px;
-                }
-            }
-        }
+        
     }
     h3 {
         font-size: 0.32rem;
@@ -58,7 +64,11 @@
         color: $text-color3;
         width: 100%;
         display: flex;
+       align-items: center;
         font-size: 0.24rem;
+        .block-left{
+            padding:0 0 0 14px;
+        }
     }
     .block-left {
         display: flex;
@@ -128,7 +138,7 @@
         flex-direction: row;
         padding: 10px;
         font-size: 11px;
-        justify-content: space-between;
+        // justify-content: space-between;
         color: $text-color5;
         .number-red {
             color: rgba(234, 61, 61, 1);

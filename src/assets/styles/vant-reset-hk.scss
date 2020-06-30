@@ -10,6 +10,7 @@ body {
   $disabled: #DADADA;
   .van-dialog {
     width: 335px !important;
+    border-radius:10px;
     .van-button {
       font-size: 16px;
     }

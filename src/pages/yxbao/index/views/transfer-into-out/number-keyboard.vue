@@ -19,7 +19,7 @@
         :show="show"
         extra-key="."
         :safe-area-inset-bottom = "true"
-        close-button-text="完成"
+        :close-button-text="$t('ok')"
         :show-delete-key = "false"
         @close="close"
         @blur="show = false"
@@ -59,20 +59,23 @@ export default {
             all: '全部转出',
             iknow: '我知道了',
             confirm: '立即入金',
-            subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购'
+            subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购',
+            ok: '完成'
         },
         zhCHT: {
             all: '全部轉出',
             iknow: '我知道了',
             confirm: '立即存款',
-            subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購'
+            subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購',
+            ok: '完成'
         },
         en: {
             all: 'ALL',
             iknow: 'I Get It',
             confirm: 'Deposit Now',
             subscribemsg:
-                'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit'
+                'Sorry，Your account number is not enough\nYou can subscribe the fund after you deposit',
+            ok: 'ok'
         }
     },
     watch: {
