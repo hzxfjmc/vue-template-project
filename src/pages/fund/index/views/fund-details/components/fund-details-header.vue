@@ -227,7 +227,7 @@ export default {
             this.$router.push({
                 path: '/index',
                 query: {
-                    type: 2
+                    type: String(this.fundHeaderInfoVO.assetType)
                 }
             })
         }
