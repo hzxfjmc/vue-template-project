@@ -150,7 +150,8 @@ export default {
             fundOverviewInfoVO: {},
             TRADE_TYPES,
             accountType: '',
-            fixedInvest: false
+            fixedInvest: false,
+            ORDER_STATUS
         }
     },
     computed: {
