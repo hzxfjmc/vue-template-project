@@ -46,7 +46,7 @@
                     .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE")
                         span.itemName {{$t('fee')}}
                         span.type-text {{orderFee|transNumToThousandMark}}
-                van-cell(class="order-time" v-if="!orderFlag")
+                van-cell(class="order-time" v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                     .order-item.flex()
                         span.itemName {{$t('orderName')}}
                         span.type {{orderType}}
@@ -67,7 +67,7 @@
                         span.type {{accountTypeFilter(accountType)}}
                     .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                         span.itemName {{$t('orderAmount')}}
-                        span.type {{(moneyNum + orderFee)|transNumToThousandMark}}
+                        span.type {{((+moneyNum || 0) + (+orderFee || 0))|transNumToThousandMark}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('confirmButtonText')" @confirm='confirmBackoutHandle')
@@ -453,12 +453,13 @@ export default {
             }
         },
         accountTypeFilter(v) {
-            let accountStr =
-                (v === accountTypeMap.CASH && this.$t('cashAccount')) ||
+            return (
+                (v === accountTypeMap.CASH &&
+                    this.$t('cashAccount', this.currency)) ||
                 (v === accountTypeMap.FINANCING &&
-                    this.$t('financingAccount')) ||
+                    this.$t('financingAccount', this.currency)) ||
                 ''
-            return this.currency + accountStr
+            )
         }
     },
     beforeRouteLeave(to, from, next) {

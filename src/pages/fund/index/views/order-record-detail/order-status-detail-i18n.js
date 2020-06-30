@@ -19,8 +19,10 @@ export const i18nOrderStatusData = {
         debitWay: '扣款方式',
         orderAmount: '订单金额',
         confirmOrderShares: '确认份额',
-        cashAccount: '现金账户',
-        financingAccount: '融资账户'
+        cashAccount: currency =>
+            `${currency === 'HKD' ? '港股' : '美股'}现金账户`,
+        financingAccount: currency =>
+            `${currency === 'HKD' ? '港股' : '美股'}融资账户`
     },
     zhCHT: {
         amount: '申購金額',
@@ -42,8 +44,10 @@ export const i18nOrderStatusData = {
         debitWay: '扣款方式',
         orderAmount: '訂單金額',
         confirmOrderShares: '確認份額',
-        cashAccount: '現金賬戶',
-        financingAccount: '融資賬戶'
+        cashAccount: currency =>
+            `${currency === 'HKD' ? '港股' : '美股'}現金賬戶`,
+        financingAccount: currency =>
+            `${currency === 'HKD' ? '港股' : '美股'}融資賬戶`
     },
     en: {
         amount: 'Subscription Investment Amount',
@@ -61,11 +65,13 @@ export const i18nOrderStatusData = {
         backoutBtnText: 'Cancel',
         beConfirmed: 'To Be Confirmed',
         failedRemark: 'Reason',
-        fee: 'Fee',
-        debitWay: 'Debit Way',
+        fee: 'Handling Fee',
+        debitWay: 'Payment Way',
         orderAmount: 'Order Fee',
-        confirmOrderShares: 'Confirm Units',
-        cashAccount: 'Cash Account',
-        financingAccount: 'Financing Account'
+        confirmOrderShares: 'Confirmed Units',
+        cashAccount: currency =>
+            `${currency === 'HKD' ? 'HK Stock' : 'US Stock'} Cash Account`,
+        financingAccount: currency =>
+            `${currency === 'HKD' ? 'HK Stock' : 'US Stock'} Financing Account`
     }
 }

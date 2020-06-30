@@ -624,9 +624,18 @@ export default {
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
                 )
-                this.buySubmit = fundDetail.fundTradeInfoVO.buySubmit
-                this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
-                this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss
+                this.buySubmit = fundDetail.fundTradeInfoVO.buySubmit.replace(
+                    '.',
+                    '-'
+                )
+                this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm.replace(
+                    '.',
+                    '-'
+                )
+                this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss.replace(
+                    '.',
+                    '-'
+                )
                 this.buyProtocolFileName = (
                     fundDetail.fundTradeInfoVO.buyProtocol || ''
                 )
