@@ -27,6 +27,8 @@ import Vue from 'vue'
 
 import axios from '../http-request'
 
+import env from '@/utils/scheme/env'
+
 import { wechatShare } from '@/utils/share/wechat.js'
 
 // 友信证券公共库
@@ -95,26 +97,34 @@ function parentIsAlive(component) {
 
 //设置分享按钮
 const setShareButton = async function() {
-    const base64 = require('@/assets/img/fund/icon/icon-share-hk.png').replace(
+    const shareIcon = env.isMainlandBlack
+        ? require('@/assets/img/fund/icon/icon-share.png')
+        : require('@/assets/img/fund/icon/icon-share-hk.png')
+    const base64 = shareIcon.replace(
         /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
         ''
     )
-    jsBridge.callApp('command_set_titlebar_button', {
-        position: 1, //position取值1、2
-        clickCallback: 'clickShareCallback',
-        type: 'custom_icon',
-        custom_icon: base64
-    })
+    if (isYouxinApp) {
+        jsBridge.registerFn('clickShareCallback', function() {})
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 1, //position取值1、2
+            clickCallback: 'clickShareCallback',
+            type: 'custom_icon',
+            custom_icon: base64
+        })
+    }
 }
 
-// 清除客服按钮
+// 清除分享按钮
 const clearShareButton = function() {
-    jsBridge.callApp('command_set_titlebar_button', {
-        position: 1,
-        clickCallback: '',
-        type: 'hide',
-        custom_icon: ''
-    })
+    if (isYouxinApp) {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 1,
+            clickCallback: '',
+            type: 'hide',
+            custom_icon: ''
+        })
+    }
 }
 
 // 设置客服按钮
