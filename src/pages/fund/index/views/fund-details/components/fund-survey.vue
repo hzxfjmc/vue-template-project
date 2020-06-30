@@ -15,8 +15,8 @@
                 i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
             .block__fund--title {{$t('docs')}}
-            .block__fund--file(@click="tofundSurvey(2)") {{fundFileList}}
-            i.iconfont.icon-iconEBgengduoCopy
+            .block__fund--content(@click="tofundSurvey(2)") {{fundFileList}}
+                i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
             .block__fund--title {{$t('dividend')}}
             .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
@@ -65,7 +65,10 @@ export default {
                 let fliterList = this.fundCorrelationFileList.map(item => {
                     return item.fileName.split('.')[0]
                 })
-                return fliterList.slice(0, 2).join('、')
+                let fundFileString = fliterList.slice(0, 2).join('、')
+                return fundFileString.length > 20
+                    ? fundFileString.substring(0, 20) + '...'
+                    : fundFileString
             } else {
                 return this.$t('noDocs')
             }
@@ -194,14 +197,6 @@ export default {
         &:last-child {
             border: 0;
         }
-    }
-    .block__fund--file {
-        display: flex;
-        flex-direction: end;
-        width: 20%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
     }
 }
 
