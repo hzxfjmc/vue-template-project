@@ -66,7 +66,9 @@ export default {
             more: '查看更多',
             less: '收起',
             noData: '暂无数据',
-            noIntroduction: '暂无简介'
+            noIntroduction: '暂无简介',
+            years: '年零',
+            days: '天'
         },
         zhCHT: {
             fundManager: '基金經理',
@@ -78,7 +80,9 @@ export default {
             more: '查看更多',
             less: '收起',
             noData: '暫無數據',
-            noIntroduction: '暂无简介'
+            noIntroduction: '暂无简介',
+            years: '年零',
+            days: '天'
         },
         en: {
             fundManager: 'Fund Manager',
@@ -90,7 +94,9 @@ export default {
             more: 'More',
             less: 'Less',
             noData: 'No Data',
-            noIntroduction: 'No Introduction'
+            noIntroduction: 'No Introduction',
+            years: 'years and',
+            days: 'days'
         }
     },
     computed: {
@@ -111,7 +117,7 @@ export default {
         formatDays(value) {
             let year = Math.floor(value / 365)
             let days = value % 365
-            return `${year}年零${days}天`
+            return `${year} ${$t('years')} ${days} ${$t('days')}`
         },
         formatRtn(value) {
             let rtn = Number.parseFloat(value).toFixed(2)

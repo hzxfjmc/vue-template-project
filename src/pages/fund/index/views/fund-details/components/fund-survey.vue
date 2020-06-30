@@ -15,8 +15,8 @@
                 i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
             .block__fund--title {{$t('docs')}}
-            .block__fund--content(@click="tofundSurvey(2)") {{fundFileList}}
-                i.iconfont.icon-iconEBgengduoCopy
+            .block__fund--file(@click="tofundSurvey(2)") {{fundFileList}}
+            i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
             .block__fund--title {{$t('dividend')}}
             .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
@@ -186,17 +186,22 @@ export default {
         line-height: 14px;
         display: flex;
         justify-content: space-between;
-        padding: 15px 0;
+        padding: 12px 0;
         border-bottom: 1px solid $text-color8;
         .block__fund--title {
             color: $text-color5;
         }
-        .iconfont {
-            border: 0;
-        }
         &:last-child {
             border: 0;
         }
+    }
+    .block__fund--file {
+        display: flex;
+        flex-direction: end;
+        width: 20%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 
