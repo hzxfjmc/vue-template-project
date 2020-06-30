@@ -16,7 +16,7 @@
             p {{$t('Complex')}}
     .funds-details-number.border-bottom
         .header-left
-            span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
+            span {{upOrDown}}
             img(v-if="isMonetaryFund" src="@/assets/img/fund/tip.png" class="tipWarning" @click="yieldInLast7dClick")
             p(
                 v-if="apy >0" 
@@ -25,13 +25,31 @@
                 v-else-if="apy<0" 
                 :class="stockColorType === 1 ? 'number-green' : 'number-red'") {{apy}}%
             p(v-else) {{apy}}%
-        .header-right
-            span {{fundHeaderInfoVO.code === 1 ? $t('purchase') : $t('pirchaseHk')}}（{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
-            p.number-black {{fundHeaderInfoVO.initialInvestAmount}}
+        .header-right(v-if="isMonetaryFund")
+            span {{$t('tenKRTN')}}
+            p(
+                v-if="this.tenKRtn > 0" 
+                :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+            ) +{{tenKRtn}}
+            p(
+                v-else="this.tenKRtn < 0" 
+                :class="stockColorType === 1 ?  'number-green' : 'number-red' "
+            ) {{tenKRtn}}
+        .header-right(v-else)
+            span {{$t('purchase')}}
+            span （{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
+            p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
-        fund-tag(:title="fundHeaderInfoVO.assetTypeName")
-        fund-tag(:title="fundHeaderInfoVO.fundRisk")
+        fund-tag(
+            :title="fundHeaderInfoVO.assetTypeName"
+            @toFundType="toFundType"
+            )
+        fund-tag(
+            :title="fundHeaderInfoVO.fundRisk"
+            @toFundRisk="toFundRisk"
+            )
         fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
+        fund-tag(:title="startAmount")
         //- .block__details--left
         //-     template(v-if="isMonetaryFund")
         //-         span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
@@ -55,6 +73,8 @@ import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 import fundTag from '@/biz-components/fund-tag/index.vue'
+import { jumpUrl } from '@/utils/tools.js'
+import { langType, getUaValue } from '@/utils/html-utils'
 export default {
     components: {
         [Tag.name]: Tag,
@@ -67,8 +87,7 @@ export default {
             Complex: '复杂产品',
             fundPrice: '基金净值',
             minInvestment: '起投金额',
-            purchase: '起购金额',
-            pirchaseHk: '起购金额',
+            purchase: '单位净值',
             update: '更新时间',
             oneYearShow: '近一年涨跌幅',
             yieldInLast7d: '近七日年化',
@@ -96,8 +115,7 @@ export default {
             yieldInLast7d: '近七日年化',
             hkd: '港幣',
             usd: '美元',
-            purchase: '起購金額',
-            pirchaseHk: '最低認購金額',
+            purchase: '基金價格',
             update: '更新時間',
             iknow: '我知道了',
             hasRate: '晨星評級',
@@ -121,8 +139,7 @@ export default {
             hkd: 'HKD',
             usd: 'USD',
             yieldInLast7d: 'Yield in Last 7d',
-            purchase: 'Min. Subs. Amount',
-            pirchaseHk: 'Min. Subs. Amount',
+            purchase: 'NAV',
             update: 'Update Time',
             iknow: 'Got it',
             hasRate: 'MorningStar Rating',
@@ -151,6 +168,10 @@ export default {
             type: Object,
             default: () => {}
         },
+        // historyList: {
+        //     type: Array,
+        //     default: () => {}
+        // },
         tagShow: {
             type: Boolean,
             default: false
@@ -195,6 +216,20 @@ export default {
                 confirmButtonColor: '#3c78fa',
                 messageAlign: 'left'
             })
+        },
+        toFundRisk() {
+            let params = getUaValue('langType')
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-risk-level?fundRiskType=${this.fundHeaderInfoVO.fundRiskType}&id=${this.fundHeaderInfoVO.fundId}&tagShow=${this.tagShow}&tagsShow=${this.tagsShow}`
+            jumpUrl(3, url)
+        },
+        toFundType() {
+            console.log(this.assetType)
+            this.$router.push({
+                path: '/index',
+                query: {
+                    type: String(this.fundHeaderInfoVO.assetType)
+                }
+            })
         }
     },
     computed: {
@@ -203,6 +238,27 @@ export default {
         },
         isMonetaryFund() {
             return Number(this.fundHeaderInfoVO.assetType) === 4 // 货币型基金
+        },
+        startAmount() {
+            if (this.fundHeaderInfoVO.currencyType === 'HKD') {
+                if (langType.En) {
+                    return `Min. ${
+                        this.fundHeaderInfoVO.initialInvestAmount
+                    } ${this.$t('hkd')}`
+                }
+                return `${this.fundHeaderInfoVO.initialInvestAmount}${this.$t(
+                    'hkd'
+                )}起`
+            } else {
+                if (langType.En) {
+                    return `Min. ${
+                        this.fundHeaderInfoVO.initialInvestAmount
+                    } ${this.$t('usd')}`
+                }
+                return `${this.fundHeaderInfoVO.initialInvestAmount}${this.$t(
+                    'usd'
+                )}起`
+            }
         },
         apy() {
             const func =
@@ -219,6 +275,20 @@ export default {
                           func((this.fundHeaderInfoVO.apy - 0) * 10000) / 100
                       ).toFixed(2)
             return this.fundHeaderInfoVO && apyNum
+        },
+        tenKRtn() {
+            return Number.parseFloat(this.revenue)
+        },
+        //- span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
+        upOrDown() {
+            let belongDay = dayjs(this.fundHeaderInfoVO.belongDay).format(
+                'MM-DD'
+            )
+            if (this.isMonetaryFund) {
+                return `${this.$t('yieldInLast7d')}`
+            } else {
+                return `${this.$t('oneYearShow')}(${belongDay})`
+            }
         }
     }
 }

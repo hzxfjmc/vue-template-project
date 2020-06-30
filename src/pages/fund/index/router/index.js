@@ -21,6 +21,13 @@ export default new Router({
             component: () => import(`@/pages/fund/index/views/index/index.vue`)
         },
         {
+            name: 'fund-risk-level',
+            path: '/fund-risk-level',
+            meta: { title: 'fundRiskLevels', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-risk-level/index.vue`)
+        },
+        {
             name: 'fund-introduce',
             path: '/fund-introduce',
             meta: { title: 'fundIntroduce', auth: true, cs: true },
