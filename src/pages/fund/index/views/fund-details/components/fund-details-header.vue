@@ -4,9 +4,9 @@
         h3 {{fundHeaderInfoVO.fundName}}
         .funds-details-subtitle 
             span ISIN：{{fundHeaderInfoVO.isin}}
-            //- .rate-wrap(@click="morningstarRateAlert")
-            //-     span {{fundHeaderInfoVO.morningRating ? this.$t('hasRate') : this.$t('noRate')}}
-                //- star(:score="fundHeaderInfoVO.morningRating")
+            .rate-wrap(@click="morningstarRateAlert")
+                span {{fundHeaderInfoVO.morningRating ? this.$t('hasRate') : this.$t('noRate')}}
+                star(:score="fundHeaderInfoVO.morningRating")
     .block__right--tag(
         @click="confirmAlter"
         v-if="tagShow")
