@@ -27,6 +27,11 @@
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
 
+        FundAnalyzeDataColumn(
+            v-if="fundHeaderInfoVO.fundId"
+            :fundHeaderInfoVO="fundHeaderInfoVO"
+        )
+        
         FightFundHk(
             v-if="!fightShow && code ===2"
             :userList="userList"
@@ -37,7 +42,7 @@
             v-if="!fightShow && code === 1"
             :userList="userList"
             :swipeShow="swipeShow"
-            :actionInfo = "actionInfo")   
+            :actionInfo = "actionInfo") 
 
         fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
@@ -196,6 +201,7 @@ import FightFundHk from './components/fight-fund-hk.vue'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
+import FundAnalyzeDataColumn from './components/fund-analyze-data/column.vue'
 import scheme from '@/utils/scheme'
 import env from '@/utils/scheme/env'
 import dayjs from 'dayjs'
@@ -353,7 +359,8 @@ export default {
         fundSurvey,
         fundCardList,
         fundTradingRules,
-        FightFundHk
+        FightFundHk,
+        FundAnalyzeDataColumn
     },
     computed: {
         RedemptionButton() {
