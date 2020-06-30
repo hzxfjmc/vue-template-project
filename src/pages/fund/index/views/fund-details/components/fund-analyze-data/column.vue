@@ -12,7 +12,7 @@
                 .item-title {{$t('A17')}}
                 .item-value(
                      :class="getStockClass(sharpeRatio3Yr)"
-                ) {{Number(sharpeRatio3Yr).toFixed(2) || '--'}} 
+                ) {{ sharpeRatio3Yr ? Number(sharpeRatio3Yr).toFixed(2) : '--'}} 
             .content__item
                 .item-title {{$t('A18')}}
                 .item-value(
