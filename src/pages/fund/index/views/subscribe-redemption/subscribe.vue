@@ -36,14 +36,16 @@
                    
                 .block__payment--type
                     .block__header--title
-                        span 扣款方式
-                        span {{currency.type == 1 ? $t('usd'):$t('hkd')}}融资账户
+                        span {{$t('debitWay')}}
+                        span {{currencyStr}}融资账户
                     .block__bottom
-                        span {{subscribeObj['withdrawBalance'].label}}：{{subscribeObj['withdrawBalance'].value}}{{currency.type == 1 ? $t('usd'):$t('hkd')}}
-                .block__fund-tip 美元不足？友信支持7x24换汇服务
+                        span {{subscribeObj['withdrawBalance'].label}}：{{subscribeObj['withdrawBalance'].value}}{{currencyStr}}
+                .block__fund-tip
+                    img(src="@/assets/img/fund/exchange.png")
+                    span {{$t('service', currencyStr)}}
                     em.block__fund--button(
                         v-if="tipShow" 
-                        @click="toExchangePage") 点此查看详情
+                        @click="toExchangePage") {{$t('detail')}}
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
@@ -268,6 +270,9 @@ export default {
         },
         subscriptionFeeScale() {
             return NP.times(+this.subscriptionFee, 100)
+        },
+        currencyStr() {
+            return this.currency.type == 1 ? this.$t('usd') : this.$t('hkd')
         }
     },
     methods: {
@@ -930,7 +935,11 @@ export default {
                 '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。',
             inputMoney: '请输入申购金额',
             mixBuyMoney: (price, currency) => `最低申购${price}${currency}`,
-            noEnoughMoney: `可用余额不足`
+            noEnoughMoney: `可用余额不足`,
+            debitWay: '扣款方式',
+            service: currency =>
+                `${currency}不足？uSMART友信证券支持7x24换汇服务`,
+            detail: '点此查看详情'
         },
         zhCHT: {
             FundReturn: '拼团最低可返',
@@ -981,7 +990,11 @@ export default {
                 '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。',
             inputMoney: '請輸入申購金額',
             mixBuyMoney: (price, currency) => `最低申購${price}${currency}`,
-            noEnoughMoney: `可用餘額不足`
+            noEnoughMoney: `可用餘額不足`,
+            debitWay: '扣款方式',
+            service: currency =>
+                `${currency}不足？uSMART友信證券支持7x24換匯服務`,
+            detail: '點此查看詳情'
         },
         en: {
             FundReturn: '拼团最低可返',
@@ -1035,7 +1048,11 @@ export default {
             inputMoney: 'Please Entry Amount',
             mixBuyMoney: (price, currency) =>
                 `Mini. Subs. ${currency} ${price}`,
-            noEnoughMoney: `Insufficient in Available Balance`
+            noEnoughMoney: `Insufficient in Available Balance`,
+            debitWay: 'Payment Way',
+            service: currency =>
+                `Insufficient ${currency}？ uSMART supports 7x24 currency exchange service`,
+            detail: 'Details'
         }
     }
 }
