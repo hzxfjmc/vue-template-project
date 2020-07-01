@@ -22,7 +22,12 @@ export const i18nOrderStatusData = {
         cashAccount: currency =>
             `${currency === 'HKD' ? '港股' : '美股'}现金账户`,
         financingAccount: currency =>
-            `${currency === 'HKD' ? '港股' : '美股'}融资账户`
+            `${currency === 'HKD' ? '港股' : '美股'}融资账户`,
+        autoExchange: '自动换汇',
+        returnAmount: '返还金额',
+        returnRemind:
+            '返还金额是指您定投的基金在交易成功后手续费的折扣部分，该笔金额会返还至您的证券账户',
+        iKnow: '我知道了'
     },
     zhCHT: {
         amount: '申購金額',
@@ -47,7 +52,12 @@ export const i18nOrderStatusData = {
         cashAccount: currency =>
             `${currency === 'HKD' ? '港股' : '美股'}現金賬戶`,
         financingAccount: currency =>
-            `${currency === 'HKD' ? '港股' : '美股'}融資賬戶`
+            `${currency === 'HKD' ? '港股' : '美股'}融資賬戶`,
+        autoExchange: '自動換匯',
+        returnAmount: '返還金額',
+        returnRemind:
+            '返還金額是指您定投的基金在交易成功後手續費的折扣部分，該筆金額會返還至您的證券賬戶',
+        iKnow: '我知道了'
     },
     en: {
         amount: 'Subscription Investment Amount',
@@ -70,6 +80,11 @@ export const i18nOrderStatusData = {
         orderAmount: 'Order Fee',
         confirmOrderShares: 'Confirmed Units',
         cashAccount: currency => `Cash Account(${currency})`,
-        financingAccount: currency => `Margin Account(${currency})`
+        financingAccount: currency => `Margin Account(${currency})`,
+        autoExchange: 'Auto Exchange',
+        returnAmount: 'Subsidy Amount',
+        returnRemind:
+            'The amount Subsidy refers to the discounted portion of the subscribe fee for the fund you have AIP after the transaction is successful, and the amount will be returned to your securities account',
+        iKnow: 'I Know'
     }
 }

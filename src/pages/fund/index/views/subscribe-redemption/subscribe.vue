@@ -244,7 +244,6 @@ export default {
         }
         this.compareVersionFund()
         this.getSource()
-        this.getAccountType()
 
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
@@ -288,8 +287,8 @@ export default {
             ("M", "Margin Account", "保证金账户")
             */
             let { assetProp } = await getMarketValidFundAccount(
-                // 0 港股，5 美股
-                this.isUSDCurrency ? 2 : 1
+                // 1 A股，2 港股，3 美股
+                this.isUSDCurrency ? 3 : 2
             )
             let currencyStr = this.isUSDCurrency
                 ? this.$t('usStock')
@@ -579,6 +578,7 @@ export default {
                     this.subscribeObj[key].label = this.$t('subscribeObj')[key]
                 }
                 this.currency = fundDetail.fundTradeInfoVO.currency
+                this.getAccountType()
                 const CURRENCYEUMN = {
                     1: this.$t('usd'),
                     2: this.$t('hkd')

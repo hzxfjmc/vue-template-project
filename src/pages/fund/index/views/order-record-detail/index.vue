@@ -43,9 +43,13 @@
                     .order-item.flex(v-if="moneyNum != 0 && orderFlag")
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
-                    .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE")
+                    .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                         span.itemName {{$t('fee')}}
-                        span.type-text {{orderFee|transNumToThousandMark}}
+                        span.type-text {{orderFee|transNumToThousandMark}}{{currency}}
+                    .order-item.flex(v-if="fixedInvest && orderStatus === ORDER_STATUS.SUCCEED")
+                        span.itemName {{$t('returnAmount')}}
+                            img(src="@/assets/img/fund/fund-order-detail/icon.png" @click="showRemind")
+                        span.type-text {{}}
                 van-cell(class="order-time" v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                     .order-item.flex()
                         span.itemName {{$t('orderName')}}
@@ -55,19 +59,19 @@
                         span {{orderShare|transNumToThousandMark(4)}} 
                     .order-item.flex(v-if="netPrice")
                         span.itemName {{$t('orderNetWorth')}}
-                        span {{netPrice|transNumToThousandMark(4)}}
+                        span {{netPrice|transNumToThousandMark(4)}}{{currency}}
                     .order-item.flex(v-if="moneyNum != 0")
                             span.itemName {{$t('amount')}}
                             span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
-                    .order-item.flex(v-if="orderFee")
-                            span.itemName {{$t('orderFree')}}
-                            span.type {{orderFee|transNumToThousandMark}}
                     .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                         span.itemName {{$t('debitWay')}}
                         span.type {{accountTypeFilter(accountType)}}
                     .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                         span.itemName {{$t('orderAmount')}}
                         span.type {{((+moneyNum || 0) + (+orderFee || 0))|transNumToThousandMark}}
+                    .order-item.flex(v-if="fixedInvest")
+                        span.itemName {{$t('autoExchange')}}
+                        span.type {{}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('confirmButtonText')" @confirm='confirmBackoutHandle')
@@ -205,6 +209,45 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
+        // 處理起止時間格式
+        formatTime(time) {
+            if (!time) {
+                return '--'
+            }
+            time = dayjs(time)
+            // 星期
+            let day = time.day()
+            let mapDay = {
+                0: this.$t(['星期一', '星期一', 'Mon.']),
+                1: this.$t(['星期二', '星期二', 'Tues.']),
+                2: this.$t(['星期三', '星期三', 'Wed.']),
+                3: this.$t(['星期四', '星期四', 'Thur.']),
+                4: this.$t(['星期五', '星期五', 'Fri.']),
+                5: this.$t(['星期六', '星期六', 'Sat.']),
+                6: this.$t(['星期天', '星期天', 'Sun.'])
+            }
+            let dayStr = mapDay[day]
+            let result = ''
+            if (this.$i18n.lang === 'en') {
+                result = `${time.format('DD MMM')}(${dayStr})`
+                let map = {
+                    1: 'st',
+                    2: 'nd',
+                    3: 'rd'
+                }
+                result = result.replace(/^\d+\S/, function($1) {
+                    return $1 + (map[+$1] || 'th')
+                })
+            } else {
+                result = `${time.format('MM-DD')}(${dayStr})`
+            }
+            return result
+        },
+        // 處理起止時間
+        dealTime(res) {
+            this.beginTime = this.formatTime(res.confirmDate)
+            this.endTime = this.formatTime(res.deliveryDate)
+        },
         // 获取详情
         async fundOrderDetailFun() {
             try {
@@ -226,14 +269,7 @@ export default {
                 if (this.orderStatus === 1 && this.allowRevoke) {
                     this.setTitleBarBOButton()
                 }
-                this.beginTime =
-                    (res.confirmDate &&
-                        dayjs(res.confirmDate).format('MM.DD')) ||
-                    '--'
-                this.endTime =
-                    (res.deliveryDate &&
-                        dayjs(res.deliveryDate).format('MM.DD')) ||
-                    '--'
+                this.dealTime(res)
                 this.orderShare = res.orderShare
                 this.netPrice = res.netPrice
                 this.orderFinishValue =
@@ -460,6 +496,13 @@ export default {
                     this.$t('financingAccount', this.currency)) ||
                 ''
             )
+        },
+        showRemind() {
+            this.$confirm({
+                message: this.$t('returnRemind'),
+                confirmButtonText: this.$t('iKnow'),
+                showCancelButton: false
+            })
         }
     },
     beforeRouteLeave(to, from, next) {
@@ -503,6 +546,12 @@ export default {
                 color: $text-color5;
                 margin-bottom: 10px;
                 text-align: left;
+                img {
+                    width: 14px;
+                    height: 14px;
+                    margin-left: 3px;
+                    vertical-align: middle;
+                }
             }
             .block-right {
                 width: 70%;

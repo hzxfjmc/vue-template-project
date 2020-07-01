@@ -8,13 +8,13 @@
                             span(:class="differenceColor") {{orderStatusValue}}  
                         .begin-time
                             img(src="@/assets/img/fund/clock.png")
-                            span {{$t('estimate')}} 
-                            span {{tradeType===1?sureNetWorthBeginTime:surePositionBeginTime}} 
+                            span {{$t('estimate')}}
+                            span(v-html="tradeType===1?sureNetWorthBeginTime:surePositionBeginTime")
                         .left-line
                         .end-time
                             i(class="dot")
                             span {{$t('estimate')}} 
-                            span {{tradeType===1?sureNetWorthEndTime: surePositionEndTime}} 
+                            span(v-html="tradeType===1?sureNetWorthEndTime: surePositionEndTime")
 </template>
 
 <script>
@@ -73,32 +73,32 @@ export default {
         // 申购时确认份额日多语言
         sureNetWorthBeginTime() {
             return {
-                zhCHS: `${this.beginTime}确认份额并开始计算收益`,
-                zhCHT: `${this.beginTime}確認份額並開始計算收益`,
-                en: `Fund Units Allocation in ${this.beginTime}`
+                zhCHS: `<b>${this.beginTime}</b>确认份额并开始计算收益`,
+                zhCHT: `<b>${this.beginTime}</b>確認份額並開始計算收益`,
+                en: `Fund Units Allocation in <b>${this.beginTime}</b>`
             }[this.$i18n.lang]
         },
         sureNetWorthEndTime() {
             return {
-                zhCHS: `${this.endTime}查看份额、收益 `,
-                zhCHT: `${this.endTime}查看份額、收益`,
-                en: `Check P/L and Units in ${this.endTime} `
+                zhCHS: `<b>${this.endTime}</b>查看份额、收益 `,
+                zhCHT: `<b>${this.endTime}</b>查看份額、收益`,
+                en: `<b>Check P/L and Units in ${this.endTime}</b>`
             }[this.$i18n.lang]
         },
         // 赎回时确认份额日多语言
         surePositionBeginTime() {
             return {
-                zhCHS: `${this.beginTime}日确认净值 `,
-                zhCHT: `${this.beginTime}日確認凈值`,
-                en: `${this.beginTime} CFMD NAV`
+                zhCHS: `<b>${this.beginTime}</b>日确认净值 `,
+                zhCHT: `<b>${this.beginTime}</b>日確認凈值`,
+                en: `<b>${this.beginTime}</b> CFMD NAV`
             }[this.$i18n.lang]
         },
         // 查收收益日多语言
         surePositionEndTime() {
             return {
-                zhCHS: `${this.endTime}日资金到达证券账户`,
-                zhCHT: `${this.endTime}日資金到達證券賬戶`,
-                en: `Funds Credited to Securities Account in ${this.endTime} Days`
+                zhCHS: `<b>${this.endTime}</b>日资金到达证券账户`,
+                zhCHT: `<b>${this.endTime}</b>日資金到達證券賬戶`,
+                en: `Funds Credited to Securities Account in <b>${this.endTime}</b> Days`
             }[this.$i18n.lang]
         }
     },
