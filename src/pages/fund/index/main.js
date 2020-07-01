@@ -3,30 +3,32 @@ import router from './router'
 import App from './App.vue'
 
 import { Dialog, PullRefresh } from 'vant'
-Vue.use(Dialog)
-Vue.use(PullRefresh)
 import vConsole from '@/utils/common/plugins/v-console.js'
-Vue.use(vConsole)
-
 import LS from '@/utils/local-storage.js'
 import { messages } from '@/utils/i18n-message/fund/index.js'
 import storeMethod from '@/store/index.js'
-const store = storeMethod()
-// setTimeout(() => {
-// console.log('main.js:>>>store:>>>', store.state)
-// }, 1000)
-
 import i18n from '@/utils/common/plugins/yx-i18n/index.js'
+import jsBridge from '@/utils/js-bridge'
+import imgToast from '@/components/img-toast/index.js'
+
+const store = storeMethod()
+
+Vue.use(vConsole)
+Vue.use(Dialog)
+Vue.use(PullRefresh)
 Vue.use(i18n, {
     lang: store.getters.lang,
     messages
 })
+Vue.use(imgToast)
+
+Vue.prototype.$jsBridge = jsBridge
 
 import '@/utils/common'
+
 // mock
 // import '@/mock/index.js'
 
-// console.log(window.XMLHttpRequest)
 let init = async () => {
     try {
         // 切换新用户进来，签名页面,这里需要做清除操作

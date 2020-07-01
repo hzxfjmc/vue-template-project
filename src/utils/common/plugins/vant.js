@@ -11,6 +11,7 @@ import {
     Dialog,
     Field
 } from 'vant'
+import { Picker } from 'vant-fork'
 import { NumberKeyboard, Skeleton } from 'vant-fork'
 import { lang } from '@/utils/html-utils'
 const langMap = {
@@ -36,6 +37,7 @@ const langMap = {
 
 Vue.use(Dialog)
 Vue.use(NumberKeyboard)
+Vue.use(Picker)
 Vue.use(Skeleton)
 export const closeModule = () => {
     Toast.clear()

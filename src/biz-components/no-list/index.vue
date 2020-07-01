@@ -1,5 +1,5 @@
 <template lang="pug">
-.yx-no-list.full-height
+.yx-no-list
     img(:src="imgSrc")
     p {{ showText}}
 </template>

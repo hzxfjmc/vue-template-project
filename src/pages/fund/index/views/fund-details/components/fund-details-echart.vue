@@ -321,6 +321,7 @@ export default {
                 },
                 belongDay: {
                     type: 'timeCat',
+                    range: [0, 1],
                     tickCount: 3,
                     formatter: function formatter(val) {
                         return dayjs(val).format('YYYY-MM-DD')

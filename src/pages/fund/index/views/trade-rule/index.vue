@@ -160,6 +160,13 @@ export default {
                               redeemFeeVO.defaultFeeRate * 100
                           ).toFixed(2)}%</s>）`
                         : `${redeemFeeVO.defaultFeeRate}%`
+                console.log(
+                    this.redeemList.redemptionFee.value,
+                    (redeemFeeVO.fundFeeLevelVOList[0].feeRate * 100).toFixed(
+                        2
+                    ),
+                    redeemFeeVO.defaultFeeRate
+                )
                 this.subscribeFeeVO.defaultFeeRate = `${(
                     subscribeFeeVO.defaultFeeRate * 100
                 ).toFixed(2)}`
@@ -223,9 +230,9 @@ export default {
                     fundTradeInfoVO.minPositionShare,
                     4
                 )
-                this.redeemList.redemptionFee.value = `${Math.floor(
-                    Number(fundTradeInfoVO.redemptionFee * 10000)
-                ) / 100}%`
+                // this.redeemList.redemptionFee.value = `${Math.floor(
+                //     Number(fundTradeInfoVO.redemptionFee * 10000)
+                // ) / 100}%`
                 this.buySubmit.value = fundTradeInfoVO.buySubmit
                 this.buyConfirm.value = fundTradeInfoVO.buyConfirm
                 this.buyProfitLoss.value = fundTradeInfoVO.buyProfitLoss
@@ -235,13 +242,13 @@ export default {
                 this.managementList.managementFee.value = `${Math.floor(
                     Number(fundTradeInfoVO.managementFee * 10000)
                 ) / 100}%`
-                this.managementList.platformManagementFee.value = `${Math.floor(
-                    Number(fundTradeInfoVO.platformManagementFee * 10000)
-                ) / 100}%`
+                // this.managementList.platformManagementFee.value = `${Math.floor(
+                //     Number(fundTradeInfoVO.platformManagementFee * 10000)
+                // ) / 100}%`
                 console.log(
                     this.managementList,
                     this.managementList.managementFee.value,
-                    this.managementList.platformManagementFee.value
+                    this.redeemList.redemptionFee.value
                 )
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
