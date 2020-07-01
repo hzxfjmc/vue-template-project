@@ -14,7 +14,7 @@ export const i18nOrderStatusData = {
         confirmButtonText: '确认',
         backoutBtnText: '撤销',
         beConfirmed: '待确认',
-        failedRemark: '订单失败原因',
+        failedRemark: '失败原因',
         fee: '手续费',
         debitWay: '扣款方式',
         orderAmount: '订单金额',
@@ -27,7 +27,11 @@ export const i18nOrderStatusData = {
         returnAmount: '返还金额',
         returnRemind:
             '返还金额是指您定投的基金在交易成功后手续费的折扣部分，该笔金额会返还至您的证券账户',
-        iKnow: '我知道了'
+        iKnow: '我知道了',
+        yes: '是',
+        no: '否',
+        HKD: '港币',
+        USD: '美元'
     },
     zhCHT: {
         amount: '申購金額',
@@ -44,7 +48,7 @@ export const i18nOrderStatusData = {
         confirmButtonText: '確認',
         backoutBtnText: '撤銷',
         beConfirmed: '待確認',
-        failedRemark: '訂單失敗原因',
+        failedRemark: '失敗原因',
         fee: '手續費',
         debitWay: '扣款方式',
         orderAmount: '訂單金額',
@@ -57,18 +61,22 @@ export const i18nOrderStatusData = {
         returnAmount: '返還金額',
         returnRemind:
             '返還金額是指您定投的基金在交易成功後手續費的折扣部分，該筆金額會返還至您的證券賬戶',
-        iKnow: '我知道了'
+        iKnow: '我知道了',
+        yes: '是',
+        no: '否',
+        HKD: '港幣',
+        USD: '美元'
     },
     en: {
-        amount: 'Subscription Investment Amount',
+        amount: 'Investment Amount',
         againBuy: 'One More Order',
         dialogMsg: 'Would you like to cancel the order?',
         orderTime: 'Order Time',
         orderNum: 'Order No.',
         orderName: 'Order Type',
         orderStatus: 'Order Status',
-        orderFinish: 'Completion Time',
-        orderNetWorth: 'Confirm Net Value',
+        orderFinish: 'Complete Time',
+        orderNetWorth: 'Confirmed NAV',
         orderShares: 'Units',
         cancelButtonText: 'Cancel',
         confirmButtonText: 'Confirm',
@@ -85,6 +93,10 @@ export const i18nOrderStatusData = {
         returnAmount: 'Subsidy Amount',
         returnRemind:
             'The amount Subsidy refers to the discounted portion of the subscribe fee for the fund you have AIP after the transaction is successful, and the amount will be returned to your securities account',
-        iKnow: 'I Know'
+        iKnow: 'I Know',
+        yes: 'yes',
+        no: 'no',
+        HKD: 'HKD',
+        USD: 'USD'
     }
 }

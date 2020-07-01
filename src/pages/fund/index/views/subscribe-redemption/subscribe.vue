@@ -1079,7 +1079,7 @@ export default {
             inputMoney: 'Please Entry Amount',
             mixBuyMoney: (price, currency) =>
                 `Mini. Subs. ${currency} ${price}`,
-            noEnoughMoney: `Insufficient in Available Balance`,
+            noEnoughMoney: `Insufficient Available Balance`,
             debitWay: 'Payment Way',
             service: currency =>
                 `Insufficient ${currency}？ uSMART supports 7x24 currency exchange service`,

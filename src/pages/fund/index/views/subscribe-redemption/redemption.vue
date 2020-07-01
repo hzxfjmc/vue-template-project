@@ -463,7 +463,7 @@ export default {
             stepOne: 'Submit',
             stepTwo: 'CFMD NAV',
             stepThree: 'Funds Credited to Securities Account',
-            confirmTheShare: 'CFMD NAV',
+            confirmTheShare: 'Confirmed NAV',
             earnings: 'Check Earnings',
             money: 'Redemption Unit',
             done: 'Completed',
@@ -475,8 +475,8 @@ export default {
             entryUnit: 'Entry Unit',
             predictSellAmount: 'Total Amount of Orders',
             emptyInput: 'Please Entry Units',
-            minAmount: money => `Mini. Redemption ${money} Units`,
-            notEnough: 'Insufficient in Available Units'
+            minAmount: money => `Mini. Redemption Units ${money}`,
+            notEnough: 'Insufficient Redeemable'
         }
     }
 }

@@ -42,14 +42,14 @@
                         span {{netPrice|transNumToThousandMark(4)}}
                     .order-item.flex(v-if="moneyNum != 0 && orderFlag")
                             span.itemName {{$t('amount')}}
-                            span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
+                            span.type-text {{moneyNum|transNumToThousandMark}}{{currency}}
                     .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                         span.itemName {{$t('fee')}}
                         span.type-text {{orderFee|transNumToThousandMark}}{{currency}}
                     .order-item.flex(v-if="fixedInvest && orderStatus === ORDER_STATUS.SUCCEED")
                         span.itemName {{$t('returnAmount')}}
                             img(src="@/assets/img/fund/fund-order-detail/icon.png" @click="showRemind")
-                        span.type-text {{}}
+                        span.type-text {{fixedReFundFee|transNumToThousandMark}}{{currency}}
                 van-cell(class="order-time" v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                     .order-item.flex()
                         span.itemName {{$t('orderName')}}
@@ -62,7 +62,7 @@
                         span {{netPrice|transNumToThousandMark(4)}}{{currency}}
                     .order-item.flex(v-if="moneyNum != 0")
                             span.itemName {{$t('amount')}}
-                            span.type-text {{currency}} {{moneyNum|transNumToThousandMark}}
+                            span.type-text {{moneyNum|transNumToThousandMark}}{{currency}}
                     .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                         span.itemName {{$t('debitWay')}}
                         span.type {{accountTypeFilter(accountType)}}
@@ -71,7 +71,7 @@
                         span.type {{((+moneyNum || 0) + (+orderFee || 0))|transNumToThousandMark}}
                     .order-item.flex(v-if="fixedInvest")
                         span.itemName {{$t('autoExchange')}}
-                        span.type {{}}
+                        span.type {{exchangeFlag ? this.$t('yes') : this.$t('no')}}
             .btn-buy-more
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('confirmButtonText')" @confirm='confirmBackoutHandle')
@@ -155,7 +155,11 @@ export default {
             TRADE_TYPES,
             accountType: '',
             fixedInvest: false,
-            ORDER_STATUS
+            ORDER_STATUS,
+            // 是否换汇
+            exchangeFlag: false,
+            // 定投返还费用
+            fixedReFundFee: ''
         }
     },
     computed: {
@@ -266,6 +270,10 @@ export default {
                 this.orderFee = res.orderFee
                 this.accountType = res.accountType
                 this.fixedInvest = res.fixedInvest
+                // 是否换汇
+                this.exchangeFlag = res.exchangeFlag
+                // 定投返回费用
+                this.fixedReFundFee = res.fixedReFundFee
                 if (this.orderStatus === 1 && this.allowRevoke) {
                     this.setTitleBarBOButton()
                 }
@@ -285,7 +293,7 @@ export default {
                 this.orderNumValue = res.orderNo
                 this.tradeType = res.tradeType
                 this.orderType = res.tradeTypeName
-                this.currency = res.currency.name
+                this.currency = this.$t(res.currency.name)
                 this.moneyNum = res.orderAmount
             } catch (e) {
                 if (e.msg) {
