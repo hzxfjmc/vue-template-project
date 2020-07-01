@@ -286,10 +286,10 @@ export default {
             ("0", "Cash Account", "现金账户")
             ("M", "Margin Account", "保证金账户")
             */
-            let { assetProp } = await getMarketValidFundAccount(
+            let { assetProp } = await getMarketValidFundAccount({
                 // 1 A股，2 港股，3 美股
-                this.isUSDCurrency ? 3 : 2
-            )
+                marketType: this.isUSDCurrency ? 3 : 2
+            })
             let currencyStr = this.isUSDCurrency
                 ? this.$t('usStock')
                 : this.$t('hkStock')
