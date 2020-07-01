@@ -22,7 +22,7 @@ export const i18nOrderStatusData = {
         cashAccount: currency =>
             `${currency === 'HKD' ? '港股' : '美股'}现金账户`,
         financingAccount: currency =>
-            `${currency === 'HKD' ? '港股' : '美股'}融资账户`,
+            `${currency === 'HKD' ? '港股' : '美股'}保证金账户`,
         autoExchange: '自动换汇',
         returnAmount: '返还金额',
         returnRemind:
@@ -56,7 +56,7 @@ export const i18nOrderStatusData = {
         cashAccount: currency =>
             `${currency === 'HKD' ? '港股' : '美股'}現金賬戶`,
         financingAccount: currency =>
-            `${currency === 'HKD' ? '港股' : '美股'}融資賬戶`,
+            `${currency === 'HKD' ? '港股' : '美股'}保證金賬戶`,
         autoExchange: '自動換匯',
         returnAmount: '返還金額',
         returnRemind:
