@@ -356,12 +356,10 @@ export default {
                 },
                 custom: true,
                 onChange: obj => {
-                    console.log(obj)
                     const tooltipItems = obj.items
                     tooltipItems.forEach(item => {
                         if (item.name === this.thisFundName) {
                             this.lengendData.thisFundPointData = item.value
-                            console.log(this.lengendData.thisFundPointData)
                             this.showTopTips = true
                             this.mmfData = item.origin
                             this.mmfData.belongDay = dayjs(
@@ -398,6 +396,7 @@ export default {
                     if (type === this.benchmarkName) {
                         return '#FFD984'
                     }
+                    return '#2F79FF'
                 })
                 .animate({
                     update: {
@@ -422,11 +421,14 @@ export default {
             return FUND_ASSET_TYPE.MMF.value === this.fundHeaderInfoVO.assetType
         },
         benchmarkName() {
-            return this.$t([
-                this.benchmarkNameObj.zhCn,
-                this.benchmarkNameObj.zhHk,
-                this.benchmarkNameObj.en
-            ])
+            return (
+                this.benchmarkNameObj &&
+                this.$t([
+                    this.benchmarkNameObj.zhCn,
+                    this.benchmarkNameObj.zhHk,
+                    this.benchmarkNameObj.en
+                ])
+            )
         },
         thisFundName() {
             return this.$t(['本基金', '本基金', 'Fund'])

@@ -1151,7 +1151,6 @@ export default {
                             }
                         })
                     })
-                console.log(this.initEchartList)
                 let month = {
                     1: '1个月',
                     2: '3个月',
