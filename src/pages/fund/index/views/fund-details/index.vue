@@ -1260,7 +1260,8 @@ export default {
         //     })
         // }
     },
-    beforeRouteEnter() {
+    beforeRouteEnter(to, from, next) {
+        next()
         window.clickShareCallback = async () => {
             console.log(123)
             let langMun = {
