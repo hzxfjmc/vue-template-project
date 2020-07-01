@@ -480,9 +480,9 @@ export default {
     width: 100%;
     left: 0;
     top: 0;
-    height: 40px;
+    height: 42px;
     font-size: 12px;
-    line-height: 40px;
+    line-height: 42px;
     position: absolute;
     .tips__body {
         display: flex;
@@ -495,8 +495,9 @@ export default {
                 text-align: right;
             }
             &:last-child {
+                justify-content: flex-end;
                 .item__label {
-                    width: 85px;
+                    max-width: 85px;
                     overflow: hidden;
                     white-space: nowrap;
                     text-overflow: ellipsis;
