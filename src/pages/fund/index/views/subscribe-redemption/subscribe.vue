@@ -1025,7 +1025,7 @@ export default {
             hkStock: '港股',
             usStock: '美股',
             cashAccount: currency => `${currency}現金賬戶`,
-            marginAccount: currency => `${currency}保證金賬戶`
+            marginAccount: currency => `${currency}融資賬戶`
         },
         en: {
             FundReturn: '拼团最低可返',
