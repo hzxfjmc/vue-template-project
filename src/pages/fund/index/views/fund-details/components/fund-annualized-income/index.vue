@@ -109,9 +109,9 @@ export default {
                 categoryReturn = {},
                 categoryRank = {}
             } = await getFundReturnV1(params)
-            this.thisFundReturn = thisFundReturn
-            this.categoryReturn = categoryReturn
-            this.categoryRank = categoryRank
+            this.thisFundReturn = thisFundReturn || {}
+            this.categoryReturn = categoryReturn || {}
+            this.categoryRank = categoryRank || {}
         },
         init() {
             this.getFundReturn()
