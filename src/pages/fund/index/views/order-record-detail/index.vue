@@ -68,7 +68,7 @@
                         span.type {{accountTypeFilter(accountType)}}
                     .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                         span.itemName {{$t('orderAmount')}}
-                        span.type {{((+moneyNum || 0) + (+orderFee || 0))|transNumToThousandMark}}
+                        span.type {{((+moneyNum || 0) + (+orderFee || 0))|transNumToThousandMark}}{{currency}}
                     .order-item.flex(v-if="fixedInvest")
                         span.itemName {{$t('autoExchange')}}
                         span.type {{exchangeFlag ? this.$t('yes') : this.$t('no')}}
