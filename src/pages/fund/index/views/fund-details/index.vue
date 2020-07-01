@@ -1260,6 +1260,86 @@ export default {
         //     })
         // }
     },
+    beforeRouteEnter() {
+        window.clickShareCallback = async () => {
+            console.log(123)
+            let langMun = {
+                zhCHS: 1,
+                zhCHT: 2,
+                en: 3
+            }
+            let link = `${this.$appOrigin}/wealth/fund/index.html?langType=${
+                langMun[this.lang]
+            }&appType=${this.appType.Ch ? 1 : 2}&stockColorType=${
+                this.stockColorType
+            }#/fund-details?id=${this.id}&type=share`
+            let pageUrl = `${
+                window.location.origin
+            }/wealth/fund/index.html?langType=${langMun[this.lang]}&appType=${
+                this.appType.Ch ? 1 : 2
+            }&stockColorType=${this.stockColorType}#/fund-details?id=${
+                this.id
+            }&type=share`
+            try {
+                let shortUrl = await getShortUrl({
+                    long: encodeURIComponent(link)
+                })
+                let shortPageUrl = await getShortUrl({
+                    long: encodeURIComponent(pageUrl)
+                })
+                let tenKRTN
+                let apy
+                if (this.fundHeaderInfoVO.assetType === 4) {
+                    tenKRTN = this.$t(['万元收益:', '萬元收益:', '10K RTN:'])
+                    apy = this.revenue
+                } else {
+                    tenKRTN = this.$t([
+                        '近一年涨跌幅:',
+                        '近一年漲跌幅:',
+                        'Past Year:'
+                    ])
+                    apy =
+                        this.fundHeaderInfoVO.apy > 0
+                            ? '+' + this.fundHeaderInfoVO.apy
+                            : this.fundHeaderInfoVO.apy
+                    apy =
+                        this.fundHeaderInfoVO.assetType === 4
+                            ? (apy * 100).toFixed(4)
+                            : (apy * 100).toFixed(2)
+                    apy = apy + '%'
+                }
+                const description = this.$t([
+                    `${tenKRTN}${apy},基金规模:${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
+                        2
+                    )}亿,更新时间:${this.fundHeaderInfoVO.belongDay}`,
+                    `${tenKRTN}${apy},基金規模:${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 100000000).toFixed(
+                        2
+                    )}億,更新時間:${this.fundHeaderInfoVO.belongDay}`,
+                    `${tenKRTN}${apy},AUM:${
+                        this.fundOverviewInfoVO.currency.name
+                    } ${(this.fundOverviewInfoVO.fundSize / 1000000000).toFixed(
+                        2
+                    )}B,Update Time:${this.fundHeaderInfoVO.belongDay}`
+                ])
+                const title = `${this.fundHeaderInfoVO.fundName} ${this.fundHeaderInfoVO.isin}`
+                jsBridge.callApp('command_share', {
+                    shareType: 'freedom',
+                    title: title,
+                    description: description,
+                    pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
+                    shortUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    overseaPageUrl: `${this.$appOrigin}/${shortUrl.url}`,
+                    thumbUrl: `${window.location.origin}/wealth/fund/iconShareImg.png`
+                })
+            } catch (e) {
+                console.log(e)
+            }
+        }
+    },
     async created() {
         try {
             this.shareIcon = env.isMainlandBlack
