@@ -101,17 +101,21 @@ export default {
                 : ''
         },
         async getFundReturn() {
-            const params = {
-                fundId: this.fundId
+            try {
+                const params = {
+                    fundId: this.fundId
+                }
+                let {
+                    thisFundReturn = {},
+                    categoryReturn = {},
+                    categoryRank = {}
+                } = await getFundReturnV1(params)
+                this.thisFundReturn = thisFundReturn || {}
+                this.categoryReturn = categoryReturn || {}
+                this.categoryRank = categoryRank || {}
+            } catch (e) {
+                e.msg && this.$toast(e.msg)
             }
-            let {
-                thisFundReturn = {},
-                categoryReturn = {},
-                categoryRank = {}
-            } = await getFundReturnV1(params)
-            this.thisFundReturn = thisFundReturn || {}
-            this.categoryReturn = categoryReturn || {}
-            this.categoryRank = categoryRank || {}
         },
         init() {
             this.getFundReturn()
