@@ -69,9 +69,7 @@ export const i18nOrderStatusData = {
         debitWay: 'Payment Way',
         orderAmount: 'Order Fee',
         confirmOrderShares: 'Confirmed Units',
-        cashAccount: currency =>
-            `${currency === 'HKD' ? 'HK Stock' : 'US Stock'} Cash Account`,
-        financingAccount: currency =>
-            `${currency === 'HKD' ? 'HK Stock' : 'US Stock'} Financing Account`
+        cashAccount: currency => `Cash Account(${currency})`,
+        financingAccount: currency => `Margin Account(${currency})`
     }
 }

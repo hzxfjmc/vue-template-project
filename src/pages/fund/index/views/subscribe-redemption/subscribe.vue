@@ -37,7 +37,7 @@
                 .block__payment--type
                     .block__header--title
                         span {{$t('debitWay')}}
-                        span {{currencyStr}}融资账户
+                        span {{accountTypeStr}}
                     .block__bottom
                         span {{subscribeObj['withdrawBalance'].label}}：{{subscribeObj['withdrawBalance'].value}}{{currencyStr}}
                 .block__fund-tip
@@ -127,6 +127,7 @@ import { Loading } from 'vant'
 import LS from '@/utils/local-storage'
 import './index.scss'
 import NumberKeyboard from './components/number-keyboard'
+import { getMarketValidFundAccount } from '@/service/user-account-server'
 export default {
     name: 'subscribe',
     components: {
@@ -188,7 +189,8 @@ export default {
             tagText: '',
             fundDetail: {},
             isInit: true,
-            keyboardShow: false
+            keyboardShow: false,
+            accountTypeStr: ''
         }
     },
     filters: {
@@ -242,6 +244,7 @@ export default {
         }
         this.compareVersionFund()
         this.getSource()
+        this.getAccountType()
 
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
@@ -271,11 +274,31 @@ export default {
         subscriptionFeeScale() {
             return NP.times(+this.subscriptionFee, 100)
         },
+        isUSDCurrency() {
+            return this.currency.type == 1
+        },
         currencyStr() {
-            return this.currency.type == 1 ? this.$t('usd') : this.$t('hkd')
+            return this.isUSDCurrency ? this.$t('usd') : this.$t('hkd')
         }
     },
     methods: {
+        async getAccountType() {
+            /*
+            ("0", "Cash Account", "现金账户")
+            ("M", "Margin Account", "保证金账户")
+            */
+            let { assetProp } = await getMarketValidFundAccount(
+                // 0 港股，5 美股
+                this.isUSDCurrency ? 2 : 1
+            )
+            let currencyStr = this.isUSDCurrency
+                ? this.$t('usStock')
+                : this.$t('hkStock')
+            this.accountTypeStr =
+                assetProp === 'M'
+                    ? this.$t('marginAccount', currencyStr)
+                    : this.$t('cashAccount', currencyStr)
+        },
         handlerAmount() {
             // this.purchaseAmount = +val || ''
             this.getTagText()
@@ -939,7 +962,11 @@ export default {
             debitWay: '扣款方式',
             service: currency =>
                 `${currency}不足？uSMART友信证券支持7x24换汇服务`,
-            detail: '点此查看详情'
+            detail: '点此查看详情',
+            hkStock: '港股',
+            usStock: '美股',
+            cashAccount: currency => `${currency}现金账户`,
+            marginAccount: currency => `${currency}保证金账户`
         },
         zhCHT: {
             FundReturn: '拼团最低可返',
@@ -994,7 +1021,11 @@ export default {
             debitWay: '扣款方式',
             service: currency =>
                 `${currency}不足？uSMART友信證券支持7x24換匯服務`,
-            detail: '點此查看詳情'
+            detail: '點此查看詳情',
+            hkStock: '港股',
+            usStock: '美股',
+            cashAccount: currency => `${currency}現金賬戶`,
+            marginAccount: currency => `${currency}保證金賬戶`
         },
         en: {
             FundReturn: '拼团最低可返',
@@ -1052,7 +1083,11 @@ export default {
             debitWay: 'Payment Way',
             service: currency =>
                 `Insufficient ${currency}？ uSMART supports 7x24 currency exchange service`,
-            detail: 'Details'
+            detail: 'Details',
+            hkStock: 'HKD',
+            usStock: 'USD',
+            cashAccount: currency => `Cash Account(${currency})`,
+            marginAccount: currency => `Margin Account(${currency})`
         }
     }
 }
