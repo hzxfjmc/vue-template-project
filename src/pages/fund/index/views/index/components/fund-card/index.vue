@@ -128,10 +128,10 @@ export default {
                 return this.$t('fundSize', size, unit, currency)
             }
             if (isEnLang) {
-                size = transNumToThousandMark(arr[0] / Math.pow(10, 8), 2)
+                size = transNumToThousandMark(arr[0] / Math.pow(10, 9), 2)
                 unit = 'B'
             } else {
-                size = transNumToThousandMark(arr[0] / 10000, 2)
+                size = transNumToThousandMark(arr[0] / Math.pow(10, 8), 2)
                 unit = this.$t(['亿', '億', ''])
             }
             return this.$t('fundSize', size, unit, currency)
