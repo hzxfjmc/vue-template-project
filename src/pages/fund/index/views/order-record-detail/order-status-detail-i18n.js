@@ -31,7 +31,8 @@ export const i18nOrderStatusData = {
         yes: '是',
         no: '否',
         HKD: '港币',
-        USD: '美元'
+        USD: '美元',
+        redemptionUnits: '赎回份额'
     },
     zhCHT: {
         amount: '申購金額',
@@ -65,7 +66,8 @@ export const i18nOrderStatusData = {
         yes: '是',
         no: '否',
         HKD: '港幣',
-        USD: '美元'
+        USD: '美元',
+        redemptionUnits: '贖回份額'
     },
     en: {
         amount: 'Investment Amount',
@@ -97,6 +99,7 @@ export const i18nOrderStatusData = {
         yes: 'yes',
         no: 'no',
         HKD: 'HKD',
-        USD: 'USD'
+        USD: 'USD',
+        redemptionUnits: 'Redemption Units'
     }
 }

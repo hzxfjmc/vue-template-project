@@ -12,8 +12,8 @@
                 :tradeType='tradeType' 
                 v-if="orderFlag")
             van-cell-group(class="order-group")
-                van-cell(class="order-time")
-                    .order-item.flex(v-if="!orderFlag")
+                van-cell(class="order-time" v-if="!orderFlag")
+                    .order-item.flex
                         span.itemName {{$t('orderStatus')}}
                         span(:class='differenceColor') {{orderStatusValue}}
                     .order-item.flex(v-if="orderStatus===ORDER_STATUS.FAILED")
@@ -22,39 +22,48 @@
                     .order-item.flex
                         span.itemName {{$t('orderTime')}}
                         span.block-right {{orderTimeValue}}
-                    .order-item.flex(v-if="!orderFlag")
-                        span.itemName {{$t('orderFinish')}}
-                        span {{orderFinishValue}}
                     .order-item.flex
                         span.itemName {{$t('orderNum')}}
                         span {{orderNumValue}}
-                    .order-item.flex(v-if="orderFlag")
-                            span.itemName {{$t('orderName')}}
-                            span.type {{orderType}}
-                    .order-item.flex(v-if="(tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest) && ORDER_STATUS.SUCCEED === orderStatus")
-                        span.itemName {{$t('confirmOrderShares')}}
-                        span {{orderShare|transNumToThousandMark(4)}}
-                    .order-item.flex(v-if="netPrice && orderFlag")
+                van-cell(class="order-time")
+                    .order-item.flex
+                        span.itemName {{$t('orderName')}}
+                        span.type {{orderType}}
+                    .order-item.flex(v-if="!orderFlag")
+                        span.itemName {{$t('orderFinish')}}
+                        span {{orderFinishValue}}
+                    .order-item.flex(v-if="orderStatusSuccess")
                         span.itemName {{$t('orderNetWorth')}}
                         span {{netPrice|transNumToThousandMark(4)}}{{currency}}
-                    .order-item.flex(v-if="moneyNum != 0 && orderFlag")
+                    template(v-if="(isSubscribeOrder || isFixedInvest)")
+                        .order-item.flex
                             span.itemName {{$t('amount')}}
                             span.type-text {{moneyNum|transNumToThousandMark}}{{currency}}
-                    .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
-                        span.itemName {{$t('fee')}}
-                        span.type-text {{orderFee|transNumToThousandMark}}{{currency}}
-                    .order-item.flex(v-if="fixedInvest && orderStatus === ORDER_STATUS.SUCCEED")
-                        span.itemName {{$t('returnAmount')}}
-                            img(src="@/assets/img/fund/fund-order-detail/icon.png" @click="showRemind")
-                        span.type-text {{fixedReFundFee|transNumToThousandMark}}{{currency}}
-                van-cell(class="order-time" v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
-                    .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
+                        .order-item.flex
+                            span.itemName {{$t('fee')}}
+                            span.type-text {{orderFee|transNumToThousandMark}}{{currency}}
+                        .order-item.flex(v-if="orderStatusSuccess")
+                            span.itemName {{$t('confirmOrderShares')}}
+                            span {{orderShare|transNumToThousandMark(4)}}
+                        .order-item.flex(v-if="isFixedInvest && orderStatusSuccess")
+                            span.itemName {{$t('returnAmount')}}
+                                img(src="@/assets/img/fund/fund-order-detail/icon.png" @click="showRemind")
+                            span.type-text {{fixedReFundFee|transNumToThousandMark}}{{currency}}
+                    template(v-else)
+                        .order-item.flex
+                            span.itemName {{$t('redemptionUnits')}}
+                            span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
+                        .order-item.flex(v-if="orderStatusSuccess")
+                            span.itemName {{$t('fee')}}
+                            span.type-text {{orderFee|transNumToThousandMark}}{{currency}}
+                van-cell(class="order-time" v-if="isSubscribeOrder || isFixedInvest")
+                    .order-item.flex
                         span.itemName {{$t('debitWay')}}
                         span.type {{accountTypeFilter(accountType)}}
-                    .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
+                    .order-item.flex
                         span.itemName {{$t('orderAmount')}}
                         span.type {{((+moneyNum || 0) + (+orderFee || 0))|transNumToThousandMark}}{{currency}}
-                    .order-item.flex(v-if="fixedInvest")
+                    .order-item.flex(v-if="isFixedInvest")
                         span.itemName {{$t('autoExchange')}}
                         span.type {{exchangeFlag ? this.$t('yes') : this.$t('no')}}
             .btn-buy-more
@@ -152,6 +161,18 @@ export default {
             return [ORDER_STATUS.CONFIRMING, ORDER_STATUS.DEALING].includes(
                 this.orderStatus
             )
+        },
+        // 是否订单成功
+        orderStatusSuccess() {
+            return ORDER_STATUS.SUCCEED === this.orderStatus
+        },
+        // 是否申购
+        isSubscribeOrder() {
+            return this.tradeType === TRADE_TYPES.SUBSCRIBE
+        },
+        // 是否定投
+        isFixedInvest() {
+            return this.fixedInvest
         }
     },
     filters: {
