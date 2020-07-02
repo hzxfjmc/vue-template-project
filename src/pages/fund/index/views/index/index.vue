@@ -1,10 +1,10 @@
 <template lang="pug">
     .bond-index-wrapper
+        FundHeaderTitle.fix(
+        :assetType="assetTypetab"
+        @handlerCuenrry="handlerCuenrry"
+        )
         .block__fund--header
-            FundHeaderTitle(
-                :assetType="assetTypetab"
-                @handlerCuenrry="handlerCuenrry"
-            )
             .fund__banner
                 img(:src="bannarTitleUrl" @click="goBarnner")
             .fund__banner2(v-if="code != 1 && bannerShow")
@@ -275,6 +275,14 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.bond-index-wrapper {
+    padding-top: 42px;
+}
+.fix {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
 .fund__banner {
     // margin: 42px 0 0 0;
 }
@@ -284,7 +292,7 @@ export default {
     // float: left;
 }
 .block__fund--master {
-    position: fixed;
+    /*position: fixed;*/
     width: 100%;
     height: 100%;
     background: rgba(0, 0, 0, 0.4);
@@ -306,12 +314,12 @@ export default {
         text-align: right;
     }
     .block__master {
-        position: absolute;
+        /*position: absolute;
         bottom: -150px;
-        z-index: 999999;
+        z-index: 999999;*/
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
-        left: 0;
+        /*left: 0;*/
         background: #fff;
         width: 100%;
         padding: 0 10px;
@@ -340,8 +348,8 @@ export default {
     // padding-bottom: 77px;
     display: flex;
     flex-direction: column;
-    height: 100%;
-    overflow: hidden;
+    /*height: 100%;
+    overflow: hidden;*/
     .banner {
         width: 375px;
         height: 150px;
@@ -356,9 +364,9 @@ export default {
     }
     .bond-list {
         padding: 0 10px;
-        height: 600px;
+        /*height: 600px;*/
         // float: left;
-        overflow: auto;
+        /*overflow: auto;*/
     }
     .no-data {
         padding: 10px 0 7px;
