@@ -105,7 +105,6 @@ const setShareButton = async function() {
         ''
     )
     if (isYouxinApp) {
-        jsBridge.registerFn('clickShareCallback', function() {})
         jsBridge.callApp('command_set_titlebar_button', {
             position: 1, //position取值1、2
             clickCallback: 'clickShareCallback',
