@@ -27,7 +27,7 @@ export default {
             default: 0
         },
         tradeType: {
-            type: Number,
+            type: [Number, String],
             default: 0
         },
         orderStatusValue: {

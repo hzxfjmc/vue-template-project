@@ -5,15 +5,15 @@
                 .fund-name {{fundIntro}}
                 .fund-detail(v-if="fundDetail") ISIN: {{fundDetail}}
             order-status-about(
-                :orderStatus='orderStatus' 
-                :orderStatusValue='orderStatusValue' 
-                :beginTime='beginTime' 
-                :endTime='endTime' 
-                :tradeType='tradeType' 
+                :orderStatus='orderStatus'
+                :orderStatusValue='orderStatusValue'
+                :beginTime='beginTime'
+                :endTime='endTime'
+                :tradeType='tradeType'
                 v-if="orderFlag")
             van-cell-group(class="order-group")
-                van-cell(class="order-time" v-if="!orderFlag")
-                    .order-item.flex
+                van-cell(class="order-time")
+                    .order-item.flex(v-if="!orderFlag")
                         span.itemName {{$t('orderStatus')}}
                         span(:class='differenceColor') {{orderStatusValue}}
                     .order-item.flex(v-if="orderStatus===ORDER_STATUS.FAILED")
@@ -25,7 +25,6 @@
                     .order-item.flex
                         span.itemName {{$t('orderNum')}}
                         span {{orderNumValue}}
-                van-cell(class="order-time")
                     .order-item.flex
                         span.itemName {{$t('orderName')}}
                         span.type {{orderType}}
@@ -242,13 +241,13 @@ export default {
             // 星期
             let day = time.day()
             let mapDay = {
-                0: this.$t(['星期一', '星期一', 'Mon.']),
-                1: this.$t(['星期二', '星期二', 'Tues.']),
-                2: this.$t(['星期三', '星期三', 'Wed.']),
-                3: this.$t(['星期四', '星期四', 'Thur.']),
-                4: this.$t(['星期五', '星期五', 'Fri.']),
-                5: this.$t(['星期六', '星期六', 'Sat.']),
-                6: this.$t(['星期天', '星期天', 'Sun.'])
+                1: this.$t(['星期一', '星期一', 'Mon.']),
+                2: this.$t(['星期二', '星期二', 'Tues.']),
+                3: this.$t(['星期三', '星期三', 'Wed.']),
+                4: this.$t(['星期四', '星期四', 'Thur.']),
+                5: this.$t(['星期五', '星期五', 'Fri.']),
+                6: this.$t(['星期六', '星期六', 'Sat.']),
+                0: this.$t(['星期天', '星期天', 'Sun.'])
             }
             let dayStr = mapDay[day]
             let result = ''
