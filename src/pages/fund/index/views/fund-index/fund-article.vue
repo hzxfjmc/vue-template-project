@@ -73,7 +73,7 @@ export default {
                     })
                 } else {
                     data = await hkauthorfeature({
-                        author_id: 37,
+                        author_id: 1001,
                         newsid: 0,
                         page_size: 3
                     })
