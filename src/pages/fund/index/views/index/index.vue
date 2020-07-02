@@ -282,6 +282,7 @@ export default {
     position: fixed;
     top: 0;
     width: 100%;
+    z-index: 99;
 }
 .fund__banner {
     // margin: 42px 0 0 0;
