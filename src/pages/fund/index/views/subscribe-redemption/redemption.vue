@@ -19,11 +19,12 @@
                         <!--)-->
                         .block__fund--input1
                             //- span {{currencyType == 1 ? '':'HK'}}$
-                            input(
+                            van-field(
                                 v-model="redemptionShare"
                                 type="number"
                                 @input="changeNumber"
                                 :placeHolder="$t('entryUnit')"
+                                clearable
                                 )
                             <!--.block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}-->
                         .buy-row

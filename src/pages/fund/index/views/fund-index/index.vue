@@ -105,8 +105,9 @@ div
                                 img(:src="item.picture_url")
                 yx-skeleton(
                 :loading="!fundBarnnarList.length"
-                :text="$t('loadingText')"
                 )
+                    .empty(slot="loadingShow")
+                        img(src="@/assets/img/fund/empty.png")
                     FundCardSwipper(
                         :fundBarnnarList="fundBarnnarList")
         .block__container
@@ -776,4 +777,10 @@ export default {
 // .block-bannar-sub-swiper {
 //     margin: 6px 0 0 0;
 // }
+.empty {
+    padding: 0 12px;
+    img {
+        width: 100%;
+    }
+}
 </style>

@@ -21,35 +21,31 @@ import {
     parseThousands,
     transNumToThousandMark
 } from '../../../../../../../utils/tools'
+// import fundCommonMethods from '../../../../mixins/fund-common-methods'
 
 export default {
+    // mixins: [fundCommonMethods],
     i18n: {
         zhCHS: {
             annualRateOfReturn: '近一年涨跌幅',
             yieldInLast7d: '近七日年化',
             HKD: '港币',
             USD: '美元',
-            fundSizeLarge: (size, unit, currency) =>
-                `${size}${unit}${currency}规模`,
-            fundSizeSmall: (size, currency) => `${size}${currency}起`
+            fundSize: (size, unit, currency) => `${size}${unit}${currency}规模`
         },
         zhCHT: {
             annualRateOfReturn: '近一年漲跌幅',
             yieldInLast7d: '近七日年化',
             HKD: '港幣',
             USD: '美元',
-            fundSizeLarge: (size, unit, currency) =>
-                `${size}${unit}${currency}規模`,
-            fundSizeSmall: (size, currency) => `${size}${currency}起`
+            fundSize: (size, unit, currency) => `${size}${unit}${currency}規模`
         },
         en: {
             annualRateOfReturn: '1-Year Rtn(Cum)',
             yieldInLast7d: 'Yield in Last 7d',
             HKD: 'HKD',
             USD: 'USD',
-            fundSizeLarge: (size, unit, currency) =>
-                `AUM ${size}${unit} ${currency}`,
-            fundSizeSmall: (size, currency) => `Min ${size} ${currency}`
+            fundSize: (size, unit, currency) => `AUM ${size}${unit} ${currency}`
         }
     },
     name: 'BondCard',
@@ -97,14 +93,19 @@ export default {
                 fontSize: '0.32rem'
             }
         },
+        // 规模
         fundSizeStr() {
-            let currency = this.info.currency.name
+            // return this.changeFundSizeLang(
+            //     this.info.fundSize,
+            //     this.info.currency.type
+            // )
+            let currency = this.$t(this.info.currency.name)
             let arr = this.info.fundSize.split('.')
             let size, unit
             let isEnLang = this.$i18n.lang === 'en'
             if (arr[0].length < 5) {
                 size = parseThousands(arr[0])
-                return this.$t('fundSizeSmall', size, currency)
+                return this.$t('fundSize', size, currency)
             }
             if (arr[0].length === 5) {
                 if (isEnLang) {
@@ -114,7 +115,7 @@ export default {
                     size = transNumToThousandMark(arr[0] / 10000, 2)
                     unit = this.$t(['万', '萬', ''])
                 }
-                return this.$t('fundSizeLarge', size, unit, currency)
+                return this.$t('fundSize', size, unit, currency)
             }
             if (arr[0].length < 9) {
                 if (isEnLang) {
@@ -124,7 +125,7 @@ export default {
                     size = transNumToThousandMark(arr[0] / 10000, 2)
                     unit = this.$t(['万', '萬', ''])
                 }
-                return this.$t('fundSizeLarge', size, unit, currency)
+                return this.$t('fundSize', size, unit, currency)
             }
             if (isEnLang) {
                 size = transNumToThousandMark(arr[0] / Math.pow(10, 8), 2)
@@ -133,7 +134,7 @@ export default {
                 size = transNumToThousandMark(arr[0] / 10000, 2)
                 unit = this.$t(['亿', '億', ''])
             }
-            return this.$t('fundSizeLarge', size, unit, currency)
+            return this.$t('fundSize', size, unit, currency)
         }
     }
 }
