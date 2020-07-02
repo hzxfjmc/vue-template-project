@@ -51,18 +51,12 @@
                             img(src="@/assets/img/fund/fund-order-detail/icon.png" @click="showRemind")
                         span.type-text {{fixedReFundFee|transNumToThousandMark}}{{currency}}
                 van-cell(class="order-time" v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
-                    .order-item.flex()
-                        span.itemName {{$t('orderName')}}
-                        span.type {{orderType}}
                     .order-item.flex(v-if="orderShare != 0")
                         span.itemName {{$t('orderShares')}}
                         span {{orderShare|transNumToThousandMark(4)}} 
                     .order-item.flex(v-if="netPrice")
                         span.itemName {{$t('orderNetWorth')}}
                         span {{netPrice|transNumToThousandMark(4)}}{{currency}}
-                    .order-item.flex(v-if="moneyNum != 0")
-                            span.itemName {{$t('amount')}}
-                            span.type-text {{moneyNum|transNumToThousandMark}}{{currency}}
                     .order-item.flex(v-if="tradeType === TRADE_TYPES.SUBSCRIBE || fixedInvest")
                         span.itemName {{$t('debitWay')}}
                         span.type {{accountTypeFilter(accountType)}}
