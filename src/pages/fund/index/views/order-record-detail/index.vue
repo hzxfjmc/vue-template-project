@@ -19,7 +19,7 @@
                     .order-item.flex(v-if="orderStatus===ORDER_STATUS.FAILED")
                         span.itemName {{$t('failedRemark')}}
                         span.block-right {{failedRemarkValue}}
-                    .order-item.flex
+                    .order-item.flex(v-if="!isDividendOrder")
                         span.itemName {{$t('orderTime')}}
                         span.block-right {{orderTimeValue}}
                     .order-item.flex
@@ -32,7 +32,7 @@
                     .order-item.flex(v-if="!orderFlag")
                         span.itemName {{$t('orderFinish')}}
                         span {{orderFinishValue}}
-                    .order-item.flex(v-if="orderStatusSuccess")
+                    .order-item.flex(v-if="orderStatusSuccess && !isDividendOrder")
                         span.itemName {{$t('orderNetWorth')}}
                         span {{netPrice|transNumToThousandMark(4)}}{{currency}}
                     template(v-if="(isSubscribeOrder || isFixedInvest)")
@@ -49,13 +49,23 @@
                             span.itemName {{$t('returnAmount')}}
                                 img(src="@/assets/img/fund/fund-order-detail/icon.png" @click="showRemind")
                             span.type-text {{fixedReFundFee|transNumToThousandMark}}{{currency}}
-                    template(v-else)
+                    template(v-else-if="isDividendOrder")
                         .order-item.flex
                             span.itemName {{$t('redemptionUnits')}}
                             span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
+                        .order-item.flex
+                            span.itemName {{$t('redemptionUnits')}}
+                            span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
+                    template(v-else)
+                        .order-item.flex
+                            span.itemName {{$t('dividendWay')}}
+                            span.type-text
                         .order-item.flex(v-if="orderStatusSuccess")
-                            span.itemName {{$t('fee')}}
-                            span.type-text {{orderFee|transNumToThousandMark}}{{currency}}
+                            span.itemName {{$t('dividendAmount')}}
+                            span.type-text {{moneyNum|transNumToThousandMark}}{{currency}}
+                        .order-item.flex(v-if="orderStatusSuccess")
+                            span.itemName {{$t('dividendUnits')}}
+                            span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
                 van-cell(class="order-time" v-if="isSubscribeOrder || isFixedInvest")
                     .order-item.flex
                         span.itemName {{$t('debitWay')}}
@@ -173,6 +183,10 @@ export default {
         // 是否定投
         isFixedInvest() {
             return this.fixedInvest
+        },
+        // 分紅單
+        isDividendOrder() {
+            return this.tradeType === TRADE_TYPES.DIVIDEND
         }
     },
     filters: {

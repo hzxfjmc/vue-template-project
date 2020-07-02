@@ -32,7 +32,10 @@ export const i18nOrderStatusData = {
         no: '否',
         HKD: '港币',
         USD: '美元',
-        redemptionUnits: '赎回份额'
+        redemptionUnits: '赎回份额',
+        dividendAmount: '分红金额',
+        dividendWay: '分红方式',
+        dividendUnits: '分红份额'
     },
     zhCHT: {
         amount: '申購金額',
@@ -67,7 +70,10 @@ export const i18nOrderStatusData = {
         no: '否',
         HKD: '港幣',
         USD: '美元',
-        redemptionUnits: '贖回份額'
+        redemptionUnits: '贖回份額',
+        dividendAmount: '分紅金額',
+        dividendWay: '分紅方式',
+        dividendUnits: '分紅份額'
     },
     en: {
         amount: 'Investment Amount',
@@ -100,6 +106,9 @@ export const i18nOrderStatusData = {
         no: 'no',
         HKD: 'HKD',
         USD: 'USD',
-        redemptionUnits: 'Redemption Units'
+        redemptionUnits: 'Redemption Units',
+        dividendAmount: 'Dividend Amount',
+        dividendWay: 'Dividend Method',
+        dividendUnits: 'Dividend Units'
     }
 }
