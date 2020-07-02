@@ -78,6 +78,9 @@ export default {
                 4: 4
             }
             this.activeTab = obj[val]
+            if (val === '0') {
+                this.activeTab = 0
+            }
             // this.$refs.navTransform.style.left =
             //     this.activeTab < 2 ? '0px' : '-30px'
             this.initI18n()
@@ -192,6 +195,7 @@ export default {
             this.state.assetType = item.value
             this.state.key = item.key
             this.activeTab = index
+
             //tab切换
             this.state.flag = '1'
             this.$emit('handlerCuenrry', this.state)

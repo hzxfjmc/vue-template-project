@@ -127,7 +127,10 @@ export default {
         this.getSource()
         this.assetType = this.$route.query.type
         this.currency = this.$route.query.currency
-        this.assetTypetab = this.$route.query.type
+        if (this.$route.query.flag) {
+            this.assetTypetab = this.$route.query.flag
+        }
+
         this.getFundListV2()
         this.initI18nState()
         if (this.$route.query.type) {

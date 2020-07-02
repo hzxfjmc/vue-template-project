@@ -40,10 +40,6 @@ export const managementList = {
     managementFee: {
         label: '基金管理费',
         value: ''
-    },
-    platformManagementFee: {
-        label: '平台管理费',
-        value: ''
     }
 }
 

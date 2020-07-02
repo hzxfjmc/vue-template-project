@@ -5,11 +5,14 @@
         @changeEyeTab = "changeEyeTab"
         @handlerCurrency="handlerCurrency"
         :code ="code"
+        :investmentWhiteBit="investmentWhiteBit"
         :inTransitOrder="inTransitOrder"
         :holdData="holdData")
+    .fund--list--wrapper
         fundList(
             slot="fundList"
             bgColor="#0091FF"
+            :investmentWhiteBit="investmentWhiteBit"
             currency="2"
             :title = "$t('fundHkdType')"
             v-if="!noMoreShow"
@@ -20,6 +23,7 @@
         fundList(
             slot="fundList"
             bgColor="#FFBA00"
+            :investmentWhiteBit="investmentWhiteBit"
             currency="1"
             :title = "$t('fundUsdType')"
             v-if="!noMoreShow"
@@ -38,9 +42,11 @@ import fundList from './components/fund-list'
 import { getFundPositionListV3 } from '@/service/finance-server'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import LS from '@/utils/local-storage'
-import { gotoNewWebView } from '@/utils/js-bridge.js'
+import jsBridge, { gotoNewWebView } from '@/utils/js-bridge.js'
+import { getFundUserInfo } from '@/service/user-server.js'
 import { enumCurrency } from '@/pages/fund/index/map'
 import { getSource } from '@/service/customer-relationship-server'
+import { debounce } from '@/utils/tools.js'
 export default {
     data() {
         return {
@@ -53,6 +59,8 @@ export default {
             code: 0,
             hkPositionList: [],
             usPositionList: [],
+            userInfo: {},
+            investmentWhiteBit: false,
             inTransitOrder: '',
             eyeTab: LS.get('showMoney')
         }
@@ -79,6 +87,27 @@ export default {
         fundList
     },
     methods: {
+        //获取用户信息
+        async getFundUserInfo() {
+            try {
+                const res = await getFundUserInfo()
+                this.userInfo = res
+                //白名单
+
+                let investmentUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[9]
+
+                if (investmentUserBit === '1') {
+                    this.investmentWhiteBit = true
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
+            }
+        },
         toRouterPath(path) {
             let url = `${window.location.origin}/wealth/fund/index.html#${path}?currency=${this.currency}`
             gotoNewWebView(url)
@@ -110,89 +139,7 @@ export default {
             }
             this.usdPositionAmount = transNumToThousandMark(usdPositionAmount)
             this.hkdPositionAmount = transNumToThousandMark(hkdPositionAmount)
-            this.usPositionList.map(item => {
-                item.currency = item.currency.type
-                for (let key in item) {
-                    if (
-                        key != 'fundId' &&
-                        key != 'fundName' &&
-                        key != 'currency'
-                    ) {
-                        item.flag =
-                            item['positionEarnings'] > 0
-                                ? 0
-                                : item['positionEarnings'] < 0
-                                ? 1
-                                : 2
-                        item.flag1 =
-                            item['weekEarnings'] > 0
-                                ? 0
-                                : item['weekEarnings'] < 0
-                                ? 1
-                                : 2
-                    }
-                }
-            })
-            this.usPositionList.map(item => {
-                for (let key in item) {
-                    if (
-                        key === 'inTransitAmount' ||
-                        key === 'positionAmount' ||
-                        key === 'weekEarnings' ||
-                        key === 'positionEarnings'
-                    ) {
-                        item[key] = transNumToThousandMark(item[key], 2)
-                    }
-                    if (
-                        key === 'redeemDeliveryShare' ||
-                        key === 'positionShare'
-                    ) {
-                        item[key] = transNumToThousandMark(item[key], 4)
-                    }
-                }
-            })
-            this.hkPositionList.map(item => {
-                item.currency = item.currency.shortSymbol
-                for (let key in item) {
-                    if (
-                        key != 'fundId' &&
-                        key != 'fundName' &&
-                        key != 'currency'
-                    ) {
-                        // item[key] = transNumToThousandMark(item[key], 4)
-                        item.flag =
-                            item['positionEarnings'] > 0
-                                ? 0
-                                : item['positionEarnings'] < 0
-                                ? 1
-                                : 2
-                        item.flag1 =
-                            item['weekEarnings'] > 0
-                                ? 0
-                                : item['weekEarnings'] < 0
-                                ? 1
-                                : 2
-                    }
-                }
-            })
-            this.hkPositionList.map(item => {
-                for (let key in item) {
-                    if (
-                        key === 'inTransitAmount' ||
-                        key === 'positionAmount' ||
-                        key === 'weekEarnings' ||
-                        key === 'positionEarnings'
-                    ) {
-                        item[key] = transNumToThousandMark(item[key], 2)
-                    }
-                    if (
-                        key === 'redeemDeliveryShare' ||
-                        key === 'positionShare'
-                    ) {
-                        item[key] = transNumToThousandMark(item[key], 4)
-                    }
-                }
-            })
+            console.log(this.hkPositionList)
         },
         //获取用户归属 1大陆 2香港
         async getSource() {
@@ -202,19 +149,48 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            this.init()
+        },
+        init() {
+            this.currency =
+                LS.get('activeTab') === 0 ? enumCurrency.HKD : enumCurrency.USD
+            this.getFundPositionListV3()
+            this.getSource()
+            this.getFundUserInfo()
         }
     },
-    mounted() {
-        this.currency =
-            LS.get('activeTab') === 0 ? enumCurrency.HKD : enumCurrency.USD
-        this.getFundPositionListV3()
-        this.getSource()
+    created() {
+        this.init()
+        jsBridge.callAppNoPromise(
+            'command_watch_activity_status',
+            {},
+            'appVisible',
+            'appInvisible'
+        )
+        // 解决ios系统快速切换tab后，报网络开小差的情况
+        window.appVisible = debounce(this.appVisibleHandle, 300)
     }
 }
 </script>
 <style lang="scss" scoped>
 .fund-account-container {
-    padding: 0 0 20px 0;
+    width: 100%;
+    height: 284px;
+    background: linear-gradient(
+        360deg,
+        rgba(47, 121, 255, 0) 0%,
+        rgba(69, 152, 253, 1) 28%,
+        rgba(36, 108, 239, 1) 100%
+    );
 }
 .block-element-nomore {
     width: 100%;

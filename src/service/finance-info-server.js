@@ -53,7 +53,7 @@ export const getFundList = () => {
 
 //获取基金详情
 export const getFundDetail = params => {
-    return axios.post(`/finance-info-server/api/get-fund-detail/v1`, params)
+    return axios.post(`/finance-info-server/api/get-fund-detail/v2`, params)
 }
 
 //基金净值查询
@@ -140,4 +140,11 @@ export const getFundSimpleInfoList = params => {
 // 获取申购费用
 export const getFundFeeConfigV1 = params => {
     return axios.post(`/finance-info-server/api/get-fund-fee-config/v1`, params)
+}
+// 获取基金分析数据
+export const getFundAnalysisDataV1 = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-analysis-data/v1`,
+        params
+    )
 }

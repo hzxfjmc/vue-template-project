@@ -44,7 +44,7 @@ export const zhCHT = {
         tip:
             '風險提示：本頁面提供的信息基於智能算法生成，僅供投資參考，不構成任何投資建議',
         lockText(index) {
-            const arr = ['您當前暫無權限，請先登錄', '您當前暫無權限，請先開戶']
+            const arr = ['您當前暫無權限，請先登入', '您當前暫無權限，請先開戶']
             return arr[index] || arr[0]
         },
         sub_text: '訂閱',

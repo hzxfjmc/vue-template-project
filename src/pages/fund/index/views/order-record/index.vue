@@ -1,10 +1,11 @@
 <template lang="pug">
     .order-record-container(v-if='orderRecordList.length>0')
         .fund-introduce
-            .fund-name {{fundIntro}}
+            .fund-name.ellipse {{fundIntro}}
             .fund-detail
-                fund-tag(:title="assetType")
-                fund-tag(:title="fundRisk")
+                span ISIN:{{isin}}
+                //- fund-tag(:title="assetType")
+                //- fund-tag(:title="fundRisk")
         .order-record-box
             van-list.order-record-list(v-model="loading" :finished="finished" :finished-text="$t('noMore')" @load="onLoad")
                 van-cell(v-for="(item,index) in orderRecordList" :key="index" class="van-cell-item" @click="toDetailHandle(item.orderNo,item.orderStatus)")
@@ -70,6 +71,7 @@ export default {
             fundRisk: '',
             fundType: '',
             fundIntro: '',
+            isin: '',
             pageNum: 1,
             pageSize: 20,
             total: 0
@@ -137,6 +139,7 @@ export default {
                         item.fundBaseInfoVO && item.fundBaseInfoVO.assetType
                     this.fundRisk = item.fundBaseInfoVO.fundRisk
                     _this.fundIntro = item.fundBaseInfoVO.fundName
+                    this.isin = item.fundBaseInfoVO.isin
                 })
                 this.orderRecordList = this.orderRecordList.concat(arr)
                 this.loading = false
@@ -178,21 +181,31 @@ export default {
     flex-direction: column;
     .fund-introduce {
         padding: 15px 12px;
+        width: 100%;
+        z-index: 999999;
         background-color: $background-color;
-        margin-bottom: 6px;
+        // margin-bottom: 6px;
+        position: fixed;
+        top: 0;
         .fund-name {
             font-size: 16px;
             line-height: 22px;
             margin-bottom: 6px;
+            width: 80%;
             font-family: '';
         }
         .fund-detail {
             display: flex;
             justify-content: flex-start;
+            span {
+                font-size: 14px;
+                color: rgba(25, 25, 25, 0.45);
+            }
         }
     }
     .order-record-box {
         flex: 1;
+        margin: 86px 0 0 0;
         .order-record-list {
             // border-bottom: 1px solid rgba($color: $tip-color, $alpha: 0.05);
             .van-cell-item {

@@ -21,6 +21,13 @@ export default new Router({
             component: () => import(`@/pages/fund/index/views/index/index.vue`)
         },
         {
+            name: 'fund-risk-level',
+            path: '/fund-risk-level',
+            meta: { title: 'fundRiskLevels', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-risk-level/index.vue`)
+        },
+        {
             name: 'fund-introduce',
             path: '/fund-introduce',
             meta: { title: 'fundIntroduce', auth: true, cs: true },
@@ -47,6 +54,13 @@ export default new Router({
             meta: { title: 'fundDetails', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-details/index.vue`)
+        },
+        {
+            name: 'hold-fund-details',
+            path: '/hold-fund-details',
+            meta: { title: 'fundAccount', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-details/hold-index.vue`)
         },
         {
             name: 'risk-assessment',
@@ -170,6 +184,59 @@ export default new Router({
             component: () =>
                 import(
                     `@/pages/fund/index/views/fund-index/declare-agreement.vue`
+                )
+        },
+        {
+            name: 'income-list',
+            path: '/income-list',
+            meta: { title: 'incomeDetails', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/income-list/index.vue`)
+        },
+        {
+            name: 'fixed-investment',
+            path: '/fixed-investment',
+            meta: { title: 'A2', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fixed-investment/subscribe.vue`
+                )
+        },
+        {
+            name: 'investment-result',
+            path: '/investment-result',
+            meta: { title: 'investmentResult', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/investment-result/index.vue`)
+        },
+        {
+            name: 'my-investment',
+            path: '/my-investment',
+            meta: { title: 'myInvestment', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/my-investment/index.vue`)
+        },
+        {
+            name: 'investment-detail',
+            path: '/investment-detail',
+            meta: { title: 'investmentDetail', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/investment-detail/index.vue`)
+        },
+        {
+            name: 'transaction-record',
+            path: '/transaction-record',
+            meta: { title: 'InvestmenttransactionRecord', auth: true },
+            component: () =>
+                import(`@/pages/fund/index/views/transaction-record/index.vue`)
+        },
+        {
+            name: 'fund-analyze-data',
+            path: '/fund-analyze-data',
+            meta: { title: 'fundAnalyzeData', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fund-details/components/fund-analyze-data/index.vue`
                 )
         }
     ]

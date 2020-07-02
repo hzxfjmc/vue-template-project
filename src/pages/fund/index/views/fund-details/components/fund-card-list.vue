@@ -18,15 +18,18 @@
             .block__right
                 .fund_name {{item.fundName}}
                 .fund__list--tag
-                    .fund_tag
-                        em.iconfont.icon-iconsjijinfengxiancopy-copy 
-                        span {{item.assetType}}
-                    .fund_tag
-                        em.iconfont.icon-iconsjijinfengxian
-                        span {{item.fundRisk}}
-                    .fund_tag
-                        em.iconfont.icon-iconsjijinfengxiancopy-copy1
-                        span {{item.earningsTypeName}}
+                    fund-tag(:title="item.assetType")
+                    fund-tag(:title="item.fundRisk")
+                    fund-tag(:title="item.earningsTypeName")
+                    //- .fund_tag
+                    //-     em.iconfont.icon-iconsjijinfengxiancopy-copy 
+                    //-     span {{item.assetType}}
+                    //- .fund_tag
+                    //-     em.iconfont.icon-iconsjijinfengxian
+                    //-     span {{item.fundRisk}}
+                    //- .fund_tag
+                    //-     em.iconfont.icon-iconsjijinfengxiancopy-copy1
+                    //-     span {{item.earningsTypeName}}
                 p {{item.feature}}
                     
 
@@ -35,7 +38,11 @@
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
 import { jumpUrl } from '@/utils/tools.js'
+import fundTag from '@/biz-components/fund-tag/index.vue'
 export default {
+    components: {
+        'fund-tag': fundTag
+    },
     computed: {
         stockColorType() {
             return +getStockColorType()
