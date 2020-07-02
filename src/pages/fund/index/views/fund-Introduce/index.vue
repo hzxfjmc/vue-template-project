@@ -26,7 +26,18 @@
                     .fund-introduce-other(v-if="active===0")
                         .fund-introduce-objective(v-for="item in otherList")
                             .title {{item.label}}
-                            .content {{item.value}}
+                            .content(
+                                :class="{all: item.showMore}"
+                                ) {{item.value}}
+                            .show-wrap
+                                .more(
+                                    v-if="!item.showMore"
+                                    @click="item.showMore = true"
+                                ) {{$t('more')}}
+                                .less(
+                                    v-else
+                                    @click="item.showMore = false"
+                                ) {{$t('less')}}
                 van-tab(:title="$t('list')['fundManager'].label" :name="1")
                     .fund-manager-container(v-if="active===1")
                         fund-manager(:managerList="managerList")
@@ -74,7 +85,16 @@ import { mapGetters } from 'vuex'
 Vue.use(List)
 export default {
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['lang']),
+        overFiveLine() {
+            let domList = document.getElementsByClassName('content')
+            console.log(domList)
+            let heightList = []
+            for (let i = 0; i < domList.len; i++) {
+                heightList.push(domList[i].offsetHeight)
+            }
+            return heightList
+        }
     },
     i18n: i18nIntroducelist,
     components: {

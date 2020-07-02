@@ -44,6 +44,8 @@ export const i18nIntroducelist = {
         zk: '展开',
         nomore: '暂无文件',
         zq: '折起',
+        more: '查看更多',
+        less: '收起',
         list: {
             fundFiles: {
                 label: '基金文件'
@@ -110,6 +112,8 @@ export const i18nIntroducelist = {
         unit: '億',
         zq: '收起',
         nomore: '暫無文件',
+        more: '查看更多',
+        less: '收起',
         list: {
             fundFiles: {
                 label: '基金文件'
@@ -175,6 +179,8 @@ export const i18nIntroducelist = {
         zk: 'More',
         unit: 'B ',
         nomore: 'Empty',
+        more: 'More',
+        less: 'Less',
         zq: 'Less',
         list: {
             fundFiles: {
@@ -241,10 +247,12 @@ export const i18nIntroducelist = {
 export const otherList = {
     investObjective: {
         label: '投资目标',
-        value: ''
+        value: '',
+        showMore: false
     },
     companyProfile: {
         label: '基金公司简介',
-        value: ''
+        value: '',
+        showMore: false
     }
 }
