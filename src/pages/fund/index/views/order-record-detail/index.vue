@@ -50,13 +50,6 @@
                             span.type-text {{fixedReFundFee|transNumToThousandMark}}{{currency}}
                     template(v-else-if="isDividendOrder")
                         .order-item.flex
-                            span.itemName {{$t('redemptionUnits')}}
-                            span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
-                        .order-item.flex
-                            span.itemName {{$t('redemptionUnits')}}
-                            span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
-                    template(v-else)
-                        .order-item.flex
                             span.itemName {{$t('dividendWay')}}
                             span.type-text
                         .order-item.flex(v-if="orderStatusSuccess")
@@ -65,6 +58,13 @@
                         .order-item.flex(v-if="orderStatusSuccess")
                             span.itemName {{$t('dividendUnits')}}
                             span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
+                    template(v-else)
+                        .order-item.flex
+                            span.itemName {{$t('redemptionUnits')}}
+                            span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
+                        .order-item.flex(v-if="orderStatusSuccess")
+                            span.itemName {{$t('fee')}}
+                            span.type-text {{orderFee|transNumToThousandMark}}{{currency}}
                 van-cell(class="order-time" v-if="isSubscribeOrder || isFixedInvest")
                     .order-item.flex
                         span.itemName {{$t('debitWay')}}
