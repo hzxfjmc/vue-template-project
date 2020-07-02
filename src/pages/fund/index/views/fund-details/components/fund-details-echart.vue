@@ -519,6 +519,7 @@ export default {
     justify-content: space-evenly;
     .legend__category {
         position: relative;
+        display: flex;
         &::before {
             content: ' ';
             height: 6px;
@@ -539,14 +540,13 @@ export default {
         }
         .legend__title {
             padding: 0 6px;
-
-            max-width: 100px;
+            max-width: 70px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
         }
         .legend__value {
-            padding-left: 6px;
+            padding-right: 6px;
         }
     }
 }
