@@ -33,13 +33,6 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo")   
 
-        .block__fundheader--tips(
-            v-if="isLogin"
-            @click="toRouterGenerator('/order-record')")
-            em.iconfont.icon-iconEBshoucang
-            span.title {{$t('trade')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
         fundSurvey(
             :fundOverviewInfoVO="fundOverviewInfoVO"
             :fundCorrelationFileList="fundCorrelationFileList"
