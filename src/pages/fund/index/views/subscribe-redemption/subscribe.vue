@@ -17,6 +17,7 @@
                             @input="handlerAmount"
                             @clickBoard="isInit = false"
                             @onShow="onKeyboardShow"
+                            @click.native="onClickInput"
                             )
                         .block__fund--tag--list(v-if="tagList.length!=0")
                             span(v-for="item in tagList" @click="handleClickTag(item)") {{item.label}}
@@ -839,6 +840,24 @@ export default {
             })
             this.positionStatus = res.positionStatus.type
         },
+        goRecharge() {
+            this.$dialog
+                .confirm({
+                    message: this.$t('subscribemsg'),
+                    confirmButtonText: this.$t('confirm'),
+                    closeOnClickOverlay: true,
+                    cancelButtonText: this.$t('iknow')
+                })
+                .then(() => {
+                    jumpUrl(
+                        3,
+                        `${window.location.origin}/webapp/open-account/deposit.html#/`
+                    )
+                })
+                .catch(() => {
+                    // on cancel
+                })
+        },
         // 校驗，showDialog表示是否展示彈窗提示
         checkBuy(showDialog) {
             console.log(
@@ -851,22 +870,7 @@ export default {
             }
             if (!(+this.withdrawBalance > 0)) {
                 if (showDialog) {
-                    this.$dialog
-                        .confirm({
-                            message: this.$t('subscribemsg'),
-                            confirmButtonText: this.$t('confirm'),
-                            closeOnClickOverlay: true,
-                            cancelButtonText: this.$t('iknow')
-                        })
-                        .then(() => {
-                            jumpUrl(
-                                3,
-                                `${window.location.origin}/webapp/open-account/deposit.html#/`
-                            )
-                        })
-                        .catch(() => {
-                            // on cancel
-                        })
+                    this.goRecharge()
                     return false
                 } else {
                     return this.$t('noEnoughMoney')
@@ -906,6 +910,11 @@ export default {
         onKeyboardShow(flag) {
             console.log('onShow', flag)
             this.keyboardShow = flag
+        },
+        onClickInput() {
+            if (!(+this.withdrawBalance > 0)) {
+                this.goRecharge()
+            }
         }
     },
     i18n: {
