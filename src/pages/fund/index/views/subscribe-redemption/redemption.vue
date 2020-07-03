@@ -11,27 +11,27 @@
             .fund-content
                 .fond-buy
                     .block__fund--header.border-bottom
-                        span.fund__title--block {{$t('redeemShares')}}
-                        <!--number-keyboard(-->
-                        <!--v-model="redemptionShare"-->
-                        <!--@input="changeNumber"-->
-                        <!--:placeholder="$t('entryUnit')"-->
-                        <!--)-->
-                        .block__fund--input1
-                            //- span {{currencyType == 1 ? '':'HK'}}$
-                            van-field(
-                                v-model="redemptionShare"
-                                type="number"
-                                @input="changeNumber"
-                                :placeHolder="$t('entryUnit')"
-                                clearable
-                                )
+                        <!--span.fund__title&#45;&#45;block {{$t('redeemShares')}}-->
+                        number-keyboard(
+                        v-model="redemptionShare"
+                        @input="changeNumber"
+                        :placeholder="$t('entryUnit')"
+                        )
+                        <!--.block__fund&#45;&#45;input1-->
+                            <!--//- span {{currencyType == 1 ? '':'HK'}}$-->
+                            <!--input(-->
+                                <!--v-model="redemptionShare"-->
+                                <!--type="number"-->
+                                <!--@input="changeNumber"-->
+                                <!--:placeHolder="$t('entryUnit')"-->
+                                <!--clearable-->
+                                <!--)-->
                             <!--.block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}-->
                         .buy-row
                             .btn-fast(@click="handlerFastSellCount(0.25)") 1/4
                             .btn-fast(@click="handlerFastSellCount(1/3)") 1/3
                             .btn-fast(@click="handlerFastSellCount(0.5)") 1/2
-                            .btn-fast(@click="handlerFastSellCount(1)") 全部
+                            .btn-fast(@click="handlerFastSellCount(1)") {{$t('all')}}
                     .buy-row.block__tags(v-show="tagText")
                         span {{tagText}}
                     .buy-row
@@ -43,7 +43,7 @@
                     .buy-row
                         .left
                             span {{ $t('redemption') }}
-                            span ({{ $t('predict')}}) :
+                            span ({{ $t('predict')}})
                         .right
                             //span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | parseThousands }}
                             span {{redemptionFeeScale}}%
@@ -101,13 +101,13 @@ import { generateUUID } from '@/utils/tools.js'
 import { parseThousands } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
-// import NumberKeyboard from './components/number-keyboard'
+import NumberKeyboard from './components/number-keyboard'
 export default {
     name: 'subscribe',
     components: {
         FundSteps,
-        protocolPopup
-        // NumberKeyboard
+        protocolPopup,
+        NumberKeyboard
     },
     data() {
         return {
@@ -410,11 +410,12 @@ export default {
             moneyToAcc: '资金到达证券账户',
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
             sellAll: '全部卖出',
-            entryUnit: '输入卖出份额',
+            entryUnit: '请输入赎回份额',
             predictSellAmount: '订单总金额',
             emptyInput: '请输入赎回份额',
             minAmount: money => `最小赎回${money}份额`,
-            notEnough: '可赎份额不足'
+            notEnough: '可赎份额不足',
+            all: '全部'
         },
         zhCHT: {
             sellSuccess: '贖回成功',
@@ -441,11 +442,12 @@ export default {
             moneyToAcc: '資金到達證券賬戶',
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
             sellAll: '全部賣出',
-            entryUnit: '輸入賣出份額',
+            entryUnit: '請輸入贖回份額',
             predictSellAmount: '訂單總金額',
             emptyInput: '請輸入贖回份額',
             minAmount: money => `最小贖回${money}份額`,
-            notEnough: '可贖份額不足'
+            notEnough: '可贖份額不足',
+            all: '全部'
         },
         en: {
             sellSuccess: 'Redemption Successful',
@@ -473,11 +475,12 @@ export default {
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
             sellAll: 'Sell All',
-            entryUnit: 'Entry Unit',
+            entryUnit: 'Please Entry Redemption Unit',
             predictSellAmount: 'Total Amount of Orders',
             emptyInput: 'Please Entry Units',
             minAmount: money => `Mini. Redemption Units ${money}`,
-            notEnough: 'Insufficient Redeemable'
+            notEnough: 'Insufficient Redeemable',
+            all: 'ALL'
         }
     }
 }

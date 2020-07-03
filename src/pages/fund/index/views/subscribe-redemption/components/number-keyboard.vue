@@ -1,8 +1,9 @@
 <template lang="pug">
 .block__numberkeyboard--wrapper
     .block__out--wrapper(
+        :class="{ redemption: !currency }"
         @click="showNumberKeyboard")
-        span.label {{currency == 1 ? 'US$': 'HK$'}}
+        span.label(v-if="currency") {{currency == 1 ? 'US$': 'HK$'}}
         span.block__tip--number {{unit}}
         div.number-board(
             v-if="show"
@@ -46,7 +47,8 @@ export default {
             default: true
         },
         currency: {
-            type: Number
+            type: Number,
+            default: null
         },
         placeholder: {
             type: String
@@ -250,14 +252,21 @@ export default {
     margin: 14px 0 0 0;
     padding: 0 0 9px 0;
     display: flex;
+    width: 100%;
     flex-direction: row;
     align-items: center;
     position: relative;
+    height: 24px;
     .block__tip--number {
         left: 70px;
-        top: -15px;
+        top: -18px;
         font-size: 12px;
         position: absolute;
+    }
+    &.redemption {
+        .block__tip--number {
+            left: 22px;
+        }
     }
     .label {
         font-size: 24px;

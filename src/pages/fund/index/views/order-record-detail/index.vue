@@ -61,7 +61,7 @@
                     template(v-else)
                         .order-item.flex
                             span.itemName {{$t('redemptionUnits')}}
-                            span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
+                            span.type-text {{orderShare|transNumToThousandMark}}
                         .order-item.flex(v-if="orderStatusSuccess")
                             span.itemName {{$t('fee')}}
                             span.type-text {{orderFee|transNumToThousandMark}}{{currency}}

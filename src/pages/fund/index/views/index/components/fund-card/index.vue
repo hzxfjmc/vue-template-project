@@ -216,6 +216,7 @@ export default {
             display: flex;
             justify-content: flex-start;
             margin-bottom: 6px;
+            flex-wrap: wrap;
         }
     }
 }
