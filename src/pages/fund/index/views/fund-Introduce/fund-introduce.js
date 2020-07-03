@@ -248,11 +248,13 @@ export const otherList = {
     investObjective: {
         label: '投资目标',
         value: '',
-        showMore: false
+        showMore: false,
+        index: 0
     },
     companyProfile: {
         label: '基金公司简介',
         value: '',
-        showMore: false
+        showMore: false,
+        index: 1
     }
 }

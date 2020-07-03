@@ -28,8 +28,9 @@
                             .title {{item.label}}
                             .content(
                                 :class="{all: item.showMore}"
+                                ref="content"
                                 ) {{item.value}}
-                            .show-wrap
+                            .show-wrap(v-if="contentHeight[item.index] > 100")
                                 .more(
                                     v-if="!item.showMore"
                                     @click="item.showMore = true"
@@ -85,16 +86,7 @@ import { mapGetters } from 'vuex'
 Vue.use(List)
 export default {
     computed: {
-        ...mapGetters(['lang']),
-        overFiveLine() {
-            let domList = document.getElementsByClassName('content')
-            console.log(domList)
-            let heightList = []
-            for (let i = 0; i < domList.len; i++) {
-                heightList.push(domList[i].offsetHeight)
-            }
-            return heightList
-        }
+        ...mapGetters(['lang'])
     },
     i18n: i18nIntroducelist,
     components: {
@@ -113,6 +105,7 @@ export default {
             active: 0,
             filelist: [],
             managerList: [],
+            contentHeight: [],
             currencyName: '',
             otherList: JSON.parse(JSON.stringify(otherList))
         }
@@ -187,6 +180,11 @@ export default {
                 for (let key in this.otherList) {
                     this.otherList[key].value = fundOverviewInfoVO[key]
                 }
+                this.$nextTick(() => {
+                    this.contentHeight = this.$refs.content
+                        ? this.$refs.content.map(item => item.offsetHeight)
+                        : []
+                })
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
