@@ -10,7 +10,7 @@
             .labels 
                 fund-tag(:title="info.fundRisk")
                 fund-tag(:title="$t(info.currency.name)" v-if="$t(info.currency.name)")
-                fund-tag(:title="fundSizeStr")
+                fund-tag(:title="fundSizeStr" v-if="+info.fundSize")
             .feature {{ info.feature }}
 </template>
 
@@ -99,7 +99,7 @@ export default {
             //     this.info.fundSize,
             //     this.info.currency.type
             // )
-            let currency = this.$t(this.info.currency.name)
+            let currency = this.$t(this.info.currency.name) || ''
             let arr = this.info.fundSize.split('.')
             let size, unit
             let isEnLang = this.$i18n.lang === 'en'
@@ -107,34 +107,58 @@ export default {
                 size = parseThousands(arr[0])
                 return this.$t('fundSize', size, currency)
             }
-            if (arr[0].length === 5) {
-                if (isEnLang) {
+            if (isEnLang) {
+                if (arr[0].length === 5) {
                     size = transNumToThousandMark(arr[0] / 1000, 2)
                     unit = 'K'
-                } else {
-                    size = transNumToThousandMark(arr[0] / 10000, 2)
-                    unit = this.$t(['万', '萬', ''])
-                }
-                return this.$t('fundSize', size, unit, currency)
-            }
-            if (arr[0].length < 9) {
-                if (isEnLang) {
+                } else if (arr[0].length < 9) {
                     size = transNumToThousandMark(arr[0] / 1000000, 2)
                     unit = 'M'
                 } else {
+                    size = transNumToThousandMark(arr[0] / Math.pow(10, 9), 2)
+                    unit = 'B'
+                }
+            } else {
+                if (arr[0].length === 5) {
                     size = transNumToThousandMark(arr[0] / 10000, 2)
                     unit = this.$t(['万', '萬', ''])
+                } else if (arr[0].length < 8) {
+                    size = transNumToThousandMark(arr[0] / 10000, 2)
+                    unit = this.$t(['万', '萬', ''])
+                } else {
+                    size = transNumToThousandMark(arr[0] / Math.pow(10, 8), 2)
+                    unit = this.$t(['亿', '億', ''])
                 }
-                return this.$t('fundSize', size, unit, currency)
-            }
-            if (isEnLang) {
-                size = transNumToThousandMark(arr[0] / Math.pow(10, 9), 2)
-                unit = 'B'
-            } else {
-                size = transNumToThousandMark(arr[0] / Math.pow(10, 8), 2)
-                unit = this.$t(['亿', '億', ''])
             }
             return this.$t('fundSize', size, unit, currency)
+            // if (arr[0].length === 5) {
+            //     if (isEnLang) {
+            //         size = transNumToThousandMark(arr[0] / 1000, 2)
+            //         unit = 'K'
+            //     } else {
+            //         size = transNumToThousandMark(arr[0] / 10000, 2)
+            //         unit = this.$t(['万', '萬', ''])
+            //     }
+            //     return this.$t('fundSize', size, unit, currency)
+            // }
+            // if (arr[0].length < 9) {
+            //     if (isEnLang) {
+            //         size = transNumToThousandMark(arr[0] / 1000000, 2)
+            //         unit = 'M'
+            //     } else {
+            //         size = transNumToThousandMark(arr[0] / 10000, 2)
+            //         unit = this.$t(['万', '萬', ''])
+            //     }
+            //     return this.$t('fundSize', size, unit, currency)
+            // }
+            // if (isEnLang) {
+            //     size = transNumToThousandMark(arr[0] / Math.pow(10, 9), 2)
+            //     unit = 'B'
+            // } else {
+            //     size = transNumToThousandMark(arr[0] / Math.pow(10, 8), 2)
+            //     unit = this.$t(['亿', '億', ''])
+            // }
+            // return this.$t('fundSize', size, unit, currency)
         }
     }
 }
