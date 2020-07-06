@@ -1007,6 +1007,8 @@ export default {
                     res.fundHeaderInfoVO.fundId,
                     res.fundHeaderInfoVO.fundName
                 )
+                this.benchmarkNameObj = res.benchmarkName
+                this.displayBenchmark = res.displayBenchmark
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
