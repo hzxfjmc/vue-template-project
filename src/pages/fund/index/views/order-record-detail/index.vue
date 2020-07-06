@@ -51,13 +51,13 @@
                     template(v-else-if="isDividendOrder")
                         .order-item.flex
                             span.itemName {{$t('dividendWay')}}
-                            span.type-text
-                        .order-item.flex(v-if="orderStatusSuccess")
+                            span.type-text {{dividendType === DIVIDEND_TYPE.SHARE_DIVIDEND ? $t('investDividend') : $t('cashDividend')}}
+                        .order-item.flex(v-if="dividendType === DIVIDEND_TYPE.CASH_DIVIDEND")
                             span.itemName {{$t('dividendAmount')}}
                             span.type-text {{moneyNum|transNumToThousandMark}}{{currency}}
-                        .order-item.flex(v-if="orderStatusSuccess")
+                        .order-item.flex(v-if="dividendType === DIVIDEND_TYPE.SHARE_DIVIDEND")
                             span.itemName {{$t('dividendUnits')}}
-                            span.type-text {{orderShare|transNumToThousandMark}}{{currency}}
+                            span.type-text {{orderShare|transNumToThousandMark}}
                     template(v-else)
                         .order-item.flex
                             span.itemName {{$t('redemptionUnits')}}
@@ -93,7 +93,7 @@ import dayjs from 'dayjs'
 import { i18nOrderStatusData } from './order-status-detail-i18n'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { differColor } from '../order-record/differColor.js'
-import { TRADE_TYPES, accountTypeMap, ORDER_STATUS } from './map'
+import { TRADE_TYPES, accountTypeMap, ORDER_STATUS, DIVIDEND_TYPE } from './map'
 
 export default {
     i18n: i18nOrderStatusData,
@@ -162,7 +162,10 @@ export default {
             // 是否换汇
             exchangeFlag: false,
             // 定投返还费用
-            fixedReFundFee: ''
+            fixedReFundFee: '',
+            // 分红类型
+            dividendType: '',
+            DIVIDEND_TYPE
         }
     },
     computed: {
@@ -315,6 +318,7 @@ export default {
                     res.fixedInvest === 1 ? this.$t('A2') : res.tradeTypeName
                 this.currency = this.$t(res.currency.name)
                 this.moneyNum = res.orderAmount
+                this.dividendType = res.dividendType
             } catch (e) {
                 if (e.msg) {
                     this.$alert({

@@ -28,3 +28,13 @@ export const accountTypeMap = {
     // 融资
     FINANCING: 2
 }
+
+// 分红类型
+export const DIVIDEND_TYPE = {
+    // 不分红
+    NO_DIVIDEND: 1,
+    // 现金分红
+    CASH_DIVIDEND: 2,
+    // 分红再投资
+    SHARE_DIVIDEND: 3
+}
