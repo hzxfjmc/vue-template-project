@@ -46,7 +46,8 @@ export default {
             userInfo: '',
             showEasyCustomer: false,
             assessDefinition: '',
-            canSubmit: false
+            canSubmit: false,
+            code: this.$route.query.code
         }
     },
     computed: {
@@ -135,7 +136,8 @@ export default {
                     id,
                     currencyType: this.$route.query.currencyType,
                     fundRiskType: this.$route.query.fundRiskType,
-                    displayLocation: this.$route.query.displayLocation
+                    displayLocation: this.$route.query.displayLocation,
+                    code: this.$route.query.code
                 }
             // App 风险测评菜单进入：
             // 1、/wealth/fund/index.html#/risk-assessment-result

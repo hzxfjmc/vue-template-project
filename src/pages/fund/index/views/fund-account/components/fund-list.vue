@@ -1,8 +1,8 @@
 <template lang="pug">
-.block-fund-list-content(:class="[code!=1? 'block-fund-list-content-hk' : 'block-fund-list-content-ch']")
+.block-fund-list-content(:class="[code!=1? 'block-fund-list-content-ch' : 'block-fund-list-content-ch']")
     .block__fund-title(@click="hanlderSwitch") 
         span(:style="{background:bgColor}")
-        p {{title}}
+        p.title {{title}}
         .block__fund--right
             p {{currency === '2'?$t('hkdAssets') :$t('usdAssets')}} {{currency === '2'?'HKD' :'USD'}} 
                 em.block__em(v-if="eyeTab") {{amount}}
@@ -13,35 +13,37 @@
         v-if="listShow"
         :key="index" 
         @click="toFundDetails(item)")
-        .fund-name {{item.fundName}}
+        .fund-name 
+            p {{item.fundName}}
+            span(v-if="item.fixedFlag && investmentWhiteBit") {{$t('A2')}}
         .fund-list-num
             .fund-row
                 .fund__row--list
-                    .block-element-number(v-if="eyeTab") {{item.positionAmount}}
+                    span {{$t('positionMarketValue')}}
+                    .block-element-number(v-if="eyeTab") {{item.positionAmount|parseThousands(2)}}
                     .block-element-number(v-else) ****
-                    span {{$t('amountMoney')}}
-                .fund__row--list
+                    
+                .fund__row--list.block__center
+                    span {{$t('profitPostion')}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 0" 
+                        v-if="eyeTab && item.positionEarnings>0" 
                         :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.positionEarnings|parseThousands}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 1" 
+                        v-if="eyeTab && item.positionEarnings<0 " 
                         :class="stockColorType === 1 ?'active-green':'active-red'") {{item.positionEarnings}}
                     .block-element-number(
-                        v-if="eyeTab && item.flag == 2") {{item.positionEarnings}}
+                        v-if="eyeTab && item.positionEarnings==0") {{item.positionEarnings}}
                     .block-element-number(v-if="!eyeTab") ****
-                    span {{$t('profitPostion')}}
-            .fund-row
-                .fund__row--list
-                    .block-element-number(v-if="eyeTab && item.flag1 == 0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings}}
-                    .block-element-number(v-if="eyeTab && item.flag1 == 1" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings}}
-                    .block-element-number(v-if="eyeTab && item.flag1 == 2") {{item.weekEarnings}}
-                    .block-element-number(v-if="!eyeTab") ****
+                    
+                .fund__row--list.block__right
                     span {{$t('SevenDayIncome')}}
-                .fund__row--list
-                    .block-element-number(v-if="eyeTab") {{item.positionShare}}
-                    .block-element-number(v-else) ****
-                    span {{$t('share')}}
+                    .block-element-number(v-if="eyeTab  && item.weekEarnings>0" :class="stockColorType === 1 ?'active-red':'active-green'") +{{item.weekEarnings|parseThousands(2)}}
+                    .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings|parseThousands(2)}}
+                    .block-element-number(v-if="eyeTab  && item.weekEarnings==0") {{item.weekEarnings||'0.00'}}
+                    .block-element-number(v-if="!eyeTab") ****
+                   
+            //- .fund-row
+                
         .fund-list-other(
             v-if="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0")
             .o-item(v-if="item.redeemDeliveryShare != 0")
@@ -63,10 +65,9 @@
 </template>
 <script>
 import localStorage from '@/utils/local-storage'
-import { gotoNewWebView } from '@/utils/js-bridge.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { mapGetters } from 'vuex'
-import { parseThousands } from '@/utils/tools.js'
+import { parseThousands, jumpUrl } from '@/utils/tools.js'
 export default {
     props: {
         bgColor: {
@@ -76,6 +77,10 @@ export default {
         title: {
             type: String,
             default: ''
+        },
+        investmentWhiteBit: {
+            type: Boolean,
+            default: false
         },
         fundList: {
             type: Array,
@@ -113,6 +118,7 @@ export default {
             usdAssets: '美元市值',
             profitPostion: '持有收益',
             SevenDayIncome: '近七日收益',
+            positionMarketValue: '持有资产',
             Redemption: '赎回中',
             subscribe: '申购中',
             subscribeHk: '申购中',
@@ -123,6 +129,7 @@ export default {
         zhCHT: {
             amountMoney: '金額',
             share: '份額',
+            positionMarketValue: '持有市值',
             hkdAssets: '港幣市值',
             usdAssets: '美元市值',
             profitPostion: '持有收益',
@@ -137,6 +144,7 @@ export default {
         en: {
             amountMoney: 'Amount',
             share: 'Unit',
+            positionMarketValue: 'Holding Value',
             hkdAssets: 'HKD Holdings',
             usdAssets: 'USD Holdings',
             profitPostion: 'Total Return',
@@ -163,8 +171,8 @@ export default {
             this.listShow = !this.listShow
         },
         toFundDetails(item) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
-            gotoNewWebView(url)
+            let url = `${window.location.origin}/wealth/fund/index.html#/hold-fund-details?id=${item.fundId}`
+            jumpUrl(3, url)
         },
         changeEye() {
             this.eyeTab = localStorage.get('showMoney')
@@ -186,9 +194,11 @@ export default {
         align-items: center;
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         line-height: 44px;
+        // .title {
+        //     font-weight: bolder;
+        // }
         .block__fund--right {
             font-size: 11px;
-            width: 300px;
             text-align: right;
             margin: 5px 0;
             p {
@@ -209,16 +219,17 @@ export default {
         span {
             display: block;
             width: 4px;
-            height: 16px;
-            margin: 14px 0;
+            height: 14px;
+            margin: 6px 0 6px 4px;
         }
         p {
             width: 85%;
             font-size: 16px;
-            margin: 0 0 0 18px;
+            margin: 0 0 0 6px;
         }
         em {
-            padding: 0 12px;
+            padding: 0 12px 0 6px;
+            color: rgba(25, 25, 25, 0.45);
         }
     }
     .list-item-content {
@@ -230,6 +241,25 @@ export default {
             font-size: 0.32rem;
             line-height: 20px;
             margin: 10px 0 5px 0;
+            display: flex;
+            flex-direction: row;
+            p {
+                max-width: 80%;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                overflow: hidden;
+                -webkit-line-clamp: 1;
+                -webkit-box-orient: vertical;
+            }
+            span {
+                display: block;
+                padding: 0 8px;
+                font-size: 10px;
+                background: rgba(47, 121, 255, 1);
+                color: #fff;
+                border-radius: 1px;
+                margin: 0 0 0 6px;
+            }
         }
         .fund-list-num {
             display: flex;
@@ -245,12 +275,18 @@ export default {
                     margin: 6px 0 0 0;
                     text-align: left;
                 }
+                .block__center {
+                    text-align: center;
+                }
+                .block__right {
+                    text-align: right;
+                }
                 span {
                     font-size: 0.24rem;
                     color: rgba(25, 25, 25, 0.5);
                 }
                 .block-element-number {
-                    font-size: 20px;
+                    font-size: 14px;
                     font-family: 'yxFontDINPro-Medium';
                     // font-weight: bold;
                 }
@@ -309,11 +345,11 @@ export default {
     }
 }
 .block-fund-list-content-hk {
-    width: 90%;
-    margin: 20px 5% 0 5%;
+    width: 351px;
+    margin: 20px 12px 0 12px;
 }
 .block-fund-list-content-ch {
-    width: 96%;
-    margin: 14px 2% 0 2%;
+    width: 351px;
+    margin: 14px 12px 0 12px;
 }
 </style>

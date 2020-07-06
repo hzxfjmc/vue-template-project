@@ -222,7 +222,8 @@ export default {
                     '--'
                 this.orderNumValue = res.orderNo
                 this.tradeType = res.tradeType
-                this.orderType = res.tradeTypeName
+                this.orderType =
+                    res.fixedInvest === 1 ? this.$t('A2') : res.tradeTypeName
                 this.currency = res.currency.name
                 this.moneyNum = res.orderAmount
             } catch (e) {
@@ -324,7 +325,9 @@ export default {
                             data.path =
                                 // eslint-disable-next-line no-constant-condition
                                 (this.userInfo.extendStatusBit & 16) > 0
-                                    ? '/fund-subscribe'
+                                    ? this.orderResult.fixedInvest == 1
+                                        ? '/fixed-investment'
+                                        : '/fund-subscribe'
                                     : '/open-permissions'
                             this.$router.push(data)
                             // on confirm
@@ -346,7 +349,9 @@ export default {
                 data.path =
                     // eslint-disable-next-line no-constant-condition
                     (this.userInfo.extendStatusBit & 16) > 0
-                        ? '/fund-subscribe'
+                        ? this.orderResult.fixedInvest == 1
+                            ? '/fixed-investment'
+                            : '/fund-subscribe'
                         : '/open-permissions'
                 if (this.$route.query.groupId) {
                     data.query.groupId = 0
