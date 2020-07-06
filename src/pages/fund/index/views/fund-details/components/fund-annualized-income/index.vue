@@ -15,7 +15,7 @@
                     .label(:class="getStockClass(thisFundReturn[item.key])") {{thisFundReturn[item.key] | filterRatio('+')}}         
                     .label(:class="getStockClass(categoryReturn[item.key])") {{categoryReturn[item.key] | filterRatio('+')}}           
                     .label.last 
-                        span.first-num {{categoryRank[`${[item.key]}Rank`] | filterRatio('')}}
+                        span.first-num {{categoryRank[`${[item.key]}Rank`]}}%
 </template>
 <script>
 /**

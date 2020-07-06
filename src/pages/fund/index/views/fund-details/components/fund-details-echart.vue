@@ -59,14 +59,14 @@
             .block__list--more(@click="toFundHistory")
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
-        .chart-custom-legend(v-if="!isMmf")
-            .legend__category.maker-1
+        .chart-custom-legend(v-if="!isMmf" :class="!displayCategory && !displayBenchmark ? 'one-item':''")
+            .legend__category.maker-1(@click="showToast(thisFundName)") 
                 .legend__title {{ thisFundName }}
                 .legend__value(:class="getStockClass(lengendData.thisFundPointData)") {{lengendData.thisFundPointData | filterRatio}}
-            .legend__category.maker-2(v-if="displayCategory") 
+            .legend__category.maker-2(v-if="displayCategory" @click="showToast(categoryName)") 
                 .legend__title {{ categoryName }}
                 .legend__value(:class="getStockClass(lengendData.categoryPointData)") {{lengendData.categoryPointData | filterRatio}}
-            .legend__category.maker-3(v-if="displayBenchmark") 
+            .legend__category.maker-3(v-if="displayBenchmark" @click="showToast(benchmarkName)") 
                 .legend__title {{ benchmarkName }}
                 .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
         .chart-header-tips(v-if="showTopTips")
@@ -82,20 +82,23 @@
                         ) {{mmfData.pointData| filterRatio(4)}}
             template(v-else)
                 .tips__body.notmmf-tips__body
-                    .header__item  
+                    .header__item 
                         .item__value {{mmfData.belongDay}}
                     .header__item
-                        .item__label {{thisFundName}}：
+                        .item__label
+                            .text.maker-1 {{thisFundName}}：
                         .item__value(
                             :class="getStockClass(lengendData.thisFundPointData )"
                         ) {{lengendData.thisFundPointData | filterRatio}}
                     .header__item(v-if="displayBenchmark")
-                        .item__label {{benchmarkName}}：
+                        .item__label
+                            .text.maker-2 {{benchmarkName}}：
                         .item__value(
                             :class="getStockClass(lengendData.benchmarkPointData)"
                         ) {{lengendData.benchmarkPointData | filterRatio}}  
                     .header__item(v-if="!displayBenchmark && displayCategory")
-                        .item__label {{categoryName}}：
+                        .item__label
+                            .text.maker-3 {{categoryName}}：
                         .item__value(
                             :class="getStockClass(lengendData.categoryPointData)"
                         ) {{lengendData.categoryPointData| filterRatio}}            
@@ -273,6 +276,9 @@ export default {
         }
     },
     methods: {
+        showToast(msg) {
+            msg && this.$toast(msg, 'center')
+        },
         getStockClass(val) {
             val = (val + '').indexOf('%') !== -1 ? (val + '').slice(0, -1) : val
             return val > 0
@@ -351,7 +357,9 @@ export default {
             })
             this.chart.legend(false)
             this.chart.tooltip({
+                alwaysShow: true,
                 triggerOn: ['touchmove'],
+                triggerOff: 'touchend', // 消失的触发行为，可自定义
                 showCrosshairs: true,
                 crosshairsStyle: {
                     // 配置辅助线的样式
@@ -380,10 +388,12 @@ export default {
                     })
                 },
                 onHide: () => {
-                    this.showTopTips = false
-                    this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
-                    this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
-                    this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
+                    setTimeout(() => {
+                        this.showTopTips = false
+                        this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
+                        this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
+                        this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
+                    }, 500)
                 }
             })
             this.chart
@@ -510,10 +520,35 @@ export default {
             &:last-child {
                 justify-content: flex-end;
                 .item__label {
-                    max-width: 85px;
-                    overflow: hidden;
-                    white-space: nowrap;
-                    text-overflow: ellipsis;
+                    .text {
+                        max-width: 85px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+            .item__label {
+                position: relative;
+                .text {
+                    &::before {
+                        content: ' ';
+                        height: 6px;
+                        width: 6px;
+                        border-radius: 50%;
+                        position: absolute;
+                        left: -8px;
+                        top: 17px;
+                    }
+                    &.maker-1::before {
+                        background-color: #2f79ff;
+                    }
+                    &.maker-2::before {
+                        background-color: rgba(0, 186, 96, 0.4);
+                    }
+                    &.maker-3::before {
+                        background-color: rgba(255, 191, 50, 0.6);
+                    }
                 }
             }
         }
@@ -559,6 +594,10 @@ export default {
             padding-right: 6px;
         }
     }
+}
+.chart-custom-legend.one-item {
+    justify-content: flex-start;
+    padding-left: 10px;
 }
 .fund-echart-content2 {
     .block__list--more {
