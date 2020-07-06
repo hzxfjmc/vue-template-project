@@ -18,6 +18,7 @@
                             @clickBoard="isInit = false"
                             @onShow="onKeyboardShow"
                             @click.native.stop="onClickInput"
+                            ref="keyboard"
                             )
                         .block__fund--tag--list(v-if="tagList.length!=0")
                             span(v-for="item in tagList" @click="handleClickTag(item)") {{item.label}}
@@ -914,6 +915,7 @@ export default {
         onClickInput() {
             if (!(+this.withdrawBalance > 0)) {
                 this.goRecharge()
+                this.$refs.keyboard.show = false
             }
         }
     },
