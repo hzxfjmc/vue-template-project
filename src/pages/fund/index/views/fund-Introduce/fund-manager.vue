@@ -42,7 +42,6 @@
                             @click="item.showMore = false"
                         ) {{$t('less')}}
                 .no-data(v-else) {{$t('noIntroduction')}}
-    .no-data(v-else) {{$t('noData')}}
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
@@ -65,7 +64,6 @@ export default {
             manageInfo: '基金经理简介',
             more: '查看更多',
             less: '收起',
-            noData: '暂无数据',
             noIntroduction: '暂无简介',
             years: '年零',
             days: '天'
@@ -79,7 +77,6 @@ export default {
             manageInfo: '基金經理簡介',
             more: '查看更多',
             less: '收起',
-            noData: '暫無數據',
             noIntroduction: '暂无简介',
             years: '年零',
             days: '天'
@@ -93,7 +90,6 @@ export default {
             manageInfo: 'Fund Manager Info',
             more: 'More',
             less: 'Less',
-            noData: 'No Data',
             noIntroduction: 'No Introduction',
             years: 'years and',
             days: 'days'

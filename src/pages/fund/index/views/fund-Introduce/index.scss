@@ -61,7 +61,12 @@
         padding-top: 100px;
         background: url('~@/assets/img/fund/icon-nofile.png') center 15px
             no-repeat;
-        background-size: 99.5px 78px;
+            background-size: 99.5px 78px;
+        &.no-data{
+            background: url('~@/assets/img/fund/icon-nodata.png') center 15px
+            no-repeat;
+            background-size: 99.5px 78px;
+        }
         color: $text-color3;
         font-size: 0.28rem;
         line-height: 20px;

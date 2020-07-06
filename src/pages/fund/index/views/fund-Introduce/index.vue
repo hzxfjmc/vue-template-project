@@ -30,7 +30,7 @@
                                 :class="{all: item.showMore}"
                                 ref="content"
                                 ) {{item.value}}
-                            .show-wrap(v-if="contentHeight[item.index] > 100")
+                            .show-wrap(v-if="contentHeight[item.index] > 110")
                                 .more(
                                     v-if="!item.showMore"
                                     @click="item.showMore = true"
@@ -41,7 +41,9 @@
                                 ) {{$t('less')}}
                 van-tab(:title="$t('list')['fundManager'].label" :name="1")
                     .fund-manager-container(v-if="active===1")
-                        fund-manager(:managerList="managerList")
+                        fund-manager(:managerList="managerList" v-if="managerList.length")
+                        .no-bond-box(v-else)
+                                .no-bond.no-data {{$t('noData')}}
                 van-tab(:title="$t('list')['fundFiles'].label" :name="2")
                     .dividend-detail-container(v-if="active===2")
                         .fund-files

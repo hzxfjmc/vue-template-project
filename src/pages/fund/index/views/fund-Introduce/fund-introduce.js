@@ -43,6 +43,7 @@ export const i18nIntroducelist = {
         fundIntroduceTitle: '基金概况',
         zk: '展开',
         nomore: '暂无文件',
+        noData: '暂无数据',
         zq: '折起',
         more: '查看更多',
         less: '收起',
@@ -112,6 +113,7 @@ export const i18nIntroducelist = {
         unit: '億',
         zq: '收起',
         nomore: '暫無文件',
+        noData: '暫無數據',
         more: '查看更多',
         less: '收起',
         list: {
@@ -179,6 +181,7 @@ export const i18nIntroducelist = {
         zk: 'More',
         unit: 'B ',
         nomore: 'Empty',
+        noData: 'No Data',
         more: 'More',
         less: 'Less',
         zq: 'Less',
