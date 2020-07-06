@@ -15,12 +15,12 @@
                     .content__right
                         span(
                             v-if="+item.inReturn > 0"
-                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                         ) +{{item.inReturn | formatRtn}}%
                         span(
                             v-else 
-                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                        ) {{item.inReturn}}%
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        ) {{item.inReturn | formatRtn}}%
         .fund-manager__wrap
             .content__title {{$t('manageInfo')}}
             .fund-manager__content(
@@ -28,7 +28,7 @@
                 :key="index"
                 )
                 .content__name {{item.managerName}}
-                .content_desc__wrap( v-if="item.managerProvidedBiography")
+                .content__wrap( v-if="item.managerProvidedBiography")
                     .content_desc(
                         :class="{all: item.showMore}"    
                     ) {{item.managerProvidedBiography || ''}}
@@ -199,8 +199,8 @@ export default {
         overflow: hidden;
         line-height: 24px;
         color: $text-color6;
-        // text-align: justify;
-        // white-space: pre-line;
+        text-align: justify;
+        white-space: pre-line;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 5;
