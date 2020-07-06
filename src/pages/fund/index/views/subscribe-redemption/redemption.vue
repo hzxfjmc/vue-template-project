@@ -371,9 +371,14 @@ export default {
             if (!+this.redemptionShare) {
                 return this.$t('emptyInput')
             }
-            let minRedemptionPrice = Number(this.getMinRedemptionPrice())
             // 最小赎回份额
+            let minRedemptionPrice = Number(this.getMinRedemptionPrice())
+            // 赎回份额小于最小赎回份额
             if (+this.redemptionShare < minRedemptionPrice) {
+                if (+this.redemptionShare === +this.positionShare) {
+                    // 如果赎回份额等于可赎份额，但是可赎份额小于最小赎回份额的话，跳过校验，交由后端判断
+                    return ''
+                }
                 return this.$t('minAmount', minRedemptionPrice)
             }
             if (+this.positionShare < +this.redemptionShare) {
