@@ -5,15 +5,18 @@
         @click="showNumberKeyboard")
         span.label(v-if="currency") {{currency == 1 ? 'US$': 'HK$'}}
         span.block__tip--number {{unit}}
-        div.number-board(
-            v-if="show"
-            :class="[+amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
-        div.number-board(
-            v-else
-            :class="[+amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
-        span.block__all--out.iconfont.icon-close(
-            @click="allSell"
-            v-if="amount != placeholder") 
+        template(v-if="!amount")
+            div.number-board(:class="show ? 'word': 'word1'") {{placeholder}}
+        template(v-else)
+            div.number-board(
+                v-if="show"
+                :class="[+amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
+            div.number-board(
+                v-else
+                :class="[+amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
+            span.block__all--out.iconfont.icon-close(
+                @click="allSell"
+                v-if="amount != placeholder")
     .block__footter-num
         van-number-keyboard(
             theme="custom"

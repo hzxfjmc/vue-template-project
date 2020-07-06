@@ -17,7 +17,7 @@
                             @input="handlerAmount"
                             @clickBoard="isInit = false"
                             @onShow="onKeyboardShow"
-                            @click.native="onClickInput"
+                            @click.native.stop="onClickInput"
                             )
                         .block__fund--tag--list(v-if="tagList.length!=0")
                             span(v-for="item in tagList" @click="handleClickTag(item)") {{item.label}}

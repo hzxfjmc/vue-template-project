@@ -16,6 +16,7 @@
                         v-model="redemptionShare"
                         @input="changeNumber"
                         :placeholder="$t('entryUnit')"
+                        @onShow="onKeyboardShow"
                         )
                         <!--.block__fund&#45;&#45;input1-->
                             <!--//- span {{currencyType == 1 ? '':'HK'}}$-->
@@ -54,7 +55,7 @@
                     :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
                     :stepTimes="[sellSubmit, sellConfirm, sellProfitLoss]"
                 )
-            .fund-footer-content
+            .fund-footer-content(v-show="!keyboardShow")
                 .protocol
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
@@ -136,7 +137,8 @@ export default {
             sellProtocolFileList: [],
             tagText: '',
             // 最小交易金額
-            minTradeAmount: ''
+            minTradeAmount: '',
+            keyboardShow: false
         }
     },
     async created() {
@@ -382,6 +384,9 @@ export default {
         },
         getTagText() {
             this.tagText = this.check() || ''
+        },
+        onKeyboardShow(flag) {
+            this.keyboardShow = flag
         }
     },
     i18n: {
