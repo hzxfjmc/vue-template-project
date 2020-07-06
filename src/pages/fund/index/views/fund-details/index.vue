@@ -1113,43 +1113,45 @@ export default {
                 this.initEchartList = []
                 dataList.length &&
                     dataList.forEach(item => {
-                        Object.keys(item).forEach(key => {
-                            if (key !== 'belongDay') {
-                                const typeMap = {
-                                    thisFundPointData: this.$t([
-                                        '本基金',
-                                        '本基金',
-                                        'Fund'
-                                    ]),
-                                    categoryPointData: this.$t([
-                                        '同类平均',
-                                        '同類平均',
-                                        'Sector AVG'
-                                    ]),
-                                    benchmarkPointData: this.$t([
-                                        this.benchmarkNameObj.zhCn,
-                                        this.benchmarkNameObj.zhHk,
-                                        this.benchmarkNameObj.en
-                                    ])
-                                }
-                                if (item[key] !== null) {
-                                    if (key === 'categoryPointData') {
-                                        this.displayCategory = true
+                        Object.keys(item)
+                            .reverse()
+                            .forEach(key => {
+                                if (key !== 'belongDay') {
+                                    const typeMap = {
+                                        thisFundPointData: this.$t([
+                                            '本基金',
+                                            '本基金',
+                                            'Fund'
+                                        ]),
+                                        categoryPointData: this.$t([
+                                            '同类平均',
+                                            '同類平均',
+                                            'Sector AVG'
+                                        ]),
+                                        benchmarkPointData: this.$t([
+                                            this.benchmarkNameObj.zhCn,
+                                            this.benchmarkNameObj.zhHk,
+                                            this.benchmarkNameObj.en
+                                        ])
                                     }
-                                    this.initEchartList.push({
-                                        type:
-                                            typeMap[key] ||
-                                            this.$t([
-                                                '本基金',
-                                                '本基金',
-                                                'Fund'
-                                            ]),
-                                        pointData: Number(item[key] * 100),
-                                        belongDay: item.belongDay
-                                    })
+                                    if (item[key] !== null) {
+                                        if (key === 'categoryPointData') {
+                                            this.displayCategory = true
+                                        }
+                                        this.initEchartList.push({
+                                            type:
+                                                typeMap[key] ||
+                                                this.$t([
+                                                    '本基金',
+                                                    '本基金',
+                                                    'Fund'
+                                                ]),
+                                            pointData: Number(item[key] * 100),
+                                            belongDay: item.belongDay
+                                        })
+                                    }
                                 }
-                            }
-                        })
+                            })
                     })
                 let month = {
                     1: '1个月',

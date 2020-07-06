@@ -12,12 +12,10 @@
             .body-item.body-item__right
                 .item(v-for="item,index in keyList" :key="`key_${index}`")  
                     .title {{item.title}}           
-                    .label(:class="getStockClass(thisFundReturn[item.key])") {{thisFundReturn[item.key] | filterRatio}}         
-                    .label(:class="getStockClass(categoryReturn[item.key])") {{categoryReturn[item.key] | filterRatio}}           
+                    .label(:class="getStockClass(thisFundReturn[item.key])") {{thisFundReturn[item.key] | filterRatio('+')}}         
+                    .label(:class="getStockClass(categoryReturn[item.key])") {{categoryReturn[item.key] | filterRatio('+')}}           
                     .label.last 
-                        span.first-num {{categoryRank[`${[item.key]}Rank`]||'--'}}
-                        span /
-                        span.last-num {{categoryRank[`${[item.key]}Total`]||'--'}}
+                        span.first-num {{categoryRank[`${[item.key]}Rank`] | filterRatio('')}}
 </template>
 <script>
 /**
@@ -47,10 +45,10 @@ export default {
         ...mapGetters(['stockColorTypeClass', 'lang'])
     },
     filters: {
-        filterRatio(val) {
+        filterRatio(val, symbol) {
             return val
                 ? Number(val) > 0
-                    ? `+${Number(val).toFixed(2)}%`
+                    ? `${symbol}${Number(val).toFixed(2)}%`
                     : `${Number(val).toFixed(2)}%`
                 : '--'
         }
