@@ -199,12 +199,11 @@ export default {
         overflow: hidden;
         line-height: 24px;
         color: $text-color6;
-        text-align: justify;
-        white-space: pre-line;
+        // text-align: justify;
+        // white-space: pre-line;
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 5;
-        overflow: hidden;
         &.all {
             display: inline-block;
             height: auto;
