@@ -25,6 +25,7 @@
                     .order-item.flex
                         span.itemName {{$t('orderNum')}}
                         span {{orderNumValue}}
+                van-cell(class="order-time")
                     .order-item.flex
                         span.itemName {{$t('orderName')}}
                         span.type {{orderType}}
