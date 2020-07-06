@@ -114,7 +114,7 @@ export const i18nOrderStatusData = {
         dividendAmount: 'Dividend Amount',
         dividendWay: 'Dividend Method',
         dividendUnits: 'Dividend Units',
-        cashDividend: 'Cash Dividend',
-        investDividend: 'Dividend Invest'
+        cashDividend: 'Cash',
+        investDividend: 'Reinvest'
     }
 }
