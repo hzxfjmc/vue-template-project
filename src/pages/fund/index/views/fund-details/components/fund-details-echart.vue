@@ -329,6 +329,10 @@ export default {
                 }
             })
             this.chart.axis('pointData', {
+                grid: {
+                    lineWidth: 0.5,
+                    lineDash: []
+                },
                 labelOffset: 5 // 坐标轴文本距离轴线的距离
             })
             this.chart.axis('belongDay', {
@@ -385,7 +389,13 @@ export default {
             this.chart
                 .line()
                 .position('belongDay*pointData')
-                .size(1)
+                .size('type', type => {
+                    if (type === this.thisFundName) {
+                        return 1.5
+                    } else {
+                        return 0.8
+                    }
+                })
                 .color('type', type => {
                     if (type === this.thisFundName) {
                         return '#2F79FF'
