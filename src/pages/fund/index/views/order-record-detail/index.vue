@@ -57,11 +57,11 @@
                             span.type-text {{moneyNum|transNumToThousandMark}}{{currency}}
                         .order-item.flex(v-if="dividendType === DIVIDEND_TYPE.SHARE_DIVIDEND")
                             span.itemName {{$t('dividendUnits')}}
-                            span.type-text {{orderShare|transNumToThousandMark}}
+                            span.type-text {{orderShare|transNumToThousandMark(4)}}
                     template(v-else)
                         .order-item.flex
                             span.itemName {{$t('redemptionUnits')}}
-                            span.type-text {{orderShare|transNumToThousandMark}}
+                            span.type-text {{orderShare|transNumToThousandMark(4)}}
                         .order-item.flex(v-if="orderStatusSuccess")
                             span.itemName {{$t('fee')}}
                             span.type-text {{orderFee|transNumToThousandMark}}{{currency}}

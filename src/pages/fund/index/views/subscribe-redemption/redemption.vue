@@ -98,8 +98,7 @@ import {
 } from '@/service/finance-info-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID } from '@/utils/tools.js'
-import { parseThousands } from '@/utils/tools.js'
+import { generateUUID, sliceDecimal, parseThousands } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
 import NumberKeyboard from './components/number-keyboard'
@@ -218,7 +217,7 @@ export default {
             }
             result = result[0] + '.' + result[1]
             console.log(this.positionShare, percent, result)
-            this.redemptionShare = Number(result) || ''
+            this.redemptionShare = result || ''
         },
         async openProtocol(url) {
             url = await getCosUrl(url)
@@ -365,7 +364,7 @@ export default {
         },
         // 計算最小赎回份额
         getMinRedemptionPrice() {
-            return (this.minTradeAmount / this.netPrice).toFixed(8)
+            return sliceDecimal(this.minTradeAmount / this.netPrice + '', 4)
         },
         check() {
             console.log(this.redemptionShare)
@@ -490,3 +489,8 @@ export default {
     }
 }
 </script>
+<style lang="scss" scoped>
+.redemption /deep/ .block__out--wrapper {
+    min-height: 48px;
+}
+</style>

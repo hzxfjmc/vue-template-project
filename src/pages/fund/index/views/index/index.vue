@@ -315,12 +315,12 @@ export default {
         text-align: right;
     }
     .block__master {
-        /*position: absolute;
+        position: absolute;
         bottom: -150px;
-        z-index: 999999;*/
+        z-index: 999999;
         border-bottom-left-radius: 20px;
         border-bottom-right-radius: 20px;
-        /*left: 0;*/
+        left: 0;
         background: #fff;
         width: 100%;
         padding: 0 10px;

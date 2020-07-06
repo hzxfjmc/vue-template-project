@@ -253,13 +253,13 @@ export default {
 }
 .block__out--wrapper {
     margin: 14px 0 0 0;
-    padding: 0 0 9px 0;
+    padding: 0 0 12px 0;
     display: flex;
     width: 100%;
     flex-direction: row;
     align-items: center;
     position: relative;
-    height: 24px;
+    min-height: 26px;
     .block__tip--number {
         left: 70px;
         top: -18px;
