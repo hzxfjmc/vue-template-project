@@ -92,13 +92,13 @@
                         ) {{lengendData.thisFundPointData | filterRatio}}
                     .header__item(v-if="displayBenchmark")
                         .item__label
-                            .text.maker-2 {{benchmarkName}}：
+                            .text.maker-3 {{benchmarkName}}：
                         .item__value(
                             :class="getStockClass(lengendData.benchmarkPointData)"
                         ) {{lengendData.benchmarkPointData | filterRatio}}  
                     .header__item(v-if="!displayBenchmark && displayCategory")
                         .item__label
-                            .text.maker-3 {{categoryName}}：
+                            .text.maker-2 {{categoryName}}：
                         .item__value(
                             :class="getStockClass(lengendData.categoryPointData)"
                         ) {{lengendData.categoryPointData| filterRatio}}            
