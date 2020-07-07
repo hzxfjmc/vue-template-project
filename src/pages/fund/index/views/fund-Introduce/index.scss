@@ -153,15 +153,32 @@
         display: -webkit-box;
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 5;
-        overflow: hidden;
-        &.all {
+        text-align: justify;
+        white-space: pre-line;
+        &.more {
             display: inline-block;
             height: auto;
         }
     }
-    .show-wrap {
-        padding-top: 5px;
-        color: $primary-color-line;
+    .mask {
+        position: relative;
+        margin-top: -60px;
+        height: 60px;
+        background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.32) 0%,
+            rgba(255, 255, 255, 1) 100%
+        );
+    }
+    .all {
+        text-align: center;
+        line-height: 20px;
+        font-size: 15px;
+        background-color: $background-color;
+        color: $text-color5;
+        span {
+            margin-right: 5px;
+        }
     }
 }
 .activelist {

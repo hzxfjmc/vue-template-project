@@ -27,18 +27,15 @@
                         .fund-introduce-objective(v-for="item in otherList")
                             .title {{item.label}}
                             .content(
-                                :class="{all: item.showMore}"
+                                :class="{more: item.showMore}"
                                 ref="content"
                                 ) {{item.value}}
                             .show-wrap(v-if="contentHeight[item.index] > 110")
-                                .more(
-                                    v-if="!item.showMore"
-                                    @click="item.showMore = true"
-                                ) {{$t('more')}}
-                                .less(
-                                    v-else
-                                    @click="item.showMore = false"
-                                ) {{$t('less')}}
+                                .mask(v-if="!item.showMore")
+                                .all(v-if="!item.showMore")
+                                    .content-wrap(@click="item.showMore = true")
+                                        span {{$t('more')}}
+                                        span.iconfont.icon-icon-bottom
                 van-tab(:title="$t('list')['fundManager'].label" :name="1")
                     .fund-manager-container(v-if="active===1")
                         fund-manager(:managerList="managerList" v-if="managerList.length")
@@ -63,7 +60,7 @@
                                 .no-bond {{$t('nomore')}}
                 van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
                     .dividend-detail-container(v-if="active===3")
-                        dividend-detail
+                        dividend-detail(v-if="")
     
     
 

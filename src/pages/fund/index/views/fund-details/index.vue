@@ -987,7 +987,6 @@ export default {
         //获取基金详情
         async getFundDetail() {
             try {
-                this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: this.$route.query.displayLocation || 1,
                     fundId: this.$route.query.id || this.id,

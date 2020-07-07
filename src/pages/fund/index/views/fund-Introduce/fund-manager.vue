@@ -30,17 +30,13 @@
                 .content__name {{item.managerName}}
                 .content__wrap( v-if="item.managerProvidedBiography")
                     .content_desc(
-                        :class="{all: item.showMore}"    
-                    ) {{item.managerProvidedBiography || ''}}
-                    .show-wrap
-                        .more(
-                            v-if="!item.showMore"
-                            @click="item.showMore = true"
-                        ) {{$t('more')}}
-                        .less(
-                            v-else
-                            @click="item.showMore = false"
-                        ) {{$t('less')}}
+                        :class="{more: item.showMore}"    
+                    ) {{item.managerProvidedBiography}}
+                    .mask(v-if="!item.showMore")
+                    .all(v-if="!item.showMore")
+                        .content-wrap(@click="item.showMore = true")
+                            span {{$t('more')}}
+                            span.iconfont.icon-icon-bottom
                 .no-data(v-else) {{$t('noIntroduction')}}
 </template>
 <script>
@@ -62,8 +58,7 @@ export default {
             return: '任期回报',
             upToNow: '至今',
             manageInfo: '基金经理简介',
-            more: '查看更多',
-            less: '收起',
+            more: '查看全部',
             noIntroduction: '暂无简介',
             years: '年零',
             days: '天'
@@ -75,8 +70,7 @@ export default {
             return: '任期回報',
             upToNow: '至今',
             manageInfo: '基金經理簡介',
-            more: '查看更多',
-            less: '收起',
+            more: '查看全部',
             noIntroduction: '暂无简介',
             years: '年零',
             days: '天'
@@ -89,7 +83,6 @@ export default {
             upToNow: 'Up To Now',
             manageInfo: 'Fund Manager Info',
             more: 'More',
-            less: 'Less',
             noIntroduction: 'No Introduction',
             years: 'years and',
             days: 'days'
@@ -196,25 +189,34 @@ export default {
     }
     .content_desc {
         height: 120px;
-        overflow: hidden;
         line-height: 24px;
+        overflow: hidden;
         color: $text-color6;
         text-align: justify;
         white-space: pre-line;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 5;
-        &.all {
-            display: inline-block;
+        &.more {
             height: auto;
         }
     }
-
-    .more {
-        color: $primary-color-line;
+    .mask {
+        position: relative;
+        margin-top: -60px;
+        height: 60px;
+        background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.32) 0%,
+            rgba(255, 255, 255, 1) 100%
+        );
     }
-    .less {
-        color: $primary-color-line;
+    .all {
+        text-align: center;
+        line-height: 20px;
+        font-size: 15px;
+        background-color: $background-color;
+        color: $text-color5;
+        span {
+            margin-right: 5px;
+        }
     }
 }
 .no-data {

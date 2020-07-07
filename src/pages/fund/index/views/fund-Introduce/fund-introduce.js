@@ -45,8 +45,7 @@ export const i18nIntroducelist = {
         nomore: '暂无文件',
         noData: '暂无数据',
         zq: '折起',
-        more: '查看更多',
-        less: '收起',
+        more: '查看全部',
         list: {
             fundFiles: {
                 label: '基金文件'
@@ -114,8 +113,7 @@ export const i18nIntroducelist = {
         zq: '收起',
         nomore: '暫無文件',
         noData: '暫無數據',
-        more: '查看更多',
-        less: '收起',
+        more: '查看全部',
         list: {
             fundFiles: {
                 label: '基金文件'
@@ -183,7 +181,6 @@ export const i18nIntroducelist = {
         nomore: 'Empty',
         noData: 'No Data',
         more: 'More',
-        less: 'Less',
         zq: 'Less',
         list: {
             fundFiles: {
@@ -238,7 +235,7 @@ export const i18nIntroducelist = {
                 label: 'Fund Intro'
             },
             dividendDeatail: {
-                label: 'Dividend Details'
+                label: 'Dividend'
             },
             fundManager: {
                 label: 'Fund Manager'
