@@ -54,6 +54,7 @@
             :actionInfo = "actionInfo") 
 
         fundSurvey(
+            v-if="fundOverviewInfoVO.fundId"
             :fundOverviewInfoVO="fundOverviewInfoVO"
             :fundCorrelationFileList="fundCorrelationFileList"
         )
