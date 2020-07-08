@@ -132,13 +132,11 @@ export default modules =>
             lang: () => lang, // ['1', 'zhCHS'](简体), ['2', 'zhCHT']（繁体）, ['3', 'en']
             openedAccount: state => state.user.openedAccount, // 是否已开户 true-已开户 false-未开户
             stockColorTypeClass: () => {
+                const greenCls = 'color-green'
+                const redCls = 'color-red'
                 return {
-                    up:
-                        +getStockColorType() === 1
-                            ? 'color-red'
-                            : 'color-green',
-                    down:
-                        +getStockColorType() === 2 ? 'color-red' : 'color-green'
+                    up: +getStockColorType() === 1 ? redCls : greenCls,
+                    down: +getStockColorType() === 2 ? redCls : greenCls
                 }
             }
         }

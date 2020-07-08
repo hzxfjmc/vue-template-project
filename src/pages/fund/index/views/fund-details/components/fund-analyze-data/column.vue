@@ -12,7 +12,7 @@
                 .item-title {{$t('A17')}}
                 .item-value(
                      :class="getStockClass(sharpeRatio3Yr)"
-                ) {{Number(sharpeRatio3Yr).toFixed(2)}} 
+                ) {{ sharpeRatio3Yr | filterRatio(true)}} 
             .content__item
                 .item-title {{$t('A18')}}
                 .item-value(
@@ -53,11 +53,12 @@ export default {
         }
     },
     filters: {
-        filterRatio(val) {
+        filterRatio(val, notNeedUnit) {
+            let unit = notNeedUnit ? '' : '%'
             return val
                 ? Number(val) > 0
-                    ? `+${Number(val).toFixed(2)}%`
-                    : `${Number(val).toFixed(2)}%`
+                    ? `+${Number(val).toFixed(2)}${unit}`
+                    : `${Number(val).toFixed(2)}${unit}`
                 : '--'
         }
     },

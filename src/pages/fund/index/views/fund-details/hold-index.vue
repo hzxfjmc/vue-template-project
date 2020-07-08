@@ -11,13 +11,18 @@
             :fundHeaderInfoVO="fundHeaderInfoVO")
         
         fundDetailsEchart(
-          @chooseTime = "getFundApyPointV1"
+          @chooseTime = "getFundApyPoint"
+          :benchmarkNameObj="benchmarkNameObj"
+          :displayCategory="displayCategory"
+          :displayBenchmark="displayBenchmark"
           :step="step"
           :timeList="timeList"
           :tabObj="tabObj"
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
-          :initEchartList="initEchartList")
+          :initEchartList="initEchartList"
+          :originChartList="originChartList"
+          )
 
         FightFundHk(
             v-if="!fightShow && code ===2"
@@ -154,6 +159,7 @@ import {
     getFundDetail,
     getFundPerformanceHistory,
     getFundApyPointV1,
+    getFundApyPointV2,
     getFundNetPriceHistoryV1,
     getFundRecommendList,
     getFundFeeConfigV1
@@ -418,6 +424,7 @@ export default {
             historyList: [],
             fundTradeInfoVO: {},
             initEchartList: [],
+            originChartList: [],
             copyinitEchartList: [],
             holdInitState: {
                 yesterdayEarnings: null,
@@ -523,7 +530,10 @@ export default {
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
             investmentShow: true,
             release: true,
-            investmentWhiteBit: true
+            investmentWhiteBit: true,
+            benchmarkNameObj: {},
+            displayBenchmark: false,
+            displayCategory: false
         }
     },
     methods: {
@@ -997,6 +1007,8 @@ export default {
                     res.fundHeaderInfoVO.fundId,
                     res.fundHeaderInfoVO.fundName
                 )
+                this.benchmarkNameObj = res.benchmarkName
+                this.displayBenchmark = res.displayBenchmark
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
@@ -1036,17 +1048,60 @@ export default {
             }
         },
         //echart图的数据获取
-        async getFundApyPointV1(time) {
+        async getFundApyPoint(time) {
             try {
-                const res = await getFundApyPointV1({
+                const isMMF = this.fundHeaderInfoVO.assetType === 4
+                const params = {
                     fundId: this.id,
                     apyType: time || 1
-                })
-                this.copyinitEchartList = res
-                this.initEchartList = res
-                this.initEchartList.map(item => {
-                    item.pointData = Number(item.pointData * 100)
-                })
+                }
+                const dataList = isMMF
+                    ? await getFundApyPointV1(params)
+                    : await getFundApyPointV2(params)
+                this.originChartList = dataList
+                this.initEchartList = []
+                dataList.length &&
+                    dataList.forEach(item => {
+                        Object.keys(item)
+                            .reverse()
+                            .forEach(key => {
+                                if (key !== 'belongDay') {
+                                    const typeMap = {
+                                        thisFundPointData: this.$t([
+                                            '本基金',
+                                            '本基金',
+                                            'Fund'
+                                        ]),
+                                        categoryPointData: this.$t([
+                                            '同类平均',
+                                            '同類平均',
+                                            'Sector AVG'
+                                        ]),
+                                        benchmarkPointData: this.$t([
+                                            this.benchmarkNameObj.zhCn,
+                                            this.benchmarkNameObj.zhHk,
+                                            this.benchmarkNameObj.en
+                                        ])
+                                    }
+                                    if (item[key] !== null) {
+                                        if (key === 'categoryPointData') {
+                                            this.displayCategory = true
+                                        }
+                                        this.initEchartList.push({
+                                            type:
+                                                typeMap[key] ||
+                                                this.$t([
+                                                    '本基金',
+                                                    '本基金',
+                                                    'Fund'
+                                                ]),
+                                            pointData: Number(item[key] * 100),
+                                            belongDay: item.belongDay
+                                        })
+                                    }
+                                }
+                            })
+                    })
                 let month = {
                     1: '1个月',
                     2: '3个月',
@@ -1312,7 +1367,7 @@ export default {
             this.getFundNetPriceHistoryV1()
             this.getFundRecommendList()
             this.getFundPerformanceHistory()
-            this.getFundApyPointV1()
+            this.getFundApyPoint()
             if (this.isLogin) {
                 this.getFundFeeConfig()
                 await this.getFundUserInfo()

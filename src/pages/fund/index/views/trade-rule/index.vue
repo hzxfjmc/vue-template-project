@@ -48,9 +48,9 @@
                 :curStep="3"
                 :stepNames="[sellSubmit.label,sellConfirm.label ,sellProfitLoss.label ]"
                 :stepTimes="[sellSubmit.value,sellConfirm.value ,sellProfitLoss.value ]")
-    //- .fund-management-list
-    //-     h3.fund-management-title(class="border-bottom") {{$t('managermentLabel')}}
-    //-     FunCell(:cellList="managementList")
+    .fund-management-list
+        h3.fund-management-title(class="border-bottom") {{$t('managermentLabel')}}
+        FunCell(:cellList="managementList")
     .fund-management-list(v-if="holidayList.length")
         h3.fund-management-title {{$t('holiday')}}
         table.trade-table(cellspacing="0" cellpadding="0")
