@@ -4,12 +4,12 @@
         :assetType="assetTypetab"
         @handlerCuenrry="handlerCuenrry"
         )
-        .block__fund--header
-            .fund__banner
+        .block__fund--header.index-top
+            .fund__banner.index-top
                 img(:src="bannarTitleUrl" @click="goBarnner")
-            .fund__banner2(v-if="code != 1 && bannerShow")
+            .fund__banner2.index-top(v-if="code != 1 && bannerShow")
                 img(:src="barnnarUrl")
-            .block__fund--currey
+            .block__fund--currey.index-top
                 .block__fund--left
                     span {{$t('FeatureFund')}}
                 .block__fund--right(@click="currencyShow=!currencyShow")
@@ -22,18 +22,18 @@
                         v-for="(item,index) in currencyList")
                         .block__list--left {{item.label}}
                         .block__list--icon.iconfont.icon-tick-(v-if="active===index")
-        .block__fund--master(
-            v-if="currencyShow"
-            @touchstart.prevent="currencyShow = !currencyShow")
+            .block__fund--master(
+                v-if="currencyShow"
+                @touchstart.prevent="currencyShow = !currencyShow")
         .bond-list
             div(
                 v-for="(item, index) in list"
                 :key="index"
             )
                 Card(
-                    :info="item" 
-                    :assetType="assetType" 
-                    :currency="currency" 
+                    :info="item"
+                    :assetType="assetType"
+                    :currency="currency"
                     @click.native="goNext(item.fundId)")
         .no-bond-box(v-if="load")
             .no-bond {{ $t('noFund') }}
@@ -295,7 +295,8 @@ export default {
 .block__fund--master {
     position: fixed;
     width: 100%;
-    height: 100%;
+    top: 0;
+    bottom: 0;
     background: rgba(0, 0, 0, 0.4);
 }
 .block__fund--currey {
@@ -406,5 +407,9 @@ export default {
     img {
         width: 100%;
     }
+}
+.index-top {
+    z-index: 9;
+    position: relative;
 }
 </style>
