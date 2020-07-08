@@ -95,10 +95,10 @@ export default {
             this.amount = this.$route.query.fixedPlanAmount
                 ? this.$route.query.fixedPlanAmount
                 : this.placeholder
-        },
-        show(v) {
-            this.$emit('onShow', v)
         }
+        // show(v) {
+        //     this.$emit('onShow', v)
+        // }
     },
     data() {
         return {
