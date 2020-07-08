@@ -146,7 +146,7 @@ export default {
         async getFundManagerData() {
             try {
                 const res = await getFundManagerData({
-                    fundId: this.$route.query.id
+                    fundId: this.fundOverviewInfoVO.fundId
                 })
                 this.managerList = res
             } catch (e) {
@@ -158,7 +158,7 @@ export default {
         async getFundDividendListFun() {
             try {
                 let params = {
-                    fundId: this.$route.query.id,
+                    fundId: this.fundOverviewInfoVO.fundId,
                     pageNum: 1,
                     pageSize: 20
                 }
