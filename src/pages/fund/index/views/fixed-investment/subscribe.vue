@@ -53,7 +53,7 @@
                                             span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
                                             span {{Number(bankInfo.mandateAmount).toFixed(2) | thousand-spilt}}
                                             span(v-if="bankInfo.mandateAmount" ) {{$t(['港币','港幣','HKD'])}}
-                                        span.modify-text(@click="modifyHandle(bankInfo)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
+                                        span.modify-text(@click="modifyHandle(bankInfo)") {{$t(['点此修改','點此修改',' to apply again.'])}}
                             .li(v-if="bankInfo.type == 1")
                                 .block--left
                                     .bank-name {{bankInfo.bankName}}

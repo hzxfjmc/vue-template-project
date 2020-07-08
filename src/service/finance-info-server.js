@@ -142,6 +142,13 @@ export const getFundFeeConfigV1 = params => {
     return axios.post(`/finance-info-server/api/get-fund-fee-config/v1`, params)
 }
 
+// 获取基金经理info
+export const getFundManagerData = params => {
+    return axios.post(
+        `finance-info-server/api/get-fund-manager-data/v1`,
+        params
+    )
+}
 // 基金收益率描点查询接口v2，包括基准对比
 export const getFundApyPointV2 = params => {
     return axios.post(`/finance-info-server/api/get-fund-apy-point/v2`, params)

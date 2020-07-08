@@ -53,7 +53,10 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
-        fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
+        fundSurvey(
+            :fundOverviewInfoVO="fundOverviewInfoVO"
+            :fundCorrelationFileList="fundCorrelationFileList"
+        )
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
             em.iconfont.icon-iconEBshoucang2
@@ -1004,7 +1007,6 @@ export default {
         //获取基金详情
         async getFundDetail() {
             try {
-                this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: this.$route.query.displayLocation || 1,
                     fundId: this.$route.query.id || this.id,
@@ -1391,20 +1393,94 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
-        },
-        //设置app分享按钮
-        async setShareButton() {
-            const base64 = this.$refs.titlebarIcon.src.replace(
-                /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
-                ''
-            )
-            jsBridge.callApp('command_set_titlebar_button', {
-                position: 1, //position取值1、2
-                clickCallback: 'handlerFundShare',
-                type: 'custom_icon',
-                custom_icon: base64
-            })
         }
+    },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            window.clickShareCallback = async () => {
+                let langMun = {
+                    zhCHS: 1,
+                    zhCHT: 2,
+                    en: 3
+                }
+                let link = `${vm.$appOrigin}/wealth/fund/index.html?langType=${
+                    langMun[vm.lang]
+                }&appType=${vm.appType.Ch ? 1 : 2}&stockColorType=${
+                    vm.stockColorType
+                }#/fund-details?id=${vm.id}&type=share`
+                let pageUrl = `${
+                    window.location.origin
+                }/wealth/fund/index.html?langType=${langMun[vm.lang]}&appType=${
+                    vm.appType.Ch ? 1 : 2
+                }&stockColorType=${vm.stockColorType}#/fund-details?id=${
+                    vm.id
+                }&type=share`
+                try {
+                    let shortUrl = await getShortUrl({
+                        long: encodeURIComponent(link)
+                    })
+                    let shortPageUrl = await getShortUrl({
+                        long: encodeURIComponent(pageUrl)
+                    })
+                    let tenKRTN
+                    let apy
+                    if (vm.fundHeaderInfoVO.assetType === 4) {
+                        tenKRTN = vm.$t(['万元收益:', '萬元收益:', '10K RTN:'])
+                        apy = vm.revenue
+                    } else {
+                        tenKRTN = vm.$t([
+                            '近一年涨跌幅:',
+                            '近一年漲跌幅:',
+                            'Past Year:'
+                        ])
+                        apy =
+                            vm.fundHeaderInfoVO.apy > 0
+                                ? '+' + vm.fundHeaderInfoVO.apy
+                                : vm.fundHeaderInfoVO.apy
+                        apy =
+                            vm.fundHeaderInfoVO.assetType === 4
+                                ? (apy * 100).toFixed(4)
+                                : (apy * 100).toFixed(2)
+                        apy = apy + '%'
+                    }
+                    const description = vm.$t([
+                        `${tenKRTN}${apy},基金规模:${
+                            vm.fundOverviewInfoVO.currency.name
+                        } ${(
+                            vm.fundOverviewInfoVO.fundSize / 100000000
+                        ).toFixed(2)}亿,更新时间:${
+                            vm.fundHeaderInfoVO.belongDay
+                        }`,
+                        `${tenKRTN}${apy},基金規模:${
+                            vm.fundOverviewInfoVO.currency.name
+                        } ${(
+                            vm.fundOverviewInfoVO.fundSize / 100000000
+                        ).toFixed(2)}億,更新時間:${
+                            vm.fundHeaderInfoVO.belongDay
+                        }`,
+                        `${tenKRTN}${apy},AUM:${
+                            vm.fundOverviewInfoVO.currency.name
+                        } ${(
+                            vm.fundOverviewInfoVO.fundSize / 1000000000
+                        ).toFixed(2)}B,Update Time:${
+                            vm.fundHeaderInfoVO.belongDay
+                        }`
+                    ])
+                    const title = `${vm.fundHeaderInfoVO.fundName} ${vm.fundHeaderInfoVO.isin}`
+                    jsBridge.callApp('command_share', {
+                        shareType: 'freedom',
+                        title: title,
+                        description: description,
+                        pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
+                        shortUrl: `${vm.$appOrigin}/${shortUrl.url}`,
+                        overseaPageUrl: `${vm.$appOrigin}/${shortUrl.url}`,
+                        thumbUrl: `${window.location.origin}/wealth/fund/iconShareImg.png`
+                    })
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+        })
     },
     async created() {
         try {
@@ -1432,11 +1508,12 @@ export default {
             'appVisible',
             'appInvisible'
         )
-        this.setShareButton()
+        // this.setShareButton()
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
-        window.handlerFundShare = async () => {
+        window.clickShareCallback = async () => {
+            console.log(123)
             let langMun = {
                 zhCHS: 1,
                 zhCHT: 2,

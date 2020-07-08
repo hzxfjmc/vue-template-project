@@ -16,7 +16,7 @@
                                         span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
                                         span {{Number(item.mandateAmount).toFixed(2) | thousand-spilt}}
                                         span(v-if="item.mandateAmount" ) {{$t(['港币','港幣','HKD'])}}
-                                    span.modify-text(@click="modifyHandle(item)") {{$t(['点此修改','點此修改','Click here to apply again.'])}}
+                                    span.modify-text(@click="modifyHandle(item)") {{$t(['点此修改','點此修改','Modify Limit'])}}
                             .block--right(v-if="item.check")
                                 em.iconfont.icon-tick-
                         template(v-else)

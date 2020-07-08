@@ -43,10 +43,12 @@ export const i18nIntroducelist = {
         fundIntroduceTitle: '基金概况',
         zk: '展开',
         nomore: '暂无文件',
+        noData: '暂无数据',
         zq: '折起',
+        more: '查看全部',
         list: {
             fundFiles: {
-                label: '相关文件'
+                label: '基金文件'
             },
             fundCompanyName: {
                 label: '基金公司'
@@ -98,6 +100,9 @@ export const i18nIntroducelist = {
             },
             dividendDeatail: {
                 label: '派息详情'
+            },
+            fundManager: {
+                label: '基金经理'
             }
         }
     },
@@ -107,9 +112,11 @@ export const i18nIntroducelist = {
         unit: '億',
         zq: '收起',
         nomore: '暫無文件',
+        noData: '暫無數據',
+        more: '查看全部',
         list: {
             fundFiles: {
-                label: '相關文件'
+                label: '基金文件'
             },
             fundCompanyName: {
                 label: '基金公司'
@@ -161,6 +168,9 @@ export const i18nIntroducelist = {
             },
             dividendDeatail: {
                 label: '派息詳情'
+            },
+            fundManager: {
+                label: '基金經理'
             }
         }
     },
@@ -169,10 +179,12 @@ export const i18nIntroducelist = {
         zk: 'More',
         unit: 'B ',
         nomore: 'Empty',
+        noData: 'No Data',
+        more: 'More',
         zq: 'Less',
         list: {
             fundFiles: {
-                label: 'Related Docs'
+                label: 'Docs'
             },
             fundCompanyName: {
                 label: 'Fund Company'
@@ -223,7 +235,10 @@ export const i18nIntroducelist = {
                 label: 'Fund Intro'
             },
             dividendDeatail: {
-                label: 'Dividend Details'
+                label: 'Dividend'
+            },
+            fundManager: {
+                label: 'Fund Manager'
             }
         }
     }
@@ -232,10 +247,14 @@ export const i18nIntroducelist = {
 export const otherList = {
     investObjective: {
         label: '投资目标',
-        value: ''
+        value: '',
+        showMore: false,
+        index: 0
     },
     companyProfile: {
         label: '基金公司简介',
-        value: ''
+        value: '',
+        showMore: false,
+        index: 1
     }
 }

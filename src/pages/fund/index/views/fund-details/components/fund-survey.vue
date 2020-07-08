@@ -1,98 +1,202 @@
 <template lang="pug">
 .block__fund--survey
-    .block__fundheader--survey(@click="tofundSurvey")
+    .block__fundheader--survey
         em.iconfont.icon-icon-gaishu
         span.title {{$t('survey')}}
-        .block__list--right
-            span {{$t('surveytips')}}
-            em.iconfont.icon-iconEBgengduoCopy
 
     .block__fundcontent--list
         .block__fund--item
-            .block__fund--title {{$t('fundCompanyName')}}
-            p {{fundOverviewInfoVO.fundCompanyName}}
+            .block__fund--title {{$t('fundIntro')}}
+            .block__fund--content(@click="tofundSurvey(0)") {{establishDay}}
+                i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
-            .block__fund--title {{$t('assetSubType')}}
-            p {{fundOverviewInfoVO.assetSubType}}
+            .block__fund--title {{$t('fundManager')}}
+            .block__fund--content(@click="tofundSurvey(1)") {{managerNameList}}
+                i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
-            .block__fund--title {{$t('investArea')}}
-            p {{fundOverviewInfoVO.investArea}}
+            .block__fund--title {{$t('docs')}}
+            .block__fund--content(@click="tofundSurvey(2)") {{fundFileList}}
+                i.iconfont.icon-iconEBgengduoCopy
         .block__fund--item
-            .block__fund--title {{$t('fundSize')}}
-            p(v-if="lang != 'en'") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/100000000).toFixed(2)}} {{$t('unit')}}
-            p(v-if="lang === 'en' && fundOverviewInfoVO.fundSize/100000000 >= 10 ") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/1000000000).toFixed(2)}} Billion
-            p(v-if="lang === 'en' && fundOverviewInfoVO.fundSize/100000000 < 10 ") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/10000000).toFixed(2)}} Million
+            .block__fund--title {{$t('dividend')}}
+            .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
+                i.iconfont.icon-iconEBgengduoCopy
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
+import {
+    getFundManagerData,
+    getFundDividendList
+} from '@/service/finance-info-server'
 import { getUaValue } from '@/utils/html-utils'
 import { mapGetters } from 'vuex'
+import dayjs from 'dayjs'
 export default {
+    data() {
+        return {
+            managerList: [],
+            dividendPaymentDate: ''
+        }
+    },
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['lang']),
+        establishDay() {
+            if (this.fundOverviewInfoVO.establishDay) {
+                let establishDay = dayjs(
+                    this.fundOverviewInfoVO.establishDay
+                ).format('YYYY-MM-DD')
+                return `${this.$t('establishDay')}: ${establishDay}`
+            } else {
+                return this.$t('fundDes')
+            }
+        },
+        managerNameList() {
+            if (this.managerList.length) {
+                let nameList = this.managerList.map(item => {
+                    return item.managerName
+                })
+                return nameList.slice(0, 2).join('、')
+            } else {
+                return this.$t('noData')
+            }
+        },
+        fundFileList() {
+            if (this.fundCorrelationFileList.length) {
+                let fliterList = this.fundCorrelationFileList.map(item => {
+                    return item.fileName.split('.')[0]
+                })
+                let fundFileString = fliterList.slice(0, 2).join('、')
+                return fundFileString.length > 20
+                    ? fundFileString.substring(0, 20) + '...'
+                    : fundFileString
+            } else {
+                return this.$t('noDocs')
+            }
+        },
+        dividendDetail() {
+            if (this.dividendPaymentDate) {
+                return `${this.$t('latestDividend')}：${
+                    this.dividendPaymentDate
+                }`
+            } else {
+                return this.$t('noDividend')
+            }
+        }
     },
     filters: {
         transNumToThousandMark: transNumToThousandMark
     },
     i18n: {
         zhCHS: {
-            unit: '亿',
             survey: '基金概况',
-            surveytips: '概況、分红、文件',
-            fundCompanyName: '基金公司',
-            assetSubType: '资产类别',
-            investArea: '投资地区',
-            fundSize: '基金规模'
+            fundIntro: '基金档案',
+            fundManager: '基金经理',
+            docs: '基金文件',
+            noDocs: '暂无文件',
+            dividend: '派息详情',
+            establishDay: '成立日期',
+            noData: '暂无数据',
+            noDividend: '暂无派息',
+            latestDividend: '最新派息',
+            fundDes: '基金介绍'
         },
         zhCHT: {
-            unit: '億',
             survey: '基金概況',
-            surveytips: '概況、分紅、文件',
-            fundCompanyName: '基金公司',
-            assetSubType: '資產類別',
-            investArea: '投資地區',
-            fundSize: '基金規模'
+            fundIntro: '基金簡介',
+            fundManager: '基金經理',
+            docs: '基金文件',
+            noDocs: '暫無文件',
+            dividend: '派息详情',
+            establishDay: '成立日期',
+            noData: '暫無數據',
+            noDividend: '暫無派息',
+            latestDividend: '最新派息',
+            fundDes: '基金介紹'
         },
         en: {
-            unit: 'B ',
             survey: 'Fund Overview',
-            surveytips: 'Details,Dividend,Docs',
-            fundCompanyName: 'Fund Company',
-            assetSubType: 'Asset Class',
-            investArea: 'Geographical Allocation',
-            fundSize: 'Fund Size'
+            fundIntro: 'Fund Intro.',
+            fundManager: 'Fund Manager',
+            docs: 'Docs',
+            noDocs: 'no Docs',
+            dividend: 'Dividend',
+            establishDay: 'Establishment Day',
+            noData: 'No Data',
+            noDividend: 'No Dividend',
+            latestDividend: 'Latest Dividend',
+            fundDes: 'Fund Intro.'
         }
     },
     props: {
         fundOverviewInfoVO: {
             type: Object,
             default: () => {}
+        },
+        fundCorrelationFileList: {
+            type: Array,
+            default: () => []
         }
     },
     methods: {
-        tofundSurvey() {
+        tofundSurvey(val) {
             let params = getUaValue('langType')
-            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}`
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}&active=${val}`
             jumpUrl(3, url)
+        },
+        async getFundManagerData() {
+            try {
+                const res = await getFundManagerData({
+                    fundId: this.$route.query.id
+                })
+                this.managerList = res
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+            }
+        },
+        async getFundDividendListFun() {
+            try {
+                let params = {
+                    fundId: this.$route.query.id,
+                    pageNum: 1,
+                    pageSize: 20
+                }
+                let res = await getFundDividendList(params)
+                this.dividendPaymentDate = res.list.length
+                    ? dayjs(res.list[0].dividendPaymentDate).format(
+                          'YYYY-MM-DD'
+                      )
+                    : ''
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+            } finally {
+                this.loading = false
+            }
         }
+    },
+    created() {
+        this.getFundManagerData()
+        this.getFundDividendListFun()
     }
 }
 </script>
 <style lang="scss" scoped>
 .block__fundcontent--list {
     .block__fund--item {
-        margin: 10px 0;
+        line-height: 14px;
+        display: flex;
+        justify-content: space-between;
+        padding: 12px 0;
+        border-bottom: 1px solid $text-color8;
         .block__fund--title {
-            font-size: 12px;
-            color: #999999;
+            color: $text-color5;
         }
-        p {
-            font-size: 14px;
-            // color: #666666;
+        &:last-child {
+            border: 0;
         }
-    }
-    .block__fund--item:first-child {
-        margin: 0;
     }
 }
 
