@@ -141,6 +141,17 @@ export const getFundSimpleInfoList = params => {
 export const getFundFeeConfigV1 = params => {
     return axios.post(`/finance-info-server/api/get-fund-fee-config/v1`, params)
 }
+
+// 基金收益率描点查询接口v2，包括基准对比
+export const getFundApyPointV2 = params => {
+    return axios.post(`/finance-info-server/api/get-fund-apy-point/v2`, params)
+}
+
+// 基金收益率统计
+export const getFundReturnV1 = params => {
+    return axios.post(`/finance-info-server/api/get-fund-return/v1`, params)
+}
+
 // 获取基金分析数据
 export const getFundAnalysisDataV1 = params => {
     return axios.post(
