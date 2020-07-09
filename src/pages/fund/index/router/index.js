@@ -51,7 +51,7 @@ export default new Router({
         {
             name: 'fund-details',
             path: '/fund-details',
-            meta: { title: 'fundDetails', auth: true, cs: true },
+            meta: { title: 'fundDetails', auth: true, cs: true, share: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-details/index.vue`)
         },

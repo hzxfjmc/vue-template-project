@@ -61,7 +61,12 @@
         padding-top: 100px;
         background: url('~@/assets/img/fund/icon-nofile.png') center 15px
             no-repeat;
-        background-size: 99.5px 78px;
+            background-size: 99.5px 78px;
+        &.no-data{
+            background: url('~@/assets/img/fund/icon-nodata.png') center 15px
+            no-repeat;
+            background-size: 99.5px 78px;
+        }
         color: $text-color3;
         font-size: 0.28rem;
         line-height: 20px;
@@ -141,6 +146,39 @@
     .title {
         color: $text-color5;
         margin-bottom: 10px;
+    }
+    .content {
+        line-height: 24px;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 5;
+        text-align: justify;
+        white-space: pre-line;
+        &.more {
+            display: inline-block;
+            height: auto;
+        }
+    }
+    .mask {
+        position: relative;
+        margin-top: -60px;
+        height: 60px;
+        background: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.32) 0%,
+            rgba(255, 255, 255, 1) 100%
+        );
+    }
+    .all {
+        text-align: center;
+        line-height: 20px;
+        font-size: 15px;
+        background-color: $background-color;
+        color: $text-color5;
+        span {
+            margin-right: 5px;
+        }
     }
 }
 .activelist {

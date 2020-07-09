@@ -240,6 +240,7 @@ export default {
             return Number(this.fundHeaderInfoVO.assetType) === 4 // 货币型基金
         },
         startAmount() {
+            if (!this.fundHeaderInfoVO.initialInvestAmount) return ''
             if (this.fundHeaderInfoVO.currencyType === 'HKD') {
                 if (langType.En) {
                     return `Min. ${
@@ -277,7 +278,7 @@ export default {
             return this.fundHeaderInfoVO && apyNum
         },
         tenKRtn() {
-            return Number.parseFloat(this.revenue)
+            return this.revenue ? Number.parseFloat(this.revenue) : ''
         },
         //- span {{isMonetaryFund ? $t('yieldInLast7d'):$t('oneYearShow')}}
         upOrDown() {

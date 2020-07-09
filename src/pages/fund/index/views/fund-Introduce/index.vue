@@ -26,10 +26,21 @@
                     .fund-introduce-other(v-if="active===0")
                         .fund-introduce-objective(v-for="item in otherList")
                             .title {{item.label}}
-                            .content {{item.value}}
-                van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
-                    .dividend-detail-container(v-if="active===1")
-                        dividend-detail
+                            .content(
+                                :class="{more: item.showMore}"
+                                ref="content"
+                                ) {{item.value}}
+                            .show-wrap(v-if="contentHeight[item.index] > 110")
+                                .mask(v-if="!item.showMore")
+                                .all(v-if="!item.showMore")
+                                    .content-wrap(@click="item.showMore = true")
+                                        span {{$t('more')}}
+                                        span.iconfont.icon-icon-bottom
+                van-tab(:title="$t('list')['fundManager'].label" :name="1")
+                    .fund-manager-container(v-if="active===1")
+                        fund-manager(:managerList="managerList" v-if="managerList.length")
+                        .no-bond-box(v-else)
+                                .no-bond.no-data {{$t('noData')}}
                 van-tab(:title="$t('list')['fundFiles'].label" :name="2")
                     .dividend-detail-container(v-if="active===2")
                         .fund-files
@@ -47,6 +58,9 @@
 
                             .no-bond-box(v-else)
                                 .no-bond {{$t('nomore')}}
+                van-tab(:title="$t('list')['dividendDeatail'].label" :name="1")
+                    .dividend-detail-container(v-if="active===3")
+                        dividend-detail(v-if="")
     
     
 
@@ -57,8 +71,12 @@
 import './index.scss'
 import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
 import dividendDetail from './dividend-detail'
+import fundManager from './fund-manager'
 import { transNumToThousandMark } from '@/utils/tools.js'
-import { getFundDetail } from '@/service/finance-info-server.js'
+import {
+    getFundDetail,
+    getFundManagerData
+} from '@/service/finance-info-server.js'
 import Vue from 'vue'
 import { List, Row, Col } from 'vant'
 import { getCosUrl } from '@/utils/cos-utils'
@@ -72,6 +90,7 @@ export default {
     i18n: i18nIntroducelist,
     components: {
         dividendDetail,
+        fundManager,
         Row,
         Col
     },
@@ -84,6 +103,8 @@ export default {
             currency: null,
             active: 0,
             filelist: [],
+            managerList: [],
+            contentHeight: [],
             currencyName: '',
             otherList: JSON.parse(JSON.stringify(otherList))
         }
@@ -99,6 +120,18 @@ export default {
         },
         foldItem(index) {
             this.list[index].flag = this.list[index].flag == 1 ? 2 : 1
+        },
+        async getFundManagerData() {
+            try {
+                const res = await getFundManagerData({
+                    fundId: this.$route.query.id
+                })
+                this.managerList = res
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+            }
         },
         async initState() {
             try {
@@ -146,6 +179,11 @@ export default {
                 for (let key in this.otherList) {
                     this.otherList[key].value = fundOverviewInfoVO[key]
                 }
+                this.$nextTick(() => {
+                    this.contentHeight = this.$refs.content
+                        ? this.$refs.content.map(item => item.offsetHeight)
+                        : []
+                })
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
@@ -160,8 +198,10 @@ export default {
         }
     },
     mounted() {
+        this.active = this.$route.query.active
         this.initState()
         this.initIn18State()
+        this.getFundManagerData()
     }
 }
 </script>

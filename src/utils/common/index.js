@@ -27,6 +27,8 @@ import Vue from 'vue'
 
 import axios from '../http-request'
 
+import env from '@/utils/scheme/env'
+
 import { wechatShare } from '@/utils/share/wechat.js'
 
 // 友信证券公共库
@@ -93,6 +95,37 @@ function parentIsAlive(component) {
     return false
 }
 
+//设置分享按钮
+const setShareButton = async function() {
+    const shareIcon = env.isMainlandBlack
+        ? require('@/assets/img/fund/icon/icon-share.png')
+        : require('@/assets/img/fund/icon/icon-share-hk.png')
+    const base64 = shareIcon.replace(
+        /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
+        ''
+    )
+    if (isYouxinApp) {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 1, //position取值1、2
+            clickCallback: 'clickShareCallback',
+            type: 'custom_icon',
+            custom_icon: base64
+        })
+    }
+}
+
+// 清除分享按钮
+const clearShareButton = function() {
+    if (isYouxinApp) {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 1,
+            clickCallback: '',
+            type: 'hide',
+            custom_icon: ''
+        })
+    }
+}
+
 // 设置客服按钮
 const setTitleBarCSButton = function() {
     if (isYouxinApp) {
@@ -152,6 +185,9 @@ Vue.mixin({
                     if (to.meta.cs) {
                         setTitleBarCSButton()
                     }
+                    if (to.meta.share) {
+                        setShareButton()
+                    }
 
                     // 自定义分享内容
                     if (to.meta.ismgm !== 'yes') {
@@ -178,6 +214,9 @@ Vue.mixin({
             beforeRouteLeave(to, from, next) {
                 if (from.meta.cs) {
                     clearTitleBarCSButton()
+                }
+                if (from.meta.share) {
+                    clearShareButton()
                 }
                 next()
             },

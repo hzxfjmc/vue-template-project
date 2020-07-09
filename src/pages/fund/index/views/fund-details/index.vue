@@ -19,13 +19,22 @@
                 em.iconfont.icon-iconEBgengduoCopy
 
         fundDetailsEchart(
-          @chooseTime = "getFundApyPointV1"
+          @chooseTime = "getFundApyPoint"
+          :benchmarkNameObj="benchmarkNameObj"
+          :displayCategory="displayCategory"
+          :displayBenchmark="displayBenchmark"
           :step="step"
           :timeList="timeList"
           :tabObj="tabObj"
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
-          :initEchartList="initEchartList")
+          :initEchartList="initEchartList"
+          :originChartList="originChartList"
+          )
+        FundAnnualizedIncome(
+            v-if="fundHeaderInfoVO.fundId && !isMmf"
+            :fundId="fundHeaderInfoVO.fundId"
+        )
 
         FundAnalyzeDataColumn(
             v-if="fundHeaderInfoVO.fundId"
@@ -44,7 +53,11 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
 
-        fundSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
+        fundSurvey(
+            v-if="fundOverviewInfoVO.fundId"
+            :fundOverviewInfoVO="fundOverviewInfoVO"
+            :fundCorrelationFileList="fundCorrelationFileList"
+        )
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
             em.iconfont.icon-iconEBshoucang2
@@ -201,6 +214,7 @@ import FightFundHk from './components/fight-fund-hk.vue'
 import fundSurvey from './components/fund-survey'
 import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
+import FundAnnualizedIncome from './components/fund-annualized-income'
 import FundAnalyzeDataColumn from './components/fund-analyze-data/column.vue'
 import scheme from '@/utils/scheme'
 import env from '@/utils/scheme/env'
@@ -208,6 +222,7 @@ import dayjs from 'dayjs'
 import {
     getFundDetail,
     getFundPerformanceHistory,
+    getFundApyPointV2,
     getFundApyPointV1,
     getFundNetPriceHistoryV1,
     getFundRecommendList,
@@ -360,9 +375,14 @@ export default {
         fundCardList,
         fundTradingRules,
         FightFundHk,
+        FundAnnualizedIncome,
         FundAnalyzeDataColumn
     },
     computed: {
+        isMmf() {
+            //货币基金
+            return this.fundHeaderInfoVO.assetType === 4
+        },
         RedemptionButton() {
             /*
              * btnShow 是否持仓
@@ -481,6 +501,7 @@ export default {
             historyList: [],
             fundTradeInfoVO: {},
             initEchartList: [],
+            originChartList: [],
             copyinitEchartList: [],
             holdInitState: {
                 yesterdayEarnings: null,
@@ -584,6 +605,9 @@ export default {
                 }
             },
             shareIcon: require('@/assets/img/fund/icon/icon-share.png'),
+            benchmarkNameObj: {},
+            displayBenchmark: false,
+            displayCategory: false,
             investmentShow: true,
             investmentWhiteBit: true
         }
@@ -984,7 +1008,6 @@ export default {
         //获取基金详情
         async getFundDetail() {
             try {
-                this.fundCorrelationFileList = []
                 const res = await getFundDetail({
                     displayLocation: this.$route.query.displayLocation || 1,
                     fundId: this.$route.query.id || this.id,
@@ -1038,6 +1061,8 @@ export default {
                     res.fundHeaderInfoVO.fundId,
                     res.fundHeaderInfoVO.fundName
                 )
+                this.benchmarkNameObj = res.benchmarkName
+                this.displayBenchmark = res.displayBenchmark
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)
@@ -1077,17 +1102,60 @@ export default {
             }
         },
         //echart图的数据获取
-        async getFundApyPointV1(time) {
+        async getFundApyPoint(time) {
             try {
-                const res = await getFundApyPointV1({
+                const isMMF = this.fundHeaderInfoVO.assetType === 4
+                const params = {
                     fundId: this.id,
                     apyType: time || 1
-                })
-                this.copyinitEchartList = res
-                this.initEchartList = res
-                this.initEchartList.map(item => {
-                    item.pointData = Number(item.pointData * 100)
-                })
+                }
+                const dataList = isMMF
+                    ? await getFundApyPointV1(params)
+                    : await getFundApyPointV2(params)
+                this.originChartList = dataList
+                this.initEchartList = []
+                dataList.length &&
+                    dataList.forEach(item => {
+                        Object.keys(item)
+                            .reverse()
+                            .forEach(key => {
+                                if (key !== 'belongDay') {
+                                    const typeMap = {
+                                        thisFundPointData: this.$t([
+                                            '本基金',
+                                            '本基金',
+                                            'Fund'
+                                        ]),
+                                        categoryPointData: this.$t([
+                                            '同类平均',
+                                            '同類平均',
+                                            'Sector AVG'
+                                        ]),
+                                        benchmarkPointData: this.$t([
+                                            this.benchmarkNameObj.zhCn,
+                                            this.benchmarkNameObj.zhHk,
+                                            this.benchmarkNameObj.en
+                                        ])
+                                    }
+                                    if (item[key] !== null) {
+                                        if (key === 'categoryPointData') {
+                                            this.displayCategory = true
+                                        }
+                                        this.initEchartList.push({
+                                            type:
+                                                typeMap[key] ||
+                                                this.$t([
+                                                    '本基金',
+                                                    '本基金',
+                                                    'Fund'
+                                                ]),
+                                            pointData: Number(item[key] * 100),
+                                            belongDay: item.belongDay
+                                        })
+                                    }
+                                }
+                            })
+                    })
                 let month = {
                     1: '1个月',
                     2: '3个月',
@@ -1116,7 +1184,7 @@ export default {
                     )
                 }
             } catch (e) {
-                console.log('getFundApyPointV1:error:>>>', e)
+                console.log('getFundApyPoint:error:>>>', e)
             }
         },
         //用户是否能申购或者是否需要测评
@@ -1326,20 +1394,94 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
-        },
-        //设置app分享按钮
-        async setShareButton() {
-            const base64 = this.$refs.titlebarIcon.src.replace(
-                /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
-                ''
-            )
-            jsBridge.callApp('command_set_titlebar_button', {
-                position: 1, //position取值1、2
-                clickCallback: 'handlerFundShare',
-                type: 'custom_icon',
-                custom_icon: base64
-            })
         }
+    },
+    beforeRouteEnter(to, from, next) {
+        next(vm => {
+            window.clickShareCallback = async () => {
+                let langMun = {
+                    zhCHS: 1,
+                    zhCHT: 2,
+                    en: 3
+                }
+                let link = `${vm.$appOrigin}/wealth/fund/index.html?langType=${
+                    langMun[vm.lang]
+                }&appType=${vm.appType.Ch ? 1 : 2}&stockColorType=${
+                    vm.stockColorType
+                }#/fund-details?id=${vm.id}&type=share`
+                let pageUrl = `${
+                    window.location.origin
+                }/wealth/fund/index.html?langType=${langMun[vm.lang]}&appType=${
+                    vm.appType.Ch ? 1 : 2
+                }&stockColorType=${vm.stockColorType}#/fund-details?id=${
+                    vm.id
+                }&type=share`
+                try {
+                    let shortUrl = await getShortUrl({
+                        long: encodeURIComponent(link)
+                    })
+                    let shortPageUrl = await getShortUrl({
+                        long: encodeURIComponent(pageUrl)
+                    })
+                    let tenKRTN
+                    let apy
+                    if (vm.fundHeaderInfoVO.assetType === 4) {
+                        tenKRTN = vm.$t(['万元收益:', '萬元收益:', '10K RTN:'])
+                        apy = vm.revenue
+                    } else {
+                        tenKRTN = vm.$t([
+                            '近一年涨跌幅:',
+                            '近一年漲跌幅:',
+                            'Past Year:'
+                        ])
+                        apy =
+                            vm.fundHeaderInfoVO.apy > 0
+                                ? '+' + vm.fundHeaderInfoVO.apy
+                                : vm.fundHeaderInfoVO.apy
+                        apy =
+                            vm.fundHeaderInfoVO.assetType === 4
+                                ? (apy * 100).toFixed(4)
+                                : (apy * 100).toFixed(2)
+                        apy = apy + '%'
+                    }
+                    const description = vm.$t([
+                        `${tenKRTN}${apy},基金规模:${
+                            vm.fundOverviewInfoVO.currency.name
+                        } ${(
+                            vm.fundOverviewInfoVO.fundSize / 100000000
+                        ).toFixed(2)}亿,更新时间:${
+                            vm.fundHeaderInfoVO.belongDay
+                        }`,
+                        `${tenKRTN}${apy},基金規模:${
+                            vm.fundOverviewInfoVO.currency.name
+                        } ${(
+                            vm.fundOverviewInfoVO.fundSize / 100000000
+                        ).toFixed(2)}億,更新時間:${
+                            vm.fundHeaderInfoVO.belongDay
+                        }`,
+                        `${tenKRTN}${apy},AUM:${
+                            vm.fundOverviewInfoVO.currency.name
+                        } ${(
+                            vm.fundOverviewInfoVO.fundSize / 1000000000
+                        ).toFixed(2)}B,Update Time:${
+                            vm.fundHeaderInfoVO.belongDay
+                        }`
+                    ])
+                    const title = `${vm.fundHeaderInfoVO.fundName} ${vm.fundHeaderInfoVO.isin}`
+                    jsBridge.callApp('command_share', {
+                        shareType: 'freedom',
+                        title: title,
+                        description: description,
+                        pageUrl: `${window.location.origin}/${shortPageUrl.url}`,
+                        shortUrl: `${vm.$appOrigin}/${shortUrl.url}`,
+                        overseaPageUrl: `${vm.$appOrigin}/${shortUrl.url}`,
+                        thumbUrl: `${window.location.origin}/wealth/fund/iconShareImg.png`
+                    })
+                } catch (e) {
+                    console.log(e)
+                }
+            }
+        })
     },
     async created() {
         try {
@@ -1352,7 +1494,7 @@ export default {
             this.getFundNetPriceHistoryV1()
             this.getFundRecommendList()
             this.getFundPerformanceHistory()
-            this.getFundApyPointV1()
+            this.getFundApyPoint()
             if (this.isLogin) {
                 this.getFundFeeConfig()
                 await this.getFundUserInfo()
@@ -1367,11 +1509,12 @@ export default {
             'appVisible',
             'appInvisible'
         )
-        this.setShareButton()
+        // this.setShareButton()
         // 解决ios系统快速切换tab后，报网络开小差的情况
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
-        window.handlerFundShare = async () => {
+        window.clickShareCallback = async () => {
+            console.log(123)
             let langMun = {
                 zhCHS: 1,
                 zhCHT: 2,

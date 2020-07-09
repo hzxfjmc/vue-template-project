@@ -1,18 +1,21 @@
 <template lang="pug">
 .dividend-detail-container
-        van-list.dividend-record-list(v-model="loading" :finished="finished" :finished-text="$t('list')['noMore'].label" @load="onLoad")
-            van-cell(v-for="(item,index) in dividendDetailList" :key="index" class="van-cell-item" )
-                template(slot-scope='scope')
-                    .dividend-list
-                        .dividend-item.flex
-                            span(class="left-title") {{$t('list')['recordDate'].label}}
-                            span(class="right-value") {{item.recordDate}}
-                        .dividend-item.flex
-                            span(class="left-title") {{$t('list')['dividendDate'].label}}
-                            span(class="right-value") {{item.dividendPaymentDate}}
-                        .dividend-item.flex
-                            span(class="left-title") {{$t('list')['dividendRecord'].label}}
-                            span(class="right-value") {{item.dividendRecord}}
+        .container__wrap(v-if="dividendDetailList.length")
+            van-list.dividend-record-list(v-model="loading" :finished="finished" :finished-text="$t('list')['noMore'].label" @load="onLoad")
+                van-cell(v-for="(item,index) in dividendDetailList" :key="index" class="van-cell-item" )
+                    template(slot-scope='scope')
+                        .dividend-list
+                            .dividend-item.flex
+                                span(class="left-title") {{$t('list')['recordDate'].label}}
+                                span(class="right-value") {{item.recordDate}}
+                            .dividend-item.flex
+                                span(class="left-title") {{$t('list')['dividendDate'].label}}
+                                span(class="right-value") {{item.dividendPaymentDate}}
+                            .dividend-item.flex
+                                span(class="left-title") {{$t('list')['dividendRecord'].label}}
+                                span(class="right-value") {{item.dividendRecord}}
+        .no-bond-box(v-else)
+            .no-bond.no-data {{$t('noData')}}
 </template>
 
 <script>

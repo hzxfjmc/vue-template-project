@@ -3,13 +3,13 @@
     .block__fund--echart.border-bottom
         .block__fund--item(
             :class="activeTab==1?'activeItem':''"
-            @click="handlerActiveTab(1)") {{isMMF?$t('yieldInLast7d'):$t('trendCharts')}}
+            @click="handlerActiveTab(1)") {{isMmf?$t('yieldInLast7d'):$t('trendCharts')}}
         .block__fund--item(
             :class="activeTab==2?'activeItem':''"
             @click="handlerActiveTab(2)") {{$t('historicalRTN')}}
         .block__fund--item(
             :class="activeTab==3?'activeItem':''"
-            @click="handlerActiveTab(3)") {{isMMF?$t('tenKRTN'):$t('NAVHistory')}}
+            @click="handlerActiveTab(3)") {{isMmf?$t('tenKRTN'):$t('NAVHistory')}}
     .fund-echart-content2(v-show ="activeTab ==2")
         .block__fund--yj
             .block__list--item.fund__list--headerjy
@@ -34,13 +34,13 @@
             .block__list--item.fund__list--headerjy.fund__list--content
                 p.list__left {{$t('time')}}
                 p.list__content {{$t('navChg')}}
-                p.list__right {{isMMF?$t('RTNDetail'):$t('dayChg')}}
+                p.list__right {{isMmf?$t('RTNDetail'):$t('dayChg')}}
             .block__list--item.border-bottom(
                 v-for="(item,index) in historyList" 
                 :key="index")
                 p.list__left {{item.belongDay}}
                 p.list__content {{item.netPrice}}
-                template(v-if="isMMF")
+                template(v-if="isMmf")
                     p.list__right(
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                         v-if="item.revenue>0") +{{item.revenue}}
@@ -59,33 +59,49 @@
             .block__list--more(@click="toFundHistory")
                 span {{$t('more1')}}
     .fund-echart-content(v-show="activeTab == 1")
-        .block__fund--title(v-if="fundHeaderInfoVO.assetType != 4") 
-            span {{tabObj.label}}{{$t('incomeRate')}}：
-            span(
-                :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                v-if="tabObj.value>0") +{{tabObj.value}}%
-            span(
-                :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                v-else-if="tabObj.value<0") {{tabObj.value}}%
-            span(v-else) {{tabObj.value}}%
-        .fund-echart-header(v-if="masterShow")
-            .header-left  {{$t('time')}}：{{masterData.belongDay}}
-            .header-right
-                span.number(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType === 4") +{{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number(
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    v-if="masterData.pointData>0 && fundHeaderInfoVO.assetType !== 4") +{{Number(masterData.pointData)| sliceFixedTwo(2)}}%
-                span.number(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number(
-                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    v-if="masterData.pointData<0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
-                span.number(v-if="masterData.pointData==0 && fundHeaderInfoVO.assetType === 4") {{Number(masterData.pointData)| sliceFixedTwo(4)}}%
-                span.number(v-if="masterData.pointData===0 && fundHeaderInfoVO.assetType !== 4") {{Number(masterData.pointData)| sliceFixedTwo(2)}}%
-                p.day {{fundHeaderInfoVO.assetType === 4 ? $t('yieldInLast7d'):$t('nav')}}：
+        .chart-custom-legend(v-if="!isMmf" :class="!displayCategory && !displayBenchmark ? 'one-item':''")
+            .legend__category.maker-1(@click="showToast(thisFundName)") 
+                .legend__title {{ thisFundName }}
+                .legend__value(:class="getStockClass(lengendData.thisFundPointData)") {{lengendData.thisFundPointData | filterRatio}}
+            .legend__category.maker-2(v-if="displayCategory" @click="showToast(categoryName)") 
+                .legend__title {{ categoryName }}
+                .legend__value(:class="getStockClass(lengendData.categoryPointData)") {{lengendData.categoryPointData | filterRatio}}
+            .legend__category.maker-3(v-if="displayBenchmark" @click="showToast(benchmarkName)") 
+                .legend__title {{ benchmarkName }}
+                .legend__value(:class="getStockClass(lengendData.benchmarkPointData)") {{lengendData.benchmarkPointData | filterRatio}}   
+        .chart-header-tips(v-if="showTopTips")
+            template(v-if="isMmf")
+                .tips__body.mmf-tips__body
+                    .header__item  
+                        .item__label {{$t('time')}}：
+                        .item__value {{lengendData.belongDay}}
+                    .header__item
+                        .item__label {{$t('yieldInLast7d')}}：
+                        .item__value(
+                            :class="getStockClass(mmfData.pointData)"
+                        ) {{mmfData.pointData| filterRatio(4)}}
+            template(v-else)
+                .tips__body.notmmf-tips__body
+                    .header__item 
+                        .item__value {{mmfData.belongDay}}
+                    .header__item
+                        .item__label
+                            .text.maker-1 {{thisFundName}}：
+                        .item__value(
+                            :class="getStockClass(lengendData.thisFundPointData )"
+                        ) {{lengendData.thisFundPointData | filterRatio}}
+                    .header__item(v-if="displayBenchmark")
+                        .item__label
+                            .text.maker-3 {{benchmarkName}}：
+                        .item__value(
+                            :class="getStockClass(lengendData.benchmarkPointData)"
+                        ) {{lengendData.benchmarkPointData | filterRatio}}  
+                    .header__item(v-if="!displayBenchmark && displayCategory")
+                        .item__label
+                            .text.maker-2 {{categoryName}}：
+                        .item__value(
+                            :class="getStockClass(lengendData.categoryPointData)"
+                        ) {{lengendData.categoryPointData| filterRatio}}            
         .fund-echart-render(ref="renderEchart")
             canvas(:id="chartId")
         .fund-date-list
@@ -101,6 +117,7 @@ import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getStockColorType } from '@/utils/html-utils.js'
 import dayjs from 'dayjs'
 import { FUND_ASSET_TYPE } from '@/pages/fund/index/map'
+import { mapGetters } from 'vuex'
 export default {
     i18n: {
         zhCHS: {
@@ -177,16 +194,31 @@ export default {
         }
     },
     filters: {
-        transNumToThousandMark: transNumToThousandMark
+        transNumToThousandMark,
+        filterRatio(val, fixCount) {
+            fixCount = fixCount || 2
+            val = (val + '').indexOf('%') !== -1 ? (val + '').slice(0, -1) : val
+            return Number(val) > 0
+                ? `+${Number(val).toFixed(fixCount)}%`
+                : `${Number(val).toFixed(fixCount)}%`
+        }
     },
     props: {
         fundHeaderInfoVO: {
             type: Object,
             default: () => {}
         },
+        benchmarkNameObj: {
+            type: Object,
+            default: () => {}
+        },
         initEchartList: {
             type: Array,
-            default: () => {}
+            default: () => []
+        },
+        originChartList: {
+            type: Array,
+            default: () => []
         },
         step: {
             type: Number,
@@ -203,6 +235,14 @@ export default {
         tabObj: {
             type: Object,
             default: () => {}
+        },
+        displayCategory: {
+            type: Boolean,
+            default: false
+        },
+        displayBenchmark: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -221,15 +261,32 @@ export default {
             initList: [],
             chart: null,
             chartId: 'myChart_master',
-            masterShow: false,
-            masterData: {
-                belongDay: '-',
-                pointData: '-'
+            flag: true,
+            lengendData: {
+                belongDay: '',
+                thisFundPointData: '',
+                categoryPointData: '',
+                benchmarkPointData: '',
+                thisFundPointDataDefault: '',
+                categoryPointDataDefault: '',
+                benchmarkPointDataDefault: ''
             },
-            flag: true
+            mmfData: {},
+            showTopTips: false
         }
     },
     methods: {
+        showToast(msg) {
+            msg && this.$toast(msg, 'center')
+        },
+        getStockClass(val) {
+            val = (val + '').indexOf('%') !== -1 ? (val + '').slice(0, -1) : val
+            return val > 0
+                ? this.stockColorTypeClass.up
+                : val < 0
+                ? this.stockColorTypeClass.down
+                : ''
+        },
         toFundHistorylist() {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-historical-list?id=${this.fundHeaderInfoVO.fundId}`
             jumpUrl(3, url)
@@ -248,18 +305,17 @@ export default {
         draw(data) {
             let params = {
                 id: data,
-                padding: [20, 0, 33, 45],
+                padding: [],
                 pixelRatio: window.devicePixelRatio
             }
             params.padding =
                 this.fundHeaderInfoVO.assetType === 4
-                    ? [20, 0, 33, 52]
-                    : [20, 0, 33, 45]
+                    ? [20, 5, 33, 52]
+                    : [10, 5, 33, 45]
             this.chart = new F2.Chart(params)
             if (this.initEchartList.length === 0) return
             this.chart.source(this.initEchartList, {
                 pointData: {
-                    alias: '今日净值',
                     tickCount: 5,
                     formatter: val => {
                         if (this.fundHeaderInfoVO.assetType === 4) {
@@ -279,6 +335,10 @@ export default {
                 }
             })
             this.chart.axis('pointData', {
+                grid: {
+                    lineWidth: 0.5,
+                    lineDash: []
+                },
                 labelOffset: 5 // 坐标轴文本距离轴线的距离
             })
             this.chart.axis('belongDay', {
@@ -295,27 +355,69 @@ export default {
                     return textCfg
                 }
             })
+            this.chart.legend(false)
             this.chart.tooltip({
+                alwaysShow: true,
+                triggerOn: ['touchmove'],
+                triggerOff: 'touchend', // 消失的触发行为，可自定义
                 showCrosshairs: true,
-                custom: true, // 自定义 tooltip 内容框
+                crosshairsStyle: {
+                    // 配置辅助线的样式
+                    stroke: '#2F79FF',
+                    lineWidth: 0.3
+                },
+                custom: true,
                 onChange: obj => {
-                    this.masterData = obj.items[0].origin
-                    this.masterData.belongDay = dayjs(
-                        this.masterData.belongDay
-                    ).format('YYYY-MM-DD')
-                    this.masterShow = true
-                    this.flag = true
+                    const tooltipItems = obj.items
+                    tooltipItems.forEach(item => {
+                        if (item.name === this.thisFundName) {
+                            this.lengendData.thisFundPointData = item.value
+                            this.showTopTips = true
+                            this.mmfData = item.origin
+                            this.mmfData.belongDay = dayjs(
+                                this.mmfData.belongDay
+                            ).format('YYYY-MM-DD')
+                            this.lengendData.belongDay = this.mmfData.belongDay
+                        }
+                        if (item.name === this.categoryName) {
+                            this.lengendData.categoryPointData = item.value
+                        }
+                        if (item.name === this.benchmarkName) {
+                            this.lengendData.benchmarkPointData = item.value
+                        }
+                    })
                 },
                 onHide: () => {
                     setTimeout(() => {
-                        this.masterShow = false
-                    }, 2000)
+                        this.showTopTips = false
+                        this.lengendData.thisFundPointData = this.lengendData.thisFundPointDataDefault
+                        this.lengendData.categoryPointData = this.lengendData.categoryPointDataDefault
+                        this.lengendData.benchmarkPointData = this.lengendData.benchmarkPointDataDefault
+                    }, 500)
                 }
             })
             this.chart
                 .line()
                 .position('belongDay*pointData')
-                .color('#518DFE')
+                .size('type', type => {
+                    if (type === this.thisFundName) {
+                        return 1.5
+                    } else {
+                        return 0.8
+                    }
+                })
+                .color('type', type => {
+                    if (type === this.thisFundName) {
+                        return '#2F79FF'
+                    }
+                    if (type === this.categoryName) {
+                        return '#00BA60'
+                    }
+                    if (type === this.benchmarkName) {
+                        return '#FFD984'
+                    }
+                    return '#2F79FF'
+                })
                 .animate({
                     update: {
                         animation: 'lineUpdate'
@@ -330,23 +432,62 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['stockColorTypeClass', 'lang']),
         stockColorType() {
             return +getStockColorType()
         },
-        isMMF() {
+        isMmf() {
+            // 货币基金
             return FUND_ASSET_TYPE.MMF.value === this.fundHeaderInfoVO.assetType
+        },
+        benchmarkName() {
+            return (
+                this.benchmarkNameObj &&
+                this.$t([
+                    this.benchmarkNameObj.zhCn,
+                    this.benchmarkNameObj.zhHk,
+                    this.benchmarkNameObj.en
+                ])
+            )
+        },
+        thisFundName() {
+            return this.$t(['本基金', '本基金', 'Fund'])
+        },
+        categoryName() {
+            return this.$t(['同类平均', '同類平均', 'Sector AVG'])
         }
     },
     watch: {
-        initEchartList() {
+        initEchartList(val) {
             let cavas = document.createElement('canvas')
             this.$refs.renderEchart.innerHTML = ''
             cavas.id = this.chartId
             this.$refs.renderEchart.appendChild(cavas)
             let canvaStyle = document.querySelector(`#${this.chartId}`)
             canvaStyle.style.width = '100%'
+            if (val.length === 0) return
             this.draw(this.chartId)
             this.chart.render()
+        },
+        originChartList(val) {
+            if (val.length) {
+                let {
+                    thisFundPointData,
+                    categoryPointData,
+                    benchmarkPointData
+                } = val[val.length - 1]
+                thisFundPointData = thisFundPointData * 100
+                categoryPointData = categoryPointData * 100
+                benchmarkPointData = benchmarkPointData * 100
+                this.lengendData.thisFundPointData = thisFundPointData
+                this.lengendData.categoryPointData = categoryPointData
+                this.lengendData.benchmarkPointData = benchmarkPointData
+                this.lengendData.thisFundPointDataDefault = thisFundPointData
+                this.lengendData.categoryPointDataDefault = categoryPointData
+                this.lengendData.benchmarkPointDataDefault = benchmarkPointData
+            } else {
+                this.lengendData = this.$options.data().lengendData
+            }
         }
     },
     mounted() {
@@ -356,6 +497,108 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.chart-header-tips {
+    background: rgba(244, 248, 255, 1);
+    z-index: 99999;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 42px;
+    font-size: 12px;
+    line-height: 42px;
+    position: absolute;
+    .tips__body {
+        display: flex;
+        justify-content: space-between;
+        padding: 0 10px;
+        .header__item {
+            display: flex;
+            flex: 1;
+            .item__value {
+                text-align: right;
+            }
+            &:last-child {
+                justify-content: flex-end;
+                .item__label {
+                    .text {
+                        max-width: 85px;
+                        overflow: hidden;
+                        white-space: nowrap;
+                        text-overflow: ellipsis;
+                    }
+                }
+            }
+            .item__label {
+                position: relative;
+                .text {
+                    &::before {
+                        content: ' ';
+                        height: 6px;
+                        width: 6px;
+                        border-radius: 50%;
+                        position: absolute;
+                        left: -8px;
+                        top: 17px;
+                    }
+                    &.maker-1::before {
+                        background-color: #2f79ff;
+                    }
+                    &.maker-2::before {
+                        background-color: rgba(0, 186, 96, 0.4);
+                    }
+                    &.maker-3::before {
+                        background-color: rgba(255, 191, 50, 0.6);
+                    }
+                }
+            }
+        }
+    }
+    .notmmf-tips__body {
+        justify-content: flex-start;
+    }
+}
+.chart-custom-legend {
+    display: flex;
+    font-size: 12px;
+    font-weight: 400;
+    justify-content: space-evenly;
+    .legend__category {
+        position: relative;
+        display: flex;
+        &::before {
+            content: ' ';
+            height: 6px;
+            width: 6px;
+            border-radius: 50%;
+            position: absolute;
+            left: -6px;
+            top: 6px;
+        }
+        &.maker-1::before {
+            background-color: #2f79ff;
+        }
+        &.maker-2::before {
+            background-color: rgba(0, 186, 96, 0.4);
+        }
+        &.maker-3::before {
+            background-color: rgba(255, 191, 50, 0.6);
+        }
+        .legend__title {
+            padding: 0 6px;
+            max-width: 70px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        .legend__value {
+            padding-right: 6px;
+        }
+    }
+}
+.chart-custom-legend.one-item {
+    justify-content: flex-start;
+    padding-left: 10px;
+}
 .fund-echart-content2 {
     .block__list--more {
         width: 100%;
