@@ -1,5 +1,5 @@
 <template lang="pug">
-.block--article--wrapper(v-if="news_list.length != 0 && appType.Ch")  
+.block--article--wrapper(v-if="news_list.length != 0")  
     .block--article__title
         p {{$t(['基金看点','基金看點','Fund News'])}}
         //- span 查看更多
@@ -40,6 +40,7 @@
 </template>
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
+import { hkauthorfeature } from '@/service/news-relatedwithstock'
 import { getSpSubjectDetail } from '@/service/news-msgdisplay'
 import scheme from '@/utils/scheme'
 import dayjs from 'dayjs'
@@ -63,13 +64,22 @@ export default {
         //基金资讯
         async getSpSubjectDetail() {
             try {
-                const { news_list } = await getSpSubjectDetail({
-                    subject_id: 37,
-                    last_score: 0,
-                    page_size: 3
-                })
+                let data
+                if (appType.Ch) {
+                    data = await getSpSubjectDetail({
+                        subject_id: 37,
+                        last_score: 0,
+                        page_size: 3
+                    })
+                } else {
+                    data = await hkauthorfeature({
+                        author_id: 1001,
+                        newsid: 0,
+                        page_size: 3
+                    })
+                }
                 this.loading = false
-                this.news_list = news_list
+                this.news_list = data.news_list
                 this.news_list.map(item => {
                     item.release_time = dayjs(item.release_time * 1000).format(
                         'MM-DD HH:mm'
@@ -84,7 +94,7 @@ export default {
     data() {
         return {
             loading: true,
-            news_list: [{}, {}, {}]
+            news_list: []
         }
     }
 }
