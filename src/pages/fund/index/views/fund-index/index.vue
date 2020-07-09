@@ -97,15 +97,19 @@ div
                             img(:src="item.imgUrl1") 
                             span {{item.label}}
                 .block-bannar-sub-swiper.second__bannar.block__bannar__Tab(v-if="barnnarList1.length !== 0")
-                        van-swipe(:autoplay="3000")  
+                        van-swipe(:autoplay="3000")
                             van-swipe-item(
-                                v-for="(item, index) in barnnarList1" 
+                                v-for="(item, index) in barnnarList1"
                                 @click="goBanner(item)"
-                                :key="index") 
-                                img(:src="item.picture_url") 
-                FundCardSwipper(
-                    v-if="fundBarnnarList.length != 0"
-                    :fundBarnnarList="fundBarnnarList")
+                                :key="index")
+                                img(:src="item.picture_url")
+                yx-skeleton(
+                :loading="!fundBarnnarList.length"
+                )
+                    .empty(slot="loadingShow")
+                        img(src="@/assets/img/fund/empty.png")
+                    FundCardSwipper(
+                        :fundBarnnarList="fundBarnnarList")
         .block__container
             .block--yxbao-container.margin_top(v-if="!isWhiteUserBit")
                 .block--title
@@ -198,6 +202,7 @@ import { i18n } from './i18n'
 import FundCardSwipper from './fund-card-swipper'
 import FundArticle from './fund-article'
 import fundCommonMethods from '../../mixins/fund-common-methods.js'
+import yxSkeleton from '@/components/yx-skeleton'
 export default {
     mixins: [fundCommonMethods],
     components: {
@@ -206,7 +211,8 @@ export default {
         FundList,
         FundListItem,
         FundCardSwipper,
-        FundArticle
+        FundArticle,
+        yxSkeleton
     },
     i18n: i18n,
     filters: {
@@ -771,4 +777,10 @@ export default {
 // .block-bannar-sub-swiper {
 //     margin: 6px 0 0 0;
 // }
+.empty {
+    padding: 0 12px;
+    img {
+        width: 100%;
+    }
+}
 </style>

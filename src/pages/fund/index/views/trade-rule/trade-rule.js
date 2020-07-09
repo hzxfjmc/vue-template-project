@@ -67,9 +67,9 @@ export const i18nTrudeRuleData = {
             tradeFrequencyName: {
                 label: '交易频率'
             },
-            dividend: {
-                label: '最新派息'
-            },
+            // dividend: {
+            //     label: '最新派息'
+            // },
             initialInvestAmount: {
                 label: '起投额'
             },
@@ -139,9 +139,9 @@ export const i18nTrudeRuleData = {
             tradeFrequencyName: {
                 label: '交易頻率'
             },
-            dividend: {
-                label: '最新派息'
-            },
+            // dividend: {
+            //     label: '最新派息'
+            // },
             initialInvestAmount: {
                 label: '起投額'
             },
@@ -202,9 +202,9 @@ export const i18nTrudeRuleData = {
             tradeFrequencyName: {
                 label: 'Trading Frequency'
             },
-            dividend: {
-                label: 'Last Dividend'
-            },
+            // dividend: {
+            //     label: 'Last Dividend'
+            // },
             initialInvestAmount: {
                 label: 'Min. Initial Investment'
             },

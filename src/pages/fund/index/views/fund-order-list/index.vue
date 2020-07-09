@@ -16,11 +16,11 @@
                         span.element-price {{$t('share')}}
                     span.element-time {{$t('time')}}
                 .block-right 
-                    span.msg(class="element-fund-name")(v-if="item.externalStatus == 1") {{item.externalName}}
-                    span.msg(class="element-fund-color")(v-if="item.externalStatus == 2") {{item.externalName}}
-                    span.msg(class="element-fund-color1")(v-if="item.externalStatus == 3") {{item.externalName}}
-                    span.msg(class="element-fund-color2")(v-if="item.externalStatus == 4") {{item.externalName}}
-                    span.msg(class="element-fund-color3")(v-if="item.externalStatus == 5") {{item.externalName}}
+                    span.msg(class="element-fund-name")(v-if="item.externalStatus == ORDER_STATUS.CONFIRMING") {{item.externalName}}
+                    span.msg(class="element-fund-color")(v-if="item.externalStatus == ORDER_STATUS.DEALING") {{item.externalName}}
+                    span.msg(class="element-fund-color1")(v-if="item.externalStatus == ORDER_STATUS.CANCEL") {{item.externalName}}
+                    span.msg(class="element-fund-color2")(v-if="item.externalStatus == ORDER_STATUS.FAILED") {{item.externalName}}
+                    span.msg(class="element-fund-color3")(v-if="item.externalStatus == ORDER_STATUS.SUCCEED") {{item.externalName}}
                     span.element-time.fund-name {{item.fundBaseInfoVO.fundName}}
                     template(v-if="item.tradeType === 1")
                         span.element-price {{item.currency && item.currency.name}} {{item.orderAmount}}
@@ -68,6 +68,8 @@ import jsBridge from '@/utils/js-bridge'
 import { appType, langType } from '@/utils/html-utils.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { getSource } from '@/service/customer-relationship-server'
+import { ORDER_STATUS } from '../order-record-detail/map'
+
 export default {
     components: {
         [List.name]: List,
@@ -125,7 +127,8 @@ export default {
             groupRestUsers: 5,
             orderNo: '',
             fundName: '',
-            appType: null
+            appType: null,
+            ORDER_STATUS
         }
     },
     methods: {
@@ -542,7 +545,7 @@ export default {
                 color: #191919;
             }
             .element-fund-color2 {
-                color: #ff7127;
+                color: $text-color3;
             }
             .element-fund-color3 {
                 color: #41ca1e;

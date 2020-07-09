@@ -12,7 +12,7 @@ export const en = {
     orderRecord: 'Transaction Records',
     fundSubscribe: 'Subscription',
     fundRedemption: 'Redemption',
-    orderRecordDetail: 'Order Records',
+    orderRecordDetail: 'Order Detail',
     incomeDetails: 'Revenue Detail',
     home: 'Smart Fund',
     fundOrderList: 'Order Records',

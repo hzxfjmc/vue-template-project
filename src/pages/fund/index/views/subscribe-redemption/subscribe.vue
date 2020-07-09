@@ -6,37 +6,48 @@
         .fond-des
             .fond-name {{ fundName }}
             .ISIN ISIN:{{ isin }}
-
         template(v-if="step === 1")
             .fund-content
                 .fond-buy
                     .block__fund--header.border-bottom
-                        span.fund__title--block {{$t('buyMoneyNumber')}}
-                        .block__fund--input(@click="focusEvent")
-                            span.usaspan(v-if="currency.type == 1") US$
-                            span.hkspan(v-else) HK$
-                            p {{money}}
-                            input(
-                                v-model="purchaseAmount" 
-                                type="text"
-                                :disabled="disabledInput"
-                                @input="changeNumber"
-                                :placeHolder="`${initialInvestAmount}${currency.type == 1 ? $t('usd') : $t('hkd') }${$t('buyMoneyPlaceHolder')} `" )
-                    .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney'")
+                        NumberKeyboard(
+                            :currency= "currency.type"
+                            :placeholder="placeholder"
+                            v-model="purchaseAmount"
+                            @input="handlerAmount"
+                            @clickBoard="isInit = false"
+                            @onShow="onKeyboardShow"
+                            @click.native.stop="onClickInput"
+                            ref="keyboard"
+                            )
+                        .block__fund--tag--list(v-if="tagList.length!=0")
+                            span(v-for="item in tagList" @click="handleClickTag(item)") {{item.label}}
+                    .block__tags(v-show="!isInit")
+                        span {{tagText}}
+                    .buy-row-item.buy-row-item-fund(v-for="(item,index) in subscribeObj" v-if="index != 'buyMoney' && index != 'withdrawBalance'")
                         .left-item {{item.label}}
                         .right-item 
                             .right-item-subscriptionFee(v-if="index=='subscriptionFee'")
                                 span {{subscriptionFee |sliceFixedTwo | formatCurrency}} ({{item.value|transNumToThousandMark(2)}}%)
                                 span.msg(v-if="discountShow && code == 1") {{descrbeDiscount}}
                                 span.msg(v-if="discountShow && code == 2") {{descrbeDiscountHk}}
-                            .right-item-other(v-else-if="index === 'withdrawBalance'")
-                                span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
+                            //- .right-item-other(v-else-if="index === 'withdrawBalance'")
+                            //-     span  {{currency.type == 1 ? 'USD':'HKD'}} {{item.value}}
                             .right-item-other(v-else)
                                 span {{item.value}}
-                    span.block__fund-tip {{tips}}
-                        em.block__fund--button(
-                            v-if="tipShow" 
-                            @click="toExchangePage") {{Exchange}}
+                   
+                .block__payment--type
+                    .block__header--title
+                        span {{$t('debitWay')}}
+                        span {{accountTypeStr}}
+                    .block__bottom
+                        span {{subscribeObj['withdrawBalance'].label}}：{{subscribeObj['withdrawBalance'].value}}{{currencyStr}}
+                .block__fund-tip
+                    img(src="@/assets/img/fund/exchange.png")
+                    span {{$t('service', currencyStr)}}
+                    em.block__fund--button(
+                        v-if="tipShow" 
+                        @click="toExchangePage") {{$t('detail')}}
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('buyRule')"
@@ -44,7 +55,7 @@
                     :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
                     :stepTimes="[buySubmit, buyConfirm, buyProfitLoss]"
                 )
-            .fund-footer-content
+            .fund-footer-content(v-if="!keyboardShow")
                 .protocol
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
@@ -55,16 +66,12 @@
                 .buy-row
                     .icon
                         img(src="@/assets/img/fund/clock.svg")
-                    span.text-color5 {{ $t('predict') }} 
-                    span(style="margin: 0 3px;") {{ buyConfirm }}
-                    span.text-color5 {{ $t('confirmTheShare') }}
+                    span.text-color5(v-html="$t('confirmTheShare', buyConfirm)")
                 .line
                 .buy-row
                     .icon
                         .point
-                    span.text-color5 {{ $t('predict') }}
-                    span(style="margin: 0 3px;") {{ buyProfitLoss }}
-                    span.text-color5 {{ $t('earnings') }}
+                    span.text-color5(v-html="$t('earnings', buyProfitLoss)")
             .fond-buy.fond-bug-monny.border-bottom(style="margin-top: 0")
                 .buy-row
                     .left.line-height-8  {{$t('orderAmount')}}
@@ -121,12 +128,15 @@ import { getFundUserInfo } from '@/service/user-server.js'
 import { Loading } from 'vant'
 import LS from '@/utils/local-storage'
 import './index.scss'
+import NumberKeyboard from './components/number-keyboard'
+import { getMarketValidFundAccount } from '@/service/user-account-server'
 export default {
     name: 'subscribe',
     components: {
         FundSteps,
         protocolPopup,
         shareWay,
+        NumberKeyboard,
         Loading
     },
     data() {
@@ -145,7 +155,7 @@ export default {
             isin: '',
             currency: {},
             code: null,
-            purchaseAmount: null,
+            purchaseAmount: '',
             withdrawBalance: 0,
             subscriptionFee: null,
             descrbeDiscount: '',
@@ -175,7 +185,14 @@ export default {
             subscribeFeeVO: {
                 defaultFeeRate: 0,
                 fundFeeLevelVOList: []
-            }
+            },
+            placeholder: '请输入',
+            tagList: [],
+            tagText: '',
+            fundDetail: {},
+            isInit: true,
+            keyboardShow: false,
+            accountTypeStr: ''
         }
     },
     filters: {
@@ -190,13 +207,6 @@ export default {
             } else {
                 numberInt = val
             }
-            this.subscribeObj.totalOrderAmount.value =
-                Number(numberInt) +
-                    (numberInt * this.subscribeObj.subscriptionFee.value) /
-                        100 || '0.00'
-            this.subscribeObj.totalOrderAmount.value = transNumToThousandMark(
-                Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
-            )
             if (numberInt) {
                 this.subscribeFeeVO.fundFeeLevelVOList.map(item => {
                     item.minAmount =
@@ -208,22 +218,28 @@ export default {
                         +numberInt < +item.maxAmount
                     ) {
                         this.subscribeObj.subscriptionFee.value =
-                            item.feeRate * 100
+                            item.feeRate * 100 || 0
                     }
                 })
             } else {
                 this.subscribeObj.subscriptionFee.value =
-                    this.subscribeFeeVO.defaultFeeRate * 100
+                    this.subscribeFeeVO.defaultFeeRate * 100 || 0
             }
+            this.subscribeObj.totalOrderAmount.value =
+                Number(numberInt) +
+                    (numberInt * this.subscribeObj.subscriptionFee.value) /
+                        100 || '0.00'
+            this.subscribeObj.totalOrderAmount.value = transNumToThousandMark(
+                Number(this.subscribeObj.totalOrderAmount.value).toFixed(2)
+            )
             this.subscriptionFee =
-                (numberInt * this.subscribeObj.subscriptionFee.value) / 100
-            if (numberInt > +this.withdrawBalance) {
-                this.purchaseAmount = +this.withdrawBalance
-                return
-            }
+                (numberInt * this.subscribeObj.subscriptionFee.value) / 100 || 0
+            // if (numberInt > +this.withdrawBalance) {
+            //     this.purchaseAmount = String(this.withdrawBalance)
+            //     // return
+            // }
         }
     },
-
     async created() {
         if (LS.get('groupId') != undefined) {
             this.groupId = LS.get('groupId')
@@ -257,9 +273,36 @@ export default {
         },
         subscriptionFeeScale() {
             return NP.times(+this.subscriptionFee, 100)
+        },
+        isUSDCurrency() {
+            return this.currency.type == 1
+        },
+        currencyStr() {
+            return this.isUSDCurrency ? this.$t('usd') : this.$t('hkd')
         }
     },
     methods: {
+        async getAccountType() {
+            /*
+            ("0", "Cash Account", "现金账户")
+            ("M", "Margin Account", "保证金账户")
+            */
+            let { assetProp } = await getMarketValidFundAccount({
+                // 1 A股，2 港股，3 美股
+                marketType: this.isUSDCurrency ? 3 : 2
+            })
+            let currencyStr = this.isUSDCurrency
+                ? this.$t('usStock')
+                : this.$t('hkStock')
+            this.accountTypeStr =
+                assetProp === 'M'
+                    ? this.$t('marginAccount', currencyStr)
+                    : this.$t('cashAccount', currencyStr)
+        },
+        handlerAmount() {
+            // this.purchaseAmount = +val || ''
+            this.getTagText()
+        },
         async getFundFeeConfig() {
             try {
                 let params = {
@@ -489,76 +532,6 @@ export default {
             }
             // }
         },
-        focusEvent() {
-            if (this.withdrawBalance <= 0) {
-                this.$dialog
-                    .confirm({
-                        message: this.$t('subscribemsg'),
-                        confirmButtonText: this.$t('confirm'),
-                        closeOnClickOverlay: true,
-                        cancelButtonText: this.$t('iknow')
-                    })
-                    .then(() => {
-                        jumpUrl(
-                            3,
-                            `${window.location.origin}/webapp/open-account/deposit.html#/`
-                        )
-                    })
-                    .catch(() => {
-                        // on cancel
-                    })
-
-                return
-            }
-        },
-        changeNumber(e) {
-            let obj = {
-                en: {
-                    5: 'Ten Thousand',
-                    6: 'Hundred Thousand',
-                    7: 'Million',
-                    8: 'Ten Million',
-                    9: 'Hundred Million'
-                },
-                zhCHT: {
-                    5: '萬',
-                    6: '十萬',
-                    7: '百萬',
-                    8: '千萬',
-                    9: '億'
-                },
-                zhCHS: {
-                    5: '万',
-                    6: '十万',
-                    7: '百万',
-                    8: '千万',
-                    9: '亿'
-                }
-            }
-            let match =
-                (this.purchaseAmount &&
-                    this.purchaseAmount.match(/^(\d+)(\.)?(\d{1,2})?/)) ||
-                []
-            this.purchaseAmount = `${match[1] || ''}${match[2] ||
-                ''}${match[3] || ''}`
-            if (e.target.value.indexOf('.') > 0) {
-                this.money =
-                    obj[this.lang][this.purchaseAmount.split('.')[0].length]
-            } else {
-                this.money = obj[this.lang][this.purchaseAmount.length]
-            }
-            if (e.target.value > +this.withdrawBalance) {
-                this.purchaseAmount = +this.withdrawBalance
-                this.purchaseAmount = this.purchaseAmount + ''
-                this.money =
-                    this.purchaseAmount.indexOf('.') > 0
-                        ? obj[this.lang][
-                              this.purchaseAmount.split('.')[0].length
-                          ]
-                        : obj[this.lang][this.purchaseAmount.length]
-                return
-            }
-        },
         async openProtocol(url) {
             url = await getCosUrl(url)
             if (jsBridge.isYouxinApp) {
@@ -597,6 +570,7 @@ export default {
                     displayLocation: 1,
                     fundId: this.$route.query.id
                 })
+                this.fundDetail = fundDetail
                 this.fundName = fundDetail.fundHeaderInfoVO.fundName
                 this.isin = fundDetail.fundOverviewInfoVO.isin
                 this.derivativeType =
@@ -604,47 +578,74 @@ export default {
                 for (let key in this.subscribeObj) {
                     this.subscribeObj[key].label = this.$t('subscribeObj')[key]
                 }
-                if (this.positionStatus !== 1) {
-                    this.initialInvestAmount = transNumToThousandMark(
-                        Number(
-                            fundDetail.fundTradeInfoVO.initialInvestAmount
-                        ).toFixed(2)
-                    )
-                } else {
-                    this.initialInvestAmount = transNumToThousandMark(
-                        Number(
-                            fundDetail.fundTradeInfoVO.continueInvestAmount
-                        ).toFixed(2)
-                    )
-                }
                 this.currency = fundDetail.fundTradeInfoVO.currency
+                this.getAccountType()
+                const CURRENCYEUMN = {
+                    1: this.$t('usd'),
+                    2: this.$t('hkd')
+                }
+                const CurrencyName = CURRENCYEUMN[this.currency.type]
+                const initialInvestAmount =
+                    fundDetail.fundTradeInfoVO.initialInvestAmount
+                const formatInitialInvesetAmount = transNumToThousandMark(
+                    Number(initialInvestAmount).toFixed(2)
+                )
+                // 余额
+                let withdrawAmount = Number(
+                    this.subscribeObj['withdrawBalance'].value.replace(/,/g, '')
+                )
+                // 起始档位
+                let startStepAmount = Math.max(+initialInvestAmount, 1000)
+                if (
+                    withdrawAmount >= +initialInvestAmount &&
+                    withdrawAmount >= startStepAmount
+                ) {
+                    this.tagList = [
+                        {
+                            label: `${transNumToThousandMark(
+                                startStepAmount,
+                                0
+                            )}${CurrencyName}`,
+                            value: startStepAmount
+                        },
+                        {
+                            label: `${transNumToThousandMark(
+                                Number(startStepAmount * 2),
+                                0
+                            )}${CurrencyName}`,
+                            value: startStepAmount * 2
+                        },
+                        {
+                            label: `${transNumToThousandMark(
+                                Number(startStepAmount * 4),
+                                0
+                            )}${CurrencyName}`,
+                            value: startStepAmount * 4
+                        }
+                    ]
+                }
+
+                if (this.positionStatus !== 1) {
+                    this.initialInvestAmount = formatInitialInvesetAmount
+                } else {
+                    this.initialInvestAmount = formatInitialInvesetAmount
+                }
+
+                this.placeholder = `${
+                    this.initialInvestAmount
+                }${CurrencyName}${this.$t('buyMoneyPlaceHolder')} `
+
                 this.tips = this.$t([
-                    `*友信暂不支持使用${
-                        this.currency.type == 1
-                            ? this.$t('hkd')
-                            : this.$t('usd')
-                    }购买${
-                        this.currency.type == 2
-                            ? this.$t('hkd')
-                            : this.$t('usd')
+                    `*友信暂不支持使用${CURRENCYEUMN[this.currency.type]}购买${
+                        CURRENCYEUMN[this.currency.type]
                     }基金，如有需要，您可以手动换汇后进行申购`,
-                    `*友信暫不支持使用${
-                        this.currency.type == 1
-                            ? this.$t('hkd')
-                            : this.$t('usd')
-                    }購買${
-                        this.currency.type == 2
-                            ? this.$t('hkd')
-                            : this.$t('usd')
+                    `*友信暫不支持使用${CURRENCYEUMN[this.currency.type]}購買${
+                        CURRENCYEUMN[this.currency.type]
                     }基金，如有需要，您可以手動換匯後進行申購`,
                     `*uSMART does not support the use of ${
-                        this.currency.type == 1
-                            ? this.$t('hkd')
-                            : this.$t('usd')
+                        CURRENCYEUMN[this.currency.type]
                     } to purchase ${
-                        this.currency.type == 2
-                            ? this.$t('hkd')
-                            : this.$t('usd')
+                        CURRENCYEUMN[this.currency.type]
                     } funds, If there is a need, you can manually exchange and then purchase the funds.`
                 ])
                 this.Exchange = this.$t('Exchange')
@@ -652,16 +653,28 @@ export default {
                     'buyProtocol',
                     fundDetail.fundTradeInfoVO.buyProtocol
                 )
-                this.buySubmit = fundDetail.fundTradeInfoVO.buySubmit
-                this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm
-                this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss
+                this.buySubmit = fundDetail.fundTradeInfoVO.buySubmit.replace(
+                    '.',
+                    '-'
+                )
+                this.buyConfirm = fundDetail.fundTradeInfoVO.buyConfirm.replace(
+                    '.',
+                    '-'
+                )
+                this.buyProfitLoss = fundDetail.fundTradeInfoVO.buyProfitLoss.replace(
+                    '.',
+                    '-'
+                )
                 this.buyProtocolFileName = (
                     fundDetail.fundTradeInfoVO.buyProtocol || ''
                 )
                     .split('/')
                     .pop()
 
-                this.buyProtocolFileList = fundDetail.buyProtocolFileList
+                this.buyProtocolFileList = [
+                    ...fundDetail.buyProtocolFileList,
+                    ...fundDetail.fundCorrelationFileList
+                ]
                 this.buyProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
@@ -692,6 +705,7 @@ export default {
             try {
                 const hsInfo = await hsAccountInfo(currencyType)
                 this.withdrawBalance = hsInfo.withdrawBalance
+                console.log('this.withdrawBalance', this.withdrawBalance)
                 if (this.withdrawBalance > 0) {
                     this.disabledInput = false
                 }
@@ -715,15 +729,13 @@ export default {
             }
         },
         handlerSubmitFilter() {
-            if (this.purchaseAmount <= 0) {
-                return this.$toast(
-                    this.$t([
-                        '请输入申购金额',
-                        '請輸入申購金額',
-                        'Please Enter The Purchase Amount'
-                    ]),
-                    'middle'
-                )
+            let state = this.checkBuy(true)
+            if (state === false) {
+                return
+            }
+            if (state !== '') {
+                this.$toast(state, 'middle')
+                return
             }
             if (
                 this.purchaseAmount / this.withdrawBalance >= 0.5 &&
@@ -828,6 +840,83 @@ export default {
                 fundId: this.$route.query.id
             })
             this.positionStatus = res.positionStatus.type
+        },
+        goRecharge() {
+            this.$dialog
+                .confirm({
+                    message: this.$t('subscribemsg'),
+                    confirmButtonText: this.$t('confirm'),
+                    closeOnClickOverlay: true,
+                    cancelButtonText: this.$t('iknow')
+                })
+                .then(() => {
+                    jumpUrl(
+                        3,
+                        `${window.location.origin}/webapp/open-account/deposit.html#/`
+                    )
+                })
+                .catch(() => {
+                    // on cancel
+                })
+        },
+        // 校驗，showDialog表示是否展示彈窗提示
+        checkBuy(showDialog) {
+            console.log(
+                this.purchaseAmount,
+                this.withdrawBalance,
+                this.initialInvestAmount
+            )
+            if (!+this.purchaseAmount) {
+                return this.$t('inputMoney')
+            }
+            if (!(+this.withdrawBalance > 0)) {
+                if (showDialog) {
+                    this.goRecharge()
+                    return false
+                } else {
+                    return this.$t('noEnoughMoney')
+                }
+            }
+            if (
+                +this.subscribeObj.totalOrderAmount.value >
+                +this.withdrawBalance
+            ) {
+                return this.$t('noEnoughMoney')
+            }
+            // 這裡兩個都是字符串，initialInvestAmount為帶,分割的字符串
+            if (
+                +this.purchaseAmount <
+                this.fundDetail.fundTradeInfoVO.initialInvestAmount
+            ) {
+                const CURRENCYEUMN = {
+                    1: this.$t('usd'),
+                    2: this.$t('hkd')
+                }
+                return this.$t(
+                    'mixBuyMoney',
+                    this.initialInvestAmount,
+                    CURRENCYEUMN[this.currency.type]
+                )
+            }
+            return ''
+        },
+        // 錯誤提示文案
+        getTagText() {
+            this.tagText = this.checkBuy(false) || ''
+        },
+        handleClickTag(item) {
+            console.log(item)
+            this.purchaseAmount = item.value + ''
+        },
+        onKeyboardShow(flag) {
+            console.log('onShow', flag)
+            this.keyboardShow = flag
+        },
+        onClickInput() {
+            if (!(+this.withdrawBalance > 0)) {
+                this.goRecharge()
+                this.$refs.keyboard.show = false
+            }
         }
     },
     i18n: {
@@ -850,7 +939,6 @@ export default {
             buyMoneyNumber: '申购金额',
             continueBalance: '续投金额',
             redemption: '申购费',
-            predict: '预计',
             submitButtonText: '同意协议并提交',
             dayDone: '日完成',
             day: '日',
@@ -858,8 +946,10 @@ export default {
             stepOne: '申购提交',
             stepTwo: '确认份额',
             stepThree: '查看盈亏',
-            confirmTheShare: '确认份额并开始计算收益',
-            earnings: '查看份额、收益',
+            confirmTheShare: date =>
+                `预计 <span class="text-color">${date}<span/> 确认份额，开始计算收益`,
+            earnings: date =>
+                `预计 <span class="text-color">${date}<span/> 查看份额、收益`,
             money: '金额',
             done: '完成',
             iKnow: '我知道了',
@@ -876,7 +966,18 @@ export default {
             hkd: '港币',
             usd: '美元',
             content:
-                '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。'
+                '您购买资金已超过当前净资产50%，当前购买产品为衍生产品或复杂产品，风险视乎产品特性不同而有所不同，并可招致巨大损失。点击继续申购视为确认自愿承担该产品风险。',
+            inputMoney: '请输入申购金额',
+            mixBuyMoney: (price, currency) => `最低申购${price}${currency}`,
+            noEnoughMoney: `可用余额不足`,
+            debitWay: '扣款方式',
+            service: currency =>
+                `${currency}不足？uSMART友信证券支持7x24换汇服务`,
+            detail: '点此查看详情',
+            hkStock: '港股',
+            usStock: '美股',
+            cashAccount: currency => `${currency}现金账户`,
+            marginAccount: currency => `${currency}保证金账户`
         },
         zhCHT: {
             FundReturn: '拼团最低可返',
@@ -897,7 +998,6 @@ export default {
             buyMoneyNumber: '認購金額',
             continueBalance: '續投金額',
             redemption: '申購費',
-            predict: '預計',
             hkd: '港幣',
             usd: '美元',
             submitButtonText: '同意協議並提交',
@@ -907,8 +1007,10 @@ export default {
             stepOne: '認購提交',
             stepTwo: '確認份額',
             stepThree: '查看盈虧',
-            confirmTheShare: '確認份額並開始計算收益',
-            earnings: '查看份額、收益',
+            confirmTheShare: date =>
+                `預計 <span class="text-color">${date}<span/> 確認份額，開始計算收益`,
+            earnings: date =>
+                `預計 <span class="text-color">${date}<span/> 查看份額、收益`,
             money: '金額',
             done: '完成',
             iKnow: '我知道了',
@@ -923,7 +1025,18 @@ export default {
             continue: '繼續申購',
             Exchange: '點此去換匯',
             content:
-                '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。'
+                '您購買資金已超過當前淨資產50％，當前購買產品為衍生產品或複雜產品，風險視乎產品特性不同而有所不同，招致致巨大損失。點擊繼續申購確認確認承擔該產品風險。',
+            inputMoney: '請輸入申購金額',
+            mixBuyMoney: (price, currency) => `最低申購${price}${currency}`,
+            noEnoughMoney: `可用餘額不足`,
+            debitWay: '扣款方式',
+            service: currency =>
+                `${currency}不足？uSMART友信證券支持7x24換匯服務`,
+            detail: '點此查看詳情',
+            hkStock: '港股',
+            usStock: '美股',
+            cashAccount: currency => `${currency}現金賬戶`,
+            marginAccount: currency => `${currency}保證金賬戶`
         },
         en: {
             FundReturn: '拼团最低可返',
@@ -944,7 +1057,6 @@ export default {
             buyMoneyNumber: 'Investment Amount',
             continueBalance: 'Subsequent',
             redemption: 'Subscription Fee',
-            predict: 'Estimated',
             submitButtonText: 'Agree to agreement and submit',
             dayDone: 'Complete in X days',
             day: 'Days',
@@ -952,8 +1064,10 @@ export default {
             stepOne: 'Submit',
             stepTwo: 'Fund Units Allocation',
             stepThree: 'Check P/L',
-            confirmTheShare: 'Fund Units Allocation',
-            earnings: 'Check P/L and Units',
+            confirmTheShare: date =>
+                `Estimate Fund Units Allocation in <span class="text-color">${date}<span/>`,
+            earnings: date =>
+                `Estimate Fund Units Allocation in <span class="text-color">${date}<span/>`,
             money: 'Amount',
             done: 'Completed',
             iKnow: 'Got it',
@@ -972,7 +1086,19 @@ export default {
             hkd: 'HKD',
             usd: 'USD',
             content:
-                'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.'
+                'Your purchase funds have exceeded 50% of your current net assets. The current purchase product is a derivative product or a complex product.The risk varies depending on the characteristics of the product and can cause huge losses. Clicking Continue is deemed to be a voluntary acceptance of the risk of the product.',
+            inputMoney: 'Please Entry Amount',
+            mixBuyMoney: (price, currency) =>
+                `Mini. Subs. ${currency} ${price}`,
+            noEnoughMoney: `Insufficient Available Balance`,
+            debitWay: 'Payment Way',
+            service: currency =>
+                `Insufficient ${currency}？ uSMART supports 7x24 currency exchange service`,
+            detail: 'Details',
+            hkStock: 'HKD',
+            usStock: 'USD',
+            cashAccount: currency => `Cash Account(${currency})`,
+            marginAccount: currency => `Margin Account(${currency})`
         }
     }
 }

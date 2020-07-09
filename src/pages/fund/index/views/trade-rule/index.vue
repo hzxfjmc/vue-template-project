@@ -104,7 +104,7 @@ export default {
             tradeSubTitle: '423432423',
             managementList: managementList,
             buySubmit: {
-                label: '买入提交',
+                label: '申购提交',
                 value: ''
             },
             buyConfirm: {
@@ -116,7 +116,7 @@ export default {
                 value: ''
             },
             sellSubmit: {
-                label: '提交赎回申请',
+                label: '赎回提交',
                 value: ''
             },
             sellConfirm: {

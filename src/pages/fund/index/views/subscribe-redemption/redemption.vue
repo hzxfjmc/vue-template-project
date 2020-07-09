@@ -12,15 +12,29 @@
                 .fond-buy
                     .block__fund--header.border-bottom
                         span.fund__title--block {{$t('redeemShares')}}
-                        .block__fund--input1
-                            //- span {{currencyType == 1 ? '':'HK'}}$
-                            input(
-                                v-model="redemptionShare" 
-                                type="text"
-                                @input="changeNumber"
-                                :placeHolder="$t('entryUnit')" 
-                                )
-                            .block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}
+                        number-keyboard(
+                        v-model="redemptionShare"
+                        @input="changeNumber"
+                        :placeholder="$t('entryUnit')"
+                        @onShow="onKeyboardShow"
+                        )
+                        <!--.block__fund&#45;&#45;input1-->
+                            <!--//- span {{currencyType == 1 ? '':'HK'}}$-->
+                            <!--input(-->
+                                <!--v-model="redemptionShare"-->
+                                <!--type="number"-->
+                                <!--@input="changeNumber"-->
+                                <!--:placeHolder="$t('entryUnit')"-->
+                                <!--clearable-->
+                                <!--)-->
+                            <!--.block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}-->
+                        .buy-row
+                            .btn-fast(@click="handlerFastSellCount(0.25)") 1/4
+                            .btn-fast(@click="handlerFastSellCount(1/3)") 1/3
+                            .btn-fast(@click="handlerFastSellCount(0.5)") 1/2
+                            .btn-fast(@click="handlerFastSellCount(1)") {{$t('all')}}
+                    .buy-row.block__tags(v-show="tagText")
+                        span {{tagText}}
                     .buy-row
                         .left {{ $t('positionShare') }}
                         .right {{ positionShare |  parseThousands}}
@@ -30,10 +44,10 @@
                     .buy-row
                         .left
                             span {{ $t('redemption') }}
-                            span ({{ $t('predict')}}) :
+                            span ({{ $t('predict')}})
                         .right
-                            span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | parseThousands }}
-                            span ({{redemptionFeeScale}}%)
+                            //span {{ times(+redemptionShare, +redemptionFee) | sliceFixedTwo | parseThousands }}
+                            span {{redemptionFeeScale}}%
                 FundSteps(
                     style="margin-top: 22px;"
                     :title="$t('balanceRule')"
@@ -41,7 +55,7 @@
                     :stepNames="[$t('stepOne'), $t('stepTwo'), $t('stepThree')]"
                     :stepTimes="[sellSubmit, sellConfirm, sellProfitLoss]"
                 )
-            .fund-footer-content
+            .fund-footer-content(v-show="!keyboardShow")
                 .protocol
                     .protocol__checkbox.iconfont.icon-unchecked(:class="isCheckedProtocol ?'icon-selected checked':''" @click="checkProtocol")
                     .protocol__text(@click="checkProtocol") {{$t('protocolTips')}}
@@ -84,15 +98,16 @@ import {
 } from '@/service/finance-info-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import FundSteps from '@/biz-components/fond-steps'
-import { generateUUID } from '@/utils/tools.js'
-import { parseThousands } from '@/utils/tools.js'
+import { generateUUID, sliceDecimal, parseThousands } from '@/utils/tools.js'
 import protocolPopup from './components/protocol-popup'
 import './index.scss'
+import NumberKeyboard from './components/number-keyboard'
 export default {
     name: 'subscribe',
     components: {
         FundSteps,
-        protocolPopup
+        protocolPopup,
+        NumberKeyboard
     },
     data() {
         return {
@@ -105,7 +120,7 @@ export default {
             positionMarketValue: 0, // 持仓市值
             lowestInvestAmount: 0, // 最低持有金额
             minPositionShare: 0, // 最低持有份额
-            redemptionShare: null, // 赎回份额
+            redemptionShare: '', // 赎回份额
             fundName: '',
             isin: '',
             redemptionFee: null,
@@ -118,7 +133,11 @@ export default {
             netPrice: 0,
             protocolVisible: false,
             isCheckedProtocol: true,
-            sellProtocolFileList: []
+            sellProtocolFileList: [],
+            tagText: '',
+            // 最小交易金額
+            minTradeAmount: '',
+            keyboardShow: false
         }
     },
     async created() {
@@ -155,6 +174,7 @@ export default {
                 this.redemptionShare = this.sliceDeci(this.positionShare, 4)
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
+            this.getTagText()
         }
     },
     methods: {
@@ -186,9 +206,22 @@ export default {
             let deci = s.split('.')[1].slice(0, l)
             return s.split('.')[0] + '.' + deci
         },
-        //全部卖出
-        HandlerAllSell() {
-            this.redemptionShare = this.positionShare
+        //快速卖出
+        handlerFastSellCount(percent) {
+            let result = (this.positionShare * percent).toString()
+            result = result.split('.')
+            if (result[1]) {
+                result[1] = result[1].substr(0, 4)
+            } else {
+                result[1] = '0000'
+            }
+            result = result[0] + '.' + result[1]
+            console.log(
+                (this.positionShare * percent).toString(),
+                percent,
+                result
+            )
+            this.redemptionShare = result || ''
         },
         async openProtocol(url) {
             url = await getCosUrl(url)
@@ -235,6 +268,7 @@ export default {
                     fundDetail.fundTradeInfoVO.lowestInvestAmount
                 this.minPositionShare =
                     fundDetail.fundTradeInfoVO.minPositionShare
+                this.minTradeAmount = fundDetail.fundTradeInfoVO.minTradeAmount
                 // this.redemptionFee = fundDetail.fundTradeInfoVO.redemptionFee
                 this.setCosUrl(
                     'sellProtocol',
@@ -281,6 +315,11 @@ export default {
             })
         },
         async handleSubmit() {
+            let remindStr = this.check()
+            if (remindStr) {
+                this.$toast(remindStr)
+                return
+            }
             let submitStep = 0 // 0: 开始 1: 获取token成功 2: 申购成功
             let token = null
             try {
@@ -326,6 +365,36 @@ export default {
             if (submitStep === 2) {
                 this.step = 2
             }
+        },
+        // 計算最小赎回份额
+        getMinRedemptionPrice() {
+            return sliceDecimal(this.minTradeAmount / this.netPrice + '', 4)
+        },
+        check() {
+            console.log(this.redemptionShare)
+            if (!+this.redemptionShare) {
+                return this.$t('emptyInput')
+            }
+            // 最小赎回份额
+            let minRedemptionPrice = Number(this.getMinRedemptionPrice())
+            // 赎回份额小于最小赎回份额
+            if (+this.redemptionShare < minRedemptionPrice) {
+                if (+this.redemptionShare === +this.positionShare) {
+                    // 如果赎回份额等于可赎份额，但是可赎份额小于最小赎回份额的话，跳过校验，交由后端判断
+                    return ''
+                }
+                return this.$t('minAmount', minRedemptionPrice)
+            }
+            if (+this.positionShare < +this.redemptionShare) {
+                return this.$t('notEnough')
+            }
+            return ''
+        },
+        getTagText() {
+            this.tagText = this.check() || ''
+        },
+        onKeyboardShow(flag) {
+            this.keyboardShow = flag
         }
     },
     i18n: {
@@ -354,8 +423,12 @@ export default {
             moneyToAcc: '资金到达证券账户',
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
             sellAll: '全部卖出',
-            entryUnit: '输入卖出份额',
-            predictSellAmount: '订单总金额'
+            entryUnit: '请输入赎回份额',
+            predictSellAmount: '订单总金额',
+            emptyInput: '请输入赎回份额',
+            minAmount: money => `最小赎回${money}份额`,
+            notEnough: '可赎份额不足',
+            all: '全部'
         },
         zhCHT: {
             sellSuccess: '贖回成功',
@@ -382,8 +455,12 @@ export default {
             moneyToAcc: '資金到達證券賬戶',
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
             sellAll: '全部賣出',
-            entryUnit: '輸入賣出份額',
-            predictSellAmount: '訂單總金額'
+            entryUnit: '請輸入贖回份額',
+            predictSellAmount: '訂單總金額',
+            emptyInput: '請輸入贖回份額',
+            minAmount: money => `最小贖回${money}份額`,
+            notEnough: '可贖份額不足',
+            all: '全部'
         },
         en: {
             sellSuccess: 'Redemption Successful',
@@ -402,7 +479,7 @@ export default {
             stepOne: 'Submit',
             stepTwo: 'CFMD NAV',
             stepThree: 'Funds Credited to Securities Account',
-            confirmTheShare: 'CFMD NAV',
+            confirmTheShare: 'Confirmed NAV',
             earnings: 'Check Earnings',
             money: 'Redemption Unit',
             done: 'Completed',
@@ -411,9 +488,30 @@ export default {
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
             sellAll: 'Sell All',
-            entryUnit: 'Entry Unit',
-            predictSellAmount: 'Total Amount of Orders'
+            entryUnit: 'Please Entry Redemption Unit',
+            predictSellAmount: 'Total Amount of Orders',
+            emptyInput: 'Please Entry Units',
+            minAmount: money => `Mini. Redemption Units ${money}`,
+            notEnough: 'Insufficient Redeemable',
+            all: 'ALL'
         }
     }
 }
 </script>
+<style lang="scss" scoped>
+.redemption {
+    /deep/ .block__out--wrapper {
+        min-height: 48px;
+        .number-board {
+            margin-left: 0;
+        }
+    }
+    .fund__title--block {
+        font-size: 16px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: bold;
+        color: rgba(25, 25, 25, 1);
+        line-height: 22px;
+    }
+}
+</style>
