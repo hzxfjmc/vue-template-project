@@ -11,7 +11,7 @@
             .fund-content
                 .fond-buy
                     .block__fund--header.border-bottom
-                        <!--span.fund__title&#45;&#45;block {{$t('redeemShares')}}-->
+                        span.fund__title--block {{$t('redeemShares')}}
                         number-keyboard(
                         v-model="redemptionShare"
                         @input="changeNumber"
@@ -213,10 +213,14 @@ export default {
             if (result[1]) {
                 result[1] = result[1].substr(0, 4)
             } else {
-                result[1] = 0
+                result[1] = '0000'
             }
             result = result[0] + '.' + result[1]
-            console.log(this.positionShare, percent, result)
+            console.log(
+                (this.positionShare * percent).toString(),
+                percent,
+                result
+            )
             this.redemptionShare = result || ''
         },
         async openProtocol(url) {
@@ -495,7 +499,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
-.redemption /deep/ .block__out--wrapper {
-    min-height: 48px;
+.redemption {
+    /deep/ .block__out--wrapper {
+        min-height: 48px;
+        .number-board {
+            margin-left: 0;
+        }
+    }
+    .fund__title--block {
+        font-size: 16px;
+        font-family: PingFangSC-Medium, PingFang SC;
+        font-weight: bold;
+        color: rgba(25, 25, 25, 1);
+        line-height: 22px;
+    }
 }
 </style>

@@ -5,7 +5,7 @@
                     template(slot-scope='scope')
                         .status-title.flex
                             span {{$t('orderStatus')}}
-                            span(:class="differenceColor") {{orderStatusValue}}  
+                            span(:class="differenceColor") {{orderStatusValue}}
                         .begin-time
                             img(src="@/assets/img/fund/clock.png")
                             span {{$t('estimate')}}
@@ -13,7 +13,7 @@
                         .left-line
                         .end-time
                             i(class="dot")
-                            span {{$t('estimate')}} 
+                            span {{$t('estimate')}}
                             span(v-html="tradeType===1?sureNetWorthEndTime: surePositionEndTime")
 </template>
 
@@ -128,9 +128,14 @@ export default {
                 color: $text-color;
                 opacity: 0.5;
                 line-height: 20px;
+                font-size: 16px;
                 &.time {
                     opacity: 1;
                 }
+            }
+            /deep/ b {
+                opacity: 1 !important;
+                color: #191919 !important;
             }
         }
         .left-line {
