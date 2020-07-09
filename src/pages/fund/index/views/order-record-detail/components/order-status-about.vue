@@ -110,6 +110,9 @@ export default {
 <style lang="scss" scoped>
 .order-status-about-container {
     font-family: '';
+    /deep/ b {
+        color: #191919 !important;
+    }
     .order-status-about {
         .status-title {
             margin-bottom: 16px;
@@ -125,17 +128,11 @@ export default {
                 margin-right: 6px;
             }
             span {
-                color: $text-color;
-                opacity: 0.5;
+                color: $text-color5;
                 line-height: 20px;
-                font-size: 16px;
                 &.time {
                     opacity: 1;
                 }
-            }
-            /deep/ b {
-                opacity: 1 !important;
-                color: #191919 !important;
             }
         }
         .left-line {
