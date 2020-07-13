@@ -99,7 +99,7 @@ export default {
             //     this.info.fundSize,
             //     this.info.currency.type
             // )
-            let currency = this.$t(this.info.currency.name) || ''
+            let currency = this.$t(this.info.fundSizeCurrency.name) || ''
             let arr = this.info.fundSize.split('.')
             let size, unit
             let isEnLang = this.$i18n.lang === 'en'

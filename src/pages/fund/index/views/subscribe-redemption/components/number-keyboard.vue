@@ -10,10 +10,10 @@
         template(v-else)
             div.number-board(
                 v-if="show"
-                :class="[+amount>0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
+                :class="[+amount>=0 || amount === '0.' || amount === '0.0' ?'number':'word']") {{amount}}
             div.number-board(
                 v-else
-                :class="[+amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
+                :class="[+amount>=0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
             span.block__all--out.iconfont.icon-close(
                 @click="allSell"
                 v-if="amount != placeholder")
@@ -208,9 +208,9 @@ export default {
         },
         //输入
         onInput(val) {
-            console.log('onInput', this.amount)
+            console.log('onInput', this.amount, val)
             let amount = String(this.amount)
-            let re = /^\d{0,9}(\.\d{0,2})?$/
+            let re = /^\d{1,9}(\.\d{0,4})?$/
             let noDeal = false
             if (amount === this.placeholder && (val == 0 || val === '.')) {
                 amount = '0.'
@@ -226,6 +226,7 @@ export default {
                     amount = amount.toString() + val.toString()
                 }
             }
+            console.log('inputEnd', amount)
             !noDeal && (this.amount = amount)
             this.$emit('clickBoard')
             // this.$emit('handlerAmount', this.amount)
