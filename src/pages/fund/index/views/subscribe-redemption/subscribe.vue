@@ -864,7 +864,10 @@ export default {
             console.log(
                 this.purchaseAmount,
                 this.withdrawBalance,
-                this.initialInvestAmount
+                this.initialInvestAmount,
+                JSON.stringify(this.subscribeObj),
+                this.subscribeObj.totalOrderAmount.value,
+                this.subscribeObj.totalOrderAmount.value.replace(',', '')
             )
             if (!+this.purchaseAmount) {
                 return this.$t('inputMoney')
@@ -878,7 +881,7 @@ export default {
                 }
             }
             if (
-                +this.subscribeObj.totalOrderAmount.value >
+                +this.subscribeObj.totalOrderAmount.value.replace(/,/g, '') >
                 +this.withdrawBalance
             ) {
                 return this.$t('noEnoughMoney')
@@ -902,7 +905,9 @@ export default {
         },
         // 錯誤提示文案
         getTagText() {
-            this.tagText = this.checkBuy(false) || ''
+            setTimeout(() => {
+                this.tagText = this.checkBuy(false) || ''
+            })
         },
         handleClickTag(item) {
             console.log(item)
