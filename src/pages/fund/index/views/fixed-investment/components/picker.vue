@@ -10,7 +10,7 @@
                         template(v-if="item.type !=1")
                             .block--left
                                 .bank-name {{item.bankName}} ({{item.bankAccountNo && item.bankAccountNo.slice(-4)}})
-                                    span {{item.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
+                                    span {{item.eddaFpsSwitch === 1?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
                                 .limit-text 
                                     .text-show
                                         span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
@@ -75,8 +75,9 @@ export default {
     },
     methods: {
         modifyHandle(val) {
+            // eddaFpsSwitch 1-有效 2-失效
             event.stopPropagation()
-            if (!val.eddaSwitch || val.bankNumber === '238') {
+            if (val.eddaFpsSwitch === 2 || val.bankNumber === '238') {
                 this.$alert({
                     message: this.$t([
                         '对应银行服务调整中，暂不支持修改限额。',
