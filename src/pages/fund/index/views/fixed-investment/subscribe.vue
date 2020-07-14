@@ -127,7 +127,7 @@ import { Loading } from 'vant'
 import NumberKeyboard from './components/number-keyboard'
 import protocolPopup from './components/protocol-popup'
 import twoPicker from './components/two-picker'
-import { queryMandateBank } from '@/service/stock-capital-server'
+import { queryMandateBank, hsAccountInfo } from '@/service/stock-capital-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import './index.scss'
 import dayjs from 'dayjs'
@@ -201,7 +201,8 @@ export default {
                     ])
                 }
             },
-            positionStatus: null
+            positionStatus: null,
+            withdrawBalance: ''
         }
     },
     filters: {
@@ -370,6 +371,15 @@ export default {
                 this.bankInfo.bankAccountNo
             this.exchangeFlag = !this.exchangeFlag
         },
+        async hsAccountInfo() {
+            try {
+                let moneyType = this.fundTradeInfoVO.currency.type
+                let { withdrawBalance } = await hsAccountInfo(moneyType)
+                this.withdrawBalance = withdrawBalance
+            } catch (e) {
+                e.msg && this.$toast(e.msg)
+            }
+        },
         async initFunc() {
             this.getFundUserInfo()
             this.getFundFeeConfigV1()
@@ -378,6 +388,7 @@ export default {
             await this.getFundDetailInfo()
             await this.queryMandateBank()
             await this.getMarketValidFundAccount()
+            await this.hsAccountInfo()
             this.initState()
         },
         async getMarketValidFundAccount() {
@@ -679,8 +690,10 @@ export default {
                     this.$t(['未做任何修改', '未做任何修改', 'No Change Made'])
                 )
             }
-
-            if (this.derivativeType != 1) {
+            if (
+                Number(this.amount / this.withdrawBalance).toFixed(2) >= 0.5 &&
+                this.derivativeType != 1
+            ) {
                 this.$dialog
                     .confirm({
                         message: this.$t('content'),
