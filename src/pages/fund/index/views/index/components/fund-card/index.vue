@@ -21,6 +21,7 @@ import {
     parseThousands,
     transNumToThousandMark
 } from '../../../../../../../utils/tools'
+import { CURRENCY_NAME } from '../../../../map'
 // import fundCommonMethods from '../../../../mixins/fund-common-methods'
 
 export default {
@@ -99,7 +100,10 @@ export default {
             //     this.info.fundSize,
             //     this.info.currency.type
             // )
-            let currency = this.$t(this.info.fundSizeCurrency.name) || ''
+            let currency =
+                CURRENCY_NAME[this.$i18n.lang][
+                    this.info.fundSizeCurrency.type
+                ] || ''
             let arr = this.info.fundSize.split('.')
             let size, unit
             let isEnLang = this.$i18n.lang === 'en'
