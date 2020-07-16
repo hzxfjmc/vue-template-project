@@ -24,11 +24,10 @@
                             .fund-right {{actulAmount}}
                 
                 .fund--block--exchange
-                    .fund--blcok--etop
+                    .fund--blcok--etop(@click="hanlderExchangFlag")
                         span {{$t('A13')}}
-                            em.iconfont.icon-iconEBshoucang2(@click="ShowAutomaticExchange")
+                            em.iconfont.icon-iconEBshoucang2(@click.stop="ShowAutomaticExchange")
                         span.iconfont(
-                            @click="hanlderExchangFlag"
                             :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
                     p(v-if="exchangeFlag") 
                         span(v-if="!flag") {{$t('A14')}}
@@ -47,7 +46,7 @@
                             .li(v-if="bankInfo.type == 2")
                                 .block--left
                                     .bank-name {{bankInfo.bankName}} ({{bankInfo.bankAccountNo && bankInfo.bankAccountNo.slice(-4)}})
-                                        span {{bankInfo.eddaSwitch?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
+                                        span {{bankInfo.eddaFpsSwitch === 1?$t(['已授权','已授權','Authorized']):$t(['已失效', '已失效', 'Expired'])}}
                                     .limit-text 
                                         .text-show
                                             span(style="font-size:12px" ) {{$t(['您的EDDA额度为：单笔','您的EDDA額度為：單筆','Your EDDA limit: '])}}
@@ -127,7 +126,7 @@ import { Loading } from 'vant'
 import NumberKeyboard from './components/number-keyboard'
 import protocolPopup from './components/protocol-popup'
 import twoPicker from './components/two-picker'
-import { queryMandateBank } from '@/service/stock-capital-server'
+import { queryMandateBank, hsAccountInfo } from '@/service/stock-capital-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import './index.scss'
 import dayjs from 'dayjs'
@@ -201,7 +200,8 @@ export default {
                     ])
                 }
             },
-            positionStatus: null
+            positionStatus: null,
+            withdrawBalance: ''
         }
     },
     filters: {
@@ -273,7 +273,7 @@ export default {
         //点击去修改
         modifyHandle(val) {
             event.stopPropagation()
-            if (!val.eddaSwitch || val.bankNumber === '238') {
+            if (!val.eddaFpsSwitch === 2 || val.bankNumber === '238') {
                 this.$alert({
                     message: this.$t([
                         '对应银行服务调整中，暂不支持修改限额。',
@@ -367,8 +367,17 @@ export default {
             if (this.flag && this.fundTradeInfoVO.currency.type === 1) return
             this.flag =
                 this.fundTradeInfoVO.currency.type === 1 &&
-                this.bankInfo.bankAccountNo
+                this.bankInfo.type == 2
             this.exchangeFlag = !this.exchangeFlag
+        },
+        async hsAccountInfo() {
+            try {
+                let moneyType = this.fundTradeInfoVO.currency.type
+                let { withdrawBalance } = await hsAccountInfo(moneyType)
+                this.withdrawBalance = withdrawBalance
+            } catch (e) {
+                e.msg && this.$toast(e.msg)
+            }
         },
         async initFunc() {
             this.getFundUserInfo()
@@ -378,6 +387,7 @@ export default {
             await this.getFundDetailInfo()
             await this.queryMandateBank()
             await this.getMarketValidFundAccount()
+            await this.hsAccountInfo()
             this.initState()
         },
         async getMarketValidFundAccount() {
@@ -537,7 +547,7 @@ export default {
                 list.map(item => {
                     item.check = false
                     item.type = 2
-                    if (item.eddaSwitch) {
+                    if (item.eddaFpsSwitch === 1) {
                         this.bankList.push(item)
                     }
                 })
@@ -679,8 +689,10 @@ export default {
                     this.$t(['未做任何修改', '未做任何修改', 'No Change Made'])
                 )
             }
-
-            if (this.derivativeType != 1) {
+            if (
+                Number(this.amount / this.withdrawBalance).toFixed(2) >= 0.5 &&
+                this.derivativeType != 1
+            ) {
                 this.$dialog
                     .confirm({
                         message: this.$t('content'),
