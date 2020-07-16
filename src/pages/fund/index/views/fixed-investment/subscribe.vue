@@ -24,11 +24,10 @@
                             .fund-right {{actulAmount}}
                 
                 .fund--block--exchange
-                    .fund--blcok--etop
+                    .fund--blcok--etop(@click="hanlderExchangFlag")
                         span {{$t('A13')}}
-                            em.iconfont.icon-iconEBshoucang2(@click="ShowAutomaticExchange")
+                            em.iconfont.icon-iconEBshoucang2(@click.stop="ShowAutomaticExchange")
                         span.iconfont(
-                            @click="hanlderExchangFlag"
                             :class="[exchangeFlag?'icon-selected':'icon-unchecked']")
                     p(v-if="exchangeFlag") 
                         span(v-if="!flag") {{$t('A14')}}
@@ -368,7 +367,7 @@ export default {
             if (this.flag && this.fundTradeInfoVO.currency.type === 1) return
             this.flag =
                 this.fundTradeInfoVO.currency.type === 1 &&
-                this.bankInfo.bankAccountNo
+                this.bankInfo.type == 2
             this.exchangeFlag = !this.exchangeFlag
         },
         async hsAccountInfo() {
