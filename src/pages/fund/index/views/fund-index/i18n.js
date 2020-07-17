@@ -120,7 +120,7 @@ export const i18n = {
         accountTotal: 'About My Assets',
         fundCurrency: 'MMF',
         fundBond: 'Bond',
-        fundBlend: 'Allocation',
+        fundBlend: 'Balanced',
         fundShares: 'Equity',
         login: 'Please login in',
         loginBtn: 'Login',
@@ -140,7 +140,8 @@ export const i18n = {
         SubsNow: 'Subs. Now',
         tenKRtn: '10K Rtn',
         uMoney: 'CASH +',
-        stockRedemption: 'It can buy stock immediately after redemption',
+        stockRedemption:
+            'The redempted capital can be used for trading immediately',
         descFund: 'Smart Fund，',
         descFund1: 'Make your money smart',
         LoginNow: 'Login Now',
