@@ -168,6 +168,7 @@ export default {
             this.show = false
         },
         handlerAmount() {
+            this.amount = this.amount.replace(/\.+$/, '')
             this.$emit('handlerAmount', this.amount)
         },
         close() {
