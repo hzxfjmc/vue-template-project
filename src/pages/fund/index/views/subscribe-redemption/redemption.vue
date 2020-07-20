@@ -17,6 +17,7 @@
                         @input="changeNumber"
                         :placeholder="$t('entryUnit')"
                         @onShow="onKeyboardShow"
+                        :digit="digit"
                         )
                         <!--.block__fund&#45;&#45;input1-->
                             <!--//- span {{currencyType == 1 ? '':'HK'}}$-->
@@ -137,7 +138,9 @@ export default {
             tagText: '',
             // 最小交易金額
             minTradeAmount: '',
-            keyboardShow: false
+            keyboardShow: false,
+            // 小数位
+            digit: 4
         }
     },
     async created() {
@@ -211,9 +214,9 @@ export default {
             let result = (this.positionShare * percent).toString()
             result = result.split('.')
             if (result[1]) {
-                result[1] = result[1].substr(0, 4)
+                result[1] = result[1].substr(0, this.digit)
             } else {
-                result[1] = '0000'
+                result[1] = ''.padStart(this.digit, '0')
             }
             result = result[0] + '.' + result[1]
             console.log(
@@ -286,6 +289,8 @@ export default {
                 this.sellProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
+                this.digit = fundDetail.fundHeaderInfoVO.digit || 4
+                // this.digit = 2
             } catch (e) {
                 console.log('赎回页面-getFundDetailInfo:error:>>>', e)
             }

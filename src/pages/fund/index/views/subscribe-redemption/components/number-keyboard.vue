@@ -64,7 +64,11 @@ export default {
             type: Boolean,
             default: false
         },
-        value: {}
+        value: {},
+        digit: {
+            type: Number,
+            default: 4
+        }
     },
     i18n: {
         zhCHS: {
@@ -210,7 +214,7 @@ export default {
         onInput(val) {
             console.log('onInput', this.amount, val)
             let amount = String(this.amount)
-            let re = /^\d{1,9}(\.\d{0,4})?$/
+            let re = new RegExp(`^\\d{1,9}(\\.\\d{0,` + this.digit + `})?$`)
             let noDeal = false
             if (amount === this.placeholder && (val == 0 || val === '.')) {
                 amount = '0.'
