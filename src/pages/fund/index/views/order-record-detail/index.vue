@@ -66,6 +66,9 @@
                         .order-item.flex(v-if="orderStatusSuccess")
                             span.itemName {{$t('fee')}}
                             span.type-text {{orderFee|transNumToThousandMark}}{{currency}}
+                        .order-item.flex(v-if="orderStatusSuccess")
+                            span.itemName {{$t('amountReceived')}}
+                            span.type-text {{moneyNum|transNumToThousandMark}}{{currency}}
                 van-cell(class="order-time" v-if="isSubscribeOrder || isFixedInvest")
                     .order-item.flex
                         span.itemName {{$t('debitWay')}}
