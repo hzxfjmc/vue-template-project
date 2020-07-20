@@ -174,7 +174,10 @@ export default {
     watch: {
         redemptionShare(val) {
             if (val > +this.positionShare) {
-                this.redemptionShare = this.sliceDeci(this.positionShare, 4)
+                this.redemptionShare = this.sliceDeci(
+                    this.positionShare,
+                    this.digit
+                )
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
             this.getTagText()
