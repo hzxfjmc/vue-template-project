@@ -296,7 +296,8 @@ export default {
                     item.fileName = item.fileName.split('.')[0]
                 })
                 this.digit =
-                    fundDetail.fundHeaderInfoVO.digit === null
+                    fundDetail.fundHeaderInfoVO.digit === null ||
+                    fundDetail.fundHeaderInfoVO.digit > 4
                         ? 4
                         : fundDetail.fundHeaderInfoVO.digit
                 // this.digit = 0
