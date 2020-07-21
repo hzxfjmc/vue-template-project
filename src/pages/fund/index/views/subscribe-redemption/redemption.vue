@@ -41,7 +41,7 @@
                         .right {{ positionShare |  parseThousands}}
                     .buy-row
                         .left {{ $t('minPositionShare') }}
-                        .right {{ minPositionShare | sliceFixedTwo(4)| parseThousands }}
+                        .right {{ minPositionShare | sliceFixedTwo(digit)| parseThousands }}
                     .buy-row
                         .left
                             span {{ $t('redemption') }}
@@ -209,6 +209,9 @@ export default {
             console.log(this.redemptionShare)
         },
         sliceDeci(s, l) {
+            if (l === 0) {
+                return s.split('.')[0]
+            }
             let deci = s.split('.')[1].slice(0, l)
             return s.split('.')[0] + '.' + deci
         },
@@ -216,17 +219,17 @@ export default {
         handlerFastSellCount(percent) {
             let result = (this.positionShare * percent).toString()
             result = result.split('.')
-            if (result[1]) {
-                result[1] = result[1].substr(0, this.digit)
+            if (this.digit === 0) {
+                result = result[0]
             } else {
-                result[1] = ''.padStart(this.digit, '0')
+                if (result[1]) {
+                    result[1] = result[1].substr(0, this.digit)
+                } else {
+                    result[1] = ''.padStart(this.digit, '0')
+                }
+                result = result[0] + '.' + result[1]
             }
-            result = result[0] + '.' + result[1]
-            console.log(
-                (this.positionShare * percent).toString(),
-                percent,
-                result
-            )
+            console.log('result', result)
             this.redemptionShare = result || ''
         },
         async openProtocol(url) {
@@ -292,8 +295,11 @@ export default {
                 this.sellProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
-                this.digit = fundDetail.fundHeaderInfoVO.digit || 4
-                // this.digit = 2
+                this.digit =
+                    fundDetail.fundHeaderInfoVO.digit === null
+                        ? 4
+                        : fundDetail.fundHeaderInfoVO.digit
+                // this.digit = 0
             } catch (e) {
                 console.log('赎回页面-getFundDetailInfo:error:>>>', e)
             }
@@ -376,7 +382,10 @@ export default {
         },
         // 計算最小赎回份额
         getMinRedemptionPrice() {
-            return sliceDecimal(this.minTradeAmount / this.netPrice + '', 4)
+            return sliceDecimal(
+                this.minTradeAmount / this.netPrice + '',
+                this.digit
+            )
         },
         check() {
             console.log(this.redemptionShare)

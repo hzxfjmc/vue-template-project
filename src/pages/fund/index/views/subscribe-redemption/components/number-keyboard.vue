@@ -214,7 +214,15 @@ export default {
         onInput(val) {
             console.log('onInput', this.amount, val)
             let amount = String(this.amount)
-            let re = new RegExp(`^\\d{1,9}(\\.\\d{0,` + this.digit + `})?$`)
+            let re
+            if (this.digit > 0) {
+                re = new RegExp(`^\\d{1,9}(\\.\\d{0,` + this.digit + `})?$`)
+            } else {
+                re = /^\d{1,9}$/
+                if (val === '.') {
+                    return
+                }
+            }
             let noDeal = false
             if (amount === this.placeholder && (val == 0 || val === '.')) {
                 amount = '0.'
