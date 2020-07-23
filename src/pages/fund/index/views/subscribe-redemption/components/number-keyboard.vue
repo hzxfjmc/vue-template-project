@@ -217,6 +217,9 @@ export default {
             let re
             if (this.digit > 0) {
                 re = new RegExp(`^\\d{1,9}(\\.\\d{0,` + this.digit + `})?$`)
+                if (!re.test(amount + val)) {
+                    return
+                }
             } else {
                 re = /^\d{1,9}$/
                 if (val === '.') {
