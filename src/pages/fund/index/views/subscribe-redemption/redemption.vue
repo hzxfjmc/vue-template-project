@@ -398,7 +398,14 @@ export default {
                 +this.redemptionShare + +this.minPositionShare >
                 +this.positionShare
             ) {
-                return this.$t('minAmount', this.minPositionShare)
+                if (+this.redemptionShare === +this.positionShare) {
+                    // 如果赎回份额等于可赎份额，跳过校验，交由后端判断
+                    return ''
+                }
+                return this.$t(
+                    'minAmount',
+                    sliceDecimal(this.minPositionShare + '', this.digit)
+                )
             }
             if (+this.positionShare < +this.redemptionShare) {
                 return this.$t('notEnough')
