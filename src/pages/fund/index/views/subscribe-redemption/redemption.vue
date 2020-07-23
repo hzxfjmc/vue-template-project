@@ -393,15 +393,22 @@ export default {
             if (!+this.redemptionShare) {
                 return this.$t('emptyInput')
             }
-            // 最小赎回份额
-            let minRedemptionPrice = Number(this.getMinRedemptionPrice())
-            // 赎回份额小于最小赎回份额
-            if (+this.redemptionShare < minRedemptionPrice) {
-                if (+this.redemptionShare === +this.positionShare) {
-                    // 如果赎回份额等于可赎份额，但是可赎份额小于最小赎回份额的话，跳过校验，交由后端判断
-                    return ''
-                }
-                return this.$t('minAmount', minRedemptionPrice)
+            // // 最小赎回份额
+            // let minRedemptionPrice = Number(this.getMinRedemptionPrice())
+            // // 赎回份额小于最小赎回份额
+            // if (+this.redemptionShare < minRedemptionPrice) {
+            //     if (+this.redemptionShare === +this.positionShare) {
+            //         // 如果赎回份额等于可赎份额，但是可赎份额小于最小赎回份额的话，跳过校验，交由后端判断
+            //         return ''
+            //     }
+            //     return this.$t('minAmount', minRedemptionPrice)
+            // }
+            // 最小持有份額
+            if (
+                +this.redemptionShare + +this.minPositionShare >
+                +this.positionShare
+            ) {
+                return this.$t('minAmount', this.minPositionShare)
             }
             if (+this.positionShare < +this.redemptionShare) {
                 return this.$t('notEnough')
@@ -444,7 +451,7 @@ export default {
             entryUnit: '请输入赎回份额',
             predictSellAmount: '订单总金额',
             emptyInput: '请输入赎回份额',
-            minAmount: money => `最小赎回${money}份额`,
+            minAmount: money => `最小持有${money}份额`,
             notEnough: '可赎份额不足',
             all: '全部'
         },
@@ -476,7 +483,7 @@ export default {
             entryUnit: '請輸入贖回份額',
             predictSellAmount: '訂單總金額',
             emptyInput: '請輸入贖回份額',
-            minAmount: money => `最小贖回${money}份額`,
+            minAmount: money => `最小持有${money}份額`,
             notEnough: '可贖份額不足',
             all: '全部'
         },
@@ -486,7 +493,7 @@ export default {
             positionMarketValue: 'Fund Value',
             redeemShares: 'Units of Redemption',
             minSellBalance: 'Min. Holding Amount',
-            minPositionShare: 'Min. Holding Share',
+            minPositionShare: 'Min. Holding Units',
             continueBalance: 'Redemption Rules',
             redemption: 'Redemption Fee',
             predict: 'Estimate',
@@ -509,7 +516,7 @@ export default {
             entryUnit: 'Please Entry Redemption Unit',
             predictSellAmount: 'Total Amount of Orders',
             emptyInput: 'Please Entry Units',
-            minAmount: money => `Mini. Redemption Units ${money}`,
+            minAmount: money => `Mini. Holding Units ${money}`,
             notEnough: 'Insufficient Redeemable',
             all: 'ALL'
         }
