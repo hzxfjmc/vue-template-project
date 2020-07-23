@@ -19,21 +19,11 @@
                         @onShow="onKeyboardShow"
                         :digit="digit"
                         )
-                        <!--.block__fund&#45;&#45;input1-->
-                            <!--//- span {{currencyType == 1 ? '':'HK'}}$-->
-                            <!--input(-->
-                                <!--v-model="redemptionShare"-->
-                                <!--type="number"-->
-                                <!--@input="changeNumber"-->
-                                <!--:placeHolder="$t('entryUnit')"-->
-                                <!--clearable-->
-                                <!--)-->
-                            <!--.block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}-->
                         .buy-row
                             .btn-fast(@click="handlerFastSellCount(0.25)") 1/4
                             .btn-fast(@click="handlerFastSellCount(1/3)") 1/3
                             .btn-fast(@click="handlerFastSellCount(0.5)") 1/2
-                            .btn-fast(@click="handlerFastSellCount(1)") {{$t('all')}}
+                            .btn-fast(@click="handlerFastSellCount(1)") {{$t('sellAll')}}
                     .buy-row.block__tags(v-show="tagText")
                         span {{tagText}}
                     .buy-row
@@ -447,7 +437,7 @@ export default {
             iKnow: '我知道了',
             moneyToAcc: '资金到达证券账户',
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
-            sellAll: '全部卖出',
+            sellAll: '全部',
             entryUnit: '请输入赎回份额',
             predictSellAmount: '订单总金额',
             emptyInput: '请输入赎回份额',
@@ -479,7 +469,7 @@ export default {
             iKnow: '我知道了',
             moneyToAcc: '資金到達證券賬戶',
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
-            sellAll: '全部賣出',
+            sellAll: '全部',
             entryUnit: '請輸入贖回份額',
             predictSellAmount: '訂單總金額',
             emptyInput: '請輸入贖回份額',
@@ -512,7 +502,7 @@ export default {
             moneyToAcc: 'Funds Credited to Securities Account',
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
-            sellAll: 'Sell All',
+            sellAll: 'ALL',
             entryUnit: 'Please Entry Redemption Unit',
             predictSellAmount: 'Total Amount of Orders',
             emptyInput: 'Please Entry Units',

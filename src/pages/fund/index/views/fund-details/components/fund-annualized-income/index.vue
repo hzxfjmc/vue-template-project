@@ -7,8 +7,8 @@
                         .text {{$t(['年化收益','年化收益','ANN RTN'])}} 
                         .iconfont.icon-warning(@click="showTips")          
                     .label {{$t(['本基金', '本基金', 'Fund'])}}          
-                    .label {{$t(['同类平均', '同類平均', 'Sector AVG'])}}          
-                    .label {{$t(['同类排名', '同類排名', 'Sector Rank'])}}          
+                    .label {{$t(['同类平均', '同類平均', 'Category AVG'])}}
+                    .label {{$t(['同类排名', '同類排名', 'Category Rank'])}}
             .body-item.body-item__right
                 .item(v-for="item,index in keyList" :key="`key_${index}`")  
                     .title {{item.title}}           
