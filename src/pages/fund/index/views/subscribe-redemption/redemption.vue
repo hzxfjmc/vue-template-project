@@ -18,6 +18,7 @@
                         :placeholder="$t('entryUnit')"
                         @onShow="onKeyboardShow"
                         :digit="digit"
+                        isRedemption
                         )
                         .buy-row
                             .btn-fast(@click="handlerFastSellCount(0.25)") 1/4
@@ -213,7 +214,9 @@ export default {
                 result = result[0]
             } else {
                 if (result[1]) {
-                    result[1] = result[1].substr(0, this.digit)
+                    result[1] = result[1]
+                        .substr(0, this.digit)
+                        .padEnd(this.digit, '0')
                 } else {
                     result[1] = ''.padStart(this.digit, '0')
                 }

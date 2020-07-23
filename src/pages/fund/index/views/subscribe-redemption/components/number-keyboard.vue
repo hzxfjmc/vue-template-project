@@ -4,7 +4,7 @@
         :class="{ redemption: !currency }"
         @click="showNumberKeyboard")
         span.label(v-if="currency") {{currency == 1 ? 'US$': 'HK$'}}
-        span.block__tip--number {{unit}}
+        span.block__tip--number(v-if="!isRedemption") {{unit}}
         template(v-if="!amount")
             div.number-board(:class="show ? 'word': 'word1'") {{placeholder}}
         template(v-else)
@@ -68,6 +68,10 @@ export default {
         digit: {
             type: Number,
             default: 4
+        },
+        isRedemption: {
+            type: Boolean,
+            default: false
         }
     },
     i18n: {
