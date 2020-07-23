@@ -232,6 +232,9 @@ export function jumpUrl(jump_type, jump_url) {
 export const sliceDecimal = function(str, length = 0) {
     str = str + ''
     if (str.indexOf('.') !== -1) {
+        if (length === 0) {
+            return str.split('.')[0]
+        }
         let decimal = str.split('.')[1].slice(0, length)
         return str.split('.')[0] + '.' + decimal
     } else {

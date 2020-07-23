@@ -1075,7 +1075,7 @@ export default {
                                         categoryPointData: this.$t([
                                             '同类平均',
                                             '同類平均',
-                                            'Sector AVG'
+                                            'Category AVG'
                                         ]),
                                         benchmarkPointData: this.$t([
                                             this.benchmarkNameObj.zhCn,

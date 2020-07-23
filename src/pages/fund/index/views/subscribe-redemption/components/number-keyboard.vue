@@ -4,7 +4,7 @@
         :class="{ redemption: !currency }"
         @click="showNumberKeyboard")
         span.label(v-if="currency") {{currency == 1 ? 'US$': 'HK$'}}
-        span.block__tip--number {{unit}}
+        span.block__tip--number(v-if="!isRedemption") {{unit}}
         template(v-if="!amount")
             div.number-board(:class="show ? 'word': 'word1'") {{placeholder}}
         template(v-else)
@@ -64,7 +64,15 @@ export default {
             type: Boolean,
             default: false
         },
-        value: {}
+        value: {},
+        digit: {
+            type: Number,
+            default: 4
+        },
+        isRedemption: {
+            type: Boolean,
+            default: false
+        }
     },
     i18n: {
         zhCHS: {
@@ -210,7 +218,18 @@ export default {
         onInput(val) {
             console.log('onInput', this.amount, val)
             let amount = String(this.amount)
-            let re = /^\d{1,9}(\.\d{0,4})?$/
+            let re
+            if (this.digit > 0) {
+                re = new RegExp(`^\\d{1,9}(\\.\\d{0,` + this.digit + `})?$`)
+                if (!re.test(amount + val)) {
+                    return
+                }
+            } else {
+                re = /^\d{1,9}$/
+                if (val === '.') {
+                    return
+                }
+            }
             let noDeal = false
             if (amount === this.placeholder && (val == 0 || val === '.')) {
                 amount = '0.'

@@ -34,6 +34,9 @@ Vue.filter('formatCurrency', function(num) {
 
 // 截取小数，默认保留两位，不足补0
 Vue.filter('sliceFixedTwo', function(n, l = 2) {
+    if (l === 0) {
+        return n.split('.')[0]
+    }
     const sliceDeci = (s, l) => {
         let deci = s.split('.')[1].slice(0, l)
         return s.split('.')[0] + '.' + deci

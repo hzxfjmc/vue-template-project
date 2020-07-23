@@ -454,7 +454,7 @@ export default {
             return this.$t(['本基金', '本基金', 'Fund'])
         },
         categoryName() {
-            return this.$t(['同类平均', '同類平均', 'Sector AVG'])
+            return this.$t(['同类平均', '同類平均', 'Category AVG'])
         }
     },
     watch: {

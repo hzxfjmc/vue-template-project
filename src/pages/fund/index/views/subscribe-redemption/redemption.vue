@@ -17,22 +17,14 @@
                         @input="changeNumber"
                         :placeholder="$t('entryUnit')"
                         @onShow="onKeyboardShow"
+                        :digit="digit"
+                        isRedemption
                         )
-                        <!--.block__fund&#45;&#45;input1-->
-                            <!--//- span {{currencyType == 1 ? '':'HK'}}$-->
-                            <!--input(-->
-                                <!--v-model="redemptionShare"-->
-                                <!--type="number"-->
-                                <!--@input="changeNumber"-->
-                                <!--:placeHolder="$t('entryUnit')"-->
-                                <!--clearable-->
-                                <!--)-->
-                            <!--.block__allsell(@click="HandlerAllSell") {{$t('sellAll')}}-->
                         .buy-row
                             .btn-fast(@click="handlerFastSellCount(0.25)") 1/4
                             .btn-fast(@click="handlerFastSellCount(1/3)") 1/3
                             .btn-fast(@click="handlerFastSellCount(0.5)") 1/2
-                            .btn-fast(@click="handlerFastSellCount(1)") {{$t('all')}}
+                            .btn-fast(@click="handlerFastSellCount(1)") {{$t('sellAll')}}
                     .buy-row.block__tags(v-show="tagText")
                         span {{tagText}}
                     .buy-row
@@ -40,7 +32,7 @@
                         .right {{ positionShare |  parseThousands}}
                     .buy-row
                         .left {{ $t('minPositionShare') }}
-                        .right {{ minPositionShare | sliceFixedTwo(4)| parseThousands }}
+                        .right {{ minPositionShare | sliceFixedTwo(digit)| parseThousands }}
                     .buy-row
                         .left
                             span {{ $t('redemption') }}
@@ -137,7 +129,9 @@ export default {
             tagText: '',
             // 最小交易金額
             minTradeAmount: '',
-            keyboardShow: false
+            keyboardShow: false,
+            // 小数位
+            digit: 4
         }
     },
     async created() {
@@ -171,7 +165,10 @@ export default {
     watch: {
         redemptionShare(val) {
             if (val > +this.positionShare) {
-                this.redemptionShare = this.sliceDeci(this.positionShare, 4)
+                this.redemptionShare = this.sliceDeci(
+                    this.positionShare,
+                    this.digit
+                )
             }
             this.predictSellAmount = this.redemptionShare * this.netPrice
             this.getTagText()
@@ -203,6 +200,9 @@ export default {
             console.log(this.redemptionShare)
         },
         sliceDeci(s, l) {
+            if (l === 0) {
+                return s.split('.')[0]
+            }
             let deci = s.split('.')[1].slice(0, l)
             return s.split('.')[0] + '.' + deci
         },
@@ -210,17 +210,19 @@ export default {
         handlerFastSellCount(percent) {
             let result = (this.positionShare * percent).toString()
             result = result.split('.')
-            if (result[1]) {
-                result[1] = result[1].substr(0, 4)
+            if (this.digit === 0) {
+                result = result[0]
             } else {
-                result[1] = '0000'
+                if (result[1]) {
+                    result[1] = result[1]
+                        .substr(0, this.digit)
+                        .padEnd(this.digit, '0')
+                } else {
+                    result[1] = ''.padStart(this.digit, '0')
+                }
+                result = result[0] + '.' + result[1]
             }
-            result = result[0] + '.' + result[1]
-            console.log(
-                (this.positionShare * percent).toString(),
-                percent,
-                result
-            )
+            console.log('result', result)
             this.redemptionShare = result || ''
         },
         async openProtocol(url) {
@@ -286,6 +288,12 @@ export default {
                 this.sellProtocolFileList.map(item => {
                     item.fileName = item.fileName.split('.')[0]
                 })
+                this.digit =
+                    fundDetail.fundHeaderInfoVO.digit === null ||
+                    fundDetail.fundHeaderInfoVO.digit > 4
+                        ? 4
+                        : fundDetail.fundHeaderInfoVO.digit
+                // this.digit = 0
             } catch (e) {
                 console.log('赎回页面-getFundDetailInfo:error:>>>', e)
             }
@@ -368,22 +376,39 @@ export default {
         },
         // 計算最小赎回份额
         getMinRedemptionPrice() {
-            return sliceDecimal(this.minTradeAmount / this.netPrice + '', 4)
+            return sliceDecimal(
+                this.minTradeAmount / this.netPrice + '',
+                this.digit
+            )
         },
         check() {
             console.log(this.redemptionShare)
             if (!+this.redemptionShare) {
                 return this.$t('emptyInput')
             }
-            // 最小赎回份额
-            let minRedemptionPrice = Number(this.getMinRedemptionPrice())
-            // 赎回份额小于最小赎回份额
-            if (+this.redemptionShare < minRedemptionPrice) {
+            // // 最小赎回份额
+            // let minRedemptionPrice = Number(this.getMinRedemptionPrice())
+            // // 赎回份额小于最小赎回份额
+            // if (+this.redemptionShare < minRedemptionPrice) {
+            //     if (+this.redemptionShare === +this.positionShare) {
+            //         // 如果赎回份额等于可赎份额，但是可赎份额小于最小赎回份额的话，跳过校验，交由后端判断
+            //         return ''
+            //     }
+            //     return this.$t('minAmount', minRedemptionPrice)
+            // }
+            // 最小持有份額
+            if (
+                +this.redemptionShare + +this.minPositionShare >
+                +this.positionShare
+            ) {
                 if (+this.redemptionShare === +this.positionShare) {
-                    // 如果赎回份额等于可赎份额，但是可赎份额小于最小赎回份额的话，跳过校验，交由后端判断
+                    // 如果赎回份额等于可赎份额，跳过校验，交由后端判断
                     return ''
                 }
-                return this.$t('minAmount', minRedemptionPrice)
+                return this.$t(
+                    'minAmount',
+                    sliceDecimal(this.minPositionShare + '', this.digit)
+                )
             }
             if (+this.positionShare < +this.redemptionShare) {
                 return this.$t('notEnough')
@@ -422,11 +447,11 @@ export default {
             iKnow: '我知道了',
             moneyToAcc: '资金到达证券账户',
             protocolTips: '已阅读并同意服务协议及风险提示，并查阅相关信息',
-            sellAll: '全部卖出',
+            sellAll: '全部',
             entryUnit: '请输入赎回份额',
             predictSellAmount: '订单总金额',
             emptyInput: '请输入赎回份额',
-            minAmount: money => `最小赎回${money}份额`,
+            minAmount: money => `最小持有${money}份额`,
             notEnough: '可赎份额不足',
             all: '全部'
         },
@@ -454,11 +479,11 @@ export default {
             iKnow: '我知道了',
             moneyToAcc: '資金到達證券賬戶',
             protocolTips: '已閱讀並同意服務協議及風險提示，並查閱相關信息',
-            sellAll: '全部賣出',
+            sellAll: '全部',
             entryUnit: '請輸入贖回份額',
             predictSellAmount: '訂單總金額',
             emptyInput: '請輸入贖回份額',
-            minAmount: money => `最小贖回${money}份額`,
+            minAmount: money => `最小持有${money}份額`,
             notEnough: '可贖份額不足',
             all: '全部'
         },
@@ -468,7 +493,7 @@ export default {
             positionMarketValue: 'Fund Value',
             redeemShares: 'Units of Redemption',
             minSellBalance: 'Min. Holding Amount',
-            minPositionShare: 'Min. Holding Share',
+            minPositionShare: 'Min. Holding Units',
             continueBalance: 'Redemption Rules',
             redemption: 'Redemption Fee',
             predict: 'Estimate',
@@ -487,11 +512,11 @@ export default {
             moneyToAcc: 'Funds Credited to Securities Account',
             protocolTips:
                 'I have read and agree to the service agreement and risk warning, and consult relevant information',
-            sellAll: 'Sell All',
+            sellAll: 'ALL',
             entryUnit: 'Please Entry Redemption Unit',
             predictSellAmount: 'Total Amount of Orders',
             emptyInput: 'Please Entry Units',
-            minAmount: money => `Mini. Redemption Units ${money}`,
+            minAmount: money => `Mini. Holding Units ${money}`,
             notEnough: 'Insufficient Redeemable',
             all: 'ALL'
         }
