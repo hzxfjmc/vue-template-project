@@ -119,18 +119,10 @@ div
                 p.block--desc.block--desc_en(v-else) {{$t('stockRedemption')}}
                 .block--bottom-content(@click="toYxbao")
                     .left
-                        .number(
-                            v-if="Number(sevenDaysApy)>0" 
-                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{sevenDaysApy}}%
-                        .number(
-                            v-if="Number(sevenDaysApy)<0" 
-                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{sevenDaysApy}}%
-                        .number(
-                            v-if="Number(sevenDaysApy) === 0") {{sevenDaysApy}}%
-                        p.block--bottom--desc {{$t('yieldInLast7d')}}
-                    .content
-                        p.number {{tenThousandApy}}
-                        p.block--bottom--desc {{$t('tenKRtn')}}
+                        .number(v-if="Number(sevenDaysApy)>0")  +{{sevenDaysApy}}%
+                        .number(v-else ) {{sevenDaysApy}}%
+                        p.block--bottom--desc {{currencyTab===0?$t('hkd'):$t('usd')}} | {{$t('yieldInLast7d')}}
+                            span.iconfont.icon-warning
                     .right
                         van-button.block--subscribe {{$t('SubsNow')}}
             

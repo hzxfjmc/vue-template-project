@@ -23,7 +23,7 @@
             p {{$t('C31')}}
         .block__word--item
             p.word-color {{$t('C27')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{$t('hkd')}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{orderDetails.currency === 1 ? $t('usd'):$t('hkd')}}
 
     .block__word--list.border-bottom(v-else)
         .block__word--item
@@ -31,11 +31,11 @@
             p {{orderDetails.recordTypeName}}
         .block__word--item
             p.word-color {{$t('Amounts')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{$t('hkd')}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{orderDetails.currency === 1 ? $t('usd'):$t('hkd')}}
 
         .block__word--item
             p.word-color {{$t('C22')}}
-            p.num {{orderDetails.recordFee|transNumToThousandMark}} {{$t('hkd')}}
+            p.num {{orderDetails.recordFee|transNumToThousandMark}} {{orderDetails.currency === 1 ? $t('usd'):$t('hkd')}}
 
     .block__footer--btn
         van-button(@click="toHomePage") {{$t('done')}}
@@ -131,6 +131,7 @@ export default {
                 this.orderDetails.recordType === 1
                     ? this.orderDetails.earningsDate
                     : this.orderDetails.deliveryDate
+
             let week = this.getWeek(date)
             let datei18n = this.$t([
                 `预计${dayjs(date).format('MM-DD')}(${week})`,

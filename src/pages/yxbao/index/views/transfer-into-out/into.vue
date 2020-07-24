@@ -1,10 +1,23 @@
 <template lang="pug">
 .block__element-wrapper
+    .block__out__fund 
+        .fund__left(v-if="choosedFund.length")
+            p.title {{choosedFund[0].fundName}}
+            p.weak {{$t('yieldInLast7d')}} 
+                span.num(
+                    :class="{green: choosedFund[0].sevenDaysApy<0}"
+                ) {{choosedFund[0].sevenDaysApy*100 | transNumToThousandMark}}%
+                span.detail(@click="goToFundDetails(choosedFund[0].fundId)") {{$t('C90')}}
+        .fund__more(@click="showFundList = true")
+            p.more {{$t('moreFund')}}
+                span.iconfont.icon-iconEBgengduoCopy
     .block__out--header
         h1.title {{$t('C27')}}   
         NumberKeyboard(
             :placeholder="placeholder"
             :withdrawBalance="accountInfo.withdrawBalance"
+            :currencyType="currencyType"
+            :showAllSellBtn='showAllSellBtn'
             @handlerAmount="handlerAmount"
             :openTips="true"
         )
@@ -14,7 +27,7 @@
         p.title {{$t('C30')}} 
         .tips 
             p.tips--top {{$t('C31')}}
-            p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{$t('hkd')}}
+            p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{currencyType === 1 ? $t('usd') : $t('hkd')}}
     
     .block__footer--check()
         em.iconfont(
@@ -23,29 +36,57 @@
         span {{$t('agreement')}}
             em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
     van-button.btn(
-        @click="getBaoCapitalTrade") {{$t('C9')}}
+        @click="getBaoCapitalTrade"
+        :disabled="!checkInfo"
+        ) {{$t('C9')}}
     
     .block__footer--loading(v-if="loading")
         Loading(type="spinner" color="#2F79FF")
+    van-popup(
+        v-model="showFundList"
+        position="bottom"
+        :closeable="true"
+    )   
+        .fund__top
+            .left {{$t('chooseFundTips')}}
+            .right(@click="showFundList = false") {{$t('C15')}}
+        .fund__list--item(
+            @click="chooseFund(item.fundId)"
+            v-if="fundList.length"
+            v-for="item in fundList"
+        )
+            .item__left
+                p.name {{item.fundName}}
+                p.weak {{$t('yieldInLast7d')}} 
+                    span.num(
+                        :class="{green: item.sevenDaysApy<0}"
+                    ) {{item.sevenDaysApy*100 | transNumToThousandMark}}%
+                    span.detail(@click="goToFundDetails(item.fundId)") {{$t('C90')}}
+            .item__right(v-if="item.fundId === choosedFund[0].fundId")
+                span.iconfont.icon-tick-
+
+
 
 </template>
 <script>
 import NumberKeyboard from './number-keyboard'
 import { getBaoCapitalTrade } from '@/service/finance-server.js'
-import { getFundDetail } from '@/service/finance-info-server.js'
+import { getFundDetail, getBaoFundList } from '@/service/finance-info-server.js'
 import { getCosUrl } from '@/utils/cos-utils'
-import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
+import { generateUUID, transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
-import { Loading } from 'vant'
+import { Loading, Popup } from 'vant'
 export default {
     components: {
         NumberKeyboard,
-        Loading
+        Loading,
+        [Popup.name]: Popup
     },
     data() {
         return {
             checkInfo: true,
+            showFundList: false,
             amount: '',
             placeholder: '',
             chargeType: 1,
@@ -57,12 +98,26 @@ export default {
             desc: '',
             loading: true,
             ProtocolFile: '',
-            filePath: ''
+            filePath: '',
+            fundList: [],
+            fundId: '',
+            choosedFund: [],
+            showAllSellBtn: {
+                show: true,
+                desc: 'allIn',
+                maxAmount: ''
+            }
         }
     },
     async created() {
+        await this.getBaoFundList()
         await this.getFundDetail()
         this.handleHsAccountInfo()
+    },
+    filters: {
+        transNumToThousandMark(value) {
+            return transNumToThousandMark(value)
+        }
     },
     methods: {
         async openProtocol(url) {
@@ -76,6 +131,20 @@ export default {
         handlerAmount(amount) {
             this.amount = amount
         },
+        goToFundDetails(fundId) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+            jumpUrl(3, url)
+        },
+        chooseFund(id) {
+            this.showFundList = false
+            if (this.fundId === id) return
+            this.fundId = id
+            this.choosedFund = this.fundList.filter(item => {
+                return item.fundId === id
+            })
+            this.handleHsAccountInfo()
+            this.getFundDetail()
+        },
         //获取基金详情
         async getFundDetail() {
             try {
@@ -85,21 +154,17 @@ export default {
                     buyProtocolFileList
                 } = await getFundDetail({
                     displayLocation: 3,
-                    fundId: this.$route.query.id || this.id,
+                    fundId: this.fundId || this.$route.query.id,
                     isin: this.$route.query.isin
                 })
                 this.fundTradeInfoVO = fundTradeInfoVO
-                let placeholder = this.$t([
-                    `${transNumToThousandMark(
-                        fundTradeInfoVO.initialInvestAmount
-                    )}港币起`,
-                    `${transNumToThousandMark(
-                        fundTradeInfoVO.initialInvestAmount
-                    )}港幣起`,
-                    `${transNumToThousandMark(
-                        fundTradeInfoVO.initialInvestAmount
-                    )}HKD initial Subs`
-                ])
+                let placeholder = `${transNumToThousandMark(
+                    fundTradeInfoVO.initialInvestAmount
+                )}${
+                    fundTradeInfoVO.currency.type === 1
+                        ? this.$t('usd')
+                        : this.$t('hkd')
+                }${this.$t('above')}`
                 this.ProtocolFile =
                     buyProtocolFileList[0] &&
                     buyProtocolFileList[0].fileName.split('.')[0]
@@ -123,12 +188,33 @@ export default {
             try {
                 let data = await hsAccountInfo(this.currencyType)
                 this.accountInfo = data || {}
+                this.showAllSellBtn.maxAmount = data.withdrawBalance
                 this.loading = false
                 this.$close()
             } catch (error) {
                 this.$toast(error.msg, 'middle')
                 this.loading = false
                 console.log('hsAccountInfo:error:>>>', error)
+            }
+        },
+        // 获取现金+列表
+        async getBaoFundList() {
+            try {
+                const res = await getBaoFundList()
+                // 基金七日年化收益从高到底排序
+                this.fundList = res.sort((pre, cur) => {
+                    if (Number(pre.sevenDaysApy) > Number(cur.sevenDaysApy)) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                })
+                this.choosedFund = this.fundList.filter(item => {
+                    return item.fundId === this.$route.query.id
+                })
+                this.fundId = this.$route.query.id
+            } catch (e) {
+                this.$toast(e.msg)
             }
         },
         async getBaoCapitalTrade() {
@@ -146,14 +232,27 @@ export default {
                         this.$t([
                             `最低转入${Number(
                                 this.fundTradeInfoVO.initialInvestAmount
-                            ).toFixed(2)}港币`,
+                            ).toFixed(2)}${
+                                this.fundTradeInfoVO.currency.type === 1
+                                    ? '美元'
+                                    : '港币'
+                            }`,
                             `最低轉入${Number(
                                 this.fundTradeInfoVO.initialInvestAmount
-                            ).toFixed(2)}港幣`,
-                            `Mini. Subs HKD ${Number(
+                            ).toFixed(2)}${
+                                this.fundTradeInfoVO.currency.type === 2
+                                    ? '美元'
+                                    : '港幣'
+                            }`,
+                            `Mini. Subs ${
+                                this.fundTradeInfoVO.currency.type === 2
+                                    ? 'USD'
+                                    : 'HKD'
+                            } ${Number(
                                 this.fundTradeInfoVO.initialInvestAmount
                             ).toFixed(2)}`
                         ]),
+
                         'middle'
                     )
                 if (this.amount > this.withdrawBalance) {
@@ -179,7 +278,7 @@ export default {
                 const res = await getBaoCapitalTrade({
                     amount: this.amount,
                     chargeType: this.chargeType,
-                    fundId: this.$route.query.id,
+                    fundId: this.fundId || this.$route.query.id,
                     recordType: 1,
                     requestId: generateUUID(),
                     tradeToken: data.token
@@ -230,7 +329,41 @@ export default {
     font-family: yxFont;
     font-weight: 700;
 }
+.block__out__fund {
+    display: flex;
+    justify-content: space-between;
+    padding: 15px 12px 14px 12px;
+    background: #fff;
+    .title {
+        margin-bottom: 4px;
+        height: 22px;
+        font-size: 16px;
+        line-height: 22px;
+    }
+    .weak {
+        color: $text-color5;
+        .num {
+            color: #ea3d3d;
+            padding: 0 10px 0 4px;
+            &.green {
+                color: #28c478;
+            }
+        }
+        .detail {
+            font-size: 12px;
+            color: #2f79ff;
+        }
+    }
+    .fund__more {
+        margin-top: 6px;
+        color: $text-color6;
+        .iconfont {
+            padding-left: 6px;
+        }
+    }
+}
 .block__out--header {
+    margin-top: 6px;
     padding: 20px 12px 0 12px;
     background: #fff;
     .desc {
@@ -242,8 +375,6 @@ export default {
 .block__out--title {
     background: #fff;
     padding: 15px 12px 14px 12px;
-    .title {
-    }
     .tips {
         text-align: right;
         .tips--top {
@@ -254,6 +385,37 @@ export default {
             color: $text-color6;
             font-size: 12px;
             padding: 6px 0 0 0;
+        }
+    }
+}
+.fund__top {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 20px;
+    font-size: 12px;
+    color: rgba(25, 25, 25, 0.65);
+    line-height: 17px;
+}
+.fund__list--item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    font-size: 16px;
+    border-top: 1px solid $text-color8;
+    .weak {
+        font-size: 14px;
+        color: $text-color5;
+        .detail {
+            font-size: 12px;
+            color: #2f79ff;
+        }
+        .num {
+            color: #ea3d3d;
+            padding: 0 10px 0 4px;
+            &.green {
+                color: #28c478;
+            }
         }
     }
 }

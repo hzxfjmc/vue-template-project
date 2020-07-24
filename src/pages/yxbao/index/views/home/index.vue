@@ -1,97 +1,171 @@
 <template lang="pug">
-.block__yxbao--page
-    .block__yxbao--header
-        .block__yxbao--content
-            .block__yxbao--tip {{$t('C3')}}
-                em.iconfont(
-                    @click="changeHidePadShow"
-                    :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
-            .block__yxbao--num.block__amount(v-if="hidePadShow") {{positionMarketValue|transNumToThousandMark}}
-            .block__yxbao--num(v-else) ****
-            .block__yxbao--numtip 
-                p {{$t('C4')}} 
-                    em.num(
-                        v-if="hidePadShow") {{yesterdayEarnings|transNumToThousandMark}}
-                    em.num(v-else) ****
-            .block__yxbao--list
-                .block__yxbao--item(@click="toYxbaoPage")
-                    p.top {{$t('C6')}} 
-                    p.bottom {{tenThousandApy|transNumToThousandMark}}
-                    //- p.bottom(v-else) ****
-                .block__yxbao--item.block__yxbao--flex(@click="toYxbaoPage")
-                    p.top {{$t('C7')}} 
-                    p.bottom {{sevenDaysApy|| '0.00'}}
-                .block__yxbao--item
-                    p.top {{$t('C5')}} 
-                    p.bottom(v-if="hidePadShow && totalEarnings<0") {{totalEarnings|transNumToThousandMark}}
-                    p.bottom(v-else-if="hidePadShow && totalEarnings>=0") {{totalEarnings|transNumToThousandMark}}
-                    p.bottom(v-else) ****
+div(:class="bem()")
+    div(:class="bem('header')")
+        div(:class="bem('content')")
+            div(:class="bem('capital')")
+                div(:class="bem('total-assets')")
+                    p.top {{$t('C66')}}
+                        em.iconfont(
+                            @click="changeHidePadShow"
+                            :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
+                    .block__element
+                        .element__num(v-if="hidePadShow")
+                            p.bottom {{currentPostion.positionAmount|transNumToThousandMark}}
+                        .element__num(v-else)
+                            p.bottom ****
+                        .element__select
+                            p.tips(
+                                @click="handlerCurrency"
+                                )  {{currencyTab === 0 ? $t('hkd') : $t('usd')}}
+                                em.iconfont.icon-icon-bottom
+                            .block__mask(
+                                v-if="chooseCurrencyShow" 
+                                @click="chooseCurrencyShow = !chooseCurrencyShow"
+                            )
+                            .block__currey(v-if="chooseCurrencyShow")
+                                        span.border-bottom(
+                                            @click="chooseCurrency(0)"
+                                            :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
+                                        span(
+                                            @click="chooseCurrency(1)"
+                                            :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
+                div(:class="bem('gain')")
+                    p.top {{$t('C4')}}
+                    p.bottom.num(
+                        v-if="hidePadShow && hkSummary.yesterdayEarnings<=0"
+                    ) {{currentPostion.yesterdayEarnings|transNumToThousandMark}}
+                    p.bottom.num(
+                        v-else-if="hidePadShow && hkSummary.yesterdayEarnings>0"
+                    ) +{{currentPostion.yesterdayEarnings|transNumToThousandMark}}
+                    p.bottom.num(v-else) ****
             template(v-if="fundId")
-                .block__yxbao-btn(v-if="isLogin && availableBaoBalance !=0")
-                    van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 
-                    van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}} 
-                .block__yxbao-btn(v-else)
-                    van-button.btn-color-r.btn-width(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}} 
-    .block__yx-tab
-        .block__list--item(@click="jumpPage('yxzq_goto://deposit',5)")
-            em.iconfont.icon-rujin
-            span {{$t('C17')}}     
-        .block__list--item(@click="jumpPage('income-details',1)")
-            em.iconfont.icon-shouru
-            span {{$t('C10')}}         
-        .block__list--item(@click="jumpPage('order-list',1)")
-            em.iconfont.icon-zijin
-            span {{$t('C12')}}                 
-
-    .block__swiper.block-bannar-swiper(v-if="banner_list.length!=0")
+                div(
+                    :class="bem('button')"
+                    v-if="showTransfer"
+                    )
+                    van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1, fundId)") {{$t('C8')}} 
+                    van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1, fundId)") {{$t('C9')}} 
+                div(
+                    :class="bem('button')"
+                    v-else
+                    )
+                    van-button.btn-color-r.btn-width(@click="jumpPageIntoOut('fund-subscribe',1, fundId)") {{$t('C9')}} 
+            div(:class="bem('tabs')")
+                div(:class="bem('tabs-item')")(@click="jumpPage('yxzq_goto://deposit',5)")
+                    em.iconfont.icon-rujin
+                    span {{$t('C17')}}     
+                div(:class="bem('tabs-item')")(@click="jumpPage('income-details',1)")
+                    em.iconfont.icon-shouru
+                    span {{$t('C10')}}         
+                div(:class="bem('tabs-item')")(@click="jumpPage('order-list',1)")
+                    em.iconfont.icon-zijin
+                    span {{$t('orderList')}}
+    .block__swiper.block-bannar-swiper(v-if="banner_list.length!==0")
         van-swipe(:autoplay="3000")  
             van-swipe-item(
                 v-for="(item, index) in banner_list" 
                 @click="goBanner(item)"
                 :key="index") 
                 img(:src="item.picture_url") 
-
-    .block__fund--list(v-if="recommendList.length != 0")
-        .block__title {{$t('more')}}
-        fundCard(
-            :recommendList="recommendList")
-
-    protocol-popup(
-        v-model="protocolVisible"
-        :protocolFileList="buyProtocolFileList",
-        :fundId="fundId"
+    div(
+        :class="bem('fund')"
+        v-for="item in baoPositionList"
         )
+        div(:class="bem('fund-name')") {{item.fundName}}
+        div(:class="bem('fund-card')")
+            .block__item
+                .item__left
+                    p {{ item.currency === 1 ? $t('C89'): $t('C3')}}
+                    p.num {{ item.currency === 1 ? item.usdPositionMarketValue : item.hkdPositionMarketValue | transNumToThousandMark}}
+                .item__right
+                    p {{$t('C4')}}
+                    p.num(
+                        v-if="item.hkdYesterdayEarnings<=0"
+                        :class="{'green': item.hkdYesterdayEarnings < 0}"
+                    ) {{ item.currency === 1 ?item.usdYesterdayEarnings : item.hkdYesterdayEarnings | transNumToThousandMark}}
+                    p.num.red(
+                        v-else
+                    ) +{{ item.currency === 1 ?item.usdYesterdayEarnings : item.hkdYesterdayEarnings | transNumToThousandMark}}
+            .block__item
+                .item__left.gain
+                    p {{$t('C5')}}
+                    p.num(
+                        v-if="item.hkdTotalEarnings<=0"
+                        :class="{'green': item.hkdTotalEarnings < 0}"
+                    ) {{ item.currency === 1 ?item.usdTotalEarnings : item.hkdTotalEarnings | transNumToThousandMark}}
+                    p.num.red(
+                        v-else
+                    ) +{{ item.currency === 1 ?item.usdTotalEarnings : item.hkdTotalEarnings | transNumToThousandMark}}
+                .line
+                .item__center
+                    p {{$t('C6')}}
+                    p.num {{item.tenThousandApy|transNumToThousandMark}}
+                .line
+                .item__right
+                    p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
+                        em.iconfont.icon-about_icon
+                    p.num {{item.sevenDayApy*100 |transNumToThousandMark}}%
+            .block__item.tabs(
+                v-if="item.showMore"
+                :class="{'around': !showTransfer}"
+            )
+                .item__list(@click="jumpPageIntoOut('fund-subscribe',1, item.fundId)")
+                    .fund__icon.one
+                    p {{$t('C9')}}
+                .item__list(
+                    v-if="showTransfer"
+                    @click="jumpPageIntoOut('transfer-out',1, item.fundId)"
+                    )
+                    .fund__icon.two
+                    p {{$t('C8')}}
+                .item__list(
+                    v-if="showTransfer"
+                    @click="jumpPage('order-list',1, item.fundId)"
+                    )
+                    .fund__icon.three
+                    p {{$t('orderList')}}
+                .item__list(
+                    @click="goToFundDetails(item.fundId)"
+                )
+                    .fund__icon.four
+                    p {{$t('C90')}}
+            .block_more 
+                span.iconfont(
+                    :class="[item.showMore ? 'icon-icon-top' : 'icon-icon-bottom']"
+                    @click="item.showMore = !item.showMore"
+                    )
     img(
         v-show="false"
-        :src="shareIcon"
-        ref="moreIcon")
+        :src="aboutIcon"
+        ref="aboutIcon")
 </template>
 <script>
 import { Swipe, SwipeItem } from 'vant'
-import { getBaoPostion } from '@/service/finance-server.js'
+import { getBaoPostionV2 } from '@/service/finance-server.js'
 import {
     getBaoFundInfo,
-    getFundRecommendList
+    getBaoFundList
 } from '@/service/finance-info-server.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
 import { getFundUserInfo } from '@/service/user-server.js'
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
-import fundCard from './fund-card.vue'
 import { mapGetters } from 'vuex'
 import jsBridge from '@/utils/js-bridge'
 import { debounce } from '@/utils/tools.js'
-import protocolPopup from './components/protocol-popup'
-import env from '@/utils/scheme/env'
 import LS from '@/utils/local-storage'
+import { createNamespace } from '@/utils/bem'
+const [bem] = createNamespace('yxbao')
+import { isYouxinApp } from '../../../../../utils/html-utils'
 export default {
     components: {
         [Swipe.name]: Swipe,
-        [SwipeItem.name]: SwipeItem,
-        fundCard,
-        protocolPopup
+        [SwipeItem.name]: SwipeItem
     },
     computed: {
-        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang'])
+        ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
+        showTransfer() {
+            return this.isLogin && this.hkSummary.positionAmount > 0
+        }
     },
     i18n: {
         zhCHS: {
@@ -99,30 +173,21 @@ export default {
             loginBtn: '立即登录',
             openAccountBtn: '立即开户',
             more: '更多基金',
-            openAccount: '您尚未开户，开户成功即可交易',
-            TradingRules: '交易规则',
-            FundDetails: '基金详情',
-            AboutuMoeny: '关于现金+'
+            openAccount: '您尚未开户，开户成功即可交易'
         },
         zhCHT: {
             login: '請登入後進行操作 ',
             loginBtn: '立即登入',
             openAccountBtn: '立即開戶',
             more: '更多基金',
-            openAccount: '您尚未開戶，開戶成功即可交易',
-            TradingRules: '交易規則',
-            FundDetails: '基金詳情',
-            AboutuMoeny: '關於餘款+'
+            openAccount: '您尚未開戶，開戶成功即可交易'
         },
         en: {
             login: 'Please login in',
             loginBtn: 'Login',
             openAccountBtn: 'Open account',
             more: 'More',
-            openAccount: 'Please open your account to continue the trade',
-            TradingRules: 'Trading Rules',
-            FundDetails: 'Fund Details',
-            AboutuMoeny: 'About CASH +'
+            openAccount: 'Please open your account to continue the trade'
         }
     },
 
@@ -135,35 +200,31 @@ export default {
         return {
             banner_list: [],
             recommendList: [],
+            baoPositionList: [],
+            fundList: [],
+            hkSummary: {},
+            usSummary: {},
+            currentPostion: {},
             hidePadShow: true,
-            availableBaoBalance: '',
-            positionMarketValue: '',
-            yesterdayEarnings: '',
-            totalEarnings: '',
+            hideTabs: false,
+            chooseCurrencyShow: false,
+            currencyTab: 0,
             fundId: '',
             tenThousandApy: '',
             sevenDaysApy: '',
-            shareIcon: require('@/assets/img/yxbao/icon/icon-more.png'),
-            protocolVisible: false,
-            buyProtocolFileList: [
-                { fileName: 'TradingRules', filePath: 'trade-rule' },
-                { fileName: 'FundDetails', filePath: 'yxbao-details' },
-                { fileName: 'AboutuMoeny', filePath: 'yxbao-desc' }
-            ],
+            aboutIcon: require('@/assets/img/yxbao/icon/icon-about.png'),
             userInfo: {}
         }
     },
     async created() {
-        this.shareIcon = env.isMainlandBlack
-            ? require('@/assets/img/yxbao/icon/icon-more-hk.png')
-            : require('@/assets/img/yxbao/icon/icon-more.png')
         this.getFundUserInfo()
         this.bannerAdvertisement()
         await this.getBaoFundInfo()
-        this.getBaoPostion()
-        this.getFundRecommendList()
-        this.setShareButton()
+        this.getBaoPostionV2()
+        this.setAboutButton()
+        this.getBaoFundList()
         this.showPsd = LS.get('showMoney')
+        this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
             {},
@@ -172,12 +233,23 @@ export default {
         )
         // 返回刷新页面
         window.appVisible = debounce(this.appVisibleHandle, 300)
-        //app点击分享按钮回调
-        window.handlerYxbaoShare = async () => {
-            this.protocolVisible = true
+        //app点击跳转现金+页面
+        window.handlerYxbaoAbout = async () => {
+            let url
+            if (this.lang === 'zhCHS') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=xianjinjia01`
+            }
+            if (this.lang === 'zhCHT') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_TC`
+            }
+            if (this.lang === 'en') {
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_EN`
+            }
+            jumpUrl(3, url)
         }
     },
     methods: {
+        bem,
         goBanner(item) {
             jumpUrl(item.news_jump_type, item.jump_url)
         },
@@ -192,7 +264,7 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         },
-        async jumpPageIntoOut(path, type) {
+        async jumpPageIntoOut(path, type, fundId) {
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
@@ -218,7 +290,7 @@ export default {
                 new Date().getTime() >
                     new Date(this.userInfo.validTime).getTime()
             ) {
-                let url = `${window.location.origin}/wealth/yxbao/index.html#/risk-assessment?id=${this.fundId}&fundRiskType=1&currencyType=2&displayLocation=3`
+                let url = `${window.location.origin}/wealth/yxbao/index.html#/risk-assessment?id=${fundId}&fundRiskType=1&currencyType=2&displayLocation=3`
                 jumpUrl(3, url)
                 return
             }
@@ -229,11 +301,11 @@ export default {
                     : `open-permissions`
             jumpUrl(
                 type,
-                `${window.location.origin}/wealth/yxbao/index.html#/${url}?id=${this.fundId}`
+                `${window.location.origin}/wealth/yxbao/index.html#/${url}?id=${fundId}`
             )
         },
         //跳转
-        async jumpPage(path, type) {
+        async jumpPage(path, type, fundId = '') {
             // 未登录或未开户
             if (!this.isLogin) {
                 await this.$dialog.alert({
@@ -258,7 +330,7 @@ export default {
             let url =
                 type === 5
                     ? path
-                    : `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.fundId}`
+                    : `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${fundId}`
             jumpUrl(type, url)
         },
         //bannar图
@@ -276,21 +348,10 @@ export default {
             let url = `${window.location.origin}/wealth/yxbao/index.html#/yxbao-details?id=${this.fundId}&displayLocation=3`
             jumpUrl(3, url)
         },
-        //获取推荐基金
-        async getFundRecommendList() {
-            try {
-                const res = await getFundRecommendList({
-                    displayLocation: this.$route.query.displayLocation || 1,
-                    fundId: this.fundId
-                })
-                this.recommendList = res
-                this.recommendList.map(item => {
-                    item.apy = Math.floor(item.apy * 10000) / 100
-                })
-            } catch (e) {
-                this.$toast(e.msg)
-                console.log('getFundRecommendList:error:>>>', e)
-            }
+        // 去基金详情
+        goToFundDetails(fundId) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+            jumpUrl(3, url)
         },
         async appVisibleHandle(data) {
             let re = data
@@ -301,28 +362,45 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            this.getBaoPostion()
+            // this.getBaoPostionV2()
             this.getFundUserInfo()
         },
-        //获取持仓数据
-        async getBaoPostion() {
+        //获取现金+持仓
+        async getBaoPostionV2() {
             if (!this.isLogin) return
             try {
                 const {
-                    positionMarketValue,
-                    availableBaoBalance,
-                    yesterdayEarnings,
-                    totalEarnings
-                } = await getBaoPostion({
-                    currency: 2
+                    baoPositionList,
+                    hkSummary,
+                    usSummary
+                } = await getBaoPostionV2({
+                    currency: 1
                 })
-                this.positionMarketValue = Number(positionMarketValue).toFixed(
-                    2
-                )
-                this.yesterdayEarnings = Number(yesterdayEarnings).toFixed(2)
-
-                this.totalEarnings = totalEarnings
-                this.availableBaoBalance = availableBaoBalance
+                this.baoPositionList = baoPositionList
+                this.baoPositionList.forEach(item => {
+                    this.$set(item, 'showMore', false)
+                })
+                this.hkSummary = hkSummary
+                this.usSummary = usSummary
+                this.currentPostion =
+                    this.currencyTab === 0 ? hkSummary : usSummary
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
+        // 获取现金+列表
+        async getBaoFundList() {
+            try {
+                const res = await getBaoFundList()
+                // 基金七日年化收益从高到底排序
+                this.fundList = res.sort((pre, cur) => {
+                    if (Number(pre.sevenDaysApy) > Number(cur.sevenDaysApy)) {
+                        return -1
+                    } else {
+                        return 0
+                    }
+                })
+                this.fundId = this.fundList[0].fundId
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -333,172 +411,299 @@ export default {
                 const res = await getBaoFundInfo({
                     currency: 2
                 })
-                this.fundId = res.fundId
                 this.tenThousandApy = res.tenThousandApy
                 this.sevenDaysApy = (res.sevenDaysApy * 100).toFixed(4)
             } catch (e) {
                 this.$toast(e.msg)
             }
         },
-        //设置app分享按钮
-        async setShareButton() {
-            const base64 = this.$refs.moreIcon.src.replace(
+        async setAboutButton() {
+            const base64 = this.$refs.aboutIcon.src.replace(
                 /^data:image\/(png|ico|jpe|jpeg|gif);base64,/,
                 ''
             )
-            jsBridge.callApp('command_set_titlebar_button', {
-                position: 1, //position取值1、2
-                clickCallback: 'handlerYxbaoShare',
-                type: 'custom_icon',
-                custom_icon: base64
-            })
+            if (isYouxinApp) {
+                jsBridge.callApp('command_set_titlebar_button', {
+                    position: 2, //position取值1、2
+                    clickCallback: 'handlerYxbaoAbout',
+                    type: 'custom_icon',
+                    custom_icon: base64
+                })
+            }
         },
         changeHidePadShow() {
             this.hidePadShow = !this.hidePadShow
             LS.put('showMoney', this.hidePadShow)
+        },
+        yieldInLast7dClick() {
+            this.$dialog.alert({
+                title: this.$t('yieldInLast7d'),
+                message: this.$t('yieldInLast7dTips'),
+                confirmButtonText: this.$t('iknow'),
+                confirmButtonColor: '#3c78fa',
+                messageAlign: 'left'
+            })
+        },
+        handlerCurrency() {
+            this.chooseCurrencyShow = true
+        },
+        chooseCurrency(val) {
+            this.chooseCurrencyShow = false
+            LS.put('activeTab', val)
+            this.currencyTab = val
+            this.currentPostion =
+                this.currencyTab === 0 ? this.hkSummary : this.usSummary
         }
     }
 }
 </script>
 <style lang="scss" scoped>
-.block__fund--list {
-    padding: 0 12px 30px 12px;
-    margin: 0 0 20px 0;
-    .block__title {
-        padding: 10px 0 0 0;
+.yx-yxbao__fund {
+    padding: 0 10px;
+    .yx-yxbao__fund-name {
+        margin-top: 14px;
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: 600;
+        border-left: 4px solid #ff7127;
+        padding-left: 3px;
     }
 }
-
-.block__yxbao--header {
-    width: 100%;
-    height: 381px;
+.yx-yxbao__fund-card {
+    margin-top: 10px;
+    padding: 10px 14px 5px 14px;
     display: flex;
-    background: linear-gradient(
-        360deg,
-        rgba(254, 150, 98, 0) 0%,
-        rgba(255, 161, 133, 1) 13%,
-        rgba(255, 138, 102, 1) 18%,
-        rgba(254, 113, 39, 1) 100%
-    );
-    .block__yxbao--content {
-        width: 351px;
-        margin: 22px 12px;
-        height: 299px;
-        background: rgba(255, 255, 255, 1);
-        box-shadow: -1px 1px 1px 0px rgba(255, 255, 255, 0.29);
-        border-radius: 8px;
+    flex-direction: column;
+    border-radius: 6px;
+    background-color: $background-color;
+    box-shadow: 0px 0px 4px 0px $text-color8;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 14px;
+    .block__item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        &:nth-child(2) {
+            margin-top: 20px;
+        }
+        &.tabs {
+            justify-content: space-between;
+            margin-top: 10px;
+            padding: 10px 12px;
+            background: rgba(251, 251, 251, 1);
+            border-radius: 4px;
+        }
+        &.around {
+            justify-content: space-around;
+        }
+    }
+    .item__right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        .iconfont {
+            font-size: 12px;
+        }
+    }
+    .item__center,
+    .item__list {
         display: flex;
         flex-direction: column;
         align-items: center;
-        color: rgba(25, 25, 25, 1);
-        .block__tab--header {
-            display: flex;
-            flex-direction: column;
-            width: 100%;
-            align-items: center;
+    }
+    .item__list {
+        p {
+            padding-top: 2px;
         }
-        .block__yxbao--list,
-        .block__yxbao-btn {
-            display: flex;
-            flex-direction: row;
-            width: 100%;
-            align-items: center;
-            justify-content: space-around;
-            .block__yxbao--item {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                .top {
-                    font-size: 14px;
-                }
-                .bottom {
-                    font-size: 20px;
-                    font-family: yxFontDINPro-Medium;
-                }
-            }
+    }
+    .line {
+        width: 2px;
+        background-color: rgba(0, 0, 0, 0.1);
+    }
+    .num {
+        font-size: 18px;
+        font-weight: 600;
+        color: #383838;
+        &.green {
+            color: #00ba60;
         }
-        .block__yxbao--list {
-            margin: 30px 0 0 0;
+        &.red {
+            color: #ff7127;
         }
-        .block__yxbao-btn {
-            margin: 30px 0 0 0;
-            .van-button {
-                width: 157px;
-                padding: 0;
-                border: none;
-                font-size: 16px;
-                color: rgba(255, 255, 255, 1);
-            }
-            .btn-width {
-                width: 90%;
-                margin: 0 5%;
-            }
-            .btn-color-l {
-                background: #ffe9df;
-                color: #fe7329;
-            }
-            .btn-color-r {
-                background: rgba(254, 115, 41, 1);
-            }
+    }
+    .fund__icon {
+        width: 25px;
+        height: 25px;
+        background-size: 25px 25px;
+        &.one {
+            background-image: url('~@/assets/img/yxbao/icon/cash_deposit@2x.png');
         }
-        .block__yxbao--num {
-            height: 49px;
-            font-size: 38px;
-            font-family: yxFontDINPro-Medium;
-            font-weight: 500;
-            line-height: 49px;
+        &.two {
+            background-image: url('~@/assets/img/yxbao/icon/cash_transfer@2x.png');
         }
-        .block__amount {
-            font-size: 30px;
+        &.three {
+            background-image: url('~@/assets/img/yxbao/icon/cash_record@2x.png');
         }
-        .block__yxbao--tip {
-            margin: 18px 0 0 0;
-            .iconfont {
-                font-size: 15px;
-                margin: 0 5px;
-                color: #8c8c8c;
-            }
+        &.four {
+            background-image: url('~@/assets/img/yxbao/icon/cash_detail@2x.png');
         }
-        .block__yxbao--numtip {
-            height: 26px;
-            padding: 2px 10px;
-            background: #fdf1e5;
-            border-radius: 2px 2px 0px 0px;
-            line-height: 24px;
-            font-size: 12px;
-            position: relative;
-            em {
-                font-style: normal;
-            }
-            .num {
-                color: #ff7127;
-            }
-        }
-        .block__yxbao--numtip:after {
-            border-left: 6px solid transparent;
-            border-right: 6px solid transparent;
-            border-bottom: 6px solid #fdf1e5;
-            content: '';
-            position: absolute;
-            width: 0;
-            left: 50%;
-            top: -6px;
-            transform: translateX(-6px);
+    }
+    .block_more {
+        text-align: center;
+        span {
+            padding: 4px;
         }
     }
 }
-.block__yx-tab {
+.yx-yxbao {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+.yx-yxbao__header {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(
+        360deg,
+        rgba(254, 150, 98, 0) 0%,
+        rgba(255, 161, 133, 1) 35%,
+        rgba(255, 138, 102, 1) 62%,
+        rgba(254, 113, 39, 1) 100%
+    );
+}
+.yx-yxbao__content {
     width: 351px;
-    height: 92px;
-    background: rgba(255, 255, 255, 1);
-    box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
-    border-radius: 6px;
-    margin: -41px 12px 0 12px;
+    margin: 22px 12px 0 12px;
+    height: 250px;
+    background: $background-color;
+    box-shadow: -1px 1px 1px 0px rgba(255, 255, 255, 0.29);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: rgba(25, 25, 25, 1);
+    .yx-yxbao__button {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        align-items: center;
+        justify-content: space-around;
+        margin-top: 20px;
+        .van-button {
+            width: 157px;
+            padding: 0;
+            border: none;
+            font-size: 16px;
+            color: $background-color;
+        }
+        .btn-width {
+            width: 90%;
+            margin: 0 5%;
+        }
+        .btn-color-l {
+            background: #ffe9df;
+            color: #fe7329;
+        }
+        .btn-color-r {
+            background: rgba(254, 115, 41, 1);
+        }
+    }
+}
+.yx-yxbao__capital {
+    width: 100%;
+    padding: 20px 14px 0 14px;
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
+    font-size: 14px;
+    .yx-yxbao__gain {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+    .bottom {
+        font-size: 34px;
+        font-weight: 600;
+        line-height: 43px;
+        &.num {
+            font-size: 16px;
+        }
+    }
+    .iconfont {
+        font-size: 15px;
+        margin: 0 5px;
+        color: #8c8c8c;
+    }
+}
+.block__element {
+    display: flex;
+    flex-direction: row;
     align-items: center;
-    .block__list--item {
+    .block__mask {
+        position: fixed;
+        width: 100%;
+        top: 0;
+        left: 0;
+        z-index: 99999;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+    .element__select {
+        position: relative;
+    }
+    .block__currey {
+        position: absolute;
+        height: 100px;
+        z-index: 9999999;
+        border-radius: 4px;
+        left: 0px;
+        top: 38px;
+        background: #fff;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        span {
+            color: #000;
+            width: 60px;
+            height: 50px;
+            line-height: 50px;
+            display: block;
+            text-align: center;
+        }
+        .active {
+            color: #2f79ff;
+        }
+    }
+    .block__currey:before {
+        content: '';
+        width: 0px;
+        height: 0px;
+        top: -10px;
+        left: 50%;
+        transform: translate(-50%, 0);
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #fff;
+        position: absolute;
+    }
+    .tips {
+        margin: 4px 0 0 6px;
+        padding-left: 6px;
+        font-size: 14px;
+        line-height: 20px;
+        border: 1px solid rgba(0, 0, 0, 0.5);
+        border-radius: 11px;
+    }
+}
+.yx-yxbao__tabs {
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    .yx-yxbao__tabs-item {
         width: 33.33%;
         display: flex;
         flex-direction: column;

@@ -3,7 +3,7 @@
     .block__out--wrapper.border-bottom
         .block__all--out-left(
             @click="showNumberKeyboard")
-            span.label HKD
+            span.label {{currencyType === 1 ? 'USD':'HKD'}}
             span.block__tip--number {{unit}}
             div.number-board(
                 v-if="show"
@@ -13,7 +13,7 @@
                 :class="[amount>0 || amount === '0.' || amount === '0.0'?'number1':'word1']") {{amount}}
         span.block__all--out(
             @click="allSell"
-            v-if="showAllSellBtn.show") {{$t('all')}}
+            v-if="showAllSellBtn.show") {{showAllSellBtn.desc ==='allIn' ?$t('allIn') : $t('allOut')}}
     van-number-keyboard(
         theme="custom"
         :show="show"
@@ -52,11 +52,16 @@ export default {
         openTips: {
             type: Boolean,
             default: false
+        },
+        currencyType: {
+            type: Number,
+            default: 0
         }
     },
     i18n: {
         zhCHS: {
-            all: '全部转出',
+            allOut: '全部转出',
+            allIn: '全部转入',
             iknow: '我知道了',
             confirm: '立即入金',
             subscribemsg: '您的可用余额不足\n您可以选择入金后进行申购',
@@ -64,13 +69,15 @@ export default {
         },
         zhCHT: {
             all: '全部轉出',
+            allIn: '全部轉入',
             iknow: '我知道了',
             confirm: '立即存款',
             subscribemsg: '您的可用餘額不足\n您可以选择存款後進行申購',
             ok: '完成'
         },
         en: {
-            all: 'ALL',
+            allOut: 'ALL',
+            allIn: 'ALL',
             iknow: 'I Get It',
             confirm: 'Deposit Now',
             subscribemsg:

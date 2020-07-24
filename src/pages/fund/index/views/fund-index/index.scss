@@ -476,9 +476,10 @@
         height: 57px;
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-between;
         align-items: center;
         margin: 4px 0 0 0;
+        padding: 0 20px;
         border-radius:4px;
         background:rgba(255,244,238,1);
         .block--desc{
@@ -488,6 +489,7 @@
             font-size: 20px;
             font-family: yxFontDINPro-Medium;
             line-height: 26px;
+            color: #FE7329;
         }
         .block--bottom--desc {
             font-size: 12px;
@@ -502,6 +504,9 @@
             color: #fff;
             border-radius: 3px !important;
             background: #FF7127;
+        }
+        .iconfont {
+            font-size: 10px;
         }
     }
 }

@@ -10,7 +10,7 @@ export default new Router({
         {
             name: 'home',
             path: '/',
-            meta: { title: 'uMoney', auth: true, cs: true },
+            meta: { title: 'uMoney', auth: true },
             component: () => import(`@/pages/yxbao/index/views/home/index.vue`)
         },
         {
@@ -23,7 +23,7 @@ export default new Router({
         {
             name: 'order-list',
             path: '/order-list',
-            meta: { title: 'orderList', auth: true, cs: true },
+            meta: { title: 'orderList', auth: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/order-list/index.vue`)
         },

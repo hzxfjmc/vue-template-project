@@ -52,7 +52,20 @@
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
-
+        .block__fundheader--tips(
+            v-if="isLogin"
+            @click="jumpPage('order-list',1)")
+            em.iconfont.icon-iconEBshoucang
+            span.title {{$t('cashFlow')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
+        .block__fundheader--tips(
+            v-if="isLogin"
+            @click="jumpPage('income-details'), 1")
+            em.iconfont.icon-icon-money
+            span.title {{$t('returnDetails')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
         fundSurvey(
             v-if="fundOverviewInfoVO.fundId"
             :fundOverviewInfoVO="fundOverviewInfoVO"
@@ -284,7 +297,9 @@ export default {
                 '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
             Subscribenow: '立即认购',
-            holdFundTitle: '持仓详情'
+            holdFundTitle: '持仓详情',
+            cashFlow: '资金流水',
+            returnDetails: '收益明细'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -320,7 +335,9 @@ export default {
                 '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
             Subscribenow: '立即認購',
-            holdFundTitle: '持倉詳情'
+            holdFundTitle: '持倉詳情',
+            cashFlow: '資金流水',
+            returnDetails: '收益明細'
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -358,7 +375,9 @@ export default {
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
             Subscribenow: 'Subscribe now',
-            holdFundTitle: 'Position'
+            holdFundTitle: 'Position',
+            cashFlow: 'Cash Flow',
+            returnDetails: 'Return Details'
         }
     },
     keepalive: true,
@@ -1394,6 +1413,25 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        // 跳转到现金+ 资金流水 收益明细
+        async jumpPage(path, type) {
+            // 未登录或未开户
+            if (!this.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: this.$t('openAccount'),
+                    confirmButtonText: this.$t('openAccountBtn'),
+                    closeOnClickOverlay: true
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
+            let url =
+                type === 5
+                    ? path
+                    : `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.$route.query.id}`
+            jumpUrl(type, url)
         }
     },
     beforeRouteEnter(to, from, next) {
