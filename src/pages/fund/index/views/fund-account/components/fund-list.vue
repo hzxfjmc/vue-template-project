@@ -55,7 +55,7 @@
             .o-item(v-if="item.inTransitAmount != 0")
                 .footer-left-l {{code === 1 ? $t('subscribe') : $t('subscribeHk')}}
                 .footer-right
-                    span {{item.currency == 1 ? $t('usd'):$t('hkd')}}
+                    span {{item.currency.type == 1 ? $t('usd'):$t('hkd')}}
                     span.price-number(v-if="eyeTab") {{item.inTransitAmount|parseThousands(2)}}
                     span.price-number(v-else) ****
     .list-item-content-sub(v-if="fundList.length === 0")
