@@ -119,9 +119,14 @@ div
                 p.block--desc.block--desc_en(v-else) {{$t('stockRedemption')}}
                 .block--bottom-content(@click="toYxbao")
                     .left
-                        .number(v-if="Number(sevenDaysApy)>0")  +{{sevenDaysApy}}%
-                        .number(v-else ) {{sevenDaysApy}}%
-                        p.block--bottom--desc {{currencyTab===0?$t('hkd'):$t('usd')}} | {{$t('yieldInLast7d')}}
+                        .number(v-if="Number(hkSevenDaysApy)>0")  +{{hkSevenDaysApy}}%
+                        .number(v-else ) {{hkSevenDaysApy}}%
+                        p.block--bottom--desc {{$t('hkd')}} | {{$t('yieldInLast7d')}}
+                            span.iconfont.icon-warning
+                    .left
+                        .number(v-if="Number(usdSevenDaysApy)>0")  +{{usdSevenDaysApy}}%
+                        .number(v-else ) {{usdSevenDaysApy}}%
+                        p.block--bottom--desc {{$t('usd')}} | {{$t('yieldInLast7d')}}
                             span.iconfont.icon-warning
                     .right
                         van-button.block--subscribe {{$t('SubsNow')}}
@@ -180,7 +185,7 @@ import {
     getFundSimpleInfoList
 } from '@/service/finance-info-server'
 
-import { getFundTotalPosition } from '@/service/finance-server'
+import { getFundTotalPosition, getBaoPostionV2 } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
@@ -251,6 +256,8 @@ export default {
             barnnarUsList: [],
             tabbarnnarList: [],
             fundBarnnarList: [],
+            usdSevenDaysApy: '',
+            hkSevenDaysApy: '',
             chooseCurrencyShow: false,
             choiceFundListShow: false,
             blueChipFundListShow: false,
@@ -561,6 +568,32 @@ export default {
                 this.$toast(e.msg)
             }
         },
+        async getBaoPostionV2() {
+            if (!this.isLogin) return
+            try {
+                const { baoPositionList } = await getBaoPostionV2()
+                let PositionList = baoPositionList.sort((pre, curr) => {
+                    if (pre.sevenDaysApy >= curr.sevenDayApy) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                })
+                for (let i = 0; i < PositionList.length; i++) {
+                    if (PositionList[i].currency === 1) {
+                        this.usdSevenDaysApy = Number(
+                            PositionList[i].sevenDayApy * 100
+                        ).toFixed(4)
+                    } else {
+                        this.hkSevenDaysApy = Number(
+                            PositionList[i].sevenDayApy * 100
+                        ).toFixed(4)
+                    }
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         handlerCurrency() {
             this.chooseCurrencyShow = true
         },
@@ -709,6 +742,7 @@ export default {
     },
     async created() {
         this.getBaoFundInfo()
+        this.getBaoPostionV2()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()

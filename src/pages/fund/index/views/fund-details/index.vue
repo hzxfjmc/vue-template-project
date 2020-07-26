@@ -53,14 +53,14 @@
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
         .block__fundheader--tips(
-            v-if="isLogin"
+            v-if="isLogin && openedAccount"
             @click="jumpPage('order-list',1)")
             em.iconfont.icon-iconEBshoucang
             span.title {{$t('cashFlow')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
         .block__fundheader--tips(
-            v-if="isLogin"
+            v-if="isLogin && openedAccount"
             @click="jumpPage('income-details'), 1")
             em.iconfont.icon-icon-money
             span.title {{$t('returnDetails')}}
@@ -1416,21 +1416,7 @@ export default {
         },
         // 跳转到现金+ 资金流水 收益明细
         async jumpPage(path, type) {
-            // 未登录或未开户
-            if (!this.openedAccount) {
-                // 跳转到开户页面
-                await this.$dialog.alert({
-                    message: this.$t('openAccount'),
-                    confirmButtonText: this.$t('openAccountBtn'),
-                    closeOnClickOverlay: true
-                })
-                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
-                return
-            }
-            let url =
-                type === 5
-                    ? path
-                    : `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.$route.query.id}`
+            let url = `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.$route.query.id}`
             jumpUrl(type, url)
         }
     },

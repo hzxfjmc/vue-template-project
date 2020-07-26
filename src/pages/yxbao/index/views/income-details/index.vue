@@ -1,14 +1,24 @@
 <template lang="pug">
     .block__order--content
-        .block__header--wrapper(v-if="this.$route.query.id")
+        .block__header--wrapper(v-if="isSingle")
             .block__left
                 .top {{this.currency === 1? $t('C89') :$t('C3')}}
                 .bottom.block__amount {{positionMarketValue|transNumToThousandMark}}
             .block__right
                 .top {{$t('C5')}}
-                .bottom {{totalEarnings|transNumToThousandMark}}
-        hr
-        .block__top(v-if="!this.$route.query.id")
+                .bottom(
+                    v-if="totalEarnings>0"
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                ) +{{totalEarnings|transNumToThousandMark}}
+                .bottom(
+                    v-else-if="totalEarnings<0"
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                ) {{totalEarnings|transNumToThousandMark}}
+                .bottom(
+                    v-else
+                ) {{totalEarnings|transNumToThousandMark}}
+        hr(v-if="isSingle")
+        .block__top(v-if="!isSingle")
             .block__left(@click="moneyTypeShow = true")
                 span {{$t(moneyTypeText)}}
                 span.iconfont.icon-pulldown_icon
@@ -148,6 +158,7 @@ export default {
             finished: false,
             moneyTypeShow: false,
             fundListShow: false,
+            isSingle: !!this.$route.query.id,
             finishedText: '无更多内容',
             currency: '',
             moneyTypeText: 'moneyType',
@@ -227,8 +238,8 @@ export default {
                     total
                 } = await getBaoCapitalTradeListV2({
                     currency: this.currency,
-                    fundId: this.fundId,
-                    // recordType: 3,
+                    fundId: this.$route.query.id,
+                    recordType: 3,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })

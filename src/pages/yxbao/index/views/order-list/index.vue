@@ -1,19 +1,50 @@
 <template lang="pug">
 .income-details-content
+    .block__top(v-if="!isSingle")
+        .block__left(@click="moneyTypeShow = true")
+            span {{$t(moneyTypeText)}}
+            span.iconfont.icon-pulldown_icon
+        .block__right(@click="typeListShow = true")
+            span.ellipse(v-if="recordTypeName") {{recordTypeName}}
+            span.text(v-else) {{$t('allType')}}
+            span.iconfont.icon-pulldown_icon
     van-list.order-record-list(
         v-model="loading" 
         :finished="finished" 
         :finished-text="finishedText" 
         @load="onLoad")
         .block-list(
-            class="border-bottom" 
+            class="border-bottom"
             v-for="(item,index) in filterList" 
             :key="item.recordNo" 
             @click="toDetailHandle(item)"
             )
-            .block__order--list
+            .block__order--list(v-if="!isSingle")
                 .block__order--left
                     p.title {{item.fundName}}
+                    p.color {{item.createTime}}
+                .block__order--right(v-if="item.recordType != 3")
+                    p.num {{item.recordTypeName}}
+                    p.num(
+                        v-if="item.recordType === 1"
+                    ) +{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    p.num(
+                        v-else-if="item.recordType === 2"
+                    ) -{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    p.num(v-else) {{item.recordAmount}} {{item.currency === 1 ? 'USD' : 'HKD'}}
+                .block__order--right(v-else)
+                    p.num(
+                        v-if="item.recordAmount>0"
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    ) +{{item.recordAmount}} {{item.currency === 1 ? 'USD' : 'HKD'}}
+                    p.num(
+                        v-else
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    ) {{item.recordAmount}} {{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? $t('usd') : $t('hkd')}}
+            .block__order--list(v-else)
+                .block__order--left
+                    p.title {{item.recordTypeName}}
                     p.color {{item.createTime}}
                 .block__order--right(v-if="item.recordType != 3")
                     p.num(
@@ -38,14 +69,28 @@
         img.img(src="@/assets/img/yxbao/data.png") 
         .no-record-box {{$t('nomore')}}
     van-popup(
+            v-model="moneyTypeShow"
+            position="top"
+        )
+            .block-type__list
+                .list__item(
+                    v-for="item in moneyTypeItem"
+                    @click="chooseMoneyType(item)"
+                )
+                    p(
+                        :class="{active: currency === item.type}"
+                    ) {{$t(item.key)}}
+                    p(v-if="currency === item.type")
+                        span.iconfont.icon-tick-
+    van-popup(
         v-model="typeListShow"
         position="top"
         @click-overlay="handleClick"
     )
         .block-type__list
             .list__item(
-                v-for="item in recordTypeList"
-                @click="chooseRecoderType(item.val)"
+                v-for="item in recordTypeItem"
+                @click="chooseRecoderType(item)"
             )
                 p.title(:class="{active: recordType === item.val}") {{$t(item.key)}}
                 p(v-if="recordType === item.val")
@@ -67,7 +112,6 @@ export default {
         zhCHS: {
             Balance: '余额',
             nomore: '暂无数据',
-            type: '全部类型',
             filterText: '筛选',
             cancleText: '取消'
         },
@@ -88,10 +132,16 @@ export default {
         return {
             list: [],
             filterList: [],
+            recordTypeList: [],
+            moneyTypeList: [],
             noMoreShow: false,
             typeListShow: false,
-            buttonText: this.$t('filterText'),
+            recordTypeName: '',
+            moneyTypeShow: false,
+            moneyTypeText: 'moneyType',
+            currency: '',
             recordType: 0,
+            isSingle: !!this.$route.query.id,
             pageSize: 20,
             pageNum: 1,
             total: 0,
@@ -118,6 +168,59 @@ export default {
                 this.pageNum = this.pageNum + 1
                 this.getBaoCapitalTradeListV2()
             }
+        },
+        filterRecoderType() {
+            switch (this.recordType) {
+                case 0:
+                    this.recordTypeList = this.list
+                    break
+                case 1:
+                    this.recordTypeList = this.list.filter(item => {
+                        return item.recordType === 1
+                    })
+                    break
+                case 2:
+                    this.recordTypeList = this.list.filter(item => {
+                        return item.outType === 1
+                    })
+                    break
+                case 3:
+                    this.recordTypeList = this.list.filter(item => {
+                        return item.outType === 2
+                    })
+                    break
+                case 4:
+                    this.recordTypeList = this.list.filter(item => {
+                        return item.recordType === 3
+                    })
+            }
+        },
+        filterMoneyType() {
+            if (!this.currency) {
+                this.moneyTypeList = this.list
+            } else {
+                this.moneyTypeList = this.list.filter(item => {
+                    return item.currency === this.currency
+                })
+            }
+        },
+        comFilterAction() {
+            if (!this.currency && !this.recordType) {
+                this.filterList = this.list
+            } else if (!this.currency) {
+                this.filterRecoderType()
+                this.filterList = this.recordTypeList
+            } else if (!this.recordType) {
+                this.filterMoneyType()
+                this.filterList = this.moneyTypeList
+            } else {
+                this.filterRecoderType()
+                this.filterMoneyType()
+                this.filterList = this.moneyTypeList.filter(item => {
+                    return this.recordTypeList.indexOf(item) !== -1
+                })
+            }
+            this.noMoreShow = this.filterList.length === 0
         },
         async getBaoCapitalTradeListV2() {
             try {
@@ -154,7 +257,8 @@ export default {
                     }
                 })
                 this.list = this.list.concat(list)
-                this.filterList = this.list
+                this.filterList = list
+                this.comFilterAction()
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
@@ -168,36 +272,20 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        chooseRecoderType(val) {
+        chooseMoneyType(item) {
+            this.moneyTypeShow = false
+            if (this.currency === item.type) return
+            this.currency = item.type
+            this.moneyTypeText = item.key
+            this.comFilterAction()
+        },
+        chooseRecoderType(item) {
             this.typeListShow = false
             this.setFilterButton()
-            if (this.recordType === val) return
-            this.recordType = val
-            switch (val) {
-                case 0:
-                    this.filterList = this.list
-                    break
-                case 1:
-                    this.filterList = this.list.filter(item => {
-                        return item.recordType === 1
-                    })
-                    break
-                case 2:
-                    this.filterList = this.list.filter(item => {
-                        return item.outType === 1
-                    })
-                    break
-                case 3:
-                    this.filterList = this.list.filter(item => {
-                        return item.outType === 2
-                    })
-                    break
-                case 4:
-                    this.filterList = this.list.filter(item => {
-                        return item.recordType === 3
-                    })
-            }
-            this.noMoreShow = this.filterList.length == 0
+            if (this.recordType === item.val) return
+            this.recordType = item.val
+            this.recordTypeName = this.$t(item.key)
+            this.comFilterAction()
         },
         setFilterButton() {
             if (isYouxinApp) {
@@ -217,10 +305,10 @@ export default {
         }
     },
     computed: {
-        recordTypeList() {
+        recordTypeItem() {
             return [
                 {
-                    key: 'type',
+                    key: 'allType',
                     val: 0,
                     desc: '全部类型'
                 },
@@ -246,13 +334,34 @@ export default {
                 }
             ]
         },
+        moneyTypeItem() {
+            return [
+                {
+                    key: 'moneyType',
+                    type: '',
+                    desc: '全部币种'
+                },
+                {
+                    key: 'hkd',
+                    type: 2,
+                    desc: '港币'
+                },
+                {
+                    key: 'usd',
+                    type: 1,
+                    desc: '美元'
+                }
+            ]
+        },
         stockColorType() {
             return +getStockColorType()
         }
     },
     async created() {
         this.getBaoCapitalTradeListV2()
-        this.setFilterButton()
+        if (this.$route.query.id) {
+            this.setFilterButton()
+        }
         window.clickFilterCallback = async () => {
             this.typeListShow = !this.typeListShow
             this.setFilterButton()
@@ -274,6 +383,23 @@ export default {
         // padding: 10px 2%;
         // display: flex;
         align-items: center;
+    }
+}
+.block__top {
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-around;
+    color: #353547;
+    text-align: center;
+    .block__left,
+    .block__right {
+        max-width: 50%;
+        display: flex;
+        align-items: center;
+    }
+    .iconfont {
+        font-size: 10px;
+        padding-left: 10px;
     }
 }
 .block__order--list {

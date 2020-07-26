@@ -19,6 +19,9 @@
         )
     .block__word--list.border-bottom(v-if="intoShow")
         .block__word--item
+            p.word-color {{$t('fundName')}}
+            p {{orderDetails.fundName}}
+        .block__word--item
             p.word-color {{$t('C30')}}
             p {{$t('C31')}}
         .block__word--item
@@ -26,6 +29,9 @@
             p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{orderDetails.currency === 1 ? $t('usd'):$t('hkd')}}
 
     .block__word--list.border-bottom(v-else)
+        .block__word--item
+            p.word-color {{$t('fundName')}}
+            p {{orderDetails.fundName}}
         .block__word--item
             p.word-color {{$t('C37')}}
             p {{orderDetails.recordTypeName}}
@@ -81,6 +87,7 @@ export default {
             intoShow: true,
             successHide: true,
             orderDetails: {},
+            fundName: '',
             stepOne: {
                 label: '提交转出申请成功，可立即购买股票',
                 time: ''

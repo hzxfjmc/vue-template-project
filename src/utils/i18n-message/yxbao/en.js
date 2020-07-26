@@ -120,6 +120,8 @@ export const en = {
     minTrade: 'Mini. Redemption',
     moneyType: 'All Currencies',
     allFund: 'All Funds',
+    allType: 'All Types',
+    fundName: 'Fund Name',
     riskAssessment: 'Risk Assessment',
     riskAsessmentResult: 'Assessment Result',
     riskAppropriateResult: 'Product Matching',

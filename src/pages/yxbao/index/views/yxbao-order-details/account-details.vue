@@ -6,12 +6,18 @@
             em.money {{$t('hkd')}}
     .block__account--list.border-bottom(v-if="!successHide")
         .block__account--item
+            p {{$t('fundName')}}
+            p {{fundName}}
+        .block__account--item
             p {{$t('C22')}}
             p {{orderDetails.recordFee}}{{$t('hkd')}}
         .block__account--item
             p {{$t('C23')}}
             p {{orderDetails.recordAmount}}{{$t('hkd')}}
     .block__status--step
+        .block__fund-name
+            p {{$t('fundName')}}
+            p {{fundName}}
         transferStep(
             v-if="intoShow"
             :stepOne="intoStepOne"
@@ -37,6 +43,7 @@ export default {
             intoShow: true,
             successHide: true,
             orderDetails: {},
+            fundName: '',
             stepOne: {
                 label: '提交转出申请成功，可立即购买股票',
                 time: ''
@@ -58,6 +65,7 @@ export default {
 
     created() {
         this.getBaoCapitalTradeDetails()
+        this.fundName = this.$route.params.data.fundName
     },
     methods: {
         //获取详情
@@ -204,6 +212,10 @@ export default {
         }
     }
 }
+.block__account--fund-name {
+    display: flex;
+    justify-content: space-between;
+}
 .block__account--list {
     padding: 14px 12px;
     .block__account--item {
@@ -216,5 +228,10 @@ export default {
 }
 .block__status--step {
     padding: 14px 12px;
+    .block__fund-name {
+        display: flex;
+        justify-content: space-between;
+        padding: 12px;
+    }
 }
 </style>

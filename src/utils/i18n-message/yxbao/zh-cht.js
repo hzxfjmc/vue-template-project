@@ -117,6 +117,8 @@ export const zhCHT = {
     minTrade: '最低轉出',
     moneyType: '全部幣種',
     allFund: '全部基金',
+    allType: '全部類型',
+    fundName: '基金名稱',
     riskAssessment: '風險評估',
     riskAsessmentResult: '測評結果',
     riskAppropriateResult: '產品匹配',
