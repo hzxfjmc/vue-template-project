@@ -371,6 +371,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .income-details-content {
+    position: relative;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -386,7 +387,11 @@ export default {
     }
 }
 .block__top {
-    margin: 10px 0;
+    width: 100%;
+    position: fixed;
+    height: 40px;
+    z-index: 1001;
+    background: #fff;
     display: flex;
     justify-content: space-around;
     color: #353547;
@@ -401,6 +406,9 @@ export default {
         font-size: 10px;
         padding-left: 10px;
     }
+}
+.order-record-list {
+    margin-top: 40px;
 }
 .block__order--list {
     width: 100%;

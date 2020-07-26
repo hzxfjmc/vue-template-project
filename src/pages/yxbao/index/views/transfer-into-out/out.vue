@@ -184,6 +184,15 @@ export default {
             return transNumToThousandMark(value)
         }
     },
+    watch: {
+        minFastRedemptionAmount: function(val) {
+            if (Number(this.availableBaoBalance) < Number(val)) {
+                this.showAllSellBtn.show = false
+            } else {
+                this.showAllSellBtn.show = true
+            }
+        }
+    },
     methods: {
         async openProtocol(url) {
             url = await getCosUrl(url)

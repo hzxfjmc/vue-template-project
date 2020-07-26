@@ -300,7 +300,11 @@ export default {
     }
 }
 .block__top {
-    margin: 10px 0;
+    width: 100%;
+    position: fixed;
+    height: 40px;
+    z-index: 1001;
+    background: #fff;
     display: flex;
     justify-content: space-around;
     color: #353547;
@@ -343,6 +347,9 @@ hr {
     width: 100%;
     height: 100%;
     overflow-y: auto;
+    .order-record-list {
+        margin-top: 40px;
+    }
     .block__order--list {
         width: 100%;
         display: flex;
