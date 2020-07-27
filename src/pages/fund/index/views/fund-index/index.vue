@@ -182,10 +182,11 @@ import FundListItem from './fund-list-item'
 import {
     getFundHomepageInfo,
     getBaoFundInfo,
-    getFundSimpleInfoList
+    getFundSimpleInfoList,
+    getBaoFundList
 } from '@/service/finance-info-server'
 
-import { getFundTotalPosition, getBaoPostionV2 } from '@/service/finance-server'
+import { getFundTotalPosition } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
@@ -568,11 +569,11 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        async getBaoPostionV2() {
+        async getBaoFundList() {
             if (!this.isLogin) return
             try {
-                const { baoPositionList } = await getBaoPostionV2()
-                let PositionList = baoPositionList.sort((pre, curr) => {
+                const res = await getBaoFundList()
+                let PositionList = res.sort((pre, curr) => {
                     if (pre.sevenDaysApy >= curr.sevenDayApy) {
                         return 1
                     } else {
@@ -582,11 +583,11 @@ export default {
                 for (let i = 0; i < PositionList.length; i++) {
                     if (PositionList[i].currency === 1) {
                         this.usdSevenDaysApy = Number(
-                            PositionList[i].sevenDayApy * 100
+                            PositionList[i].sevenDaysApy * 100
                         ).toFixed(4)
                     } else {
                         this.hkSevenDaysApy = Number(
-                            PositionList[i].sevenDayApy * 100
+                            PositionList[i].sevenDaysApy * 100
                         ).toFixed(4)
                     }
                 }
@@ -742,7 +743,7 @@ export default {
     },
     async created() {
         this.getBaoFundInfo()
-        this.getBaoPostionV2()
+        this.getBaoFundList()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()
