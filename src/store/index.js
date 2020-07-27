@@ -25,6 +25,11 @@ export default modules =>
         mutations: {
             getUserInfoMutation(state, data) {
                 state.user = { ...state.user, ...data }
+                if (data.userId) {
+                    LS.put('userId', data.userId)
+                } else {
+                    LS.remote('userId')
+                }
             }
         },
         actions: {
