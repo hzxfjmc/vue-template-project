@@ -9,7 +9,8 @@
             span.text(v-else) {{$t('allType')}}
             span.iconfont.icon-pulldown_icon
     van-list.order-record-list(
-        v-model="loading" 
+        v-model="loading"
+        :class="{'not-single': !isSingle}"
         :finished="finished" 
         :finished-text="finishedText" 
         @load="onLoad")
@@ -407,7 +408,7 @@ export default {
         padding-left: 10px;
     }
 }
-.order-record-list {
+.not-single {
     margin-top: 40px;
 }
 .block__order--list {

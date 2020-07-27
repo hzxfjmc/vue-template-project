@@ -27,7 +27,8 @@
                 span.text(v-else) {{$t('allFund')}}
                 span.iconfont.icon-pulldown_icon
         van-list.order-record-list(
-            v-model="loading" 
+            v-model="loading"
+            :class="{'not-single': !isSingle}"
             :finished="finished" 
             :finished-text="finishedText" 
             @load="onLoad")
@@ -239,7 +240,7 @@ export default {
                 } = await getBaoCapitalTradeListV2({
                     currency: this.currency,
                     fundId: this.$route.query.id,
-                    recordType: 3,
+                    // recordType: 3,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
@@ -301,6 +302,7 @@ export default {
 }
 .block__top {
     width: 100%;
+    margin-bottom: 40px;
     position: fixed;
     height: 40px;
     z-index: 1001;
@@ -342,14 +344,14 @@ hr {
     border: none;
     background: rgba(25, 25, 25, 0.05);
 }
+.not-single {
+    margin-top: 40px;
+}
 .block__order--content {
     background: #fff;
     width: 100%;
     height: 100%;
     overflow-y: auto;
-    .order-record-list {
-        margin-top: 40px;
-    }
     .block__order--list {
         width: 100%;
         display: flex;

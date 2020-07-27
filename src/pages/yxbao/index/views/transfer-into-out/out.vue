@@ -186,10 +186,10 @@ export default {
     },
     watch: {
         minFastRedemptionAmount: function(val) {
-            if (Number(this.availableBaoBalance) < Number(val)) {
-                this.showAllSellBtn.show = false
-            } else {
+            if (Number(this.availableBaoBalance) > Number(val)) {
                 this.showAllSellBtn.show = true
+            } else {
+                this.showAllSellBtn.show = false
             }
         }
     },
