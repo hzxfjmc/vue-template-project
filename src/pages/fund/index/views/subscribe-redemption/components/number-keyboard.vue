@@ -67,7 +67,7 @@ export default {
         value: {},
         digit: {
             type: Number,
-            default: 4
+            default: 2
         },
         isRedemption: {
             type: Boolean,
@@ -102,7 +102,7 @@ export default {
         placeholder() {
             this.amount = this.$route.query.fixedPlanAmount
                 ? this.$route.query.fixedPlanAmount
-                : this.placeholder
+                : ''
         }
         // show(v) {
         //     this.$emit('onShow', v)
@@ -168,7 +168,7 @@ export default {
         // console.log(this.$route.query.fixedPlanAmount)
         this.amount = this.$route.query.fixedPlanAmount
             ? this.$route.query.fixedPlanAmount
-            : this.placeholder
+            : ''
     },
     methods: {
         //跳转入金
@@ -205,7 +205,7 @@ export default {
         },
         //全部卖出
         allSell() {
-            this.amount = this.placeholder
+            // this.amount = this.placeholder
             // this.$emit('handlerAmount', this.amount)
         },
         handlerAmount() {
@@ -252,12 +252,12 @@ export default {
         },
         //删除
         onDelete() {
-            if (this.amount === this.placeholder) return
-            if (this.amount === '0.') return (this.amount = this.placeholder)
+            if (this.amount === '') return
+            if (this.amount === '0.') return (this.amount = '')
             this.amount = this.amount.substr(0, this.amount.length - 1)
             // this.$emit('handlerAmount', this.amount)
             if (this.amount.length === 0 || this.amount === this.placeholder) {
-                return (this.amount = this.placeholder)
+                return (this.amount = '')
             }
         }
     }
