@@ -302,7 +302,9 @@ export default {
         },
         handleClick() {
             this.typeListShow = false
-            this.setFilterButton()
+            if (this.isSingle) {
+                this.setFilterButton()
+            }
         }
     },
     computed: {
