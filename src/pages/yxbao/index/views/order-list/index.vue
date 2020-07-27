@@ -282,7 +282,9 @@ export default {
         },
         chooseRecoderType(item) {
             this.typeListShow = false
-            this.setFilterButton()
+            if (this.isSingle) {
+                this.setFilterButton()
+            }
             if (this.recordType === item.val) return
             this.recordType = item.val
             this.recordTypeName = this.$t(item.key)
