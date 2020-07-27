@@ -35,9 +35,19 @@
             .block__order--list.border-bottom(
                 v-for="(item,index) in filterList")
                 .block__order--left
-                    p.title.ellipse {{item.fundName}}
+                    p.title.ellipse(v-if="isSingle") {{item.recordTypeName}}
+                    p.title.ellipse(v-else) {{item.fundName}}
                     p.color {{item.createTime}}
-                .block__order--right
+                .block__order--right(v-if="isSingle")
+                    p.num(
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                        v-if="item.recordAmount>0") +{{item.recordAmount}}
+                    p.num(
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        v-else-if="item.recordAmount < 0") {{item.recordAmount}}
+                    p.num(v-else) {{item.recordAmount}}
+                    p.color {{$t('Balance')}} {{item.recordBalance}} 
+                .block__order--right(v-else)
                     p.num(
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                         v-if="item.recordAmount>0") +{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
@@ -246,7 +256,7 @@ export default {
                 })
                 list.map(item => {
                     item.createTime = dayjs(item.createTime).format(
-                        'YYYY-MM-DD'
+                        'YYYY-MM-DD HH:mm:ss'
                     )
                 })
                 this.loading = false
