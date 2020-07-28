@@ -28,7 +28,7 @@ export default modules =>
                 if (data.userId) {
                     LS.put('userId', data.userId)
                 } else {
-                    LS.remote('userId')
+                    LS.remove('userId')
                 }
             }
         },
