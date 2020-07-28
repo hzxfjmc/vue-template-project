@@ -31,13 +31,21 @@ div(:class="bem()")
                                             :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
                 div(:class="bem('gain')")
                     p.top {{$t('C4')}}
-                    p.bottom.num(
-                        v-if="hidePadShow && hkSummary.yesterdayEarnings<=0"
-                    ) {{currentPostion.yesterdayEarnings|transNumToThousandMark}}
-                    p.bottom.num(
-                        v-else-if="hidePadShow && hkSummary.yesterdayEarnings>0"
-                    ) +{{currentPostion.yesterdayEarnings|transNumToThousandMark}}
-                    p.bottom.num(v-else) ****
+                    .block__container(v-if="isLogin")
+                        p.bottom.num(
+                            v-if="hidePadShow && hkSummary.yesterdayEarnings<=0"
+                        ) {{currentPostion.yesterdayEarnings|transNumToThousandMark}}
+                        p.bottom.num(
+                            v-else-if="hidePadShow && hkSummary.yesterdayEarnings>0"
+                        ) +{{currentPostion.yesterdayEarnings|transNumToThousandMark}}
+                        p.bottom.num(v-else) ****
+                    .block__container(v-else)
+                        p.bottom.num(
+                            v-if="hidePadShow"
+                        ) 0.00
+                        p.bottom.num(
+                            v-else
+                        ) ****
             template(v-if="fundId")
                 div(
                     :class="bem('button')"
@@ -60,15 +68,9 @@ div(:class="bem()")
                 div(:class="bem('tabs-item')")(@click="jumpPage('order-list',1)")
                     em.iconfont.icon-zijin
                     span {{$t('orderList')}}
-    .block__swiper.block-bannar-swiper(v-if="banner_list.length!==0")
-        van-swipe(:autoplay="3000")  
-            van-swipe-item(
-                v-for="(item, index) in banner_list" 
-                @click="goBanner(item)"
-                :key="index") 
-                img(:src="item.picture_url") 
     div(
         :class="bem('fund')"
+        v-if="baoPositionList.length"
         v-for="item in baoPositionList"
         )
         div(:class="bem('fund-name')") {{item.fundName}}
@@ -134,6 +136,13 @@ div(:class="bem()")
                     :class="[item.showMore ? 'icon-icon-top' : 'icon-icon-bottom']"
                     @click="item.showMore = !item.showMore"
                     )
+    .block__swiper.block-bannar-swiper(v-if="banner_list.length!==0")
+        van-swipe(:autoplay="3000")  
+            van-swipe-item(
+                v-for="(item, index) in banner_list" 
+                @click="goBanner(item)"
+                :key="index") 
+                img(:src="item.picture_url") 
     img(
         v-show="false"
         :src="aboutIcon"

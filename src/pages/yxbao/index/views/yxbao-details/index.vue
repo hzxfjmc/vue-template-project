@@ -41,9 +41,9 @@
         .block__tips--msg
             p {{$t('msg')}}
             p.more {{$t('msg1')}}
-        .block__button----list
+        .block__button--list
             van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 
-            van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}} 
+            van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}}
             
 </template>
 <script>
@@ -890,7 +890,7 @@ export default {
         border-radius: 0 !important;
     }
 }
-.block__button----list {
+.block__button--list {
     .van-button {
         width: 50%;
         color: #fff;

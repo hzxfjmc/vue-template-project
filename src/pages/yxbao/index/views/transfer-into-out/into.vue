@@ -132,7 +132,7 @@ export default {
             this.amount = amount
         },
         goToFundDetails(fundId) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+            let url = `${window.location.origin}/wealth/yxbao/index.html#/yxbao-details?id=${fundId}&displayLocation=3`
             jumpUrl(3, url)
         },
         chooseFund(id) {

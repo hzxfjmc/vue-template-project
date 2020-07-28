@@ -247,10 +247,7 @@ export default {
                     return item.fundId === this.$route.query.id
                 })
                 this.fundId = this.choosedFund[0].fundId
-                this.availableBaoBalance =
-                    this.currencyType === 1
-                        ? this.choosedFund[0].usdPositionMarketValue
-                        : this.choosedFund[0].hkdPositionMarketValue
+                this.availableBaoBalance = this.chooseFund[0].availableBaoBalance
                 this.showAllSellBtn.maxAmount = this.availableBaoBalance
                 this.customerHkdDailyQuota = customerHkdDailyQuota / 10000
                 this.customerHkdRemainderQuota = customerHkdRemainderQuota

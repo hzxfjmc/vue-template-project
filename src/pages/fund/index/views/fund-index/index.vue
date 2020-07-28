@@ -117,18 +117,22 @@ div
                     em.iconfont.icon-iconEBshoucang2(@click="handlerDesc")
                 p.block--desc(v-if="lang != 'en'") {{$t('stockRedemption')}}
                 p.block--desc.block--desc_en(v-else) {{$t('stockRedemption')}}
-                .block--bottom-content(@click="toYxbao")
+                .block--bottom-content
                     .left
                         .number(v-if="Number(hkSevenDaysApy)>0")  +{{hkSevenDaysApy}}%
                         .number(v-else ) {{hkSevenDaysApy}}%
-                        p.block--bottom--desc {{$t('hkd')}} | {{$t('yieldInLast7d')}}
+                        p.block--bottom--desc(
+                            @click="yieldInLast7dClick"
+                        ) {{$t('hkd')}} | {{$t('yieldInLast7d')}}
                             span.iconfont.icon-warning
                     .left
                         .number(v-if="Number(usdSevenDaysApy)>0")  +{{usdSevenDaysApy}}%
                         .number(v-else ) {{usdSevenDaysApy}}%
-                        p.block--bottom--desc {{$t('usd')}} | {{$t('yieldInLast7d')}}
+                        p.block--bottom--desc(
+                            @click="yieldInLast7dClick"
+                        ) {{$t('usd')}} | {{$t('yieldInLast7d')}}
                             span.iconfont.icon-warning
-                    .right
+                    .right(@click="toYxbao")
                         van-button.block--subscribe {{$t('SubsNow')}}
             
             .block-bannar-sub-swiper.block__bannar__Tab(v-if="barnnarList.length !== 0")
@@ -738,6 +742,15 @@ export default {
         toDeclareAgreement() {
             let url = `${window.location.origin}/wealth/fund/index.html#/declare-agreement`
             this.openWebView(url)
+        },
+        yieldInLast7dClick() {
+            this.$dialog.alert({
+                title: this.$t('yieldInLast7d'),
+                message: this.$t('yieldInLast7dTips'),
+                confirmButtonText: this.$t('iknow'),
+                confirmButtonColor: '#3c78fa',
+                messageAlign: 'left'
+            })
         }
     },
     async created() {
