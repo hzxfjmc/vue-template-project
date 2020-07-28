@@ -5,14 +5,15 @@ import dayjs from 'dayjs'
  * 数字转化为千位分隔，支持小数
  * value | thousand-spilt
  */
-Vue.filter('thousand-spilt', function(value) {
+export const handleThousandSpilt = function(value) {
     if (!value && value !== 0) {
         return ''
     }
     return value
         .toString()
         .replace(/(\d{1,3})(?=\d)(?!\.\d*)(?=(\d{3})+(\.|$))/g, '$1,')
-})
+}
+Vue.filter('thousand-spilt', handleThousandSpilt)
 
 Vue.filter('idcard', function(num) {
     return num.substring(0, 5) + '*******' + num.substring(num.length - 5)
