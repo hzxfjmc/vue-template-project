@@ -52,20 +52,6 @@
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
-        .block__fundheader--tips(
-            v-if="isLogin && openedAccount"
-            @click="jumpPage('order-list',1)")
-            em.iconfont.icon-iconEBshoucang
-            span.title {{$t('cashFlow')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
-        .block__fundheader--tips(
-            v-if="isLogin && openedAccount"
-            @click="jumpPage('income-details'), 1")
-            em.iconfont.icon-icon-money
-            span.title {{$t('returnDetails')}}
-            .block__list--right
-                em.iconfont.icon-iconEBgengduoCopy
         fundSurvey(
             v-if="fundOverviewInfoVO.fundId"
             :fundOverviewInfoVO="fundOverviewInfoVO"
@@ -1413,11 +1399,6 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
-        },
-        // 跳转到现金+ 资金流水 收益明细
-        async jumpPage(path, type) {
-            let url = `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.$route.query.id}`
-            jumpUrl(type, url)
         }
     },
     beforeRouteEnter(to, from, next) {

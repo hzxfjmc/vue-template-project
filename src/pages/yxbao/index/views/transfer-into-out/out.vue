@@ -2,7 +2,7 @@
 .block__element-wrapper
     .block__out__fund
         .fund__left(v-if="choosedFund.length")
-            p.title {{choosedFund[0].fundName}}
+            p.title.ellipse {{choosedFund[0].fundName}}
             p.content {{$t('C87')}}:
                 span.num {{choosedFund[0].availableBaoBalance | transNumToThousandMark}}
                 span.type {{currencyType === 1 ? $t('usd') : $t('hkd')}}
@@ -186,7 +186,7 @@ export default {
     },
     watch: {
         minFastRedemptionAmount: function(val) {
-            if (Number(this.availableBaoBalance) > Number(val)) {
+            if (Number(this.availableBaoBalance) >= Number(val)) {
                 this.showAllSellBtn.show = true
             } else {
                 this.showAllSellBtn.show = false
@@ -488,6 +488,11 @@ h1 {
     }
     .num {
         padding-left: 4px;
+    }
+    .fund__left {
+        width: 70%;
+    }
+    .fund__more {
     }
 }
 .block__out--header {

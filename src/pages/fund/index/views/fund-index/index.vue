@@ -570,7 +570,6 @@ export default {
             }
         },
         async getBaoFundList() {
-            if (!this.isLogin) return
             try {
                 const res = await getBaoFundList()
                 let PositionList = res.sort((pre, curr) => {

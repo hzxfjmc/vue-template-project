@@ -16,7 +16,20 @@
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
-       
+        .block__fundheader--tips(
+            v-if="isLogin && openedAccount"
+            @click="jumpPage('order-list',1)")
+            em.iconfont.icon-iconEBshoucang
+            span.title {{$t('cashFlow')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
+        .block__fundheader--tips(
+            v-if="isLogin && openedAccount"
+            @click="jumpPage('income-details'), 1")
+            em.iconfont.icon-icon-money
+            span.title {{$t('returnDetails')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
         yxbaoSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         yxbaoTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -28,10 +41,10 @@
         .block__tips--msg
             p {{$t('msg')}}
             p.more {{$t('msg1')}}
-   
-        
-           
-    
+        .block__button----list
+            van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 
+            van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}} 
+            
 </template>
 <script>
 import yxbaoDetailsHeader from './components/yxbao-details-header'
@@ -92,6 +105,8 @@ export default {
             riskTip: '风险提示',
             continueButton: '继续操作',
             cancelButton: '取消',
+            cashFlow: '资金流水',
+            returnDetails: '收益明细',
             resultList: {
                 1: {
                     registration: 'A1',
@@ -156,6 +171,8 @@ export default {
             riskTip: '風險提示',
             continueButton: '繼續操作',
             cancelButton: '取消',
+            cashFlow: '資金流水',
+            returnDetails: '收益明細',
             resultList: {
                 1: {
                     registration: 'A1',
@@ -222,6 +239,8 @@ export default {
             riskTip: 'Risk Tip',
             continueButton: 'Continue',
             cancelButton: 'Cancel',
+            cashFlow: 'Cash Flow',
+            returnDetails: 'Return Details',
             resultList: {
                 1: {
                     registration: 'A1',
@@ -416,6 +435,37 @@ export default {
                 url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
             }
             jumpUrl(3, url)
+        },
+        async jumpPageIntoOut(path, type) {
+            // 未登录或未开户
+            if (!this.isLogin) {
+                await this.$dialog.alert({
+                    message: this.$t('login'),
+                    confirmButtonText: this.$t('loginBtn'),
+                    closeOnClickOverlay: true
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+                return
+            }
+            if (!this.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: this.$t('openAccount'),
+                    confirmButtonText: this.$t('openAccountBtn'),
+                    closeOnClickOverlay: true
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
+            jumpUrl(
+                type,
+                `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.$route.query.id}`
+            )
+        },
+        // 跳转到现金+ 资金流水 收益明细
+        jumpPage(path, type) {
+            let url = `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.$route.query.id}`
+            jumpUrl(type, url)
         },
         async getFundPerformanceHistory() {
             try {
@@ -838,6 +888,18 @@ export default {
     }
     .van-button {
         border-radius: 0 !important;
+    }
+}
+.block__button----list {
+    .van-button {
+        width: 50%;
+        color: #fff;
+    }
+    .btn-color-l {
+        background: #0d50d8;
+    }
+    .btn-color-r {
+        background: #ff744a;
     }
 }
 .fund-footer-content {
