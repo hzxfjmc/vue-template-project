@@ -11,10 +11,11 @@ function login() {
     }
 }
 
+login()
+
 // 开户页浏览
 export function webViewScreen(page, id = '', name = '', isReOpen) {
     if (page) {
-        login()
         isReOpen = isReOpen || false
         sensors.track('yxstock_web_view_screen', {
             prop_view_page: page,
@@ -27,7 +28,6 @@ export function webViewScreen(page, id = '', name = '', isReOpen) {
 }
 // 开户点击
 export function webViewClick(page, id, name) {
-    login()
     sensors.track('yxstock_web_view_click', {
         prop_view_page: page,
         prop_view_id: id,
@@ -37,7 +37,6 @@ export function webViewClick(page, id, name) {
 
 // 身份证上传成功
 export function uploadId(id, name, result) {
-    login()
     // let track = appType.Ch ? 'yxstock_uploadID' : 'hkyxstock_uploadID'
     sensors.track('yxstock_uploadID', {
         prop_view_id: id,
@@ -47,7 +46,6 @@ export function uploadId(id, name, result) {
 }
 // 大陆-活体识别成功
 export function faceverify(result) {
-    login()
     sensors.track('yxstock_faceverify', {
         UpdateIDresult: result
     })
