@@ -102,6 +102,7 @@ export function webAdClick(page, id, type) {
 
 //基金详情页浏览
 export function browseFundDetails(page, id, name) {
+    login()
     sensors.track('yxstock_web_view_screen', {
         prop_view_page: page,
         prop_fund_id: id,
@@ -111,6 +112,7 @@ export function browseFundDetails(page, id, name) {
 
 //点击基金详情
 export function clickFundDetails(page, propViewName, id, name) {
+    login()
     sensors.track('yxstock_web_view_click', {
         prop_view_page: page,
         prop_view_name: propViewName,
@@ -121,6 +123,7 @@ export function clickFundDetails(page, propViewName, id, name) {
 
 //我的拼团邀请点击
 export function clickFundOrderShare(page, id, name) {
+    login()
     sensors.track('yxstock_web_share', {
         prop_view_page: page,
         prop_fund_id: id,
@@ -130,6 +133,7 @@ export function clickFundOrderShare(page, id, name) {
 
 //点击我的拼团邀请成功
 export function clickFundOrder(page, propViewName, id, name) {
+    login()
     sensors.track('yxstock_web_view_click', {
         prop_view_page: page,
         prop_view_name: propViewName,
