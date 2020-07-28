@@ -35,7 +35,7 @@ export default {
     data() {
         return {
             managerList: [],
-            dividendPaymentDate: ''
+            exDividendDate: ''
         }
     },
     computed: {
@@ -74,10 +74,8 @@ export default {
             }
         },
         dividendDetail() {
-            if (this.dividendPaymentDate) {
-                return `${this.$t('latestDividend')}：${
-                    this.dividendPaymentDate
-                }`
+            if (this.exDividendDate) {
+                return `${this.$t('latestDividend')}：${this.exDividendDate}`
             } else {
                 return this.$t('noDividend')
             }
@@ -163,10 +161,8 @@ export default {
                     pageSize: 20
                 }
                 let res = await getFundDividendList(params)
-                this.dividendPaymentDate = res.list.length
-                    ? dayjs(res.list[0].dividendPaymentDate).format(
-                          'YYYY-MM-DD'
-                      )
+                this.exDividendDate = res.list.length
+                    ? dayjs(res.list[0].exDividendDate).format('YYYY-MM-DD')
                     : ''
             } catch (e) {
                 if (e.msg) {
