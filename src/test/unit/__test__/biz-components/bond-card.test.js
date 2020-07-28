@@ -1,5 +1,6 @@
 import { mount } from '@vue/test-utils'
 import bondCard from '@/biz-components/bond-card/index.vue'
+import { handleThousandSpilt } from '@/utils/common/vue-filter/index.js'
 describe('bond-card', () => {
     // 目前只考虑中文版
     // 一开始不知道要测试什么，怎么测试
@@ -12,6 +13,9 @@ describe('bond-card', () => {
     // 6、paymentDates         1、付息日超过2个（不包含）则在后面加上'等'，并且只截取前两个展示 2、没有值时为'--'
     it('正常预期数据 bondInfo', () => {
         const wrapper = mount(bondCard, {
+            filters: {
+                'thousand-spilt': handleThousandSpilt
+            },
             propsData: {
                 bondInfo: {
                     issuerName: '1234567890123456789',
@@ -65,7 +69,7 @@ describe('bond-card', () => {
                 .findAll('.bond-card__text')
                 .at(1)
                 .text()
-        ).toBe('$1239.30')
+        ).toBe('$1,239.30')
         // 6、年稅後派息
         expect(
             wrapper
