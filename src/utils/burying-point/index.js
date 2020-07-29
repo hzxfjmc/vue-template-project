@@ -11,10 +11,10 @@ function login() {
     }
 }
 
-const commonParam = {
+const commonParam = () => ({
     yx_user_id: LS.get('userId') || '',
     yx_guest_id: ''
-}
+})
 
 // 开户页浏览
 export function webViewScreen(page, id = '', name = '', isReOpen) {
@@ -112,7 +112,7 @@ export function browseFundDetails(page, id, name) {
         prop_view_page: page,
         prop_fund_id: id,
         prop_fund_name: name,
-        ...commonParam
+        ...commonParam()
     })
 }
 
@@ -124,7 +124,7 @@ export function clickFundDetails(page, propViewName, id, name) {
         prop_view_name: propViewName,
         prop_fund_id: id,
         prop_fund_name: name,
-        ...commonParam
+        ...commonParam()
     })
 }
 
@@ -135,7 +135,7 @@ export function clickFundOrderShare(page, id, name) {
         prop_view_page: page,
         prop_fund_id: id,
         prop_fund_name: name,
-        ...commonParam
+        ...commonParam()
     })
 }
 
@@ -147,6 +147,6 @@ export function clickFundOrder(page, propViewName, id, name) {
         prop_view_name: propViewName,
         prop_fund_id: id,
         prop_fund_name: name,
-        ...commonParam
+        ...commonParam()
     })
 }
