@@ -90,7 +90,8 @@
                 )
                     p(
                         :class="{active:fundId === item.fundId}"
-                    ) {{item.fundName}}
+                    ) {{item.fundName}}(
+                        span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                     p(v-if="fundId === item.fundId")
                         span.iconfont.icon-tick-
 

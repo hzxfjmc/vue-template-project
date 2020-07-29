@@ -561,9 +561,9 @@ export default {
         }
     }
     .fund__icon {
-        width: 25px;
-        height: 25px;
-        background-size: 25px 25px;
+        width: 20px;
+        height: 20px;
+        background-size: 20px 20px;
         &.one {
             background-image: url('~@/assets/img/yxbao/icon/cash_deposit@2x.png');
         }
