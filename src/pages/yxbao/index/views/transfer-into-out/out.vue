@@ -76,7 +76,7 @@
             @click="chooseFund(item.fundId)"
         )
             .item__left
-                p.title {{item.fundName}}
+                p.title.ellipse {{item.fundName}}
                 p.content {{$t('C87')}}:
                     span.num {{item.usdPositionMarketValue | transNumToThousandMark}}
                     span.type {{item.currency === 1 ? $t('usd') : $t('hkd')}}
@@ -633,6 +633,9 @@ h1 {
     align-items: center;
     border-top: 1px solid $text-color8;
     color: rgba(25, 25, 25, 0.5);
+    .item__left {
+        width: 80%;
+    }
     .title {
         font-size: 16px;
         color: $text-color;

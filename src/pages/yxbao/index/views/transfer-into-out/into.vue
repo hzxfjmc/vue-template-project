@@ -188,6 +188,12 @@ export default {
             try {
                 let data = await hsAccountInfo(this.currencyType)
                 this.accountInfo = data || {}
+                if (
+                    this.accountInfo.withdrawBalance <
+                    this.fundTradeInfoVO.initialInvestAmount
+                ) {
+                    this.showAllSellBtn.show = false
+                }
                 this.showAllSellBtn.maxAmount = data.withdrawBalance
                 this.loading = false
                 this.$close()
@@ -408,6 +414,9 @@ export default {
     border-top: 1px solid $text-color8;
     .item__left {
         width: 80%;
+    }
+    .item__right {
+        color: #2f79ff;
     }
     .weak {
         font-size: 14px;

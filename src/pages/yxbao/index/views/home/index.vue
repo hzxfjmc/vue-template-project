@@ -382,7 +382,7 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            // this.getBaoPostionV2()
+            this.getBaoPostionV2()
             this.getFundUserInfo()
         },
         //获取现金+持仓
@@ -396,19 +396,17 @@ export default {
                 } = await getBaoPostionV2({
                     currency: 1
                 })
-                if (baoPositionList.length === 0) {
-                    this.noPosition = true
-                } else {
+                if (baoPositionList.length) {
                     this.baoPositionList = baoPositionList
                     this.baoPositionList.forEach(item => {
                         this.$set(item, 'showMore', false)
                     })
-                    this.hkSummary = hkSummary
-                    this.usSummary = usSummary
-                    this.currentPostion =
-                        this.currencyTab === 0 ? hkSummary : usSummary
                     this.noPosition = false
                 }
+                this.hkSummary = hkSummary
+                this.usSummary = usSummary
+                this.currentPostion =
+                    this.currencyTab === 0 ? hkSummary : usSummary
             } catch (e) {
                 this.$toast(e.msg)
             }
