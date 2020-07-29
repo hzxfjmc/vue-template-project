@@ -262,7 +262,7 @@ export default {
         window.handlerYxbaoAbout = async () => {
             let url
             if (this.lang === 'zhCHS') {
-                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=xianjinjia01`
+                url = `${window.location.origin}/marketing/template/index.html#/?pageNo=youxinbao`
             }
             if (this.lang === 'zhCHT') {
                 url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_TC`

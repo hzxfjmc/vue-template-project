@@ -41,6 +41,7 @@
         .block__tips--msg
             p {{$t('msg')}}
             p.more {{$t('msg1')}}
+    .fund-footer-content
         .block__button--list
             van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 
             van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}}
@@ -890,18 +891,6 @@ export default {
         border-radius: 0 !important;
     }
 }
-.block__button--list {
-    .van-button {
-        width: 50%;
-        color: #fff;
-    }
-    .btn-color-l {
-        background: #0d50d8;
-    }
-    .btn-color-r {
-        background: #ff744a;
-    }
-}
 .fund-footer-content {
     width: 100%;
     .block__list--header {
@@ -958,5 +947,14 @@ export default {
 .block__button--list {
     display: flex;
     flex-direction: row;
+    .van-button {
+        width: 50%;
+    }
+    .btn-color-l {
+        background: #0d50d8;
+    }
+    .btn-color-r {
+        background: #ff744a;
+    }
 }
 </style>

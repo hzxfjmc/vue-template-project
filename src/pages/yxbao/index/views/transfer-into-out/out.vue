@@ -287,7 +287,7 @@ export default {
                     buyProtocolFileList
                 } = await getFundDetail({
                     displayLocation: 3,
-                    fundId: this.fundId
+                    fundId: this.fundId || this.$route.query.id
                 })
                 this.fundTradeInfoVO = fundTradeInfoVO
                 this.currencyType = fundTradeInfoVO.currency.type

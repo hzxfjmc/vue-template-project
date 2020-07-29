@@ -576,22 +576,27 @@ export default {
         async getBaoFundList() {
             try {
                 const res = await getBaoFundList()
-                let PositionList = res.sort((pre, curr) => {
+                let sortList = res.sort((pre, curr) => {
                     if (pre.sevenDaysApy >= curr.sevenDayApy) {
                         return 1
                     } else {
                         return -1
                     }
                 })
-                for (let i = 0; i < PositionList.length; i++) {
-                    if (PositionList[i].currency === 1) {
-                        this.usdSevenDaysApy = Number(
-                            PositionList[i].sevenDaysApy * 100
+                for (let i = 0; i < sortList.length; i++) {
+                    if (sortList[i].currency === 1) {
+                        this.usdSevenDaysApy = (
+                            Number(sortList[i].sevenDaysApy) * 100
                         ).toFixed(4)
-                    } else {
-                        this.hkSevenDaysApy = Number(
-                            PositionList[i].sevenDaysApy * 100
+                        break
+                    }
+                }
+                for (let i = 0; i < sortList.length; i++) {
+                    if (sortList[i].currency === 2) {
+                        this.hkSevenDaysApy = (
+                            Number(sortList[i].sevenDaysApy) * 100
                         ).toFixed(4)
+                        break
                     }
                 }
             } catch (e) {
