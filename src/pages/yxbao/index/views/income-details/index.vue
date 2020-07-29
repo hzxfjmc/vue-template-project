@@ -249,6 +249,7 @@ export default {
                     total
                 } = await getBaoCapitalTradeListV2({
                     fundId: this.$route.query.id,
+                    recordType: 3,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
