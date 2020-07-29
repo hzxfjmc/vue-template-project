@@ -247,7 +247,7 @@ export default {
                     return item.fundId === this.$route.query.id
                 })
                 this.fundId = this.choosedFund[0].fundId
-                this.availableBaoBalance = this.chooseFund[0].availableBaoBalance
+                this.availableBaoBalance = this.choosedFund[0].availableBaoBalance
                 this.showAllSellBtn.maxAmount = this.availableBaoBalance
                 this.customerHkdDailyQuota = customerHkdDailyQuota / 10000
                 this.customerHkdRemainderQuota = customerHkdRemainderQuota
@@ -488,8 +488,6 @@ h1 {
     }
     .fund__left {
         width: 70%;
-    }
-    .fund__more {
     }
 }
 .block__out--header {

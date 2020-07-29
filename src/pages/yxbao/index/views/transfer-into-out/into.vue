@@ -2,7 +2,7 @@
 .block__element-wrapper
     .block__out__fund 
         .fund__left(v-if="choosedFund.length")
-            p.title {{choosedFund[0].fundName}}
+            p.title.ellipse {{choosedFund[0].fundName}}
             p.weak {{$t('yieldInLast7d')}} 
                 span.num(
                     :class="{green: choosedFund[0].sevenDaysApy<0}"
@@ -56,7 +56,7 @@
             v-for="item in fundList"
         )
             .item__left
-                p.name {{item.fundName}}
+                p.name.ellipse {{item.fundName}}
                 p.weak {{$t('yieldInLast7d')}} 
                     span.num(
                         :class="{green: item.sevenDaysApy<0}"
@@ -334,6 +334,9 @@ export default {
     justify-content: space-between;
     padding: 15px 12px 14px 12px;
     background: #fff;
+    .fund__left {
+        width: 70%;
+    }
     .title {
         margin-bottom: 4px;
         height: 22px;
@@ -403,6 +406,9 @@ export default {
     padding: 12px 20px;
     font-size: 16px;
     border-top: 1px solid $text-color8;
+    .item__left {
+        width: 80%;
+    }
     .weak {
         font-size: 14px;
         color: $text-color5;

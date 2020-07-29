@@ -22,7 +22,7 @@
             )
             .block__order--list(v-if="!isSingle")
                 .block__order--left
-                    p.title {{item.fundName}}
+                    p.title.ellipse {{item.fundName}}
                     p.color {{item.createTime}}
                 .block__order--right(v-if="item.recordType != 3")
                     p.num {{item.recordTypeName}}
@@ -423,6 +423,7 @@ export default {
     height: 82px;
     align-items: center;
     .block__order--left {
+        width: 60%;
         margin: 0 0 0 12px;
         .title {
             font-size: 16px;

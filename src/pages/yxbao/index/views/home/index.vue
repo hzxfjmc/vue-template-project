@@ -70,7 +70,6 @@ div(:class="bem()")
                     span {{$t('orderList')}}
     div(
         :class="bem('fund')"
-        v-if="baoPositionList.length"
         v-for="item in baoPositionList"
         )
         div(:class="bem('fund-name')") {{item.fundName}}
@@ -79,7 +78,10 @@ div(:class="bem()")
                 .item__left
                     p {{ item.currency === 1 ? $t('C89'): $t('C3')}}
                     p.num {{ item.currency === 1 ? item.usdPositionMarketValue : item.hkdPositionMarketValue | transNumToThousandMark}}
-                .item__right
+                .item__right(v-if="noPosition")
+                    p {{$t('C4')}}
+                    p.num 0.00
+                .item__right(v-else)
                     p {{$t('C4')}}
                     p.num(
                         v-if="item.hkdYesterdayEarnings<=0"
@@ -88,7 +90,20 @@ div(:class="bem()")
                     p.num.red(
                         v-else
                     ) +{{ item.currency === 1 ?item.usdYesterdayEarnings : item.hkdYesterdayEarnings | transNumToThousandMark}}
-            .block__item
+            .block__item(v-if="noPosition")
+                .item__left.gain
+                    p {{$t('C5')}}
+                    p.num 0.00
+                .line
+                .item__center
+                    p {{$t('C6')}}
+                    p.num {{item.tenThousandApy|transNumToThousandMark}}
+                .line
+                .item__right
+                    p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
+                        em.iconfont.icon-about_icon
+                    p.num {{item.sevenDaysApy*100 |transNumToThousandMark}}%
+            .block__item(v-else)
                 .item__left.gain
                     p {{$t('C5')}}
                     p.num(
@@ -211,6 +226,7 @@ export default {
             recommendList: [],
             baoPositionList: [],
             fundList: [],
+            noPosition: true,
             hkSummary: {},
             usSummary: {},
             currentPostion: {},
@@ -380,14 +396,19 @@ export default {
                 } = await getBaoPostionV2({
                     currency: 1
                 })
-                this.baoPositionList = baoPositionList
-                this.baoPositionList.forEach(item => {
-                    this.$set(item, 'showMore', false)
-                })
-                this.hkSummary = hkSummary
-                this.usSummary = usSummary
-                this.currentPostion =
-                    this.currencyTab === 0 ? hkSummary : usSummary
+                if (baoPositionList.length === 0) {
+                    this.noPosition = true
+                } else {
+                    this.baoPositionList = baoPositionList
+                    this.baoPositionList.forEach(item => {
+                        this.$set(item, 'showMore', false)
+                    })
+                    this.hkSummary = hkSummary
+                    this.usSummary = usSummary
+                    this.currentPostion =
+                        this.currencyTab === 0 ? hkSummary : usSummary
+                    this.noPosition = false
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -405,6 +426,12 @@ export default {
                     }
                 })
                 this.fundId = this.fundList[0].fundId
+                if (this.baoPositionList.length === 0) {
+                    this.baoPositionList = this.fundList
+                    this.baoPositionList.forEach(item => {
+                        this.$set(item, 'showMore', false)
+                    })
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }

@@ -250,7 +250,7 @@ export default {
                 } = await getBaoCapitalTradeListV2({
                     currency: this.currency,
                     fundId: this.$route.query.id,
-                    recordType: 3,
+                    // recordType: 3,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
@@ -370,6 +370,7 @@ hr {
         height: 82px;
         align-items: center;
         .block__order--left {
+            width: 50%;
             margin: 0 0 0 12px;
             .title {
                 font-size: 16px;
