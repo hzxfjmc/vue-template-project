@@ -11,6 +11,11 @@ function login() {
     }
 }
 
+const commonParam = {
+    yx_user_id: LS.get('userId') || '',
+    yx_guest_id: ''
+}
+
 // 开户页浏览
 export function webViewScreen(page, id = '', name = '', isReOpen) {
     if (page) {
@@ -106,7 +111,8 @@ export function browseFundDetails(page, id, name) {
     sensors.track('yxstock_web_view_screen', {
         prop_view_page: page,
         prop_fund_id: id,
-        prop_fund_name: name
+        prop_fund_name: name,
+        ...commonParam
     })
 }
 
@@ -117,7 +123,8 @@ export function clickFundDetails(page, propViewName, id, name) {
         prop_view_page: page,
         prop_view_name: propViewName,
         prop_fund_id: id,
-        prop_fund_name: name
+        prop_fund_name: name,
+        ...commonParam
     })
 }
 
@@ -127,7 +134,8 @@ export function clickFundOrderShare(page, id, name) {
     sensors.track('yxstock_web_share', {
         prop_view_page: page,
         prop_fund_id: id,
-        prop_fund_name: name
+        prop_fund_name: name,
+        ...commonParam
     })
 }
 
@@ -138,6 +146,7 @@ export function clickFundOrder(page, propViewName, id, name) {
         prop_view_page: page,
         prop_view_name: propViewName,
         prop_fund_id: id,
-        prop_fund_name: name
+        prop_fund_name: name,
+        ...commonParam
     })
 }
