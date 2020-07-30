@@ -22,25 +22,17 @@
                     .subTitle__item 
                         span 债券名称
                     .subTitle__item 占比 
-                .content__item-percentage
-                    .percentage-item
+                .content__item-percentage(:class="{'more':showMore}")
+                    .percentage-item(v-for="item,index in holdingsList" :key="item.name")
                         .item-top
-                            .item-top__label 债券名称    
-                            .item-top__value 25%    
-                        .item-line
-                    .percentage-item
-                        .item-top
-                            .item-top__label 债券名称    
-                            .item-top__value 25%    
-                        .item-line  
-                    .percentage-item
-                        .item-top
-                            .item-top__label 债券名称    
-                            .item-top__value 25%    
-                        .item-line
-                .content__item-btn
-                    span.label 展开更多
-                    span.iconfont.icon-iconxiala                       
+                            .item-top__label {{item.name}}    
+                            .item-top__value {{Number(item.weighting).toFixed(2)}}%   
+                        .item-line(
+                            :class="index<3?`bg-${index}`:'bg-3'" 
+                            :style="{width:`${item.width}%`}")
+                .content__item-btn(@click="handleShowMore")
+                    span.label {{showMore ? '收起':'展开更多'}}
+                    span.iconfont.icon-iconxiala(:class="{'more':showMore}")                       
 </template>
 <script>
 /**
@@ -67,7 +59,10 @@ export default {
         ...mapGetters(['stockColorTypeClass', 'lang'])
     },
     data() {
-        return {}
+        return {
+            showMore: false,
+            holdingsList: []
+        }
     },
     filters: {
         filterRatio(val, notNeedUnit) {
@@ -80,6 +75,9 @@ export default {
         }
     },
     methods: {
+        handleShowMore() {
+            this.showMore = !this.showMore
+        },
         getStockClass(val) {
             return val > 0
                 ? this.stockColorTypeClass.up
@@ -111,8 +109,17 @@ export default {
                 const params = {
                     fundId: this.fundHeaderInfoVO.fundId
                 }
-                const data = await getFundTop10HoldingsV1(params)
-                console.log(data)
+                const list = (await getFundTop10HoldingsV1(params)) || []
+                list.forEach((item, index) => {
+                    if (index === 0) {
+                        item.width = 100
+                    } else {
+                        item.width = Number(
+                            (list[index].weighting / list[0].weighting) * 100
+                        ).toFixed(2)
+                    }
+                })
+                this.holdingsList = list
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -186,7 +193,13 @@ export default {
             font-size: 12px;
         }
         .content__item-percentage {
+            height: 200px;
+            overflow: hidden;
             padding-bottom: 10px;
+            transition: all 0.3s ease-out;
+            &.more {
+                height: 400px;
+            }
         }
         .content__item-btn {
             display: flex;
@@ -198,6 +211,12 @@ export default {
             .label {
                 padding-right: 6px;
             }
+            .iconfont {
+                transition: all 0.3s ease-out;
+            }
+            .icon-iconxiala.more {
+                transform: rotate(180deg);
+            }
         }
         .percentage-item {
             padding: 5px 0;
@@ -206,10 +225,25 @@ export default {
                 justify-content: space-between;
                 font-size: 12px;
             }
+            .item-top__value {
+                font-size: 14px;
+                font-weight: 500;
+            }
             .item-line {
                 width: 50%;
                 height: 9px;
-                background-color: #1d41a5;
+                &.bg-0 {
+                    background-color: #1d41a5;
+                }
+                &.bg-1 {
+                    background-color: #0d50d8;
+                }
+                &.bg-2 {
+                    background-color: #2f79ff;
+                }
+                &.bg-3 {
+                    background-color: #249cff;
+                }
             }
         }
     }
