@@ -113,6 +113,7 @@ export const zhCHT = {
         '貨幣基金的七日年化收益率是通過計算其近七日收益率，並進行單利年化，從而模擬出其平均每年能夠為投資者創造的收益。由於是模擬短期業績，並不代表基金的真實年收益率，因此僅供參考。<br/>計算公式：七日年化=（T日nav-（T-7）日nav）/T-7日nav/自然日天數*365*100%',
     moreFund: '更多基金',
     chooseFundTips: '請選擇轉出基金',
+    chooseFundTips2: '請選擇轉入基金',
     above: '起',
     minTrade: '最低轉出',
     moneyType: '全部幣種',

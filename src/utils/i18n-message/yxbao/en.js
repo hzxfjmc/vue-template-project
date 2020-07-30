@@ -116,6 +116,7 @@ export const en = {
         "The money market fund's annualized 7-day-return tries to reflect the average annual return for investors by annualizing the most recent 7-day-return.Please note that this data is fo reference only since it does not represent the realized annual return.<br/>Calculation Formula：<br/>Yield in Last 7d=（T-day nav-（T-7）-day nav）/（T-7）-day nav/Natural Days*365*100%",
     moreFund: 'More Fund',
     chooseFundTips: 'Please Select Redemption Fund',
+    chooseFundTips2: 'Please Select Subs. Fund',
     above: 'initial Subs',
     minTrade: 'Mini. Redemption',
     moneyType: 'All Currencies',

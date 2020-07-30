@@ -28,12 +28,12 @@
                 .block__order--right
                     p.num {{item.recordTypeName}}
                     p.num(
-                        v-if="item.recordType === 1"
+                        v-if="item.recordType === 1 || item.recordType === 3"
                     ) +{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
                     p.num(
                         v-else-if="item.recordType === 2"
                     ) -{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
-                    p.num(v-else) {{item.recordAmount}} {{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    p.num(v-else) {{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
             .block__order--list(v-else)
                 .block__order--left
                     p.title {{item.recordTypeName}}

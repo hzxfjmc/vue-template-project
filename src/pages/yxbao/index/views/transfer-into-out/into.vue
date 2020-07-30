@@ -49,7 +49,7 @@
         :closeable="true"
     )   
         .fund__top
-            .left {{$t('chooseFundTips')}}
+            .left {{$t('chooseFundTips2')}}
             .right(@click="showFundList = false") {{$t('C15')}}
         .fund__list--item(
             @click="chooseFund(item.fundId)"
