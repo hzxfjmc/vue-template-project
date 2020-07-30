@@ -637,6 +637,7 @@ export default {
         },
         //获取现金+持仓
         async getBaoPostionV2() {
+            if (!this.isLogin) return
             try {
                 const { baoPositionList } = await getBaoPostionV2()
                 baoPositionList.forEach(item => {
