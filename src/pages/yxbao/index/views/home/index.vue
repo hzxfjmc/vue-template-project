@@ -397,6 +397,7 @@ export default {
                     currency: 1
                 })
                 if (baoPositionList.length) {
+                    this.fundId = baoPositionList[0].fundId
                     this.baoPositionList = baoPositionList
                     this.baoPositionList.forEach(item => {
                         this.$set(item, 'showMore', false)
@@ -423,8 +424,8 @@ export default {
                         return 0
                     }
                 })
-                this.fundId = this.fundList[0].fundId
                 if (this.baoPositionList.length === 0) {
+                    this.fundId = this.fundList[0].fundId
                     this.baoPositionList = this.fundList
                     this.baoPositionList.forEach(item => {
                         this.$set(item, 'showMore', false)

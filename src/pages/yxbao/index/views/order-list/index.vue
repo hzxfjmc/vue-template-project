@@ -25,7 +25,7 @@
                     p.title.ellipse {{item.fundName}}(
                         span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                     p.color {{item.createTime}}
-                .block__order--right(v-if="item.recordType != 3")
+                .block__order--right
                     p.num {{item.recordTypeName}}
                     p.num(
                         v-if="item.recordType === 1"
@@ -33,17 +33,7 @@
                     p.num(
                         v-else-if="item.recordType === 2"
                     ) -{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
-                    p.num(v-else) {{item.recordAmount}} {{item.currency === 1 ? 'USD' : 'HKD'}}
-                .block__order--right(v-else)
-                    p.num {{item.recordTypeName}}
-                    p.num(
-                        v-if="item.recordAmount>0"
-                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    ) +{{item.recordAmount}} {{item.currency === 1 ? $t('usd') : $t('hkd')}}
-                    p.num(
-                        v-else
-                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    ) {{item.recordAmount}} {{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    p.num(v-else) {{item.recordAmount}} {{item.currency === 1 ? $t('usd') : $t('hkd')}}
             .block__order--list(v-else)
                 .block__order--left
                     p.title {{item.recordTypeName}}
@@ -61,11 +51,11 @@
                     p.num(
                         v-if="item.recordAmount>0"
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    ) +{{item.recordAmount}} {{item.currency === 1 ? 'USD' : 'HKD'}}
+                    ) +{{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.num(
                         v-else
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    ) {{item.recordAmount}} {{item.currency === 1 ? 'USD' : 'HKD'}}
+                    ) {{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD' : 'HKD'}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/yxbao/data.png") 

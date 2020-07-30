@@ -36,7 +36,8 @@
                 v-for="(item,index) in filterList")
                 .block__order--left
                     p.title.ellipse(v-if="isSingle") {{item.recordTypeName}}
-                    p.title.ellipse(v-else) {{item.fundName}}
+                    p.title.ellipse(v-else) {{item.fundName}}(
+                        span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                     p.color {{item.createTime}}
                 .block__order--right(v-if="isSingle")
                     p.num(

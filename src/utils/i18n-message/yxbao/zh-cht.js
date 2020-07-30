@@ -119,6 +119,8 @@ export const zhCHT = {
     allFund: '全部基金',
     allType: '全部類型',
     fundName: '基金名稱',
+    usdAccount: '美股现金账户',
+    hkdAccount: '港股现金账户',
     riskAssessment: '風險評估',
     riskAsessmentResult: '測評結果',
     riskAppropriateResult: '產品匹配',

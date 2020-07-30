@@ -2,7 +2,8 @@
 .block__element-wrapper
     .block__out__fund 
         .fund__left(v-if="choosedFund.length")
-            p.title.ellipse {{choosedFund[0].fundName}}
+            p.title.ellipse {{choosedFund[0].fundName}}(
+                span {{choosedFund[0].currency === 1 ? $t('usd') : $t('hkd')}})
             p.weak {{$t('yieldInLast7d')}} 
                 span.num(
                     :class="{green: choosedFund[0].sevenDaysApy<0}"
@@ -26,7 +27,7 @@
     .block__out--title.common-flex-space-between.common-marge-top
         p.title {{$t('C30')}} 
         .tips 
-            p.tips--top {{$t('C31')}}
+            p.tips--top {{currencyType === 1 ? $t('usdAccount') : $t('hkdAccount')}}
             p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{currencyType === 1 ? $t('usd') : $t('hkd')}}
     
     .block__footer--check()
@@ -56,7 +57,8 @@
             v-for="item in fundList"
         )
             .item__left
-                p.name.ellipse {{item.fundName}}
+                p.name.ellipse {{item.fundName}}(
+                    span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                 p.weak {{$t('yieldInLast7d')}} 
                     span.num(
                         :class="{green: item.sevenDaysApy<0}"

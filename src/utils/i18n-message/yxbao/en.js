@@ -122,6 +122,8 @@ export const en = {
     allFund: 'All Funds',
     allType: 'All Types',
     fundName: 'Fund Name',
+    usdAccount: '美股现金账户',
+    hkdAccount: '港股现金账户',
     riskAssessment: 'Risk Assessment',
     riskAsessmentResult: 'Assessment Result',
     riskAppropriateResult: 'Product Matching',
