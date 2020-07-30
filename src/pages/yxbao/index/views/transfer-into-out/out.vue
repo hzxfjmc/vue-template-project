@@ -76,7 +76,8 @@
             @click="chooseFund(item)"
         )
             .item__left
-                p.title.ellipse {{item.fundName}}
+                p.title.ellipse {{item.fundName}}(
+                    span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                 p.content {{$t('C87')}}:
                     span.num {{item.availableBaoBalance | transNumToThousandMark}}
                     span.type {{item.currency === 1 ? $t('usd') : $t('hkd')}}

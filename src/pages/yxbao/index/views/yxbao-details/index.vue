@@ -42,8 +42,10 @@
             p {{$t('msg')}}
             p.more {{$t('msg1')}}
     .fund-footer-content
-        .block__button--list
+        .block__button(v-if="availableBaoBalance > 0")
             van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 
+            van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}}
+        .block__button(v-else)
             van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}}
             
 </template>
@@ -60,6 +62,7 @@ import {
     getFundApyPointV1,
     getFundNetPriceHistoryV1
 } from '@/service/finance-info-server.js'
+import { getBaoPostionV2 } from '@/service/finance-server.js'
 import { getSource } from '@/service/customer-relationship-server'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { Button, Dialog } from 'vant'
@@ -321,6 +324,7 @@ export default {
             revenue: '',
             step: 0,
             forbidPrompt: '',
+            availableBaoBalance: '',
             timeList: {
                 oneWeek: {
                     label: '近一周',
@@ -630,6 +634,19 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        //获取现金+持仓
+        async getBaoPostionV2() {
+            try {
+                const { baoPositionList } = await getBaoPostionV2()
+                baoPositionList.forEach(item => {
+                    if (item.fundId == this.$route.query.id) {
+                        this.availableBaoBalance = item.availableBaoBalance
+                    }
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     async created() {
@@ -638,6 +655,7 @@ export default {
         this.getFundNetPriceHistoryV1()
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
+        this.getBaoPostionV2()
         this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
@@ -944,11 +962,11 @@ export default {
         }
     }
 }
-.block__button--list {
+.block__button {
     display: flex;
     flex-direction: row;
     .van-button {
-        width: 50%;
+        flex: 1;
     }
     .btn-color-l {
         background: #0d50d8;
