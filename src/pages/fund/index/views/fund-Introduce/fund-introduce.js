@@ -87,7 +87,7 @@ export const i18nIntroducelist = {
                 label: '权益登记日'
             },
             dividendDate: {
-                label: '派息日期'
+                label: '除息日'
             },
             dividendRecord: {
                 label: '派息记录'
@@ -155,7 +155,7 @@ export const i18nIntroducelist = {
                 label: '權益登記日'
             },
             dividendDate: {
-                label: '派息日期'
+                label: '除息日'
             },
             dividendRecord: {
                 label: '派息記錄'
@@ -223,7 +223,7 @@ export const i18nIntroducelist = {
                 label: 'Date of record'
             },
             dividendDate: {
-                label: 'Dividend Date'
+                label: 'ExDividend Date'
             },
             dividendRecord: {
                 label: 'Dividend Recorde'

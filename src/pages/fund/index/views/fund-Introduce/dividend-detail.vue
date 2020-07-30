@@ -2,17 +2,22 @@
 .dividend-detail-container
         .container__wrap(v-if="dividendDetailList.length")
             van-list.dividend-record-list(v-model="loading" :finished="finished" :finished-text="$t('list')['noMore'].label" @load="onLoad")
+                van-cell(class="van-cell-item van-cell-top")
+                    .dividend-list
+                            .dividend-item.flex
+                                span(class="right-value") {{$t('list')['recordDate'].label}}
+                            .dividend-item.flex
+                                span(class="right-value") {{$t('list')['dividendDate'].label}}
+                            .dividend-item.flex
+                                span(class="right-value") {{$t('list')['dividendRecord'].label}}
                 van-cell(v-for="(item,index) in dividendDetailList" :key="index" class="van-cell-item" )
                     template(slot-scope='scope')
                         .dividend-list
                             .dividend-item.flex
-                                span(class="left-title") {{$t('list')['recordDate'].label}}
                                 span(class="right-value") {{item.recordDate}}
                             .dividend-item.flex
-                                span(class="left-title") {{$t('list')['dividendDate'].label}}
-                                span(class="right-value") {{item.dividendPaymentDate}}
+                                span(class="right-value") {{item.exDividendDate}}
                             .dividend-item.flex
-                                span(class="left-title") {{$t('list')['dividendRecord'].label}}
                                 span(class="right-value") {{item.dividendRecord}}
         .no-bond-box(v-else)
             .no-bond.no-data {{$t('noData')}}
@@ -53,24 +58,24 @@ export default {
                 let res = await getFundDividendList(params)
                 this.total = res.total
                 res.list.map(item => {
-                    let recordDate, dividendPaymentDate
+                    let recordDate, exDividendDate
                     if (item.recordDate) {
                         recordDate = dayjs(item.recordDate).format('YYYY-MM-DD')
                     } else {
                         recordDate = '--'
                     }
-                    if (item.dividendPaymentDate) {
-                        dividendPaymentDate = dayjs(
-                            item.dividendPaymentDate
-                        ).format('YYYY-MM-DD')
+                    if (item.exDividendDate) {
+                        exDividendDate = dayjs(item.exDividendDate).format(
+                            'YYYY-MM-DD'
+                        )
                     } else {
-                        dividendPaymentDate = '--'
+                        exDividendDate = '--'
                     }
                     item.dividendPerShare = Number(
                         item.dividendPerShare
                     ).toFixed(4)
                     this.dividendDetailList.push({
-                        dividendPaymentDate: dividendPaymentDate,
+                        exDividendDate: exDividendDate,
                         recordDate: recordDate,
                         dividendRecord: item.dividendPerShare
                     })
@@ -102,7 +107,6 @@ export default {
 .dividend-detail-container {
     .left-title {
         color: rgba($text-color, 0.5);
-        margin-bottom: 5px;
     }
     .van-hairline--top-bottom {
         position: absolute;
@@ -116,5 +120,10 @@ export default {
         display: flex;
         flex-direction: column;
     }
+}
+.van-cell-top {
+    position: sticky;
+    top: 44px;
+    z-index: 999;
 }
 </style>

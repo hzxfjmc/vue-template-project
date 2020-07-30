@@ -35,7 +35,7 @@ export default {
     data() {
         return {
             managerList: [],
-            dividendPaymentDate: ''
+            exDividendDate: ''
         }
     },
     computed: {
@@ -74,10 +74,8 @@ export default {
             }
         },
         dividendDetail() {
-            if (this.dividendPaymentDate) {
-                return `${this.$t('latestDividend')}：${
-                    this.dividendPaymentDate
-                }`
+            if (this.exDividendDate) {
+                return `${this.$t('latestDividend')}：${this.exDividendDate}`
             } else {
                 return this.$t('noDividend')
             }
@@ -97,7 +95,7 @@ export default {
             establishDay: '成立日期',
             noData: '暂无数据',
             noDividend: '暂无派息',
-            latestDividend: '最新派息',
+            latestDividend: '除息日',
             fundDes: '基金介绍'
         },
         zhCHT: {
@@ -110,7 +108,7 @@ export default {
             establishDay: '成立日期',
             noData: '暫無數據',
             noDividend: '暫無派息',
-            latestDividend: '最新派息',
+            latestDividend: '除息日',
             fundDes: '基金介紹'
         },
         en: {
@@ -123,7 +121,7 @@ export default {
             establishDay: 'Establishment Day',
             noData: 'No Data',
             noDividend: 'No Dividend',
-            latestDividend: 'Latest Dividend',
+            latestDividend: 'ExDividend Date',
             fundDes: 'Fund Intro.'
         }
     },
@@ -163,10 +161,8 @@ export default {
                     pageSize: 20
                 }
                 let res = await getFundDividendList(params)
-                this.dividendPaymentDate = res.list.length
-                    ? dayjs(res.list[0].dividendPaymentDate).format(
-                          'YYYY-MM-DD'
-                      )
+                this.exDividendDate = res.list.length
+                    ? dayjs(res.list[0].exDividendDate).format('YYYY-MM-DD')
                     : ''
             } catch (e) {
                 if (e.msg) {
