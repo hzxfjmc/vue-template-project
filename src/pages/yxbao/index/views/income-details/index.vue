@@ -254,11 +254,19 @@ export default {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
-                list.map(item => {
-                    item.createTime = dayjs(item.createTime).format(
-                        'YYYY-MM-DD HH:mm:ss'
-                    )
-                })
+                if (this.isSingle) {
+                    list.map(item => {
+                        item.createTime = dayjs(item.createTime).format(
+                            'YYYY-MM-DD HH:mm:ss'
+                        )
+                    })
+                } else {
+                    list.map(item => {
+                        item.createTime = dayjs(item.createTime).format(
+                            'YYYY-MM-DD'
+                        )
+                    })
+                }
                 this.loading = false
                 this.list = this.list.concat(list)
                 this.filterListAction()

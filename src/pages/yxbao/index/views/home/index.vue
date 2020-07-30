@@ -121,7 +121,7 @@ div(:class="bem()")
                     p.num {{item.sevenDayApy*100 |transNumToThousandMark}}%
             .block__item.tabs(
                 v-if="item.showMore"
-                :class="{'around': !isLogin}"
+                :class="{'around': !showOrderList }"
             )
                 .item__list(@click="jumpPageIntoOut('fund-subscribe',1, item.fundId)")
                     .fund__icon.one
@@ -133,7 +133,7 @@ div(:class="bem()")
                     .fund__icon.two
                     p {{$t('C8')}}
                 .item__list(
-                    v-if="isLogin"
+                    v-if="showOrderList"
                     @click="jumpPage('order-list',1, item.fundId)"
                     )
                     .fund__icon.three
@@ -186,6 +186,9 @@ export default {
         ...mapGetters(['isLogin', 'appType', 'openedAccount', 'lang']),
         showTransfer() {
             return this.isLogin && this.hkSummary.positionAmount > 0
+        },
+        showOrderList() {
+            return this.isLogin && this.openedAccount
         }
     },
     i18n: {
