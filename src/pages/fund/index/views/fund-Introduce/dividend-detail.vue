@@ -2,7 +2,7 @@
 .dividend-detail-container
         .container__wrap(v-if="dividendDetailList.length")
             van-list.dividend-record-list(v-model="loading" :finished="finished" :finished-text="$t('list')['noMore'].label" @load="onLoad")
-                van-cell(class="van-cell-item")
+                van-cell(class="van-cell-item van-cell-top")
                     .dividend-list
                             .dividend-item.flex
                                 span(class="right-value") {{$t('list')['recordDate'].label}}
@@ -120,5 +120,10 @@ export default {
         display: flex;
         flex-direction: column;
     }
+}
+.van-cell-top {
+    position: sticky;
+    top: 44px;
+    z-index: 999;
 }
 </style>

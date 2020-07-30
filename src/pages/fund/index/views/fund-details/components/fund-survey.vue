@@ -95,7 +95,7 @@ export default {
             establishDay: '成立日期',
             noData: '暂无数据',
             noDividend: '暂无派息',
-            latestDividend: '最新派息',
+            latestDividend: '除息日',
             fundDes: '基金介绍'
         },
         zhCHT: {
@@ -108,7 +108,7 @@ export default {
             establishDay: '成立日期',
             noData: '暫無數據',
             noDividend: '暫無派息',
-            latestDividend: '最新派息',
+            latestDividend: '除息日',
             fundDes: '基金介紹'
         },
         en: {
@@ -121,7 +121,7 @@ export default {
             establishDay: 'Establishment Day',
             noData: 'No Data',
             noDividend: 'No Dividend',
-            latestDividend: 'Latest Dividend',
+            latestDividend: 'ExDividend Date',
             fundDes: 'Fund Intro.'
         }
     },
