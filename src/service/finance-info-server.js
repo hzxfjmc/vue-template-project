@@ -166,3 +166,19 @@ export const getFundAnalysisDataV1 = params => {
         params
     )
 }
+
+// 获取基金top10持仓
+export const getFundTop10HoldingsV1 = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-top10-holdings/v1`,
+        params
+    )
+}
+
+// 获取基金投资数据
+export const getFundInvestmentDataV1 = params => {
+    return axios.post(
+        `/finance-info-server/api/get-fund-investment-data/v1`,
+        params
+    )
+}
