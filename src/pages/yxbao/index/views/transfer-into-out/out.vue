@@ -41,7 +41,7 @@
                 p.sub-title {{$t('C18')}}
                 p.desc {{buyProfitLoss}}
         .block__out--list(
-            v-if="fundTradeInfoVO.fastRedemptionFee !== 0"
+            v-if="fundTradeInfoVO.fastRedemptionFee !== 0 && isWhiteUserBit"
             @click="chooseType(2)")
             .left.iconfont(
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
