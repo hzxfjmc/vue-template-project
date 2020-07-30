@@ -73,12 +73,12 @@
         .fund__list--item(
             v-if="baoPositionList.length"
             v-for="item in baoPositionList"
-            @click="chooseFund(item.fundId)"
+            @click="chooseFund(item)"
         )
             .item__left
                 p.title.ellipse {{item.fundName}}
                 p.content {{$t('C87')}}:
-                    span.num {{item.usdPositionMarketValue | transNumToThousandMark}}
+                    span.num {{item.availableBaoBalance | transNumToThousandMark}}
                     span.type {{item.currency === 1 ? $t('usd') : $t('hkd')}}
             .item__right(v-if="item.fundId === choosedFund[0].fundId")
                 span.iconfont.icon-tick-
@@ -269,16 +269,18 @@ export default {
                 this.minFastRedemptionAmount
             )}${this.currencyText}`
         },
-        chooseFund(id) {
-            this.showFundList = false
-            if (this.fundId === id) return
-            this.fundId = id
-            this.choosedFund = this.baoPositionList.filter(item => {
-                return item.fundId === id
-            })
-            this.availableBaoBalance = this.choosedFund[0].availableBaoBalance
-            this.showAllSellBtn.maxAmount = this.availableBaoBalance.toString()
-            this.getFundDetail()
+        chooseFund(info) {
+            if (info.availableBaoBalance > 0) {
+                this.showFundList = false
+                if (this.fundId === info.fundId) return
+                this.fundId = info.fundId
+                this.choosedFund = this.baoPositionList.filter(item => {
+                    return info.fundId === item.fundId
+                })
+                this.availableBaoBalance = this.choosedFund[0].availableBaoBalance
+                this.showAllSellBtn.maxAmount = this.availableBaoBalance.toString()
+                this.getFundDetail()
+            }
         },
         async getFundDetail() {
             try {

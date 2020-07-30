@@ -22,7 +22,8 @@
             )
             .block__order--list(v-if="!isSingle")
                 .block__order--left
-                    p.title.ellipse {{item.fundName}}
+                    p.title.ellipse {{item.fundName}}(
+                        span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                     p.color {{item.createTime}}
                 .block__order--right(v-if="item.recordType != 3")
                     p.num {{item.recordTypeName}}
@@ -247,9 +248,15 @@ export default {
                     'Redemption（Common）'
                 ])
                 list.map(item => {
-                    item.createTime = dayjs(item.createTime).format(
-                        'YYYY-MM-DD HH:mm:ss'
-                    )
+                    if (this.$route.query.id) {
+                        item.createTime = dayjs(item.createTime).format(
+                            'YYYY-MM-DD HH:mm:ss'
+                        )
+                    } else {
+                        item.createTime = dayjs(item.createTime).format(
+                            'YYYY-MM-DD'
+                        )
+                    }
                     if (item.outType === 2) {
                         item.recordTypeName = fastOutTypeName
                     }
