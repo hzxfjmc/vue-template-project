@@ -86,8 +86,9 @@ div(:class="bem()")
                         :class="{'green': item.hkdYesterdayEarnings < 0}"
                     ) {{ item.currency === 1 ?item.usdYesterdayEarnings : item.hkdYesterdayEarnings | transNumToThousandMark}}
                     p.num.red(
-                        v-else
+                        v-else-if="item.hkdYesterdayEarnings>0"
                     ) +{{ item.currency === 1 ?item.usdYesterdayEarnings : item.hkdYesterdayEarnings | transNumToThousandMark}}
+                    p.num(v-else) 0.00
             .block__item
                 .item__left
                     p {{$t('C5')}}
@@ -96,15 +97,20 @@ div(:class="bem()")
                         :class="{'green': item.hkdTotalEarnings < 0}"
                     ) {{ item.currency === 1 ? item.usdTotalEarnings : item.hkdTotalEarnings | transNumToThousandMark}}
                     p.num.red(
-                        v-else
+                        v-else-if="item.hkdTotalEarnings>0"
                     ) +{{ item.currency === 1 ? item.usdTotalEarnings : item.hkdTotalEarnings | transNumToThousandMark}}
+                    p.num(v-else) 0.00
                 .item__center
                     p {{$t('C6')}}
                     p.num {{item.tenThousandApy|transNumToThousandMark}}
-                .item__right
+                .item__right(v-if="item.sevenDayApy")
                     p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
                         em.iconfont.icon-about_icon
                     p.num {{item.sevenDayApy*100 |transNumToThousandMark}}%
+                .item__right(v-else)
+                    p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
+                        em.iconfont.icon-about_icon
+                    p.num {{item.sevenDaysApy*100 |transNumToThousandMark}}%
             .block__item.tabs(
                 v-if="item.showMore"
                 :class="{'around': !showOrderList }"
@@ -118,54 +124,6 @@ div(:class="bem()")
                     )
                     .fund__icon.two
                     p {{$t('C8')}}
-                .item__list(
-                    v-if="showOrderList"
-                    @click="jumpPage('order-list',1, item.fundId)"
-                    )
-                    .fund__icon.three
-                    p {{$t('orderList')}}
-                .item__list(
-                    @click="goToFundDetails(item.fundId)"
-                )
-                    .fund__icon.four
-                    p {{$t('C90')}}
-            .block_more 
-                span.iconfont(
-                    :class="[item.showMore ? 'icon-icon-top' : 'icon-icon-bottom']"
-                    @click="item.showMore = !item.showMore"
-                    )
-    div(
-        :class="bem('fund')"
-        v-for="item in fundList"
-        )
-        div(:class="bem('fund-name')") {{item.fundName}}(
-            span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
-        div(:class="bem('fund-card')")
-            .block__item
-                .item__left
-                    p {{ item.currency === 1 ? $t('C89'): $t('C3')}}
-                    p.num 0.00
-                .item__right
-                    p {{$t('C4')}}
-                    p.num 0.00
-            .block__item
-                .item__left
-                    p {{$t('C5')}}
-                    p.num 0.00
-                .item__center
-                    p {{$t('C6')}}
-                    p.num {{item.tenThousandApy|transNumToThousandMark}}
-                .item__right
-                    p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
-                        em.iconfont.icon-about_icon
-                    p.num {{item.sevenDaysApy*100 |transNumToThousandMark}}%
-            .block__item.tabs(
-                v-if="item.showMore"
-                :class="{'around': !showOrderList }"
-            )
-                .item__list(@click="jumpPageIntoOut('fund-subscribe',1, item.fundId)")
-                    .fund__icon.one
-                    p {{$t('C9')}}
                 .item__list(
                     v-if="showOrderList"
                     @click="jumpPage('order-list',1, item.fundId)"
@@ -279,9 +237,9 @@ export default {
         this.getFundUserInfo()
         this.bannerAdvertisement()
         await this.getBaoFundInfo()
-        this.getBaoPostionV2()
+        await this.getBaoPostionV2()
         this.setAboutButton()
-        this.getBaoFundList()
+        await this.getBaoFundList()
         this.showPsd = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         jsBridge.callAppNoPromise(
@@ -416,7 +374,8 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            this.getBaoPostionV2()
+            await this.getBaoPostionV2()
+            await this.getBaoFundList()
             this.getFundUserInfo()
         },
         //获取现金+持仓
@@ -433,9 +392,6 @@ export default {
                 if (baoPositionList.length) {
                     this.fundId = baoPositionList[0].fundId
                     this.baoPositionList = baoPositionList
-                    this.baoPositionList.forEach(item => {
-                        this.$set(item, 'showMore', false)
-                    })
                     this.baoFundIdlist = baoPositionList.map(
                         item => item.fundId
                     )
@@ -463,10 +419,13 @@ export default {
                 if (this.baoPositionList.length === 0) {
                     this.fundId = sortList[0].fundId
                 }
-                this.fundList = sortList.filter(item => {
+                let noPositionList = sortList.filter(item => {
                     return this.baoFundIdlist.indexOf(item.fundId) === -1
                 })
-                this.fundList.forEach(item => {
+                this.baoPositionList = this.baoPositionList.concat(
+                    noPositionList
+                )
+                this.baoPositionList.forEach(item => {
                     this.$set(item, 'showMore', false)
                 })
             } catch (e) {
@@ -585,8 +544,8 @@ export default {
         flex: 1;
     }
     .item__center {
-        border-left: 2px solid rgba(0, 0, 0, 0.1);
-        border-right: 2px solid rgba(0, 0, 0, 0.1);
+        border-left: 1px solid rgba(0, 0, 0, 0.1);
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
     }
     .item__list {
         p {
