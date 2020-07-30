@@ -64,26 +64,9 @@ export default {
             holdingsList: []
         }
     },
-    filters: {
-        filterRatio(val, notNeedUnit) {
-            let unit = notNeedUnit ? '' : '%'
-            return val
-                ? Number(val) > 0
-                    ? `+${Number(val).toFixed(2)}${unit}`
-                    : `${Number(val).toFixed(2)}${unit}`
-                : '--'
-        }
-    },
     methods: {
         handleShowMore() {
             this.showMore = !this.showMore
-        },
-        getStockClass(val) {
-            return val > 0
-                ? this.stockColorTypeClass.up
-                : val < 0
-                ? this.stockColorTypeClass.down
-                : ''
         },
         handleGoDetail() {
             let queryString = ''
