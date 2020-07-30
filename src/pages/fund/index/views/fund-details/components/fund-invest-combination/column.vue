@@ -11,8 +11,36 @@
             .content__item  
                 .content__item-title 行业分布    
                 .content__item-subTitle
-                    .subTitle__item 规模   
-                    .subTitle__item 更新时间     
+                    .subTitle__item 
+                        span 规模
+                        span 1，2324亿   
+                    .subTitle__item 更新时间 ：2019-12-23    
+                .content__item-chart   
+            .content__item  
+                .content__item-title 重仓债券（10.00%）    
+                .content__item-subTitle
+                    .subTitle__item 
+                        span 债券名称
+                    .subTitle__item 占比 
+                .content__item-percentage
+                    .percentage-item
+                        .item-top
+                            .item-top__label 债券名称    
+                            .item-top__value 25%    
+                        .item-line
+                    .percentage-item
+                        .item-top
+                            .item-top__label 债券名称    
+                            .item-top__value 25%    
+                        .item-line  
+                    .percentage-item
+                        .item-top
+                            .item-top__label 债券名称    
+                            .item-top__value 25%    
+                        .item-line
+                .content__item-btn
+                    span.label 展开更多
+                    span.iconfont.icon-iconxiala                       
 </template>
 <script>
 /**
@@ -143,18 +171,46 @@ export default {
     }
 }
 .fund-colunm__content {
-    padding: 14px 0;
     .content__item {
         .content__item-title {
+            padding-top: 14px;
             text-align: left;
             font-size: 16px;
             font-weight: 400;
         }
         .content__item-subTitle {
             display: flex;
+            padding: 10px 0 10px;
             justify-content: space-between;
             color: #666;
             font-size: 12px;
+        }
+        .content__item-percentage {
+            padding-bottom: 10px;
+        }
+        .content__item-btn {
+            display: flex;
+            padding-bottom: 20px;
+            justify-content: center;
+            align-items: center;
+            font-size: 12px;
+            color: #666;
+            .label {
+                padding-right: 6px;
+            }
+        }
+        .percentage-item {
+            padding: 5px 0;
+            .item-top {
+                display: flex;
+                justify-content: space-between;
+                font-size: 12px;
+            }
+            .item-line {
+                width: 50%;
+                height: 9px;
+                background-color: #1d41a5;
+            }
         }
     }
 }
