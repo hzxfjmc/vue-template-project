@@ -42,7 +42,7 @@
             p {{$t('msg')}}
             p.more {{$t('msg1')}}
     .fund-footer-content
-        .block__button(v-if="!availableBaoBalance")
+        .block__button(v-if="!Number(availableBaoBalance)")
             van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}}
         .block__button(v-else)
             van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 

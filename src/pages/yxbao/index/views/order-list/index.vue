@@ -414,7 +414,7 @@ export default {
     height: 82px;
     align-items: center;
     .block__order--left {
-        width: 60%;
+        width: 50%;
         margin: 0 0 0 12px;
         .title {
             font-size: 16px;
