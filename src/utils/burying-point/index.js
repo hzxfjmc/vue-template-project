@@ -105,6 +105,22 @@ export function webAdClick(page, id, type) {
     })
 }
 
+//基金详情页停留时长
+export function browseFundDetailDuration(page, id, name) {
+    // login()
+    let timer = 0
+    setInterval(() => {
+        timer += 1000
+        sensors.track('yxstock_web_view_screen', {
+            prop_view_page: page,
+            prop_fund_id: id,
+            prop_fund_name: name,
+            ...commonParam(),
+            $event_duration: timer
+        })
+    }, 1000)
+}
+
 //基金详情页浏览
 export function browseFundDetails(page, id, name) {
     login()
@@ -114,6 +130,7 @@ export function browseFundDetails(page, id, name) {
         prop_fund_name: name,
         ...commonParam()
     })
+    browseFundDetailDuration(page, id, name)
 }
 
 //点击基金详情
