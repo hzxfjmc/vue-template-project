@@ -10,18 +10,21 @@
         .fund-colunm__content
             .content__item  
                 .content__item-title 行业分布    
-                .content__item-subTitle
-                    .subTitle__item 
+                .content__item-sub-title
+                    .sub-title__item 
                         span 规模
-                        span 1，2324亿   
-                    .subTitle__item 更新时间 ：2019-12-23    
+                        span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
+                    .sub-title__item 更新时间 ：{{investmentData.updateTime}}  
                 .content__item-chart   
+                    ChartPie(
+                        v-if="globalStockSectorBreakdownList.length"
+                        :chartList="globalStockSectorBreakdownList")
             .content__item  
-                .content__item-title 重仓债券（10.00%）    
-                .content__item-subTitle
-                    .subTitle__item 
-                        span 债券名称
-                    .subTitle__item 占比 
+                .content__item-title 十大持仓（10.00%）    
+                .content__item-sub-title
+                    .sub-title__item 
+                        span 名称
+                    .sub-title__item 占比 
                 .content__item-percentage(:class="{'more':showMore}")
                     .percentage-item(v-for="item,index in holdingsList" :key="item.name")
                         .item-top
@@ -45,10 +48,13 @@ import {
     getFundTop10HoldingsV1,
     getFundInvestmentDataV1
 } from '@/service/finance-info-server.js'
-import i18n from './i18n'
+import mixin from './mixin'
+import ChartPie from './chart-pie'
 export default {
-    i18n,
-    components: {},
+    mixins: [mixin],
+    components: {
+        ChartPie
+    },
     props: {
         fundHeaderInfoVO: {
             type: Object,
@@ -61,7 +67,9 @@ export default {
     data() {
         return {
             showMore: false,
-            holdingsList: []
+            holdingsList: [],
+            investmentData: {},
+            globalStockSectorBreakdownList: []
         }
     },
     methods: {
@@ -112,8 +120,21 @@ export default {
                 const params = {
                     fundId: this.fundHeaderInfoVO.fundId
                 }
-                const data = await getFundInvestmentDataV1(params)
-                console.log(data)
+                this.investmentData = await getFundInvestmentDataV1(params)
+                const item = this.investmentData.globalStockSectorBreakdownApiVO
+                let dataList = []
+                Object.keys(item).forEach(key => {
+                    dataList.push({
+                        name: this.i18n[key],
+                        percent: +Number(item[key]).toFixed(2),
+                        a: '1'
+                    })
+                })
+                // 降序排序
+                dataList = dataList.sort((a, b) => {
+                    return b.percent - a.percent
+                })
+                this.globalStockSectorBreakdownList = dataList
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -168,7 +189,7 @@ export default {
             font-size: 16px;
             font-weight: 400;
         }
-        .content__item-subTitle {
+        .content__item-sub-title {
             display: flex;
             padding: 10px 0 10px;
             justify-content: space-between;
@@ -215,6 +236,7 @@ export default {
             .item-line {
                 width: 50%;
                 height: 9px;
+                transition: all 0.3s ease-out;
                 &.bg-0 {
                     background-color: #1d41a5;
                 }
