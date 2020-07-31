@@ -169,6 +169,7 @@ export default {
                 return item.fundId === id
             })
             await this.getFundDetail()
+            this.loading = true
             await this.handleHsAccountInfo()
         },
         //获取基金详情

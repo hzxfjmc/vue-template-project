@@ -96,14 +96,10 @@ div(:class="bem()")
                 .item__center
                     p {{$t('C6')}}
                     p.num {{item.tenThousandApy|transNumToThousandMark}}
-                .item__right(v-if="item.sevenDayApy")
+                .item__right
                     p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
                         em.iconfont.icon-about_icon
                     p.num {{item.sevenDayApy*100 |transNumToThousandMark}}%
-                .item__right(v-else)
-                    p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
-                        em.iconfont.icon-about_icon
-                    p.num {{item.sevenDaysApy*100 |transNumToThousandMark}}%
             .block__item.tabs(
                 v-if="item.showMore"
                 :class="{'around': !showOrderList }"
@@ -263,7 +259,10 @@ export default {
     },
     watch: {
         currencyTab: function(val) {
-            this.currentPostion = val === 0 ? this.hkSummary : this.usSummary
+            if (this.isLogin) {
+                this.currentPostion =
+                    val === 0 ? this.hkSummary : this.usSummary
+            }
         }
     },
     methods: {
@@ -391,12 +390,13 @@ export default {
                 } = await getBaoPostionV2({
                     currency: 1
                 })
-                if (baoPositionList.length) {
-                    this.fundId = baoPositionList[0].fundId
-                    this.baoPositionList = baoPositionList
-                    this.baoFundIdlist = baoPositionList.map(
-                        item => item.fundId
-                    )
+                let sortedList = baoPositionList.sort((pre, curr) => {
+                    return curr.availableBaoBalance - pre.availableBaoBalance
+                })
+                if (sortedList.length) {
+                    this.fundId = sortedList[0].fundId
+                    this.baoPositionList = sortedList
+                    this.baoFundIdlist = sortedList.map(item => item.fundId)
                 }
                 this.hkSummary = hkSummary
                 this.usSummary = usSummary
@@ -411,21 +411,39 @@ export default {
             try {
                 const res = await getBaoFundList()
                 // 基金七日年化收益从高到底排序
-                let sortList = res.sort((pre, cur) => {
-                    if (Number(pre.sevenDaysApy) > Number(cur.sevenDaysApy)) {
-                        return -1
-                    } else {
-                        return 0
-                    }
-                })
                 if (this.baoPositionList.length === 0) {
-                    this.fundId = sortList[0].fundId
+                    this.fundId = res[0].fundId
                 }
-                let noPositionList = sortList.filter(item => {
+                //没有持仓过的基金列表
+                let noPositionList = res.filter(item => {
                     return this.baoFundIdlist.indexOf(item.fundId) === -1
                 })
-                this.baoPositionList = this.baoPositionList.concat(
+                noPositionList.forEach(item => {
+                    item.sevenDayApy = item.sevenDaysApy
+                })
+                let baoPositionList = this.baoPositionList.concat(
                     noPositionList
+                )
+                //持仓金额大于0的基金
+                let baoPositionList1 = []
+                //持仓金额小于0的基金
+                let baoPositionList2 = []
+                baoPositionList.forEach(item => {
+                    if (
+                        item.availableBaoBalance &&
+                        item.availableBaoBalance > 0
+                    ) {
+                        baoPositionList1.push(item)
+                    } else {
+                        baoPositionList2.push(item)
+                    }
+                })
+                baoPositionList2.sort((pre, curr) => {
+                    return curr.sevenDayApy - pre.sevenDayApy
+                })
+                this.baoPositionList = [].concat(
+                    baoPositionList1,
+                    baoPositionList2
                 )
                 this.baoPositionList.forEach(item => {
                     this.$set(item, 'showMore', false)

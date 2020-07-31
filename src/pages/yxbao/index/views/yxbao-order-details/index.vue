@@ -21,29 +21,29 @@
         .block__word--item
             p.word-color {{$t('fundName')}}
             p {{orderDetails.fundName}}(
-                span {{orderDetails.currency === 1 ? $t('usd') : $('hkd')}})
+                span {{currencystr}})
         .block__word--item
             p.word-color {{$t('C30')}}
             p {{$t('C31')}}
         .block__word--item
             p.word-color {{$t('C27')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{orderDetails.currency === 1 ? $t('usd'):$t('hkd')}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{currencystr}}
 
     .block__word--list.border-bottom(v-else)
         .block__word--item
             p.word-color {{$t('fundName')}}
             p {{orderDetails.fundName}}(
-                span {{orderDetails.currency === 1 ? $t('usd') : $('hkd')}})
+                span {{currencystr}})
         .block__word--item
             p.word-color {{$t('C37')}}
             p {{orderDetails.recordTypeName}}
         .block__word--item
             p.word-color {{$t('Amounts')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{orderDetails.currency === 1 ? $t('usd'):$t('hkd')}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{currencystr}}
 
         .block__word--item
             p.word-color {{$t('C22')}}
-            p.num {{orderDetails.recordFee|transNumToThousandMark}} {{orderDetails.currency === 1 ? $t('usd'):$t('hkd')}}
+            p.num {{orderDetails.recordFee|transNumToThousandMark}}{{currencystr}}
 
     .block__footer--btn
         van-button(@click="toHomePage") {{$t('done')}}
@@ -57,7 +57,12 @@ import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
 export default {
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['lang']),
+        currencystr() {
+            return this.orderDetails.currency === 1
+                ? this.$t('usd')
+                : this.$t('hkd')
+        }
     },
     components: {
         transferStep
