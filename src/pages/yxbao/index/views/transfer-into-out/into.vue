@@ -27,10 +27,10 @@
     .block__out--title.common-flex-space-between.common-marge-top
         p.title {{$t('C30')}} 
         .tips 
-            p.tips--top {{currencyType === 1 ? $t('usdAccount') : $t('hkdAccount')}}
+            p.tips--top {{accountTypeStr}}
             p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{currencyType === 1 ? $t('usd') : $t('hkd')}}
     
-    .block__footer--check()
+    .block__footer--check
         em.iconfont(
             @click="checkInfo = !checkInfo"
             :class="[checkInfo ?'icon-icon-checkbox-selected':'icon-unchecked']")
@@ -79,6 +79,7 @@ import { generateUUID, transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import { Loading, Popup } from 'vant'
+import { getMarketValidFundAccount } from '@/service/user-account-server'
 export default {
     components: {
         NumberKeyboard,
@@ -104,6 +105,7 @@ export default {
             fundList: [],
             fundId: '',
             choosedFund: [],
+            accountTypeStr: '',
             showAllSellBtn: {
                 show: true,
                 desc: 'allIn',
@@ -121,7 +123,29 @@ export default {
             return transNumToThousandMark(value)
         }
     },
+    computed: {
+        isUSDCurrency() {
+            return this.currencyType == 1
+        }
+    },
     methods: {
+        async getAccountType() {
+            /*
+            ("0", "Cash Account", "现金账户")
+            ("M", "Margin Account", "保证金账户")
+            */
+            let { assetProp } = await getMarketValidFundAccount({
+                // 1 A股，2 港股，3 美股
+                marketType: this.isUSDCurrency ? 3 : 2
+            })
+            let currencyStr = this.isUSDCurrency
+                ? this.$t('usStock')
+                : this.$t('hkStock')
+            this.accountTypeStr =
+                assetProp === 'M'
+                    ? this.$t('marginAccount', currencyStr)
+                    : this.$t('cashAccount', currencyStr)
+        },
         async openProtocol(url) {
             url = await getCosUrl(url)
             if (jsBridge.isYouxinApp) {
@@ -180,6 +204,7 @@ export default {
                 ])
                 this.desc = desc
                 this.currencyType = fundTradeInfoVO.currency.type
+                this.getAccountType()
             } catch (e) {
                 console.log(e)
                 this.$toast(e.msg)
@@ -221,7 +246,12 @@ export default {
                 this.choosedFund = this.fundList.filter(item => {
                     return item.fundId === this.$route.query.id
                 })
-                this.fundId = this.$route.query.id
+                if (this.choosedFund.length) {
+                    this.fundId = this.$route.query.id
+                } else {
+                    this.choosedFund = this.fundList[0]
+                    this.fundId = this.fundList[0].fundId
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }
