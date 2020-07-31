@@ -19,36 +19,48 @@
                         id="pie-chart-1"
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList")
+                    yx-no-list(v-else)     
                 .content__item    
                     .chart__title 行业分布
                     ChartPie(
                         id="pie-chart-2"
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList")
+                    yx-no-list(v-else)     
                 .content__item    
                     .chart__title 投资地区
                     ChartPie(
                         id="pie-chart-3"
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList")
+                    yx-no-list(v-else)     
                 .content__item    
                     .chart__title 债券类型
                     ChartPie(
                         id="pie-chart-4"
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList")
+                    yx-no-list(v-else)     
                 .content__item    
                     .chart__title 评级分布
                     ChartPie(
                         id="pie-chart-5"
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList")
+                    yx-no-list(v-else)     
                 .content__item    
                     .chart__title 国家地区
                     ChartPie(
                         id="pie-chart-6"
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList")
+                    yx-no-list(v-else)
+        .fund-block  
+            .fund-block__content
+                TopTen(
+                v-if="fundId"
+                :fundId="fundId"
+                )                 
         .fund-block
              .fund-block__content
                 p.text {{text1}}                               
@@ -67,7 +79,8 @@ import {
     getFundInvestmentDataV1
 } from '@/service/finance-info-server.js'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
-import ChartPie from './chart-pie'
+import ChartPie from './ChartPie'
+import TopTen from './TopTen'
 import mixin from './mixin'
 
 const getCurrencyName = (val, lang) => {
@@ -86,7 +99,7 @@ export default {
             currency: getCurrencyName
         }
     },
-    components: { ChartPie },
+    components: { ChartPie, TopTen },
     mixins: [mixin],
     props: {},
     computed: {

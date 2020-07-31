@@ -1,28 +1,22 @@
 <template lang="pug">
-    .fund-colunm(:class="lang")
-        .fund-colunm__header
-            .col-left
-                .iconfont.icon-icon_collect
-                .title 投资组合 
-            .col-right(@click="handleGoDetail")
-                span.title 持仓数据、行业分布
-                span.iconfont.icon-iconEBgengduoCopy    
-        .fund-colunm__content
-            .content__item  
-                .content__item-title 行业分布    
+    .fund-colunm__content 
+        .content__item  
+                .content__item-title 十大持仓（{{allPercent}}%）    
                 .content__item-sub-title
                     .sub-title__item 
-                        span 规模
-                        span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
-                    .sub-title__item 更新时间 ：{{investmentData.updateTime}}  
-                .content__item-chart   
-                    ChartPie(
-                        v-if="globalStockSectorBreakdownList.length"
-                        :chartList="globalStockSectorBreakdownList")
-            TopTen(
-                v-if="fundHeaderInfoVO.fundId"
-                :fundId="fundHeaderInfoVO.fundId"
-            )                      
+                        span 名称
+                    .sub-title__item 占比 
+                .content__item-percentage(:class="{'more':showMore}")
+                    .percentage-item(v-for="item,index in holdingsList" :key="item.name")
+                        .item-top
+                            .item-top__label {{item.name}}    
+                            .item-top__value {{Number(item.weighting).toFixed(2)}}%   
+                        .item-line(
+                            :class="index<3?`bg-${index}`:'bg-3'" 
+                            :style="{width:`${item.width}%`}")
+                .content__item-btn(@click="handleShowMore")
+                    span.label {{showMore ? '收起':'展开更多'}}
+                    span.iconfont.icon-iconxiala(:class="{'more':showMore}")                     
 </template>
 <script>
 /**
@@ -37,15 +31,13 @@ import {
 } from '@/service/finance-info-server.js'
 import mixin from './mixin'
 import ChartPie from './ChartPie'
-import TopTen from './TopTen'
 export default {
     mixins: [mixin],
     components: {
-        ChartPie,
-        TopTen
+        ChartPie
     },
     props: {
-        fundHeaderInfoVO: {
+        fundId: {
             type: Object,
             default: () => {}
         }
@@ -58,7 +50,8 @@ export default {
             showMore: false,
             holdingsList: [],
             investmentData: {},
-            globalStockSectorBreakdownList: []
+            globalStockSectorBreakdownList: [],
+            allPercent: 0
         }
     },
     methods: {
@@ -87,7 +80,7 @@ export default {
         async getFundTop10Holdings() {
             try {
                 const params = {
-                    fundId: this.fundHeaderInfoVO.fundId
+                    fundId: this.fundId
                 }
                 const list = (await getFundTop10HoldingsV1(params)) || []
                 list.forEach((item, index) => {
@@ -98,7 +91,9 @@ export default {
                             (list[index].weighting / list[0].weighting) * 100
                         ).toFixed(2)
                     }
+                    this.allPercent += +Number(item.weighting).toFixed(2)
                 })
+                this.allPercent = Number(this.allPercent).toFixed(2)
                 this.holdingsList = list
             } catch (e) {
                 this.$toast(e.msg)
@@ -107,7 +102,7 @@ export default {
         async getFundInvestmentData() {
             try {
                 const params = {
-                    fundId: this.fundHeaderInfoVO.fundId
+                    fundId: this.fundId
                 }
                 this.investmentData = await getFundInvestmentDataV1(params)
                 const item = this.investmentData.globalStockSectorBreakdownApiVO
@@ -141,35 +136,7 @@ export default {
     padding: 0 10px;
     background-color: $background-color;
 }
-.fund-colunm__header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    line-height: 20px;
-    padding: 14px 0;
-    border-bottom: 1px solid rgba(25, 25, 25, 0.05);
-    .col-left {
-        display: flex;
-        align-items: center;
-        .title {
-            font-size: 16px;
-            padding-left: 10px;
-        }
-        .iconfont {
-            font-size: 18px;
-        }
-    }
-    .col-right {
-        .title {
-            font-size: 12px;
-            color: #666;
-        }
-        text-align: right;
-        .iconfont {
-            font-size: 15px;
-        }
-    }
-}
+
 .fund-colunm__content {
     .content__item {
         .content__item-title {
