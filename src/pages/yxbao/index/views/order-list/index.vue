@@ -16,7 +16,7 @@
         @load="onLoad")
         .block-list(
             class="border-bottom"
-            v-for="(item,index) in filterList" 
+            v-for="(item,index) in list" 
             :key="item.recordNo" 
             @click="toDetailHandle(item)"
             )
@@ -70,9 +70,9 @@
                     @click="chooseMoneyType(item)"
                 )
                     p(
-                        :class="{active: currency === item.type}"
+                        :class="{active: currency === item.currency}"
                     ) {{$t(item.key)}}
-                    p(v-if="currency === item.type")
+                    p(v-if="currency === item.currency")
                         span.iconfont.icon-tick-
     van-popup(
         v-model="typeListShow"
@@ -84,8 +84,8 @@
                 v-for="item in recordTypeItem"
                 @click="chooseRecoderType(item)"
             )
-                p.title(:class="{active: recordType === item.val}") {{$t(item.key)}}
-                p(v-if="recordType === item.val")
+                p.title(:class="{active: recordType === item.recordType}") {{$t(item.key)}}
+                p(v-if="recordType === item.recordType")
                     span.iconfont.icon-tick-
 </template>
 <script>
@@ -132,7 +132,8 @@ export default {
             moneyTypeShow: false,
             moneyTypeText: 'moneyType',
             currency: '',
-            recordType: 0,
+            recordType: '',
+            outType: '',
             isSingle: !!this.$route.query.id,
             pageSize: 20,
             pageNum: 1,
@@ -224,7 +225,10 @@ export default {
                 } = await getBaoCapitalTradeListV2({
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    fundId: this.$route.query.id
+                    fundId: this.$route.query.id,
+                    currency: this.currency,
+                    recordType: this.recordType,
+                    outType: this.outType
                 })
                 this.loading = false
                 let outTypeName = this.$t([
@@ -249,8 +253,8 @@ export default {
                     }
                 })
                 this.list = this.list.concat(list)
-                this.filterList = list
-                this.comFilterAction()
+                // this.filterList = list
+                // this.comFilterAction()
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
@@ -266,20 +270,25 @@ export default {
         },
         chooseMoneyType(item) {
             this.moneyTypeShow = false
-            if (this.currency === item.type) return
-            this.currency = item.type
+            if (this.currency === item.currency) return
+            this.currency = item.currency
             this.moneyTypeText = item.key
-            this.comFilterAction()
+            this.list = []
+            this.getBaoCapitalTradeListV2()
         },
         chooseRecoderType(item) {
             this.typeListShow = false
             if (this.isSingle) {
                 this.setFilterButton()
             }
-            if (this.recordType === item.val) return
-            this.recordType = item.val
+            if (item.recordType === 2) {
+                this.outType = item.outType
+            }
+            if (this.recordType === item.recordType) return
+            this.recordType = item.recordType
             this.recordTypeName = this.$t(item.key)
-            this.comFilterAction()
+            this.list = []
+            this.getBaoCapitalTradeListV2()
         },
         setFilterButton() {
             if (isYouxinApp) {
@@ -305,27 +314,29 @@ export default {
             return [
                 {
                     key: 'allType',
-                    val: 0,
+                    recordType: 0,
                     desc: '全部类型'
                 },
                 {
                     key: 'C9',
-                    val: 1,
+                    recordType: 1,
                     desc: '转入'
                 },
                 {
                     key: 'C18',
-                    val: 2,
+                    recordType: 2,
+                    outType: 1,
                     desc: '普通转出'
                 },
                 {
                     key: 'C19',
-                    val: 3,
+                    recordType: 2,
+                    outType: 2,
                     desc: '快速转出'
                 },
                 {
                     key: 'C11',
-                    val: 4,
+                    recordType: 3,
                     desc: '收益'
                 }
             ]
@@ -334,17 +345,17 @@ export default {
             return [
                 {
                     key: 'moneyType',
-                    type: '',
+                    currency: '',
                     desc: '全部币种'
                 },
                 {
                     key: 'hkd',
-                    type: 2,
+                    currency: 2,
                     desc: '港币'
                 },
                 {
                     key: 'usd',
-                    type: 1,
+                    currency: 1,
                     desc: '美元'
                 }
             ]

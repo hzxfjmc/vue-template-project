@@ -54,6 +54,7 @@
             )
             van-button.btn-color-r(
                 @click="jumpPageIntoOut('fund-subscribe',1)"
+                :hairline="true"
                 :text="$t('C9')"
             )
             
@@ -978,6 +979,7 @@ export default {
     .van-button {
         flex: 1;
         color: #fff;
+        border: 0;
     }
     .btn-color-l {
         background: #0d50d8;
