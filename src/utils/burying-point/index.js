@@ -2,6 +2,8 @@ import sensors from '@/utils/sensors'
 // import { appType } from '../html-utils'
 import LS from '@/utils/local-storage'
 
+// import { setAppVisibleCallback } from '@/utils/js-bridge'
+
 function login() {
     let userId = LS.get('userId')
     if (userId) {
@@ -104,21 +106,51 @@ export function webAdClick(page, id, type) {
         prop_ad_id: id
     })
 }
-
+let intervalObj = null
 //基金详情页停留时长
 export function browseFundDetailDuration(page, id, name) {
     // login()
     let timer = 0
-    setInterval(() => {
-        timer += 1
-        sensors.track('yxstock_web_view_screen', {
-            prop_view_page: 'fund_detail_duration',
-            prop_fund_id: id,
-            prop_fund_name: name,
-            ...commonParam(),
-            $event_duration: timer
-        })
-    }, 1000)
+    function setDuration() {
+        console.log('defaultStart', 123)
+        if (intervalObj) {
+            clearInterval(intervalObj)
+        }
+        intervalObj = setInterval(() => {
+            timer += 1
+            sensors.track('yxstock_web_view_screen', {
+                prop_view_page: 'fund_detail_duration',
+                prop_fund_id: id,
+                prop_fund_name: name,
+                ...commonParam(),
+                $event_duration: timer
+            })
+        }, 1000)
+    }
+    setDuration()
+    function cancelInterval() {
+        console.log('invisible')
+        clearInterval(intervalObj)
+        timer = 0
+        intervalObj = null
+        window.removeEventListener('visibilitychange', cancelInterval)
+    }
+    window.addEventListener('visibilitychange', cancelInterval, false)
+    // setAppVisibleCallback(
+    //     () => {
+    //         // console.log('visible', 123)
+    //         // setDuration()
+    //     },
+    //     window,
+    //     {
+    //         inVisibleCb: () => {
+    //             // console.log('inVisible', 123)
+    //             intervalObj && clearInterval(intervalObj)
+    //             intervalObj = null
+    //             // intervalObj = null
+    //         }
+    //     }
+    // )
 }
 
 //基金详情页浏览
