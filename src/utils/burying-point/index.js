@@ -110,9 +110,9 @@ export function browseFundDetailDuration(page, id, name) {
     // login()
     let timer = 0
     setInterval(() => {
-        timer += 1000
+        timer += 1
         sensors.track('yxstock_web_view_screen', {
-            prop_view_page: page,
+            prop_view_page: 'fund_detail_duration',
             prop_fund_id: id,
             prop_fund_name: name,
             ...commonParam(),
