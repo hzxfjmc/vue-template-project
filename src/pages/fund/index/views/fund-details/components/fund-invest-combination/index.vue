@@ -17,43 +17,43 @@
                     .chart__title 资产类型
                     ChartPie(
                         id="pie-chart-1"
-                        v-if="globalStockSectorBreakdownList.length"
-                        :chartList="globalStockSectorBreakdownList")
+                        v-if="globalStockSectorBreakdownApiVOList.length"
+                        :chartList="globalStockSectorBreakdownApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
                     .chart__title 行业分布
                     ChartPie(
                         id="pie-chart-2"
-                        v-if="globalStockSectorBreakdownList.length"
-                        :chartList="globalStockSectorBreakdownList")
+                        v-if="globalStockSectorBreakdownApiVOList.length"
+                        :chartList="globalStockSectorBreakdownApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
                     .chart__title 投资地区
                     ChartPie(
                         id="pie-chart-3"
-                        v-if="globalStockSectorBreakdownList.length"
-                        :chartList="globalStockSectorBreakdownList")
+                        v-if="globalStockSectorBreakdownApiVOList.length"
+                        :chartList="globalStockSectorBreakdownApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
                     .chart__title 债券类型
                     ChartPie(
                         id="pie-chart-4"
-                        v-if="globalStockSectorBreakdownList.length"
-                        :chartList="globalStockSectorBreakdownList")
+                        v-if="globalStockSectorBreakdownApiVOList.length"
+                        :chartList="globalStockSectorBreakdownApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
                     .chart__title 评级分布
                     ChartPie(
                         id="pie-chart-5"
-                        v-if="globalStockSectorBreakdownList.length"
-                        :chartList="globalStockSectorBreakdownList")
+                        v-if="globalStockSectorBreakdownApiVOList.length"
+                        :chartList="globalStockSectorBreakdownApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
                     .chart__title 国家地区
                     ChartPie(
                         id="pie-chart-6"
-                        v-if="globalStockSectorBreakdownList.length"
-                        :chartList="globalStockSectorBreakdownList")
+                        v-if="globalStockSectorBreakdownApiVOList.length"
+                        :chartList="globalStockSectorBreakdownApiVOList")
                     yx-no-list(v-else)
         .fund-block  
             .fund-block__content
@@ -74,10 +74,7 @@
  */
 
 import { mapGetters } from 'vuex'
-import {
-    getFundTop10HoldingsV1,
-    getFundInvestmentDataV1
-} from '@/service/finance-info-server.js'
+import { getFundInvestmentDataV1 } from '@/service/finance-info-server.js'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import ChartPie from './ChartPie'
 import TopTen from './TopTen'
@@ -126,30 +123,14 @@ export default {
             isin: '',
             fundId: '',
             investmentData: {},
-            globalStockSectorBreakdownList: []
+            globalStockSectorBreakdownApiVOList: [],
+            assetAllocationBreakdownApiVOList: [],
+            countryDataApiVOList: [],
+            creditQualityBreakdownVOList: [],
+            globalBondSectorsRawApiVOList: []
         }
     },
     methods: {
-        async getFundTop10Holdings() {
-            try {
-                const params = {
-                    fundId: this.fundId
-                }
-                const list = (await getFundTop10HoldingsV1(params)) || []
-                list.forEach((item, index) => {
-                    if (index === 0) {
-                        item.width = 100
-                    } else {
-                        item.width = Number(
-                            (list[index].weighting / list[0].weighting) * 100
-                        ).toFixed(2)
-                    }
-                })
-                this.holdingsList = list
-            } catch (e) {
-                this.$toast(e.msg)
-            }
-        },
         async getFundInvestmentData() {
             try {
                 const params = {
@@ -169,7 +150,7 @@ export default {
                 dataList = dataList.sort((a, b) => {
                     return b.percent - a.percent
                 })
-                this.globalStockSectorBreakdownList = dataList
+                this.globalStockSectorBreakdownApiVOList = dataList
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -179,7 +160,6 @@ export default {
             this.fundName = fundName
             this.isin = isin
             this.fundId = fundId
-            this.getFundTop10Holdings()
             this.getFundInvestmentData()
         }
     },

@@ -31,10 +31,7 @@
  * @date 2020/07/30
  */
 import { mapGetters } from 'vuex'
-import {
-    getFundTop10HoldingsV1,
-    getFundInvestmentDataV1
-} from '@/service/finance-info-server.js'
+import { getFundInvestmentDataV1 } from '@/service/finance-info-server.js'
 import mixin from './mixin'
 import ChartPie from './ChartPie'
 import TopTen from './TopTen'
@@ -84,26 +81,6 @@ export default {
                 location.href = url
             }
         },
-        async getFundTop10Holdings() {
-            try {
-                const params = {
-                    fundId: this.fundHeaderInfoVO.fundId
-                }
-                const list = (await getFundTop10HoldingsV1(params)) || []
-                list.forEach((item, index) => {
-                    if (index === 0) {
-                        item.width = 100
-                    } else {
-                        item.width = Number(
-                            (list[index].weighting / list[0].weighting) * 100
-                        ).toFixed(2)
-                    }
-                })
-                this.holdingsList = list
-            } catch (e) {
-                this.$toast(e.msg)
-            }
-        },
         async getFundInvestmentData() {
             try {
                 const params = {
@@ -130,7 +107,6 @@ export default {
         }
     },
     created() {
-        this.getFundTop10Holdings()
         this.getFundInvestmentData()
     }
 }
