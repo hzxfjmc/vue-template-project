@@ -85,7 +85,7 @@ export default {
             })
             let url = `${
                 window.location.origin
-            }/wealth/fund/index.html#/fund-analyze-data?${queryString.slice(
+            }/wealth/fund/index.html#/fund-invest-combination?${queryString.slice(
                 0,
                 -1
             )}`

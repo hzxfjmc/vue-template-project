@@ -1,11 +1,15 @@
 <template lang="pug">
     .chart-container
-        canvas.canvas-pie(id="pie-container")
+        canvas.canvas-pie(:id="id")
 </template>
 <script>
 import F2 from '@antv/f2'
 export default {
     props: {
+        id: {
+            type: String,
+            default: 'pie-container'
+        },
         chartList: {
             type: Array,
             default: () => []
@@ -36,9 +40,8 @@ export default {
             data.forEach(function(obj) {
                 map[obj.name] = obj.percent + '%'
             })
-
             const chart = new F2.Chart({
-                id: 'pie-container',
+                id: this.id,
                 pixelRatio: window.devicePixelRatio,
                 padding: [0, 'auto'],
                 appendPadding: [0, 10],

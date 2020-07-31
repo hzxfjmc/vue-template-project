@@ -1,108 +1,54 @@
 <template lang="pug">
-    .fund-analyze-container.fund-container(:class="lang")
+    .fund-block-container.fund-container(:class="lang")
         .fund-info__header
             .header__top
                 .title {{fundName}}
                 .desc ISIN:{{isin}}
             .header__bottom
                 .item
-                    span.item__label {{$t('A12')}}：
-                    span.item__value {{analyzeData.updateTime || '--'}}    
+                    span.item__label 更新时间：
+                    span.item__value {{investmentData.updateTime || '--'}}    
                 .item
-                    span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
-                    span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency,'') || '--'}}
-        .fund-block
-            .fund-block__header
-                .title {{$t('A14')}}
-                .link(@click="handleGoDetail('risk')") {{$t('A15')}} 
+                    span.item__label 规模({{$t('currency',investmentData.currency,lang)}})：
+                    span.item__value {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'') || '--'}}
+        .fund-block  
             .fund-block__content
-                table.table
-                    tr
-                        th {{$t('A16')}}                             
-                        th {{$t('A23')}}                           
-                        th {{$t('A24')}}                           
-                        th {{$t('A25')}}                              
-                    tr
-                        td {{$t('A17')}}                            
-                        td(
-                            v-for="item,index in keyList1" 
-                            :key="`key_${index}`"
-                            ) {{riskMeasureApiVO[`sharpeRatio${item}Yr`] ? Number(riskMeasureApiVO[`sharpeRatio${item}Yr`]).toFixed(2):'--'}}                                                    
-                    tr
-                        td {{$t('A18')}}  
-                        td(
-                            v-for="item,index in keyList1" 
-                            :key="`key_${index}`"
-                            ) {{riskMeasureApiVO[`maxDrawDown${item}Yr`] | filterRatio}}                                                        
-                    tr
-                        td {{$t('A19')}}   
-                        td(
-                            v-for="item,index in keyList1" 
-                            :key="`key_${index}`"
-                            ) {{relativeRiskMeasureCategoryApiVO[`captureRatioUpside${item}Yr`] | filterRatio}}                                                       
-                    tr
-                        td {{$t('A20')}}     
-                        td(
-                            v-for="item,index in keyList1" 
-                            :key="`key_${index}`"
-                            ) {{relativeRiskMeasureCategoryApiVO[`captureRatioDownside${item}Yr`] | filterRatio}}                                                     
-                    tr
-                        td {{$t('A21')}}        
-                        td(
-                            v-for="item,index in keyList1" 
-                            :key="`key_${index}`"
-                            ) {{mptStatisticsPrimaryIndexApiVO[`alpha${item}Yr`] | filterRatio}}                                                 
-                    tr
-                        td {{$t('A22')}}    
-                        td(
-                            v-for="item,index in keyList1" 
-                            :key="`key_${index}`"
-                            ) {{mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`] ? Number(mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`]).toFixed(2):'--'}}                           
-        .fund-block
-            .fund-block__header
-                .title 
-                    span {{$t('A26')}}
-                    span(v-if="equityStyleBoxApiVO.equityStyleBox") （{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
-                .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
-            .fund-block__content.style-box 
-                table.table-box(v-if="equityStyleBoxApiVO.equityStyleBox")
-                    tr
-                        td &nbsp;
-                        td &nbsp;
-                        td &nbsp;
-                        td &nbsp;
-                        td.label-title （{{$t('A28')}}）
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList2" 
-                            :key="`key_${index}`"
-                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
-                            ) {{styleBoxBreakDown[item] | filterRatio}}
-                        td.label {{$t('A31')}}
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList3" 
-                            :key="`key_${index}`"
-                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
-                            ) {{styleBoxBreakDown[item] | filterRatio}}
-                        td.label {{$t('A30')}}
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList4" 
-                            :key="`key_${index}`"
-                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
-                            ) {{styleBoxBreakDown[item] | filterRatio}}
-                        td.label {{$t('A29')}}
-                    tr
-                        td.label-title （{{$t('A32')}}）
-                        td.label {{$t('A33')}}
-                        td.label {{$t('A34')}}
-                        td.label {{$t('A35')}}
-                        td &nbsp;
-                yx-no-list(v-else)        
+                .content__item
+                    .chart__title 资产类型
+                    ChartPie(
+                        id="pie-chart-1"
+                        v-if="globalStockSectorBreakdownList.length"
+                        :chartList="globalStockSectorBreakdownList")
+                .content__item    
+                    .chart__title 行业分布
+                    ChartPie(
+                        id="pie-chart-2"
+                        v-if="globalStockSectorBreakdownList.length"
+                        :chartList="globalStockSectorBreakdownList")
+                .content__item    
+                    .chart__title 投资地区
+                    ChartPie(
+                        id="pie-chart-3"
+                        v-if="globalStockSectorBreakdownList.length"
+                        :chartList="globalStockSectorBreakdownList")
+                .content__item    
+                    .chart__title 债券类型
+                    ChartPie(
+                        id="pie-chart-4"
+                        v-if="globalStockSectorBreakdownList.length"
+                        :chartList="globalStockSectorBreakdownList")
+                .content__item    
+                    .chart__title 评级分布
+                    ChartPie(
+                        id="pie-chart-5"
+                        v-if="globalStockSectorBreakdownList.length"
+                        :chartList="globalStockSectorBreakdownList")
+                .content__item    
+                    .chart__title 国家地区
+                    ChartPie(
+                        id="pie-chart-6"
+                        v-if="globalStockSectorBreakdownList.length"
+                        :chartList="globalStockSectorBreakdownList")
         .fund-block
              .fund-block__content
                 p.text {{text1}}                               
@@ -110,19 +56,19 @@
 </template>
 <script>
 /**
- * @description 基金详情页分析数据模块
+ * @description 基金详情页投资组合
  * @author Aaron Lam
- * @date 2020/06/08
+ * @date 2020/07/31
  */
 
-import Vue from 'vue'
 import { mapGetters } from 'vuex'
-import { getFundAnalysisDataV1 } from '@/service/finance-info-server.js'
+import {
+    getFundTop10HoldingsV1,
+    getFundInvestmentDataV1
+} from '@/service/finance-info-server.js'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
-import i18n from './i18n'
-import { jumpUrl } from '@/utils/tools.js'
-
-const $t = Vue.prototype.$t
+import ChartPie from './chart-pie'
+import mixin from './mixin'
 
 const getCurrencyName = (val, lang) => {
     return CURRENCY_NAME[lang][val]
@@ -131,29 +77,20 @@ const getCurrencyName = (val, lang) => {
 export default {
     i18n: {
         en: {
-            ...i18n.en,
             currency: getCurrencyName
         },
         zhCHS: {
-            ...i18n.zhCHS,
             currency: getCurrencyName
         },
         zhCHT: {
-            ...i18n.zhCHT,
             currency: getCurrencyName
         }
     },
-    props: {
-        fundId: {
-            type: [String, Number],
-            default: ''
-        }
-    },
+    components: { ChartPie },
+    mixins: [mixin],
+    props: {},
     computed: {
         ...mapGetters(['lang']),
-        styleBoxBreakDown() {
-            return this.equityStyleBoxApiVO.styleBoxBreakDown || {}
-        },
         text1() {
             return this.$t([
                 '*本页面资料来源于基金管理公司、晨星资讯（深圳）有限公司（“晨星”）、其他基金服务提供供应商。所有数据截至最新净值日期（除特殊标注外）,uSMART友信对基金的业绩表现计算是按该时期的资产净值、相关类别货币计算。如有未显示年度/时期的表现，则指该年度/时期未有足够资料计算。 ',
@@ -169,160 +106,68 @@ export default {
             ])
         }
     },
-    filters: {
-        filterFundSize(val) {
-            return val && val.slice(0, -4)
-        },
-        filterRatio(val) {
-            return val ? `${Number(val).toFixed(2)}%` : `--`
-        },
-        filterStyleBox(val) {
-            const styleMap = {
-                1: $t(['大盘价值型', '大盤價值型', 'Large Value']),
-                2: $t(['大盘平衡型', '大盤平衡型', 'Large Blend']),
-                3: $t(['大盘成长型', '大盤成長型', 'Large Growth']),
-                4: $t(['中盘价值型', '中盤價值型', 'Mid Value']),
-                5: $t(['中盘平衡型', '中盤平衡型', 'Mid Blend']),
-                6: $t(['中盘成长型', '中盤成長型', 'Mid Growth']),
-                7: $t(['小盘价值型', '小盤價值型', 'Small Value']),
-                8: $t(['小盘平衡型', '小盤平衡型', 'Small Blend']),
-                9: $t(['小盘成长型', '小盤成長型', 'Small Growth'])
-            }
-            return styleMap[val]
-        }
-    },
+
     data() {
         return {
-            keyList1: [1, 3, 5],
-            keyList2: ['largeValue', 'largeBlend', 'largeGrowth'],
-            keyList3: ['midValue', 'midBlend', 'midGrowth'],
-            keyList4: ['smallValue', 'smallBlend', 'smallGrowth'],
             fundName: '',
             isin: '',
-            analyzeData: {},
-            mptStatisticsPrimaryIndexApiVO: {},
-            relativeRiskMeasureCategoryApiVO: {},
-            riskMeasureApiVO: {},
-            equityStyleBoxApiVO: {},
-            largeKey: '',
-            midKey: '',
-            smallKey: ''
+            fundId: '',
+            investmentData: {},
+            globalStockSectorBreakdownList: []
         }
     },
     methods: {
-        changeFundSizeLang(fundSize, currey, type) {
-            if (!type) {
-                type = 1
-            }
-            let fundEnSize = ''
-            if (this.lang === 'en' && fundSize < 100000) {
-                fundEnSize = `${Number(fundSize / 1000)
-                    .toFixed(3)
-                    .slice(0, -1)}K`
-                return fundEnSize
-            }
-            if (
-                this.lang === 'en' &&
-                fundSize >= 100000 &&
-                fundSize < 100000000
-            ) {
-                fundEnSize = `${Number(fundSize / 1000000)
-                    .toFixed(3)
-                    .slice(0, -1)}M`
-                return fundEnSize
-            }
-            if (this.lang === 'en' && fundSize >= 100000000) {
-                fundEnSize = `${Number(fundSize / 1000000000)
-                    .toFixed(3)
-                    .slice(0, -1)}B `
-                return fundEnSize
-            }
-            if (fundSize < 100000000 && this.lang != 'en') {
-                return this.$t([
-                    `${Number(fundSize / 10000)
-                        .toFixed(3)
-                        .slice(0, -1)}万`,
-                    `${Number(fundSize / 10000)
-                        .toFixed(3)
-                        .slice(0, -1)}萬`
-                ])
-            }
-            if (fundSize >= 100000000 && this.lang != 'en') {
-                return this.$t([
-                    `${Number(fundSize / 100000000)
-                        .toFixed(3)
-                        .slice(0, -1)}亿`,
-                    `${Number(fundSize / 100000000)
-                        .toFixed(3)
-                        .slice(0, -1)}億`
-                ])
-            }
-        },
-
-        getSortStyleBoxData() {
-            const styleBoxBreakDownList = []
-            let sortList = []
-            Object.keys(this.styleBoxBreakDown).forEach(key => {
-                styleBoxBreakDownList.push({
-                    key: key,
-                    value: this.styleBoxBreakDown[key]
-                })
-            })
-            const sortfunc = (a, b) => {
-                return Number(b.value) - Number(a.value)
-            }
-            sortList = styleBoxBreakDownList.sort(sortfunc)
-            if (!sortList.length) return
-            this.largeKey = sortList[0].key
-            this.midKey = sortList[1].key
-            this.smallKey = sortList[2].key
-        },
-        handleGoDetail(type) {
-            let url = 'https://m.yxzq.com/webapp/market/generator.html'
-            let queryString = ''
-            let idMap = {}
-            if (type === 'stylebox') {
-                idMap = {
-                    en: 10879,
-                    zhCHS: 10872,
-                    zhCHT: 10800
-                }
-                queryString = `id=${idMap[this.lang]}`
-            }
-            if (type === 'risk') {
-                idMap = {
-                    en: 10878,
-                    zhCHS: 10875,
-                    zhCHT: 10877
-                }
-                queryString = `id=${idMap[this.lang]}`
-            }
-            jumpUrl('', `${url}?${queryString}`)
-        },
-        async getFundAnalysisData() {
+        async getFundTop10Holdings() {
             try {
                 const params = {
-                    fundId: this.$route.query.fundId
+                    fundId: this.fundId
                 }
-                this.analyzeData = await getFundAnalysisDataV1(params)
-                ;[
-                    'mptStatisticsPrimaryIndexApiVO',
-                    'relativeRiskMeasureCategoryApiVO',
-                    'riskMeasureApiVO',
-                    'equityStyleBoxApiVO'
-                ].forEach(key => {
-                    this[key] = this.analyzeData[key] || {}
+                const list = (await getFundTop10HoldingsV1(params)) || []
+                list.forEach((item, index) => {
+                    if (index === 0) {
+                        item.width = 100
+                    } else {
+                        item.width = Number(
+                            (list[index].weighting / list[0].weighting) * 100
+                        ).toFixed(2)
+                    }
                 })
+                this.holdingsList = list
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
+        async getFundInvestmentData() {
+            try {
+                const params = {
+                    fundId: this.fundId
+                }
+                this.investmentData = await getFundInvestmentDataV1(params)
+                const item = this.investmentData.globalStockSectorBreakdownApiVO
+                let dataList = []
+                Object.keys(item).forEach(key => {
+                    dataList.push({
+                        name: this.i18n[key],
+                        percent: +Number(item[key]).toFixed(2),
+                        a: '1'
+                    })
+                })
+                // 降序排序
+                dataList = dataList.sort((a, b) => {
+                    return b.percent - a.percent
+                })
+                this.globalStockSectorBreakdownList = dataList
             } catch (e) {
                 this.$toast(e.msg)
             }
         },
         async init() {
-            let { fundName, isin } = this.$route.query
+            let { fundName, isin, fundId } = this.$route.query
             this.fundName = fundName
             this.isin = isin
-            await this.getFundAnalysisData()
-            await this.getSortStyleBoxData()
+            this.fundId = fundId
+            this.getFundTop10Holdings()
+            this.getFundInvestmentData()
         }
     },
     created() {
@@ -390,65 +235,17 @@ export default {
             color: $primary-color-line;
         }
     }
-    .fund-block__content.style-box {
-        padding-bottom: 15px;
-    }
     .fund-block__content {
         padding: 0 12px;
-        .table {
-            width: 100%;
-            text-align: center;
-
-            th {
-                color: $text-color5;
-                font-size: 12px;
-            }
-            th,
-            td {
-                padding: 10px 0;
-                border-bottom: 1px solid $text-color8;
-                &:first-child {
-                    width: 30%;
-                    text-align: left;
-                }
-                &:last-child {
-                    text-align: center;
-                }
-            }
-        }
-        .table-box {
-            width: 90%;
-            margin: 0 auto;
-            text-align: center;
-            td {
-                width: 60px;
-                height: 30px;
-                font-size: 12px;
-            }
-            td.value {
-                height: 60px;
-                background-color: $primary-color-line-1;
-            }
-            td.bg-color-small {
-                background-color: $primary-color-line-3;
-            }
-            td.bg-color-large {
-                background-color: $primary-color-line;
-            }
-            td.bg-color-mid {
-                background-color: $primary-color-line-6;
-            }
-            td.label {
-                color: $text-color5;
-            }
-            td.label-title {
-                color: $text-color2;
-            }
-        }
         .text {
             font-size: 12px;
             padding: 12px 0;
             color: $text-color5;
+        }
+        .chart__title {
+            font-size: 16px;
+            font-weight: 500;
+            padding-top: 14px;
         }
     }
 }
