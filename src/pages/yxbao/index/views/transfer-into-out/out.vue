@@ -20,8 +20,6 @@
         )
         .block__list(v-if="!check")
             .block__list--item.common-flex-space-between
-                .block__list--left {{desc}}
-            .block__list--item.common-flex-space-between
                 .block__list--left {{$t('C22')}}
                 .block__list--right.common-flex-center
                     p.block__fee {{HandlingFee}}
@@ -146,7 +144,6 @@ export default {
             currencyType: 0,
             currencyText: '',
             showFundList: false,
-            desc: '',
             customerHkdDailyQuota: '',
             customerHkdRemainderQuota: '',
             customerUsdDailyQuota: '',
@@ -331,12 +328,6 @@ export default {
                 )}${transNumToThousandMark(
                     this.minFastRedemptionAmount
                 )}${currencyText}`
-                let desc = this.$t([
-                    `预计${fundTradeInfoVO.sellProfitLoss}开始收益`,
-                    `預計${fundTradeInfoVO.sellProfitLoss}開始收益`,
-                    `Check Return on ${fundTradeInfoVO.sellProfitLoss}（Estimated）`
-                ])
-                this.desc = desc
                 this.ProtocolFile = buyProtocolFileList.length
                     ? buyProtocolFileList[0].fileName.split('.')[0]
                     : ''

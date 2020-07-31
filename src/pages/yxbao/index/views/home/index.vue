@@ -68,7 +68,7 @@ div(:class="bem()")
         div(:class="bem('fund-name')") {{item.fundName}}(
             span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
         div(:class="bem('fund-card')")
-            .block__item
+            .block__item(v-if="item.availableBaoBalance && item.availableBaoBalance>0")
                 .item__left
                     p {{ item.currency === 1 ? $t('C89'): $t('C3')}}
                     p.num {{ item.availableBaoBalance | transNumToThousandMark}}
@@ -391,7 +391,9 @@ export default {
                     currency: 1
                 })
                 let sortedList = baoPositionList.sort((pre, curr) => {
-                    return curr.availableBaoBalance - pre.availableBaoBalance
+                    return (
+                        curr.hkdPositionMarketValue - pre.hkdPositionMarketValue
+                    )
                 })
                 if (sortedList.length) {
                     this.fundId = sortedList[0].fundId
