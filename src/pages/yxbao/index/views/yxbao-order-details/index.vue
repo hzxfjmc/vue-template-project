@@ -55,6 +55,7 @@ import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
+import { LS } from 'yx-base-h5'
 export default {
     computed: {
         ...mapGetters(['lang']),
@@ -211,6 +212,7 @@ export default {
             this.stepTwo.label = this.$t('C25')
         },
         toHomePage() {
+            LS.put('refresh', true)
             if (jsBridge.isYouxinApp) {
                 jsBridge.callApp('command_close_webview')
             } else {

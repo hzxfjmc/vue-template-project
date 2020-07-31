@@ -223,7 +223,9 @@ export default {
                 const { baoPositionList } = await getBaoPostionV2({
                     currency: 1
                 })
-                this.baoPositionList = baoPositionList
+                this.baoPositionList = baoPositionList.sort((a, b) => {
+                    return a.fundName.localeCompare(b.fundName)
+                })
                 if (this.$route.query.id) {
                     let choosedFund = this.baoPositionList.filter(
                         item => item.fundId === this.$route.query.id

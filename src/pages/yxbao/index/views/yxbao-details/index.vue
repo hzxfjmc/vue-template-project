@@ -43,10 +43,19 @@
             p.more {{$t('msg1')}}
     .fund-footer-content
         .block__button(v-if="!Number(availableBaoBalance)")
-            van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}}
+            van-button.btn-color-r(
+                @click="jumpPageIntoOut('fund-subscribe',1)"
+                :text="$t('C9')"
+                ) {{$t('C9')}}
         .block__button(v-else)
-            van-button.btn-color-l(@click="jumpPageIntoOut('transfer-out',1)") {{$t('C8')}} 
-            van-button.btn-color-r(@click="jumpPageIntoOut('fund-subscribe',1)") {{$t('C9')}}
+            van-button.btn-color-l(
+                :text="$t('C8')"
+                @click="jumpPageIntoOut('transfer-out',1)"
+            )
+            van-button.btn-color-r(
+                @click="jumpPageIntoOut('fund-subscribe',1)"
+                :text="$t('C9')"
+            )
             
 </template>
 <script>
@@ -968,6 +977,7 @@ export default {
     flex-direction: row;
     .van-button {
         flex: 1;
+        color: #fff;
     }
     .btn-color-l {
         background: #0d50d8;

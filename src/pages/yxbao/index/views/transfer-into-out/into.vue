@@ -238,11 +238,7 @@ export default {
                 const res = await getBaoFundList()
                 // 基金七日年化收益从高到底排序
                 this.fundList = res.sort((pre, cur) => {
-                    if (Number(pre.sevenDaysApy) > Number(cur.sevenDaysApy)) {
-                        return -1
-                    } else {
-                        return 0
-                    }
+                    return Number(cur.sevenDaysApy) - Number(pre.sevenDaysApy)
                 })
                 this.choosedFund = this.fundList.filter(item => {
                     return item.fundId === this.$route.query.id

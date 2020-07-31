@@ -232,6 +232,7 @@ export default {
         await this.getBaoPostionV2()
         this.setAboutButton()
         await this.getBaoFundList()
+        LS.put('refresh', false)
         this.showPsd = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         jsBridge.callAppNoPromise(
@@ -366,6 +367,7 @@ export default {
             jumpUrl(3, url)
         },
         async appVisibleHandle(data) {
+            let refresh = LS.get('refresh')
             let re = data
             if (typeof data === 'string') {
                 re = JSON.parse(data)
@@ -374,9 +376,12 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            // this.baoPositionList = []
-            // await this.getBaoPostionV2()
-            // await this.getBaoFundList()
+            if (refresh) {
+                this.baoPositionList = []
+                await this.getBaoPostionV2()
+                await this.getBaoFundList()
+                LS.put('refresh', false)
+            }
             this.getFundUserInfo()
         },
         //获取现金+持仓
