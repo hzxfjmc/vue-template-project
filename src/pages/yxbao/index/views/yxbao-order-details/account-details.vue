@@ -3,21 +3,23 @@
     .block__account--header.border-bottom
         p.title {{orderDetails.recordTypeName}}
         p.num {{orderDetails.recordAmount}}
-            em.money {{$t('hkd')}}
+            em.money {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}}
     .block__account--list.border-bottom(v-if="!successHide")
         .block__account--item
             p {{$t('fundName')}}
-            p {{fundName}}
+            p {{orderDetails.fundName}}(
+                span {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}})
         .block__account--item
             p {{$t('C22')}}
-            p {{orderDetails.recordFee}}{{$t('hkd')}}
+            p {{orderDetails.recordFee}}{{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}}
         .block__account--item
             p {{$t('C23')}}
-            p {{orderDetails.recordAmount}}{{$t('hkd')}}
+            p {{orderDetails.recordAmount}}{{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}}
     .block__status--step
         .block__fund-name
             p {{$t('fundName')}}
-            p {{fundName}}
+            p {{orderDetails.fundName}}(
+                span {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}})
         transferStep(
             v-if="intoShow"
             :stepOne="intoStepOne"
@@ -65,7 +67,6 @@ export default {
 
     created() {
         this.getBaoCapitalTradeDetails()
-        this.fundName = this.$route.params.data.fundName
     },
     methods: {
         //获取详情

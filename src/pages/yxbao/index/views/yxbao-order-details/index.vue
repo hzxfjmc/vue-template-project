@@ -20,7 +20,8 @@
     .block__word--list.border-bottom(v-if="intoShow")
         .block__word--item
             p.word-color {{$t('fundName')}}
-            p {{orderDetails.fundName}}
+            p {{orderDetails.fundName}}(
+                span {{orderDetails.currency === 1 ? $t('usd') : $('hkd')}})
         .block__word--item
             p.word-color {{$t('C30')}}
             p {{$t('C31')}}
@@ -31,7 +32,8 @@
     .block__word--list.border-bottom(v-else)
         .block__word--item
             p.word-color {{$t('fundName')}}
-            p {{orderDetails.fundName}}
+            p {{orderDetails.fundName}}(
+                span {{orderDetails.currency === 1 ? $t('usd') : $('hkd')}})
         .block__word--item
             p.word-color {{$t('C37')}}
             p {{orderDetails.recordTypeName}}

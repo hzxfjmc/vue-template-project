@@ -2,7 +2,8 @@
 .block__element-wrapper
     .block__out__fund
         .fund__left(v-if="choosedFund.length")
-            p.title.ellipse {{choosedFund[0].fundName}}
+            p.title.ellipse {{choosedFund[0].fundName}}(
+                span {{currencyType===1 ? $('usd') : $t('hkd')}})
             p.content {{$t('C87')}}:
                 span.num {{choosedFund[0].availableBaoBalance | transNumToThousandMark}}
                 span.type {{currencyType === 1 ? $t('usd') : $t('hkd')}}

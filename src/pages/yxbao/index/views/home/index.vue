@@ -31,21 +31,14 @@ div(:class="bem()")
                                             :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
                 div(:class="bem('gain')")
                     p.top {{$t('C4')}}
-                    .block__container(v-if="isLogin")
+                    .block__container
                         p.bottom.num(
-                            v-if="hidePadShow && hkSummary.yesterdayEarnings<=0"
+                            v-if="hidePadShow && currentPostion.yesterdayEarnings<=0"
                         ) {{currentPostion.yesterdayEarnings|transNumToThousandMark}}
                         p.bottom.num(
-                            v-else-if="hidePadShow && hkSummary.yesterdayEarnings>0"
+                            v-else-if="hidePadShow && currentPostion.yesterdayEarnings>0"
                         ) +{{currentPostion.yesterdayEarnings|transNumToThousandMark}}
                         p.bottom.num(v-else) ****
-                    .block__container(v-else)
-                        p.bottom.num(
-                            v-if="hidePadShow"
-                        ) 0.00
-                        p.bottom.num(
-                            v-else
-                        ) ****
             template(v-if="fundId")
                 div(
                     :class="bem('button')"
@@ -221,7 +214,10 @@ export default {
             baoFundIdlist: [],
             hkSummary: {},
             usSummary: {},
-            currentPostion: {},
+            currentPostion: {
+                positionAmount: 0,
+                yesterdayEarnings: 0
+            },
             hidePadShow: true,
             hideTabs: false,
             chooseCurrencyShow: false,
@@ -263,6 +259,11 @@ export default {
                 url = `${window.location.origin}/marketing/template/index.html#/?pageNo=Cash_EN`
             }
             jumpUrl(3, url)
+        }
+    },
+    watch: {
+        currencyTab: function(val) {
+            this.currentPostion = val === 0 ? this.hkSummary : this.usSummary
         }
     },
     methods: {
@@ -479,8 +480,6 @@ export default {
             this.chooseCurrencyShow = false
             LS.put('activeTab', val)
             this.currencyTab = val
-            this.currentPostion =
-                this.currencyTab === 0 ? this.hkSummary : this.usSummary
         }
     }
 }

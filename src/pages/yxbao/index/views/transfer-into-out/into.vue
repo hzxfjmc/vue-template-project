@@ -137,15 +137,15 @@ export default {
             let url = `${window.location.origin}/wealth/yxbao/index.html#/yxbao-details?id=${fundId}&displayLocation=3`
             jumpUrl(3, url)
         },
-        chooseFund(id) {
+        async chooseFund(id) {
             this.showFundList = false
             if (this.fundId === id) return
             this.fundId = id
             this.choosedFund = this.fundList.filter(item => {
                 return item.fundId === id
             })
-            this.handleHsAccountInfo()
-            this.getFundDetail()
+            await this.getFundDetail()
+            await this.handleHsAccountInfo()
         },
         //获取基金详情
         async getFundDetail() {
@@ -190,9 +190,10 @@ export default {
             try {
                 let data = await hsAccountInfo(this.currencyType)
                 this.accountInfo = data || {}
+                this.showAllSellBtn.show = true
                 if (
-                    this.accountInfo.withdrawBalance <
-                    this.fundTradeInfoVO.initialInvestAmount
+                    Number(this.accountInfo.withdrawBalance) <
+                    Number(this.fundTradeInfoVO.initialInvestAmount)
                 ) {
                     this.showAllSellBtn.show = false
                 }
