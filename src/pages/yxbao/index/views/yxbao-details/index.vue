@@ -46,7 +46,7 @@
             van-button.btn-color-r(
                 @click="jumpPageIntoOut('fund-subscribe',1)"
                 :text="$t('C9')"
-                ) {{$t('C9')}}
+            )
         .block__button(v-else)
             van-button.btn-color-l(
                 :text="$t('C8')"
