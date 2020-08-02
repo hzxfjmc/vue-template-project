@@ -238,9 +238,7 @@ export default {
                     customerHkdRemainderQuota,
                     customerUsdDailyQuota,
                     customerUsdRemainderQuota
-                } = await getBaoPostionV2({
-                    currency: 1
-                })
+                } = await getBaoPostionV2()
                 this.baoPositionList = baoPositionList
                 this.choosedFund = this.baoPositionList.filter(item => {
                     return item.fundId === this.$route.query.id

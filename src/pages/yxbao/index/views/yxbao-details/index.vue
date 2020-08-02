@@ -54,7 +54,6 @@
             )
             van-button.btn-color-r(
                 @click="jumpPageIntoOut('fund-subscribe',1)"
-                :hairline="true"
                 :text="$t('C9')"
             )
             

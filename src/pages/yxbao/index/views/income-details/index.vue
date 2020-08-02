@@ -33,7 +33,7 @@
             :finished-text="finishedText" 
             @load="onLoad")
             .block__order--list.border-bottom(
-                v-for="(item,index) in filterList")
+                v-for="(item,index) in list")
                 .block__order--left
                     p.title.ellipse(v-if="isSingle") {{item.recordTypeName}}
                     p.title.ellipse(v-else) {{item.fundName}}(
@@ -45,9 +45,8 @@
                         v-if="item.recordAmount>0") +{{item.recordAmount}}
                     p.num(
                         :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                        v-else-if="item.recordAmount < 0") {{item.recordAmount}}
+                        v-else-if="item.recordAmount<0") {{item.recordAmount}}
                     p.num(v-else) {{item.recordAmount}}
-                    p.color {{$t('Balance')}} {{item.recordBalance}} 
                 .block__order--right(v-else)
                     p.num(
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"
@@ -70,9 +69,9 @@
                     @click="chooseMoneyType(item)"
                 )
                     p(
-                        :class="{active: currency === item.type}"
+                        :class="{active: currency === item.currency}"
                     ) {{$t(item.key)}}
-                    p(v-if="currency === item.type")
+                    p(v-if="currency === item.currency")
                         span.iconfont.icon-tick-
         van-popup(
             v-model="fundListShow"
@@ -83,7 +82,7 @@
                     p(
                         :class="{active:fundId === ''}"
                     ) {{$t('allFund')}}
-                    p(v-if="fundId === ''")
+                    p(v-if="!fundId")
                         span.iconfont.icon-tick-
                 .list__item(
                     v-for="item in baoPositionList"
@@ -124,17 +123,17 @@ export default {
             return [
                 {
                     key: 'moneyType',
-                    type: '',
+                    currency: '',
                     desc: '全部币种'
                 },
                 {
                     key: 'hkd',
-                    type: 2,
+                    currency: 2,
                     desc: '港币'
                 },
                 {
                     key: 'usd',
-                    type: 1,
+                    currency: 1,
                     desc: '美元'
                 }
             ]
@@ -162,7 +161,6 @@ export default {
             positionMarketValue: '',
             totalEarnings: '',
             list: [],
-            filterList: [],
             noMoreShow: false,
             pageSize: 20,
             pageNum: 1,
@@ -193,36 +191,34 @@ export default {
             }
         },
         // 订单筛选
-        filterListAction() {
-            if (!this.fundId && !this.currency) {
-                this.filterList = this.list
-            } else if (!this.fundId) {
-                this.filterList = this.list.filter(item => {
-                    return item.currency === this.currency
-                })
-            } else if (!this.currency) {
-                this.filterList = this.list.filter(item => {
-                    return item.fundId === this.fundId
-                })
-            } else {
-                this.filterList = this.list.filter(item => {
-                    return (
-                        item.fundId === this.fundId &&
-                        item.currency === this.currency
-                    )
-                })
-            }
-            this.noMoreShow = this.filterList.length === 0
-            if (this.filterList.length === 0) {
-                this.finishedText = ''
-            }
-        },
+        // filterListAction() {
+        //     if (!this.fundId && !this.currency) {
+        //         this.filterList = this.list
+        //     } else if (!this.fundId) {
+        //         this.filterList = this.list.filter(item => {
+        //             return item.currency === this.currency
+        //         })
+        //     } else if (!this.currency) {
+        //         this.filterList = this.list.filter(item => {
+        //             return item.fundId === this.fundId
+        //         })
+        //     } else {
+        //         this.filterList = this.list.filter(item => {
+        //             return (
+        //                 item.fundId === this.fundId &&
+        //                 item.currency === this.currency
+        //             )
+        //         })
+        //     }
+        //     this.noMoreShow = this.filterList.length === 0
+        //     if (this.filterList.length === 0) {
+        //         this.finishedText = ''
+        //     }
+        // },
         // 获取持仓基金list
         async getBaoPostionV2() {
             try {
-                const { baoPositionList } = await getBaoPostionV2({
-                    currency: 1
-                })
+                const { baoPositionList } = await getBaoPostionV2()
                 this.baoPositionList = baoPositionList.sort((a, b) => {
                     return a.fundName.localeCompare(b.fundName)
                 })
@@ -232,9 +228,7 @@ export default {
                     )
                     this.currency = choosedFund[0].currency
                     this.positionMarketValue =
-                        this.currency === 1
-                            ? choosedFund[0].usdPositionMarketValue
-                            : choosedFund[0].hkdPositionMarketValue
+                        choosedFund[0].availableBaoBalance
                     this.totalEarnings =
                         this.currency === 1
                             ? choosedFund[0].usdTotalEarnings
@@ -245,18 +239,25 @@ export default {
             }
         },
         async getBaoCapitalTradeListV2() {
+            let params = {
+                pageNum: this.pageNum,
+                pageSize: this.pageSize,
+                recordType: 3,
+                fundId: this.fundId,
+                currency: this.currency
+            }
+            for (let key in params) {
+                if (!params[key]) {
+                    delete params[key]
+                }
+            }
             try {
                 const {
                     list,
                     pageSize,
                     pageNum,
                     total
-                } = await getBaoCapitalTradeListV2({
-                    fundId: this.$route.query.id,
-                    recordType: 3,
-                    pageNum: this.pageNum,
-                    pageSize: this.pageSize
-                })
+                } = await getBaoCapitalTradeListV2(params)
                 if (this.isSingle) {
                     list.map(item => {
                         item.createTime = dayjs(item.createTime).format(
@@ -272,12 +273,11 @@ export default {
                 }
                 this.loading = false
                 this.list = this.list.concat(list)
-                this.filterListAction()
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
                 this.noMoreShow = this.total == 0
-                if (this.filterList.length >= this.total) {
+                if (this.list.length >= this.total) {
                     this.finished = true
                 }
                 this.finishedText = this.$t('nomore')
@@ -289,17 +289,22 @@ export default {
         //选择币种
         chooseMoneyType(item) {
             this.moneyTypeShow = false
-            if (this.currency === item.type) return
-            this.currency = item.type
+            if (this.currency === item.currency) return
+            this.currency = item.currency
             this.moneyTypeText = item.key
-            this.filterListAction()
+            this.list = []
+            this.pageNum = 1
+            this.getBaoCapitalTradeListV2()
         },
         // 选择基金
         chooseFund(item) {
             this.fundListShow = false
+            if (this.fundId === item.fundId) return
             this.fundId = item.fundId
             this.fundName = item.fundName
-            this.filterListAction()
+            this.list = []
+            this.pageNum = 1
+            this.getBaoCapitalTradeListV2()
         }
     }
 }
@@ -323,7 +328,6 @@ export default {
 }
 .block__top {
     width: 100%;
-    margin-bottom: 40px;
     position: fixed;
     height: 40px;
     z-index: 1001;
@@ -366,7 +370,7 @@ hr {
     background: rgba(25, 25, 25, 0.05);
 }
 .not-single {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 .block__order--content {
     background: #fff;

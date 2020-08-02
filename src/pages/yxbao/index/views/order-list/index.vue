@@ -2,7 +2,7 @@
 .income-details-content
     .block__top(v-if="!isSingle")
         .block__left(@click="moneyTypeShow = true")
-            span {{$t(moneyTypeText)}}
+            span {{moneyTypeText}}
             span.iconfont.icon-pulldown_icon
         .block__right(@click="typeListShow = true")
             span.ellipse(v-if="recordTypeName") {{recordTypeName}}
@@ -84,8 +84,8 @@
                 v-for="item in recordTypeItem"
                 @click="chooseRecoderType(item)"
             )
-                p.title(:class="{active: recordType === item.recordType}") {{$t(item.key)}}
-                p(v-if="recordType === item.recordType")
+                p.title(:class="{active: recordType === item.recordType && outType === item.outType}") {{$t(item.key)}}
+                p(v-if="recordType === item.recordType && outType === item.outType")
                     span.iconfont.icon-tick-
 </template>
 <script>
@@ -130,7 +130,7 @@ export default {
             typeListShow: false,
             recordTypeName: '',
             moneyTypeShow: false,
-            moneyTypeText: 'moneyType',
+            moneyTypeText: this.$t('moneyType'),
             currency: '',
             recordType: '',
             outType: '',
@@ -217,19 +217,25 @@ export default {
         },
         async getBaoCapitalTradeListV2() {
             try {
-                const {
-                    list,
-                    pageSize,
-                    pageNum,
-                    total
-                } = await getBaoCapitalTradeListV2({
+                let params = {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
                     fundId: this.$route.query.id,
                     currency: this.currency,
                     recordType: this.recordType,
                     outType: this.outType
-                })
+                }
+                for (let key in params) {
+                    if (!params[key]) {
+                        delete params[key]
+                    }
+                }
+                const {
+                    list,
+                    pageSize,
+                    pageNum,
+                    total
+                } = await getBaoCapitalTradeListV2(params)
                 this.loading = false
                 let outTypeName = this.$t([
                     '普通转出',
@@ -253,8 +259,6 @@ export default {
                     }
                 })
                 this.list = this.list.concat(list)
-                // this.filterList = list
-                // this.comFilterAction()
                 this.pageNum = pageNum
                 this.total = total
                 this.pageSize = pageSize
@@ -272,8 +276,9 @@ export default {
             this.moneyTypeShow = false
             if (this.currency === item.currency) return
             this.currency = item.currency
-            this.moneyTypeText = item.key
+            this.moneyTypeText = this.$t(item.key)
             this.list = []
+            this.pageNum = 1
             this.getBaoCapitalTradeListV2()
         },
         chooseRecoderType(item) {
@@ -281,13 +286,11 @@ export default {
             if (this.isSingle) {
                 this.setFilterButton()
             }
-            if (item.recordType === 2) {
-                this.outType = item.outType
-            }
-            if (this.recordType === item.recordType) return
+            this.outType = item.outType
             this.recordType = item.recordType
             this.recordTypeName = this.$t(item.key)
             this.list = []
+            this.pageNum = 1
             this.getBaoCapitalTradeListV2()
         },
         setFilterButton() {
@@ -314,12 +317,14 @@ export default {
             return [
                 {
                     key: 'allType',
-                    recordType: 0,
+                    recordType: '',
+                    outType: '',
                     desc: '全部类型'
                 },
                 {
                     key: 'C9',
                     recordType: 1,
+                    outType: '',
                     desc: '转入'
                 },
                 {
@@ -337,6 +342,7 @@ export default {
                 {
                     key: 'C11',
                     recordType: 3,
+                    outType: '',
                     desc: '收益'
                 }
             ]
@@ -415,7 +421,7 @@ export default {
     }
 }
 .not-single {
-    margin-top: 40px;
+    margin-top: 30px;
 }
 .block__order--list {
     width: 100%;

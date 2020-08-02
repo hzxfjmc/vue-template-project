@@ -68,10 +68,10 @@ div(:class="bem()")
         div(:class="bem('fund-name')") {{item.fundName}}(
             span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
         div(:class="bem('fund-card')")
-            .block__item(v-if="item.availableBaoBalance && item.availableBaoBalance>0")
+            .block__item(v-if="item.hkdPositionMarketValue > 0")
                 .item__left
                     p {{ item.currency === 1 ? $t('C89'): $t('C3')}}
-                    p.num {{ item.availableBaoBalance | transNumToThousandMark}}
+                    p.num {{ item.currency === 1 ? item.usdPositionMarketValue : item.hkdPositionMarketValue | transNumToThousandMark}}
                 .item__right
                     p {{$t('C4')}}
                     p.num(
@@ -392,9 +392,7 @@ export default {
                     baoPositionList,
                     hkSummary,
                     usSummary
-                } = await getBaoPostionV2({
-                    currency: 1
-                })
+                } = await getBaoPostionV2()
                 let sortedList = baoPositionList.sort((pre, curr) => {
                     return (
                         curr.hkdPositionMarketValue - pre.hkdPositionMarketValue
