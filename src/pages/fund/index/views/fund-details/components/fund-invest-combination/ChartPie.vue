@@ -70,7 +70,8 @@ export default {
                         ? data.length * 26
                         : this.chartOptions.height
             })
-            chart.source(data, {
+            const drawData = data.filter(item => Number(item.percent) > 0)
+            chart.source(drawData, {
                 percent: {
                     formatter: function formatter(val) {
                         return val + '%'
