@@ -38,8 +38,8 @@ export default {
     },
     props: {
         fundId: {
-            type: Object,
-            default: () => {}
+            type: [String, Number],
+            default: ''
         }
     },
     computed: {

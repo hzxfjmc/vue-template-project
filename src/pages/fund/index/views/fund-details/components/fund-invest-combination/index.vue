@@ -18,7 +18,8 @@
                     ChartPie(
                         id="pie-chart-1"
                         v-if="assetAllocationBreakdownApiVOList.length"
-                        :chartList="assetAllocationBreakdownApiVOList")
+                        :chartList="assetAllocationBreakdownApiVOList"
+                        )
                     yx-no-list(v-else)     
                 .content__item    
                     .chart__title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
@@ -128,11 +129,13 @@ export default {
             let list = []
             if (type === 'object') {
                 Object.keys(dataList).forEach(key => {
-                    list.push({
-                        name: this.i18n[key],
-                        percent: +Number(dataList[key]).toFixed(2),
-                        a: '1'
-                    })
+                    dataList[key] !== null &&
+                        dataList[key] !== '' &&
+                        list.push({
+                            name: this.i18n[key],
+                            percent: +Number(dataList[key]).toFixed(2),
+                            a: '1'
+                        })
                 })
             }
             if (type === 'countryDataApiVOList') {

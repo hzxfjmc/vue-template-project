@@ -16,7 +16,13 @@ export default {
         },
         chartOptions: {
             type: Object,
-            default: () => {}
+            default: () => {
+                return {
+                    height: 230,
+                    innerRadius: 0.7,
+                    radius: 0.75
+                }
+            }
         }
     },
     data() {
@@ -39,17 +45,30 @@ export default {
     methods: {
         initChart() {
             const data = this.chartList
-            console.log(data)
             const map = {}
-            data.forEach(function(obj) {
+            const legendItems = []
+            data.forEach((obj, index) => {
                 map[obj.name] = obj.percent + '%'
+                legendItems.push({
+                    name: obj.name,
+                    value: Number(obj.percent).toFixed(2) + '%',
+                    marker: {
+                        symbol: 'circle',
+                        fill: this.colorList[index],
+                        radius: 3
+                    }
+                })
             })
+
             const chart = new F2.Chart({
                 id: this.id,
                 pixelRatio: window.devicePixelRatio,
                 padding: [0, 150, 0, 0],
-                appendPadding: [0, 10],
-                height: '270'
+                appendPadding: [0, 0],
+                height:
+                    data.length > 8
+                        ? data.length * 26
+                        : this.chartOptions.height
             })
             chart.source(data, {
                 percent: {
@@ -61,14 +80,26 @@ export default {
             chart.tooltip(false)
             chart.legend({
                 position: 'right',
-                itemFormatter: function itemFormatter(val) {
-                    return val + ' ' + map[val]
+                custom: true,
+                items: legendItems,
+                nameStyle: {
+                    textAlign: 'start',
+                    fill: '#191919', // 文本的颜色
+                    width: 130
+                },
+                joinString: '',
+                valueStyle: {
+                    textAlign: 'end',
+                    fill: '#191919', // 文本的颜色
+                    fontSize: '14',
+                    fontWeight: '500',
+                    width: 80
                 }
             })
             chart.coord('polar', {
                 transposed: true,
                 innerRadius: 0.7,
-                radius: 0.85
+                radius: 0.7
             })
             chart.axis(false)
             chart
