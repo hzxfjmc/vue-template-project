@@ -19,14 +19,14 @@
         .block__fundheader--tips(
             v-if="isLogin && openedAccount"
             @click="jumpPage('order-list',1)")
-            em.iconfont.icon-iconEBshoucang
+            em.iconfont.icon-cashFlow
             span.title {{$t('cashFlow')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy
         .block__fundheader--tips(
             v-if="isLogin && openedAccount"
             @click="jumpPage('income-details'), 1")
-            em.iconfont.icon-icon-money
+            em.iconfont.icon-incomeDetail
             span.title {{$t('returnDetails')}}
             .block__list--right
                 em.iconfont.icon-iconEBgengduoCopy

@@ -232,7 +232,6 @@ export default {
         await this.getBaoPostionV2()
         this.setAboutButton()
         await this.getBaoFundList()
-        LS.put('refresh', false)
         this.showPsd = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         jsBridge.callAppNoPromise(

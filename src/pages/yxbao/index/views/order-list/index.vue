@@ -279,6 +279,7 @@ export default {
             this.moneyTypeText = this.$t(item.key)
             this.list = []
             this.pageNum = 1
+            this.finished = false
             this.getBaoCapitalTradeListV2()
         },
         chooseRecoderType(item) {
@@ -291,6 +292,7 @@ export default {
             this.recordTypeName = this.$t(item.key)
             this.list = []
             this.pageNum = 1
+            this.finished = false
             this.getBaoCapitalTradeListV2()
         },
         setFilterButton() {

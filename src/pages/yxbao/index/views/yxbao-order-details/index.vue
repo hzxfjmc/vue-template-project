@@ -116,6 +116,8 @@ export default {
         }
     },
     created() {
+        LS.put('refresh', true)
+        console.log('refresh=======>', LS.get('refresh'))
         this.InitState()
         this.$nextTick(() => {
             let title =
@@ -212,7 +214,6 @@ export default {
             this.stepTwo.label = this.$t('C25')
         },
         toHomePage() {
-            LS.put('refresh', true)
             if (jsBridge.isYouxinApp) {
                 jsBridge.callApp('command_close_webview')
             } else {
