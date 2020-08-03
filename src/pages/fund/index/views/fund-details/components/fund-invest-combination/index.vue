@@ -6,7 +6,7 @@
                 .desc ISIN:{{isin}}
             .header__bottom
                 .item
-                    span.item__label {{$t(['更新时间','更新時間','As of'])}}：
+                    span.item__label {{$t(['数据更新时间','數據更新時間','As of'])}}：
                     span.item__value {{investmentData.updateTime || '--'}}    
                 .item
                     span.item__label {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
