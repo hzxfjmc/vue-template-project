@@ -2,11 +2,11 @@
     .fund-colunm__content 
         .content__item  
                 .content__item-title {{$t(['十大持仓','十大持倉','Top 10 Weightings'])}} ({{allPercent}}%）    
-                .content__item-sub-title
+                .content__item-sub-title(v-if="globalStockSectorBreakdownList.length")
                     .sub-title__item 
                         span {{$t(['名称','名稱','Name'])}}
                     .sub-title__item {{$t(['占比','佔比','Ratio'])}} 
-                .content__item-percentage(:class="{'more':showMore}")
+                .content__item-percentage(:class="{'more':showMore}" v-if="globalStockSectorBreakdownList.length")
                     .percentage-item(v-for="item,index in holdingsList" :key="item.name")
                         .item-top
                             .item-top__label {{item.name}}    
@@ -14,9 +14,10 @@
                         .item-line(
                             :class="index<3?`bg-${index}`:'bg-3'" 
                             :style="{width:`${item.width}%`}")
-                .content__item-btn(@click="handleShowMore")
+                .content__item-btn(@click="handleShowMore" v-if="globalStockSectorBreakdownList.length")
                     span.label {{showMore ? $t(['收起','收起','Less']):$t(['展开更多','展開更多','More'])}}
-                    span.iconfont.icon-iconxiala(:class="{'more':showMore}")                     
+                    span.iconfont.icon-iconxiala(:class="{'more':showMore}")  
+                yx-no-list(v-else)                       
 </template>
 <script>
 /**
@@ -108,11 +109,12 @@ export default {
                 const item = this.investmentData.globalStockSectorBreakdownApiVO
                 let dataList = []
                 Object.keys(item).forEach(key => {
-                    dataList.push({
-                        name: this.i18n[key],
-                        percent: +Number(item[key]).toFixed(2),
-                        a: '1'
-                    })
+                    item[key] &&
+                        dataList.push({
+                            name: this.i18n[key],
+                            percent: +Number(item[key]).toFixed(2),
+                            a: '1'
+                        })
                 })
                 // 降序排序
                 dataList = dataList.sort((a, b) => {
@@ -131,6 +133,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.yx-no-list {
+    padding-bottom: 10px;
+}
 .fund-colunm {
     margin-top: 6px;
     padding: 0 10px;

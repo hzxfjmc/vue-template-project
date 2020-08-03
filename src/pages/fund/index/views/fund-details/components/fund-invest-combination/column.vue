@@ -2,7 +2,7 @@
     .fund-colunm(:class="lang")
         .fund-colunm__header
             .col-left
-                .iconfont.icon-icon_collect
+                img(src="@/assets/img/fund/icon/icon-invest@2x.png")
                 .title {{$t(['投资组合','投資組合','Portfolio'])}} 
             .col-right(@click="handleGoDetail")
                 span.title {{$t(['查看更多','查看更多','More'])}}
@@ -15,10 +15,11 @@
                         span {{$t(['规模','规模','Scale'])}}
                         span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
                     .sub-title__item {{$t(['数据更新时间','數據更新時間','As of'])}} ：{{investmentData.updateTime}}  
-                .content__item-chart   
+                .content__item-chart  
                     ChartPie(
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList")
+                    yx-no-list(v-else)    
             TopTen(
                 v-if="fundHeaderInfoVO.fundId"
                 :fundId="fundHeaderInfoVO.fundId"
@@ -90,11 +91,13 @@ export default {
                 const item = this.investmentData.globalStockSectorBreakdownApiVO
                 let dataList = []
                 Object.keys(item).forEach(key => {
-                    dataList.push({
-                        name: this.i18n[key],
-                        percent: +Number(item[key]).toFixed(2),
-                        a: '1'
-                    })
+                    item[key] !== null &&
+                        item[key] !== '' &&
+                        dataList.push({
+                            name: this.i18n[key],
+                            percent: +Number(item[key]).toFixed(2),
+                            a: '1'
+                        })
                 })
                 // 降序排序
                 dataList = dataList.sort((a, b) => {
@@ -133,6 +136,10 @@ export default {
         }
         .iconfont {
             font-size: 18px;
+        }
+        img {
+            width: 18px;
+            height: 18px;
         }
     }
     .col-right {
