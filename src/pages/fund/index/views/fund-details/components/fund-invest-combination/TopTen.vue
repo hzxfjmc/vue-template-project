@@ -7,17 +7,17 @@
                         span {{$t(['名称','名稱','Name'])}}
                     .sub-title__item {{$t(['占比','佔比','Ratio'])}} 
                 .content__item-percentage(:class="{'more':showMore}" v-if="holdingsList.length")
-                    .percentage-item(v-for="item,index in holdingsList" :key="item.name")
+                    .percentage-item(v-for="item,index in holdingsList" :key="`${item.name}-${item.weighting}`")
                         .item-top
                             .item-top__label {{item.name}}    
                             .item-top__value {{Number(item.weighting).toFixed(2)}}%   
                         .item-line(
                             :class="index<3?`bg-${index}`:'bg-3'" 
                             :style="{width:`${item.width}%`}")
-                .content__item-btn(@click="handleShowMore" v-if="holdingsList.length")
+                .content__item-btn(@click="handleShowMore" v-if="holdingsList.length && holdingsList.length>5")
                     span.label {{showMore ? $t(['收起','收起','Less']):$t(['展开更多','展開更多','More'])}}
                     span.iconfont.icon-iconxiala(:class="{'more':showMore}")  
-                yx-no-list(v-else)                       
+                yx-no-list(v-if="!holdingsList.length")                       
 </template>
 <script>
 /**

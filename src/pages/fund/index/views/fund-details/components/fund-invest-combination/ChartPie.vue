@@ -54,7 +54,7 @@ export default {
                     value: Number(obj.percent).toFixed(2) + '%',
                     marker: {
                         symbol: 'circle',
-                        fill: this.colorList[index],
+                        fill: this.colorList[index] || '#FFD154',
                         radius: 3
                     }
                 })

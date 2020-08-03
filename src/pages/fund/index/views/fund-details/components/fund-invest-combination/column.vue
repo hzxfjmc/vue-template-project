@@ -91,8 +91,7 @@ export default {
                 const item = this.investmentData.globalStockSectorBreakdownApiVO
                 let dataList = []
                 Object.keys(item).forEach(key => {
-                    item[key] !== null &&
-                        item[key] !== '' &&
+                    Number(item[key]) &&
                         dataList.push({
                             name: this.i18n[key],
                             percent: +Number(item[key]).toFixed(2),

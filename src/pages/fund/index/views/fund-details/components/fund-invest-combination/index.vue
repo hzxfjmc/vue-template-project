@@ -129,8 +129,7 @@ export default {
             let list = []
             if (type === 'object') {
                 Object.keys(dataList).forEach(key => {
-                    dataList[key] !== null &&
-                        dataList[key] !== '' &&
+                    Number(dataList[key]) &&
                         list.push({
                             name: this.i18n[key],
                             percent: +Number(dataList[key]).toFixed(2),
