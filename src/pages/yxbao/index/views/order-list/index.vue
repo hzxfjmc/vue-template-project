@@ -17,7 +17,7 @@
         .block-list(
             class="border-bottom"
             v-for="(item,index) in list" 
-            :key="item.recordNo" 
+            :key="index" 
             @click="toDetailHandle(item)"
             )
             .block__order--list(v-if="!isSingle")
@@ -26,7 +26,7 @@
                         span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                     p.color {{item.createTime}}
                 .block__order--right
-                    p.num {{item.recordTypeName}}
+                    p {{item.recordTypeName}}
                     p.num(
                         v-if="item.recordType === 1 || item.recordType === 3"
                     ) +{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
@@ -130,6 +130,7 @@ export default {
             typeListShow: false,
             recordTypeName: '',
             moneyTypeShow: false,
+            lockOnload: false,
             moneyTypeText: this.$t('moneyType'),
             currency: '',
             recordType: '',
@@ -157,64 +158,64 @@ export default {
         },
         //上拉加载更多
         onLoad() {
-            if (this.list.length < this.total) {
+            if (this.list.length < this.total && !this.lockOnload) {
                 this.pageNum = this.pageNum + 1
                 this.getBaoCapitalTradeListV2()
             }
         },
-        filterRecoderType() {
-            switch (this.recordType) {
-                case 0:
-                    this.recordTypeList = this.list
-                    break
-                case 1:
-                    this.recordTypeList = this.list.filter(item => {
-                        return item.recordType === 1
-                    })
-                    break
-                case 2:
-                    this.recordTypeList = this.list.filter(item => {
-                        return item.outType === 1
-                    })
-                    break
-                case 3:
-                    this.recordTypeList = this.list.filter(item => {
-                        return item.outType === 2
-                    })
-                    break
-                case 4:
-                    this.recordTypeList = this.list.filter(item => {
-                        return item.recordType === 3
-                    })
-            }
-        },
-        filterMoneyType() {
-            if (!this.currency) {
-                this.moneyTypeList = this.list
-            } else {
-                this.moneyTypeList = this.list.filter(item => {
-                    return item.currency === this.currency
-                })
-            }
-        },
-        comFilterAction() {
-            if (!this.currency && !this.recordType) {
-                this.filterList = this.list
-            } else if (!this.currency) {
-                this.filterRecoderType()
-                this.filterList = this.recordTypeList
-            } else if (!this.recordType) {
-                this.filterMoneyType()
-                this.filterList = this.moneyTypeList
-            } else {
-                this.filterRecoderType()
-                this.filterMoneyType()
-                this.filterList = this.moneyTypeList.filter(item => {
-                    return this.recordTypeList.indexOf(item) !== -1
-                })
-            }
-            this.noMoreShow = this.filterList.length === 0
-        },
+        // filterRecoderType() {
+        //     switch (this.recordType) {
+        //         case 0:
+        //             this.recordTypeList = this.list
+        //             break
+        //         case 1:
+        //             this.recordTypeList = this.list.filter(item => {
+        //                 return item.recordType === 1
+        //             })
+        //             break
+        //         case 2:
+        //             this.recordTypeList = this.list.filter(item => {
+        //                 return item.outType === 1
+        //             })
+        //             break
+        //         case 3:
+        //             this.recordTypeList = this.list.filter(item => {
+        //                 return item.outType === 2
+        //             })
+        //             break
+        //         case 4:
+        //             this.recordTypeList = this.list.filter(item => {
+        //                 return item.recordType === 3
+        //             })
+        //     }
+        // },
+        // filterMoneyType() {
+        //     if (!this.currency) {
+        //         this.moneyTypeList = this.list
+        //     } else {
+        //         this.moneyTypeList = this.list.filter(item => {
+        //             return item.currency === this.currency
+        //         })
+        //     }
+        // },
+        // comFilterAction() {
+        //     if (!this.currency && !this.recordType) {
+        //         this.filterList = this.list
+        //     } else if (!this.currency) {
+        //         this.filterRecoderType()
+        //         this.filterList = this.recordTypeList
+        //     } else if (!this.recordType) {
+        //         this.filterMoneyType()
+        //         this.filterList = this.moneyTypeList
+        //     } else {
+        //         this.filterRecoderType()
+        //         this.filterMoneyType()
+        //         this.filterList = this.moneyTypeList.filter(item => {
+        //             return this.recordTypeList.indexOf(item) !== -1
+        //         })
+        //     }
+        //     this.noMoreShow = this.filterList.length === 0
+        // },
         async getBaoCapitalTradeListV2() {
             try {
                 let params = {
@@ -237,6 +238,7 @@ export default {
                     total
                 } = await getBaoCapitalTradeListV2(params)
                 this.loading = false
+                this.lockOnload = false
                 let outTypeName = this.$t([
                     '普通转出',
                     '普通轉出',
@@ -277,6 +279,7 @@ export default {
             if (this.currency === item.currency) return
             this.currency = item.currency
             this.moneyTypeText = this.$t(item.key)
+            this.lockOnload = true
             this.list = []
             this.pageNum = 1
             this.finished = false
@@ -290,6 +293,7 @@ export default {
             this.outType = item.outType
             this.recordType = item.recordType
             this.recordTypeName = this.$t(item.key)
+            this.lockOnload = true
             this.list = []
             this.pageNum = 1
             this.finished = false
@@ -444,7 +448,6 @@ export default {
         text-align: right;
         .num {
             font-size: 18px;
-            font-weight: 420;
         }
     }
     p {

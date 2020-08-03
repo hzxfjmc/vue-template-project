@@ -513,9 +513,8 @@ export default {
         margin-top: 14px;
         font-size: 16px;
         line-height: 22px;
-        font-weight: 600;
         border-left: 4px solid #ff7127;
-        padding-left: 3px;
+        padding-left: 5px;
     }
 }
 .yx-yxbao__fund-card {
@@ -600,9 +599,15 @@ export default {
             background-image: url('~@/assets/img/yxbao/icon/cash_transfer@2x.png');
         }
         &.three {
+            width: 21px;
+            height: 18px;
+            background-size: 21px 18px;
             background-image: url('~@/assets/img/yxbao/icon/cash_record@2x.png');
         }
         &.four {
+            width: 18px;
+            height: 21px;
+            background-size: 18px 21px;
             background-image: url('~@/assets/img/yxbao/icon/cash_detail@2x.png');
         }
     }

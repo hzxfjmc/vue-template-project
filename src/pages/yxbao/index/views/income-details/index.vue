@@ -169,6 +169,7 @@ export default {
             finished: false,
             moneyTypeShow: false,
             fundListShow: false,
+            lockOnload: false,
             isSingle: !!this.$route.query.id,
             finishedText: '无更多内容',
             currency: '',
@@ -185,7 +186,7 @@ export default {
     methods: {
         //上拉加载更多
         onLoad() {
-            if (this.list.length < this.total) {
+            if (this.list.length < this.total && !this.lockOnload) {
                 this.pageNum = this.pageNum + 1
                 this.getBaoCapitalTradeListV2()
             }
@@ -272,6 +273,7 @@ export default {
                     })
                 }
                 this.loading = false
+                this.lockOnload = false
                 this.list = this.list.concat(list)
                 this.pageNum = pageNum
                 this.total = total
@@ -292,8 +294,10 @@ export default {
             if (this.currency === item.currency) return
             this.currency = item.currency
             this.moneyTypeText = item.key
+            this.lockOnload = true
             this.list = []
             this.pageNum = 1
+            this.finished = false
             this.getBaoCapitalTradeListV2()
         },
         // 选择基金
@@ -302,8 +306,10 @@ export default {
             if (this.fundId === item.fundId) return
             this.fundId = item.fundId
             this.fundName = item.fundName
+            this.lockOnload = true
             this.list = []
             this.pageNum = 1
+            this.finished = false
             this.getBaoCapitalTradeListV2()
         }
     }
