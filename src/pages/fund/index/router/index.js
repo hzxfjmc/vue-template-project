@@ -10,7 +10,7 @@ export default new Router({
         {
             name: 'fund-index',
             path: '/',
-            meta: { title: 'home', auth: true, cs: true },
+            meta: { title: 'home', auth: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
@@ -51,7 +51,7 @@ export default new Router({
         {
             name: 'fund-details',
             path: '/fund-details',
-            meta: { title: 'fundDetails', auth: true, cs: true, share: true },
+            meta: { title: 'fundDetails', auth: true, share: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-details/index.vue`)
         },
@@ -136,7 +136,7 @@ export default new Router({
         {
             name: 'home',
             path: '/home',
-            meta: { title: 'home', auth: true, cs: true },
+            meta: { title: 'home', auth: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
@@ -164,7 +164,7 @@ export default new Router({
         {
             name: 'fund-index',
             path: '/fund-index',
-            meta: { title: 'home', auth: true, cs: true },
+            meta: { title: 'home', auth: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
