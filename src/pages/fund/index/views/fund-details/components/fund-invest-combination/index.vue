@@ -147,9 +147,11 @@ export default {
                 })
             }
             // 降序排序
-            list = list.sort((a, b) => {
-                return b.percent - a.percent
-            })
+            list = list
+                .filter(item => Number(item.percent))
+                .sort((a, b) => {
+                    return b.percent - a.percent
+                })
             return list
         },
         async getFundInvestmentData() {
