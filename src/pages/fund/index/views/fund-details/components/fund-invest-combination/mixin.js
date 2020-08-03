@@ -32,7 +32,51 @@ export default {
                 ]),
                 realEstate: this.$t(['房地产', '房地产', 'Real Estate']),
                 technology: this.$t(['科技', '科技', 'Technology']),
-                utilities: this.$t(['公用事业', '公用事业', 'Utilities'])
+                utilities: this.$t(['公用事业', '公用事业', 'Utilities']),
+                bondNet: this.$t(['债券', '债券', 'BondNet']),
+                cashNet: this.$t(['现金', '现金', 'cashNet']),
+                convertibleNet: this.$t(['可转债', '可转债', 'ConvertibleNet']),
+                otherNet: this.$t(['其他', '其他', 'OtherNet']),
+                preferredNet: this.$t(['优先股', '优先股', 'PreferredNet']),
+                stockNet: this.$t(['股票', '股票', 'StockNet']),
+                superSectorCashandEquivalentsNet: this.$t([
+                    '现金及现金等价物',
+                    '現金及現金價物',
+                    'Cash & Equivalents'
+                ]),
+                superSectorCorporateNet: this.$t([
+                    '公司债',
+                    '公司債',
+                    'Corporate'
+                ]),
+                superSectorDerivativeNet: this.$t([
+                    '衍生品',
+                    '衍生品',
+                    'Derivative'
+                ]),
+                superSectorGovernmentNet: this.$t([
+                    '政府债',
+                    '政府債',
+                    'Government'
+                ]),
+                superSectorMunicipalNet: this.$t([
+                    '地方债',
+                    '地方債',
+                    'Municipal'
+                ]),
+                superSectorSecuritizedNet: this.$t([
+                    '资产支持证券',
+                    '資產支持證券',
+                    'Securitized'
+                ]),
+                a: this.$t(['A', 'A', 'A']),
+                aa: this.$t(['AA', 'AA', 'AA']),
+                aaa: this.$t(['AAA', 'AAA', 'AAA']),
+                b: this.$t(['B', 'B', 'B']),
+                bb: this.$t(['BB', 'BB', 'BB']),
+                bbb: this.$t(['BBB', 'BBB', 'BBB']),
+                belowB: this.$t(['低于B', '低於B', 'BelowB']),
+                notRated: this.$t(['无评级', '無評級', 'NotRated'])
             }
         }
     },

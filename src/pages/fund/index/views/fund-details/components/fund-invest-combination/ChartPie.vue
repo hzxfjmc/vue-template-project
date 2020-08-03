@@ -13,6 +13,10 @@ export default {
         chartList: {
             type: Array,
             default: () => []
+        },
+        chartOptions: {
+            type: Object,
+            default: () => {}
         }
     },
     data() {
@@ -43,9 +47,9 @@ export default {
             const chart = new F2.Chart({
                 id: this.id,
                 pixelRatio: window.devicePixelRatio,
-                padding: [0, 'auto'],
+                padding: [0, 150, 0, 0],
                 appendPadding: [0, 10],
-                height: 270
+                height: '270'
             })
             chart.source(data, {
                 percent: {

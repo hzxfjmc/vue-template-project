@@ -6,55 +6,48 @@
                 .desc ISIN:{{isin}}
             .header__bottom
                 .item
-                    span.item__label 更新时间：
+                    span.item__label {{$t(['更新时间','更新時間','As of'])}}：
                     span.item__value {{investmentData.updateTime || '--'}}    
                 .item
-                    span.item__label 规模({{$t('currency',investmentData.currency,lang)}})：
+                    span.item__label {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
                     span.item__value {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'') || '--'}}
         .fund-block  
             .fund-block__content
                 .content__item
-                    .chart__title 资产类型
+                    .chart__title {{$t(['资产类型','資產類型','Asset Class'])}}
                     ChartPie(
                         id="pie-chart-1"
-                        v-if="globalStockSectorBreakdownApiVOList.length"
-                        :chartList="globalStockSectorBreakdownApiVOList")
+                        v-if="assetAllocationBreakdownApiVOList.length"
+                        :chartList="assetAllocationBreakdownApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
-                    .chart__title 行业分布
+                    .chart__title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
                     ChartPie(
                         id="pie-chart-2"
                         v-if="globalStockSectorBreakdownApiVOList.length"
                         :chartList="globalStockSectorBreakdownApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
-                    .chart__title 投资地区
+                    .chart__title {{$t(['投资地区','投資地區','Investment Region'])}}
                     ChartPie(
                         id="pie-chart-3"
-                        v-if="globalStockSectorBreakdownApiVOList.length"
-                        :chartList="globalStockSectorBreakdownApiVOList")
+                        v-if="countryDataApiVOList.length"
+                        :chartList="countryDataApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
-                    .chart__title 债券类型
+                    .chart__title {{$t(['债券类型','債券類型','Bond Types'])}}
                     ChartPie(
                         id="pie-chart-4"
-                        v-if="globalStockSectorBreakdownApiVOList.length"
-                        :chartList="globalStockSectorBreakdownApiVOList")
+                        v-if="globalBondSectorsRawApiVOList.length"
+                        :chartList="globalBondSectorsRawApiVOList")
                     yx-no-list(v-else)     
                 .content__item    
-                    .chart__title 评级分布
+                    .chart__title {{$t(['评级分布','評級分佈','Credit Rating'])}}
                     ChartPie(
                         id="pie-chart-5"
-                        v-if="globalStockSectorBreakdownApiVOList.length"
-                        :chartList="globalStockSectorBreakdownApiVOList")
+                        v-if="creditQualityBreakdownVOList.length"
+                        :chartList="creditQualityBreakdownVOList")
                     yx-no-list(v-else)     
-                .content__item    
-                    .chart__title 国家地区
-                    ChartPie(
-                        id="pie-chart-6"
-                        v-if="globalStockSectorBreakdownApiVOList.length"
-                        :chartList="globalStockSectorBreakdownApiVOList")
-                    yx-no-list(v-else)
         .fund-block  
             .fund-block__content
                 TopTen(
@@ -131,26 +124,64 @@ export default {
         }
     },
     methods: {
+        sortList(dataList, type) {
+            let list = []
+            if (type === 'object') {
+                Object.keys(dataList).forEach(key => {
+                    list.push({
+                        name: this.i18n[key],
+                        percent: +Number(dataList[key]).toFixed(2),
+                        a: '1'
+                    })
+                })
+            }
+            if (type === 'countryDataApiVOList') {
+                list = dataList.map(item => {
+                    return {
+                        name: item.country,
+                        percent: +Number(item.value).toFixed(2),
+                        a: '1'
+                    }
+                })
+            }
+            // 降序排序
+            list = list.sort((a, b) => {
+                return b.percent - a.percent
+            })
+            return list
+        },
         async getFundInvestmentData() {
             try {
                 const params = {
                     fundId: this.fundId
                 }
                 this.investmentData = await getFundInvestmentDataV1(params)
-                const item = this.investmentData.globalStockSectorBreakdownApiVO
-                let dataList = []
-                Object.keys(item).forEach(key => {
-                    dataList.push({
-                        name: this.i18n[key],
-                        percent: +Number(item[key]).toFixed(2),
-                        a: '1'
-                    })
-                })
-                // 降序排序
-                dataList = dataList.sort((a, b) => {
-                    return b.percent - a.percent
-                })
-                this.globalStockSectorBreakdownApiVOList = dataList
+                const item1 = this.investmentData
+                    .globalStockSectorBreakdownApiVO
+                const item2 = this.investmentData.assetAllocationBreakdownApiVO
+                const item3 = this.investmentData.countryDataApiVOList
+                const item4 = this.investmentData.globalBondSectorsRawApiVO
+                const item5 = this.investmentData.creditQualityBreakdownVO
+                this.globalStockSectorBreakdownApiVOList = this.sortList(
+                    item1,
+                    'object'
+                )
+                this.assetAllocationBreakdownApiVOList = this.sortList(
+                    item2,
+                    'object'
+                )
+                this.countryDataApiVOList = this.sortList(
+                    item3,
+                    'countryDataApiVOList'
+                )
+                this.globalBondSectorsRawApiVOList = this.sortList(
+                    item4,
+                    'object'
+                )
+                this.creditQualityBreakdownVOList = this.sortList(
+                    item5,
+                    'object'
+                )
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -241,5 +272,8 @@ export default {
             padding-top: 14px;
         }
     }
+}
+.yx-no-list {
+    padding-bottom: 10px;
 }
 </style>
