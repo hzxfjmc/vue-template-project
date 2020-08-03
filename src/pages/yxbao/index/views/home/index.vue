@@ -217,6 +217,7 @@ export default {
             hidePadShow: true,
             hideTabs: false,
             chooseCurrencyShow: false,
+            refresh: false,
             currencyTab: 0,
             fundId: '',
             tenThousandApy: '',
@@ -226,6 +227,7 @@ export default {
         }
     },
     async created() {
+        LS.put('refresh', false)
         this.getFundUserInfo()
         this.bannerAdvertisement()
         await this.getBaoFundInfo()
@@ -365,23 +367,27 @@ export default {
             let url = `${window.location.origin}/wealth/yxbao/index.html#/yxbao-details?id=${fundId}&displayLocation=3`
             jumpUrl(3, url)
         },
-        async appVisibleHandle(data) {
-            let refresh = LS.get('refresh')
-            let re = data
-            if (typeof data === 'string') {
-                re = JSON.parse(data)
-            }
-            if (re.data.status !== 'visible') {
-                return
-            }
-            await this.$store.dispatch('initAction')
-            if (refresh) {
-                this.baoPositionList = []
-                await this.getBaoPostionV2()
-                await this.getBaoFundList()
-                LS.put('refresh', false)
-            }
-            this.getFundUserInfo()
+        appVisibleHandle(data) {
+            setTimeout(async () => {
+                this.refresh = LS.get('refresh')
+                console.log('refresh======>', this.refresh)
+                let re = data
+                if (typeof data === 'string') {
+                    re = JSON.parse(data)
+                }
+                if (re.data.status !== 'visible') {
+                    return
+                }
+                await this.$store.dispatch('initAction')
+                if (this.refresh) {
+                    this.baoPositionList = []
+                    await this.getBaoPostionV2()
+                    await this.getBaoFundList()
+                    LS.put('refresh', false)
+                    this.refresh = false
+                }
+                this.getFundUserInfo()
+            }, 0)
         },
         //获取现金+持仓
         async getBaoPostionV2() {

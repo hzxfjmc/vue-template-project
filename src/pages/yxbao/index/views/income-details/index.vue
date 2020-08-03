@@ -174,7 +174,7 @@ export default {
             finishedText: '无更多内容',
             currency: '',
             moneyTypeText: 'moneyType',
-            fundId: '',
+            fundId: this.$route.query.id,
             fundName: '',
             baoPositionList: []
         }
