@@ -4,40 +4,40 @@ export default {
             i18n: {
                 basicMaterials: this.$t([
                     '基础材料',
-                    '基础材料',
+                    '基礎材料',
                     'Basic Materials'
                 ]),
                 communicationServices: this.$t([
                     '通信服务',
-                    '通信服务',
+                    '通信服務',
                     'Communication Services'
                 ]),
                 consumerCyclical: this.$t([
                     '周期性消费',
-                    '周期性消费',
+                    '週期性消費',
                     'Consumer Cyclical'
                 ]),
                 consumerDefensive: this.$t([
                     '非周期性消费',
-                    '非周期性消费',
+                    '非週期性消費',
                     'Consumer Defensive'
                 ]),
-                healthCare: this.$t(['医疗保健', '医疗保健', 'Healthcare']),
-                industry: this.$t(['工业', '工业', 'Industrials']),
+                healthCare: this.$t(['医疗保健', '醫療保健', 'Healthcare']),
+                industry: this.$t(['工业', '工業', 'Industrials']),
                 energy: this.$t(['能源', '能源', 'Energy']),
                 financialServices: this.$t([
                     '金融服务',
-                    '金融服务',
+                    '金融服務',
                     'Financial Services'
                 ]),
-                realEstate: this.$t(['房地产', '房地产', 'Real Estate']),
+                realEstate: this.$t(['房地产', '房地產', 'Real Estate']),
                 technology: this.$t(['科技', '科技', 'Technology']),
-                utilities: this.$t(['公用事业', '公用事业', 'Utilities']),
-                bondNet: this.$t(['债券', '债券', 'BondNet']),
-                cashNet: this.$t(['现金', '现金', 'cashNet']),
-                convertibleNet: this.$t(['可转债', '可转债', 'ConvertibleNet']),
+                utilities: this.$t(['公用事业', '公用事業', 'Utilities']),
+                bondNet: this.$t(['债券', '債券', 'BondNet']),
+                cashNet: this.$t(['现金', '現金', 'cashNet']),
+                convertibleNet: this.$t(['可转债', '可轉債', 'ConvertibleNet']),
                 otherNet: this.$t(['其他', '其他', 'OtherNet']),
-                preferredNet: this.$t(['优先股', '优先股', 'PreferredNet']),
+                preferredNet: this.$t(['优先股', '優先股', 'PreferredNet']),
                 stockNet: this.$t(['股票', '股票', 'StockNet']),
                 superSectorCashandEquivalentsNet: this.$t([
                     '现金及现金等价物',
