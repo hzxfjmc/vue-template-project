@@ -161,61 +161,6 @@ export default {
             color: #666;
             font-size: 12px;
         }
-        .content__item-percentage {
-            height: 200px;
-            overflow: hidden;
-            padding-bottom: 10px;
-            transition: all 0.3s ease-out;
-            &.more {
-                height: 400px;
-            }
-        }
-        .content__item-btn {
-            display: flex;
-            padding-bottom: 20px;
-            justify-content: center;
-            align-items: center;
-            font-size: 12px;
-            color: #666;
-            .label {
-                padding-right: 6px;
-            }
-            .iconfont {
-                transition: all 0.3s ease-out;
-            }
-            .icon-iconxiala.more {
-                transform: rotate(180deg);
-            }
-        }
-        .percentage-item {
-            padding: 5px 0;
-            .item-top {
-                display: flex;
-                justify-content: space-between;
-                font-size: 12px;
-            }
-            .item-top__value {
-                font-size: 14px;
-                font-weight: 500;
-            }
-            .item-line {
-                width: 50%;
-                height: 9px;
-                transition: all 0.3s ease-out;
-                &.bg-0 {
-                    background-color: #1d41a5;
-                }
-                &.bg-1 {
-                    background-color: #0d50d8;
-                }
-                &.bg-2 {
-                    background-color: #2f79ff;
-                }
-                &.bg-3 {
-                    background-color: #249cff;
-                }
-            }
-        }
     }
 }
 </style>

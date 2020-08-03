@@ -1,7 +1,7 @@
 <template lang="pug">
     .fund-colunm__content 
         .content__item  
-                .content__item-title {{$t(['重仓债券','重倉債券','Heavyweight Bond'])}} ({{allPercent}}%）    
+                .content__item-title {{$t(['十大持仓','十大持倉','Top 10 Weightings'])}} ({{allPercent}}%）    
                 .content__item-sub-title
                     .sub-title__item 
                         span {{$t(['名称','名稱','Name'])}}
@@ -184,6 +184,11 @@ export default {
                 display: flex;
                 justify-content: space-between;
                 font-size: 12px;
+            }
+            .item-top__label {
+                width: 85%;
+                overflow: hidden;
+                text-overflow: ellipsis;
             }
             .item-top__value {
                 font-size: 14px;
