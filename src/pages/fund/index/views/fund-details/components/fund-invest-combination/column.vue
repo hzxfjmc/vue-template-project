@@ -3,18 +3,18 @@
         .fund-colunm__header
             .col-left
                 .iconfont.icon-icon_collect
-                .title 投资组合 
+                .title {{$t(['投资组合','投資組合','Portfolio'])}} 
             .col-right(@click="handleGoDetail")
-                span.title 持仓数据、行业分布
+                span.title {{$t(['查看更多','查看更多','More'])}}
                 span.iconfont.icon-iconEBgengduoCopy    
         .fund-colunm__content
             .content__item  
-                .content__item-title 行业分布    
+                .content__item-title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}    
                 .content__item-sub-title
                     .sub-title__item 
-                        span 规模
+                        span {{$t(['规模','规模','Scale'])}}
                         span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
-                    .sub-title__item 更新时间 ：{{investmentData.updateTime}}  
+                    .sub-title__item {{$t(['数据更新时间','數據更新時間','As of'])}} ：{{investmentData.updateTime}}  
                 .content__item-chart   
                     ChartPie(
                         v-if="globalStockSectorBreakdownList.length"

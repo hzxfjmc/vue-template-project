@@ -1,11 +1,11 @@
 <template lang="pug">
     .fund-colunm__content 
         .content__item  
-                .content__item-title 十大持仓（{{allPercent}}%）    
+                .content__item-title {{$t(['重仓债券','重倉債券','Heavyweight Bond'])}} ({{allPercent}}%）    
                 .content__item-sub-title
                     .sub-title__item 
-                        span 名称
-                    .sub-title__item 占比 
+                        span {{$t(['名称','名稱','Name'])}}
+                    .sub-title__item {{$t(['占比','佔比','Ratio'])}} 
                 .content__item-percentage(:class="{'more':showMore}")
                     .percentage-item(v-for="item,index in holdingsList" :key="item.name")
                         .item-top
@@ -15,7 +15,7 @@
                             :class="index<3?`bg-${index}`:'bg-3'" 
                             :style="{width:`${item.width}%`}")
                 .content__item-btn(@click="handleShowMore")
-                    span.label {{showMore ? '收起':'展开更多'}}
+                    span.label {{showMore ? $t(['收起','收起','Less']):$t(['展开更多','展開更多','More'])}}
                     span.iconfont.icon-iconxiala(:class="{'more':showMore}")                     
 </template>
 <script>
