@@ -190,14 +190,9 @@ import {
 
 import { getFundTotalPosition } from '@/service/finance-server'
 import { CURRENCY_NAME } from '@/pages/fund/index/map'
-import {
-    transNumToThousandMark,
-    jumpUrl,
-    debounce,
-    compareVersion
-} from '@/utils/tools.js'
+import { transNumToThousandMark, jumpUrl, debounce } from '@/utils/tools.js'
 import { bannerAdvertisement } from '@/service/news-configserver.js'
-import { getStockColorType, getUaValue } from '@/utils/html-utils.js'
+import { getStockColorType } from '@/utils/html-utils.js'
 import jsBridge from '@/utils/js-bridge'
 import LS from '@/utils/local-storage'
 import { mapGetters } from 'vuex'
@@ -229,13 +224,7 @@ export default {
         stockColorType() {
             return +getStockColorType()
         },
-        ...mapGetters([
-            'appType',
-            'lang',
-            'isLogin',
-            'openedAccount',
-            'appVersion'
-        ]),
+        ...mapGetters(['appType', 'lang', 'isLogin', 'openedAccount']),
         h2Style() {
             // 名称字体变化策略
             let fundName = this.currentPostion.fundPositionAmount || ''
@@ -725,48 +714,9 @@ export default {
         toDeclareAgreement() {
             let url = `${window.location.origin}/wealth/fund/index.html#/declare-agreement`
             this.openWebView(url)
-        },
-        // 4.70 版本之前设置客服按钮 之后设置搜素按钮
-        compareVersionSearch() {
-            const appVersion = getUaValue('appVersion')
-            const flag = compareVersion(appVersion, '4.7.0')
-            if (flag === 1) {
-                this.searchButtonShow = true
-            }
-        },
-        //设置搜索按钮
-        setSearchButton() {
-            if (jsBridge.isYouxinApp) {
-                jsBridge.callApp('command_set_titlebar_button', {
-                    position: 2, //position取值1、2
-                    clickCallback: 'clickSearchCallBack',
-                    type: 'icon',
-                    icon: 'search'
-                })
-            }
-        },
-        //设置客服按钮
-        setTitleBarCSButton() {
-            if (jsBridge.isYouxinApp) {
-                jsBridge.registerFn('GOTO_CUSTOMER_SERVICE', function() {
-                    jsBridge.gotoCustomerService()
-                })
-                jsBridge.callApp('command_set_titlebar_button', {
-                    position: 2,
-                    type: 'icon',
-                    icon: 'service',
-                    clickCallback: 'GOTO_CUSTOMER_SERVICE'
-                })
-            }
         }
     },
     async created() {
-        this.compareVersionSearch()
-        if (this.searchButtonShow) {
-            this.setSearchButton()
-        } else {
-            this.setTitleBarCSButton()
-        }
         this.getBaoFundInfo()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')

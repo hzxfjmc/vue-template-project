@@ -35,6 +35,10 @@ import { wechatShare } from '@/utils/share/wechat.js'
 import { jsBridge, uSmartInit, htmlUtils, DOMAIN } from 'yx-base-h5'
 
 const { isYouxinIos, isYouxinApp, appType, setTitle } = htmlUtils
+
+import { getUaValue } from '@/utils/html-utils.js'
+
+import { compareVersion } from '@/utils/tools.js'
 // 友信证券初始化方法
 
 // import { isYouxinIos, isYouxinApp, appType, setTitle } from '../html-utils.js'
@@ -114,18 +118,6 @@ const setShareButton = async function() {
     }
 }
 
-// 清除分享按钮
-const clearShareButton = function() {
-    if (isYouxinApp) {
-        jsBridge.callApp('command_set_titlebar_button', {
-            position: 1,
-            clickCallback: '',
-            type: 'hide',
-            custom_icon: ''
-        })
-    }
-}
-
 // 设置客服按钮
 const setTitleBarCSButton = function() {
     if (isYouxinApp) {
@@ -141,8 +133,8 @@ const setTitleBarCSButton = function() {
     }
 }
 
-// 清除客服按钮
-const clearTitleBarCSButton = function() {
+// 清除按钮
+const clearTitleBarButton = function() {
     if (isYouxinApp) {
         jsBridge.callApp('command_set_titlebar_button', {
             type: 'hide',
@@ -153,6 +145,24 @@ const clearTitleBarCSButton = function() {
     }
 }
 
+// 4.7.0 之前设置客服按钮 之后设置搜索按钮
+const compareVersionSearch = function() {
+    const appVersion = getUaValue('appVersion')
+    const flag = compareVersion(appVersion, '4.7.0')
+    return flag === 1 ? true : false
+}
+
+// 设置搜索按钮
+const setSearchButton = function() {
+    if (isYouxinApp) {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 2,
+            type: 'icon',
+            icon: 'search',
+            clickCallback: 'clickSearchCallBack'
+        })
+    }
+}
 Vue.mixin({
     mixins: [
         {
@@ -182,11 +192,16 @@ Vue.mixin({
                         }
                     }
                     vm.$setTitle(title)
+
                     if (to.meta.cs) {
                         setTitleBarCSButton()
                     }
                     if (to.meta.share) {
                         setShareButton()
+                    }
+                    const searchButtonShow = compareVersionSearch()
+                    if (to.meta.search && searchButtonShow) {
+                        setSearchButton()
                     }
 
                     // 自定义分享内容
@@ -212,11 +227,8 @@ Vue.mixin({
                 })
             },
             beforeRouteLeave(to, from, next) {
-                if (from.meta.cs) {
-                    clearTitleBarCSButton()
-                }
-                if (from.meta.share) {
-                    clearShareButton()
+                if (from.meta.cs || from.meta.search || from.meta.share) {
+                    clearTitleBarButton()
                 }
                 next()
             },
