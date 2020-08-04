@@ -1,7 +1,7 @@
 <template lang="pug">
     .fund-colunm__content 
         .content__item  
-                .content__item-title {{$t(['十大持仓','十大持倉','Top 10 Weightings'])}} ({{allPercent}}%）    
+                .content__item-title {{$t(['十大持仓','十大持倉','TOP 10 Holdings'])}} ({{allPercent}}%）    
                 .content__item-sub-title(v-if="holdingsList.length")
                     .sub-title__item 
                         span {{$t(['名称','名稱','Name'])}}
