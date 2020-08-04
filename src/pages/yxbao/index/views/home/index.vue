@@ -404,7 +404,6 @@ export default {
                     )
                 })
                 if (sortedList.length) {
-                    this.fundId = sortedList[0].fundId
                     this.baoPositionList = sortedList
                     this.baoFundIdlist = sortedList.map(item => item.fundId)
                 }
@@ -420,10 +419,6 @@ export default {
         async getBaoFundList() {
             try {
                 const res = await getBaoFundList()
-                // 基金七日年化收益从高到底排序
-                if (this.baoPositionList.length === 0) {
-                    this.fundId = res[0].fundId
-                }
                 //没有持仓过的基金列表
                 let noPositionList = res.filter(item => {
                     return this.baoFundIdlist.indexOf(item.fundId) === -1
@@ -455,6 +450,7 @@ export default {
                     baoPositionList1,
                     baoPositionList2
                 )
+                this.fundId = this.baoPositionList[0].fundId
                 this.baoPositionList.forEach(item => {
                     this.$set(item, 'showMore', false)
                 })
