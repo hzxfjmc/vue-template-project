@@ -44,10 +44,12 @@ import { getFundListV2 } from '@/service/finance-info-server.js'
 import Card from './components/fund-card/index.vue'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
 // import { gotoNewWebView } from '@/utils/js-bridge.js'
-import { jumpUrl, debounce } from '@/utils/tools.js'
+import { jumpUrl, debounce, compareVersion } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage'
 import { getSource } from '@/service/customer-relationship-server'
+import { getUaValue } from '@/utils/html-utils.js'
+import jsBridge from '@/utils/js-bridge'
 export default {
     i18n: {
         zhCHS: {
@@ -84,9 +86,18 @@ export default {
         FundHeaderTitle
     },
     created() {
+        this.compareVersionSearch()
+        if (this.searchButtonShow) {
+            this.setSearchButton()
+        } else {
+            this.setTitleBarCSButton()
+        }
         this.assetType = this.$route.query.type
         this.currency = this.$route.query.currency
         this.getFundListV2()
+        window.clickSearchCallBack = () => {
+            jsBridge.gotoNativeModule('yxzq_goto://search')
+        }
     },
     data() {
         return {
@@ -119,7 +130,8 @@ export default {
             assetType: '',
             code: 0,
             assetTypetab: '',
-            bannarTitleUrl: null
+            bannarTitleUrl: null,
+            searchButtonShow: false
         }
     },
     mounted() {
@@ -269,6 +281,39 @@ export default {
         initI18nState() {
             for (let key in this.currencyList) {
                 this.currencyList[key].label = this.$t(key)
+            }
+        },
+        // 4.70 版本之前设置客服按钮 之后设置搜素按钮
+        compareVersionSearch() {
+            const appVersion = getUaValue('appVersion')
+            const flag = compareVersion(appVersion, '4.7.0')
+            if (flag === 1) {
+                this.searchButtonShow = true
+            }
+        },
+        //设置搜索按钮
+        setSearchButton() {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.callApp('command_set_titlebar_button', {
+                    position: 2, //position取值1、2
+                    clickCallback: 'clickSearchCallBack',
+                    type: 'icon',
+                    icon: 'search'
+                })
+            }
+        },
+        //设置客服按钮
+        setTitleBarCSButton() {
+            if (jsBridge.isYouxinApp) {
+                jsBridge.registerFn('GOTO_CUSTOMER_SERVICE', function() {
+                    jsBridge.gotoCustomerService()
+                })
+                jsBridge.callApp('command_set_titlebar_button', {
+                    position: 2,
+                    type: 'icon',
+                    icon: 'service',
+                    clickCallback: 'GOTO_CUSTOMER_SERVICE'
+                })
             }
         }
     }

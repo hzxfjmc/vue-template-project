@@ -1514,7 +1514,6 @@ export default {
         window.appVisible = debounce(this.appVisibleHandle, 100)
         //app点击分享按钮回调
         window.clickShareCallback = async () => {
-            console.log(123)
             let langMun = {
                 zhCHS: 1,
                 zhCHT: 2,
