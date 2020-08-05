@@ -145,11 +145,11 @@ const clearTitleBarButton = function() {
     }
 }
 
-// 4.7.0 之前设置客服按钮 之后设置搜索按钮
+// app版本4.9.0 之前设置客服按钮 之后设置搜索按钮
 const compareVersionSearch = function() {
     const appVersion = getUaValue('appVersion')
-    const flag = compareVersion(appVersion, '4.7.0')
-    return flag === 1 ? true : false
+    const flag = compareVersion(appVersion, '4.9.0')
+    return flag !== -1 ? true : false
 }
 
 // 设置搜索按钮
