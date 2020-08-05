@@ -34,7 +34,7 @@
                     :info="item"
                     :assetType="assetType"
                     :currency="currency"
-                    @click.native="goNext(item.fundId, item.fundName)")
+                    @click.native="goNext(item.fundId, item.fundName || item.title)")
         .no-bond-box(v-if="load")
             .no-bond {{ $t('noFund') }}
 </template>

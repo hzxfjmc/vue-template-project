@@ -175,7 +175,7 @@ export default {
                 window.location.origin
             }/wealth/fund/index.html#/fund-details?id=${
                 item.fundId
-            }&name=${encodeURIComponent(item.fundName)}`
+            }&name=${encodeURIComponent(item.title)}`
             debounce(gotoNewWebView(url), 300)
         }
     }
