@@ -92,6 +92,7 @@ export default {
             ],
             isNotStop: true,
             fundId: '',
+            fundIdName: '',
             fixedPlanStatus: 1, //定投状态 1：有效 2 暂停 3 终止
             isShowDialog: false,
             dialogTitle: '',
@@ -208,6 +209,7 @@ export default {
                 this.fundHeaderInfoVO = fundHeaderInfoVO
                 this.fundTradeInfoVO = fundTradeInfoVO
                 this.fundId = this.fundHeaderInfoVO.fundId
+                this.fundName = this.fundHeaderInfoVO.fundName
                 let marketTypeEMUN = {
                     1: 3, //美股市场
                     2: 2, //港股市场
@@ -222,7 +224,7 @@ export default {
             }
         },
         toFundDetailHandle() {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.fundId}`
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.fundId}&name=${this.fundName}`
             jumpUrl(3, url)
         },
         // 点击tab

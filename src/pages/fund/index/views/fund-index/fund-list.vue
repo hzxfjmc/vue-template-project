@@ -171,7 +171,7 @@ export default {
         //     chart.render()
         // },
         goNext(item) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}`
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}&name=${item.fundName}`
             debounce(gotoNewWebView(url), 300)
         }
     }
