@@ -154,13 +154,16 @@ const compareVersionSearch = function() {
 
 // 设置搜索按钮
 const setSearchButton = function() {
-    if (isYouxinApp) {
+    const searchButtonShow = compareVersionSearch()
+    if (isYouxinApp && searchButtonShow) {
         jsBridge.callApp('command_set_titlebar_button', {
             position: 2,
             type: 'icon',
             icon: 'search',
             clickCallback: 'clickSearchCallBack'
         })
+    } else {
+        setTitleBarCSButton()
     }
 }
 Vue.mixin({
@@ -199,8 +202,7 @@ Vue.mixin({
                     if (to.meta.share) {
                         setShareButton()
                     }
-                    const searchButtonShow = compareVersionSearch()
-                    if (to.meta.search && searchButtonShow) {
+                    if (to.meta.search) {
                         setSearchButton()
                     }
 
