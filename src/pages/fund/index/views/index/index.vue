@@ -242,7 +242,11 @@ export default {
             }
         },
         goNext(fundId, name) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}&name=${name}`
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/fund-details?id=${fundId}&name=${encodeURIComponent(
+                name
+            )}`
             debounce(jumpUrl(3, url), 300)
         },
         changeBannarTitle() {

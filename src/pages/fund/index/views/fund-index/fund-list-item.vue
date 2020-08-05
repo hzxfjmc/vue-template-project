@@ -144,7 +144,11 @@ export default {
             chart.render()
         },
         goNext(item) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${item.fundId}&name=${item.fundName}`
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/fund-details?id=${
+                item.fundId
+            }&name=${encodeURIComponent(item.fundName)}`
             debounce(gotoNewWebView(url), 300)
         }
     }

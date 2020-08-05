@@ -224,7 +224,11 @@ export default {
             }
         },
         toFundDetailHandle() {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${this.fundId}&name=${this.fundName}`
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/fund-details?id=${
+                this.fundId
+            }&name=${encodeURIComponent(this.fundName)}`
             jumpUrl(3, url)
         },
         // 点击tab

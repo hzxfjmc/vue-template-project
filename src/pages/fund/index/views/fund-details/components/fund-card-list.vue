@@ -79,7 +79,11 @@ export default {
     },
     methods: {
         goNext(fundId, fundName) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}&name=${fundName}`
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/fund-details?id=${fundId}&name=${encodeURIComponent(
+                fundName
+            )}`
             jumpUrl(3, url)
         }
     }
