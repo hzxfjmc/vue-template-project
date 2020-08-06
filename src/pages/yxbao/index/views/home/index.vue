@@ -10,7 +10,9 @@ div(:class="bem()")
                             :class="[hidePadShow?'icon-icon-eye':'icon-icon-eye-hide']")
                     .block__element
                         .element__num(v-if="hidePadShow")
-                            p.bottom {{currentPostion.positionAmount|transNumToThousandMark}}
+                            p.bottom(
+                                :class="{'small-font': currentPostion.positionAmount > 999999}"
+                            ) {{currentPostion.positionAmount|transNumToThousandMark}}
                         .element__num(v-else)
                             p.bottom ****
                         .element__select
@@ -685,6 +687,9 @@ export default {
         line-height: 43px;
         &.num {
             font-size: 16px;
+        }
+        &.small-font {
+            font-size: 28px;
         }
     }
     .iconfont {
