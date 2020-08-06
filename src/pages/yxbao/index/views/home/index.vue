@@ -367,27 +367,19 @@ export default {
             let url = `${window.location.origin}/wealth/yxbao/index.html#/yxbao-details?id=${fundId}&displayLocation=3`
             jumpUrl(3, url)
         },
-        appVisibleHandle(data) {
-            setTimeout(async () => {
-                this.refresh = LS.get('refresh')
-                console.log('refresh======>', this.refresh)
-                let re = data
-                if (typeof data === 'string') {
-                    re = JSON.parse(data)
-                }
-                if (re.data.status !== 'visible') {
-                    return
-                }
-                await this.$store.dispatch('initAction')
-                if (this.refresh) {
-                    this.baoPositionList = []
-                    await this.getBaoPostionV2()
-                    await this.getBaoFundList()
-                    LS.put('refresh', false)
-                    this.refresh = false
-                }
-                this.getFundUserInfo()
-            }, 0)
+        async appVisibleHandle(data) {
+            let re = data
+            if (typeof data === 'string') {
+                re = JSON.parse(data)
+            }
+            if (re.data.status !== 'visible') {
+                return
+            }
+            await this.$store.dispatch('initAction')
+            this.baoPositionList = []
+            await this.getBaoPostionV2()
+            await this.getBaoFundList()
+            this.getFundUserInfo()
         },
         //获取现金+持仓
         async getBaoPostionV2() {
@@ -528,7 +520,7 @@ export default {
     background-color: $background-color;
     box-shadow: 0px 0px 4px 0px $text-color8;
     color: rgba(0, 0, 0, 0.5);
-    font-size: 14px;
+    font-size: 12px;
     .block__item {
         display: flex;
         flex-direction: row;

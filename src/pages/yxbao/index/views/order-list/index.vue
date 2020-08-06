@@ -458,7 +458,7 @@ export default {
     }
 }
 .van-popup {
-    border-radius: 0px 0px 20px 20px;
+    border-radius: 0px 0px 10px 10px;
 }
 .block-type__list {
     margin: 0 12px;
