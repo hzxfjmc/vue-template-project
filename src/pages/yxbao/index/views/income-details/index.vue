@@ -19,10 +19,16 @@
                 ) {{totalEarnings|transNumToThousandMark}}
         hr(v-if="isSingle")
         .block__top(v-if="!isSingle")
-            .block__left(@click="moneyTypeShow = true")
+            .block__left(
+                @click="moneyTypeClick"
+                :class="{active: moneyTypeShow}"
+            )
                 span {{$t(moneyTypeText)}}
                 span.iconfont.icon-pulldown_icon
-            .block__right(@click="fundListShow = true")
+            .block__right(
+                @click="fundListClick"
+                :class="{active: fundListShow}"
+            )
                 span.ellipse(v-if="fundName") {{fundName}}
                 span.text(v-else) {{$t('allFund')}}
                 span.iconfont.icon-pulldown_icon
@@ -288,6 +294,14 @@ export default {
             this.pageNum = 1
             this.finished = false
             this.getBaoCapitalTradeListV2()
+        },
+        moneyTypeClick() {
+            this.moneyTypeShow = !this.moneyTypeShow
+            this.fundListShow = false
+        },
+        fundListClick() {
+            this.fundListShow = !this.fundListShow
+            this.moneyTypeShow = false
         }
     }
 }
@@ -328,6 +342,9 @@ export default {
     .iconfont {
         font-size: 10px;
         padding-left: 10px;
+    }
+    .active {
+        color: #2f79ff;
     }
 }
 .block-type__list {

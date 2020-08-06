@@ -1,10 +1,16 @@
 <template lang="pug">
 .income-details-content
     .block__top(v-if="!isSingle")
-        .block__left(@click="moneyTypeShow = true")
+        .block__left(
+            @click="moneyTypeClick"
+            :class="{active: moneyTypeShow}"
+        )
             span {{moneyTypeText}}
             span.iconfont.icon-pulldown_icon
-        .block__right(@click="typeListShow = true")
+        .block__right(
+            @click="typeListClick"
+            :class="{active: typeListShow}"
+        )
             span.ellipse(v-if="recordTypeName") {{recordTypeName}}
             span.text(v-else) {{$t('allType')}}
             span.iconfont.icon-pulldown_icon
@@ -164,59 +170,6 @@ export default {
                 this.getBaoCapitalTradeListV2()
             }
         },
-        // filterRecoderType() {
-        //     switch (this.recordType) {
-        //         case 0:
-        //             this.recordTypeList = this.list
-        //             break
-        //         case 1:
-        //             this.recordTypeList = this.list.filter(item => {
-        //                 return item.recordType === 1
-        //             })
-        //             break
-        //         case 2:
-        //             this.recordTypeList = this.list.filter(item => {
-        //                 return item.outType === 1
-        //             })
-        //             break
-        //         case 3:
-        //             this.recordTypeList = this.list.filter(item => {
-        //                 return item.outType === 2
-        //             })
-        //             break
-        //         case 4:
-        //             this.recordTypeList = this.list.filter(item => {
-        //                 return item.recordType === 3
-        //             })
-        //     }
-        // },
-        // filterMoneyType() {
-        //     if (!this.currency) {
-        //         this.moneyTypeList = this.list
-        //     } else {
-        //         this.moneyTypeList = this.list.filter(item => {
-        //             return item.currency === this.currency
-        //         })
-        //     }
-        // },
-        // comFilterAction() {
-        //     if (!this.currency && !this.recordType) {
-        //         this.filterList = this.list
-        //     } else if (!this.currency) {
-        //         this.filterRecoderType()
-        //         this.filterList = this.recordTypeList
-        //     } else if (!this.recordType) {
-        //         this.filterMoneyType()
-        //         this.filterList = this.moneyTypeList
-        //     } else {
-        //         this.filterRecoderType()
-        //         this.filterMoneyType()
-        //         this.filterList = this.moneyTypeList.filter(item => {
-        //             return this.recordTypeList.indexOf(item) !== -1
-        //         })
-        //     }
-        //     this.noMoreShow = this.filterList.length === 0
-        // },
         async getBaoCapitalTradeListV2() {
             try {
                 let params = {
@@ -315,6 +268,14 @@ export default {
         handleClick() {
             this.typeListShow = false
             this.setFilterButton()
+        },
+        moneyTypeClick() {
+            this.moneyTypeShow = !this.moneyTypeShow
+            this.typeListShow = false
+        },
+        typeListClick() {
+            this.typeListShow = !this.typeListShow
+            this.moneyTypeShow = false
         }
     },
     computed: {
@@ -423,6 +384,9 @@ export default {
     .iconfont {
         font-size: 10px;
         padding-left: 10px;
+    }
+    .active {
+        color: #2f79ff;
     }
 }
 .not-single {
