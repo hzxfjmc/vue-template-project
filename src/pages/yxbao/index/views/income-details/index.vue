@@ -191,31 +191,6 @@ export default {
                 this.getBaoCapitalTradeListV2()
             }
         },
-        // 订单筛选
-        // filterListAction() {
-        //     if (!this.fundId && !this.currency) {
-        //         this.filterList = this.list
-        //     } else if (!this.fundId) {
-        //         this.filterList = this.list.filter(item => {
-        //             return item.currency === this.currency
-        //         })
-        //     } else if (!this.currency) {
-        //         this.filterList = this.list.filter(item => {
-        //             return item.fundId === this.fundId
-        //         })
-        //     } else {
-        //         this.filterList = this.list.filter(item => {
-        //             return (
-        //                 item.fundId === this.fundId &&
-        //                 item.currency === this.currency
-        //             )
-        //         })
-        //     }
-        //     this.noMoreShow = this.filterList.length === 0
-        //     if (this.filterList.length === 0) {
-        //         this.finishedText = ''
-        //     }
-        // },
         // 获取持仓基金list
         async getBaoPostionV2() {
             try {
@@ -291,6 +266,7 @@ export default {
         //选择币种
         chooseMoneyType(item) {
             this.moneyTypeShow = false
+            this.fundListShow = false
             if (this.currency === item.currency) return
             this.currency = item.currency
             this.moneyTypeText = item.key
@@ -302,6 +278,7 @@ export default {
         },
         // 选择基金
         chooseFund(item) {
+            this.moneyTypeShow = false
             this.fundListShow = false
             if (this.fundId === item.fundId) return
             this.fundId = item.fundId
@@ -336,7 +313,7 @@ export default {
     width: 100%;
     position: fixed;
     height: 40px;
-    z-index: 1001;
+    z-index: 3000;
     background: #fff;
     display: flex;
     justify-content: space-around;
