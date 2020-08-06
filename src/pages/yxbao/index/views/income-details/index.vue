@@ -408,6 +408,10 @@ hr {
         margin: 10px 0 0 0;
     }
 }
+.van-popup {
+    top: 40px;
+    border-radius: 0px 0px 10px 10px;
+}
 .number-red {
     color: #ea3d3d;
 }

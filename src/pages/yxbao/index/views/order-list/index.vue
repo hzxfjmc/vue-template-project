@@ -75,6 +75,7 @@
                     p(v-if="currency === item.currency")
                         span.iconfont.icon-tick-
     van-popup(
+        :class="{'no-top': isSingle}"
         v-model="typeListShow"
         position="top"
         @click-overlay="handleClick"
@@ -275,6 +276,7 @@ export default {
             }
         },
         chooseMoneyType(item) {
+            this.typeListShow = false
             this.moneyTypeShow = false
             if (this.currency === item.currency) return
             this.currency = item.currency
@@ -287,9 +289,8 @@ export default {
         },
         chooseRecoderType(item) {
             this.typeListShow = false
-            if (this.isSingle) {
-                this.setFilterButton()
-            }
+            this.moneyTypeShow = false
+            this.setFilterButton()
             this.outType = item.outType
             this.recordType = item.recordType
             this.recordTypeName = this.$t(item.key)
@@ -300,7 +301,7 @@ export default {
             this.getBaoCapitalTradeListV2()
         },
         setFilterButton() {
-            if (isYouxinApp) {
+            if (isYouxinApp && this.isSingle) {
                 jsBridge.callApp('command_set_titlebar_button', {
                     position: 2, //position取值1、2
                     clickCallback: 'clickFilterCallback',
@@ -313,9 +314,7 @@ export default {
         },
         handleClick() {
             this.typeListShow = false
-            if (this.isSingle) {
-                this.setFilterButton()
-            }
+            this.setFilterButton()
         }
     },
     computed: {
@@ -458,7 +457,11 @@ export default {
     }
 }
 .van-popup {
+    top: 40px;
     border-radius: 0px 0px 10px 10px;
+    &.no-top {
+        top: 0;
+    }
 }
 .block-type__list {
     margin: 0 12px;
