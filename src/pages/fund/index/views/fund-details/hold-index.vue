@@ -1713,7 +1713,7 @@ export default {
         background: #ffbf32;
     }
     .fund-buy {
-        background: #2f79ff;
+        background: $primary-color;
     }
     .fund-no {
         background: rgba(25, 25, 25, 0.2);
