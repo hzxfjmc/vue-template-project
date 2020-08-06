@@ -984,7 +984,7 @@ export default {
         background: #0d50d8;
     }
     .btn-color-r {
-        background: #ff744a;
+        background: #ffbf32;
     }
 }
 </style>
