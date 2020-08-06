@@ -981,10 +981,10 @@ export default {
         border: 0;
     }
     .btn-color-l {
-        background: #0d50d8;
+        background: #ffbf32;
     }
     .btn-color-r {
-        background: #ffbf32;
+        background: #0d50d8;
     }
 }
 </style>
