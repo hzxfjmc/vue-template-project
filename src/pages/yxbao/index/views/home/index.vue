@@ -35,11 +35,11 @@ div(:class="bem()")
                     p.top {{$t('C4')}}
                     .block__container
                         p.bottom.num(
-                            v-if="hidePadShow && currentPostion.yesterdayEarnings<=0"
-                        ) {{currentPostion.yesterdayEarnings|transNumToThousandMark}}
-                        p.bottom.num(
-                            v-else-if="hidePadShow && currentPostion.yesterdayEarnings>0"
+                            v-if="hidePadShow && currentPostion.yesterdayEarnings>0"
                         ) +{{currentPostion.yesterdayEarnings|transNumToThousandMark}}
+                        p.bottom.num(
+                            v-else-if="hidePadShow"
+                        ) {{currentPostion.yesterdayEarnings|transNumToThousandMark}}
                         p.bottom.num(v-else) ****
             template(v-if="fundId")
                 div(

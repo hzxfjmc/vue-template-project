@@ -295,7 +295,6 @@ export default {
                                 this.fundTradeInfoVO.initialInvestAmount
                             ).toFixed(2)}`
                         ]),
-
                         'middle'
                     )
                 if (this.amount > this.withdrawBalance) {
