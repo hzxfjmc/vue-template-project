@@ -68,7 +68,7 @@
                     ) +{{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.num(
                         v-else
-                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                     ) {{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD' : 'HKD'}}
     .block-element-nomore(v-if="noMoreShow")

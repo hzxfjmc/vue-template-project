@@ -12,7 +12,7 @@
                 ) +{{totalEarnings|transNumToThousandMark}}
                 .bottom(
                     v-else-if="totalEarnings<0"
-                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
                 ) {{totalEarnings|transNumToThousandMark}}
                 .bottom(
                     v-else
