@@ -48,6 +48,7 @@ import { jumpUrl, debounce } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage'
 import { getSource } from '@/service/customer-relationship-server'
+import jsBridge from '@/utils/js-bridge'
 export default {
     i18n: {
         zhCHS: {
@@ -87,6 +88,9 @@ export default {
         this.assetType = this.$route.query.type
         this.currency = this.$route.query.currency
         this.getFundListV2()
+        window.clickSearchCallBack = () => {
+            jsBridge.gotoNativeModule('yxzq_goto://search')
+        }
     },
     data() {
         return {
@@ -119,7 +123,8 @@ export default {
             assetType: '',
             code: 0,
             assetTypetab: '',
-            bannarTitleUrl: null
+            bannarTitleUrl: null,
+            searchButtonShow: false
         }
     },
     mounted() {

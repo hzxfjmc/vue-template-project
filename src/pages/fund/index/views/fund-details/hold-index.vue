@@ -1710,10 +1710,10 @@ export default {
         width: 50%;
     }
     .fund-check {
-        background: $primary-color;
+        background: #ffbf32;
     }
     .fund-buy {
-        background: rgb(255, 191, 50);
+        background: $primary-color;
     }
     .fund-no {
         background: rgba(25, 25, 25, 0.2);

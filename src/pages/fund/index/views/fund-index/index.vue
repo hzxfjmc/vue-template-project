@@ -263,6 +263,7 @@ export default {
             choiceFundListShow: false,
             blueChipFundListShow: false,
             robustFundListShow: false,
+            searchButtonShow: false,
             tabList: [
                 {
                     imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
@@ -732,6 +733,9 @@ export default {
         this.getSource(false)
         if (this.isLogin) {
             this.getFundUserInfo()
+        }
+        window.clickSearchCallBack = () => {
+            jsBridge.gotoNativeModule('yxzq_goto://search')
         }
     }
 }
