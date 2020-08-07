@@ -66,7 +66,8 @@ div(:class="bem()")
     div(
         :class="bem('fund')"
         v-for="item in baoPositionList"
-        )
+        :key="item"
+    )
         div(:class="bem('fund-name')") {{item.fundName}}(
             span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
         div(:class="bem('fund-card')")
@@ -378,7 +379,6 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            this.baoPositionList = []
             await this.getBaoPostionV2()
             await this.getBaoFundList()
             this.getFundUserInfo()

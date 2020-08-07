@@ -44,6 +44,7 @@
     .block__footer--loading(v-if="loading")
         Loading(type="spinner" color="#2F79FF")
     van-popup(
+        :class="{'bottom': isPhoneX}"
         v-model="showFundList"
         position="bottom"
         :closeable="true"
@@ -126,6 +127,12 @@ export default {
     computed: {
         isUSDCurrency() {
             return this.currencyType == 1
+        },
+        isPhoneX() {
+            return (
+                /iphone/gi.test(window.navigator.userAgent) &&
+                window.screen.height >= 812
+            )
         }
     },
     methods: {
@@ -462,6 +469,11 @@ export default {
                 color: #28c478;
             }
         }
+    }
+}
+.van-popup {
+    &.bottom {
+        padding-bottom: 10px;
     }
 }
 .block__footer--loading {

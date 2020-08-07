@@ -63,6 +63,7 @@
             Loading(type="spinner" color="#2F79FF")
 
     van-popup(
+        :class="{'bottom': isPhoneX}"
         v-model="showFundList"
         position="bottom"
     )   
@@ -134,6 +135,12 @@ export default {
                 return '0.00'
             }
             return (this.amount - this.HandlingFee).toFixed(2)
+        },
+        isPhoneX() {
+            return (
+                /iphone/gi.test(window.navigator.userAgent) &&
+                window.screen.height >= 812
+            )
         }
     },
     data() {
@@ -594,6 +601,9 @@ h1 {
             }
         }
     }
+}
+.van-popup {
+    padding-bottom: 10px;
 }
 .block__footer--loading {
     position: fixed;
