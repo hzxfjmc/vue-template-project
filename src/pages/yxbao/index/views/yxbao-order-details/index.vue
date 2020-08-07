@@ -55,7 +55,6 @@ import dayjs from 'dayjs'
 import { transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
-import { LS } from 'yx-base-h5'
 export default {
     computed: {
         ...mapGetters(['lang']),
@@ -116,8 +115,6 @@ export default {
         }
     },
     created() {
-        LS.put('refresh', true)
-        console.log('refresh=======>', LS.get('refresh'))
         this.InitState()
         this.$nextTick(() => {
             let title =

@@ -34,7 +34,7 @@
                 .block__order--right
                     p {{item.recordTypeName}}
                     p.num(
-                        v-if="item.recordType === 1 || item.recordType === 3"
+                        v-if="item.recordType === 1"
                     ) +{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
                     p.num(
                         v-else-if="item.recordType === 2"

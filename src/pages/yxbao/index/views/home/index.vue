@@ -220,7 +220,6 @@ export default {
             hidePadShow: true,
             hideTabs: false,
             chooseCurrencyShow: false,
-            refresh: false,
             currencyTab: 0,
             fundId: '',
             tenThousandApy: '',
@@ -230,7 +229,6 @@ export default {
         }
     },
     async created() {
-        LS.put('refresh', false)
         this.getFundUserInfo()
         this.bannerAdvertisement()
         await this.getBaoFundInfo()
@@ -379,7 +377,6 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            this.baoPositionList = []
             await this.getBaoPostionV2()
             await this.getBaoFundList()
             this.getFundUserInfo()
@@ -401,6 +398,8 @@ export default {
                 if (sortedList.length) {
                     this.baoPositionList = sortedList
                     this.baoFundIdlist = sortedList.map(item => item.fundId)
+                } else {
+                    this.baoPositionList = []
                 }
                 this.hkSummary = hkSummary
                 this.usSummary = usSummary
