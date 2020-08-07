@@ -53,7 +53,7 @@
                                         v-for="item of filelist") 
                                         .list-item(@click="toJumpLink(item)")
                                             p {{item.fileName}}
-                                            span {{item.createTime}}
+                                            span {{item.publishDate}}
                                             img(:src="item.ImgSrc")
 
                             .no-bond-box(v-else)
