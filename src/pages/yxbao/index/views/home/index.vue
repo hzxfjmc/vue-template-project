@@ -66,7 +66,7 @@ div(:class="bem()")
     div(
         :class="bem('fund')"
         v-for="item in baoPositionList"
-        :key="item"
+        :key="item.availableBaoBalance"
     )
         div(:class="bem('fund-name')") {{item.fundName}}(
             span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
