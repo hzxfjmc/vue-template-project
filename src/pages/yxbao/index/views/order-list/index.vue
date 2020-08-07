@@ -31,7 +31,7 @@
                     p.title.ellipse {{item.fundName}}(
                         span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                     p.color {{item.createTime}}
-                .block__order--right
+                .block__order--right(v-if="item.recordType != 3")
                     p {{item.recordTypeName}}
                     p.num(
                         v-if="item.recordType === 1"
@@ -40,6 +40,14 @@
                         v-else-if="item.recordType === 2"
                     ) -{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
                     p.num(v-else) {{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                .block__order--right(v-else)
+                    p {{item.recordTypeName}}
+                    p.num(
+                        v-if="item.recordAmount>0"
+                    ) +{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    p.num(
+                        v-else
+                    ) {{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
             .block__order--list(v-else)
                 .block__order--left
                     p.title {{item.recordTypeName}}
