@@ -379,6 +379,7 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
+            this.baoPositionList = []
             await this.getBaoPostionV2()
             await this.getBaoFundList()
             this.getFundUserInfo()
