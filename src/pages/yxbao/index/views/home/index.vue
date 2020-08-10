@@ -377,8 +377,10 @@ export default {
                 return
             }
             await this.$store.dispatch('initAction')
-            await this.getBaoPostionV2()
-            await this.getBaoFundList()
+            if (this.isLogin) {
+                await this.getBaoPostionV2()
+                await this.getBaoFundList()
+            }
             this.getFundUserInfo()
         },
         //获取现金+持仓
