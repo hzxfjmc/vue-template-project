@@ -35,10 +35,10 @@
                     p {{item.recordTypeName}}
                     p.num(
                         v-if="item.recordType === 1"
-                    ) +{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    ) +{{item.recordAmount | transNumToThousandMark}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
                     p.num(
                         v-else-if="item.recordType === 2"
-                    ) -{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    ) -{{item.recordAmount | transNumToThousandMark}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
                     p.num(v-else) {{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
                 .block__order--right(v-else)
                     p {{item.recordTypeName}}
@@ -55,22 +55,21 @@
                 .block__order--right(v-if="item.recordType != 3")
                     p.num(
                         v-if="item.recordType === 1"
-                    ) +{{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
+                    ) +{{item.recordAmount | transNumToThousandMark}}{{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.num(
                         v-else-if="item.recordType === 2"
                     ) -{{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
-                    p.num(v-else) {{item.recordAmount}} {{item.currency === 1 ? 'USD' : 'HKD'}}
+                    p.num(v-else) {{item.recordAmount | transNumToThousandMark}} {{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD' : 'HKD'}}
                 .block__order--right(v-else)
                     p.num(
                         v-if="item.recordAmount>0"
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    ) +{{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
+                    ) +{{item.recordAmount}}
                     p.num(
                         v-else
                         :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    ) {{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
-                    p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD' : 'HKD'}}
+                    ) {{item.recordAmount}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/yxbao/data.png") 
         .no-record-box {{$t('nomore')}}
@@ -110,6 +109,7 @@ import { List, Popup } from 'vant'
 import { isYouxinApp } from '../../../../../utils/html-utils'
 import { jsBridge } from 'yx-base-h5'
 import { getStockColorType } from '@/utils/html-utils.js'
+import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
         [List.name]: List,
@@ -157,6 +157,11 @@ export default {
             loading: false,
             finished: false,
             finishedText: '无更多内容'
+        }
+    },
+    filters: {
+        transNumToThousandMark(value) {
+            return transNumToThousandMark(value)
         }
     },
     methods: {

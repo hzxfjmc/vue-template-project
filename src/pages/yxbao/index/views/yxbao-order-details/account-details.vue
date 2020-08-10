@@ -16,7 +16,7 @@
             p {{$t('C23')}}
             p {{orderDetails.recordAmount}}{{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}}
     .block__status--step
-        .block__fund-name
+        .block__fund-name(v-if="successHide")
             p {{$t('fundName')}}
             p {{orderDetails.fundName}}(
                 span {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}})

@@ -283,12 +283,12 @@ export default {
                             `最低轉入${Number(
                                 this.fundTradeInfoVO.initialInvestAmount
                             ).toFixed(2)}${
-                                this.fundTradeInfoVO.currency.type === 2
+                                this.fundTradeInfoVO.currency.type === 1
                                     ? '美元'
                                     : '港幣'
                             }`,
                             `Mini. Subs ${
-                                this.fundTradeInfoVO.currency.type === 2
+                                this.fundTradeInfoVO.currency.type === 1
                                     ? 'USD'
                                     : 'HKD'
                             } ${Number(
@@ -472,7 +472,7 @@ export default {
 }
 .van-popup {
     &.bottom {
-        padding-bottom: 10px;
+        margin-bottom: 20px;
     }
 }
 .block__footer--loading {

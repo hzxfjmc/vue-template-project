@@ -603,7 +603,9 @@ h1 {
     }
 }
 .van-popup {
-    padding-bottom: 10px;
+    &.bottom {
+        margin-bottom: 20px;
+    }
 }
 .block__footer--loading {
     position: fixed;

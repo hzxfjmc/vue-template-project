@@ -107,6 +107,17 @@ div(:class="bem()")
                 v-if="item.showMore"
                 :class="{'around': !showOrderList }"
             )
+                .item__list(
+                    @click="goToFundDetails(item.fundId)"
+                )
+                    .fund__icon.four
+                    p {{$t('C90')}}
+                .item__list(
+                    v-if="showOrderList"
+                    @click="jumpPage('order-list',1, item.fundId)"
+                    )
+                    .fund__icon.three
+                    p {{$t('orderList')}}
                 .item__list(@click="jumpPageIntoOut('fund-subscribe',1, item.fundId)")
                     .fund__icon.one
                     p {{$t('C9')}}
@@ -116,17 +127,6 @@ div(:class="bem()")
                     )
                     .fund__icon.two
                     p {{$t('C8')}}
-                .item__list(
-                    v-if="showOrderList"
-                    @click="jumpPage('order-list',1, item.fundId)"
-                    )
-                    .fund__icon.three
-                    p {{$t('orderList')}}
-                .item__list(
-                    @click="goToFundDetails(item.fundId)"
-                )
-                    .fund__icon.four
-                    p {{$t('C90')}}
             .block_more 
                 span.iconfont(
                     :class="[item.showMore ? 'icon-icon-top' : 'icon-icon-bottom']"
