@@ -17,7 +17,6 @@
                 .bottom(
                     v-else
                 ) {{totalEarnings|transNumToThousandMark}}
-        hr(v-if="isSingle")
         .block__top(v-if="!isSingle")
             .block__left(
                 @click="moneyTypeClick"
@@ -34,7 +33,7 @@
                 span.iconfont.icon-pulldown_icon
         van-list.order-record-list(
             v-model="loading"
-            :class="{'not-single': !isSingle}"
+            :class="[isSingle ? 'single' : 'not-single']"
             :finished="finished" 
             :finished-text="finishedText" 
             @load="onLoad")
@@ -308,16 +307,23 @@ export default {
 </script>
 <style lang="scss" scoped>
 .block__header--wrapper {
+    position: fixed;
+    width: 100%;
+    background: #fff;
     padding: 20px 12px 14px 12px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-bottom: 6px solid rgba(25, 25, 25, 0.05);
     .top {
         color: $text-color6;
     }
     .bottom {
         font-family: yxFontDINPro-Medium;
         font-size: 28px;
+    }
+    .block__right {
+        text-align: right;
     }
     .block__amount {
         color: #ff5431;
@@ -362,12 +368,8 @@ export default {
         color: #2f79ff;
     }
 }
-hr {
-    height: 6px;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: rgba(25, 25, 25, 0.05);
+.single {
+    margin-top: 100px;
 }
 .not-single {
     margin-top: 30px;

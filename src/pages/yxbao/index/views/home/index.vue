@@ -118,21 +118,24 @@ div(:class="bem()")
                     )
                     .fund__icon.three
                     p {{$t('orderList')}}
-                .item__list(@click="jumpPageIntoOut('fund-subscribe',1, item.fundId)")
-                    .fund__icon.one
-                    p {{$t('C9')}}
                 .item__list(
                     v-if="showTransfer && item.availableBaoBalance>0"
                     @click="jumpPageIntoOut('transfer-out',1, item.fundId)"
                     )
                     .fund__icon.two
                     p {{$t('C8')}}
+                .item__list(@click="jumpPageIntoOut('fund-subscribe',1, item.fundId)")
+                    .fund__icon.one
+                    p {{$t('C9')}}
             .block_more 
                 span.iconfont(
                     :class="[item.showMore ? 'icon-icon-top' : 'icon-icon-bottom']"
                     @click="item.showMore = !item.showMore"
                     )
-    .block__swiper.block-bannar-swiper(v-if="banner_list.length!==0")
+    .block__swiper.block-bannar-swiper(
+        v-if="banner_list.length!==0"
+        :class="{'bottom' : isPhoneX}"
+    )
         van-swipe(:autoplay="3000")  
             van-swipe-item(
                 v-for="(item, index) in banner_list" 
@@ -173,6 +176,12 @@ export default {
         },
         showOrderList() {
             return this.isLogin && this.openedAccount
+        },
+        isPhoneX() {
+            return (
+                /iphone/gi.test(window.navigator.userAgent) &&
+                window.screen.height >= 812
+            )
         }
     },
     i18n: {
@@ -597,9 +606,9 @@ export default {
             background-image: url('~@/assets/img/yxbao/icon/cash_transfer@2x.png');
         }
         &.three {
-            width: 21px;
-            height: 18px;
-            background-size: 21px 18px;
+            width: 23px;
+            height: 20px;
+            background-size: 23px 20px;
             background-image: url('~@/assets/img/yxbao/icon/cash_record@2x.png');
         }
         &.four {
@@ -789,6 +798,9 @@ export default {
     overflow: hidden;
     img {
         width: 100%;
+    }
+    &.bottom {
+        margin-bottom: 20px;
     }
 }
 </style>

@@ -62,14 +62,9 @@
                     p.num(v-else) {{item.recordAmount | transNumToThousandMark}} {{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD' : 'HKD'}}
                 .block__order--right(v-else)
-                    p.num(
-                        v-if="item.recordAmount>0"
-                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
-                    ) +{{item.recordAmount}}
-                    p.num(
-                        v-else
-                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                    ) {{item.recordAmount}}
+                    p.num(v-if="item.recordAmount>0") +{{item.recordAmount}}
+                    p.num(v-else) {{item.recordAmount}}
+                    p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD' : 'HKD'}}
     .block-element-nomore(v-if="noMoreShow")
         img.img(src="@/assets/img/yxbao/data.png") 
         .no-record-box {{$t('nomore')}}

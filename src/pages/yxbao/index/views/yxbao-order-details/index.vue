@@ -20,7 +20,7 @@
     .block__word--list.border-bottom(v-if="intoShow")
         .block__word--item
             p.word-color {{$t('fundName')}}
-            p {{orderDetails.fundName}}(
+            p.content.ellipse {{orderDetails.fundName}}(
                 span {{currencystr}})
         .block__word--item
             p.word-color {{$t('C30')}}
@@ -32,7 +32,7 @@
     .block__word--list.border-bottom(v-else)
         .block__word--item
             p.word-color {{$t('fundName')}}
-            p {{orderDetails.fundName}}(
+            p.content.ellipse {{orderDetails.fundName}}(
                 span {{currencystr}})
         .block__word--item
             p.word-color {{$t('C37')}}
@@ -260,6 +260,10 @@ export default {
         justify-content: space-between;
         .word-color {
             color: $text-color6;
+        }
+        .content {
+            width: 70%;
+            text-align: right;
         }
         .num {
             font-size: 16px;

@@ -28,7 +28,7 @@
         p.title {{$t('C30')}} 
         .tips 
             p.tips--top {{accountTypeStr}}
-            p.tips--bottom {{$t('C32')}}：{{Number(accountInfo.withdrawBalance).toFixed(2)}}{{currencyType === 1 ? $t('usd') : $t('hkd')}}
+            p.tips--bottom {{$t('C32')}}：{{accountInfo.withdrawBalance | transNumToThousandMark}}{{currencyType === 1 ? $t('usd') : $t('hkd')}}
     
     .block__footer--check
         em.iconfont(
@@ -472,7 +472,7 @@ export default {
 }
 .van-popup {
     &.bottom {
-        margin-bottom: 20px;
+        padding-bottom: 20px;
     }
 }
 .block__footer--loading {

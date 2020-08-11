@@ -7,7 +7,7 @@
     .block__account--list.border-bottom(v-if="!successHide")
         .block__account--item
             p {{$t('fundName')}}
-            p {{orderDetails.fundName}}(
+            p.content.ellipse {{orderDetails.fundName}}(
                 span {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}})
         .block__account--item
             p {{$t('C22')}}
@@ -18,7 +18,7 @@
     .block__status--step
         .block__fund-name(v-if="successHide")
             p {{$t('fundName')}}
-            p {{orderDetails.fundName}}(
+            p.content.ellipse {{orderDetails.fundName}}(
                 span {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}})
         transferStep(
             v-if="intoShow"
@@ -226,6 +226,10 @@ export default {
         color: $text-color6;
         justify-content: space-between;
     }
+}
+.content {
+    width: 70%;
+    text-align: right;
 }
 .block__status--step {
     padding: 14px 12px;
