@@ -34,7 +34,7 @@
                     :info="item"
                     :assetType="assetType"
                     :currency="currency"
-                    @click.native="goNext(item.fundId)")
+                    @click.native="goNext(item.fundId, item.fundName || item.title)")
         .no-bond-box(v-if="load")
             .no-bond {{ $t('noFund') }}
 </template>
@@ -246,8 +246,12 @@ export default {
                 console.log('getListFundInfo:error:>>>', e)
             }
         },
-        goNext(fundId) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+        goNext(fundId, name) {
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/fund-details?id=${fundId}&name=${encodeURIComponent(
+                name
+            )}`
             debounce(jumpUrl(3, url), 300)
         },
         changeBannarTitle() {

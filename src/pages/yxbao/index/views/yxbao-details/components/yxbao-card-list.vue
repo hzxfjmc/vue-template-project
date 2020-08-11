@@ -3,7 +3,7 @@
     .fund__list--title {{$t('more')}}
     .fund__list--content
         .fund__list--item(
-            @click="goNext(item.fundId)"
+            @click="goNext(item.fundId, item.fundName)"
             v-for="(item,index) in recommendList" 
             :key="item.fundId")
             .block__left
@@ -71,8 +71,12 @@ export default {
         }
     },
     methods: {
-        goNext(fundId) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/fund-details?id=${fundId}`
+        goNext(fundId, fundName) {
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/fund-details?id=${fundId}&name=${encodeURIComponent(
+                fundName
+            )}`
             jumpUrl(3, url)
         }
     }
