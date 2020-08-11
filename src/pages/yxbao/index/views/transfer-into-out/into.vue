@@ -81,6 +81,8 @@ import jsBridge from '@/utils/js-bridge.js'
 import { hsAccountInfo } from '@/service/stock-capital-server.js'
 import { Loading, Popup } from 'vant'
 import { getMarketValidFundAccount } from '@/service/user-account-server'
+import { getFundUserInfo } from '@/service/user-server.js'
+import { mapGetters } from 'vuex'
 export default {
     components: {
         NumberKeyboard,
@@ -98,6 +100,7 @@ export default {
                 withdrawBalance: ''
             },
             fundTradeInfoVO: {},
+            userInfo: {},
             currencyType: 0,
             desc: '',
             loading: true,
@@ -115,6 +118,7 @@ export default {
         }
     },
     async created() {
+        await this.getFundUserInfo()
         await this.getBaoFundList()
         await this.getFundDetail()
         this.handleHsAccountInfo()
@@ -125,6 +129,7 @@ export default {
         }
     },
     computed: {
+        ...mapGetters(['isLogin']),
         isUSDCurrency() {
             return this.currencyType == 1
         },
@@ -132,6 +137,11 @@ export default {
             return (
                 /iphone/gi.test(window.navigator.userAgent) &&
                 window.screen.height >= 812
+            )
+        },
+        isGrayAuthority() {
+            return (
+                this.userInfo && (this.userInfo.grayStatusBit & (1 << 3)) === 8
             )
         }
     },
@@ -152,6 +162,17 @@ export default {
                 assetProp === 'M'
                     ? this.$t('marginAccount', currencyStr)
                     : this.$t('cashAccount', currencyStr)
+        },
+        async getFundUserInfo() {
+            if (!this.isLogin) return
+            try {
+                const res = await getFundUserInfo()
+                this.userInfo = res
+                console.log(res)
+            } catch (e) {
+                this.$toast(e.msg)
+                console.log('getFundUserInfo:error:>>>', e)
+            }
         },
         async openProtocol(url) {
             url = await getCosUrl(url)
@@ -244,8 +265,11 @@ export default {
             try {
                 const res = await getBaoFundList()
                 // 基金七日年化收益从高到底排序
-                this.fundList = res.sort((pre, cur) => {
+                let fundList = res.sort((pre, cur) => {
                     return Number(cur.sevenDaysApy) - Number(pre.sevenDaysApy)
+                })
+                this.fundList = fundList.filter(item => {
+                    return this.isGrayAuthority || item.isin !== 'HK0000447943'
                 })
                 this.choosedFund = this.fundList.filter(item => {
                     return item.fundId === this.$route.query.id

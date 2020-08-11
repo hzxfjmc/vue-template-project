@@ -12,7 +12,7 @@ div(:class="bem()")
                         .element__num(v-if="hidePadShow")
                             p.bottom(
                                 :class="{'small-font': currentPostion.positionAmount > 999999}"
-                            ) {{currentPostion.positionAmount|transNumToThousandMark}}
+                            ) {{currentPostion.positionAmount | transNumToThousandMark}}
                         .element__num(v-else)
                             p.bottom ****
                         .element__select
@@ -36,10 +36,10 @@ div(:class="bem()")
                     .block__container
                         p.bottom.num(
                             v-if="hidePadShow && currentPostion.yesterdayEarnings>0"
-                        ) +{{currentPostion.yesterdayEarnings|transNumToThousandMark}}
+                        ) +{{currentPostion.yesterdayEarnings | transNumToThousandMark}}
                         p.bottom.num(
                             v-else-if="hidePadShow"
-                        ) {{currentPostion.yesterdayEarnings|transNumToThousandMark}}
+                        ) {{currentPostion.yesterdayEarnings | transNumToThousandMark}}
                         p.bottom.num(v-else) ****
             template(v-if="fundId")
                 div(
@@ -98,11 +98,11 @@ div(:class="bem()")
                     p.num(v-else) 0.00
                 .item__center
                     p {{$t('C6')}}
-                    p.num {{item.tenThousandApy|transNumToThousandMark}}
+                    p.num {{item.tenThousandApy | transNumToThousandMark}}
                 .item__right
                     p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
                         em.iconfont.icon-about_icon
-                    p.num {{item.sevenDayApy*100 |transNumToThousandMark}}%
+                    p.num {{item.sevenDayApy*100 | transNumToThousandMark}}%
             .block__item.tabs(
                 v-if="item.showMore"
                 :class="{'around': !showOrderList }"
@@ -181,6 +181,11 @@ export default {
             return (
                 /iphone/gi.test(window.navigator.userAgent) &&
                 window.screen.height >= 812
+            )
+        },
+        isGrayAuthority() {
+            return (
+                this.userInfo && (this.userInfo.grayStatusBit & (1 << 3)) === 8
             )
         }
     },
@@ -408,6 +413,9 @@ export default {
                 if (sortedList.length) {
                     this.baoPositionList = sortedList
                     this.baoFundIdlist = sortedList.map(item => item.fundId)
+                    this.baoPositionList.forEach(item => {
+                        this.$set(item, 'showMore', false)
+                    })
                 } else {
                     this.baoPositionList = []
                 }
@@ -425,10 +433,14 @@ export default {
                 const res = await getBaoFundList()
                 //没有持仓过的基金列表
                 let noPositionList = res.filter(item => {
-                    return this.baoFundIdlist.indexOf(item.fundId) === -1
+                    return (
+                        this.baoFundIdlist.indexOf(item.fundId) === -1 &&
+                        (this.isGrayAuthority || item.isin !== 'HK0000447943')
+                    )
                 })
                 noPositionList.forEach(item => {
                     item.sevenDayApy = item.sevenDaysApy
+                    this.$set(item, 'showMore', false)
                 })
                 let baoPositionList = this.baoPositionList.concat(
                     noPositionList
@@ -455,9 +467,6 @@ export default {
                     baoPositionList2
                 )
                 this.fundId = this.baoPositionList[0].fundId
-                this.baoPositionList.forEach(item => {
-                    this.$set(item, 'showMore', false)
-                })
             } catch (e) {
                 this.$toast(e.msg)
             }
