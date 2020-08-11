@@ -32,7 +32,7 @@ div(:class="bem()")
                                             @click="chooseCurrency(1)"
                                             :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
                 div(:class="bem('gain')")
-                    p.top {{$t('C4')}}
+                    p.top.ellipse {{$t('C4')}}
                     .block__container
                         p.bottom.num(
                             v-if="hidePadShow && currentPostion.yesterdayEarnings>0"
@@ -390,7 +390,6 @@ export default {
                 await this.getBaoPostionV2()
                 await this.getBaoFundList()
             }
-            this.getFundUserInfo()
         },
         //获取现金+持仓
         async getBaoPostionV2() {
@@ -688,6 +687,7 @@ export default {
     justify-content: space-between;
     font-size: 14px;
     .yx-yxbao__gain {
+        width: 20%;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
