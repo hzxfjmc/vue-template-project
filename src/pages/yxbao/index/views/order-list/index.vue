@@ -58,7 +58,7 @@
                     ) +{{item.recordAmount | transNumToThousandMark}}{{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.num(
                         v-else-if="item.recordType === 2"
-                    ) -{{item.recordAmount}}{{item.currency === 1 ? 'USD' : 'HKD'}}
+                    ) -{{item.recordAmount | transNumToThousandMark}}{{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.num(v-else) {{item.recordAmount | transNumToThousandMark}} {{item.currency === 1 ? 'USD' : 'HKD'}}
                     p.color {{$t('Balance')}} {{item.recordBalance}} {{item.currency === 1 ? 'USD' : 'HKD'}}
                 .block__order--right(v-else)
