@@ -244,6 +244,7 @@ export default {
             hideTabs: false,
             chooseCurrencyShow: false,
             flag: true,
+            noPosition: true,
             currencyTab: 0,
             fundId: '',
             tenThousandApy: '',
@@ -421,11 +422,10 @@ export default {
                     )
                 })
                 if (sortedList.length) {
+                    this.noPosition = false
                     this.baoPositionList = sortedList
                     this.baoFundIdlist = sortedList.map(item => item.fundId)
                     this.setShowMoreList()
-                } else {
-                    this.baoPositionList = []
                 }
                 this.hkSummary = hkSummary
                 this.usSummary = usSummary
@@ -438,6 +438,9 @@ export default {
         // 获取现金+列表
         async getBaoFundList() {
             try {
+                if (!this.flag && this.noPosition) {
+                    return
+                }
                 const res = await getBaoFundList()
                 //没有持仓过的基金列表
                 let noPositionList = res.filter(item => {
