@@ -134,7 +134,7 @@ div(:class="bem()")
             .block_more 
                 span.iconfont(
                     :class="[item.showMore ? 'icon-icon-top' : 'icon-icon-bottom']"
-                    @click="item.showMore = !item.showMore"
+                    @click="handleMoreClick(item.fundId)"
                     )
     .block__swiper.block-bannar-swiper(
         v-if="banner_list.length!==0"
@@ -233,6 +233,7 @@ export default {
             recommendList: [],
             baoPositionList: [],
             baoFundIdlist: [],
+            showMoreList: [],
             hkSummary: {},
             usSummary: {},
             currentPostion: {
@@ -242,6 +243,7 @@ export default {
             hidePadShow: true,
             hideTabs: false,
             chooseCurrencyShow: false,
+            flag: true,
             currencyTab: 0,
             fundId: '',
             tenThousandApy: '',
@@ -421,9 +423,7 @@ export default {
                 if (sortedList.length) {
                     this.baoPositionList = sortedList
                     this.baoFundIdlist = sortedList.map(item => item.fundId)
-                    this.baoPositionList.forEach(item => {
-                        this.$set(item, 'showMore', false)
-                    })
+                    this.setShowMoreList()
                 } else {
                     this.baoPositionList = []
                 }
@@ -448,7 +448,6 @@ export default {
                 })
                 noPositionList.forEach(item => {
                     item.sevenDayApy = item.sevenDaysApy
-                    this.$set(item, 'showMore', false)
                 })
                 let baoPositionList = this.baoPositionList.concat(
                     noPositionList
@@ -474,6 +473,16 @@ export default {
                     baoPositionList1,
                     baoPositionList2
                 )
+                if (this.flag) {
+                    this.baoPositionList.forEach(item => {
+                        this.showMoreList.push({
+                            fundId: item.fundId,
+                            showMore: false
+                        })
+                    })
+                }
+                this.flag = false
+                this.setShowMoreList()
                 this.fundId = this.baoPositionList[0].fundId
             } catch (e) {
                 this.$toast(e.msg)
@@ -525,6 +534,31 @@ export default {
             this.chooseCurrencyShow = false
             LS.put('activeTab', val)
             this.currencyTab = val
+        },
+        handleMoreClick(id) {
+            this.baoPositionList.forEach(item => {
+                if (item.fundId == id) {
+                    item.showMore = !item.showMore
+                }
+            })
+            this.showMoreList.forEach(item => {
+                if (item.fundId == id) {
+                    item.showMore = !item.showMore
+                }
+            })
+        },
+        setShowMoreList() {
+            this.baoPositionList.forEach(item => {
+                for (let i = 0; i < this.showMoreList.length; i++) {
+                    if (item.fundId == this.showMoreList[i].fundId) {
+                        this.$set(
+                            item,
+                            'showMore',
+                            this.showMoreList[i].showMore
+                        )
+                    }
+                }
+            })
         }
     }
 }
