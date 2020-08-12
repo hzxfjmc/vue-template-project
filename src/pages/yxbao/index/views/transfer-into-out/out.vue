@@ -26,7 +26,7 @@
                     p {{currencyType===1 ? $t('usd') : $t('hkd')}}
             .block__list--item.common-flex-space-between
                 .block__list--left {{$t('C23')}}
-                .block__list--right.expectedAmount {{actulAmount}}
+                .block__list--right.expectedAmount {{actulAmount}}{{currencyType===1 ? $t('usd') : $t('hkd')}}
 
     .block__out--title.common-flex-space-between.border-bottom.common-marge-top(@click="goTradeRule")
         h1 {{$t('C37')}}
@@ -76,7 +76,9 @@
             @click="chooseFund(item)"
         )
             .item__left
-                p.title.ellipse {{item.fundName}}(
+                p.title.ellipse(
+                    :class="{disabled: item.availableBaoBalance == 0}"
+                ) {{item.fundName}}(
                     span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                 p.content {{$t('C87')}}:
                     span.num {{item.availableBaoBalance | transNumToThousandMark}}
@@ -644,6 +646,9 @@ h1 {
     .title {
         font-size: 16px;
         color: $text-color;
+        &.disabled {
+            color: rgba(25, 25, 25, 0.5);
+        }
     }
     .num {
         padding-left: 4px;

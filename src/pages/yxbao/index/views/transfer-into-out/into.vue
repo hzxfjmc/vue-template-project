@@ -352,7 +352,7 @@ export default {
                 this.$close()
                 this.$router.push({
                     name: 'order-details',
-                    params: { data: res }
+                    params: { data: res, accountTypeStr: this.accountTypeStr }
                 })
             } catch (error) {
                 this.$close()

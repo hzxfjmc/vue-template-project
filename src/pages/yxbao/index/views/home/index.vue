@@ -184,9 +184,12 @@ export default {
             )
         },
         isGrayAuthority() {
-            return (
-                this.userInfo && (this.userInfo.grayStatusBit & (1 << 3)) === 8
-            )
+            let isWhiteUserBit = this.userInfo.grayStatusBit
+                .toString(2)
+                .split('')
+                .reverse()
+                .join('')[8]
+            return isWhiteUserBit == 1
         }
     },
     i18n: {

@@ -3,23 +3,27 @@
     .block__account--header.border-bottom
         p.title {{orderDetails.recordTypeName}}
         p.num {{orderDetails.recordAmount}}
-            em.money {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}}
+            em.money {{currencyStr}}
     .block__account--list.border-bottom(v-if="!successHide")
         .block__account--item
             p {{$t('fundName')}}
             p.content.ellipse {{orderDetails.fundName}}(
-                span {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}})
+                span {{currencyStr}})
         .block__account--item
             p {{$t('C22')}}
-            p {{orderDetails.recordFee}}{{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}}
+            p {{orderDetails.recordFee}}{{currencyStr}}
         .block__account--item
             p {{$t('C23')}}
-            p {{orderDetails.recordAmount}}{{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}}
+            p {{orderDetails.recordAmount - orderDetails.recordFee}}{{currencyStr}}
     .block__status--step
-        .block__fund-name(v-if="successHide")
-            p {{$t('fundName')}}
-            p.content.ellipse {{orderDetails.fundName}}(
-                span {{orderDetails.currency === 1 ? $t('usd') : $t('hkd')}})
+        .block__container.border-bottom
+            .block__fund-info(v-if="successHide")
+                p {{$t('fundName')}}
+                p.content.ellipse {{orderDetails.fundName}}(
+                    span {{currencyStr}})
+            .block__fund-info(v-if="intoShow")
+                p {{$t('C30')}}
+                p.content {{accountTypeStr}}
         transferStep(
             v-if="intoShow"
             :stepOne="intoStepOne"
@@ -36,16 +40,20 @@
 import transferStep from './transfer-step'
 import dayjs from 'dayjs'
 import { getBaoCapitalTradeDetails } from '@/service/finance-server.js'
+import { getMarketValidFundAccount } from '@/service/user-account-server'
 export default {
     components: {
         transferStep
     },
     data() {
         return {
-            intoShow: true,
+            intoShow: false,
             successHide: true,
             orderDetails: {},
             fundName: '',
+            accountTypeStr: '',
+            currency: '',
+            currencyStr: '',
             stepOne: {
                 label: '提交转出申请成功，可立即购买股票',
                 time: ''
@@ -68,7 +76,29 @@ export default {
     created() {
         this.getBaoCapitalTradeDetails()
     },
+    computed: {
+        isUSDCurrency() {
+            return this.currency == 1
+        }
+    },
     methods: {
+        async getAccountType() {
+            /*
+            ("0", "Cash Account", "现金账户")
+            ("M", "Margin Account", "保证金账户")
+            */
+            let { assetProp } = await getMarketValidFundAccount({
+                // 1 A股，2 港股，3 美股
+                marketType: this.isUSDCurrency ? 3 : 2
+            })
+            let currencyStr = this.isUSDCurrency
+                ? this.$t('usStock')
+                : this.$t('hkStock')
+            this.accountTypeStr =
+                assetProp === 'M'
+                    ? this.$t('marginAccount', currencyStr)
+                    : this.$t('cashAccount', currencyStr)
+        },
         //获取详情
         async getBaoCapitalTradeDetails() {
             try {
@@ -76,6 +106,10 @@ export default {
                     recordNo: this.$route.params.data.recordNo
                 })
                 this.orderDetails = res
+                this.currency = res.currency
+                this.currencyStr =
+                    this.currency == 1 ? this.$t('usd') : this.$t('hkd')
+                await this.getAccountType()
                 let outTypeName = this.$t([
                     '普通转出',
                     '普通轉出',
@@ -128,6 +162,7 @@ export default {
             ])
             //转入
             if (this.orderDetails.recordType === 1) {
+                this.intoShow = true
                 this.intoStepOne.time = dayjs(
                     this.orderDetails.createTime
                 ).format('YYYY-MM-DD HH:mm:ss')
@@ -141,7 +176,6 @@ export default {
             }
             //转出
             if (this.orderDetails.recordType === 2) {
-                this.intoShow = false
                 this.orderDetails.recordTypeName = this.$t('C18')
                 let desc =
                     this.orderDetails.outType == 1
@@ -232,11 +266,13 @@ export default {
     text-align: right;
 }
 .block__status--step {
-    padding: 14px 12px;
-    .block__fund-name {
+    .block__fund-info {
         display: flex;
         justify-content: space-between;
-        padding: 12px;
+        padding: 8px 24px;
+    }
+    .block__status--list {
+        margin: 14px 12px;
     }
 }
 </style>

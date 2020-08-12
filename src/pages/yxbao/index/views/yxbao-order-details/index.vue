@@ -24,7 +24,7 @@
                 span {{currencystr}})
         .block__word--item
             p.word-color {{$t('C30')}}
-            p {{$t('C31')}}
+            p {{accountTypeStr}}
         .block__word--item
             p.word-color {{$t('C27')}}
             p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{currencystr}}
@@ -39,7 +39,7 @@
             p {{orderDetails.recordTypeName}}
         .block__word--item
             p.word-color {{$t('Amounts')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{currencystr}}
+            p.num {{orderDetails.recordAmount - orderDetails.recordFee|transNumToThousandMark}}{{currencystr}}
 
         .block__word--item
             p.word-color {{$t('C22')}}
@@ -94,6 +94,7 @@ export default {
             intoShow: true,
             successHide: true,
             orderDetails: {},
+            accountTypeStr: '',
             fundName: '',
             stepOne: {
                 label: '提交转出申请成功，可立即购买股票',
@@ -141,6 +142,7 @@ export default {
         },
         InitState() {
             this.orderDetails = this.$route.params.data
+            this.accountTypeStr = this.$route.params.accountTypeStr
             let date =
                 this.orderDetails.recordType === 1
                     ? this.orderDetails.earningsDate

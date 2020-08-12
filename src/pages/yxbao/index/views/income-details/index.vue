@@ -85,7 +85,7 @@
             .block-type__list
                 .list__item(@click="chooseFund({fundId: '',fundName:''})")
                     p(
-                        :class="{active:fundId === ''}"
+                        :class="{active: fundId === ''}"
                     ) {{$t('allFund')}}
                     p(v-if="!fundId")
                         span.iconfont.icon-tick-
@@ -94,7 +94,7 @@
                     @click="chooseFund(item)"
                 )
                     p(
-                        :class="{active:fundId === item.fundId}"
+                        :class="{active: fundId === item.fundId}"
                     ) {{item.fundName}}(
                         span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                     p(v-if="fundId === item.fundId")
