@@ -443,7 +443,7 @@ export default {
                 let noPositionList = res.filter(item => {
                     return (
                         this.baoFundIdlist.indexOf(item.fundId) === -1 &&
-                        (this.isGrayAuthority || item.isin !== 'HK0000447943')
+                        (this.isGrayAuthority || item.isin !== 'HK0000584737')
                     )
                 })
                 noPositionList.forEach(item => {
