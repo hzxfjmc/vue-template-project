@@ -39,7 +39,7 @@
             p {{orderDetails.recordTypeName}}
         .block__word--item
             p.word-color {{$t('Amounts')}}
-            p.num {{orderDetails.recordAmount - orderDetails.recordFee|transNumToThousandMark}}{{currencystr}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{currencystr}}
 
         .block__word--item
             p.word-color {{$t('C22')}}

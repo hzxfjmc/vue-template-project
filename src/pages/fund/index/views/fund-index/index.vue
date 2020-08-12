@@ -253,14 +253,16 @@ export default {
         },
         //灰度白名单
         isGrayAuthority() {
-            let isWhiteUserBit = this.userInfo.grayStatusBit
-                ? this.userInfo.grayStatusBit
-                      .toString(2)
-                      .split('')
-                      .reverse()
-                      .join('')[8]
-                : 0
-            return isWhiteUserBit == 1
+            if (this.userInfo.grayStatusBit) {
+                let isWhiteUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[3]
+                return isWhiteUserBit == 1
+            } else {
+                return false
+            }
         }
     },
     data() {

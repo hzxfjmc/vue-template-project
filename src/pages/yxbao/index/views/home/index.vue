@@ -74,28 +74,32 @@ div(:class="bem()")
             .block__item(v-if="item.hkdPositionMarketValue > 0")
                 .item__left
                     p {{ item.currency === 1 ? $t('C89'): $t('C3')}}
-                    p.num {{ item.currency === 1 ? item.usdPositionMarketValue : item.hkdPositionMarketValue | transNumToThousandMark}}
+                    p.num(
+                        v-if="hidePadShow"
+                    ) {{ item.currency === 1 ? item.usdPositionMarketValue : item.hkdPositionMarketValue | transNumToThousandMark}}
+                    p.num(v-else) ****
                 .item__right
                     p {{$t('C4')}}
                     p.num(
-                        v-if="item.hkdYesterdayEarnings<=0"
+                        v-if="hidePadShow && item.hkdYesterdayEarnings<=0"
                         :class="{'green': item.hkdYesterdayEarnings < 0}"
                     ) {{ item.currency === 1 ?item.usdYesterdayEarnings : item.hkdYesterdayEarnings | transNumToThousandMark}}
                     p.num.red(
-                        v-else-if="item.hkdYesterdayEarnings>0"
+                        v-else-if="hidePadShow && item.hkdYesterdayEarnings>0"
                     ) +{{ item.currency === 1 ?item.usdYesterdayEarnings : item.hkdYesterdayEarnings | transNumToThousandMark}}
-                    p.num(v-else) 0.00
+                    p.num(v-else) ****
             .block__item
                 .item__left
                     p {{$t('C5')}}
                     p.num(
-                        v-if="item.hkdTotalEarnings<=0"
+                        v-if="hidePadShow && item.hkdTotalEarnings<=0"
                         :class="{'green': item.hkdTotalEarnings < 0}"
                     ) {{ item.currency === 1 ? item.usdTotalEarnings : item.hkdTotalEarnings | transNumToThousandMark}}
                     p.num.red(
-                        v-else-if="item.hkdTotalEarnings>0"
+                        v-else-if="hidePadShow && item.hkdTotalEarnings>0"
                     ) +{{ item.currency === 1 ? item.usdTotalEarnings : item.hkdTotalEarnings | transNumToThousandMark}}
-                    p.num(v-else) 0.00
+                    p.num(v-else-if="hidePadShow") 0.00
+                    p.num(v-else) ****
                 .item__center
                     p {{$t('C6')}}
                     p.num {{item.tenThousandApy | transNumToThousandMark}}
@@ -184,14 +188,16 @@ export default {
             )
         },
         isGrayAuthority() {
-            let isWhiteUserBit = this.userInfo.grayStatusBit
-                ? this.userInfo.grayStatusBit
-                      .toString(2)
-                      .split('')
-                      .reverse()
-                      .join('')[8]
-                : 0
-            return isWhiteUserBit == 1
+            if (this.userInfo.grayStatusBit) {
+                let isWhiteUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[3]
+                return isWhiteUserBit == 1
+            } else {
+                return false
+            }
         }
     },
     i18n: {
@@ -226,7 +232,6 @@ export default {
             banner_list: [],
             recommendList: [],
             baoPositionList: [],
-            fundList: [],
             baoFundIdlist: [],
             hkSummary: {},
             usSummary: {},
