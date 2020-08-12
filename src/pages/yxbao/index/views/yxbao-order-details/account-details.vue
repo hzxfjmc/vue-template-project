@@ -16,12 +16,12 @@
             p {{$t('C23')}}
             p {{orderDetails.recordAmount - orderDetails.recordFee}}{{currencyStr}}
     .block__status--step
-        .block__container.border-bottom
-            .block__fund-info(v-if="successHide")
+        .block__account--list.border-bottom(v-if="successHide")
+            .block__account--item
                 p {{$t('fundName')}}
                 p.content.ellipse {{orderDetails.fundName}}(
                     span {{currencyStr}})
-            .block__fund-info(v-if="intoShow")
+            .block__account--item(v-if="intoShow")
                 p {{$t('C30')}}
                 p.content {{accountTypeStr}}
         transferStep(
@@ -265,14 +265,8 @@ export default {
     width: 70%;
     text-align: right;
 }
-.block__status--step {
-    .block__fund-info {
-        display: flex;
-        justify-content: space-between;
-        padding: 8px 24px;
-    }
-    .block__status--list {
-        margin: 14px 12px;
-    }
+
+.block__status--list {
+    margin: 14px 12px;
 }
 </style>
