@@ -254,10 +254,12 @@ export default {
         //灰度白名单
         isGrayAuthority() {
             let isWhiteUserBit = this.userInfo.grayStatusBit
-                .toString(2)
-                .split('')
-                .reverse()
-                .join('')[8]
+                ? this.userInfo.grayStatusBit
+                      .toString(2)
+                      .split('')
+                      .reverse()
+                      .join('')[8]
+                : 0
             return isWhiteUserBit == 1
         }
     },
@@ -270,6 +272,7 @@ export default {
             barnnarUsList: [],
             tabbarnnarList: [],
             fundBarnnarList: [],
+            userInfo: {},
             usdSevenDaysApy: '',
             hkSevenDaysApy: '',
             chooseCurrencyShow: false,
