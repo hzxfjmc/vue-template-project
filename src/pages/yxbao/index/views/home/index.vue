@@ -102,7 +102,7 @@ div(:class="bem()")
                 .item__right
                     p(@click="yieldInLast7dClick") {{$t('yieldInLast7d')}}
                         em.iconfont.icon-about_icon
-                    p.num {{item.sevenDayApy*100 | transNumToThousandMark}}%
+                    p.num {{item.sevenDayApy*100 | transNumToThousandMark(4)}}%
             .block__item.tabs(
                 v-if="item.showMore"
                 :class="{'around': !showOrderList }"
@@ -214,9 +214,7 @@ export default {
     },
 
     filters: {
-        transNumToThousandMark(value) {
-            return transNumToThousandMark(value)
-        }
+        transNumToThousandMark: transNumToThousandMark
     },
     data() {
         return {

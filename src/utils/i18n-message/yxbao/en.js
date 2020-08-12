@@ -9,7 +9,7 @@ export const en = {
     C8: 'Redemption',
     C9: 'Subscribe',
     C10: 'Return Details',
-    C11: 'Earrings',
+    C11: 'Earnings',
     C12: 'Cash Flow',
     C13: 'Trading Rules',
     C14: 'About CASH +',

@@ -310,6 +310,7 @@ export default {
     position: fixed;
     width: 100%;
     background: #fff;
+    z-index: 2000;
     padding: 20px 12px 14px 12px;
     display: flex;
     flex-direction: row;
