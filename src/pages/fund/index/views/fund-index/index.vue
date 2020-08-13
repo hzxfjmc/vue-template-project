@@ -125,7 +125,7 @@ div
                             @click="yieldInLast7dClick"
                         ) {{$t('hkd')}} | {{$t('yieldInLast7d')}}
                             span.iconfont.icon-warning
-                    .left
+                    .left(v-if="isGrayAuthority")
                         .number(v-if="Number(usdSevenDaysApy)>0")  +{{usdSevenDaysApy}}%
                         .number(v-else ) {{usdSevenDaysApy}}%
                         p.block--bottom--desc(
