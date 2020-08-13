@@ -140,9 +140,16 @@ export default {
             )
         },
         isGrayAuthority() {
-            return (
-                this.userInfo && (this.userInfo.grayStatusBit & (1 << 3)) === 8
-            )
+            if (this.userInfo.grayStatusBit) {
+                let isWhiteUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[3]
+                return isWhiteUserBit == 1
+            } else {
+                return false
+            }
         }
     },
     methods: {
@@ -269,7 +276,7 @@ export default {
                     return Number(cur.sevenDaysApy) - Number(pre.sevenDaysApy)
                 })
                 this.fundList = fundList.filter(item => {
-                    return this.isGrayAuthority || item.isin !== 'HK0000447943'
+                    return this.isGrayAuthority || item.isin !== 'HK0000584737'
                 })
                 this.choosedFund = this.fundList.filter(item => {
                     return item.fundId === this.$route.query.id
