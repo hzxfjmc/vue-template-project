@@ -444,7 +444,10 @@ export default {
                 const res = await getBaoFundList()
                 //没有持仓过的基金列表
                 let noPositionList = res.filter(item => {
-                    return this.baoFundIdlist.indexOf(item.fundId) === -1
+                    return (
+                        this.baoFundIdlist.indexOf(item.fundId) === -1 &&
+                        (this.isGrayAuthority || item.isin !== 'HK0000584737')
+                    )
                 })
                 noPositionList.forEach(item => {
                     item.sevenDayApy = item.sevenDaysApy
