@@ -7,7 +7,7 @@
             p.weak {{$t('yieldInLast7d')}} 
                 span.num(
                     :class="{green: choosedFund[0].sevenDaysApy<0}"
-                ) {{choosedFund[0].sevenDaysApy*100 | transNumToThousandMark}}%
+                ) {{choosedFund[0].sevenDaysApy*100 | transNumToThousandMark(4)}}%
                 span.detail(@click="goToFundDetails(choosedFund[0].fundId)") {{$t('C90')}}
         .fund__more(@click="showFundList = true")
             p.more {{$t('moreFund')}}
@@ -63,7 +63,7 @@
                 p.weak {{$t('yieldInLast7d')}} 
                     span.num(
                         :class="{green: item.sevenDaysApy<0}"
-                    ) {{item.sevenDaysApy*100 | transNumToThousandMark}}%
+                    ) {{item.sevenDaysApy*100 | transNumToThousandMark(4)}}%
                     span.detail(@click="goToFundDetails(item.fundId)") {{$t('C90')}}
             .item__right(v-if="item.fundId === choosedFund[0].fundId")
                 span.iconfont.icon-tick-
@@ -124,9 +124,7 @@ export default {
         this.handleHsAccountInfo()
     },
     filters: {
-        transNumToThousandMark(value) {
-            return transNumToThousandMark(value)
-        }
+        transNumToThousandMark: transNumToThousandMark
     },
     computed: {
         ...mapGetters(['isLogin']),
