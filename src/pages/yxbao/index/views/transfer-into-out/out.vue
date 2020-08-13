@@ -1,9 +1,20 @@
 <template lang="pug">
 .block__element-wrapper
+    .block__out__fund
+        .fund__left(v-if="choosedFund.length")
+            p.title.ellipse {{choosedFund[0].fundName}}(
+                span {{currencyType===1 ? $t('usd') : $t('hkd')}})
+            p.content {{$t('C87')}}:
+                span.num {{choosedFund[0].availableBaoBalance | transNumToThousandMark}}
+                span.type {{currencyType === 1 ? $t('usd') : $t('hkd')}}
+        .fund__more(@click="showFundList = true")
+            p.more {{$t('moreFund')}}
+                span.iconfont.icon-iconEBgengduoCopy
     .block__out--header
         h1 {{$t('C88')}}
         NumberKeyboard(
             :placeholder="placeholder"
+            :currencyType="currencyType"
             :showAllSellBtn="showAllSellBtn"
             @handlerAmount="handlerAmount"
         )
@@ -12,10 +23,10 @@
                 .block__list--left {{$t('C22')}}
                 .block__list--right.common-flex-center
                     p.block__fee {{HandlingFee}}
-                    p ({{Number(fundTradeInfoVO.fastRedemptionFee*100).toFixed(2)}}%)
+                    p {{currencyType===1 ? $t('usd') : $t('hkd')}}
             .block__list--item.common-flex-space-between
                 .block__list--left {{$t('C23')}}
-                .block__list--right.expectedAmount {{actulAmount}}
+                .block__list--right.expectedAmount {{actulAmount}}{{currencyType===1 ? $t('usd') : $t('hkd')}}
 
     .block__out--title.common-flex-space-between.border-bottom.common-marge-top(@click="goTradeRule")
         h1 {{$t('C37')}}
@@ -28,10 +39,8 @@
             .right
                 p.sub-title {{$t('C18')}}
                 p.desc {{buyProfitLoss}}
-                    //- em {{fundTradeInfoVO.buyProfitLoss}}10:00
-                    //- em 点前到账，转出后可立即购买股票，无额度限制，期间正常享受收益
         .block__out--list(
-            v-if="fundTradeInfoVO.fastRedemptionFee != 0 && isWhiteUserBit"
+            v-if="fundTradeInfoVO.fastRedemptionFee !== 0 && isWhiteUserBit"
             @click="chooseType(2)")
             .left.iconfont(
                 :class="[check ?'icon-unchecked':'icon-icon-checkbox-selected']"
@@ -46,25 +55,54 @@
         span {{$t('agreement')}}
             em(@click="openProtocol(filePath)") 《{{ProtocolFile}}》
     van-button.btn(
-        @click="getBaoCapitalTrade") {{$t('C8')}}
+        @click="getBaoCapitalTrade"
+        :disabled="!checkInfo || this.availableBaoBalance === '0'"
+        ) {{$t('C8')}}
 
     .block__footer--loading(v-if="loading")
             Loading(type="spinner" color="#2F79FF")
 
+    van-popup(
+        :class="{'bottom': isPhoneX}"
+        v-model="showFundList"
+        position="bottom"
+    )   
+        .fund__top
+            .left {{$t('chooseFundTips')}}
+            .right(@click="showFundList = false") {{$t('C15')}}
+        .fund__list--item(
+            v-if="baoPositionList.length"
+            v-for="item in baoPositionList"
+            @click="chooseFund(item)"
+        )
+            .item__left
+                p.title.ellipse(
+                    :class="{disabled: item.availableBaoBalance == 0}"
+                ) {{item.fundName}}(
+                    span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
+                p.content {{$t('C87')}}:
+                    span.num {{item.availableBaoBalance | transNumToThousandMark}}
+                    span.type {{item.currency === 1 ? $t('usd') : $t('hkd')}}
+            .item__right(v-if="item.fundId === choosedFund[0].fundId")
+                span.iconfont.icon-tick-
 </template>
 <script>
 import NumberKeyboard from './number-keyboard'
-import { getBaoCapitalTrade, getBaoPostion } from '@/service/finance-server.js'
+import {
+    getBaoCapitalTrade,
+    getBaoPostionV2
+} from '@/service/finance-server.js'
 import { getFundDetail } from '@/service/finance-info-server.js'
 import { generateUUID, transNumToThousandMark } from '@/utils/tools.js'
 import jsBridge from '@/utils/js-bridge.js'
 import { getCosUrl } from '@/utils/cos-utils'
 import { getFundUserInfo } from '@/service/user-server.js'
-import { Loading } from 'vant'
+import { Loading, Popup } from 'vant'
 export default {
     components: {
         NumberKeyboard,
-        Loading
+        Loading,
+        [Popup.name]: Popup
     },
     computed: {
         HandlingFee() {
@@ -99,10 +137,27 @@ export default {
                 return '0.00'
             }
             return (this.amount - this.HandlingFee).toFixed(2)
+        },
+        isPhoneX() {
+            return (
+                /iphone/gi.test(window.navigator.userAgent) &&
+                window.screen.height >= 812
+            )
         }
     },
     data() {
         return {
+            baoPositionList: [],
+            choosedFund: [],
+            fundId: '',
+            currencyType: 0,
+            currencyText: '',
+            showFundList: false,
+            customerHkdDailyQuota: '',
+            customerHkdRemainderQuota: '',
+            customerUsdDailyQuota: '',
+            customerUsdRemainderQuota: '',
+            minFastRedemptionAmount: 0,
             loading: true,
             check: true,
             checkInfo: true,
@@ -111,14 +166,12 @@ export default {
             placeholder: '',
             showAllSellBtn: {
                 show: true,
-                desc: '全部转出',
+                desc: 'allOut',
                 maxAmount: ''
             },
             fundTradeInfoVO: {
                 fastRedemptionFee: 0
             },
-            customerRemainderQuota: '',
-            customerRemainderQuotaNum: '',
             positionMarketValue: '',
             availableBaoBalance: '',
             contentDesc: '',
@@ -130,9 +183,23 @@ export default {
         }
     },
     async created() {
-        await this.getBaoPostion()
-        this.getFundDetail()
+        await this.getBaoPostionV2()
+        await this.getFundDetail()
         this.getFundUserInfo()
+    },
+    filters: {
+        transNumToThousandMark(value) {
+            return transNumToThousandMark(value)
+        }
+    },
+    watch: {
+        minFastRedemptionAmount: function(val) {
+            if (Number(this.availableBaoBalance) >= Number(val)) {
+                this.showAllSellBtn.show = true
+            } else {
+                this.showAllSellBtn.show = false
+            }
+        }
     },
     methods: {
         async openProtocol(url) {
@@ -171,32 +238,27 @@ export default {
                 query: { id: this.$route.query.id, displayLocation: 3, tab: 1 }
             })
         },
-        async getBaoPostion() {
+        //获取现金+持仓
+        async getBaoPostionV2() {
             try {
                 const {
-                    customerRemainderQuota,
-                    customerDailyQuota,
-                    positionMarketValue,
-                    availableBaoBalance
-                } = await getBaoPostion({
-                    currency: 2
+                    baoPositionList,
+                    customerHkdDailyQuota,
+                    customerHkdRemainderQuota,
+                    customerUsdDailyQuota,
+                    customerUsdRemainderQuota
+                } = await getBaoPostionV2()
+                this.baoPositionList = baoPositionList
+                this.choosedFund = this.baoPositionList.filter(item => {
+                    return item.fundId === this.$route.query.id
                 })
-                this.positionMarketValue = positionMarketValue
-                this.availableBaoBalance = availableBaoBalance
-                this.showAllSellBtn.maxAmount = availableBaoBalance
-                this.placeholder = this.$t([
-                    `可转出${Number(availableBaoBalance).toFixed(2) || 0}港币`,
-                    `可轉出金額${Number(availableBaoBalance).toFixed(2) ||
-                        0}港幣`,
-                    `Transferable Amount HKD ${Number(
-                        availableBaoBalance
-                    ).toFixed(2) || 0}`
-                ])
-                this.customerDailyQuota = customerDailyQuota / 10000
-                this.customerRemainderQuotaNum = customerRemainderQuota
-                this.customerRemainderQuota = transNumToThousandMark(
-                    customerRemainderQuota
-                )
+                this.fundId = this.choosedFund[0].fundId
+                this.availableBaoBalance = this.choosedFund[0].availableBaoBalance
+                this.showAllSellBtn.maxAmount = this.availableBaoBalance
+                this.customerHkdDailyQuota = customerHkdDailyQuota / 10000
+                this.customerHkdRemainderQuota = customerHkdRemainderQuota
+                this.customerUsdDailyQuota = customerUsdDailyQuota / 10000
+                this.customerUsdRemainderQuota = customerUsdRemainderQuota
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -206,6 +268,25 @@ export default {
         },
         chooseType(type) {
             this.check = type === 1
+            this.minFastRedemptionAmount = this.check
+                ? this.fundTradeInfoVO.minTradeAmount
+                : this.fundTradeInfoVO.minFastRedemptionAmount
+            this.placeholder = `${this.$t('minTrade')}${transNumToThousandMark(
+                this.minFastRedemptionAmount
+            )}${this.currencyText}`
+        },
+        chooseFund(info) {
+            if (info.availableBaoBalance > 0) {
+                this.showFundList = false
+                if (this.fundId === info.fundId) return
+                this.fundId = info.fundId
+                this.choosedFund = this.baoPositionList.filter(item => {
+                    return info.fundId === item.fundId
+                })
+                this.availableBaoBalance = this.choosedFund[0].availableBaoBalance
+                this.showAllSellBtn.maxAmount = this.availableBaoBalance.toString()
+                this.getFundDetail()
+            }
         },
         async getFundDetail() {
             try {
@@ -214,36 +295,52 @@ export default {
                     buyProtocolFileList
                 } = await getFundDetail({
                     displayLocation: 3,
-                    fundId: this.$route.query.id || this.id
+                    fundId: this.fundId || this.$route.query.id
                 })
                 this.fundTradeInfoVO = fundTradeInfoVO
+                this.currencyType = fundTradeInfoVO.currency.type
+                let currencyText =
+                    this.currencyType === 1 ? this.$t('usd') : this.$t('hkd')
+                this.currencyText = currencyText
+                let customerDailyQuota =
+                    this.currencyType === 1
+                        ? this.customerUsdDailyQuota
+                        : this.customerHkdDailyQuota
+                let customerRemainderQuota =
+                    this.currencyType === 1
+                        ? this.customerUsdRemainderQuota
+                        : this.customerHkdRemainderQuota
                 this.contentDesc = this.$t([
                     `赎回资金立即到达证券账户，手续费${(
                         this.fundTradeInfoVO.fastRedemptionFee * 100
-                    ).toFixed(2)}%，每人每日限额${
-                        this.customerDailyQuota
-                    }万港币；您今日剩余额度：${
-                        this.customerRemainderQuota
-                    }港币`,
+                    ).toFixed(
+                        2
+                    )}%，每人每日限额${customerDailyQuota}万${currencyText}；您今日剩余额度：${customerRemainderQuota}${currencyText}`,
                     `贖回資金立即到達證券賬戶，手續費${(
                         this.fundTradeInfoVO.fastRedemptionFee * 100
-                    ).toFixed(2)}%，每人每日限額${
-                        this.customerDailyQuota
-                    }萬港幣；您今日剩餘額度：${
-                        this.customerRemainderQuota
-                    }港幣`,
+                    ).toFixed(
+                        2
+                    )}%，每人每日限額${customerDailyQuota}萬${currencyText}；您今日剩餘額度：${customerRemainderQuota}${currencyText}`,
                     `The funds will deposit to your account immediately, Handling Fee: ${(
                         this.fundTradeInfoVO.fastRedemptionFee * 100
-                    ).toFixed(2)}%, Limited: ${
-                        this.customerDailyQuota
-                    }HKD Every Day/ Per person; Your remaining amount: HKD ${
-                        this.customerRemainderQuota
-                    }.`
+                    ).toFixed(
+                        2
+                    )}%, Limited: ${customerDailyQuota}${currencyText} Every Day/ Per person; Your remaining amount: ${currencyText} ${customerRemainderQuota}.`
                 ])
-                this.ProtocolFile = buyProtocolFileList[0].fileName.split(
-                    '.'
-                )[0]
-                this.filePath = buyProtocolFileList[0].filePath
+                this.minFastRedemptionAmount = this.check
+                    ? this.fundTradeInfoVO.minTradeAmount
+                    : this.fundTradeInfoVO.minFastRedemptionAmount
+                this.placeholder = `${this.$t(
+                    'minTrade'
+                )}${transNumToThousandMark(
+                    this.minFastRedemptionAmount
+                )}${currencyText}`
+                this.ProtocolFile = buyProtocolFileList.length
+                    ? buyProtocolFileList[0].fileName.split('.')[0]
+                    : ''
+                this.filePath = buyProtocolFileList.length
+                    ? buyProtocolFileList[0].filePath
+                    : ''
                 let buyProfitLoss = this.$t([
                     `预计${fundTradeInfoVO.buyProfitLoss}10:00前到账，转出后可以立即认购新股和购买股票，无额度限制，期间正常享受收益`,
                     `預計${fundTradeInfoVO.buyProfitLoss}10:00前到賬，轉出後可以立即認購新股和購買股票，無額度限制，期間正常享受收益`,
@@ -277,19 +374,23 @@ export default {
                         this.$t([
                             `最低转出${Number(minFastRedemptionAmount).toFixed(
                                 2
-                            )}港币`,
+                            )}${this.currencyType === 1 ? '美元' : '港币'}`,
                             `最低轉出${Number(minFastRedemptionAmount).toFixed(
                                 2
-                            )}港幣`,
-                            `Mini. Subs HKD ${Number(
-                                minFastRedemptionAmount
-                            ).toFixed(2)}`
+                            )}${this.currencyType === 1 ? '美元' : '港幣'}`,
+                            `Mini. Subs ${
+                                this.currencyType === 1 ? 'USD' : 'HKD'
+                            } ${Number(minFastRedemptionAmount).toFixed(2)}`
                         ]),
                         'middle'
                     )
                 }
+                let customerRemainderQuota =
+                    this.fundTradeInfoVO.currency.type === 1
+                        ? this.customerUsdRemainderQuota
+                        : this.customerHkdRemainderQuota
                 if (
-                    this.amount > Number(this.customerRemainderQuotaNum) &&
+                    this.amount > Number(customerRemainderQuota) &&
                     !this.check
                 ) {
                     return this.$toast(this.$t('C85'), 'middle')
@@ -320,7 +421,7 @@ export default {
                 let outType = this.check ? 1 : 2
                 const res = await getBaoCapitalTrade({
                     amount: this.amount,
-                    fundId: this.$route.query.id,
+                    fundId: this.fundId || this.$route.query.id,
                     outType: outType,
                     recordType: 2,
                     requestId: generateUUID(),
@@ -372,7 +473,27 @@ h1 {
     font-family: yxFont;
     font-weight: 700;
 }
+.block__out__fund {
+    padding: 15px 12px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    color: rgba(25, 25, 25, 0.5);
+    .title {
+        font-size: 16px;
+        color: $text-color;
+    }
+    .num {
+        padding-left: 4px;
+    }
+    .fund__left {
+        width: 70%;
+    }
+}
 .block__out--header {
+    margin-top: 6px;
     padding: 20px 12px;
     background: #fff;
     .desc {
@@ -401,9 +522,6 @@ h1 {
                     top: 10px;
                     left: 0;
                     transform: rotate(5deg);
-                }
-                .block__fee {
-                    padding: 0 10px 0 0;
                 }
                 span {
                     width: 65px;
@@ -486,6 +604,11 @@ h1 {
         }
     }
 }
+.van-popup {
+    &.bottom {
+        padding-bottom: 20px;
+    }
+}
 .block__footer--loading {
     position: fixed;
     width: 100%;
@@ -500,6 +623,38 @@ h1 {
         bottom: 0;
         right: 0;
         margin: auto;
+    }
+}
+.fund__top {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    font-size: 12px;
+    color: rgba(25, 25, 25, 0.65);
+    line-height: 17px;
+}
+.fund__list--item {
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid $text-color8;
+    color: rgba(25, 25, 25, 0.5);
+    .item__left {
+        width: 80%;
+    }
+    .title {
+        font-size: 16px;
+        color: $text-color;
+        &.disabled {
+            color: rgba(25, 25, 25, 0.5);
+        }
+    }
+    .num {
+        padding-left: 4px;
+    }
+    .iconfont {
+        color: #2f79ff;
     }
 }
 </style>

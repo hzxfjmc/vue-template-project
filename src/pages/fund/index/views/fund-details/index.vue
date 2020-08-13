@@ -52,7 +52,6 @@
             :userList="userList"
             :swipeShow="swipeShow"
             :actionInfo = "actionInfo") 
-
         fundSurvey(
             v-if="fundOverviewInfoVO.fundId"
             :fundOverviewInfoVO="fundOverviewInfoVO"
@@ -284,7 +283,9 @@ export default {
                 '相关数据仅供参考，本页面非任何法律文件，投资前请阅读基金合同，招募说明书。基金过往业绩不预示未来表现，不构成投资建议，市场有风险,投资需谨慎。',
             describe3: '拼团成功，团队规模3人，尊享70%申购费返还',
             Subscribenow: '立即认购',
-            holdFundTitle: '持仓详情'
+            holdFundTitle: '持仓详情',
+            cashFlow: '资金流水',
+            returnDetails: '收益明细'
         },
         zhCHT: {
             format: 'DD天 HH:mm:ss',
@@ -320,7 +321,9 @@ export default {
                 '相關數據僅供參考，本頁面非任何法律文件，投資前請閱讀基金合同，招募說明書。基金過往業績不預示未來表現，不構成投資建議，市場有風險,投資需謹慎。',
             describe3: '3人「同行」成功，尊享70%申購費折扣',
             Subscribenow: '立即認購',
-            holdFundTitle: '持倉詳情'
+            holdFundTitle: '持倉詳情',
+            cashFlow: '資金流水',
+            returnDetails: '收益明細'
         },
         en: {
             format: 'DDD HH:mm:ss',
@@ -358,7 +361,9 @@ export default {
             describe3:
                 'You entitled Group Discount, you will get Y% discount on subscription fee.',
             Subscribenow: 'Subscribe now',
-            holdFundTitle: 'Position'
+            holdFundTitle: 'Position',
+            cashFlow: 'Cash Flow',
+            returnDetails: 'Return Details'
         }
     },
     keepalive: true,
@@ -386,25 +391,21 @@ export default {
         RedemptionButton() {
             /*
              * btnShow 是否持仓
-             * isGrayAuthority 灰度
              * invate 是否是邀请
              */
             return (
                 this.btnShow &&
-                this.isGrayAuthority &&
                 this.invate !== 'share' &&
                 !this.investmentWhiteBit
             )
         },
         /*
          * fightShow 是否拼团
-         * isGrayAuthority 灰度
          * invate 是否是邀请
          */
         PurchaseButton() {
             return (
                 !this.btnShow &&
-                this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 this.fightShow &&
                 this.invate !== 'share' &&
@@ -414,7 +415,6 @@ export default {
         chsFightButton() {
             return (
                 !this.btnShow &&
-                this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 !this.fightShow &&
                 this.code == 1 &&
@@ -424,7 +424,6 @@ export default {
         chtFightButton() {
             return (
                 !this.btnShow &&
-                this.isGrayAuthority &&
                 !this.userInfo.orgEmailLoginFlag &&
                 !this.fightShow &&
                 this.code == 2 &&
@@ -438,20 +437,6 @@ export default {
         showPositionInfo() {
             // 登陆且已开户才展示持仓信息
             return this.isLogin && this.openedAccount
-        },
-        isGrayAuthority() {
-            // 未登录或者登录后灰度名单下特定的基金才展示申购/赎回按钮 grayStatusBit 8（1000） 代表在白名单内
-            if (!this.isLogin) {
-                return true
-            } else {
-                if (this.fundHeaderInfoVO.isin === 'HK0000478930') {
-                    return (
-                        this.userInfo &&
-                        (this.userInfo.grayStatusBit & (1 << 3)) === 8
-                    )
-                }
-                return true
-            }
         },
         defaultRate() {
             console.log(

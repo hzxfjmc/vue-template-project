@@ -1,48 +1,119 @@
 <template lang="pug">
     .block__order--content
-        .block__header--wrapper
+        .block__header--wrapper(v-if="isSingle")
             .block__left
-                .top {{$t('C3')}}
+                .top {{this.currency === 1? $t('C89') :$t('C3')}}
                 .bottom.block__amount {{positionMarketValue|transNumToThousandMark}}
             .block__right
                 .top {{$t('C5')}}
-                .bottom {{totalEarnings|transNumToThousandMark}}
-        hr
+                .bottom(
+                    v-if="totalEarnings>0"
+                    :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                ) +{{totalEarnings|transNumToThousandMark}}
+                .bottom(
+                    v-else-if="totalEarnings<0"
+                    :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                ) {{totalEarnings|transNumToThousandMark}}
+                .bottom(
+                    v-else
+                ) {{totalEarnings|transNumToThousandMark}}
+        .block__top(v-if="!isSingle")
+            .block__left(
+                @click="moneyTypeClick"
+                :class="{active: moneyTypeShow}"
+            )
+                span {{$t(moneyTypeText)}}
+                span.iconfont.icon-pulldown_icon
+            .block__right(
+                @click="fundListClick"
+                :class="{active: fundListShow}"
+            )
+                span.ellipse(v-if="fundName") {{fundName}}
+                span.text(v-else) {{$t('allFund')}}
+                span.iconfont.icon-pulldown_icon
         van-list.order-record-list(
-            v-model="loading" 
+            v-model="loading"
+            :class="[isSingle ? 'single' : 'not-single']"
             :finished="finished" 
             :finished-text="finishedText" 
             @load="onLoad")
             .block__order--list.border-bottom(
                 v-for="(item,index) in list")
                 .block__order--left
-                    p.title {{item.recordTypeName}}
+                    p.title.ellipse(v-if="isSingle") {{item.recordTypeName}}
+                    p.title.ellipse(v-else) {{item.fundName}}(
+                        span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
                     p.color {{item.createTime}}
-                .block__order--right
+                .block__order--right(v-if="isSingle")
                     p.num(
                         :class="stockColorType === 1 ? 'number-red' : 'number-green'"
                         v-if="item.recordAmount>0") +{{item.recordAmount}}
                     p.num(
                         :class="stockColorType === 1 ? 'number-green' : 'number-red'"
-                        v-else-if="item.recordAmount < 0") {{item.recordAmount}}
+                        v-else-if="item.recordAmount<0") {{item.recordAmount}}
                     p.num(v-else) {{item.recordAmount}}
+                .block__order--right(v-else)
+                    p.num(
+                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                        v-if="item.recordAmount>0") +{{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    p.num(
+                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                        v-else-if="item.recordAmount < 0") {{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
+                    p.num(v-else) {{item.recordAmount}}{{item.currency === 1 ? $t('usd') : $t('hkd')}}
         .block-element-nomore(v-if="noMoreShow")
             img.img(src="@/assets/img/fund/data.png") 
-            .no-record-box {{$t('nomore1')}}
+            .no-record-box {{$t('noData')}}
+        van-popup(
+            v-model="moneyTypeShow"
+            position="top"
+            :closeable="true"
+        )
+            .block-type__list
+                .list__item(
+                    v-for="item in moneyTypeList"
+                    @click="chooseMoneyType(item)"
+                )
+                    p(
+                        :class="{active: currency === item.currency}"
+                    ) {{$t(item.key)}}
+                    p(v-if="currency === item.currency")
+                        span.iconfont.icon-tick-
+        van-popup(
+            v-model="fundListShow"
+            position="top"
+        )
+            .block-type__list
+                .list__item(@click="chooseFund({fundId: '',fundName:''})")
+                    p(
+                        :class="{active: fundId === ''}"
+                    ) {{$t('allFund')}}
+                    p(v-if="!fundId")
+                        span.iconfont.icon-tick-
+                .list__item(
+                    v-for="item in baoPositionList"
+                    @click="chooseFund(item)"
+                )
+                    p(
+                        :class="{active: fundId === item.fundId}"
+                    ) {{item.fundName}}(
+                        span {{item.currency === 1 ? $t('usd') : $t('hkd')}})
+                    p(v-if="fundId === item.fundId")
+                        span.iconfont.icon-tick-
 
 </template>
 <script>
 import {
-    getBaoCapitalTradeList,
-    getBaoPostion
+    getBaoCapitalTradeListV2,
+    getBaoPostionV2
 } from '@/service/finance-server.js'
 import dayjs from 'dayjs'
 import { getStockColorType } from '@/utils/html-utils.js'
-import { List } from 'vant'
+import { List, Popup } from 'vant'
 import { transNumToThousandMark } from '@/utils/tools.js'
 export default {
     components: {
-        [List.name]: List
+        [List.name]: List,
+        [Popup.name]: Popup
     },
     filters: {
         transNumToThousandMark(value) {
@@ -52,20 +123,42 @@ export default {
     computed: {
         stockColorType() {
             return +getStockColorType()
+        },
+        moneyTypeList() {
+            return [
+                {
+                    key: 'moneyType',
+                    currency: '',
+                    desc: '全部币种'
+                },
+                {
+                    key: 'hkd',
+                    currency: 2,
+                    desc: '港币'
+                },
+                {
+                    key: 'usd',
+                    currency: 1,
+                    desc: '美元'
+                }
+            ]
         }
     },
     i18n: {
         zhCHS: {
             Balance: '余额',
-            nomore1: '暂无数据'
+            noData: '暂无数据',
+            nomore: '没有更多了'
         },
         zhCHT: {
             Balance: '餘額',
-            nomore1: '暫無數據'
+            noData: '暫無數據',
+            nomore: '没有更多了'
         },
         en: {
             Balance: 'Balance',
-            nomore1: 'No Data'
+            noData: 'No Data',
+            nomore: 'No More'
         }
     },
     data() {
@@ -79,55 +172,88 @@ export default {
             total: 0,
             loading: false,
             finished: false,
-            finishedText: '无更多内容'
+            moneyTypeShow: false,
+            fundListShow: false,
+            lockOnload: false,
+            isSingle: !!this.$route.query.id,
+            finishedText: '无更多内容',
+            currency: '',
+            moneyTypeText: 'moneyType',
+            fundId: this.$route.query.id,
+            fundName: '',
+            baoPositionList: []
         }
     },
     created() {
-        this.getBaoCapitalTradeList()
-        this.getBaoPostion()
+        this.getBaoCapitalTradeListV2()
+        this.getBaoPostionV2()
     },
     methods: {
         //上拉加载更多
         onLoad() {
-            if (this.list.length < this.total) {
+            if (this.list.length < this.total && !this.lockOnload) {
                 this.pageNum = this.pageNum + 1
-                this.getBaoCapitalTradeList()
+                this.getBaoCapitalTradeListV2()
             }
         },
-        //获取持仓数据
-        async getBaoPostion() {
+        // 获取持仓基金list
+        async getBaoPostionV2() {
             try {
-                const {
-                    positionMarketValue,
-                    totalEarnings
-                } = await getBaoPostion({
-                    currency: 2
+                const { baoPositionList } = await getBaoPostionV2()
+                this.baoPositionList = baoPositionList.sort((a, b) => {
+                    return a.fundName.localeCompare(b.fundName)
                 })
-                this.positionMarketValue = positionMarketValue
-                this.totalEarnings = totalEarnings
+                if (this.$route.query.id) {
+                    let choosedFund = this.baoPositionList.filter(
+                        item => item.fundId === this.$route.query.id
+                    )
+                    this.currency = choosedFund[0].currency
+                    this.positionMarketValue =
+                        choosedFund[0].availableBaoBalance
+                    this.totalEarnings =
+                        this.currency === 1
+                            ? choosedFund[0].usdTotalEarnings
+                            : choosedFund[0].hkdTotalEarnings
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }
         },
-        async getBaoCapitalTradeList() {
+        async getBaoCapitalTradeListV2() {
+            let params = {
+                pageNum: this.pageNum,
+                pageSize: this.pageSize,
+                recordType: 3,
+                fundId: this.fundId,
+                currency: this.currency
+            }
+            for (let key in params) {
+                if (!params[key]) {
+                    delete params[key]
+                }
+            }
             try {
                 const {
                     list,
                     pageSize,
                     pageNum,
                     total
-                } = await getBaoCapitalTradeList({
-                    currency: 2,
-                    recordTypes: [3],
-                    pageNum: this.pageNum,
-                    pageSize: this.pageSize
-                })
-                list.map(item => {
-                    item.createTime = dayjs(item.createTime).format(
-                        'YYYY-MM-DD HH:mm:ss'
-                    )
-                })
+                } = await getBaoCapitalTradeListV2(params)
+                if (this.isSingle) {
+                    list.map(item => {
+                        item.createTime = dayjs(item.createTime).format(
+                            'YYYY-MM-DD HH:mm:ss'
+                        )
+                    })
+                } else {
+                    list.map(item => {
+                        item.createTime = dayjs(item.createTime).format(
+                            'YYYY-MM-DD'
+                        )
+                    })
+                }
                 this.loading = false
+                this.lockOnload = false
                 this.list = this.list.concat(list)
                 this.pageNum = pageNum
                 this.total = total
@@ -136,21 +262,60 @@ export default {
                 if (this.list.length >= this.total) {
                     this.finished = true
                 }
-                this.finishedText = this.$t('nomore1')
+                this.finishedText = this.$t('nomore')
                 this.finishedText = this.total == 0 ? '' : this.finishedText
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        //选择币种
+        chooseMoneyType(item) {
+            this.moneyTypeShow = false
+            this.fundListShow = false
+            if (this.currency === item.currency) return
+            this.currency = item.currency
+            this.moneyTypeText = item.key
+            this.lockOnload = true
+            this.list = []
+            this.pageNum = 1
+            this.finished = false
+            this.getBaoCapitalTradeListV2()
+        },
+        // 选择基金
+        chooseFund(item) {
+            this.moneyTypeShow = false
+            this.fundListShow = false
+            if (this.fundId === item.fundId) return
+            this.fundId = item.fundId
+            this.fundName = item.fundName
+            this.lockOnload = true
+            this.list = []
+            this.pageNum = 1
+            this.finished = false
+            this.getBaoCapitalTradeListV2()
+        },
+        moneyTypeClick() {
+            this.moneyTypeShow = !this.moneyTypeShow
+            this.fundListShow = false
+        },
+        fundListClick() {
+            this.fundListShow = !this.fundListShow
+            this.moneyTypeShow = false
         }
     }
 }
 </script>
 <style lang="scss" scoped>
 .block__header--wrapper {
+    position: fixed;
+    width: 100%;
+    background: #fff;
+    z-index: 2000;
     padding: 20px 12px 14px 12px;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-bottom: 6px solid rgba(25, 25, 25, 0.05);
     .top {
         color: $text-color6;
     }
@@ -158,16 +323,57 @@ export default {
         font-family: yxFontDINPro-Medium;
         font-size: 28px;
     }
+    .block__right {
+        text-align: right;
+    }
     .block__amount {
         color: #ff5431;
     }
 }
-hr {
-    height: 6px;
-    margin: 0;
-    padding: 0;
-    border: none;
-    background: rgba(25, 25, 25, 0.05);
+.block__top {
+    width: 100%;
+    position: fixed;
+    height: 40px;
+    z-index: 3000;
+    background: #fff;
+    display: flex;
+    justify-content: space-around;
+    color: #353547;
+    text-align: center;
+    .block__left,
+    .block__right {
+        max-width: 50%;
+        display: flex;
+        align-items: center;
+    }
+    .iconfont {
+        font-size: 10px;
+        padding-left: 10px;
+    }
+    .active {
+        color: #2f79ff;
+    }
+}
+.block-type__list {
+    margin: 0 12px;
+    line-height: 20px;
+    .list__item {
+        padding: 14px 0;
+        display: flex;
+        align-content: center;
+        justify-content: space-between;
+        border-bottom: 1px solid $text-color8;
+    }
+    .active,
+    .iconfont {
+        color: #2f79ff;
+    }
+}
+.single {
+    margin-top: 100px;
+}
+.not-single {
+    margin-top: 30px;
 }
 .block__order--content {
     background: #fff;
@@ -182,6 +388,7 @@ hr {
         height: 82px;
         align-items: center;
         .block__order--left {
+            width: 50%;
             margin: 0 0 0 12px;
             .title {
                 font-size: 16px;
@@ -220,6 +427,10 @@ hr {
         color: rgba(25, 25, 25, 0.5);
         margin: 10px 0 0 0;
     }
+}
+.van-popup {
+    top: 40px;
+    border-radius: 0px 0px 10px 10px;
 }
 .number-red {
     color: #ea3d3d;

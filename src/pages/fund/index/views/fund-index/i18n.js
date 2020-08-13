@@ -40,6 +40,8 @@ export const i18n = {
         fund: '基金',
         iKnow: '我知道了',
         yieldInLast7d: '近七日年化',
+        yieldInLast7dTips:
+            '货币基金的七日年化收益率是通过计算其近七日期收益率，并进行单利年化，从而模拟出其平均每年能够为投资者创造的收益。由于是模拟短期业绩，并不代表基金的真实年收益率，因此仅供参考用。计算公式：七日年化 =（T日nav-(T-7)日nav）/T-7日nav/自然日天数*365*100%',
         tips: '暂未开放，敬请期待 ',
         tips1: '现金+业务暂未开放，敬请期待',
         holdData: '我的持仓',
@@ -96,6 +98,8 @@ export const i18n = {
         fund: '基金',
         iKnow: '我知道了',
         yieldInLast7d: '近七日年化',
+        yieldInLast7dTips:
+            '貨幣基金的七日年化收益率是通過計算其近七日收益率，並進行單利年化，從而模擬出其平均每年能夠為投資者創造的收益。由於是模擬短期業績，並不代表基金的真實年收益率，因此僅供參考。<br/>計算公式：七日年化=（T日nav-（T-7）日nav）/T-7日nav/自然日天數*365*100%',
         tips: '暫未開放，敬請期待',
         tips1: '餘款+業務暫未開放，敬請期待',
         holdData: '我的持倉',
@@ -152,6 +156,8 @@ export const i18n = {
         fund: 'Fund',
         iKnow: 'Got it',
         yieldInLast7d: 'Yield in Last 7d',
+        yieldInLast7dTips:
+            "The money market fund's annualized 7-day-return tries to reflect the average annual return for investors by annualizing the most recent 7-day-return.Please note that this data is fo reference only since it does not represent the realized annual return.<br/>Calculation Formula：<br/>Yield in Last 7d=（T-day nav-（T-7）-day nav）/（T-7）-day nav/Natural Days*365*100%",
         tips: 'Not open yet！',
         tips1: 'cash+ Service not open yet, stay tuned！',
         holdData: 'My Portfolio ',

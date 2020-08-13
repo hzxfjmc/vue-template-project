@@ -16,7 +16,20 @@
           :historyList="historyList"
           :fundHeaderInfoVO="fundHeaderInfoVO"
           :initEchartList="initEchartList")
-       
+        .block__fundheader--tips(
+            v-if="isLogin && openedAccount"
+            @click="jumpPage('order-list',1)")
+            em.iconfont.icon-cashFlow
+            span.title {{$t('cashFlow')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
+        .block__fundheader--tips(
+            v-if="isLogin && openedAccount"
+            @click="jumpPage('income-details'), 1")
+            em.iconfont.icon-incomeDetail
+            span.title {{$t('returnDetails')}}
+            .block__list--right
+                em.iconfont.icon-iconEBgengduoCopy
         yxbaoSurvey(:fundOverviewInfoVO="fundOverviewInfoVO")
         yxbaoTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -28,10 +41,22 @@
         .block__tips--msg
             p {{$t('msg')}}
             p.more {{$t('msg1')}}
-   
-        
-           
-    
+    .fund-footer-content
+        .block__button(v-if="!Number(availableBaoBalance)")
+            van-button.btn-color-r(
+                @click="jumpPageIntoOut('fund-subscribe',1)"
+                :text="$t('C9')"
+            )
+        .block__button(v-else)
+            van-button.btn-color-l(
+                :text="$t('C8')"
+                @click="jumpPageIntoOut('transfer-out',1)"
+            )
+            van-button.btn-color-r(
+                @click="jumpPageIntoOut('fund-subscribe',1)"
+                :text="$t('C9')"
+            )
+            
 </template>
 <script>
 import yxbaoDetailsHeader from './components/yxbao-details-header'
@@ -46,6 +71,7 @@ import {
     getFundApyPointV1,
     getFundNetPriceHistoryV1
 } from '@/service/finance-info-server.js'
+import { getBaoPostionV2 } from '@/service/finance-server.js'
 import { getSource } from '@/service/customer-relationship-server'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { Button, Dialog } from 'vant'
@@ -92,6 +118,8 @@ export default {
             riskTip: '风险提示',
             continueButton: '继续操作',
             cancelButton: '取消',
+            cashFlow: '资金流水',
+            returnDetails: '收益明细',
             resultList: {
                 1: {
                     registration: 'A1',
@@ -156,6 +184,8 @@ export default {
             riskTip: '風險提示',
             continueButton: '繼續操作',
             cancelButton: '取消',
+            cashFlow: '資金流水',
+            returnDetails: '收益明細',
             resultList: {
                 1: {
                     registration: 'A1',
@@ -222,6 +252,8 @@ export default {
             riskTip: 'Risk Tip',
             continueButton: 'Continue',
             cancelButton: 'Cancel',
+            cashFlow: 'Cash Flow',
+            returnDetails: 'Return Details',
             resultList: {
                 1: {
                     registration: 'A1',
@@ -301,6 +333,7 @@ export default {
             revenue: '',
             step: 0,
             forbidPrompt: '',
+            availableBaoBalance: '',
             timeList: {
                 oneWeek: {
                     label: '近一周',
@@ -416,6 +449,37 @@ export default {
                 url = `${window.location.origin}/wealth/fund/index.html#${data}?id=${this.id}&currencyType=${this.fundTradeInfoVO.currency.type}`
             }
             jumpUrl(3, url)
+        },
+        async jumpPageIntoOut(path, type) {
+            // 未登录或未开户
+            if (!this.isLogin) {
+                await this.$dialog.alert({
+                    message: this.$t('login'),
+                    confirmButtonText: this.$t('loginBtn'),
+                    closeOnClickOverlay: true
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://user_login')
+                return
+            }
+            if (!this.openedAccount) {
+                // 跳转到开户页面
+                await this.$dialog.alert({
+                    message: this.$t('openAccount'),
+                    confirmButtonText: this.$t('openAccountBtn'),
+                    closeOnClickOverlay: true
+                })
+                jsBridge.gotoNativeModule('yxzq_goto://main_trade')
+                return
+            }
+            jumpUrl(
+                type,
+                `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.$route.query.id}`
+            )
+        },
+        // 跳转到现金+ 资金流水 收益明细
+        jumpPage(path, type) {
+            let url = `${window.location.origin}/wealth/yxbao/index.html#/${path}?id=${this.$route.query.id}`
+            jumpUrl(type, url)
         },
         async getFundPerformanceHistory() {
             try {
@@ -579,6 +643,20 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
             }
+        },
+        //获取现金+持仓
+        async getBaoPostionV2() {
+            if (!this.isLogin) return
+            try {
+                const { baoPositionList } = await getBaoPostionV2()
+                baoPositionList.forEach(item => {
+                    if (item.fundId == this.$route.query.id) {
+                        this.availableBaoBalance = item.availableBaoBalance
+                    }
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
         }
     },
     async created() {
@@ -587,6 +665,7 @@ export default {
         this.getFundNetPriceHistoryV1()
         this.getFundPerformanceHistory()
         this.getFundApyPointV1()
+        this.getBaoPostionV2()
         this.getSource()
         jsBridge.callAppNoPromise(
             'command_watch_activity_status',
@@ -893,8 +972,19 @@ export default {
         }
     }
 }
-.block__button--list {
+.block__button {
     display: flex;
     flex-direction: row;
+    .van-button {
+        flex: 1;
+        color: #fff;
+        border: 0;
+    }
+    .btn-color-l {
+        background: #ffbf32;
+    }
+    .btn-color-r {
+        background: #0d50d8;
+    }
 }
 </style>

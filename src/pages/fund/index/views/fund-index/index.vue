@@ -117,21 +117,22 @@ div
                     em.iconfont.icon-iconEBshoucang2(@click="handlerDesc")
                 p.block--desc(v-if="lang != 'en'") {{$t('stockRedemption')}}
                 p.block--desc.block--desc_en(v-else) {{$t('stockRedemption')}}
-                .block--bottom-content(@click="toYxbao")
+                .block--bottom-content
                     .left
-                        .number(
-                            v-if="Number(sevenDaysApy)>0" 
-                            :class="stockColorType == 1 ? 'color-red' : 'color-green'") +{{sevenDaysApy}}%
-                        .number(
-                            v-if="Number(sevenDaysApy)<0" 
-                            :class="stockColorType == 1 ? 'color-green' : 'color-red'") {{sevenDaysApy}}%
-                        .number(
-                            v-if="Number(sevenDaysApy) === 0") {{sevenDaysApy}}%
-                        p.block--bottom--desc {{$t('yieldInLast7d')}}
-                    .content
-                        p.number {{tenThousandApy}}
-                        p.block--bottom--desc {{$t('tenKRtn')}}
-                    .right
+                        .number(v-if="Number(hkSevenDaysApy)>0")  +{{hkSevenDaysApy}}%
+                        .number(v-else ) {{hkSevenDaysApy}}%
+                        p.block--bottom--desc(
+                            @click="yieldInLast7dClick"
+                        ) {{$t('hkd')}} | {{$t('yieldInLast7d')}}
+                            span.iconfont.icon-warning
+                    .left
+                        .number(v-if="Number(usdSevenDaysApy)>0")  +{{usdSevenDaysApy}}%
+                        .number(v-else ) {{usdSevenDaysApy}}%
+                        p.block--bottom--desc(
+                            @click="yieldInLast7dClick"
+                        ) {{$t('usd')}} | {{$t('yieldInLast7d')}}
+                            span.iconfont.icon-warning
+                    .right(@click="toYxbao")
                         van-button.block--subscribe {{$t('SubsNow')}}
             
             .block-bannar-sub-swiper.block__bannar__Tab(v-if="barnnarList.length !== 0")
@@ -185,7 +186,8 @@ import FundListItem from './fund-list-item'
 import {
     getFundHomepageInfo,
     getBaoFundInfo,
-    getFundSimpleInfoList
+    getFundSimpleInfoList,
+    getBaoFundList
 } from '@/service/finance-info-server'
 
 import { getFundTotalPosition } from '@/service/finance-server'
@@ -248,6 +250,19 @@ export default {
             return {
                 fontSize: '12px'
             }
+        },
+        //灰度白名单
+        isGrayAuthority() {
+            if (this.userInfo.grayStatusBit) {
+                let isWhiteUserBit = this.userInfo.grayStatusBit
+                    .toString(2)
+                    .split('')
+                    .reverse()
+                    .join('')[3]
+                return isWhiteUserBit == 1
+            } else {
+                return false
+            }
         }
     },
     data() {
@@ -259,6 +274,9 @@ export default {
             barnnarUsList: [],
             tabbarnnarList: [],
             fundBarnnarList: [],
+            userInfo: {},
+            usdSevenDaysApy: '',
+            hkSevenDaysApy: '',
             chooseCurrencyShow: false,
             choiceFundListShow: false,
             blueChipFundListShow: false,
@@ -570,6 +588,36 @@ export default {
                 this.$toast(e.msg)
             }
         },
+        async getBaoFundList() {
+            try {
+                const res = await getBaoFundList()
+                let sortList = res.sort((pre, curr) => {
+                    if (pre.sevenDaysApy >= curr.sevenDayApy) {
+                        return 1
+                    } else {
+                        return -1
+                    }
+                })
+                for (let i = 0; i < sortList.length; i++) {
+                    if (sortList[i].currency === 1) {
+                        this.usdSevenDaysApy = (
+                            Number(sortList[i].sevenDaysApy) * 100
+                        ).toFixed(4)
+                        break
+                    }
+                }
+                for (let i = 0; i < sortList.length; i++) {
+                    if (sortList[i].currency === 2) {
+                        this.hkSevenDaysApy = (
+                            Number(sortList[i].sevenDaysApy) * 100
+                        ).toFixed(4)
+                        break
+                    }
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         handlerCurrency() {
             this.chooseCurrencyShow = true
         },
@@ -714,10 +762,20 @@ export default {
         toDeclareAgreement() {
             let url = `${window.location.origin}/wealth/fund/index.html#/declare-agreement`
             this.openWebView(url)
+        },
+        yieldInLast7dClick() {
+            this.$dialog.alert({
+                title: this.$t('yieldInLast7d'),
+                message: this.$t('yieldInLast7dTips'),
+                confirmButtonText: this.$t('iknow'),
+                confirmButtonColor: '#3c78fa',
+                messageAlign: 'left'
+            })
         }
     },
     async created() {
         this.getBaoFundInfo()
+        this.getBaoFundList()
         this.moneyShow = LS.get('showMoney')
         this.currencyTab = !LS.get('activeTab') ? 0 : LS.get('activeTab')
         this.initI18n()

@@ -19,23 +19,31 @@
         )
     .block__word--list.border-bottom(v-if="intoShow")
         .block__word--item
+            p.word-color {{$t('fundName')}}
+            p.content.ellipse {{orderDetails.fundName}}(
+                span {{currencystr}})
+        .block__word--item
             p.word-color {{$t('C30')}}
-            p {{$t('C31')}}
+            p {{accountTypeStr}}
         .block__word--item
             p.word-color {{$t('C27')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{$t('hkd')}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{currencystr}}
 
     .block__word--list.border-bottom(v-else)
+        .block__word--item
+            p.word-color {{$t('fundName')}}
+            p.content.ellipse {{orderDetails.fundName}}(
+                span {{currencystr}})
         .block__word--item
             p.word-color {{$t('C37')}}
             p {{orderDetails.recordTypeName}}
         .block__word--item
             p.word-color {{$t('Amounts')}}
-            p.num {{orderDetails.recordAmount|transNumToThousandMark}} {{$t('hkd')}}
+            p.num {{orderDetails.recordAmount|transNumToThousandMark}}{{currencystr}}
 
         .block__word--item
             p.word-color {{$t('C22')}}
-            p.num {{orderDetails.recordFee|transNumToThousandMark}} {{$t('hkd')}}
+            p.num {{orderDetails.recordFee|transNumToThousandMark}}{{currencystr}}
 
     .block__footer--btn
         van-button(@click="toHomePage") {{$t('done')}}
@@ -49,7 +57,12 @@ import jsBridge from '@/utils/js-bridge.js'
 import { mapGetters } from 'vuex'
 export default {
     computed: {
-        ...mapGetters(['lang'])
+        ...mapGetters(['lang']),
+        currencystr() {
+            return this.orderDetails.currency === 1
+                ? this.$t('usd')
+                : this.$t('hkd')
+        }
     },
     components: {
         transferStep
@@ -81,6 +94,8 @@ export default {
             intoShow: true,
             successHide: true,
             orderDetails: {},
+            accountTypeStr: '',
+            fundName: '',
             stepOne: {
                 label: '提交转出申请成功，可立即购买股票',
                 time: ''
@@ -127,10 +142,12 @@ export default {
         },
         InitState() {
             this.orderDetails = this.$route.params.data
+            this.accountTypeStr = this.$route.params.accountTypeStr
             let date =
                 this.orderDetails.recordType === 1
                     ? this.orderDetails.earningsDate
                     : this.orderDetails.deliveryDate
+
             let week = this.getWeek(date)
             let datei18n = this.$t([
                 `预计${dayjs(date).format('MM-DD')}(${week})`,
@@ -245,6 +262,10 @@ export default {
         justify-content: space-between;
         .word-color {
             color: $text-color6;
+        }
+        .content {
+            width: 70%;
+            text-align: right;
         }
         .num {
             font-size: 16px;

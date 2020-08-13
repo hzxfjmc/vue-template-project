@@ -154,10 +154,18 @@ export const getUpdateFundFixedPlanStatus = params => {
 export const getBaoPostion = params => {
     return axios.post(`/finance-server/api/get-bao-position/v1`, params)
 }
-
+//获取现金+持仓
+export const getBaoPostionV2 = params => {
+    return axios.post(`/finance-server/api/get-bao-position/v2`, params)
+}
 //现金+转入转出列表
 export const getBaoCapitalTradeList = params => {
     return axios.post(`/finance-server/api/bao-capital-trade-page/v1`, params)
+}
+
+//现金+V2.0转入转出列表
+export const getBaoCapitalTradeListV2 = params => {
+    return axios.post(`/finance-server/api/bao-capital-trade-page/v2`, params)
 }
 
 //现金+转入转出
