@@ -10,13 +10,13 @@ export default new Router({
         {
             name: 'home',
             path: '/',
-            meta: { title: 'uMoney', auth: false },
+            meta: { title: 'uMoney', auth: true },
             component: () => import(`@/pages/yxbao/index/views/home/index.vue`)
         },
         {
             name: 'yxbao-details',
             path: '/yxbao-details',
-            meta: { title: 'fundDetails', auth: false, cs: true },
+            meta: { title: 'fundDetails', auth: true, cs: true },
             component: () =>
                 import(`@/pages/yxbao/index/views/yxbao-details/index.vue`)
         },

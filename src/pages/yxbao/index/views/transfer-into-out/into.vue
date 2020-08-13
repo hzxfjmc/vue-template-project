@@ -270,11 +270,8 @@ export default {
             try {
                 const res = await getBaoFundList()
                 // 基金七日年化收益从高到底排序
-                let fundList = res.sort((pre, cur) => {
+                this.fundList = res.sort((pre, cur) => {
                     return Number(cur.sevenDaysApy) - Number(pre.sevenDaysApy)
-                })
-                this.fundList = fundList.filter(item => {
-                    return this.isGrayAuthority || item.isin !== 'HK0000584737'
                 })
                 this.choosedFund = this.fundList.filter(item => {
                     return item.fundId === this.$route.query.id

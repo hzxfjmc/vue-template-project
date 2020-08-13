@@ -25,12 +25,12 @@ div(:class="bem()")
                                 @click="chooseCurrencyShow = !chooseCurrencyShow"
                             )
                             .block__currey(v-if="chooseCurrencyShow")
-                                        span.border-bottom(
-                                            @click="chooseCurrency(0)"
-                                            :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
-                                        span(
-                                            @click="chooseCurrency(1)"
-                                            :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
+                                span.border-bottom(
+                                    @click="chooseCurrency(0)"
+                                    :class="[currencyTab === 0 ? 'active' :'']") {{$t('hkd')}}
+                                span(
+                                    @click="chooseCurrency(1)"
+                                    :class="[currencyTab === 1 ? 'active' :'']") {{$t('usd')}}
                 div(:class="bem('gain')")
                     p.top.ellipse {{$t('C4')}}
                     .block__container
@@ -444,10 +444,7 @@ export default {
                 const res = await getBaoFundList()
                 //没有持仓过的基金列表
                 let noPositionList = res.filter(item => {
-                    return (
-                        this.baoFundIdlist.indexOf(item.fundId) === -1 &&
-                        (this.isGrayAuthority || item.isin !== 'HK0000584737')
-                    )
+                    return this.baoFundIdlist.indexOf(item.fundId) === -1
                 })
                 noPositionList.forEach(item => {
                     item.sevenDayApy = item.sevenDaysApy
