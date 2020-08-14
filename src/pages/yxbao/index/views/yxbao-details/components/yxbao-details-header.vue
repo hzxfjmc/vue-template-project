@@ -5,15 +5,9 @@
         .funds-details-subtitle 
             span ISIN：{{fundHeaderInfoVO.isin}}
         .block-left
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxiancopy-copy 
-                span {{ fundHeaderInfoVO.assetTypeName }}
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxian
-                span {{ fundHeaderInfoVO.fundRisk }}
-            .fund_tag
-                em.iconfont.icon-iconsjijinfengxiancopy-copy1
-                span {{ fundHeaderInfoVO.earningsTypeName }}
+            fund-tag(:title="fundHeaderInfoVO.assetTypeName")
+            fund-tag(:title="fundHeaderInfoVO.fundRisk")
+            fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
         .block__right--tag(
             @click="confirmAlter"
             v-if="tagShow")
@@ -54,12 +48,12 @@
 </template>
 <script>
 import dayjs from 'dayjs'
-import { Tag } from 'vant'
+import fundTag from '@/biz-components/fund-tag/index.vue'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     components: {
-        [Tag.name]: Tag
+        fundTag
     },
     i18n: {
         zhCHS: {
@@ -247,31 +241,6 @@ export default {
         width: 100%;
         display: flex;
         font-size: 0.24rem;
-    }
-    .block-left {
-        display: flex;
-        .fund_tag {
-            margin: 0 8px 0 0;
-            display: flex;
-            flex-direction: row;
-            span {
-                font-size: 10px;
-                line-height: 25px;
-                color: #666666;
-            }
-        }
-        .iconfont {
-            font-size: 16px;
-        }
-        .icon-iconsjijinfengxiancopy-copy {
-            color: #b38c23;
-        }
-        .icon-iconsjijinfengxian {
-            color: #d0524a;
-        }
-        .icon-iconsjijinfengxiancopy-copy1 {
-            color: #f8d61c;
-        }
     }
     .funds-details-number {
         width: 100%;

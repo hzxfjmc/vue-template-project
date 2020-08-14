@@ -46,6 +46,7 @@ export const i18nIntroducelist = {
         noData: '暂无数据',
         zq: '折起',
         more: '查看全部',
+        noFundSize: '基金公司暂未披露此信息',
         list: {
             fundFiles: {
                 label: '基金文件'
@@ -114,6 +115,7 @@ export const i18nIntroducelist = {
         nomore: '暫無文件',
         noData: '暫無數據',
         more: '查看全部',
+        noFundSize: '基金公司暫未披露此信息',
         list: {
             fundFiles: {
                 label: '基金文件'
@@ -182,6 +184,7 @@ export const i18nIntroducelist = {
         noData: 'No Data',
         more: 'More',
         zq: 'Less',
+        noFundSize: 'The Fund Company Has Not Disclosed This Information',
         list: {
             fundFiles: {
                 label: 'Docs'
