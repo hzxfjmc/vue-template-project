@@ -17,12 +17,16 @@
                             :key="item.label")
                             span.left {{item.label}}
                             span.right(v-if="index != 'fundSize'") {{item.value}}
-                            span.right(
-                                v-if="index == 'fundSize' && lang != 'en'") {{currencyName}} {{(item.value/100000000).toFixed(2)}} {{$t('unit')}}
-                            span.right(
-                                v-if="index == 'fundSize' && lang == 'en' && item.value/100000000 >= 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Billion
-                            span.right(
-                                v-if="index == 'fundSize' && lang == 'en' && item.value/100000000 < 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Million
+                            template(v-if="index == 'fundSize'")
+                                template(v-if="Number(item.value) === 0")
+                                    span.rigth {{$t('noFundSize')}}
+                                template(v-else)
+                                    span.right(
+                                        v-if="lang != 'en'") {{currencyName}} {{(item.value/100000000).toFixed(2)}} {{$t('unit')}}
+                                    span.right(
+                                        v-if="lang == 'en' && item.value/100000000 >= 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Billion
+                                    span.right(
+                                        v-if="lang == 'en' && item.value/100000000 < 10") {{currencyName}} {{(item.value/100000000).toFixed(2)}}  Million
                     .fund-introduce-other(v-if="active===0")
                         .fund-introduce-objective(v-for="item in otherList")
                             .title {{item.label}}
