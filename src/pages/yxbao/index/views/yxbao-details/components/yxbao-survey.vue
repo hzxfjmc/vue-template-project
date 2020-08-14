@@ -17,7 +17,10 @@
         .block__fund--item
             .block__fund--title {{$t('investArea')}}
             p {{fundOverviewInfoVO.investArea}}
-        .block__fund--item
+        .block__fund--item(v-if="Number(fundOverviewInfoVO.fundSize) === 0")
+            .block__fund--title {{$t('fundSize')}}
+            p {{$t('noFundSize')}}
+        .block__fund--item(v-else)
             .block__fund--title {{$t('fundSize')}}
             p(v-if="lang != 'en'") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/100000000).toFixed(2)}} {{$t('unit')}}
             p(v-if="lang === 'en' && fundOverviewInfoVO.fundSize/100000000 >= 10 ") {{fundOverviewInfoVO.currencyName}} {{(fundOverviewInfoVO.fundSize/1000000000).toFixed(2)}} Billion
@@ -41,7 +44,8 @@ export default {
             fundCompanyName: '基金公司',
             assetSubType: '资产类别',
             investArea: '投资地区',
-            fundSize: '基金规模'
+            fundSize: '基金规模',
+            noFundSize: '基金公司暂未披露此信息'
         },
         zhCHT: {
             unit: '億',
@@ -50,7 +54,8 @@ export default {
             fundCompanyName: '基金公司',
             assetSubType: '資產類別',
             investArea: '投資地區',
-            fundSize: '基金規模'
+            fundSize: '基金規模',
+            noFundSize: '基金公司暫未披露此信息'
         },
         en: {
             unit: 'B ',
@@ -59,7 +64,8 @@ export default {
             fundCompanyName: 'Fund Company',
             assetSubType: 'Asset Class',
             investArea: 'Geographical Allocation',
-            fundSize: 'Fund Size'
+            fundSize: 'Fund Size',
+            noFundSize: 'The Fund Company Has Not Disclosed This Information'
         }
     },
     props: {
