@@ -405,6 +405,7 @@ export default {
             if (this.isLogin) {
                 await this.getBaoPostionV2()
                 await this.getBaoFundList()
+                this.getFundUserInfo()
             }
         },
         //获取现金+持仓
