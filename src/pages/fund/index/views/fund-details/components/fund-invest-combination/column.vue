@@ -9,10 +9,12 @@
                 span.iconfont.icon-iconEBgengduoCopy    
         .fund-colunm__content
             .content__item  
-                .content__item-title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}    
+                .content__item-title 
+                    .title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
+                    .iconfont.icon-warning(@click="showTips")             
                 .content__item-sub-title
                     .sub-title__item 
-                        span {{$t(['规模','规模','Scale'])}}
+                        span {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
                         span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
                     .sub-title__item {{$t(['数据更新时间','數據更新時間','As of'])}} ：{{investmentData.updateTime}}  
                 .content__item-chart  
@@ -60,6 +62,18 @@ export default {
         }
     },
     methods: {
+        showTips() {
+            this.$confirm({
+                title: this.$t(['年化收益', '年化收益', 'Annualized Return']),
+                showCancelButton: false,
+                message: this.$t([
+                    '年化收益率是把当前收益率（日/月/年/持有期收益率）换算成年收益率，即让投资者大致了解到持有该产品每年能获得的收益。',
+                    '年化收益率是把當前收益率（日/月/年/持有期收益率）換算整年收益率，即讓投資者大致瞭解到持有該產品每年能獲得的收益。',
+                    'Annualized return is the calculation of changing current return (day/month/year/holding period return) to the yearly return for helping investors to figure out the estimated annual return on investing the product.'
+                ]),
+                confirmButtonText: this.$t(['我知道了', '我知道了', 'ok'])
+            })
+        },
         handleShowMore() {
             this.showMore = !this.showMore
         },
@@ -155,6 +169,8 @@ export default {
 .fund-colunm__content {
     .content__item {
         .content__item-title {
+            display: flex;
+            align-items: center;
             padding-top: 14px;
             text-align: left;
             font-size: 16px;
