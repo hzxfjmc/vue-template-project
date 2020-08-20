@@ -9,7 +9,7 @@
                 .content__item-percentage(:style="{'height':`${showMore?height*holdingsList.length:height*5}px`}" v-if="holdingsList.length")
                     .percentage-item(v-for="item,index in holdingsList" :key="`${item.name}-${item.weighting}`" ref="percentage-item")
                         .item-top
-                            .item-top__label {{item.name}} {{item.ticker}}    
+                            .item-top__label(@click="handleGoStockDetail(item)") {{item.name}} {{item.ticker}}    
                             .item-top__value {{Number(item.weighting).toFixed(2)}}%   
                         .item-line(
                             :class="index<3?`bg-${index}`:'bg-3'" 
@@ -29,6 +29,7 @@ import { mapGetters } from 'vuex'
 import { getFundTop10HoldingsV1 } from '@/service/finance-info-server.js'
 import mixin from './mixin'
 import { sliceDecimal } from '@/utils/tools'
+import { jsBridge } from 'yx-base-h5'
 
 export default {
     mixins: [mixin],
@@ -52,6 +53,17 @@ export default {
         }
     },
     methods: {
+        handleGoStockDetail(item) {
+            if (!item.ticker || !item.market) {
+                this.$toast(
+                    this.$t(['暂无行情数据', '暫無行情數據', 'No market data'])
+                )
+            } else {
+                jsBridge.gotoNativeModule(
+                    `yxzq_goto://stock_quote?market=${item.market}&code=${item.ticker}`
+                )
+            }
+        },
         handleShowMore() {
             this.showMore = !this.showMore
         },
