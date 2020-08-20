@@ -64,12 +64,12 @@ export default {
     methods: {
         showTips() {
             this.$confirm({
-                title: this.$t(['年化收益', '年化收益', 'Annualized Return']),
+                // title: this.$t(['年化收益', '年化收益', 'Annualized Return']),
                 showCancelButton: false,
                 message: this.$t([
-                    '年化收益率是把当前收益率（日/月/年/持有期收益率）换算成年收益率，即让投资者大致了解到持有该产品每年能获得的收益。',
-                    '年化收益率是把當前收益率（日/月/年/持有期收益率）換算整年收益率，即讓投資者大致瞭解到持有該產品每年能獲得的收益。',
-                    'Annualized return is the calculation of changing current return (day/month/year/holding period return) to the yearly return for helping investors to figure out the estimated annual return on investing the product.'
+                    '展示数据取前两位小数，饼图由精确数据进行绘制，出现数据为0、数据累加不等于100%均为正常情况，数据仅供参考，不构成投资建议。',
+                    '展示數據取前兩位小數，餅圖由精確數據進行繪製，出現數據爲0、數據累加不等於100%均爲正常情況，數據僅供參考，不構成投資建議。',
+                    'The first two decimals of the display data are taken, and the pie chart is drawn with accurate data. It is normal that the data is 0 and the data accumulation is not equal to 100%. The data are for reference only and do not constitute investment advice.'
                 ]),
                 confirmButtonText: this.$t(['我知道了', '我知道了', 'ok'])
             })

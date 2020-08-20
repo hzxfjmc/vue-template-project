@@ -69,27 +69,11 @@
 
 import { mapGetters } from 'vuex'
 import { getFundInvestmentDataV1 } from '@/service/finance-info-server.js'
-import { CURRENCY_NAME } from '@/pages/fund/index/map'
 import ChartPie from './ChartPie'
 import TopTen from './TopTen'
 import mixin from './mixin'
 
-const getCurrencyName = (val, lang) => {
-    return CURRENCY_NAME[lang][val]
-}
-
 export default {
-    i18n: {
-        en: {
-            currency: getCurrencyName
-        },
-        zhCHS: {
-            currency: getCurrencyName
-        },
-        zhCHT: {
-            currency: getCurrencyName
-        }
-    },
     components: { ChartPie, TopTen },
     mixins: [mixin],
     props: {},

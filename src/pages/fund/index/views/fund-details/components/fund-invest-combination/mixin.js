@@ -1,4 +1,21 @@
+import { CURRENCY_NAME } from '@/pages/fund/index/map'
+
+const getCurrencyName = (val, lang) => {
+    return CURRENCY_NAME[lang][val]
+}
+
 export default {
+    i18n: {
+        en: {
+            currency: getCurrencyName
+        },
+        zhCHS: {
+            currency: getCurrencyName
+        },
+        zhCHT: {
+            currency: getCurrencyName
+        }
+    },
     data() {
         return {
             i18n: {
