@@ -18,7 +18,7 @@ export default {
             type: Object,
             default: () => {
                 return {
-                    height: 230,
+                    height: 220,
                     innerRadius: 0.7,
                     radius: 0.75
                 }
@@ -86,7 +86,7 @@ export default {
                 nameStyle: {
                     textAlign: 'start',
                     fill: '#191919', // 文本的颜色
-                    width: 130
+                    width: 150
                 },
                 joinString: '',
                 valueStyle: {
