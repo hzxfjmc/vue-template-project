@@ -9,8 +9,7 @@
                 .content__item-percentage(:class="{'more':showMore}" v-if="holdingsList.length")
                     .percentage-item(v-for="item,index in holdingsList" :key="`${item.name}-${item.weighting}`")
                         .item-top
-                            .item-top__label 
-                                span {{item.name}} {{item.ticker}}    
+                            .item-top__label {{item.name}} {{item.ticker}}    
                             .item-top__value {{Number(item.weighting).toFixed(2)}}%   
                         .item-line(
                             :class="index<3?`bg-${index}`:'bg-3'" 
