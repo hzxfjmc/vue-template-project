@@ -13,42 +13,32 @@
                     span.item__value {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'') || '--'}}
         .fund-block  
             .fund-block__content
-                .content__item
+                .content__item(v-if="assetAllocationBreakdownApiVOList.length")
                     .chart__title {{$t(['资产类型','資產類型','Asset Class'])}}
                     ChartPie(
                         id="pie-chart-1"
-                        v-if="assetAllocationBreakdownApiVOList.length"
                         :chartList="assetAllocationBreakdownApiVOList"
                         )
-                    yx-no-list(v-else)     
-                .content__item    
+                .content__item(v-if="globalStockSectorBreakdownApiVOList.length")    
                     .chart__title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
                     ChartPie(
                         id="pie-chart-2"
-                        v-if="globalStockSectorBreakdownApiVOList.length"
                         :chartList="globalStockSectorBreakdownApiVOList")
-                    yx-no-list(v-else)     
-                .content__item    
+                .content__item(v-if="countryDataApiVOList.length")    
                     .chart__title {{$t(['投资地区','投資地區','Investment Region'])}}
                     ChartPie(
                         id="pie-chart-3"
-                        v-if="countryDataApiVOList.length"
                         :chartList="countryDataApiVOList")
-                    yx-no-list(v-else)     
-                .content__item    
+                .content__item(v-if="globalBondSectorsRawApiVOList.length")    
                     .chart__title {{$t(['债券类型','債券類型','Bond Types'])}}
                     ChartPie(
                         id="pie-chart-4"
-                        v-if="globalBondSectorsRawApiVOList.length"
                         :chartList="globalBondSectorsRawApiVOList")
-                    yx-no-list(v-else)     
-                .content__item    
+                .content__item(v-if="creditQualityBreakdownVOList.length")    
                     .chart__title {{$t(['评级分布','評級分佈','Credit Rating'])}}
                     ChartPie(
                         id="pie-chart-5"
-                        v-if="creditQualityBreakdownVOList.length"
                         :chartList="creditQualityBreakdownVOList")
-                    yx-no-list(v-else)     
         .fund-block  
             .fund-block__content
                 TopTen(

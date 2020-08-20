@@ -6,8 +6,8 @@
                     .sub-title__item 
                         span {{$t(['名称','名稱','Name'])}}
                     .sub-title__item {{$t(['占比','佔比','Ratio'])}} 
-                .content__item-percentage(:class="{'more':showMore}" v-if="holdingsList.length")
-                    .percentage-item(v-for="item,index in holdingsList" :key="`${item.name}-${item.weighting}`")
+                .content__item-percentage(:style="{'height':`${showMore?height*holdingsList.length:height*5}px`}" v-if="holdingsList.length")
+                    .percentage-item(v-for="item,index in holdingsList" :key="`${item.name}-${item.weighting}`" ref="percentage-item")
                         .item-top
                             .item-top__label {{item.name}} {{item.ticker}}    
                             .item-top__value {{Number(item.weighting).toFixed(2)}}%   
@@ -47,7 +47,8 @@ export default {
             showMore: false,
             holdingsList: [],
             investmentData: {},
-            allPercent: 0
+            allPercent: 0,
+            height: ''
         }
     },
     methods: {
@@ -97,9 +98,13 @@ export default {
             }
         }
     },
-    created() {
-        this.getFundTop10Holdings()
-    }
+    async created() {
+        await this.getFundTop10Holdings()
+        this.$nextTick(() => {
+            this.height = this.$refs['percentage-item'][0].clientHeight || 40
+        })
+    },
+    mounted() {}
 }
 </script>
 <style lang="scss" scoped>
@@ -163,6 +168,7 @@ export default {
             .item-top__label {
                 width: 85%;
                 overflow: hidden;
+                white-space: nowrap;
                 text-overflow: ellipsis;
             }
             .item-top__value {
