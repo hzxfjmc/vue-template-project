@@ -29,12 +29,12 @@
                     ChartPie(
                         id="pie-chart-3"
                         :chartList="countryDataApiVOList")
-                .content__item(v-if="globalBondSectorsRawApiVOList.length")    
+                .content__item(v-if="globalBondSectorsRawApiVOList.length && !isStockType")    
                     .chart__title {{$t(['债券类型','債券類型','Bond Types'])}}
                     ChartPie(
                         id="pie-chart-4"
                         :chartList="globalBondSectorsRawApiVOList")
-                .content__item(v-if="creditQualityBreakdownVOList.length")    
+                .content__item(v-if="creditQualityBreakdownVOList.length && !isStockType")    
                     .chart__title {{$t(['评级分布','評級分佈','Credit Rating'])}}
                     ChartPie(
                         id="pie-chart-5"
@@ -68,6 +68,10 @@ export default {
     mixins: [mixin],
     props: {},
     computed: {
+        isStockType() {
+            // 股票类型
+            return Number(this.$route.query.assetType) === 1
+        },
         ...mapGetters(['lang']),
         text1() {
             return this.$t([

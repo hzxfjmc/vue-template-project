@@ -87,7 +87,7 @@ export default {
         },
         handleGoDetail() {
             let queryString = ''
-            ;['fundId', 'fundName', 'isin'].forEach(key => {
+            ;['fundId', 'fundName', 'isin', 'assetType'].forEach(key => {
                 queryString += `${key}=${encodeURIComponent(
                     this.fundHeaderInfoVO[key]
                 )}&`
