@@ -28,6 +28,8 @@
 import { mapGetters } from 'vuex'
 import { getFundTop10HoldingsV1 } from '@/service/finance-info-server.js'
 import mixin from './mixin'
+import { sliceDecimal } from '@/utils/tools'
+
 export default {
     mixins: [mixin],
     components: {},
@@ -81,13 +83,14 @@ export default {
                     if (index === 0) {
                         item.width = 100
                     } else {
-                        item.width = Number(
-                            (list[index].weighting / list[0].weighting) * 100
-                        ).toFixed(2)
+                        item.width = sliceDecimal(
+                            (list[index].weighting / list[0].weighting) * 100,
+                            2
+                        )
                     }
                     this.allPercent += +Number(item.weighting).toFixed(2)
                 })
-                this.allPercent = Number(this.allPercent).toFixed(2)
+                this.allPercent = sliceDecimal(this.allPercent, 2)
                 this.holdingsList = list
             } catch (e) {
                 this.$toast(e.msg)

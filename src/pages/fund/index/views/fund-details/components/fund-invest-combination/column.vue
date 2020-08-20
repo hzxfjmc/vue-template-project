@@ -10,7 +10,8 @@
         .fund-colunm__content
             .content__item  
                 .content__item-title 
-                    .title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
+                    .title(v-if="globalStockSectorBreakdownList.length || !assetAllocationBreakdownApiVOList.length") {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
+                    .title(v-else="assetAllocationBreakdownApiVOList.length") {{$t(['资产类型','資產類型','Asset Class'])}}
                     .iconfont.icon-warning(@click="showTips")             
                 .content__item-sub-title
                     .sub-title__item 
@@ -19,8 +20,14 @@
                     .sub-title__item {{$t(['数据更新时间','數據更新時間','As of'])}} ：{{investmentData.updateTime}}  
                 .content__item-chart  
                     ChartPie(
+                        id="pie-chart-1"
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList")
+                    ChartPie(
+                        id="pie-chart-2"
+                        v-else-if="assetAllocationBreakdownApiVOList.length"
+                        :chartList="assetAllocationBreakdownApiVOList"
+                        )    
                     yx-no-list(v-else)    
             TopTen(
                 v-if="fundHeaderInfoVO.fundId"
@@ -58,7 +65,8 @@ export default {
             showMore: false,
             holdingsList: [],
             investmentData: {},
-            globalStockSectorBreakdownList: []
+            globalStockSectorBreakdownList: [],
+            assetAllocationBreakdownApiVOList: []
         }
     },
     methods: {
@@ -96,27 +104,54 @@ export default {
                 location.href = url
             }
         },
+        sortList(dataList, type) {
+            if (!dataList) return []
+            let list = []
+            if (type === 'object') {
+                Object.keys(dataList).forEach(key => {
+                    Number(dataList[key]) &&
+                        list.push({
+                            name: this.i18n[key],
+                            percent: +Number(dataList[key] || 0).toFixed(2),
+                            a: '1'
+                        })
+                })
+            }
+            if (type === 'countryDataApiVOList') {
+                list = dataList.map(item => {
+                    return {
+                        name: item.country,
+                        percent: +Number(item.value).toFixed(2),
+                        a: '1'
+                    }
+                })
+            }
+            // 降序排序
+            list = list
+                .filter(item => Number(item.percent))
+                .sort((a, b) => {
+                    return b.percent - a.percent
+                })
+            console.log(list)
+            return list
+        },
         async getFundInvestmentData() {
             try {
                 const params = {
                     fundId: this.fundHeaderInfoVO.fundId
                 }
                 this.investmentData = await getFundInvestmentDataV1(params)
-                const item = this.investmentData.globalStockSectorBreakdownApiVO
-                let dataList = []
-                Object.keys(item).forEach(key => {
-                    Number(item[key]) &&
-                        dataList.push({
-                            name: this.i18n[key],
-                            percent: +Number(item[key]).toFixed(2),
-                            a: '1'
-                        })
-                })
-                // 降序排序
-                dataList = dataList.sort((a, b) => {
-                    return b.percent - a.percent
-                })
-                this.globalStockSectorBreakdownList = dataList
+                const item1 = this.investmentData
+                    .globalStockSectorBreakdownApiVO
+                const item2 = this.investmentData.assetAllocationBreakdownApiVO
+                this.globalStockSectorBreakdownList = this.sortList(
+                    item1,
+                    'object'
+                )
+                this.assetAllocationBreakdownApiVOList = this.sortList(
+                    item2,
+                    'object'
+                )
             } catch (e) {
                 this.$toast(e.msg)
             }

@@ -110,13 +110,14 @@ export default {
     },
     methods: {
         sortList(dataList, type) {
+            if (!dataList) return []
             let list = []
             if (type === 'object') {
                 Object.keys(dataList).forEach(key => {
                     Number(dataList[key]) &&
                         list.push({
                             name: this.i18n[key],
-                            percent: +Number(dataList[key]).toFixed(2),
+                            percent: +Number(dataList[key] || 0).toFixed(2),
                             a: '1'
                         })
                 })
@@ -136,6 +137,7 @@ export default {
                 .sort((a, b) => {
                     return b.percent - a.percent
                 })
+            console.log(list)
             return list
         },
         async getFundInvestmentData() {
