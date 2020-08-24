@@ -98,7 +98,7 @@ export default {
                     fundId: this.fundId
                 }
                 const list = (await getFundTop10HoldingsV1(params)) || []
-                let filterList = list.filter(item => item.weighting !== null)
+                let filterList = list.filter(item => item.weighting)
                 filterList.forEach((item, index) => {
                     if (index === 0) {
                         item.width = 100
