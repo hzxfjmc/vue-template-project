@@ -150,7 +150,7 @@ export default {
             &.label::before {
                 content: ' ';
                 position: absolute;
-                width: 2px;
+                width: 4px;
                 left: -11px;
                 height: 100%;
                 background-color: $primary-color;

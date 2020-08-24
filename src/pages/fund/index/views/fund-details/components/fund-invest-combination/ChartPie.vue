@@ -171,6 +171,7 @@ export default {
         background-color: #ffd154;
     }
     .item__label {
+        font-size: 12px;
         max-width: 150px;
         overflow: hidden;
     }
