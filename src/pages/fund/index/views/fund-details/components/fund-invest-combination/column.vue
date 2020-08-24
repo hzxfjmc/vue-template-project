@@ -14,9 +14,9 @@
                     .title(v-else="assetAllocationBreakdownApiVOList.length") {{$t(['资产类型','資產類型','Asset Class'])}}
                     .iconfont.icon-warning(@click="showTips")             
                 .content__item-sub-title
-                    .sub-title__item 
-                        span {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
-                        span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
+                    //- .sub-title__item 
+                    //-     span {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
+                    //-     span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
                     .sub-title__item {{$t(['数据更新时间','數據更新時間','As of'])}} ：{{investmentData.updateTime}}  
                 .content__item-chart  
                     ChartPie(
@@ -32,6 +32,7 @@
             TopTen(
                 v-if="fundHeaderInfoVO.fundId"
                 :fundId="fundHeaderInfoVO.fundId"
+                :needLabel="true"
             )                      
 </template>
 <script>
@@ -132,7 +133,6 @@ export default {
                 .sort((a, b) => {
                     return b.percent - a.percent
                 })
-            console.log(list)
             return list
         },
         async getFundInvestmentData() {
@@ -203,13 +203,24 @@ export default {
 }
 .fund-colunm__content {
     .content__item {
+        padding-top: 14px;
         .content__item-title {
             display: flex;
             align-items: center;
-            padding-top: 14px;
             text-align: left;
             font-size: 16px;
             font-weight: 400;
+            position: relative;
+            &::before {
+                content: ' ';
+                position: absolute;
+                width: 4px;
+                height: 100%;
+                background-color: $primary-color;
+            }
+            .title {
+                padding-left: 5px;
+            }
         }
         .content__item-sub-title {
             display: flex;

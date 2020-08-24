@@ -5,12 +5,13 @@
                 .title {{fundName}}
                 .desc ISIN:{{isin}}
             .header__bottom
-                .item
-                    span.item__label {{$t(['数据更新时间','數據更新時間','As of'])}}：
+                .item(v-if="investmentData.fundSize")
+                    span.item__label {{$t(['更新时间','更新時間','As of'])}}：
                     span.item__value {{investmentData.updateTime || '--'}}    
                 .item
-                    span.item__label {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
-                    span.item__value {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'') || '--'}}
+                    span.item__label {{$t(['规模','规模','FundSize'])}}({{$t('currency',investmentData.currency,lang)}})：
+                    span.item__value(v-if="investmentData.fundSize") {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'') || '--'}}
+                    span.item__value(v-else) {{$t(['基金公司暂未披露此信息','基金公司暫未披露此信息','The fund company has not disclosed this information'])}}
         .fund-block  
             .fund-block__content
                 .content__item(v-if="assetAllocationBreakdownApiVOList.length")
@@ -190,6 +191,7 @@ export default {
 .fund-info__header {
     position: sticky;
     top: 0;
+    z-index: 999;
     background-color: $background-color;
     .header__top {
         padding: 20px 12px 14px;

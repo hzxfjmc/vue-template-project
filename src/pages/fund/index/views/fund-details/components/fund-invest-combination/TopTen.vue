@@ -1,12 +1,13 @@
 <template lang="pug">
     .fund-colunm__content 
         .content__item  
-                .content__item-title {{$t(['十大持仓','十大持倉','TOP 10 Holdings'])}} ({{allPercent}}%)   
+                .content__item-title(:class="{'label':needLabel}") 
+                    .title {{$t(['十大持仓','十大持倉','TOP 10 Holdings'])}} ({{allPercent}}%)   
                 .content__item-sub-title(v-if="holdingsList.length")
                     .sub-title__item 
                         span {{$t(['名称','名稱','Name'])}}
                     .sub-title__item {{$t(['占比','佔比','Ratio'])}} 
-                .content__item-percentage(:style="{'height':`${showMore?height*holdingsList.length:height*5}px`}" v-if="holdingsList.length")
+                .content__item-percentage(:style="{'height':`${showMore?height*holdingsList.length:height*(holdingsList.length < 5 ? holdingsList.length:5)}px`}" v-if="holdingsList.length")
                     .percentage-item(v-for="item,index in holdingsList" :key="`${item.name}-${item.weighting}`" ref="percentage-item")
                         .item-top
                             .item-top__label(@click="handleGoStockDetail(item)") {{item.name}} {{item.ticker}}    
@@ -38,6 +39,10 @@ export default {
         fundId: {
             type: [String, Number],
             default: ''
+        },
+        needLabel: {
+            type: Boolean,
+            default: false
         }
     },
     computed: {
@@ -56,7 +61,8 @@ export default {
         handleGoStockDetail(item) {
             if (!item.ticker || !item.market) {
                 this.$toast(
-                    this.$t(['暂无行情数据', '暫無行情數據', 'No market data'])
+                    this.$t(['暂无行情数据', '暫無行情數據', 'No market data']),
+                    'center'
                 )
             } else {
                 jsBridge.gotoNativeModule(
@@ -92,19 +98,22 @@ export default {
                     fundId: this.fundId
                 }
                 const list = (await getFundTop10HoldingsV1(params)) || []
-                list.forEach((item, index) => {
+                let filterList = list.filter(item => item.weighting !== null)
+                filterList.forEach((item, index) => {
                     if (index === 0) {
                         item.width = 100
                     } else {
                         item.width = sliceDecimal(
-                            (list[index].weighting / list[0].weighting) * 100,
+                            (filterList[index].weighting /
+                                filterList[0].weighting) *
+                                100,
                             2
                         )
                     }
                     this.allPercent += +Number(item.weighting).toFixed(2)
                 })
                 this.allPercent = sliceDecimal(this.allPercent, 2)
-                this.holdingsList = list
+                this.holdingsList = filterList
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -113,10 +122,11 @@ export default {
     async created() {
         await this.getFundTop10Holdings()
         this.$nextTick(() => {
-            this.height = this.$refs['percentage-item'][0].clientHeight || 40
+            this.height = this.$refs['percentage-item']
+                ? this.$refs['percentage-item'][0].clientHeight
+                : 40
         })
-    },
-    mounted() {}
+    }
 }
 </script>
 <style lang="scss" scoped>
@@ -131,11 +141,22 @@ export default {
 
 .fund-colunm__content {
     .content__item {
+        padding-top: 14px;
         .content__item-title {
-            padding-top: 14px;
             text-align: left;
             font-size: 16px;
             font-weight: 400;
+            position: relative;
+            &.label::before {
+                content: ' ';
+                position: absolute;
+                width: 4px;
+                height: 100%;
+                background-color: $primary-color;
+            }
+            &.label .title {
+                padding-left: 5px;
+            }
         }
         .content__item-sub-title {
             display: flex;
