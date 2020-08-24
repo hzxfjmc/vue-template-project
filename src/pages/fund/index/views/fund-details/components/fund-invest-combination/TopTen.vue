@@ -150,12 +150,10 @@ export default {
             &.label::before {
                 content: ' ';
                 position: absolute;
-                width: 4px;
+                width: 2px;
+                left: -11px;
                 height: 100%;
                 background-color: $primary-color;
-            }
-            &.label .title {
-                padding-left: 5px;
             }
         }
         .content__item-sub-title {
