@@ -42,7 +42,7 @@ export default {
         },
         needLabel: {
             type: Boolean,
-            default: false
+            default: true
         }
     },
     computed: {

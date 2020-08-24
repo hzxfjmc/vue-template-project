@@ -153,7 +153,7 @@ export default {
             rgba(255, 255, 255, 1) 100%
         );
         top: -6px;
-        z-index: 999;
+        z-index: 9;
     }
     .content {
         max-height: 126px;
