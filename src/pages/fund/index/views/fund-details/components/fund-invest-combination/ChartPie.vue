@@ -1,10 +1,11 @@
 <template lang="pug">
     .chart-container
         canvas.canvas-pie(:id="id")
-        .legend-container
-            .pie-legend__item(v-for="item,index in legendItems" :key="item.name" :class="`maker-${index>=7?7:index}`")
-                .item__label {{item.name}}
-                .item__value {{item.value}}
+        .legend-container(:class="{'linear':legendItems.length >6}")
+            .content
+                .pie-legend__item(v-for="item,index in legendItems" :key="item.name" :class="`maker-${index>=7?7:index}`")
+                    .item__label {{item.name}}
+                    .item__value {{item.value}}
 </template>
 <script>
 import F2 from '@antv/f2'
@@ -128,13 +129,36 @@ export default {
 }
 .legend-container {
     width: 50%;
-    max-height: 126px;
-    overflow: auto;
-    background: linear-gradient(
-        360deg,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 0) 100%
-    );
+    position: relative;
+    &.linear::after {
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 20px;
+        background: linear-gradient(
+            360deg,
+            rgba(255, 255, 255, 1) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        bottom: -1px;
+    }
+    &.linear::before {
+        content: ' ';
+        position: absolute;
+        width: 100%;
+        height: 20px;
+        background: linear-gradient(
+            360deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 1) 100%
+        );
+        top: 0px;
+        z-index: 999;
+    }
+    .content {
+        max-height: 126px;
+        overflow: auto;
+    }
 }
 .pie-legend__item {
     display: flex;
