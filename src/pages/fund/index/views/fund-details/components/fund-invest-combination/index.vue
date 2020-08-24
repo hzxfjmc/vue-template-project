@@ -15,28 +15,33 @@
         .fund-block  
             .fund-block__content
                 .content__item(v-if="assetAllocationBreakdownApiVOList.length")
-                    .chart__title {{$t(['资产类型','資產類型','Asset Class'])}}
+                    .chart__title 
+                        .title {{$t(['资产类型','資產類型','Asset Class'])}}
                     ChartPie(
                         id="pie-chart-1"
                         :chartList="assetAllocationBreakdownApiVOList"
                         )
                 .content__item(v-if="globalStockSectorBreakdownApiVOList.length")    
-                    .chart__title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
+                    .chart__title 
+                        .title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
                     ChartPie(
                         id="pie-chart-2"
                         :chartList="globalStockSectorBreakdownApiVOList")
                 .content__item(v-if="countryDataApiVOList.length")    
-                    .chart__title {{$t(['投资地区','投資地區','Investment Region'])}}
+                    .chart__title 
+                        .title {{$t(['投资地区','投資地區','Investment Region'])}}
                     ChartPie(
                         id="pie-chart-3"
                         :chartList="countryDataApiVOList")
                 .content__item(v-if="globalBondSectorsRawApiVOList.length && !isStockType")    
-                    .chart__title {{$t(['债券类型','債券類型','Bond Types'])}}
+                    .chart__title 
+                        .title {{$t(['债券类型','債券類型','Bond Types'])}}
                     ChartPie(
                         id="pie-chart-4"
                         :chartList="globalBondSectorsRawApiVOList")
                 .content__item(v-if="creditQualityBreakdownVOList.length && !isStockType")    
-                    .chart__title {{$t(['评级分布','評級分佈','Credit Rating'])}}
+                    .chart__title 
+                        .title {{$t(['评级分布','評級分佈','Credit Rating'])}}
                     ChartPie(
                         id="pie-chart-5"
                         :chartList="creditQualityBreakdownVOList")
@@ -256,6 +261,17 @@ export default {
             font-size: 16px;
             font-weight: 500;
             padding-top: 14px;
+            .title {
+                position: relative;
+                &::before {
+                    content: ' ';
+                    position: absolute;
+                    width: 4px;
+                    left: -12px;
+                    height: 100%;
+                    background-color: $primary-color;
+                }
+            }
         }
     }
 }

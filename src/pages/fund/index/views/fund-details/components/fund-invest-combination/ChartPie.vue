@@ -152,7 +152,7 @@ export default {
             rgba(255, 255, 255, 0) 0%,
             rgba(255, 255, 255, 1) 100%
         );
-        top: 0px;
+        top: -6px;
         z-index: 999;
     }
     .content {
