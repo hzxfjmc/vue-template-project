@@ -130,6 +130,11 @@ export default {
     width: 50%;
     max-height: 126px;
     overflow: auto;
+    background: linear-gradient(
+        360deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 0) 100%
+    );
 }
 .pie-legend__item {
     display: flex;

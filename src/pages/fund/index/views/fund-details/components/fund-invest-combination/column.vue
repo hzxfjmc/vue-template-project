@@ -17,7 +17,7 @@
                     //- .sub-title__item 
                     //-     span {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
                     //-     span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
-                    .sub-title__item {{$t(['数据更新时间','數據更新時間','As of'])}} ：{{investmentData.updateTime}}  
+                    .sub-title__item {{$t(['更新时间','更新時間','As of'])}} ：{{investmentData.updateTime}}  
                 .content__item-chart  
                     ChartPie(
                         id="pie-chart-1"

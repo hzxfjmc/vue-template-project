@@ -5,13 +5,13 @@
                 .title {{fundName}}
                 .desc ISIN:{{isin}}
             .header__bottom
-                .item(v-if="investmentData.fundSize")
-                    span.item__label {{$t(['更新时间','更新時間','As of'])}}：
-                    span.item__value {{investmentData.updateTime || '--'}}    
                 .item
                     span.item__label {{$t(['规模','规模','FundSize'])}}({{$t('currency',investmentData.currency,lang)}})：
                     span.item__value(v-if="investmentData.fundSize") {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'') || '--'}}
                     span.item__value(v-else) {{$t(['基金公司暂未披露此信息','基金公司暫未披露此信息','The fund company has not disclosed this information'])}}
+                .item(v-if="investmentData.fundSize")
+                    span.item__label {{$t(['更新时间','更新時間','As of'])}}：
+                    span.item__value {{investmentData.updateTime || '--'}}    
         .fund-block  
             .fund-block__content
                 .content__item(v-if="assetAllocationBreakdownApiVOList.length")
