@@ -59,7 +59,7 @@ export default {
     },
     methods: {
         handleGoStockDetail(item) {
-            if (!item.ticker || !item.market) {
+            if (!item.quotes) {
                 this.$toast(
                     this.$t(['暂无行情数据', '暫無行情數據', 'No market data']),
                     'center'

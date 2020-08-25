@@ -20,31 +20,40 @@
                     ChartPie(
                         id="pie-chart-1"
                         :chartList="assetAllocationBreakdownApiVOList"
+                        :updateTime="portfolioDate2"
                         )
                 .content__item(v-if="globalStockSectorBreakdownApiVOList.length")    
                     .chart__title 
                         .title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
                     ChartPie(
                         id="pie-chart-2"
-                        :chartList="globalStockSectorBreakdownApiVOList")
+                        :chartList="globalStockSectorBreakdownApiVOList"
+                        :updateTime="portfolioDate1"
+                        )
                 .content__item(v-if="countryDataApiVOList.length")    
                     .chart__title 
                         .title {{$t(['投资地区','投資地區','Investment Region'])}}
                     ChartPie(
                         id="pie-chart-3"
-                        :chartList="countryDataApiVOList")
+                        :chartList="countryDataApiVOList"
+                        :updateTime="portfolioDate3"
+                        )
                 .content__item(v-if="globalBondSectorsRawApiVOList.length && !isStockType")    
                     .chart__title 
                         .title {{$t(['债券类型','債券類型','Bond Types'])}}
                     ChartPie(
                         id="pie-chart-4"
-                        :chartList="globalBondSectorsRawApiVOList")
+                        :chartList="globalBondSectorsRawApiVOList"
+                        :updateTime="portfolioDate4"
+                        )
                 .content__item(v-if="creditQualityBreakdownVOList.length && !isStockType")    
                     .chart__title 
                         .title {{$t(['评级分布','評級分佈','Credit Rating'])}}
                     ChartPie(
                         id="pie-chart-5"
-                        :chartList="creditQualityBreakdownVOList")
+                        :chartList="creditQualityBreakdownVOList"
+                        :updateTime="portfolioDate5"
+                        )
         .fund-block  
             .fund-block__content
                 TopTen(
@@ -105,7 +114,12 @@ export default {
             assetAllocationBreakdownApiVOList: [],
             countryDataApiVOList: [],
             creditQualityBreakdownVOList: [],
-            globalBondSectorsRawApiVOList: []
+            globalBondSectorsRawApiVOList: [],
+            portfolioDate1: '',
+            portfolioDate2: '',
+            portfolioDate3: '',
+            portfolioDate4: '',
+            portfolioDate5: ''
         }
     },
     methods: {
@@ -152,6 +166,15 @@ export default {
                 const item3 = this.investmentData.countryDataApiVOList
                 const item4 = this.investmentData.globalBondSectorsRawApiVO
                 const item5 = this.investmentData.creditQualityBreakdownVO
+
+                this.portfolioDate1 = item1 && item1.portfolioDate
+                this.portfolioDate2 = item2 && item2.portfolioDate
+                this.portfolioDate3 =
+                    this.investmentData &&
+                    this.investmentData.countryPortfolioDate
+                this.portfolioDate4 = item4 && item4.portfolioDate
+                this.portfolioDate5 = item5 && item5.portfolioDate
+
                 this.globalStockSectorBreakdownApiVOList = this.sortList(
                     item1,
                     'object'

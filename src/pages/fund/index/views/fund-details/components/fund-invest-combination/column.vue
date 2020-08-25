@@ -13,20 +13,23 @@
                     .title(v-if="globalStockSectorBreakdownList.length || !assetAllocationBreakdownApiVOList.length") {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
                     .title(v-else="assetAllocationBreakdownApiVOList.length") {{$t(['资产类型','資產類型','Asset Class'])}}
                     .iconfont.icon-warning(@click="showTips")             
-                .content__item-sub-title
+                //- .content__item-sub-title
                     //- .sub-title__item 
                     //-     span {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
                     //-     span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
-                    .sub-title__item {{$t(['更新时间','更新時間','As of'])}} ：{{investmentData.updateTime}}  
+                    //- .sub-title__item {{$t(['更新时间','更新時間','As of'])}} ：{{investmentData.updateTime}}  
                 .content__item-chart  
                     ChartPie(
                         id="pie-chart-1"
                         v-if="globalStockSectorBreakdownList.length"
-                        :chartList="globalStockSectorBreakdownList")
+                        :chartList="globalStockSectorBreakdownList"
+                        :updateTime="portfolioDate2"
+                        )
                     ChartPie(
                         id="pie-chart-2"
                         v-else-if="assetAllocationBreakdownApiVOList.length"
                         :chartList="assetAllocationBreakdownApiVOList"
+                        :updateTime="portfolioDate1"
                         )    
                     yx-no-list(v-else)    
             TopTen(
@@ -67,7 +70,9 @@ export default {
             holdingsList: [],
             investmentData: {},
             globalStockSectorBreakdownList: [],
-            assetAllocationBreakdownApiVOList: []
+            assetAllocationBreakdownApiVOList: [],
+            portfolioDate1: '',
+            portfolioDate2: ''
         }
     },
     methods: {
@@ -144,6 +149,8 @@ export default {
                 const item1 = this.investmentData
                     .globalStockSectorBreakdownApiVO
                 const item2 = this.investmentData.assetAllocationBreakdownApiVO
+                this.portfolioDate1 = item1 && item1.portfolioDate
+                this.portfolioDate2 = item2 && item2.portfolioDate
                 this.globalStockSectorBreakdownList = this.sortList(
                     item1,
                     'object'

@@ -1,11 +1,13 @@
 <template lang="pug">
-    .chart-container
-        canvas.canvas-pie(:id="id")
-        .legend-container(:class="{'linear':legendItems.length >6}")
-            .content
-                .pie-legend__item(v-for="item,index in legendItems" :key="item.name" :class="`maker-${index>=7?7:index}`")
-                    .item__label {{item.name}}
-                    .item__value {{item.value}}
+    .pie-chart-container
+        .label(v-if="updateTime") {{$t(['更新时间','更新時間','As of'])}} ：{{updateTime}}
+        .chart-container
+            canvas.canvas-pie(:id="id")
+            .legend-container(:class="{'linear':legendItems.length >6}")
+                .content
+                    .pie-legend__item(v-for="item,index in legendItems" :key="item.name" :class="`maker-${index>=7?7:index}`")
+                        .item__label {{item.name}}
+                        .item__value {{item.value}}
 </template>
 <script>
 import F2 from '@antv/f2'
@@ -28,6 +30,10 @@ export default {
                     radius: 0.75
                 }
             }
+        },
+        updateTime: {
+            type: String,
+            default: ''
         }
     },
     data() {
@@ -64,6 +70,10 @@ export default {
                         radius: 3
                     }
                 })
+                // 后面的统一颜色
+                if (index > 10) {
+                    this.colorList.push('#FFD154')
+                }
             })
             this.legendItems = legendItems
             console.log(this.legendItems)
@@ -123,6 +133,11 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.label {
+    padding-top: 10px;
+    color: #666;
+    font-size: 12px;
+}
 .chart-container {
     display: flex;
     align-items: center;
