@@ -226,6 +226,7 @@ export default {
     position: sticky;
     top: 0;
     z-index: 999;
+    border-bottom: 1px solid $background-bottom-color;
     background-color: $background-color;
     .header__top {
         padding: 20px 12px 14px;

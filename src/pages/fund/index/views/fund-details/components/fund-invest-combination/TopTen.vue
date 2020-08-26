@@ -180,7 +180,7 @@ export default {
         }
         .content__item-btn {
             display: flex;
-            padding-bottom: 20px;
+            padding: 20px 0;
             justify-content: center;
             align-items: center;
             font-size: 12px;

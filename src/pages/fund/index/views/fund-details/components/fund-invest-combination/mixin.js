@@ -51,7 +51,7 @@ export default {
                 technology: this.$t(['科技', '科技', 'Technology']),
                 utilities: this.$t(['公用事业', '公用事業', 'Utilities']),
                 bondNet: this.$t(['债券', '債券', 'BondNet']),
-                cashNet: this.$t(['现金', '現金', 'cashNet']),
+                cashNet: this.$t(['现金', '現金', 'CashNet']),
                 convertibleNet: this.$t(['可转债', '可轉債', 'ConvertibleNet']),
                 otherNet: this.$t(['其他', '其他', 'OtherNet']),
                 preferredNet: this.$t(['优先股', '優先股', 'PreferredNet']),

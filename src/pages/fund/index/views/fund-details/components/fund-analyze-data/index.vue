@@ -338,6 +338,7 @@ export default {
     position: sticky;
     top: 0;
     background-color: $background-color;
+    border-bottom: 1px solid $background-bottom-color;
     .header__top {
         padding: 20px 12px 14px;
         border-bottom: 1px solid $text-color8;
