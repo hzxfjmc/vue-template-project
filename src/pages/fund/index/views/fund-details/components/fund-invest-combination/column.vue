@@ -23,13 +23,13 @@
                         id="pie-chart-1"
                         v-if="globalStockSectorBreakdownList.length"
                         :chartList="globalStockSectorBreakdownList"
-                        :updateTime="portfolioDate2"
+                        :updateTime="portfolioDate1"
                         )
                     ChartPie(
                         id="pie-chart-2"
                         v-else-if="assetAllocationBreakdownApiVOList.length"
                         :chartList="assetAllocationBreakdownApiVOList"
-                        :updateTime="portfolioDate1"
+                        :updateTime="portfolioDate2"
                         )    
                     yx-no-list(v-else)    
             TopTen(
