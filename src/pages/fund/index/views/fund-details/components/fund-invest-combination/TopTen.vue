@@ -1,8 +1,10 @@
 <template lang="pug">
-    .fund-colunm__content 
+    .fund-colunm__content(:class="className") 
         .content__item  
                 .content__item-title(:class="{'label':needLabel}") 
                     .title {{$t(['十大持仓','十大持倉','TOP 10 Holdings'])}} ({{allPercent}}%)   
+                .content__item-sub-title
+                    .sub-title__item {{$t(['更新时间','更新時間','As of'])}} ：{{updateTime}}
                 .content__item-sub-title(v-if="holdingsList.length")
                     .sub-title__item 
                         span {{$t(['名称','名稱','Name'])}}
@@ -40,9 +42,9 @@ export default {
             type: [String, Number],
             default: ''
         },
-        needLabel: {
-            type: Boolean,
-            default: true
+        className: {
+            type: String,
+            default: ''
         }
     },
     computed: {
@@ -54,14 +56,15 @@ export default {
             holdingsList: [],
             investmentData: {},
             allPercent: 0,
-            height: ''
+            height: '',
+            updateTime: ''
         }
     },
     methods: {
         handleGoStockDetail(item) {
             if (!item.quotes) {
                 this.$toast(
-                    this.$t(['暂无行情数据', '暫無行情數據', 'No market data']),
+                    this.$t(['暂无行情数据', '暫無行情數據', 'No Market Data']),
                     'center'
                 )
             } else {
@@ -114,6 +117,9 @@ export default {
                 })
                 this.allPercent = sliceDecimal(this.allPercent, 2)
                 this.holdingsList = filterList
+                this.updateTime = this.holdingsList.length
+                    ? this.holdingsList[0].portfolioDate
+                    : ''
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -147,7 +153,7 @@ export default {
             font-size: 16px;
             font-weight: 400;
             position: relative;
-            &.label::before {
+            &::before {
                 content: ' ';
                 position: absolute;
                 width: 4px;
@@ -158,7 +164,7 @@ export default {
         }
         .content__item-sub-title {
             display: flex;
-            padding: 10px 0 10px;
+            padding: 5px 0 0;
             justify-content: space-between;
             color: #666;
             font-size: 12px;
@@ -222,6 +228,24 @@ export default {
                 &.bg-3 {
                     background-color: #249cff;
                 }
+            }
+        }
+    }
+}
+.fund-index {
+    .content__item {
+        .content__item-title {
+            text-align: left;
+            font-size: 16px;
+            font-weight: 400;
+            position: relative;
+            &::before {
+                content: ' ';
+                position: absolute;
+                width: 4px;
+                left: -12px;
+                height: 100%;
+                background-color: $primary-color;
             }
         }
     }

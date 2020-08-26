@@ -35,7 +35,6 @@
             TopTen(
                 v-if="fundHeaderInfoVO.fundId"
                 :fundId="fundHeaderInfoVO.fundId"
-                :needLabel="true"
             )                      
 </template>
 <script>
@@ -76,18 +75,6 @@ export default {
         }
     },
     methods: {
-        showTips() {
-            this.$confirm({
-                // title: this.$t(['年化收益', '年化收益', 'Annualized Return']),
-                showCancelButton: false,
-                message: this.$t([
-                    '展示数据取前两位小数，饼图由精确数据进行绘制，出现数据为0、数据累加不等于100%均为正常情况，数据仅供参考，不构成投资建议。',
-                    '展示數據取前兩位小數，餅圖由精確數據進行繪製，出現數據爲0、數據累加不等於100%均爲正常情況，數據僅供參考，不構成投資建議。',
-                    'The first two decimals of the display data are taken, and the pie chart is drawn with accurate data. It is normal that the data is 0 and the data accumulation is not equal to 100%. The data are for reference only and do not constitute investment advice.'
-                ]),
-                confirmButtonText: this.$t(['我知道了', '我知道了', 'ok'])
-            })
-        },
         handleShowMore() {
             this.showMore = !this.showMore
         },
@@ -226,13 +213,6 @@ export default {
                 height: 100%;
                 background-color: $primary-color;
             }
-        }
-        .content__item-sub-title {
-            display: flex;
-            padding: 10px 0 10px;
-            justify-content: space-between;
-            color: #666;
-            font-size: 12px;
         }
     }
 }

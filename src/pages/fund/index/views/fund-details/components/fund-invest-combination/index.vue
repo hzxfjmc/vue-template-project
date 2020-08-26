@@ -17,6 +17,7 @@
                 .content__item(v-if="assetAllocationBreakdownApiVOList.length")
                     .chart__title 
                         .title {{$t(['资产类型','資產類型','Asset Class'])}}
+                        .iconfont.icon-warning(@click="showTips") 
                     ChartPie(
                         id="pie-chart-1"
                         :chartList="assetAllocationBreakdownApiVOList"
@@ -25,6 +26,7 @@
                 .content__item(v-if="globalStockSectorBreakdownApiVOList.length")    
                     .chart__title 
                         .title {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
+                        .iconfont.icon-warning(@click="showTips") 
                     ChartPie(
                         id="pie-chart-2"
                         :chartList="globalStockSectorBreakdownApiVOList"
@@ -33,6 +35,7 @@
                 .content__item(v-if="countryDataApiVOList.length")    
                     .chart__title 
                         .title {{$t(['投资地区','投資地區','Investment Region'])}}
+                        .iconfont.icon-warning(@click="showTips") 
                     ChartPie(
                         id="pie-chart-3"
                         :chartList="countryDataApiVOList"
@@ -41,6 +44,7 @@
                 .content__item(v-if="globalBondSectorsRawApiVOList.length && !isStockType")    
                     .chart__title 
                         .title {{$t(['债券类型','債券類型','Bond Types'])}}
+                        .iconfont.icon-warning(@click="showTips") 
                     ChartPie(
                         id="pie-chart-4"
                         :chartList="globalBondSectorsRawApiVOList"
@@ -49,6 +53,7 @@
                 .content__item(v-if="creditQualityBreakdownVOList.length && !isStockType")    
                     .chart__title 
                         .title {{$t(['评级分布','評級分佈','Credit Rating'])}}
+                        .iconfont.icon-warning(@click="showTips") 
                     ChartPie(
                         id="pie-chart-5"
                         :chartList="creditQualityBreakdownVOList"
@@ -59,6 +64,7 @@
                 TopTen(
                 v-if="fundId"
                 :fundId="fundId"
+                className="fund-index"
                 )                 
         .fund-block
              .fund-block__content
@@ -281,6 +287,7 @@ export default {
             color: $text-color5;
         }
         .chart__title {
+            display: flex;
             font-size: 16px;
             font-weight: 500;
             padding-top: 14px;
