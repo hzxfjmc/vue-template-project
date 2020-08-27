@@ -1,0 +1,219 @@
+<template lang="pug">
+    .fund-colunm(:class="lang")
+        .fund-colunm__header
+            .col-left
+                img(src="@/assets/img/fund/icon/icon-invest@2x.png")
+                .title {{$t(['投资组合','投資組合','Portfolio'])}} 
+            .col-right(@click="handleGoDetail")
+                span.title {{$t(['查看更多','查看更多','More'])}}
+                span.iconfont.icon-iconEBgengduoCopy    
+        .fund-colunm__content
+            .content__item  
+                .content__item-title 
+                    .title(v-if="globalStockSectorBreakdownList.length || !assetAllocationBreakdownApiVOList.length") {{$t(['行业分布','行業分佈','Industrial Distribution'])}}
+                    .title(v-else="assetAllocationBreakdownApiVOList.length") {{$t(['资产类型','資產類型','Asset Class'])}}
+                    .iconfont.icon-warning(@click="showTips")             
+                //- .content__item-sub-title
+                    //- .sub-title__item 
+                    //-     span {{$t(['基金规模','基金规模','Fund Size'])}}({{$t('currency',investmentData.currency,lang)}})：
+                    //-     span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
+                    //- .sub-title__item {{$t(['更新时间','更新時間','As of'])}} ：{{investmentData.updateTime}}  
+                .content__item-chart  
+                    ChartPie(
+                        id="pie-chart-1"
+                        v-if="globalStockSectorBreakdownList.length"
+                        :chartList="globalStockSectorBreakdownList"
+                        :updateTime="portfolioDate1"
+                        )
+                    ChartPie(
+                        id="pie-chart-2"
+                        v-else-if="assetAllocationBreakdownApiVOList.length"
+                        :chartList="assetAllocationBreakdownApiVOList"
+                        :updateTime="portfolioDate2"
+                        )    
+                    yx-no-list(v-else)    
+            TopTen(
+                v-if="fundHeaderInfoVO.fundId"
+                :fundId="fundHeaderInfoVO.fundId"
+            )                      
+</template>
+<script>
+/**
+ * @description 基金详情页投资组合
+ * @author Aaron Lam
+ * @date 2020/07/30
+ */
+import { mapGetters } from 'vuex'
+import { getFundInvestmentDataV1 } from '@/service/finance-info-server.js'
+import mixin from './mixin'
+import ChartPie from './ChartPie'
+import TopTen from './TopTen'
+export default {
+    mixins: [mixin],
+    components: {
+        ChartPie,
+        TopTen
+    },
+    props: {
+        fundHeaderInfoVO: {
+            type: Object,
+            default: () => {}
+        }
+    },
+    computed: {
+        ...mapGetters(['stockColorTypeClass', 'lang'])
+    },
+    data() {
+        return {
+            showMore: false,
+            holdingsList: [],
+            investmentData: {},
+            globalStockSectorBreakdownList: [],
+            assetAllocationBreakdownApiVOList: [],
+            portfolioDate1: '',
+            portfolioDate2: ''
+        }
+    },
+    methods: {
+        handleShowMore() {
+            this.showMore = !this.showMore
+        },
+        handleGoDetail() {
+            let queryString = ''
+            ;['fundId', 'fundName', 'isin', 'assetType'].forEach(key => {
+                queryString += `${key}=${encodeURIComponent(
+                    this.fundHeaderInfoVO[key]
+                )}&`
+            })
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/fund-invest-combination?${queryString.slice(
+                0,
+                -1
+            )}`
+            if (this.$jsBridge.isYouxinApp) {
+                this.$jsBridge.gotoNewWebview(url)
+            } else {
+                location.href = url
+            }
+        },
+        sortList(dataList, type) {
+            if (!dataList) return []
+            let list = []
+            if (type === 'object') {
+                Object.keys(dataList).forEach(key => {
+                    Number(dataList[key]) &&
+                        list.push({
+                            name: this.i18n[key],
+                            percent: +Number(dataList[key] || 0).toFixed(2),
+                            a: '1'
+                        })
+                })
+            }
+            if (type === 'countryDataApiVOList') {
+                list = dataList.map(item => {
+                    return {
+                        name: item.country,
+                        percent: +Number(item.value).toFixed(2),
+                        a: '1'
+                    }
+                })
+            }
+            // 降序排序
+            list = list
+                .filter(item => Number(item.percent))
+                .sort((a, b) => {
+                    return b.percent - a.percent
+                })
+            return list
+        },
+        async getFundInvestmentData() {
+            try {
+                const params = {
+                    fundId: this.fundHeaderInfoVO.fundId
+                }
+                this.investmentData = await getFundInvestmentDataV1(params)
+                const item1 = this.investmentData
+                    .globalStockSectorBreakdownApiVO
+                const item2 = this.investmentData.assetAllocationBreakdownApiVO
+                this.portfolioDate1 = item1 && item1.portfolioDate
+                this.portfolioDate2 = item2 && item2.portfolioDate
+                this.globalStockSectorBreakdownList = this.sortList(
+                    item1,
+                    'object'
+                )
+                this.assetAllocationBreakdownApiVOList = this.sortList(
+                    item2,
+                    'object'
+                )
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        }
+    },
+    created() {
+        this.getFundInvestmentData()
+    }
+}
+</script>
+<style lang="scss" scoped>
+.fund-colunm {
+    margin-top: 6px;
+    padding: 0 10px;
+    background-color: $background-color;
+}
+.fund-colunm__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    line-height: 20px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(25, 25, 25, 0.05);
+    .col-left {
+        display: flex;
+        align-items: center;
+        .title {
+            font-size: 16px;
+            padding-left: 10px;
+        }
+        .iconfont {
+            font-size: 18px;
+        }
+        img {
+            width: 18px;
+            height: 18px;
+        }
+    }
+    .col-right {
+        .title {
+            font-size: 12px;
+            color: #666;
+        }
+        text-align: right;
+        .iconfont {
+            font-size: 15px;
+        }
+    }
+}
+.fund-colunm__content {
+    .content__item {
+        padding-top: 14px;
+        .content__item-title {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            font-size: 16px;
+            font-weight: 400;
+            position: relative;
+            &::before {
+                content: ' ';
+                position: absolute;
+                width: 4px;
+                left: -11px;
+                height: 100%;
+                background-color: $primary-color;
+            }
+        }
+    }
+}
+</style>

@@ -6,11 +6,11 @@
                 .desc ISIN:{{isin}}
             .header__bottom
                 .item
-                    span.item__label {{$t('A12')}}：
-                    span.item__value {{analyzeData.updateTime || '--'}}    
-                .item
                     span.item__label {{$t('A13')}}({{$t('currency',analyzeData.currency,lang)}})：
                     span.item__value {{changeFundSizeLang(analyzeData.fundSize,analyzeData.currency,'') || '--'}}
+                .item
+                    span.item__label {{$t('A12')}}：
+                    span.item__value {{analyzeData.updateTime || '--'}}    
         .fund-block
             .fund-block__header
                 .title {{$t('A14')}}
@@ -338,6 +338,7 @@ export default {
     position: sticky;
     top: 0;
     background-color: $background-color;
+    border-bottom: 1px solid $background-bottom-color;
     .header__top {
         padding: 20px 12px 14px;
         border-bottom: 1px solid $text-color8;

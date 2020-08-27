@@ -40,7 +40,10 @@
             v-if="fundHeaderInfoVO.fundId"
             :fundHeaderInfoVO="fundHeaderInfoVO"
         )
-        
+        FundInvestCombination(
+            v-if="fundHeaderInfoVO.fundId"
+            :fundHeaderInfoVO="fundHeaderInfoVO"
+        )
         FightFundHk(
             v-if="!fightShow && code ===2"
             :userList="userList"
@@ -215,6 +218,7 @@ import fundTradingRules from './components/fund-trading-rules'
 import fundCardList from './components/fund-card-list'
 import FundAnnualizedIncome from './components/fund-annualized-income'
 import FundAnalyzeDataColumn from './components/fund-analyze-data/column.vue'
+import FundInvestCombination from './components/fund-invest-combination/column.vue'
 import scheme from '@/utils/scheme'
 import env from '@/utils/scheme/env'
 import dayjs from 'dayjs'
@@ -381,7 +385,8 @@ export default {
         fundTradingRules,
         FightFundHk,
         FundAnnualizedIncome,
-        FundAnalyzeDataColumn
+        FundAnalyzeDataColumn,
+        FundInvestCombination
     },
     computed: {
         isMmf() {

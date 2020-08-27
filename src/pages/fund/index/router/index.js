@@ -238,6 +238,15 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fund-details/components/fund-analyze-data/index.vue`
                 )
+        },
+        {
+            name: 'fund-invest-combination',
+            path: '/fund-invest-combination',
+            meta: { title: 'fundInvestCombination', auth: true, cs: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fund-details/components/fund-invest-combination/index.vue`
+                )
         }
     ]
 })

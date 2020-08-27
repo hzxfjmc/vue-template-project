@@ -1,4 +1,5 @@
 export const zhCHS = {
+    fundInvestCombination: '投资组合',
     fundAnalyzeData: '分析数据',
     fundDetails: '基金详情',
     fundList: '基金列表',
