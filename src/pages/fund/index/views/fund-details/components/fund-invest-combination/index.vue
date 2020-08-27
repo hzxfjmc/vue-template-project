@@ -6,7 +6,7 @@
                 .desc ISIN:{{isin}}
             .header__bottom
                 .item
-                    span.item__label {{$t(['规模','规模','FundSize'])}}({{$t('currency',investmentData.currency,lang)}})：
+                    span.item__label {{$t(['基金规模','基金規模','Fund Size'])}}({{$t('currency',investmentData.currency,lang)}})：
                     span.item__value(v-if="investmentData.fundSize") {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'') || '--'}}
                     span.item__value(v-else) {{$t(['基金公司暂未披露此信息','基金公司暫未披露此信息','The fund company has not disclosed this information'])}}
                 .item(v-if="investmentData.fundSize")

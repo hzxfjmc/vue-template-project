@@ -15,7 +15,7 @@
                     .iconfont.icon-warning(@click="showTips")             
                 //- .content__item-sub-title
                     //- .sub-title__item 
-                    //-     span {{$t(['规模','规模','Scale'])}}({{$t('currency',investmentData.currency,lang)}})：
+                    //-     span {{$t(['基金规模','基金规模','Fund Size'])}}({{$t('currency',investmentData.currency,lang)}})：
                     //-     span  {{changeFundSizeLang(investmentData.fundSize,investmentData.currency,'')||'--'}}  
                     //- .sub-title__item {{$t(['更新时间','更新時間','As of'])}} ：{{investmentData.updateTime}}  
                 .content__item-chart  

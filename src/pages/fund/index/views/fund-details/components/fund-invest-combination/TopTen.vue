@@ -1,7 +1,7 @@
 <template lang="pug">
     .fund-colunm__content(:class="className") 
         .content__item  
-                .content__item-title(:class="{'label':needLabel}") 
+                .content__item-title
                     .title {{$t(['十大持仓','十大持倉','TOP 10 Holdings'])}} ({{allPercent}}%)   
                 .content__item-sub-title
                     .sub-title__item {{$t(['更新时间','更新時間','As of'])}} ：{{updateTime}}
