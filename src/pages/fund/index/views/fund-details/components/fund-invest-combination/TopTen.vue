@@ -197,6 +197,9 @@ export default {
         }
         .percentage-item {
             padding: 5px 0;
+            &:active {
+                background-color: $background-bottom-color;
+            }
             .item-top {
                 display: flex;
                 justify-content: space-between;
