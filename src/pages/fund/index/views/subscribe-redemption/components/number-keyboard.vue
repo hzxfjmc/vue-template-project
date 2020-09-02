@@ -205,6 +205,7 @@ export default {
         },
         //全部卖出
         allSell() {
+            this.amount = ''
             // this.amount = this.placeholder
             // this.$emit('handlerAmount', this.amount)
         },
