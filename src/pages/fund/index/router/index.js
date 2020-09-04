@@ -238,6 +238,22 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fund-details/components/fund-analyze-data/index.vue`
                 )
+        },
+        {
+            name: 'fund-exclusive-area',
+            path: '/fund-exclusive-area',
+            meta: { title: 'exclusiveArea', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-exclusive-area/index.vue`)
+        },
+        {
+            name: 'fund-ipo-list',
+            path: '/fund-ipo-list',
+            meta: { title: 'ipoFundList', auth: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fund-exclusive-area/fund-ipo-list.vue`
+                )
         }
     ]
 })

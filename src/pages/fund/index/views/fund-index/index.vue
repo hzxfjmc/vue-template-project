@@ -310,6 +310,13 @@ export default {
                     label: '貨幣型',
                     key: 'fundCurrency',
                     value: '4'
+                },
+                {
+                    imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_pi.png'),
+                    label: '尊享型',
+                    key: 'exclusive',
+                    value: '5'
                 }
             ],
             choiceFundList: {}, //精选基金
@@ -413,9 +420,15 @@ export default {
         },
         //跳转
         handlerNavItem(item) {
-            this.openWebView(
-                `${window.location.origin}/wealth/fund/index.html#/index?type=${item.value}`
-            )
+            if (item.value == 5) {
+                this.openWebView(
+                    `${window.location.origin}/wealth/fund/index.html#/fund-exclusive-area`
+                )
+            } else {
+                this.openWebView(
+                    `${window.location.origin}/wealth/fund/index.html#/index?type=${item.value}`
+                )
+            }
         },
         //App页面跳转
         async openWebView(url) {
