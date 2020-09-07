@@ -49,14 +49,14 @@
                         p.btn(@click="handleToPiIntro") {{$t('authNow')}}
 </template>
 <script>
-import jsBridge from '@/utils/js-bridge'
+import { getInvestmentCerificationResult } from '@/service/user-account-server'
 import { Swipe, SwipeItem } from 'vant'
 import {
     listPiColumnAndProductV1,
     commitReserveProductRecordV1
 } from '@/service/customer-relationship-server'
-import { getInvestmentCerificationResult } from '@/service/user-account-server'
 import { ipoRedPoint } from '@/service/stock-order-server'
+import { jumpUrl } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 export default {
     name: 'exclusive-area',
@@ -116,20 +116,11 @@ export default {
     methods: {
         hnadleToIpoList(id) {
             let url = `${window.location.origin}/wealth/fund/index.html#/column-product-list?id=${id}`
-            this.openWebView(url)
+            jumpUrl(3, url)
         },
         handleToPiIntro() {
-            this.$jsBridge.gotoNewWebview(
-                window.location.origin +
-                    '/webapp/professional-investor/profession.html'
-            )
-        },
-        async openWebView(url) {
-            if (jsBridge.isYouxinApp) {
-                jsBridge.gotoNewWebview(url)
-            } else {
-                location.href = url
-            }
+            let url = `${window.location.origin}/webapp/professional-investor/profession.html`
+            jumpUrl(3, url)
         },
         handleBook() {
             this.$dialog.alert({
