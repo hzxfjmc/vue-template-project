@@ -198,5 +198,5 @@ export const zhCHS = {
     NET_PRICE: '净值型',
     DIVIDEND: '分红型',
     exclusiveArea: '尊享专区',
-    ipoFundList: '优质企业IPO锚定基金'
+    productList: '优质企业IPO锚定基金'
 }

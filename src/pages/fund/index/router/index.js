@@ -247,12 +247,12 @@ export default new Router({
                 import(`@/pages/fund/index/views/fund-exclusive-area/index.vue`)
         },
         {
-            name: 'fund-ipo-list',
-            path: '/fund-ipo-list',
-            meta: { title: 'ipoFundList', auth: true },
+            name: 'column-product-list',
+            path: '/column-product-list',
+            meta: { title: 'productList', auth: true },
             component: () =>
                 import(
-                    `@/pages/fund/index/views/fund-exclusive-area/fund-ipo-list.vue`
+                    `@/pages/fund/index/views/fund-exclusive-area/column-product-list.vue`
                 )
         }
     ]

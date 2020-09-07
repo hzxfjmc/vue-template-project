@@ -18,7 +18,7 @@ export const listPiColumnAndProductV1 = param => {
 
 //Pi专栏下产品申购意向预约
 export const commitReserveProductRecordV1 = param => {
-    return axios.post(
+    return axios.get(
         `customer-relationship-server/web/commit-reserve-product-record/v1`,
         param
     )
