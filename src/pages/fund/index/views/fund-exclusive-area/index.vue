@@ -28,10 +28,7 @@
                         @click="hnadleToIpoList(ele.id)"
                     ) {{$t('viewMore')}}
                         span.iconfont.icon-iconEBgengduoCopy
-                van-swipe(
-                    :show-indicators="false"
-                    v-if="isPiAccount || !ele.permissionDenied"
-                )
+                van-swipe(v-if="isPiAccount || !ele.permissionDenied")
                     van-swipe-item(
                         v-for="item in ele.products"
                     )
@@ -58,11 +55,9 @@ import {
     listPiColumnAndProductV1,
     commitReserveProductRecordV1
 } from '@/service/customer-relationship-server'
-import {
-    getInvestmentCerificationResult,
-    allowInvestmentCerificationApply
-} from '@/service/user-account-server'
+import { getInvestmentCerificationResult } from '@/service/user-account-server'
 import { ipoRedPoint } from '@/service/stock-order-server'
+import { mapGetters } from 'vuex'
 export default {
     name: 'exclusive-area',
     components: {
@@ -115,6 +110,9 @@ export default {
         this.getPiResult()
         this.getIpoRedPoint()
     },
+    computed: {
+        ...mapGetters(['isLogin'])
+    },
     methods: {
         hnadleToIpoList(id) {
             let url = `${window.location.origin}/wealth/fund/index.html#/column-product-list?id=${id}`
@@ -142,6 +140,7 @@ export default {
             })
         },
         async getColumnAndProduct() {
+            if (!this.isLogin) return
             let param = {
                 pageNum: this.pageNum,
                 pageSize: this.pageSize
@@ -173,6 +172,7 @@ export default {
             }
         },
         async getPiResult() {
+            if (!this.isLogin) return
             try {
                 let data = await getInvestmentCerificationResult()
                 if (data && data.auditStatus === 4) {
@@ -190,6 +190,7 @@ export default {
             }
         },
         async getIpoRedPoint() {
+            if (!this.isLogin) return
             try {
                 let data = await ipoRedPoint()
                 if (data.ecmApplingCount > 0) {
@@ -197,32 +198,6 @@ export default {
                 }
             } catch (e) {
                 this.$toast(e.msg)
-            }
-        },
-        async goToAuth() {
-            try {
-                console.log(123)
-                // app 内能走到这里，一定是已经登陆了
-                // 是不是允许当前用户申请专业投资者
-                await allowInvestmentCerificationApply()
-                this.$jsBridge.gotoNewWebview(
-                    window.location.origin +
-                        '/webapp/professional-investor/profession.html/upload-asset'
-                )
-            } catch (e) {
-                if (e.code === 304018) {
-                    await this.$confirm({
-                        message: e.msg,
-                        showCancelButton: false,
-                        confirmButtonText: this.$t([
-                            '我知道了',
-                            '我知道了',
-                            'OK'
-                        ])
-                    })
-                } else {
-                    this.$toast(e.msg)
-                }
             }
         }
     }

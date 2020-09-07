@@ -23,6 +23,7 @@ import { commitReserveProductRecordV1 } from '@/service/customer-relationship-se
 import { getInvestmentCerificationResult } from '@/service/user-account-server'
 import { getCosUrl } from '@/utils/cos-utils'
 import { jumpUrl } from '@/utils/tools.js'
+import { mapGetters } from 'vuex'
 export default {
     name: 'ipo-list',
     data() {
@@ -54,6 +55,9 @@ export default {
                 '我们已经收到您的预约，您对应的专属客户经理会尽快和您取得联系'
         }
     },
+    computed: {
+        ...mapGetters(['isLogin'])
+    },
     created() {
         this.getProductList()
         this.getPiResult()
@@ -73,6 +77,7 @@ export default {
             }
         },
         async getPiResult() {
+            if (!this.isLogin) return
             try {
                 let data = await getInvestmentCerificationResult()
                 if (data && data.auditStatus === 4) {
@@ -99,6 +104,7 @@ export default {
             )
         },
         async getProductList() {
+            if (!this.isLogin) return
             let param = {
                 id: this.$route.query.id,
                 pageNum: this.pageNum,
