@@ -28,7 +28,6 @@ export default {
     name: 'ipo-list',
     data() {
         return {
-            img2: require('@/assets/img/fund/img/2.png'),
             productList: [],
             isPiAccount: false,
             pageNum: 1,
@@ -92,7 +91,7 @@ export default {
             if (item.jumpType === 0) {
                 return
             } else if (item.jumpType === 1) {
-                jumpUrl(item.jumpUrl, 3)
+                jumpUrl(3, item.jumpUrl)
             } else {
                 this.toJumpLink(item.jumpUrl)
             }
@@ -113,25 +112,34 @@ export default {
             try {
                 let res = await listPiColumnMoreProductV1(param)
                 this.productList = res
-                this.productList.forEach(item => {
+                this.productList.forEach(async item => {
                     if (this.$i18n.lang == 'zhCHS') {
-                        item.productInfo.logUrl = item.productInfo.logUrl.cnLogo
                         item.productInfo.productName =
                             item.productInfo.productName.zhCHS
                         item.productInfo.productDesc =
                             item.productInfo.productDesc.zhCHS
+                        let url = await getCosUrl(
+                            item.productInfo.logUrl.cnLogo
+                        )
+                        item.productInfo.logUrl = url
                     } else if (this.$i18n.lang == 'zhCHT') {
-                        item.productInfo.logUrl = item.productInfo.logUrl.hkLogo
                         item.productInfo.productName =
                             item.productInfo.productName.zhCHT
                         item.productInfo.productDesc =
                             item.productInfo.productDesc.zhCHT
+                        let url = await getCosUrl(
+                            item.productInfo.logUrl.hkLogo
+                        )
+                        item.productInfo.logUrl = url
                     } else {
-                        item.productInfo.logUrl = item.productInfo.logUrl.enLogo
                         item.productInfo.productName =
                             item.productInfo.productName.en
                         item.productInfo.productDesc =
                             item.productInfo.productDesc.en
+                        let url = await getCosUrl(
+                            item.productInfo.logUrl.enLogo
+                        )
+                        item.productInfo.logUrl = url
                     }
                 })
             } catch (e) {
@@ -140,7 +148,7 @@ export default {
         },
         async toJumpLink(item) {
             try {
-                const res = await getCosUrl(item.filePath)
+                const res = await getCosUrl(item)
                 window.location.href = res
             } catch (e) {
                 console.log(e)

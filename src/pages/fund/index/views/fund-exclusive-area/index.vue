@@ -57,6 +57,7 @@ import {
 } from '@/service/customer-relationship-server'
 import { ipoRedPoint } from '@/service/stock-order-server'
 import { jumpUrl } from '@/utils/tools.js'
+import { getCosUrl } from '@/utils/cos-utils'
 import { mapGetters } from 'vuex'
 export default {
     name: 'exclusive-area',
@@ -141,22 +142,28 @@ export default {
                 this.columnList = res
                 this.columnList.forEach(item => {
                     item.columnName = Object.values(JSON.parse(item.columnName))
-                    item.products.forEach(product => {
-                        product.productInfo.productDesc =
-                            product.productInfo.productDesc[this.$i18n.lang]
-                        product.productInfo.productName =
-                            product.productInfo.productName[this.$i18n.lang]
-                        if (this.$i18n.lang == 'zhCHS') {
-                            product.productInfo.logUrl =
-                                product.productInfo.logUrl.cnLogo
-                        } else if (this.$i18n.lang == 'zhCHT') {
-                            product.productInfo.logUrl =
-                                product.productInfo.logUrl.hkLogo
-                        } else {
-                            product.productInfo.logUrl =
-                                product.productInfo.logUrl.enLogo
-                        }
-                    })
+                    if (item.products) {
+                        item.products.forEach(async product => {
+                            product.productInfo.productDesc =
+                                product.productInfo.productDesc[this.$i18n.lang]
+                            product.productInfo.productName =
+                                product.productInfo.productName[this.$i18n.lang]
+                            if (this.$i18n.lang == 'zhCHS') {
+                                product.productInfo.logUrl =
+                                    product.productInfo.logUrl.cnLogo
+                            } else if (this.$i18n.lang == 'zhCHT') {
+                                product.productInfo.logUrl =
+                                    product.productInfo.logUrl.hkLogo
+                            } else {
+                                product.productInfo.logUrl =
+                                    product.productInfo.logUrl.enLogo
+                            }
+                            let url = await getCosUrl(
+                                product.productInfo.logUrl
+                            )
+                            product.productInfo.logUrl = url
+                        })
+                    }
                 })
             } catch (e) {
                 this.$toast(e.msg)
