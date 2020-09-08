@@ -5,17 +5,12 @@
         )
             img(:src="headBg" width="100%")
         .block__content
-            .block__tab(v-if="isBooking")
+            .block__tab
                 p.left
-                    span.iconfont.icon-iconEBshoucang
-                    span {{$t('booking')}}
-                p.right
-                    span.iconfont.icon-iconEBgengduoCopy
-            .block__tab(v-else)
-                p.left
-                    span.iconfont.icon-download
-                    span {{$t('subscription')}}
-                p.right
+                    span.iconfont(:class="[isBooking ? 'icon-iconEBshoucang' : 'icon-download']")
+                    span {{isBooking ? $t('booking') : $t('subscription')}}
+                p.right(@click="handleToIpo")
+                    span {{$t('viewNow')}}
                     span.iconfont.icon-iconEBgengduoCopy
             .block__card__swipe(
                 v-for="ele in columnList"
@@ -29,9 +24,7 @@
                     ) {{$t('viewMore')}}
                         span.iconfont.icon-iconEBgengduoCopy
                 van-swipe(v-if="isPiAccount || !ele.permissionDenied")
-                    van-swipe-item(
-                        v-for="item in ele.products"
-                    )
+                    van-swipe-item(v-for="item in ele.products")
                         .card__item
                             img(:src="item.productInfo.logUrl")
                             .info.item
@@ -59,6 +52,7 @@ import { ipoRedPoint } from '@/service/stock-order-server'
 import { jumpUrl } from '@/utils/tools.js'
 import { getCosUrl } from '@/utils/cos-utils'
 import { mapGetters } from 'vuex'
+import jsBridge from '@/utils/js-bridge.js'
 export default {
     name: 'exclusive-area',
     components: {
@@ -82,6 +76,7 @@ export default {
             booking: '国际配售预约中',
             bookSucess: '预约成功',
             authNow: '立即认证',
+            viewNow: '立即查看',
             viewMore: '查看更多',
             onlyPi: '以下内容仅PI可见',
             bookInfo:
@@ -91,6 +86,7 @@ export default {
             subscription: '國際配售認購中',
             booking: '國際配售預約中',
             authNow: '立即認證',
+            viewNow: '立即查看',
             viewMore: '查看更多',
             onlyPi: '以下內容僅PI可見',
             bookInfo:
@@ -100,6 +96,7 @@ export default {
             subscription: '國際配售認購中',
             booking: '國際配售預約中',
             authNow: '立即認證',
+            viewNow: '立即查看',
             viewMore: '查看更多',
             onlyPi: '以下內容僅PI可見',
             bookInfo:
@@ -122,6 +119,9 @@ export default {
         handleToPiIntro() {
             let url = `${window.location.origin}/webapp/professional-investor/profession.html`
             jumpUrl(3, url)
+        },
+        handleToIpo() {
+            jsBridge.gotoNativeModule('yxzq_goto://ipo_center')
         },
         handleBook() {
             this.$dialog.alert({
@@ -261,10 +261,7 @@ export default {
     }
 }
 .info {
-    padding-left: 8px;
-    &.item {
-        padding-left: 16px;
-    }
+    padding-left: 16px;
     .title {
         padding-bottom: 4px;
         font-weight: 600;
