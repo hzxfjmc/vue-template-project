@@ -92,11 +92,11 @@ export default {
             }
         },
         handleToDetail(item) {
-            console.log(item)
             if (item.jumpType === 0) {
                 return
             } else if (item.jumpType === 1) {
-                jumpUrl(3, item.jumpUrl)
+                let url = `${window.location.origin}/${item.jumpUrl}`
+                jumpUrl(3, url)
             } else {
                 this.toJumpLink(item.jumpUrl)
             }

@@ -25,7 +25,7 @@
                         span.iconfont.icon-iconEBgengduoCopy
                 van-swipe(v-if="isPiAccount || !ele.permissionDenied")
                     van-swipe-item(v-for="item in ele.products")
-                        .card__item
+                        .card__item(@click="handleToDetail(item)")
                             img(:src="item.productInfo.logUrl")
                             .info.item
                                 p.title {{item.productInfo.productName}}
@@ -109,6 +109,24 @@ export default {
         handleToPiIntro() {
             let url = `${window.location.origin}/webapp/professional-investor/profession.html`
             jumpUrl(3, url)
+        },
+        handleToDetail(item) {
+            if (item.jumpType === 0) {
+                return
+            } else if (item.jumpType === 1) {
+                let url = `${window.location.origin}/${item.jumpUrl}`
+                jumpUrl(3, url)
+            } else {
+                this.toJumpLink(item.jumpUrl)
+            }
+        },
+        async toJumpLink(item) {
+            try {
+                const res = await getCosUrl(item)
+                window.location.href = res
+            } catch (e) {
+                console.log(e)
+            }
         },
         handleToIpo() {
             jsBridge.gotoNativeModule('yxzq_goto://ipo_center')
