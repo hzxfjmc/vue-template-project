@@ -39,7 +39,7 @@
                     .mask
                         img(:src="lockedImg")
                         p.tips {{$t('onlyPi')}}
-                        p.btn(@click="handleToPiIntro") {{$t('authNow')}}
+                        p.btn(@click="handleToPiIntro") {{$t('verifyNow')}}
 </template>
 <script>
 import { getInvestmentCerificationResult } from '@/service/user-account-server'
@@ -72,16 +72,18 @@ export default {
     },
     i18n: {
         zhCHS: {
-            ecmSubscribing: 'ECM认购中',
+            ecmSubscribing: '国际配售认购中',
             ipoReservation: 'IPO预约中',
             viewNow: '立即查看',
+            verifyNow: '立即认证',
             more: '查看更多',
             onlyPi: '以下内容仅PI可见'
         },
         zhCHT: {
-            ecmSubscribing: 'ECM認購中',
+            ecmSubscribing: '國際配售認購中',
             ipoReservation: 'IPO預約中',
             viewNow: '立即查看',
+            verifyNow: '立即認證',
             more: '查看更多',
             onlyPi: '以下內容僅PI可見'
         },
@@ -89,6 +91,7 @@ export default {
             ecmSubscribing: 'ECM Subscribing',
             ipoReservation: 'IPO Reservation',
             viewNow: 'View Now',
+            verifyNow: 'Verify Now',
             more: 'More',
             onlyPi: 'The following content is visible only to PI'
         }

@@ -15,7 +15,10 @@
                     v-else
                     @click="handleToPiAuth"
                 ) {{$t('verifyNow')}}
-                .btn--right(@click="handleToDetail(item)") {{$t('detail')}}
+                .btn--right(
+                    v-if="item.jumpType" 
+                    @click="handleToDetail(item)"
+                ) {{$t('detail')}}
 </template>
 <script>
 import { listPiColumnMoreProductV1 } from '@/service/customer-relationship-server'

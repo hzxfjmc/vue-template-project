@@ -200,5 +200,6 @@ export const en = {
     Financial: 'Financial Product',
     NET_PRICE: 'Net Type',
     DIVIDEND: 'Bonus type',
-    exclusiveArea: 'Excuslive Area'
+    exclusiveArea: 'Excuslive Area',
+    productList: 'productList'
 }

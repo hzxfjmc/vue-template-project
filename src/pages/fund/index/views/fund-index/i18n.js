@@ -128,7 +128,7 @@ export const i18n = {
         fundBond: 'Bond',
         fundBlend: 'Balanced',
         fundShares: 'Equity',
-        exclusive: 'Exclusive',
+        exclusive: 'PI',
         login: 'Please login in',
         loginBtn: 'Login',
         openAccountBtn: 'Open account',
