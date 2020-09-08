@@ -8,7 +8,7 @@
             .block__tab
                 p.left
                     span.iconfont(:class="[isBooking ? 'icon-iconEBshoucang' : 'icon-download']")
-                    span {{isBooking ? $t('booking') : $t('subscription')}}
+                    span {{isBooking ? $t('ipoReservation') : $t('ecmSubscribing')}}
                 p.right(@click="handleToIpo")
                     span {{$t('viewNow')}}
                     span.iconfont.icon-iconEBgengduoCopy
@@ -21,7 +21,7 @@
                     p.more(
                         v-if="isPiAccount || !ele.permissionDenied"
                         @click="hnadleToIpoList(ele.id)"
-                    ) {{$t('viewMore')}}
+                    ) {{$t('more')}}
                         span.iconfont.icon-iconEBgengduoCopy
                 van-swipe(v-if="isPiAccount || !ele.permissionDenied")
                     van-swipe-item(v-for="item in ele.products")
@@ -72,35 +72,25 @@ export default {
     },
     i18n: {
         zhCHS: {
-            subscription: '国际配售认购中',
-            booking: '国际配售预约中',
-            bookSucess: '预约成功',
-            authNow: '立即认证',
+            ecmSubscribing: 'ECM认购中',
+            ipoReservation: 'IPO预约中',
             viewNow: '立即查看',
-            viewMore: '查看更多',
-            onlyPi: '以下内容仅PI可见',
-            bookInfo:
-                '我们已经收到您的预约，您对应的专属客户经理会尽快和您取得联系'
+            more: '查看更多',
+            onlyPi: '以下内容仅PI可见'
         },
         zhCHT: {
-            subscription: '國際配售認購中',
-            booking: '國際配售預約中',
-            authNow: '立即認證',
+            ecmSubscribing: 'ECM認購中',
+            ipoReservation: 'IPO預約中',
             viewNow: '立即查看',
-            viewMore: '查看更多',
-            onlyPi: '以下內容僅PI可見',
-            bookInfo:
-                '我們已經收到您的預約，您對應的專屬客戶經理會盡快和您取得聯系'
+            more: '查看更多',
+            onlyPi: '以下內容僅PI可見'
         },
         en: {
-            subscription: '國際配售認購中',
-            booking: '國際配售預約中',
-            authNow: '立即認證',
-            viewNow: '立即查看',
-            viewMore: '查看更多',
-            onlyPi: '以下內容僅PI可見',
-            bookInfo:
-                '我们已经收到您的预约，您对应的专属客户经理会尽快和您取得联系'
+            ecmSubscribing: 'ECM Subscribing',
+            ipoReservation: 'IPO Reservation',
+            viewNow: 'View Now',
+            more: 'More',
+            onlyPi: 'The following content is visible only to PI'
         }
     },
     created() {
@@ -122,14 +112,6 @@ export default {
         },
         handleToIpo() {
             jsBridge.gotoNativeModule('yxzq_goto://ipo_center')
-        },
-        handleBook() {
-            this.$dialog.alert({
-                title: this.$t('bookSucess'),
-                message: this.$t('bookInfo'),
-                confirmButtonText: this.$t('iknow'),
-                confirmButtonColor: '#3c78fa'
-            })
         },
         async getColumnAndProduct() {
             if (!this.isLogin) return

@@ -10,11 +10,11 @@
                 .btn--left(
                     v-if="isPiAccount || item.viewPermission === 1"
                     @click="handleBook(item.id)"
-                ) {{$t('bookNow')}}
+                ) {{$t('reserveNow')}}
                 .btn--left(
                     v-else
                     @click="handleToPiAuth"
-                ) {{$t('authNow')}}
+                ) {{$t('verifyNow')}}
                 .btn--right(@click="handleToDetail(item)") {{$t('detail')}}
 </template>
 <script>
@@ -36,22 +36,27 @@ export default {
     },
     i18n: {
         zhCHS: {
-            bookNow: '即刻预约',
-            authNow: '立即认证',
-            bookSucess: '预约成功',
+            reserveNow: '即刻预约',
+            verifyNow: '立即认证',
             detail: '查看详情',
+            reserveSuccessful: '预约成功',
             bookInfo:
                 '我们已经收到您的预约，您对应的专属客户经理会尽快和您取得联系'
         },
         zhCHT: {
-            bookSucess: '预约成功',
+            reserveNow: '即刻預約',
+            verifyNow: '立即認證',
+            detail: '查看詳情',
+            reserveSuccessful: '預約成功',
             bookInfo:
-                '我们已经收到您的预约，您对应的专属客户经理会尽快和您取得联系'
+                '我們已經收到您的預約，您對應的專屬客戶經理會盡快和您取得聯系'
         },
         en: {
-            bookSucess: '预约成功',
-            bookInfo:
-                '我们已经收到您的预约，您对应的专属客户经理会尽快和您取得联系'
+            reserveNow: 'Reserve Now',
+            verifyNow: 'Verify Now',
+            detail: 'Detail',
+            reserveSuccessful: 'Reserve Successful',
+            bookInfo: 'The following content is visible only to PI'
         }
     },
     computed: {
@@ -66,7 +71,7 @@ export default {
             try {
                 await commitReserveProductRecordV1({ productId: id })
                 this.$dialog.alert({
-                    title: this.$t('bookSucess'),
+                    title: this.$t('reserveSuccessful'),
                     message: this.$t('bookInfo'),
                     confirmButtonText: this.$t('iknow'),
                     confirmButtonColor: '#3c78fa'
