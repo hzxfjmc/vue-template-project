@@ -98,8 +98,7 @@ export default {
             if (item.jumpType === 0) {
                 return
             } else if (item.jumpType === 1) {
-                let url = `${window.location.origin}/${item.jumpUrl}`
-                jumpUrl(3, url)
+                jumpUrl(3, item.jumpUrl)
             } else {
                 this.toJumpLink(item.jumpUrl)
             }
