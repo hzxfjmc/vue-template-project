@@ -111,7 +111,6 @@ export default {
             )
         },
         async getProductList() {
-            if (!this.isLogin) return
             let param = {
                 id: this.$route.query.id,
                 pageNum: this.pageNum,
