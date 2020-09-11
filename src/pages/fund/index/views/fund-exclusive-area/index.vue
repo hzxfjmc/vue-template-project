@@ -114,10 +114,13 @@ export default {
             jumpUrl(3, url)
         },
         handleToDetail(item) {
+            //0: '不跳转',
+            //1: '跳转到对应链接',
+            //2: '跳转到对应文档'
             if (item.jumpType === 0) {
                 return
             } else if (item.jumpType === 1) {
-                let url = `${window.location.origin}/${item.jumpUrl}`
+                let url = `${item.jumpUrl}`
                 jumpUrl(3, url)
             } else {
                 this.toJumpLink(item.jumpUrl)
