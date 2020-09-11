@@ -135,7 +135,7 @@ export default {
             jsBridge.gotoNativeModule('yxzq_goto://ipo_center')
         },
         async getColumnAndProduct() {
-            if (!this.isLogin) return
+            //if (!this.isLogin) return
             let param = {
                 pageNum: this.pageNum,
                 pageSize: this.pageSize
@@ -191,7 +191,7 @@ export default {
             }
         },
         async getIpoRedPoint() {
-            if (!this.isLogin) return
+            //if (!this.isLogin) return
             try {
                 let data = await ipoRedPoint()
                 if (data.ecmApplingCount > 0) {
