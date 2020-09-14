@@ -19,17 +19,20 @@
                 .block__title
                     p.title {{$t(ele.columnName)}}
                     p.more(
-                        v-if="isPiAccount || !ele.permissionDenied"
+                        v-if="isPiAccount && !ele.permissionDenied"
                         @click="hnadleToIpoList(ele.id)"
                     ) {{$t('more')}}
                         span.iconfont.icon-iconEBgengduoCopy
-                van-swipe(v-if="isPiAccount || !ele.permissionDenied")
-                    van-swipe-item(v-for="item in ele.products")
+                .column-item(v-if="isPiAccount && !ele.permissionDenied")
+                    .product-item(v-for="item in ele.products")
                         .card__item(@click="handleToDetail(item)")
-                            img(:src="item.productInfo.logUrl")
-                            .info.item
-                                p.title {{item.productInfo.productName}}
-                                p.desc {{item.productInfo.productDesc}}
+                            .item-left
+                                img(:src="item.productInfo.logUrl")
+                                .info.item
+                                    p.title {{item.productInfo.productName}}
+                                    p.desc {{item.productInfo.productDesc}}
+                            .item-right
+                                .btn {{isPiAccount ? $t('reserveNow'):$t('verifyNow')}}       
                 .block__locked(v-else)
                     .card__item.hide
                         img(:src="ele.products[0].productInfo.logUrl")
@@ -72,6 +75,7 @@ export default {
     },
     i18n: {
         zhCHS: {
+            reserveNow: '即刻预约',
             ecmSubscribing: '国际配售认购中',
             ipoReservation: 'IPO预约中',
             viewNow: '立即查看',
@@ -80,6 +84,7 @@ export default {
             onlyPi: '以下内容仅PI可见'
         },
         zhCHT: {
+            reserveNow: '即刻預約',
             ecmSubscribing: '國際配售認購中',
             ipoReservation: 'IPO預約中',
             viewNow: '立即查看',
@@ -88,6 +93,7 @@ export default {
             onlyPi: '以下內容僅PI可見'
         },
         en: {
+            reserveNow: 'Reserve Now',
             ecmSubscribing: 'ECM Subscribing',
             ipoReservation: 'IPO Reservation',
             viewNow: 'View Now',
@@ -171,6 +177,7 @@ export default {
                         })
                     }
                 })
+                console.log(this.columnList)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -252,6 +259,7 @@ export default {
     padding: 12px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-radius: 4px;
     background: $background-color;
     box-shadow: 0px 2px 6px 0px rgba(25, 25, 25, 0.05);
@@ -265,16 +273,29 @@ export default {
         height: 76px;
         border-radius: 4px;
     }
+    margin-bottom: 12px;
+    .item-left {
+        display: flex;
+        align-items: center;
+    }
 }
 .info {
     padding-left: 16px;
     .title {
         padding-bottom: 4px;
         font-weight: 600;
+        max-width: 110px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     .desc {
         font-size: 12px;
         color: $text-color6;
+        max-width: 110px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 }
 .block__locked {
