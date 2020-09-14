@@ -196,7 +196,7 @@ export default {
                     .join('')[3]
                 return isWhiteUserBit == 1
             } else {
-                return false
+                return true
             }
         }
     },
