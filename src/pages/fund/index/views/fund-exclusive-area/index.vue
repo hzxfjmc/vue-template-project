@@ -287,6 +287,16 @@ export default {
         text-overflow: ellipsis;
     }
 }
+.en {
+    .info {
+        .title {
+            max-width: 100px;
+        }
+        .desc {
+            max-width: 100px;
+        }
+    }
+}
 .block__locked {
     margin-top: 10px;
     .mask {
