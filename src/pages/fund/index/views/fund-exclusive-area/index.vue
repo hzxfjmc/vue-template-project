@@ -5,10 +5,17 @@
         )
             img(:src="$t('bg')" width="100%")
         .block__content
-            .block__tab
+            .block__tab(v-if="isApplying")
                 p.left
-                    span.iconfont(:class="[isBooking ? 'icon-iconEBshoucang' : 'icon-download']")
-                    span {{isBooking ? $t('ipoReservation') : $t('ecmSubscribing')}}
+                    span.iconfont(:class="['icon-download']")
+                    span {{ $t('ecmSubscribing')}}
+                p.right(@click="handleToIpo")
+                    span {{$t('viewNow')}}
+                    span.iconfont.icon-iconEBgengduoCopy
+            .block__tab(v-else-if="isSubscribing")
+                p.left
+                    span.iconfont(:class="['icon-iconEBshoucang']")
+                    span {{$t('ipoReservation')}}
                 p.right(@click="handleToIpo")
                     span {{$t('viewNow')}}
                     span.iconfont.icon-iconEBgengduoCopy
@@ -70,7 +77,8 @@ export default {
             lockedImg: require('@/assets/img/fund/locked.png'),
             headBg: require('@/assets/img/fund/pi_head_bg.png'),
             isPiAccount: false,
-            isBooking: true,
+            isApplying: false,
+            isSubscribing: false,
             pageNum: 1,
             pageSize: 20,
             columnList: []
@@ -151,9 +159,8 @@ export default {
                         })
                     }
                 })
-                console.log(this.columnList)
             } catch (e) {
-                this.$toast(e.msg)
+                e.msg && this.$toast(e.msg)
             }
         },
         async getPiResult() {
@@ -164,25 +171,23 @@ export default {
                     this.isPiAccount = true
                 }
             } catch (e) {
-                this.$toast(e.msg)
+                e.msg && this.$toast(e.msg)
             }
         },
         async productRecord(id) {
             try {
                 await commitReserveProductRecordV1({ productId: id })
             } catch (e) {
-                this.$toast(e.msg)
+                e.msg && this.$toast(e.msg)
             }
         },
         async getIpoRedPoint() {
-            //if (!this.isLogin) return
             try {
                 let data = await ipoRedPoint()
-                if (data.ecmApplingCount > 0) {
-                    this.isBooking = false
-                }
+                this.isSubscribing = data.ecmSubCount > 0
+                this.isApplying = data.ecmApplingCount > 0
             } catch (e) {
-                this.$toast(e.msg)
+                e.msg && this.$toast(e.msg)
             }
         }
     }
@@ -206,6 +211,9 @@ export default {
             font-size: 18px;
             padding-right: 3px;
         }
+    }
+    &:first-child {
+        margin-bottom: 4px;
     }
 }
 .block__title {
