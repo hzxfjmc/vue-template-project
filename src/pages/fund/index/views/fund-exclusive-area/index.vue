@@ -1,5 +1,5 @@
 <template lang="pug">
-    .exclusive-area
+    .exclusive-area(:class="lang")
         .block__header(
             @click="handleToPiIntro"
         )
@@ -22,6 +22,7 @@
             .block__card__swipe(
                 v-for="ele in columnList"
                 v-if="ele.products"
+                :key="ele.id"
             )
                 .block__title
                     p.title {{$t(ele.columnName)}}
@@ -31,7 +32,9 @@
                     ) {{$t('more')}}
                         span.iconfont.icon-iconEBgengduoCopy
                 .column-item(v-if="isPiAccount && !ele.permissionDenied")
-                    .product-item(v-for="item,index in ele.products")
+                    .product-item(
+                        v-for="item,index in ele.products" 
+                        :key="item.id")
                         .card__item(@click="handleToDetail(item)" v-if="index<3")
                             .item-left
                                 img(:src="item.productInfo.logUrl")
@@ -90,7 +93,7 @@ export default {
         this.getIpoRedPoint()
     },
     computed: {
-        ...mapGetters(['isLogin'])
+        ...mapGetters(['isLogin', 'lang'])
     },
     methods: {
         hnadleToIpoList(id) {
@@ -266,6 +269,13 @@ export default {
         color: #cf9562;
         padding: 4px 5px;
         border-radius: 4px;
+    }
+}
+.en {
+    .card__item {
+        .btn {
+            font-size: 10px;
+        }
     }
 }
 .info {

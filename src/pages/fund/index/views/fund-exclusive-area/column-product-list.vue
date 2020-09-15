@@ -1,5 +1,5 @@
 <template lang="pug">
-    .ipo__list
+    .ipo__list(:class="lang")
         .product-item(v-for="item in productList")
             .card__item(@click="handleToDetail(item)")
                 .item-left
@@ -30,7 +30,7 @@ export default {
         }
     },
     computed: {
-        ...mapGetters(['isLogin'])
+        ...mapGetters(['isLogin', 'lang'])
     },
     created() {
         this.getProductList()
@@ -150,6 +150,13 @@ export default {
         color: #cf9562;
         padding: 4px 5px;
         border-radius: 4px;
+    }
+}
+.en {
+    .card__item {
+        .btn {
+            font-size: 10px;
+        }
     }
 }
 .info {
