@@ -3,7 +3,7 @@
         .block__header(
             @click="handleToPiIntro"
         )
-            img(:src="headBg" width="100%")
+            img(:src="$t('bg')" width="100%")
         .block__content
             .block__tab
                 p.left

@@ -1,8 +1,11 @@
 import { commitReserveProductRecordV1 } from '@/service/customer-relationship-server'
-
+import piBgEn from '@/assets/img/fund/head_bg-en@2x.png'
+import piBgHk from '@/assets/img/fund/head_bg-ft@2x.png'
+import piBgCn from '@/assets/img/fund/head_bg@2x.png'
 export default {
     i18n: {
         zhCHS: {
+            bg: piBgCn,
             reserveNow: '即刻预约',
             verifyNow: '立即认证',
             detail: '查看详情',
@@ -16,6 +19,7 @@ export default {
             onlyPi: '以下内容仅PI可见'
         },
         zhCHT: {
+            bg: piBgHk,
             reserveNow: '即刻預約',
             verifyNow: '立即認證',
             detail: '查看詳情',
@@ -29,6 +33,7 @@ export default {
             onlyPi: '以下內容僅PI可見'
         },
         en: {
+            bg: piBgEn,
             reserveNow: 'Reserve Now',
             verifyNow: 'Verify Now',
             detail: 'Detail',
