@@ -24,15 +24,16 @@
                     ) {{$t('more')}}
                         span.iconfont.icon-iconEBgengduoCopy
                 .column-item(v-if="isPiAccount && !ele.permissionDenied")
-                    .product-item(v-for="item in ele.products")
-                        .card__item(@click="handleToDetail(item)")
+                    .product-item(v-for="item,index in ele.products")
+                        .card__item(@click="handleToDetail(item)" v-if="index<3")
                             .item-left
                                 img(:src="item.productInfo.logUrl")
                                 .info.item
                                     p.title {{item.productInfo.productName}}
                                     p.desc {{item.productInfo.productDesc}}
                             .item-right
-                                .btn {{isPiAccount ? $t('reserveNow'):$t('verifyNow')}}       
+                                .btn(v-if="isPiAccount"  @click.stop="handleBook(item.id)") {{$t('reserveNow')}}       
+                                .btn(v-else  @click.stop="handleToPiIntro") {{$t('verifyNow')}}       
                 .block__locked(v-else)
                     .card__item.hide
                         img(:src="ele.products[0].productInfo.logUrl")
@@ -56,8 +57,10 @@ import { jumpUrl } from '@/utils/tools.js'
 import { getCosUrl } from '@/utils/cos-utils'
 import { mapGetters } from 'vuex'
 import jsBridge from '@/utils/js-bridge.js'
+import mixin from './mixins'
 export default {
     name: 'exclusive-area',
+    mixins: [mixin],
     components: {
         [Swipe.name]: Swipe,
         [SwipeItem.name]: SwipeItem
@@ -71,35 +74,6 @@ export default {
             pageNum: 1,
             pageSize: 20,
             columnList: []
-        }
-    },
-    i18n: {
-        zhCHS: {
-            reserveNow: '即刻预约',
-            ecmSubscribing: '国际配售认购中',
-            ipoReservation: 'IPO预约中',
-            viewNow: '立即查看',
-            verifyNow: '立即认证',
-            more: '查看更多',
-            onlyPi: '以下内容仅PI可见'
-        },
-        zhCHT: {
-            reserveNow: '即刻預約',
-            ecmSubscribing: '國際配售認購中',
-            ipoReservation: 'IPO預約中',
-            viewNow: '立即查看',
-            verifyNow: '立即認證',
-            more: '查看更多',
-            onlyPi: '以下內容僅PI可見'
-        },
-        en: {
-            reserveNow: 'Reserve Now',
-            ecmSubscribing: 'ECM Subscribing',
-            ipoReservation: 'IPO Reservation',
-            viewNow: 'View Now',
-            verifyNow: 'Verify Now',
-            more: 'More',
-            onlyPi: 'The following content is visible only to PI'
         }
     },
     created() {
@@ -277,6 +251,13 @@ export default {
     .item-left {
         display: flex;
         align-items: center;
+    }
+    .btn {
+        border: 1px solid #cf9562;
+        font-size: 12px;
+        color: #cf9562;
+        padding: 4px 5px;
+        border-radius: 4px;
     }
 }
 .info {
