@@ -1,7 +1,7 @@
 <template lang="pug">
     .ipo__list(:class="lang")
         .product-item(v-for="item in productList")
-            .card__item(@click="handleToDetail(item)")
+            .card__item(@click="handleToDetail(item)" v-if="isPiAccount || item.viewPermission === 1")
                 .item-left
                     img(:src="item.productInfo.logUrl")
                     .info.item
@@ -9,7 +9,17 @@
                         p.desc {{item.productInfo.productDesc}}
                 .item-right
                     .btn(v-if="isPiAccount"  @click.stop="handleBook(item.id)") {{$t('reserveNow')}}       
-                    .btn(v-else  @click.stop="handleToPiIntro") {{$t('verifyNow')}}  
+                    .btn(v-else  @click.stop="handleToPiIntro") {{$t('verifyNow')}} 
+            .block__locked(v-else)
+                .card__item.hide
+                    img(:src="ele.products[0].productInfo.logUrl")
+                    .info.item
+                        p.title {{ele.products[0].productInfo.productName}}
+                        p.desc {{ele.products[0].productInfo.productDesc}}
+                .mask
+                    img(:src="lockedImg")
+                    p.tips {{$t('onlyPi')}}
+                    p.btn(@click="handleToPiIntro") {{$t('verifyNow')}}         
 </template>
 <script>
 import { listPiColumnMoreProductV1 } from '@/service/customer-relationship-server'

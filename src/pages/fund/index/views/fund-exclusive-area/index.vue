@@ -28,22 +28,35 @@
                     p.title {{$t(ele.columnName)}}
                     p.more(
                         v-if="isPiAccount && !ele.permissionDenied"
-                        @click="hnadleToIpoList(ele.id)"
+                        @click="handleToIpoList(ele.id)"
                     ) {{$t('more')}}
                         span.iconfont.icon-iconEBgengduoCopy
-                .column-item(v-if="isPiAccount && !ele.permissionDenied")
+                        //- 是否无权限查看专栏下产品，true：是，false：否
+                .column-item(v-if="isPiAccount || !ele.permissionDenied")
                     .product-item(
                         v-for="item,index in ele.products" 
                         :key="item.id")
-                        .card__item(@click="handleToDetail(item)" v-if="index<3")
-                            .item-left
-                                img(:src="item.productInfo.logUrl")
-                                .info.item
-                                    p.title {{item.productInfo.productName}}
-                                    p.desc {{item.productInfo.productDesc}}
-                            .item-right
-                                .btn(v-if="isPiAccount"  @click.stop="handleBook(item.id)") {{$t('reserveNow')}}       
-                                .btn(v-else  @click.stop="handleToPiIntro") {{$t('verifyNow')}}       
+                        //- 展示权限，1：全部可见，2：PI可见
+                        template(v-if="index<3")
+                            .card__item(@click="handleToDetail(item)" v-if="isPiAccount || item.viewPermission === 1")
+                                .item-left
+                                    img(:src="item.productInfo.logUrl")
+                                    .info.item
+                                        p.title {{item.productInfo.productName}}
+                                        p.desc {{item.productInfo.productDesc}}
+                                .item-right
+                                    .btn(v-if="isPiAccount"  @click.stop="handleBook(item.id)") {{$t('reserveNow')}}       
+                                    .btn(v-else  @click.stop="handleToPiIntro") {{$t('verifyNow')}}       
+                            .block__locked(v-else)
+                                .card__item.hide
+                                    img(:src="ele.products[0].productInfo.logUrl")
+                                    .info.item
+                                        p.title {{ele.products[0].productInfo.productName}}
+                                        p.desc {{ele.products[0].productInfo.productDesc}}
+                                .mask
+                                    img(:src="lockedImg")
+                                    p.tips {{$t('onlyPi')}}
+                                    p.btn(@click="handleToPiIntro") {{$t('verifyNow')}}
                 .block__locked(v-else)
                     .card__item.hide
                         img(:src="ele.products[0].productInfo.logUrl")
@@ -96,7 +109,7 @@ export default {
         ...mapGetters(['isLogin', 'lang'])
     },
     methods: {
-        hnadleToIpoList(id) {
+        handleToIpoList(id) {
             let url = `${window.location.origin}/wealth/fund/index.html#/column-product-list?id=${id}`
             jumpUrl(3, url)
         },
@@ -240,6 +253,9 @@ export default {
     }
 }
 
+.product-item {
+    padding: 10px 0 0;
+}
 .card__item {
     padding: 12px;
     display: flex;
@@ -258,7 +274,6 @@ export default {
         height: 76px;
         border-radius: 4px;
     }
-    margin-bottom: 12px;
     .item-left {
         display: flex;
         align-items: center;
@@ -308,7 +323,6 @@ export default {
     }
 }
 .block__locked {
-    margin-top: 10px;
     .mask {
         position: relative;
         width: 100%;
