@@ -28,7 +28,7 @@
                     p.title {{$t(ele.columnName)}}
                     p.more(
                         v-if="isPiAccount && !ele.permissionDenied"
-                        @click="handleToIpoList(ele.id)"
+                        @click="handleToIpoList(ele.id,$t(ele.columnName))"
                     ) {{$t('more')}}
                         span.iconfont.icon-iconEBgengduoCopy
                         //- 是否无权限查看专栏下产品，true：是，false：否
@@ -109,8 +109,12 @@ export default {
         ...mapGetters(['isLogin', 'lang'])
     },
     methods: {
-        handleToIpoList(id) {
-            let url = `${window.location.origin}/wealth/fund/index.html#/column-product-list?id=${id}`
+        handleToIpoList(id, title) {
+            let url = `${
+                window.location.origin
+            }/wealth/fund/index.html#/column-product-list?id=${id}&title=${encodeURIComponent(
+                title
+            )}`
             jumpUrl(3, url)
         },
         handleToPiIntro() {
@@ -148,9 +152,13 @@ export default {
                 pageSize: this.pageSize
             }
             try {
-                let res = await listPiColumnAndProductV1(param)
-                this.columnList = res
-                this.columnList.forEach(item => {
+                let columnList = await listPiColumnAndProductV1(param)
+                if (columnList.length && columnList[0].products.length) {
+                    await getCosUrl(
+                        columnList[0].products[0].productInfo.logUrl.cnLogo
+                    )
+                }
+                columnList.forEach(item => {
                     item.columnName = Object.values(JSON.parse(item.columnName))
                     if (item.products) {
                         item.products.forEach(async product => {
@@ -175,6 +183,7 @@ export default {
                         })
                     }
                 })
+                this.columnList = columnList
             } catch (e) {
                 e.msg && this.$toast(e.msg)
             }

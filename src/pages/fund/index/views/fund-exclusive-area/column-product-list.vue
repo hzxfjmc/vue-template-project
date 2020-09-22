@@ -45,6 +45,9 @@ export default {
     created() {
         this.getProductList()
         this.getPiResult()
+        setTimeout(() => {
+            this.$setTitle(decodeURIComponent(this.$route.query.title))
+        }, 0)
     },
     methods: {
         async getPiResult() {
@@ -81,8 +84,10 @@ export default {
             }
             try {
                 let res = await listPiColumnMoreProductV1(param)
-                this.productList = res
-                this.productList.forEach(async item => {
+                if (res.length) {
+                    await getCosUrl(res[0].productInfo.logUrl.cnLogo)
+                }
+                res.forEach(async item => {
                     if (this.$i18n.lang == 'zhCHS') {
                         item.productInfo.productName =
                             item.productInfo.productName.zhCHS
@@ -112,6 +117,7 @@ export default {
                         item.productInfo.logUrl = url
                     }
                 })
+                this.productList = res
             } catch (e) {
                 this.$toast(e.msg)
             }
