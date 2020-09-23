@@ -35,10 +35,12 @@
                 .column-item(v-if="isPiAccount || !ele.permissionDenied")
                     .product-item(
                         v-for="item,index in ele.products" 
-                        :key="item.id")
+                        :key="item.id"
+                        v-if="isPiAccount || item.viewPermission === 1"
+                        )
                         //- 展示权限，1：全部可见，2：PI可见
                         template(v-if="index<3")
-                            .card__item(@click="handleToDetail(item)" v-if="isPiAccount || item.viewPermission === 1")
+                            .card__item(@click="handleToDetail(item)" )
                                 .item-left
                                     img(:src="item.productInfo.logUrl")
                                     .info.item
@@ -47,16 +49,16 @@
                                 .item-right
                                     .btn(v-if="isPiAccount"  @click.stop="handleBook(item.id)") {{$t('reserveNow')}}       
                                     .btn(v-else  @click.stop="handleToPiIntro") {{$t('verifyNow')}}       
-                            .block__locked(v-else)
-                                .card__item.hide
-                                    img(:src="ele.products[0].productInfo.logUrl")
-                                    .info.item
-                                        p.title {{ele.products[0].productInfo.productName}}
-                                        p.desc {{ele.products[0].productInfo.productDesc}}
-                                .mask
-                                    img(:src="lockedImg")
-                                    p.tips {{$t('onlyPi')}}
-                                    p.btn(@click="handleToPiIntro") {{$t('verifyNow')}}
+                            //- .block__locked(v-else)
+                            //-     .card__item.hide
+                            //-         img(:src="ele.products[0].productInfo.logUrl")
+                            //-         .info.item
+                            //-             p.title {{ele.products[0].productInfo.productName}}
+                            //-             p.desc {{ele.products[0].productInfo.productDesc}}
+                            //-     .mask
+                            //-         img(:src="lockedImg")
+                            //-         p.tips {{$t('onlyPi')}}
+                            //-         p.btn(@click="handleToPiIntro") {{$t('verifyNow')}}
                 .block__locked(v-else)
                     .card__item.hide
                         img(:src="ele.products[0].productInfo.logUrl")
