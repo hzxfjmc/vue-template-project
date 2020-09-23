@@ -152,10 +152,13 @@ export default {
                 pageSize: this.pageSize
             }
             try {
-                let columnList = await listPiColumnAndProductV1(param)
-                if (columnList.length && columnList[0].products.length) {
+                let columnList = (await listPiColumnAndProductV1(param)) || []
+                if (columnList.length) {
+                    let filterList = columnList.filter(
+                        item => item.products && item.products.length
+                    )
                     await getCosUrl(
-                        columnList[0].products[0].productInfo.logUrl.cnLogo
+                        filterList[0].products[0].productInfo.logUrl.cnLogo
                     )
                 }
                 columnList.forEach(item => {
