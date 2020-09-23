@@ -157,9 +157,11 @@ export default {
                     let filterList = columnList.filter(
                         item => item.products && item.products.length
                     )
-                    await getCosUrl(
-                        filterList[0].products[0].productInfo.logUrl.cnLogo
-                    )
+                    if (filterList.length) {
+                        await getCosUrl(
+                            filterList[0].products[0].productInfo.logUrl.cnLogo
+                        )
+                    }
                 }
                 columnList.forEach(item => {
                     item.columnName = Object.values(JSON.parse(item.columnName))
