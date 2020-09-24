@@ -138,16 +138,7 @@ export default {
             )
         },
         isGrayAuthority() {
-            if (this.userInfo.grayStatusBit) {
-                let isWhiteUserBit = this.userInfo.grayStatusBit
-                    .toString(2)
-                    .split('')
-                    .reverse()
-                    .join('')[3]
-                return isWhiteUserBit == 1
-            } else {
-                return false
-            }
+            return true
         }
     },
     methods: {
