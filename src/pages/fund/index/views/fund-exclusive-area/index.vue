@@ -46,18 +46,8 @@
                                         p.title {{item.productInfo.productName}}
                                         p.desc {{item.productInfo.productDesc}}
                                 .item-right
-                                    .btn(v-if="isPiAccount"  @click.stop="handleBook(item.id)") {{$t('reserveNow')}}       
+                                    .btn(v-if="isPiAccount || item.viewPermission === 1"  @click.stop="handleBook(item.id)") {{$t('reserveNow')}}       
                                     .btn(v-else  @click.stop="handleToPiIntro") {{$t('verifyNow')}}       
-                            //- .block__locked(v-else)
-                            //-     .card__item.hide
-                            //-         img(:src="ele.products[0].productInfo.logUrl")
-                            //-         .info.item
-                            //-             p.title {{ele.products[0].productInfo.productName}}
-                            //-             p.desc {{ele.products[0].productInfo.productDesc}}
-                            //-     .mask
-                            //-         img(:src="lockedImg")
-                            //-         p.tips {{$t('onlyPi')}}
-                            //-         p.btn(@click="handleToPiIntro") {{$t('verifyNow')}}
                 .block__locked(v-else)
                     .card__item.hide
                         img(:src="ele.products[0].productInfo.logUrl")
@@ -126,7 +116,11 @@ export default {
             //0: '不跳转',
             //1: '跳转到对应链接',
             //2: '跳转到对应文档'
-            if (item.jumpType === 0) {
+            // viewPermission展示权限，1：全部可见，2：PI可见
+            if (
+                item.jumpType === 0 ||
+                (item.viewPermission === 2 && !this.isPiAccount)
+            ) {
                 return
             } else if (item.jumpType === 1) {
                 let url = `${item.jumpUrl}`
