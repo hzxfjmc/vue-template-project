@@ -240,6 +240,22 @@ export default new Router({
                 )
         },
         {
+            name: 'fund-exclusive-area',
+            path: '/fund-exclusive-area',
+            meta: { title: 'exclusiveArea', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-exclusive-area/index.vue`)
+        },
+        {
+            name: 'column-product-list',
+            path: '/column-product-list',
+            meta: { title: 'productList', auth: true },
+            component: () =>
+                import(
+                    `@/pages/fund/index/views/fund-exclusive-area/column-product-list.vue`
+                )
+        },
+        {
             name: 'fund-invest-combination',
             path: '/fund-invest-combination',
             meta: { title: 'fundInvestCombination', auth: true, cs: true },

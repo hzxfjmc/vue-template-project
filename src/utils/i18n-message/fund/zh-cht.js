@@ -197,5 +197,7 @@ export const zhCHT = {
     Index: '指數型',
     Financial: '理財產品',
     NET_PRICE: '淨值型',
-    DIVIDEND: '分紅型'
+    DIVIDEND: '分紅型',
+    exclusiveArea: '尊享專區',
+    productList: '優質企業IPO錨定基金'
 }

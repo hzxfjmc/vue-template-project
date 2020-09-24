@@ -222,6 +222,19 @@ export default {
             return transNumToThousandMark(value)
         }
     },
+    watch: {
+        isGrayAuthority(val) {
+            if (val) {
+                this.tabList.push({
+                    imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_pi.png'),
+                    label: '尊享型',
+                    key: 'exclusive',
+                    value: '5'
+                })
+            }
+        }
+    },
     computed: {
         stockColorType() {
             return +getStockColorType()
@@ -413,9 +426,15 @@ export default {
         },
         //跳转
         handlerNavItem(item) {
-            this.openWebView(
-                `${window.location.origin}/wealth/fund/index.html#/index?type=${item.value}`
-            )
+            if (item.value == 5) {
+                this.openWebView(
+                    `${window.location.origin}/wealth/fund/index.html#/fund-exclusive-area`
+                )
+            } else {
+                this.openWebView(
+                    `${window.location.origin}/wealth/fund/index.html#/index?type=${item.value}`
+                )
+            }
         },
         //App页面跳转
         async openWebView(url) {

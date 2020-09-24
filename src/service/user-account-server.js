@@ -8,3 +8,11 @@ export const getMarketValidFundAccount = params => {
         params
     )
 }
+
+// 获取客户专业投资者认证结果
+export const getInvestmentCerificationResult = params => {
+    return axios.get(
+        `user-account-server/api/get-investment-cerification-result/v1`,
+        params
+    )
+}
