@@ -21,7 +21,6 @@
                     span.iconfont.icon-iconEBgengduoCopy
             .block__card__swipe(
                 v-for="ele in columnList"
-                v-if="ele.products"
                 :key="ele.id"
             )
                 .block__title
@@ -50,10 +49,10 @@
                                     .btn(v-else  @click.stop="handleToPiIntro") {{$t('verifyNow')}}       
                 .block__locked(v-else)
                     .card__item.hide
-                        img(:src="ele.products[0].productInfo.logUrl")
+                        img(:src="ele.products && ele.products[0].productInfo.logUrl")
                         .info.item
-                            p.title {{ele.products[0].productInfo.productName}}
-                            p.desc {{ele.products[0].productInfo.productDesc}}
+                            p.title {{ele.products && ele.products[0].productInfo.productName}}
+                            p.desc {{ele.products && ele.products[0].productInfo.productDesc}}
                     .mask
                         img(:src="lockedImg")
                         p.tips {{$t('onlyPi')}}
