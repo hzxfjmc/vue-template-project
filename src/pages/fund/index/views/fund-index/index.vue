@@ -222,6 +222,19 @@ export default {
             return transNumToThousandMark(value)
         }
     },
+    watch: {
+        isGrayAuthority(val) {
+            if (val) {
+                this.tabList.push({
+                    imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
+                    imgUrl1: require('@/assets/img/fund/icon_pi.png'),
+                    label: '尊享型',
+                    key: 'exclusive',
+                    value: '5'
+                })
+            }
+        }
+    },
     computed: {
         stockColorType() {
             return +getStockColorType()
@@ -310,13 +323,6 @@ export default {
                     label: '貨幣型',
                     key: 'fundCurrency',
                     value: '4'
-                },
-                {
-                    imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_pi.png'),
-                    label: '尊享型',
-                    key: 'exclusive',
-                    value: '5'
                 }
             ],
             choiceFundList: {}, //精选基金

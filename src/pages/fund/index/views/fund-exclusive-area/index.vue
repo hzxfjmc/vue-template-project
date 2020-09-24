@@ -36,9 +36,8 @@
                     .product-item(
                         v-for="item,index in ele.products" 
                         :key="item.id"
-                        v-if="isPiAccount || item.viewPermission === 1"
                         )
-                        //- 展示权限，1：全部可见，2：PI可见
+                        //- viewPermission展示权限，1：全部可见，2：PI可见
                         template(v-if="index<3")
                             .card__item(@click="handleToDetail(item)" )
                                 .item-left
