@@ -125,7 +125,7 @@ div
                             @click="yieldInLast7dClick"
                         ) {{$t('hkd')}} | {{$t('yieldInLast7d')}}
                             span.iconfont.icon-warning
-                    .left(v-if="isGrayAuthority")
+                    .left
                         .number(v-if="Number(usdSevenDaysApy)>0")  +{{usdSevenDaysApy}}%
                         .number(v-else ) {{usdSevenDaysApy}}%
                         p.block--bottom--desc(
@@ -261,7 +261,7 @@ export default {
                     .join('')[3]
                 return isWhiteUserBit == 1
             } else {
-                return true
+                return false
             }
         }
     },
