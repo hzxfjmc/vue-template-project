@@ -57,7 +57,7 @@
                                         v-for="item of filelist") 
                                         .list-item(@click="toJumpLink(item)")
                                             p {{item.fileName}}
-                                            span {{item.createTime}}
+                                            span {{item.publishDate}}
                                             img(:src="item.ImgSrc")
 
                             .no-bond-box(v-else)
@@ -150,7 +150,7 @@ export default {
                 })
                 this.filelist = fundCorrelationFileList
                 this.filelist.map((item, index) => {
-                    item.createTime = dayjs(item.createTime).format(
+                    item.publishDate = dayjs(item.publishDate).format(
                         'YYYY-MM-DD'
                     )
                     this.filelist[index].ImgSrc =

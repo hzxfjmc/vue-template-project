@@ -1,4 +1,5 @@
 export const en = {
+    fundInvestCombination: 'Portfolio',
     fundAnalyzeData: 'Fund Analyze Data',
     fundDetails: 'Fund Detail',
     fundList: 'Fund List',

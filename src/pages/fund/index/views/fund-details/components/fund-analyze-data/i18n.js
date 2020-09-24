@@ -2,7 +2,7 @@ export default {
     zhCHS: {
         A10: '分析数据',
         A11: '查看更多',
-        A12: '数据更新时间',
+        A12: '更新时间',
         A13: '基金规模',
         A14: '风险指标',
         A15: '指标说明',
@@ -32,7 +32,7 @@ export default {
         A10: 'Analytical Figure',
         A11: 'More',
         A12: 'As of ',
-        A13: 'Fund Scale',
+        A13: 'Fund Size',
         A14: 'Risk Indicator',
         A15: 'Learn More',
         A16: 'Indicators',
@@ -60,7 +60,7 @@ export default {
     zhCHT: {
         A10: '分析數據',
         A11: '查看更多',
-        A12: '數據更新時間',
+        A12: '更新時間',
         A13: '基金規模',
         A14: '風險指標',
         A15: '指標說明',

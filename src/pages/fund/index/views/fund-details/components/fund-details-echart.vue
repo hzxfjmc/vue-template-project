@@ -562,6 +562,8 @@ export default {
     font-size: 12px;
     font-weight: 400;
     justify-content: space-evenly;
+    height: 42px;
+    align-items: center;
     .legend__category {
         position: relative;
         display: flex;
@@ -752,7 +754,7 @@ export default {
     }
     .fund-echart-content {
         position: relative;
-        padding: 10px;
+        padding: 0 10px 10px;
         #myChart {
             width: 100% !important;
         }
