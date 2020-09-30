@@ -13,7 +13,7 @@ export const zhCHT = {
         confirm_protocol: '本人已閱讀、確認并同意',
         confirm_protocol_1: '美股行情聲明',
         confirm_protocol_2: '美股行情訂閱協議',
-        confirm_protocol_3: '友信隱私政策',
+        confirm_protocol_3: 'uSMART隱私政策',
         submit_error_info: '確認失敗，請稍後重試',
         protocol_none: '協議地址不存在',
         confirm: '確認',

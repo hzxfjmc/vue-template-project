@@ -13,7 +13,7 @@ export const zhCHS = {
         confirm_protocol: '本人已阅读、确认并同意',
         confirm_protocol_1: '美股行情声明',
         confirm_protocol_2: '美股行情订阅协议',
-        confirm_protocol_3: '友信隐私政策',
+        confirm_protocol_3: 'uSMART隐私政策',
         submit_error_info: '确认失败，请稍后重试',
         protocol_none: '协议地址不存在',
         confirm: '确定',

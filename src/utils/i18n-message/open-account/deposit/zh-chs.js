@@ -12,7 +12,7 @@ export const zhCHS = {
     },
     offline: {
         title: '存入资金',
-        subTitle: '通过本人同名账户，发起转账并通知友信',
+        subTitle: '通过本人同名账户，发起转账并通知uSMART',
         title2: '选择您的银行',
         stepTitle1: '选择银行',
         stepTitle2: '发起转账',

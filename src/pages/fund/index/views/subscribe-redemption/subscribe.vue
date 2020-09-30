@@ -636,10 +636,10 @@ export default {
                 }${CurrencyName}${this.$t('buyMoneyPlaceHolder')} `
 
                 this.tips = this.$t([
-                    `*友信暂不支持使用${CURRENCYEUMN[this.currency.type]}购买${
+                    `*uSMART暂不支持使用${CURRENCYEUMN[this.currency.type]}购买${
                         CURRENCYEUMN[this.currency.type]
                     }基金，如有需要，您可以手动换汇后进行申购`,
-                    `*友信暫不支持使用${CURRENCYEUMN[this.currency.type]}購買${
+                    `*uSMART暫不支持使用${CURRENCYEUMN[this.currency.type]}購買${
                         CURRENCYEUMN[this.currency.type]
                     }基金，如有需要，您可以手動換匯後進行申購`,
                     `*uSMART does not support the use of ${
