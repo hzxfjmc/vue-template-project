@@ -1206,7 +1206,7 @@ export default {
                                 ].riskStyle
                             }（A${
                                 this.userInfo.assessResult
-                            }）。点击继续操作视为您确认自愿承担该产品风险，且友信并未主动向您推荐该产品`,
+                            }）。点击继续操作视为您确认自愿承担该产品风险，且uSMART并未主动向您推荐该产品`,
                             `該產品為${this.fundHeaderInfoVO.fundRisk}（R${
                                 this.fundHeaderInfoVO.fundRiskType
                             }），超出您當前的風險承受能力${
@@ -1215,7 +1215,7 @@ export default {
                                 ].riskStyle
                             }（A${
                                 this.userInfo.assessResult
-                            }）。點擊繼續操作視為您確認自願承擔該產品風險，且友信並未主動向您推薦該產品`,
+                            }）。點擊繼續操作視為您確認自願承擔該產品風險，且uSMART並未主動向您推薦該產品`,
                             `The risk level of this product is R${
                                 this.fundHeaderInfoVO.fundRiskType
                             }(${

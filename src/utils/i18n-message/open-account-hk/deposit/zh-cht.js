@@ -9,7 +9,7 @@ export const zhCHT = {
     online: { title: '選擇您的銀行賬戶', manageAccount: '管理銀行賬戶' },
     offline: {
         title: '存入資金',
-        subTitle: '通過本人同名賬戶，發起轉賬並通知友信',
+        subTitle: '通過本人同名賬戶，發起轉賬並通知uSMART',
         title2: '選擇您的銀行',
         stepTitle1: '選擇銀行',
         stepTitle2: '發起轉賬',
