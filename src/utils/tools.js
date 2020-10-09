@@ -157,19 +157,20 @@ export const dateFormat = function(date, format = 'YYYY-MM-DD HH:mm') {
     return dayjs(date).format(format)
 }
 
+export const generateUUID = guid
 // 生成uuid唯一标识
-export const generateUUID = () => {
-    let d = new Date().getTime()
-    const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
-        /[xy]/g,
-        function(c) {
-            const r = (d + Math.random() * 16) % 16 | 0
-            d = Math.floor(d / 16)
-            return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16)
-        }
-    )
-    return uuid
-}
+// export const generateUUID = () => {
+//     let d = new Date().getTime()
+//     const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(
+//         /[xy]/g,
+//         function(c) {
+//             const r = (d + Math.random() * 16) % 16 | 0
+//             d = Math.floor(d / 16)
+//             return (c === 'x' ? r : (r & 0x3) | 0x8).toString(16)
+//         }
+//     )
+//     return uuid
+// }
 
 //对钱进行处理
 export function transNumToThousandMark(num = '0', dot = 2) {
