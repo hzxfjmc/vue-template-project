@@ -5,9 +5,12 @@
             .fund__nav--item(
                 v-for="(item,index) in navList" 
                 @click="handerTab(item,index)"
-                :class="[activeTab===index ? 'active':'']"
+                :class="[activeTab==index  ? 'active':'']"
                 :key="index") {{item.label}}
-       
+            .fund__nav--subitem(
+                @click="handleFilterShow"
+            )
+                span.iconfont.icon-fundFilter
     .fund__header--subnav(v-if="chShow")
         .fund__nav--scroll.fund__nav--scroll-d(ref="navTransform")
             .fund__nav--subitem(
@@ -15,7 +18,10 @@
                 @click="handerTab(item,index)"
                 :class="[activeTab==index ? 'active1':'']"
                 :key="index") {{item.label}}
-   
+            .fund__nav--subitem(
+                @click="handleFilterShow"
+            )
+                span.iconfont.icon-fundFilter
 </template>
 <script>
 import { Tab, Tabs } from 'vant'
@@ -38,20 +44,20 @@ export default {
             fundHkdType: '港币基金',
             fundUsdType: '美元基金',
             fundAll: '全部',
-            fundCurrency: '货币型',
-            fundBond: '债券型',
-            fundBlend: '混合型',
-            fundShares: '股票型'
+            fundCurrency: '货币',
+            fundBond: '债券',
+            fundBlend: '混合',
+            fundShares: '股票'
         },
         zhCHT: {
             fundAllType: '全部貨幣',
             fundHkdType: '港幣基金',
             fundUsdType: '美元基金',
             fundAll: '全部',
-            fundCurrency: '貨幣型',
-            fundBond: '債券型',
-            fundBlend: '混合型',
-            fundShares: '股票型'
+            fundCurrency: '貨幣',
+            fundBond: '債券',
+            fundBlend: '混合',
+            fundShares: '股票'
         },
         en: {
             fundAllType: 'All CURR',
@@ -93,6 +99,7 @@ export default {
             chShow: false,
             chooseCurrencyShow1: false,
             protocolVisible: false,
+            activeFilter: false,
             fundTitle: '全部货币',
             IconPath: require('@/assets/img/fund/icon_qiu.png'),
             state: {
@@ -129,23 +136,23 @@ export default {
                     value: ''
                 },
                 {
-                    label: '股票型',
+                    label: '股票',
                     key: 'fundShares',
                     value: '1'
                 },
 
                 {
-                    label: '债券型',
+                    label: '债券',
                     key: 'fundBond',
                     value: '2'
                 },
                 {
-                    label: '混合型',
+                    label: '混合',
                     key: 'fundBlend',
                     value: '3'
                 },
                 {
-                    label: '货币型',
+                    label: '货币',
                     key: 'fundCurrency',
                     value: '4'
                 }
@@ -197,8 +204,12 @@ export default {
             this.activeTab = index
 
             //tab切换
+            this.activeFilter = false
             this.state.flag = '1'
             this.$emit('handlerCuenrry', this.state)
+        },
+        handleFilterShow() {
+            this.$emit('handleFilterShow')
         },
         //获取用户归属 1大陆 2香港
         async getSource() {
@@ -251,6 +262,9 @@ export default {
         .fund__nav--subitem {
             font-size: 14px;
         }
+        .iconfont {
+            font-size: 18px;
+        }
     }
     .fund__nav--item {
         width: 110px;
@@ -286,7 +300,7 @@ export default {
             right: 0;
             bottom: -6px;
             width: 31px;
-            left: 22px;
+            left: 15px;
             border-bottom: 4px solid #2f79ff;
             @media only screen and (min-resolution: 2dppx) {
                 // 非标准的
