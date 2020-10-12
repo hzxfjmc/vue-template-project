@@ -10,12 +10,17 @@
                 img(:src="bannarTitleUrl" @click="goBarnner")
             .fund__banner2.index-top(v-if="code != 1 && bannerShow")
                 img(:src="barnnarUrl")
-        .yx-scroll-container
+        .yx-scroll-container(
+            :class="{bottom: isPhoneX}"
+        )
             .scroll-header.border-bottom
                 .scroll-header__fixed {{$t('A111')}}
                 .scroll-header__scroll(ref="headerScroll")
                     ul.scroll-header__scroll--content
-                        li.scroll-header__scroll--item(v-for="value,key in headerList") 
+                        li.scroll-header__scroll--item(
+                            v-for="value,key in headerList" 
+                            :class="[isEn && !fundEarningsField.includes(key) ? 'en' : '']"
+                        ) 
                             .item--text(@click="handlerSort(key)") {{value}}
                                 .item--sort
                                     SortIcon(
@@ -41,27 +46,30 @@
                             )
                                 template(v-for="key in fundEarningsField")
                                     .scroll-main__row--item(
-                                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                                        :class="[stockColorType === 1 ? 'number-red' : 'number-green']"
                                         v-if="item[key]>0"
                                     ) {{item[key] | formatNum}}%
                                     .scroll-main__row--item(
-                                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                                        :class="[stockColorType === 1 ? 'number-red' : 'number-green']"
                                         v-else-if="item[key]<0"
                                     ) {{item[key] | formatNum}}%
                                     .scroll-main__row--item(
                                         v-else
                                     ) {{item[key] || '--'}}
-                                .scroll-main__row--item {{item.morningRating || '--'}}
+                                .scroll-main__row--item(
+                                    :class="{en:isEn}"
+                                ) {{item.morningRating || '--'}}
                                 template(v-for="key in fundAnalysisfield")
                                     .scroll-main__row--item(
-                                        :class="stockColorType === 1 ? 'number-red' : 'number-green'"
+                                        :class="[stockColorType === 1 ? 'number-red' : 'number-green', isEn?'en':'']"
                                         v-if="item[key]>0"
                                     ) +{{item[key]}}
                                     .scroll-main__row--item(
-                                        :class="stockColorType === 1 ? 'number-green' : 'number-red'"
+                                        :class="[stockColorType === 1 ? 'number-red' : 'number-green', isEn?'en':'']"
                                         v-else-if="item[key]<0"
                                     ) {{item[key]}}
                                     .scroll-main__row--item(
+                                        :class="{en:isEn}"
                                         v-else
                                     ) {{item[key] || '--'}}
             .no-bond-box(v-if="load")
@@ -131,7 +139,20 @@ export default {
             FeatureFund: '精選基金',
             fundUsdType: '美元基金',
             HKD: '港幣',
-            USD: '美元'
+            USD: '美元',
+            currency: '交易貨幣',
+            riskLevel: '風險等級',
+            establishYears: '成立年限 (年)',
+            dividendType: '分紅類型',
+            low: '低風險',
+            middleLow: '中低風險',
+            middle: '中風險',
+            middleHigh: '中高風險',
+            high: '高風險',
+            accumulate: '累積型',
+            cashDividend: '現金分紅',
+            dividendIvest: '分紅再投資',
+            reset: '重設'
         },
         en: {
             noFund: 'No Data',
@@ -140,7 +161,20 @@ export default {
             FeatureFund: 'Feature Fund',
             fundUsdType: 'USD',
             HKD: 'HKD',
-            USD: 'USD'
+            USD: 'USD',
+            currency: 'Transaction Currency',
+            riskLevel: 'Risk Level',
+            establishYears: 'Years Since Inception (Year)',
+            dividendType: 'Dividend Method',
+            low: 'Low Rsik',
+            middleLow: 'Medium Low Risk',
+            middle: 'Medium Risk',
+            middleHigh: 'Medium High Risk',
+            high: 'High Risk',
+            accumulate: 'Accumulation',
+            cashDividend: 'Cash',
+            dividendIvest: 'Reinvest',
+            reset: 'Reset'
         }
     },
     filters: {
@@ -154,13 +188,20 @@ export default {
             return +getStockColorType()
         },
         fundNumStr() {
-            return this.$t([`查看(${this.list.length}只)基金`])
+            return this.$t([
+                `查看(${this.list.length}只)基金`,
+                `查看(${this.list.length}只)基金`,
+                `Check(${this.list.length})Funds`
+            ])
         },
         isPhoneX() {
             return (
                 /iphone/gi.test(window.navigator.userAgent) &&
                 window.screen.height >= 812
             )
+        },
+        isEn() {
+            return this.lang === 'en'
         },
         fundEarningsField() {
             return Object.keys(this.headerList).slice(0, 4)
@@ -219,21 +260,21 @@ export default {
                             }
                         },
                         {
-                            key: '1-3',
+                            key: '1~3',
                             val: {
                                 begin: 1,
                                 end: 3
                             }
                         },
                         {
-                            key: '3-5',
+                            key: '3~5',
                             val: {
                                 begin: 3,
                                 end: 5
                             }
                         },
                         {
-                            key: '5-10',
+                            key: '5~10',
                             val: {
                                 begin: 5,
                                 end: 10
@@ -293,7 +334,7 @@ export default {
                 threeYear: this.$t(['近三年', '近三年', 'Last 3-Year']),
                 twoYear: this.$t(['近两年', '近两年', 'Last 2-Year']),
                 oneYear: this.$t(['近一年', '近一年', 'Last 1-Year']),
-                toYear: this.$t(['今年来', '今年来', 'this Year']),
+                toYear: this.$t(['今年来', '今年来', 'to Year']),
                 morningRating: this.$t([
                     '晨星评级',
                     '晨星評級',
@@ -321,7 +362,7 @@ export default {
                 ])
             },
             sortMap: {
-                threeYear: 0,
+                threeYear: 1,
                 twoYear: 0,
                 oneYear: 0,
                 toYear: 0,
@@ -456,13 +497,9 @@ export default {
                     return a[key] - b[key]
                 })
             } else {
-                for (let obj in this.sortMap) {
-                    if (obj == key) {
-                        this.sortMap[obj] = 0
-                    }
-                }
+                this.resetSortMap()
                 this.list.sort((a, b) => {
-                    return b[key] - a[key]
+                    return b.threeYear - a.threeYear
                 })
             }
         },
@@ -498,6 +535,19 @@ export default {
             }
             this.form.dividendType = ''
             this.getFundListV2()
+        },
+        resetSortMap() {
+            this.sortMap = {
+                threeYear: 1,
+                twoYear: 0,
+                oneYear: 0,
+                toYear: 0,
+                morningRating: 0,
+                sharpeRatio3Yr: 0,
+                maxDrawDown3Yr: 0,
+                captureRatioUpside3Yr: 0,
+                captureRatioDownside3Yr: 0
+            }
         },
         handleChose() {
             this.filterPopupShow = false
@@ -570,10 +620,8 @@ export default {
                         ? require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
                         : require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}1.png`)
             }
-            for (let key in this.sortMap) {
-                this.sortMap[key] = 0
-            }
-            this.getFundListV2()
+            this.resetSortMap()
+            this.handleReset()
         },
         handleFilterShow() {
             this.filterPopupShow = true
@@ -604,6 +652,9 @@ export default {
                 }
                 const { list } = await getFundListV2(params)
                 this.list = list
+                this.list.sort((a, b) => {
+                    return b.threeYear - a.threeYear
+                })
                 this.load = this.list.length == 0
             } catch (e) {
                 this.$toast(e.msg)
@@ -649,7 +700,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 $fixed-width: 179px;
-$item-with: 100px;
+$item-width: 115px;
 $row-height: 60px;
 $global-padding: 30px;
 .bond-index-wrapper {
@@ -732,6 +783,9 @@ $global-padding: 30px;
     flex: 1;
     height: 100%;
     flex-direction: column;
+    &.bottom {
+        margin-bottom: 20px;
+    }
     .scroll-header {
         position: sticky;
         top: 36px;
@@ -762,10 +816,13 @@ $global-padding: 30px;
                 text-align: center;
                 white-space: nowrap;
                 .scroll-header__scroll--item {
-                    width: $item-with;
+                    width: $item-width;
                     text-align: right;
                     padding-right: $global-padding;
                     display: inline-block;
+                    &.en {
+                        width: 160px;
+                    }
                     .item--text {
                         display: flex;
                         color: $text-color5;
@@ -803,9 +860,6 @@ $global-padding: 30px;
                         display: flex;
                         padding-left: 5px;
                     }
-                    &:last-child {
-                        margin-bottom: 20px;
-                    }
                 }
             }
             .scroll-main__scroll {
@@ -821,11 +875,14 @@ $global-padding: 30px;
                         white-space: nowrap;
                         display: inline-block;
                         &--item {
-                            width: $item-with;
+                            width: $item-width;
                             text-align: right;
                             line-height: 60px;
                             display: inline-block;
                             padding-right: $global-padding;
+                            &.en {
+                                width: 160px;
+                            }
                         }
                     }
                 }
