@@ -50,7 +50,7 @@
                                         v-if="item[key]>0"
                                     ) {{item[key] | formatNum}}%
                                     .scroll-main__row--item(
-                                        :class="[stockColorType === 1 ? 'number-red' : 'number-green']"
+                                        :class="[stockColorType === 1 ? 'number-green' : 'number-red']"
                                         v-else-if="item[key]<0"
                                     ) {{item[key] | formatNum}}%
                                     .scroll-main__row--item(
@@ -65,7 +65,7 @@
                                         v-if="item[key]>0"
                                     ) +{{item[key]}}
                                     .scroll-main__row--item(
-                                        :class="[stockColorType === 1 ? 'number-red' : 'number-green', isEn?'en':'']"
+                                        :class="[stockColorType === 1 ? 'number-green' : 'number-red', isEn?'en':'']"
                                         v-else-if="item[key]<0"
                                     ) {{item[key]}}
                                     .scroll-main__row--item(
@@ -943,7 +943,7 @@ $global-padding: 30px;
     }
 }
 .number-red {
-    color: rgba(234, 61, 61, 1);
+    color: #ea3d3d;
 }
 
 .number-green {
