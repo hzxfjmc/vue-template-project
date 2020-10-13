@@ -61,11 +61,56 @@
         .fund-block
             .fund-block__header
                 .title 
-                    span {{$t('A26')}}
-                    span(v-if="equityStyleBoxApiVO.equityStyleBox") （{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
-                .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
+                    span {{$t('A43')}}
+                    span(v-if="fixedIncomeStyleBoxNum") （{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
+                //- .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
             .fund-block__content.style-box 
-                table.table-box(v-if="equityStyleBoxApiVO.equityStyleBox")
+                table.table-box(v-if="fixedIncomeStyleBoxNum")
+                    tr
+                        td &nbsp;
+                        td &nbsp;
+                        td &nbsp;
+                        td &nbsp;
+                        td.label-title （{{$t('A42')}}）
+                    tr
+                        td &nbsp;
+                        td.value( 
+                            v-for="item,index in keyList2" 
+                            :key="`key_${index}`"
+                            :class="{'bg-color-large': index+1 === fixedIncomeStyleBoxNum}"
+                            )
+                        td.label {{$t('A37')}}
+                    tr
+                        td &nbsp;
+                        td.value( 
+                            v-for="item,index in keyList3" 
+                            :key="`key_${index}`"
+                            :class="{'bg-color-large': index+4 === fixedIncomeStyleBoxNum}"
+                            )
+                        td.label {{$t('A38')}}
+                    tr
+                        td &nbsp;
+                        td.value( 
+                            v-for="item,index in keyList4" 
+                            :key="`key_${index}`"
+                            :class="{'bg-color-large': index+7 === fixedIncomeStyleBoxNum}"
+                            )
+                        td.label {{$t('A39')}}
+                    tr
+                        td.label-title （{{$t('A41')}}）
+                        td.label {{$t('A40')}}
+                        td.label {{$t('A38')}}
+                        td.label {{$t('A37')}}
+                        td &nbsp;
+                yx-no-list(v-else)
+        .fund-block
+            .fund-block__header
+                .title 
+                    span {{$t('A26')}}
+                    span(v-if="equityStyleBoxNum") （{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
+                //- .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
+            .fund-block__content.style-box 
+                table.table-box(v-if="equityStyleBoxNum")
                     tr
                         td &nbsp;
                         td &nbsp;
@@ -77,24 +122,24 @@
                         td.value( 
                             v-for="item,index in keyList2" 
                             :key="`key_${index}`"
-                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
-                            ) {{styleBoxBreakDown[item] | filterRatio}}
+                            :class="{'bg-color-large': index+1 === equityStyleBoxNum}"
+                            )
                         td.label {{$t('A31')}}
                     tr
                         td &nbsp;
                         td.value( 
-                            v-for="item,index in keyList3" 
+                            v-for="item,index in keyList2" 
                             :key="`key_${index}`"
-                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
-                            ) {{styleBoxBreakDown[item] | filterRatio}}
+                            :class="{'bg-color-large': index+4 === equityStyleBoxNum}"
+                            )
                         td.label {{$t('A30')}}
                     tr
                         td &nbsp;
                         td.value( 
-                            v-for="item,index in keyList4" 
+                            v-for="item,index in keyList2" 
                             :key="`key_${index}`"
-                            :class="[{'bg-color-large': item === largeKey},{'bg-color-mid': item === midKey},{'bg-color-small': item === smallKey}]"
-                            ) {{styleBoxBreakDown[item] | filterRatio}}
+                            :class="{'bg-color-large': index+7 === equityStyleBoxNum}"
+                            )
                         td.label {{$t('A29')}}
                     tr
                         td.label-title （{{$t('A32')}}）
@@ -204,9 +249,8 @@ export default {
             relativeRiskMeasureCategoryApiVO: {},
             riskMeasureApiVO: {},
             equityStyleBoxApiVO: {},
-            largeKey: '',
-            midKey: '',
-            smallKey: ''
+            equityStyleBoxNum: 0, // 股票投资箱高亮的方块
+            fixedIncomeStyleBoxNum: 0 // 债券投资箱高亮的方块
         }
     },
     methods: {
@@ -258,25 +302,6 @@ export default {
                 ])
             }
         },
-
-        getSortStyleBoxData() {
-            const styleBoxBreakDownList = []
-            let sortList = []
-            Object.keys(this.styleBoxBreakDown).forEach(key => {
-                styleBoxBreakDownList.push({
-                    key: key,
-                    value: this.styleBoxBreakDown[key]
-                })
-            })
-            const sortfunc = (a, b) => {
-                return Number(b.value) - Number(a.value)
-            }
-            sortList = styleBoxBreakDownList.sort(sortfunc)
-            if (!sortList.length) return
-            this.largeKey = sortList[0].key
-            this.midKey = sortList[1].key
-            this.smallKey = sortList[2].key
-        },
         handleGoDetail(type) {
             let url = 'https://m.yxzq.com/webapp/market/generator.html'
             let queryString = ''
@@ -313,6 +338,13 @@ export default {
                 ].forEach(key => {
                     this[key] = this.analyzeData[key] || {}
                 })
+                this.equityStyleBoxNum = Number(
+                    this.equityStyleBoxApiVO.equityStyleBox
+                )
+                this.fixedIncomeStyleBoxNum = Number(
+                    this.equityStyleBoxApiVO.fixedIncomeStyleBox
+                )
+                console.log(this.equityStyleBoxNum, this.fixedIncomeStyleBoxNum)
             } catch (e) {
                 this.$toast(e.msg)
             }
@@ -322,7 +354,6 @@ export default {
             this.fundName = fundName
             this.isin = isin
             await this.getFundAnalysisData()
-            await this.getSortStyleBoxData()
         }
     },
     created() {
