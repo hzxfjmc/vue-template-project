@@ -13,12 +13,12 @@
         .yx-scroll-container(
             :class="{bottom: isPhoneX}"
         )
-            .scroll-header.border-bottom
+            .scroll-header.border-bottom(:class="{'small-font': isEn}")
                 .scroll-header__fixed {{$t('A111')}}
                 .scroll-header__scroll(ref="headerScroll")
                     ul.scroll-header__scroll--content
                         li.scroll-header__scroll--item(
-                            v-for="value,key in headerList" 
+                            v-for="value,key in headerList"
                             :class="[isEn && !fundEarningsField.includes(key) ? 'en' : '']"
                         ) 
                             .item--text(@click="handlerSort(key)") {{value}}
@@ -28,10 +28,10 @@
                                         :value="sortMap[key]"
                                     )
             .scroll-main
-                .scroll-main-box(v-show="list && list.length > 0")
+                .scroll-main-box(v-show="filterList && filterList.length > 0")
                     .scroll-main__fiexed 
                         .scroll-main__fiexed--item.border-bottom(
-                            v-for="itemObj in list"
+                            v-for="itemObj in filterList"
                             @click="goNext(itemObj.fundId, itemObj.fundName || itemObj.title)"
                         ) 
                             .fund-name.ellipse
@@ -42,7 +42,7 @@
                     .scroll-main__scroll(ref="mainScroll" )
                         ul.scroll-main__scroll--content
                             li.scroll-main__row.border-bottom(
-                                v-for="item in list"
+                                v-for="item in filterList"
                             )
                                 template(v-for="key in fundEarningsField")
                                     .scroll-main__row--item(
@@ -87,12 +87,12 @@
                     .btn--item(
                         v-for="obj in item.btnList"
                         @click="handleChoose(obj, item)"
-                        :class="[form[item.label]==obj.val ? 'active': '']"
+                        :class="[form[item.label].includes(obj.val) ? 'active': '']"
                     )
                         span {{item.label=='establishYears'?obj.key:$t(obj.key)}}
             .block__bottom
-                van-button.left(@click="handleReset") {{$t('reset')}}
-                van-button.right(@click="handleChose") {{fundNumStr}}
+                van-button.left(@click="handleResetForm") {{$t('reset')}}
+                van-button.right(@click="handleClose") {{fundNumStr}}
 </template>
 <script>
 import { Swipe, SwipeItem, Button } from 'vant'
@@ -127,7 +127,7 @@ export default {
             middle: '中风险',
             middleHigh: '中高风险',
             high: '高风险',
-            accumulate: '积累型',
+            accumulate: '累积型',
             cashDividend: '现金分红',
             dividendIvest: '红利再投资',
             reset: '重置'
@@ -189,9 +189,9 @@ export default {
         },
         fundNumStr() {
             return this.$t([
-                `查看(${this.list.length}只)基金`,
-                `查看(${this.list.length}只)基金`,
-                `Check(${this.list.length})Funds`
+                `查看(${this.filterList.length}只)基金`,
+                `查看(${this.filterList.length}只)基金`,
+                `Check(${this.filterList.length})Funds`
             ])
         },
         isPhoneX() {
@@ -401,13 +401,10 @@ export default {
             filterTotal: 0,
             currency: '',
             form: {
-                currency: '',
-                riskLevel: '',
-                establishYears: {
-                    begin: '',
-                    end: ''
-                },
-                dividendType: ''
+                currency: [],
+                riskLevel: [],
+                establishYears: [],
+                dividendType: []
             },
             assetType: '',
             code: 0,
@@ -503,37 +500,48 @@ export default {
                 })
             }
         },
-        handleChoose(obj, item) {
-            switch (item.label) {
-                case 'currency':
-                    this.form.currency =
-                        this.form.currency == obj.val ? '' : obj.val
-                    this.currency = this.form.currency
-                    break
-                case 'riskLevel':
-                    this.form.riskLevel =
-                        this.form.riskLevel == obj.val ? '' : obj.val
-                    break
-                case 'establishYears':
-                    this.form.establishYears =
-                        this.form.establishYears == obj.val ? {} : obj.val
-                    break
-                case 'dividendType':
-                    this.form.dividendType =
-                        this.form.dividendType == obj.val ? '' : obj.val
-                    break
+        async handleChoose(obj, item) {
+            if (this.form[item.label].includes(obj.val)) {
+                let index = this.form[item.label].indexOf(obj.val)
+                this.form[item.label].splice(index, 1)
+            } else {
+                this.form[item.label].push(obj.val)
             }
-            this.getFundListV2()
+            if (item.label == 'currency' || item.label == 'establishYears') {
+                this.FilterAction()
+            } else {
+                await this.getFundListV2()
+                this.FilterAction()
+            }
+            this.load = this.filterList.length == 0
         },
-        handleReset() {
-            this.form.currency = ''
-            this.currency = ''
-            this.form.riskLevel = ''
-            this.form.establishYears = {
-                begin: '',
-                end: ''
+        FilterAction() {
+            this.filterList = this.list.filter(item => {
+                if (
+                    this.form.currency.length == 0 ||
+                    this.form.currency.includes(item.currency.type)
+                ) {
+                    return true
+                }
+            })
+            this.filterList = this.filterList.filter(item => {
+                let flag = false
+                for (let i = 0; i < this.form.establishYears.length; i++) {
+                    if (
+                        item.establishYears >=
+                            this.form.establishYears[i].begin &&
+                        item.establishYears <= this.form.establishYears[i].end
+                    ) {
+                        flag = true
+                    }
+                }
+                return this.form.establishYears.length == 0 ? true : flag
+            })
+        },
+        handleResetForm() {
+            for (let key in this.form) {
+                this.form[key] = []
             }
-            this.form.dividendType = ''
             this.getFundListV2()
         },
         resetSortMap() {
@@ -549,7 +557,7 @@ export default {
                 captureRatioDownside3Yr: 0
             }
         },
-        handleChose() {
+        handleClose() {
             this.filterPopupShow = false
         },
         goBarnner() {
@@ -621,7 +629,7 @@ export default {
                         : require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}1.png`)
             }
             this.resetSortMap()
-            this.handleReset()
+            this.handleResetForm()
         },
         handleFilterShow() {
             this.filterPopupShow = true
@@ -631,30 +639,26 @@ export default {
             try {
                 this.list = []
                 let params = {
+                    riskLevel: this.form.riskLevel,
+                    dividendType: this.form.dividendType
+                }
+                for (let key in params) {
+                    if (params[key].length === 0) {
+                        delete params[key]
+                    }
+                }
+                const { list } = await getFundListV2({
                     displayLocation: 1,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
                     assetType: this.assetType,
-                    currency: this.currency,
-                    riskLevel: this.form.riskLevel,
-                    establishYearsBegin: this.form.establishYears
-                        ? this.form.establishYears.begin
-                        : '',
-                    establishYearsEnd: this.form.establishYears
-                        ? this.form.establishYears.end
-                        : '',
-                    dividendType: this.form.dividendType
-                }
-                for (let key in params) {
-                    if (!params[key]) {
-                        delete params[key]
-                    }
-                }
-                const { list } = await getFundListV2(params)
+                    ...params
+                })
                 this.list = list
                 this.list.sort((a, b) => {
                     return b.threeYear - a.threeYear
                 })
+                this.filterList = this.list
                 this.load = this.list.length == 0
             } catch (e) {
                 this.$toast(e.msg)
@@ -700,7 +704,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 $fixed-width: 179px;
-$item-width: 115px;
+$item-width: 105px;
+$max-item-width: 150px;
 $row-height: 60px;
 $global-padding: 30px;
 .bond-index-wrapper {
@@ -798,6 +803,9 @@ $global-padding: 30px;
         line-height: 20px;
         font-size: 14px;
         z-index: 999;
+        &.small-font {
+            font-size: 12px;
+        }
         &__fixed {
             display: flex;
             align-items: center;
@@ -821,7 +829,7 @@ $global-padding: 30px;
                     padding-right: $global-padding;
                     display: inline-block;
                     &.en {
-                        width: 160px;
+                        width: $max-item-width;
                     }
                     .item--text {
                         display: flex;
@@ -881,7 +889,7 @@ $global-padding: 30px;
                             display: inline-block;
                             padding-right: $global-padding;
                             &.en {
-                                width: 160px;
+                                width: $max-item-width;
                             }
                         }
                     }
