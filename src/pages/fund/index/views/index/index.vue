@@ -91,7 +91,7 @@
                     )
                         span {{item.label=='establishYears'?obj.key:$t(obj.key)}}
             .block__bottom
-                van-button.left(@click="handleResetForm") {{$t('reset')}}
+                van-button.left(@click="handleReset") {{$t('reset')}}
                 van-button.right(@click="handleClose") {{fundNumStr}}
 </template>
 <script>
@@ -507,19 +507,21 @@ export default {
             } else {
                 this.form[item.label].push(obj.val)
             }
-            if (item.label == 'currency' || item.label == 'establishYears') {
-                this.FilterAction()
-            } else {
-                await this.getFundListV2()
-                this.FilterAction()
-            }
-            this.load = this.filterList.length == 0
+            this.FilterAction()
         },
         FilterAction() {
             this.filterList = this.list.filter(item => {
                 if (
                     this.form.currency.length == 0 ||
                     this.form.currency.includes(item.currency.type)
+                ) {
+                    return true
+                }
+            })
+            this.filterList = this.filterList.filter(item => {
+                if (
+                    this.form.riskLevel.length == 0 ||
+                    this.form.riskLevel.includes(item.fundRiskType)
                 ) {
                     return true
                 }
@@ -537,12 +539,25 @@ export default {
                 }
                 return this.form.establishYears.length == 0 ? true : flag
             })
+            this.filterList = this.filterList.filter(item => {
+                if (
+                    this.form.dividendType.length == 0 ||
+                    this.form.dividendType.includes(item.dividendType)
+                ) {
+                    return true
+                }
+            })
+            this.load = this.filterList.length == 0
         },
-        handleResetForm() {
+        handleReset() {
+            this.ResetForm()
+            this.filterList = this.list
+            this.load = this.filterList.length == 0
+        },
+        ResetForm() {
             for (let key in this.form) {
                 this.form[key] = []
             }
-            this.getFundListV2()
         },
         resetSortMap() {
             this.sortMap = {
@@ -629,7 +644,8 @@ export default {
                         : require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}1.png`)
             }
             this.resetSortMap()
-            this.handleResetForm()
+            this.ResetForm()
+            this.getFundListV2()
         },
         handleFilterShow() {
             this.filterPopupShow = true
@@ -638,21 +654,11 @@ export default {
         async getFundListV2() {
             try {
                 this.list = []
-                let params = {
-                    riskLevel: this.form.riskLevel,
-                    dividendType: this.form.dividendType
-                }
-                for (let key in params) {
-                    if (params[key].length === 0) {
-                        delete params[key]
-                    }
-                }
                 const { list } = await getFundListV2({
                     displayLocation: 1,
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
-                    assetType: this.assetType,
-                    ...params
+                    assetType: this.assetType
                 })
                 this.list = list
                 this.list.sort((a, b) => {
@@ -793,7 +799,7 @@ $global-padding: 30px;
     }
     .scroll-header {
         position: sticky;
-        top: 36px;
+        top: 42px;
         background: #fff;
         width: 100%;
         display: flex;
