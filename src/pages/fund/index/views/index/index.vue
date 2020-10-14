@@ -56,7 +56,7 @@
                                     .scroll-main__row--item(
                                         v-else
                                     ) {{item[key] || '--'}}
-                                .scroll-main__row--item(
+                                .scroll-main__row--item.center(
                                     :class="{en:isEn}"
                                 ) {{item.morningRating || '--'}}
                                 template(v-for="key in fundAnalysisfield")
@@ -216,11 +216,11 @@ export default {
                     btnList: [
                         {
                             key: 'HKD',
-                            val: 1
+                            val: 2
                         },
                         {
                             key: 'USD',
-                            val: 2
+                            val: 1
                         }
                     ]
                 },
@@ -529,9 +529,11 @@ export default {
                 let flag = false
                 for (let i = 0; i < this.form.establishYears.length; i++) {
                     if (
-                        item.establishYears >=
+                        !item.establishYears ||
+                        (item.establishYears >
                             this.form.establishYears[i].begin &&
-                        item.establishYears <= this.form.establishYears[i].end
+                            item.establishYears <=
+                                this.form.establishYears[i].end)
                     ) {
                         flag = true
                     }
@@ -893,6 +895,9 @@ $global-padding: 30px;
                             line-height: 60px;
                             display: inline-block;
                             padding-right: $global-padding;
+                            &.center {
+                                text-align: center;
+                            }
                             &.en {
                                 width: $max-item-width;
                             }
