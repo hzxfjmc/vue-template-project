@@ -396,9 +396,8 @@ export default {
             list: [],
             filterList: [],
             pageNum: 1,
-            pageSize: 100,
+            pageSize: 1000,
             total: 0,
-            filterTotal: 0,
             currency: '',
             form: {
                 currency: [],
