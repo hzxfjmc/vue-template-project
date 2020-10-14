@@ -347,7 +347,7 @@ export default {
                 ]),
                 maxDrawDown3Yr: this.$t([
                     '最大回撤',
-                    '最大回撤',
+                    '最大交易回落',
                     'Max Drawdown'
                 ]),
                 captureRatioUpside3Yr: this.$t([
