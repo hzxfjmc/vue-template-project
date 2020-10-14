@@ -12,7 +12,7 @@
                     span.item__label {{$t('A12')}}：
                     span.item__value {{analyzeData.updateTime || '--'}}    
         .fund-block
-            .fund-block__header
+            .fund-block__header.notBox
                 .title {{$t('A14')}}
                 .link(@click="handleGoDetail('risk')") {{$t('A15')}} 
             .fund-block__content
@@ -61,92 +61,94 @@
         .fund-block
             .fund-block__header
                 .title 
-                    span {{$t('A43')}}
-                    span(v-if="fixedIncomeStyleBoxNum") （{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
-                //- .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
+                    span {{$t('A36')}}
+                img(class="tipLink" src="@/assets/img/fund/tip.png" @click="handleGoDetail('fixedIncomeStyleBox')")
+            .time
+                span {{$t('A12')}}（{{updateTime}}）
             .fund-block__content.style-box 
-                table.table-box(v-if="fixedIncomeStyleBoxNum")
-                    tr
-                        td &nbsp;
-                        td &nbsp;
-                        td &nbsp;
-                        td &nbsp;
-                        td.label-title （{{$t('A42')}}）
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList2" 
-                            :key="`key_${index}`"
-                            :class="{'bg-color-large': index+1 === fixedIncomeStyleBoxNum}"
-                            )
-                        td.label {{$t('A37')}}
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList3" 
-                            :key="`key_${index}`"
-                            :class="{'bg-color-large': index+4 === fixedIncomeStyleBoxNum}"
-                            )
-                        td.label {{$t('A38')}}
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList4" 
-                            :key="`key_${index}`"
-                            :class="{'bg-color-large': index+7 === fixedIncomeStyleBoxNum}"
-                            )
-                        td.label {{$t('A39')}}
-                    tr
-                        td.label-title （{{$t('A41')}}）
-                        td.label {{$t('A40')}}
-                        td.label {{$t('A38')}}
-                        td.label {{$t('A37')}}
-                        td &nbsp;
+                div(v-if="fixedIncomeStyleBoxNum")
+                    table.table-box
+                        tr
+                            td(colspan="5")
+                                span.result {{equityStyleBoxApiVO.fixedIncomeStyleBox | fixedIncomeStyleBox}}
+                        tr
+                            td &nbsp;
+                            td.value( 
+                                v-for="item,index in keyList2" 
+                                :key="`key_${index}`"
+                                :class="{'bg-color-large': index+1 === fixedIncomeStyleBoxNum}"
+                                )
+                            td.label {{$t('A37')}}
+                        tr
+                            td &nbsp;
+                            td.value( 
+                                v-for="item,index in keyList3" 
+                                :key="`key_${index}`"
+                                :class="{'bg-color-large': index+4 === fixedIncomeStyleBoxNum}"
+                                )
+                            td.label {{$t('A38')}}
+                        tr
+                            td &nbsp;
+                            td.value( 
+                                v-for="item,index in keyList4" 
+                                :key="`key_${index}`"
+                                :class="{'bg-color-large': index+7 === fixedIncomeStyleBoxNum}"
+                                )
+                            td.label {{$t('A40')}}
+                        tr
+                            td &nbsp;
+                            td.label {{$t('A40')}}
+                            td.label {{$t('A38')}}
+                            td.label {{$t('A37')}}
+                            td &nbsp;
+                    .label-title.x-title {{$t('A41')}}
+                    .label-title.y-title {{$t('A42')}}
                 yx-no-list(v-else)
         .fund-block
             .fund-block__header
                 .title 
                     span {{$t('A26')}}
-                    span(v-if="equityStyleBoxNum") （{{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}）
-                //- .link(@click="handleGoDetail('stylebox')") {{$t('A27')}} 
+                img(class="tipLink" src="@/assets/img/fund/tip.png" @click="handleGoDetail('stylebox')")
+            .time
+                span {{$t('A12')}}（{{updateTime}}） 
             .fund-block__content.style-box 
-                table.table-box(v-if="equityStyleBoxNum")
-                    tr
-                        td &nbsp;
-                        td &nbsp;
-                        td &nbsp;
-                        td &nbsp;
-                        td.label-title （{{$t('A28')}}）
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList2" 
-                            :key="`key_${index}`"
-                            :class="{'bg-color-large': index+1 === equityStyleBoxNum}"
-                            )
-                        td.label {{$t('A31')}}
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList2" 
-                            :key="`key_${index}`"
-                            :class="{'bg-color-large': index+4 === equityStyleBoxNum}"
-                            )
-                        td.label {{$t('A30')}}
-                    tr
-                        td &nbsp;
-                        td.value( 
-                            v-for="item,index in keyList2" 
-                            :key="`key_${index}`"
-                            :class="{'bg-color-large': index+7 === equityStyleBoxNum}"
-                            )
-                        td.label {{$t('A29')}}
-                    tr
-                        td.label-title （{{$t('A32')}}）
-                        td.label {{$t('A33')}}
-                        td.label {{$t('A34')}}
-                        td.label {{$t('A35')}}
-                        td &nbsp;
+                div(v-if="equityStyleBoxNum")
+                    table.table-box
+                        tr
+                            td(colspan="5")
+                                span.result {{equityStyleBoxApiVO.equityStyleBox | filterStyleBox}}
+                        tr
+                            td &nbsp;
+                            td.value( 
+                                v-for="item,index in keyList2" 
+                                :key="`key_${index}`"
+                                :class="{'bg-color-large': index+1 === equityStyleBoxNum}"
+                                )
+                            td.label {{$t('A31')}}
+                        tr
+                            td &nbsp;
+                            td.value( 
+                                v-for="item,index in keyList2" 
+                                :key="`key_${index}`"
+                                :class="{'bg-color-large': index+4 === equityStyleBoxNum}"
+                                )
+                            td.label {{$t('A30')}}
+                        tr
+                            td &nbsp;
+                            td.value( 
+                                v-for="item,index in keyList2" 
+                                :key="`key_${index}`"
+                                :class="{'bg-color-large': index+7 === equityStyleBoxNum}"
+                                )
+                            td.label {{$t('A29')}}
+                        tr
+                            td &nbsp;
+                            td.label {{$t('A33')}}
+                            td.label {{$t('A34')}}
+                            td.label {{$t('A35')}}
+                            td &nbsp;
+                    .label-title.x-title {{$t('A32')}}
+                    .label-title.y-title {{$t('A28')}}
                 yx-no-list(v-else)        
         .fund-block
              .fund-block__content
@@ -234,6 +236,56 @@ export default {
                 9: $t(['小盘成长型', '小盤成長型', 'Small Growth'])
             }
             return styleMap[val]
+        },
+        fixedIncomeStyleBox(val) {
+            const styleMap = {
+                1: $t([
+                    '低敏感高信贷质量',
+                    '低敏感高信貸質量',
+                    'Low Sensitivity High Quality'
+                ]),
+                2: $t([
+                    '中敏感高信贷质量',
+                    '中敏感高信貸質量',
+                    'Medium Sensitivity High Quality'
+                ]),
+                3: $t([
+                    '高敏感高信贷质量',
+                    '高敏感高信貸質量',
+                    'High Sensitivity High Quality'
+                ]),
+                4: $t([
+                    '低敏感中信贷质量',
+                    '低敏感中信貸質量',
+                    'Low Sensitivity Medium Quality'
+                ]),
+                5: $t([
+                    '中敏感中信贷质量',
+                    '中敏感中信貸質量',
+                    'Medium Sensitivity Medium Quality'
+                ]),
+                6: $t([
+                    '高敏感中信贷质量',
+                    '高敏感中信貸質量',
+                    'High Sensitivity Medium Quality'
+                ]),
+                7: $t([
+                    '低敏感低信贷质量',
+                    '低敏感低信貸質量',
+                    'Low Sensitivity Low Quality'
+                ]),
+                8: $t([
+                    '中敏感低信贷质量',
+                    '中敏感低信貸質量',
+                    'Medium Sensitivity Low Quality'
+                ]),
+                9: $t([
+                    '高敏感低信贷质量',
+                    '高敏感低信貸質量',
+                    'High Sensitivity Low Quality'
+                ])
+            }
+            return styleMap[val]
         }
     },
     data() {
@@ -250,7 +302,8 @@ export default {
             riskMeasureApiVO: {},
             equityStyleBoxApiVO: {},
             equityStyleBoxNum: 0, // 股票投资箱高亮的方块
-            fixedIncomeStyleBoxNum: 0 // 债券投资箱高亮的方块
+            fixedIncomeStyleBoxNum: 0, // 债券投资箱高亮的方块
+            updateTime: '' // 更新时间
         }
     },
     methods: {
@@ -306,6 +359,14 @@ export default {
             let url = 'https://m.yxzq.com/webapp/market/generator.html'
             let queryString = ''
             let idMap = {}
+            if (type === 'fixedIncomeStyleBox') {
+                idMap = {
+                    en: 11043,
+                    zhCHS: 11042,
+                    zhCHT: 11041
+                }
+                queryString = `id=${idMap[this.lang]}`
+            }
             if (type === 'stylebox') {
                 idMap = {
                     en: 10879,
@@ -344,6 +405,7 @@ export default {
                 this.fixedIncomeStyleBoxNum = Number(
                     this.equityStyleBoxApiVO.fixedIncomeStyleBox
                 )
+                this.updateTime = this.analyzeData.updateTime
                 console.log(this.equityStyleBoxNum, this.fixedIncomeStyleBoxNum)
             } catch (e) {
                 this.$toast(e.msg)
@@ -370,6 +432,7 @@ export default {
     top: 0;
     background-color: $background-color;
     border-bottom: 1px solid $background-bottom-color;
+    z-index: 9999;
     .header__top {
         padding: 20px 12px 14px;
         border-bottom: 1px solid $text-color8;
@@ -408,11 +471,13 @@ export default {
 .fund-block {
     margin-top: 6px;
     background-color: $background-color;
+    .fund-block__header.notBox {
+        justify-content: space-between;
+    }
     .fund-block__header {
         display: flex;
         align-items: center;
-        justify-content: space-between;
-        padding: 14px 10px;
+        padding: 14px 10px 0;
         .title {
             font-size: 16px;
             font-weight: 500;
@@ -421,9 +486,43 @@ export default {
             font-weight: 400;
             color: $primary-color-line;
         }
+        .tipLink {
+            width: 20px;
+            height: 20px;
+            padding: 2px;
+        }
+    }
+    .time {
+        padding: 0 10px;
+        font-size: 10px;
+        font-weight: 400;
+        color: rgba(25, 25, 25, 0.3);
     }
     .fund-block__content.style-box {
-        padding-bottom: 15px;
+        padding-bottom: 26px;
+        position: relative;
+        .label-title {
+            position: absolute;
+            font-size: 12px;
+            font-weight: 500;
+            color: #191919;
+        }
+        .x-title {
+            left: 0;
+            right: 0;
+            bottom: 11px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .y-title {
+            right: 7%;
+            top: 50%;
+            height: 100%;
+            margin-top: -40%;
+            text-align: center;
+            writing-mode: tb-rl;
+            letter-spacing: 1px;
+        }
     }
     .fund-block__content {
         padding: 0 12px;
@@ -456,6 +555,11 @@ export default {
                 width: 60px;
                 height: 30px;
                 font-size: 12px;
+                .result {
+                    font-size: 16px;
+                    font-weight: 500;
+                    color: #191919;
+                }
             }
             td.value {
                 height: 60px;
@@ -472,9 +576,6 @@ export default {
             }
             td.label {
                 color: $text-color5;
-            }
-            td.label-title {
-                color: $text-color2;
             }
         }
         .text {
