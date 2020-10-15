@@ -529,7 +529,7 @@ export default {
                 let flag = false
                 for (let i = 0; i < this.form.establishYears.length; i++) {
                     if (
-                        !item.establishYears ||
+                        item.establishYears &&
                         (item.establishYears >
                             this.form.establishYears[i].begin &&
                             item.establishYears <=
