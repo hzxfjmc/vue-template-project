@@ -196,7 +196,7 @@ export const zhCHS = {
     MMF: '货币型',
     Index: '指数型',
     Financial: '理财产品',
-    NET_PRICE: '净值型',
+    NET_PRICE: '累积型',
     DIVIDEND: '分红型',
     exclusiveArea: '尊享专区',
     productList: '优质企业IPO锚定基金'

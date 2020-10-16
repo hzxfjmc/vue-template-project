@@ -63,11 +63,11 @@
                                     .scroll-main__row--item(
                                         :class="[stockColorType === 1 ? 'number-red' : 'number-green', isEn?'en':'']"
                                         v-if="item[key]>0"
-                                    ) +{{item[key]}}
+                                    ) {{key=='sharpeRatio3Yr'?'+':''}}{{Number(item[key]).toFixed(2)}}{{key!='sharpeRatio3Yr'?'%':''}}
                                     .scroll-main__row--item(
                                         :class="[stockColorType === 1 ? 'number-green' : 'number-red', isEn?'en':'']"
                                         v-else-if="item[key]<0"
-                                    ) {{item[key]}}
+                                    ) {{Number(item[key]).toFixed(2)}}{{key!='sharpeRatio3Yr'?'%':''}}
                                     .scroll-main__row--item(
                                         :class="{en:isEn}"
                                         v-else
@@ -76,7 +76,6 @@
                 .no-bond {{ $t('noFund') }}
         van-popup(
             v-model="filterPopupShow"
-            :class="{bottom : isPhoneX}"
             position="bottom"
             :style="{height: '85%'}"
             
@@ -87,10 +86,10 @@
                     .btn--item(
                         v-for="obj in item.btnList"
                         @click="handleChoose(obj, item)"
-                        :class="[form[item.label].includes(obj.val) ? 'active': '']"
+                        :class="[form[item.label].includes(obj.val) ? 'active': '',]"
                     )
-                        span {{item.label=='establishYears'?obj.key:$t(obj.key)}}
-            .block__bottom
+                        span(:class="{en:isEn}") {{item.label=='establishYears'?obj.key:$t(obj.key)}}
+            .block__bottom(:class="{bottom : isPhoneX}")
                 van-button.left(@click="handleReset") {{$t('reset')}}
                 van-button.right(@click="handleClose") {{fundNumStr}}
 </template>
@@ -331,10 +330,10 @@ export default {
     data() {
         return {
             headerList: {
-                threeYear: this.$t(['近三年', '近三年', 'Last 3-Year']),
-                twoYear: this.$t(['近两年', '近两年', 'Last 2-Year']),
-                oneYear: this.$t(['近一年', '近一年', 'Last 1-Year']),
-                toYear: this.$t(['今年来', '今年来', 'to Year']),
+                threeYear: this.$t(['近三年', '近三年', '3Y']),
+                twoYear: this.$t(['近两年', '近两年', '2Y']),
+                oneYear: this.$t(['近一年', '近一年', '1Y']),
+                toYear: this.$t(['今年来', '今年来', 'YTD']),
                 morningRating: this.$t([
                     '晨星评级',
                     '晨星評級',
@@ -910,8 +909,10 @@ $global-padding: 30px;
 }
 .van-popup {
     border-radius: 8px 8px 0px 0px;
-    &.bottom {
-        bottom: 20px;
+    .block__bottom {
+        &.bottom {
+            margin-bottom: 20px;
+        }
     }
 }
 .block__content {
@@ -941,6 +942,9 @@ $global-padding: 30px;
             background: rgba(47, 121, 255, 0.05);
             border-radius: 4px;
             border: 1px solid #2f79ff;
+        }
+        .en {
+            font-size: 12px;
         }
     }
 }
