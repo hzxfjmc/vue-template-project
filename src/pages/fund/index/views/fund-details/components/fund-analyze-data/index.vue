@@ -63,7 +63,7 @@
                 .title 
                     span {{$t('A36')}}
                 img(class="tipLink" src="@/assets/img/fund/tip.png" @click="handleGoDetail('fixedIncomeStyleBox')")
-            .time
+            .time(v-if="updateTime")
                 span {{$t('A12')}}（{{updateTime}}）
             .fund-block__content.style-box 
                 div(v-if="fixedIncomeStyleBoxNum")
@@ -109,7 +109,7 @@
                 .title 
                     span {{$t('A26')}}
                 img(class="tipLink" src="@/assets/img/fund/tip.png" @click="handleGoDetail('stylebox')")
-            .time
+            .time(v-if="updateTime")
                 span {{$t('A12')}}（{{updateTime}}） 
             .fund-block__content.style-box 
                 div(v-if="equityStyleBoxNum")
@@ -362,8 +362,8 @@ export default {
             if (type === 'fixedIncomeStyleBox') {
                 idMap = {
                     en: 11043,
-                    zhCHS: 11042,
-                    zhCHT: 11041
+                    zhCHS: 11041,
+                    zhCHT: 11042
                 }
                 queryString = `id=${idMap[this.lang]}`
             }
@@ -405,7 +405,7 @@ export default {
                 this.fixedIncomeStyleBoxNum = Number(
                     this.equityStyleBoxApiVO.fixedIncomeStyleBox
                 )
-                this.updateTime = this.analyzeData.updateTime
+                this.updateTime = this.equityStyleBoxApiVO.portfolioDate
                 console.log(this.equityStyleBoxNum, this.fixedIncomeStyleBoxNum)
             } catch (e) {
                 this.$toast(e.msg)
