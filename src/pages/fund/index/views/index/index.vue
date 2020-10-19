@@ -43,6 +43,7 @@
                         ul.scroll-main__scroll--content
                             li.scroll-main__row.border-bottom(
                                 v-for="item in filterList"
+                                @click="goNext(item.fundId, item.fundName || item.title)"
                             )
                                 template(v-for="key in fundEarningsField")
                                     .scroll-main__row--item(
