@@ -58,7 +58,7 @@
                             v-for="item,index in keyList1" 
                             :key="`key_${index}`"
                             ) {{mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`] ? Number(mptStatisticsPrimaryIndexApiVO[`beta${item}Yr`]).toFixed(2):'--'}}                           
-        .fund-block
+        .fund-block(v-if="[2,3].includes(assetType)")
             .fund-block__header
                 .title 
                     span {{$t('A36')}}
@@ -104,7 +104,7 @@
                     .label-title.x-title {{$t('A41')}}
                     .label-title.y-title {{$t('A42')}}
                 yx-no-list(v-else)
-        .fund-block
+        .fund-block(v-if="[1,2,3].includes(assetType)")
             .fund-block__header
                 .title 
                     span {{$t('A26')}}
@@ -296,6 +296,7 @@ export default {
             keyList4: ['smallValue', 'smallBlend', 'smallGrowth'],
             fundName: '',
             isin: '',
+            assetType: '', // 基金类型，1股票型 2债券型 3混合型 4货币型 5指数型 6理财产品
             analyzeData: {},
             mptStatisticsPrimaryIndexApiVO: {},
             relativeRiskMeasureCategoryApiVO: {},
@@ -412,9 +413,10 @@ export default {
             }
         },
         async init() {
-            let { fundName, isin } = this.$route.query
+            let { fundName, isin, assetType } = this.$route.query
             this.fundName = fundName
             this.isin = isin
+            this.assetType = Number(assetType)
             await this.getFundAnalysisData()
         }
     },
