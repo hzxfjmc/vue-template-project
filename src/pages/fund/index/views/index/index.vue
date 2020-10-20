@@ -81,18 +81,21 @@
             :style="{height: '85%'}"
             
         )
-            .block__content(v-for="item in formFilterList")
-                .title {{$t(item.label)}}
-                .btn__list
-                    .btn--item(
-                        v-for="obj in item.btnList"
-                        @click="handleChoose(obj, item)"
-                        :class="[form[item.label].includes(obj.val) ? 'active': '',]"
-                    )
-                        span(:class="{en:isEn}") {{item.label=='establishYears'?obj.key:$t(obj.key)}}
-            .block__bottom(:class="{bottom : isPhoneX}")
-                van-button.left(@click="handleReset") {{$t('reset')}}
-                van-button.right(@click="handleClose") {{fundNumStr}}
+            yx-container
+                .main(slot="main")
+                    .block__content(v-for="item in formFilterList")
+                        .title {{$t(item.label)}}
+                        .btn__list
+                            .btn--item(
+                                v-for="obj in item.btnList"
+                                @click="handleChoose(obj, item)"
+                                :class="[form[item.label].includes(obj.val) ? 'active': '',]"
+                            )
+                                span(:class="{en:isEn}") {{item.label=='establishYears'?obj.key:$t(obj.key)}}
+                .bottom(slot="bottom")
+                    .block__bottom(:class="{bottom : isPhoneX}")
+                        van-button.left(@click="handleReset") {{$t('reset')}}
+                        van-button.right(@click="handleClose") {{fundNumStr}}
 </template>
 <script>
 import { Swipe, SwipeItem, Button } from 'vant'
@@ -910,6 +913,11 @@ $global-padding: 30px;
 }
 .van-popup {
     border-radius: 8px 8px 0px 0px;
+    .block__content {
+        &:last-child {
+            margin-bottom: 70px;
+        }
+    }
     .block__bottom {
         &.bottom {
             margin-bottom: 20px;
