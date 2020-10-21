@@ -64,7 +64,7 @@
                                     .scroll-main__row--item(
                                         :class="[stockColorType === 1 ? 'number-red' : 'number-green', isEn?'en':'']"
                                         v-if="item[key]>0"
-                                    ) {{key=='sharpeRatio3Yr'?'+':''}}{{Number(item[key]).toFixed(2)}}{{key!='sharpeRatio3Yr'?'%':''}}
+                                    ) +{{Number(item[key]).toFixed(2)}}{{key!='sharpeRatio3Yr'?'%':''}}
                                     .scroll-main__row--item(
                                         :class="[stockColorType === 1 ? 'number-green' : 'number-red', isEn?'en':'']"
                                         v-else-if="item[key]<0"
@@ -481,7 +481,7 @@ export default {
                         this.sortMap[obj] = 0
                     }
                 }
-                this.list.sort((a, b) => {
+                this.filterList.sort((a, b) => {
                     return b[key] - a[key]
                 })
             } else if (this.sortMap[key] === 1) {
@@ -492,12 +492,12 @@ export default {
                         this.sortMap[obj] = 0
                     }
                 }
-                this.list.sort((a, b) => {
+                this.filterList.sort((a, b) => {
                     return a[key] - b[key]
                 })
             } else {
                 this.resetSortMap()
-                this.list.sort((a, b) => {
+                this.filterList.sort((a, b) => {
                     return b.threeYear - a.threeYear
                 })
             }
@@ -889,9 +889,8 @@ $global-padding: 30px;
                     display: inline-block;
                     .scroll-main__row {
                         height: $row-height;
-                        vertical-align: top;
                         white-space: nowrap;
-                        display: inline-block;
+                        display: block;
                         &--item {
                             width: $item-width;
                             text-align: right;
