@@ -64,7 +64,7 @@
                                     .scroll-main__row--item(
                                         :class="[stockColorType === 1 ? 'number-red' : 'number-green', isEn?'en':'']"
                                         v-if="item[key]>0"
-                                    ) {{key=='sharpeRatio3Yr'?'+':''}}{{Number(item[key]).toFixed(2)}}{{key!='sharpeRatio3Yr'?'%':''}}
+                                    ) +{{Number(item[key]).toFixed(2)}}{{key!='sharpeRatio3Yr'?'%':''}}
                                     .scroll-main__row--item(
                                         :class="[stockColorType === 1 ? 'number-green' : 'number-red', isEn?'en':'']"
                                         v-else-if="item[key]<0"
@@ -81,18 +81,21 @@
             :style="{height: '85%'}"
             
         )
-            .block__content(v-for="item in formFilterList")
-                .title {{$t(item.label)}}
-                .btn__list
-                    .btn--item(
-                        v-for="obj in item.btnList"
-                        @click="handleChoose(obj, item)"
-                        :class="[form[item.label].includes(obj.val) ? 'active': '',]"
-                    )
-                        span(:class="{en:isEn}") {{item.label=='establishYears'?obj.key:$t(obj.key)}}
-            .block__bottom(:class="{bottom : isPhoneX}")
-                van-button.left(@click="handleReset") {{$t('reset')}}
-                van-button.right(@click="handleClose") {{fundNumStr}}
+            yx-container
+                .main(slot="main")
+                    .block__content(v-for="item in formFilterList")
+                        .title {{$t(item.label)}}
+                        .btn__list
+                            .btn--item(
+                                v-for="obj in item.btnList"
+                                @click="handleChoose(obj, item)"
+                                :class="[form[item.label].includes(obj.val) ? 'active': '',]"
+                            )
+                                span(:class="{en:isEn}") {{item.label=='establishYears'?obj.key:$t(obj.key)}}
+                .bottom(slot="bottom")
+                    .block__bottom(:class="{bottom : isPhoneX}")
+                        van-button.left(@click="handleReset") {{$t('reset')}}
+                        van-button.right(@click="handleClose") {{fundNumStr}}
 </template>
 <script>
 import { Swipe, SwipeItem, Button } from 'vant'
@@ -478,7 +481,7 @@ export default {
                         this.sortMap[obj] = 0
                     }
                 }
-                this.list.sort((a, b) => {
+                this.filterList.sort((a, b) => {
                     return b[key] - a[key]
                 })
             } else if (this.sortMap[key] === 1) {
@@ -489,12 +492,12 @@ export default {
                         this.sortMap[obj] = 0
                     }
                 }
-                this.list.sort((a, b) => {
+                this.filterList.sort((a, b) => {
                     return a[key] - b[key]
                 })
             } else {
                 this.resetSortMap()
-                this.list.sort((a, b) => {
+                this.filterList.sort((a, b) => {
                     return b.threeYear - a.threeYear
                 })
             }
@@ -886,9 +889,8 @@ $global-padding: 30px;
                     display: inline-block;
                     .scroll-main__row {
                         height: $row-height;
-                        vertical-align: top;
                         white-space: nowrap;
-                        display: inline-block;
+                        display: block;
                         &--item {
                             width: $item-width;
                             text-align: right;
@@ -910,6 +912,11 @@ $global-padding: 30px;
 }
 .van-popup {
     border-radius: 8px 8px 0px 0px;
+    .block__content {
+        &:last-child {
+            margin-bottom: 70px;
+        }
+    }
     .block__bottom {
         &.bottom {
             margin-bottom: 20px;
