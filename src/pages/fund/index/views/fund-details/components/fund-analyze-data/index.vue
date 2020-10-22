@@ -64,7 +64,7 @@
                     span {{$t('A36')}}
                 img(class="tipLink" src="@/assets/img/fund/tip.png" @click="handleGoDetail('fixedIncomeStyleBox')")
             .time(v-if="updateTime")
-                span {{$t('A12')}}（{{updateTime}}）
+                span {{$t('A12')}}：{{updateTime}}
             .fund-block__content.style-box 
                 div(v-if="fixedIncomeStyleBoxNum")
                     table.table-box
@@ -110,7 +110,7 @@
                     span {{$t('A26')}}
                 img(class="tipLink" src="@/assets/img/fund/tip.png" @click="handleGoDetail('stylebox')")
             .time(v-if="updateTime")
-                span {{$t('A12')}}（{{updateTime}}） 
+                span {{$t('A12')}}：{{updateTime}} 
             .fund-block__content.style-box 
                 div(v-if="equityStyleBoxNum")
                     table.table-box
