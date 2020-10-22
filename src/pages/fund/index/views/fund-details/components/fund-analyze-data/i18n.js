@@ -16,7 +16,7 @@ export default {
         A23: '1年',
         A24: '3年',
         A25: '5年',
-        A26: '投资风格箱',
+        A26: '股票投资风格箱',
         A27: '风格箱说明',
         A28: '规模',
         A29: '小盘',
@@ -26,7 +26,13 @@ export default {
         A33: '价值型',
         A34: '平衡型',
         A35: '成长型',
-        unit: '亿'
+        unit: '亿',
+        A36: '债券投资风格箱',
+        A37: '高',
+        A38: '中',
+        A40: '低',
+        A41: '利率敏感度',
+        A42: '信用质量'
     },
     en: {
         A10: 'Analytical Figure',
@@ -55,7 +61,13 @@ export default {
         A33: 'Value',
         A34: 'Balanced',
         A35: 'Growth',
-        unit: 'B '
+        unit: 'B ',
+        A36: 'Fixed Income Style Box',
+        A37: 'High',
+        A38: 'Meidum',
+        A40: 'Low',
+        A41: 'Interest-Rate Sensitive',
+        A42: 'Credit Quality'
     },
     zhCHT: {
         A10: '分析數據',
@@ -74,7 +86,7 @@ export default {
         A23: '1年',
         A24: '3年',
         A25: '5年',
-        A26: '投資風格箱',
+        A26: '股票投資風格箱',
         A27: '風格箱說明',
         A28: '規模',
         A29: '小盤',
@@ -84,6 +96,12 @@ export default {
         A33: '價值型',
         A34: '平衡型',
         A35: '成長型',
-        unit: '億'
+        unit: '億',
+        A36: '債券投資風格箱',
+        A37: '高',
+        A38: '中',
+        A40: '低',
+        A41: '利率敏感度',
+        A42: '信用質量'
     }
 }
