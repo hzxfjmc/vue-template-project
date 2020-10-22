@@ -240,48 +240,48 @@ export default {
         fixedIncomeStyleBox(val) {
             const styleMap = {
                 1: $t([
-                    '低敏感高信贷质量',
-                    '低敏感高信貸質量',
+                    '低敏感高信用质量',
+                    '低敏感高信用質量',
                     'Low Sensitivity High Quality'
                 ]),
                 2: $t([
-                    '中敏感高信贷质量',
-                    '中敏感高信貸質量',
+                    '中敏感高信用质量',
+                    '中敏感高信用質量',
                     'Medium Sensitivity High Quality'
                 ]),
                 3: $t([
-                    '高敏感高信贷质量',
-                    '高敏感高信貸質量',
+                    '高敏感高信用质量',
+                    '高敏感高信用質量',
                     'High Sensitivity High Quality'
                 ]),
                 4: $t([
-                    '低敏感中信贷质量',
-                    '低敏感中信貸質量',
+                    '低敏感中信用质量',
+                    '低敏感中信用質量',
                     'Low Sensitivity Medium Quality'
                 ]),
                 5: $t([
-                    '中敏感中信贷质量',
-                    '中敏感中信貸質量',
+                    '中敏感中信用质量',
+                    '中敏感中信用質量',
                     'Medium Sensitivity Medium Quality'
                 ]),
                 6: $t([
-                    '高敏感中信贷质量',
-                    '高敏感中信貸質量',
+                    '高敏感中信用质量',
+                    '高敏感中信用質量',
                     'High Sensitivity Medium Quality'
                 ]),
                 7: $t([
-                    '低敏感低信贷质量',
-                    '低敏感低信貸質量',
+                    '低敏感低信用质量',
+                    '低敏感低信用質量',
                     'Low Sensitivity Low Quality'
                 ]),
                 8: $t([
-                    '中敏感低信贷质量',
-                    '中敏感低信貸質量',
+                    '中敏感低信用质量',
+                    '中敏感低信用質量',
                     'Medium Sensitivity Low Quality'
                 ]),
                 9: $t([
-                    '高敏感低信贷质量',
-                    '高敏感低信貸質量',
+                    '高敏感低信用质量',
+                    '高敏感低信用質量',
                     'High Sensitivity Low Quality'
                 ])
             }
