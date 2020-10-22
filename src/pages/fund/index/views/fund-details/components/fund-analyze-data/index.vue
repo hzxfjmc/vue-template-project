@@ -12,9 +12,9 @@
                     span.item__label {{$t('A12')}}：
                     span.item__value {{analyzeData.updateTime || '--'}}    
         .fund-block
-            .fund-block__header.notBox
+            .fund-block__header
                 .title {{$t('A14')}}
-                .link(@click="handleGoDetail('risk')") {{$t('A15')}} 
+                img(class="tipLink" src="@/assets/img/fund/tip.png" @click="handleGoDetail('risk')") 
             .fund-block__content
                 table.table
                     tr
@@ -473,9 +473,6 @@ export default {
 .fund-block {
     margin-top: 6px;
     background-color: $background-color;
-    .fund-block__header.notBox {
-        justify-content: space-between;
-    }
     .fund-block__header {
         display: flex;
         align-items: center;
