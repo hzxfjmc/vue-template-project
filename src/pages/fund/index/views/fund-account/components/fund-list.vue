@@ -41,9 +41,7 @@
                     .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings|parseThousands(2)}}
                     .block-element-number(v-if="eyeTab  && item.weekEarnings==0") {{item.weekEarnings||'0.00'}}
                     .block-element-number(v-if="!eyeTab") ****
-                   
-            //- .fund-row
-                
+            .tips(v-if="item.fundType===2") *当前暂不支持APP赎回基金份额，若需赎回请联系客服操作                
         .fund-list-other(
             v-if="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0")
             .o-item(v-if="item.redeemDeliveryShare != 0")
@@ -296,6 +294,10 @@ export default {
                 .active-green {
                     color: #00ba60;
                 }
+            }
+            .tips {
+                font-size: 12px;
+                color: rgba(25, 25, 25, 0.5);
             }
             .fund-row:first-child {
                 text-align: left;
