@@ -10,6 +10,7 @@
                 :beginTime='beginTime'
                 :endTime='endTime'
                 :tradeType='tradeType'
+                :fundType='fundType'
                 v-if="orderFlag")
             van-cell-group(class="order-group")
                 van-cell(class="order-time")

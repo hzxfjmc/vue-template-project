@@ -6,15 +6,16 @@
                         .status-title.flex
                             span {{$t('orderStatus')}}
                             span(:class="differenceColor") {{orderStatusValue}}
-                        .begin-time
-                            img(src="@/assets/img/fund/clock.png")
-                            span {{$t('estimate')}}
-                            span(v-html="tradeType===1?sureNetWorthBeginTime:surePositionBeginTime")
-                        .left-line
-                        .end-time
-                            i(class="dot")
-                            span {{$t('estimate')}}
-                            span(v-html="tradeType===1?sureNetWorthEndTime: surePositionEndTime")
+                        template(v-if="fundType!==2")
+                            .begin-time
+                                img(src="@/assets/img/fund/clock.png")
+                                span {{$t('estimate')}}
+                                span(v-html="tradeType===1?sureNetWorthBeginTime:surePositionBeginTime")
+                            .left-line
+                            .end-time
+                                i(class="dot")
+                                span {{$t('estimate')}}
+                                span(v-html="tradeType===1?sureNetWorthEndTime: surePositionEndTime")
 </template>
 
 <script>
@@ -39,6 +40,10 @@ export default {
             default: ''
         },
         endTime: {
+            type: String,
+            default: ''
+        },
+        fundType: {
             type: String,
             default: ''
         }
