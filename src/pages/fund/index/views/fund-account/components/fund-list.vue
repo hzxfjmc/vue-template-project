@@ -172,6 +172,7 @@ export default {
             this.listShow = !this.listShow
         },
         toFundDetails(item) {
+            if (item.fundType === 2) return
             let url = `${window.location.origin}/wealth/fund/index.html#/hold-fund-details?id=${item.fundId}`
             jumpUrl(3, url)
         },
