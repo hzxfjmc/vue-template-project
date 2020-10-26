@@ -10,6 +10,7 @@
                 :beginTime='beginTime'
                 :endTime='endTime'
                 :tradeType='tradeType'
+                :fundType='fundType'
                 v-if="orderFlag")
             van-cell-group(class="order-group")
                 van-cell(class="order-time")
@@ -79,7 +80,7 @@
                     .order-item.flex(v-if="isFixedInvest")
                         span.itemName {{$t('autoExchange')}}
                         span.type {{exchangeFlag ? this.$t('yes') : this.$t('no')}}
-            .btn-buy-more
+            .btn-buy-more(v-if="fundType!==2")
                 van-button(type="info" round  size="large" @click="buyMoreHandle") {{$t('againBuy')}}
             van-dialog(v-model='isShowBackout' :message="$t('dialogMsg')" showCancelButton=true :cancelButtonText="$t('cancelButtonText')"  :confirmButtonText="$t('confirmButtonText')" @confirm='confirmBackoutHandle')
     
@@ -125,6 +126,7 @@ export default {
     },
     data() {
         return {
+            fundType: '',
             fundIntro: '',
             fundName: '',
             fundId: '',
@@ -323,6 +325,7 @@ export default {
                 this.currency = this.$t(res.currency.name)
                 this.moneyNum = res.orderAmount
                 this.dividendType = res.dividendType
+                this.fundType = res.fundBaseInfoVO.fundType
             } catch (e) {
                 if (e.msg) {
                     this.$alert({

@@ -41,9 +41,7 @@
                     .block-element-number(v-if="eyeTab && item.weekEarnings<0" :class="stockColorType === 1 ?'active-green':'active-red'") {{item.weekEarnings|parseThousands(2)}}
                     .block-element-number(v-if="eyeTab  && item.weekEarnings==0") {{item.weekEarnings||'0.00'}}
                     .block-element-number(v-if="!eyeTab") ****
-                   
-            //- .fund-row
-                
+            .tips(v-if="item.fundType===2") {{$t('tips')}}                
         .fund-list-other(
             v-if="item.redeemDeliveryShare != 0 || item.inTransitAmount != 0")
             .o-item(v-if="item.redeemDeliveryShare != 0")
@@ -61,7 +59,6 @@
     .list-item-content-sub(v-if="fundList.length === 0")
         span {{$t('nomore')}}
 
-   
 </template>
 <script>
 import localStorage from '@/utils/local-storage'
@@ -124,7 +121,8 @@ export default {
             subscribeHk: '申购中',
             nomore: '暂无持仓',
             usd: '美元',
-            hkd: '港币'
+            hkd: '港币',
+            tips: '*当前暂不支持APP赎回基金份额，若需赎回请联系客服操作'
         },
         zhCHT: {
             amountMoney: '金額',
@@ -139,7 +137,8 @@ export default {
             subscribeHk: '認購中',
             nomore: '暫無持倉',
             usd: '美元',
-            hkd: '港幣'
+            hkd: '港幣',
+            tips: '*當前暫不支持app贖回基金份額，若需贖回請聯繫客服'
         },
         en: {
             amountMoney: 'Amount',
@@ -154,7 +153,9 @@ export default {
             subscribeHk: 'Purchasing',
             nomore: 'No Holdings',
             usd: 'USD',
-            hkd: 'HKD'
+            hkd: 'HKD',
+            tips:
+                '*App does not support the fund redemption at this moment. Please contact CS for the redemption service.'
         }
     },
     computed: {
@@ -171,6 +172,7 @@ export default {
             this.listShow = !this.listShow
         },
         toFundDetails(item) {
+            if (item.fundType === 2) return
             let url = `${window.location.origin}/wealth/fund/index.html#/hold-fund-details?id=${item.fundId}`
             jumpUrl(3, url)
         },
@@ -296,6 +298,10 @@ export default {
                 .active-green {
                     color: #00ba60;
                 }
+            }
+            .tips {
+                font-size: 12px;
+                color: rgba(25, 25, 25, 0.5);
             }
             .fund-row:first-child {
                 text-align: left;
