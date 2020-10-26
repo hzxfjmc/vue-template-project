@@ -31,7 +31,7 @@ import env from '@/utils/scheme/env'
 
 import { wechatShare } from '@/utils/share/wechat.js'
 
-// 友信证券公共库
+// 盈立证券公共库
 import { jsBridge, uSmartInit, htmlUtils, DOMAIN } from 'yx-base-h5'
 
 const { isYouxinIos, isYouxinApp, appType, setTitle } = htmlUtils
@@ -39,7 +39,7 @@ const { isYouxinIos, isYouxinApp, appType, setTitle } = htmlUtils
 import { getUaValue } from '@/utils/html-utils.js'
 
 import { compareVersion } from '@/utils/tools.js'
-// 友信证券初始化方法
+// 盈立证券初始化方法
 
 // import { isYouxinIos, isYouxinApp, appType, setTitle } from '../html-utils.js'
 // import jsBridge from '../js-bridge'
@@ -213,7 +213,7 @@ Vue.mixin({
                             '享永久港美股免佣，免费拿千元现金、热门股票'
                         let shareDesc =
                             to.meta.shareDesc ||
-                            '友信证券，港、美股持牌券商，现在开户即享港、美股永久免佣'
+                            '盈立证券，港、美股持牌券商，现在开户即享港、美股永久免佣'
                         let shareLink =
                             to.meta.shareLink || window.location.href
                         let shareImg =

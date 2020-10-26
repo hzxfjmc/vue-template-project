@@ -1,5 +1,5 @@
 export const zhCHS = {
-    uSmart: '友信智投',
+    uSmart: '盈立智投',
     titleWithdrawal: '提取资金',
     titleManageAccount: '管理银行账户',
     withdrawalRecords: '提取记录',
