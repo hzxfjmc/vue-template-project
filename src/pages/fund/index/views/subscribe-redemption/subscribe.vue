@@ -636,10 +636,14 @@ export default {
                 }${CurrencyName}${this.$t('buyMoneyPlaceHolder')} `
 
                 this.tips = this.$t([
-                    `*uSMART暂不支持使用${CURRENCYEUMN[this.currency.type]}购买${
+                    `*uSMART暂不支持使用${
+                        CURRENCYEUMN[this.currency.type]
+                    }购买${
                         CURRENCYEUMN[this.currency.type]
                     }基金，如有需要，您可以手动换汇后进行申购`,
-                    `*uSMART暫不支持使用${CURRENCYEUMN[this.currency.type]}購買${
+                    `*uSMART暫不支持使用${
+                        CURRENCYEUMN[this.currency.type]
+                    }購買${
                         CURRENCYEUMN[this.currency.type]
                     }基金，如有需要，您可以手動換匯後進行申購`,
                     `*uSMART does not support the use of ${
@@ -977,7 +981,7 @@ export default {
             noEnoughMoney: `可用余额不足`,
             debitWay: '扣款方式',
             service: currency =>
-                `${currency}不足？uSMART友信证券支持7x24换汇服务`,
+                `${currency}不足？uSMART盈立证券支持7x24换汇服务`,
             detail: '点此查看详情',
             hkStock: '港股',
             usStock: '美股',
@@ -1036,7 +1040,7 @@ export default {
             noEnoughMoney: `可用餘額不足`,
             debitWay: '扣款方式',
             service: currency =>
-                `${currency}不足？uSMART友信證券支持7x24換匯服務`,
+                `${currency}不足？uSMART盈立證券支持7x24換匯服務`,
             detail: '點此查看詳情',
             hkStock: '港股',
             usStock: '美股',
