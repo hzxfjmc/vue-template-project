@@ -1,5 +1,8 @@
 import YxContainerBetter from '@/components/yx-container-better'
-import { riskAssessResult } from '@/service/user-server.js'
+import {
+    riskAssessResult,
+    checkRiskAssessTimes
+} from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import dayjs from 'dayjs'
 
@@ -85,7 +88,7 @@ export default {
             }
         },
         // 操作按钮
-        handleAction() {
+        async handleAction() {
             if (this.isExpried) {
                 // 已过期，直接跳转到风评页面
                 this.$router.replace({
@@ -95,7 +98,62 @@ export default {
                     }
                 })
             } else {
-                this.showRemainingNum = true
+                try {
+                    let { monthTimes, yearTimes } = await checkRiskAssessTimes()
+                    if (yearTimes <= 0) {
+                        this.$confirm({
+                            className: 'remaining-container',
+                            message: `
+                            <div class="title">${this.$t(
+                                'leastNum'
+                            )} 0 ${this.$t('times')}</div>
+                            <div class="years-info">${this.$t(
+                                'yearsInfoToCall'
+                            )}</div>
+                            `,
+                            confirmButtonText: this.$t('toCall'),
+                            cancelButtonText: this.$t('toClose')
+                        }).then(() => {
+                            // 拨打客服电话
+                            jsBridge.gotoCustomerService()
+                        })
+                    } else {
+                        if (monthTimes <= 0) {
+                            this.$confirm({
+                                className: 'remaining-container',
+                                message: `
+                            <div class="years-info">本月剩余可测试次数：0次。本年剩余可测试次数：${yearTimes}次。请于下个月1号重试</div>
+                            `,
+                                showConfirmButton: false,
+                                cancelButtonText: this.$t('iKnow'),
+                                cancelButtonColor: '#0D50D8'
+                            })
+                        } else {
+                            this.$confirm({
+                                className: 'remaining-container',
+                                message: `
+                            <div class="title">本月剩余可测试次数：${monthTimes}次。本年剩余可测试次数：${yearTimes}次。请于下个月1号重试</div>
+                            <div class="text">*每年可测评次数一共5次，每月可测评次数为3次</div>
+                            `,
+                                confirmButtonText: this.$t('startRisk'),
+                                cancelButtonText: this.$t('toCancel')
+                            }).then(() => {
+                                // 开始测评
+                                // 跳转到风险测评
+                                this.$router.push({
+                                    path: '/risk-assessment',
+                                    query: {
+                                        notFirstSubmit: true
+                                    }
+                                })
+                            })
+                        }
+                    }
+                    // this.showRemainingNum = true
+                } catch (e) {
+                    console.log(e)
+                    e.msg && this.$toast(e.msg)
+                }
             }
         },
         // 点击易受损客户

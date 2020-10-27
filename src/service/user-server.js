@@ -99,3 +99,8 @@ export default {
 export function getFundUserInfo() {
     return axios.getForm(`/user-server/api/get-current-user/v1/for-found`)
 }
+
+// 风险测评次数信息
+export function checkRiskAssessTimes() {
+    return axios.getForm(`/user-server/api/check-risk-assess-times/v1`)
+}
