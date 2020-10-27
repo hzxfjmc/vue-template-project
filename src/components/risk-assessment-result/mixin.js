@@ -5,7 +5,7 @@ import {
 } from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import dayjs from 'dayjs'
-
+import './remain-dialog.scss'
 export default {
     name: 'RiskAssessmentResult',
     components: {
@@ -100,6 +100,8 @@ export default {
             } else {
                 try {
                     let { monthTimes, yearTimes } = await checkRiskAssessTimes()
+                    // let monthTimes = 1,
+                    //     yearTimes = 1
                     if (yearTimes <= 0) {
                         this.$confirm({
                             className: 'remaining-container',
@@ -111,6 +113,7 @@ export default {
                                 'yearsInfoToCall'
                             )}</div>
                             `,
+                            closeOnClickOverlay: true,
                             confirmButtonText: this.$t('toCall'),
                             cancelButtonText: this.$t('toClose')
                         }).then(() => {
@@ -122,21 +125,31 @@ export default {
                             this.$confirm({
                                 className: 'remaining-container',
                                 message: `
-                            <div class="years-info">本月剩余可测试次数：0次。本年剩余可测试次数：${yearTimes}次。请于下个月1号重试</div>
+                            <div class="years-info">${this.$t(
+                                'leftTimes',
+                                monthTimes,
+                                yearTimes
+                            )}${this.$t('retryNextMonth')}</div>
                             `,
                                 showConfirmButton: false,
                                 cancelButtonText: this.$t('iKnow'),
-                                cancelButtonColor: '#0D50D8'
+                                cancelButtonColor: '#0D50D8',
+                                closeOnClickOverlay: true
                             })
                         } else {
                             this.$confirm({
                                 className: 'remaining-container',
                                 message: `
-                            <div class="title">本月剩余可测试次数：${monthTimes}次。本年剩余可测试次数：${yearTimes}次。请于下个月1号重试</div>
-                            <div class="text">*每年可测评次数一共5次，每月可测评次数为3次</div>
+                            <div class="title">${this.$t(
+                                'leftTimes',
+                                monthTimes,
+                                yearTimes
+                            )}</div>
+                            <div class="text">${this.$t('timesLimit')}</div>
                             `,
                                 confirmButtonText: this.$t('startRisk'),
-                                cancelButtonText: this.$t('toCancel')
+                                cancelButtonText: this.$t('toCancel'),
+                                closeOnClickOverlay: true
                             }).then(() => {
                                 // 开始测评
                                 // 跳转到风险测评

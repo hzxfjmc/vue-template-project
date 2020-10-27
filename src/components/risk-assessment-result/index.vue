@@ -65,7 +65,11 @@ export default {
             expired: '已过期',
             dangerIntro:
                 '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型（A1）。',
-            toCallCS: '如果资料有误需要调整，请联系客服。'
+            toCallCS: '如果资料有误需要调整，请联系客服。',
+            leftTimes: (monthTimes, yearTimes) =>
+                `本月剩余可测试次数：${monthTimes}次。本年剩余可测试次数：${yearTimes}次。`,
+            retryNextMonth: '请于下个月1号重试',
+            timesLimit: '*每年可测评次数一共5次，每月可测评次数为3次'
         },
         zhCHT: {
             resultHd: '您的風評結果為：',
