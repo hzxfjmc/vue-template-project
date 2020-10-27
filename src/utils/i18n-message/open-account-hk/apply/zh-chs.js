@@ -1,5 +1,5 @@
 export const zhCHS = {
-    uSmart: '友信智投',
+    uSmart: '盈立智投',
     personalInfo: '个人资料',
     openAnAccountImmediately: '立即开户',
     errorNetwork: '网络开小差了,请稍后重试',

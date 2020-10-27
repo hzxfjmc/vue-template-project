@@ -33,7 +33,7 @@ export default {
         // alert(navigator.userAgent)
     },
     computed: {
-        // 当是在友信啊app中的时候
+        // 当是在盈立啊app中的时候
         isYouxinApp() {
             return this.$jsBridge.isYouxinApp
         },

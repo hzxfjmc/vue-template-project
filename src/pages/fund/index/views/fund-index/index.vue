@@ -338,7 +338,7 @@ export default {
             fundlist: [],
             apy: '0',
             bottomMsgLogoUsmart: require('@/assets/img/fund/uSmart.png'),
-            bottomMsgLogoYxzt: require('@/assets/img/fund/yxzt.png'),
+            bottomMsgLogoYxzt: require('@/assets/img/fund/uSmart.png'),
             tenThousandApy: '',
             sevenDaysApy: '',
             isWhiteUserBit: false,

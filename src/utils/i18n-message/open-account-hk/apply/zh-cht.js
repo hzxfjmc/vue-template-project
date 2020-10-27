@@ -1,5 +1,5 @@
 export const zhCHT = {
-    uSmart: '友信智投',
+    uSmart: '盈立智投',
     personalInfo: '個人資料',
     openAnAccountImmediately: '立即開戶',
     errorNetwork: '網絡開小差了，請稍後重試',

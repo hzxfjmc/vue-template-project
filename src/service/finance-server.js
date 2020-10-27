@@ -150,7 +150,7 @@ export const getUpdateFundFixedPlanStatus = params => {
         params
     )
 }
-//友信获取客户持仓
+//盈立获取客户持仓
 export const getBaoPostion = params => {
     return axios.post(`/finance-server/api/get-bao-position/v1`, params)
 }

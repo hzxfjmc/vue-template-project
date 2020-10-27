@@ -17,7 +17,7 @@ export const zhCHT = {
     },
     today: '今天',
     yesterday: '昨天',
-    uSmart: '友信智投',
+    uSmart: '盈立智投',
     download: '下載',
     slogan: '投資.智在簡單',
     shareSuccess: '分享成功',

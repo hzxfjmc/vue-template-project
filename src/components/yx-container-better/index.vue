@@ -6,7 +6,7 @@
         .better-wrap
             .slotWrapss
                 slot(name="main")
-            .yx-company-provide(v-if="isApplyActive") 证券开户、交易服务由友信证券有限公司提供
+            .yx-company-provide(v-if="isApplyActive") 证券开户、交易服务由盈立证券有限公司提供
     .yx-bottom
         slot(name="bottom")
 </template>
