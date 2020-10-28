@@ -3,6 +3,9 @@
   .title {
     margin-bottom: 20px;
     text-align: left;
+    &.center {
+      text-align: center;
+    }
   }
   .years-info {
     font-size: 14px;

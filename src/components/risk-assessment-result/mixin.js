@@ -106,7 +106,7 @@ export default {
                         this.$confirm({
                             className: 'remaining-container',
                             message: `
-                            <div class="title">${this.$t(
+                            <div class="title center">${this.$t(
                                 'leastNum'
                             )} 0 ${this.$t('times')}</div>
                             <div class="years-info">${this.$t(
