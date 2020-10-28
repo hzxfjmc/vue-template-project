@@ -102,5 +102,5 @@ export function getFundUserInfo() {
 
 // 风险测评次数信息
 export function checkRiskAssessTimes() {
-    return axios.getForm(`/user-server/api/check-risk-assess-times/v1`)
+    return axios.post(`/user-server/api/check-risk-assess-times/v1`)
 }
