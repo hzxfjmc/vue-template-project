@@ -96,7 +96,11 @@ export default {
             expired: '已過期',
             dangerIntro:
                 '您的資料中，滿足以上任意一項，為“易受損客戶“，“易受損客戶“的風險承受能力為保守型（A1）。',
-            toCallCS: '如果資料有誤需要調整，請聯系客服。'
+            toCallCS: '如果資料有誤需要調整，請聯系客服。',
+            leftTimes: (monthTimes, yearTimes) =>
+                `本月剩餘可測試次數：${monthTimes}次。本年剩餘可測試次數：${yearTimes}次。`,
+            retryNextMonth: '請於下個月1號重試',
+            timesLimit: '*每年可測評次數一共5次，每月可測評次數為3次'
         },
         en: {
             resultHd: 'Result:',
@@ -124,7 +128,12 @@ export default {
             dangerIntro:
                 'Your information meet any of the above, the risk tolerance of "vulnerable customers" and "vulnerable customers" is conservative (A1).',
             toCallCS:
-                'If the information is incorrect, please contact customer service for revision.'
+                'If the information is incorrect, please contact customer service for revision.',
+            leftTimes: (monthTimes, yearTimes) =>
+                `The remaining assessment times for this month: ${monthTimes} . The remaining assessment times for this year: ${yearTimes} .`,
+            retryNextMonth: 'Please try again on the 1st of next month',
+            timesLimit:
+                '*A total of 5 assessments per year is available year while total of 3 assessments per month'
         }
     }
 }
