@@ -534,11 +534,13 @@ export default {
         accountTypeFilter(v) {
             return (
                 (v === accountTypeMap.CASH &&
+                    this.fundTradeInfoVO.currency &&
                     this.$t(
                         'cashAccount',
                         this.fundTradeInfoVO.currency.name
                     )) ||
                 (v === accountTypeMap.FINANCING &&
+                    this.fundTradeInfoVO.currency &&
                     this.$t(
                         'financingAccount',
                         this.fundTradeInfoVO.currency.name
