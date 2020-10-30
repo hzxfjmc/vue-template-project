@@ -15,28 +15,25 @@
         position: absolute;
         min-width: 76px;
         // height: 38px;
-        padding:2px 8px 0 0;
-        border-top-left-radius: 32px;
-        border-bottom-left-radius: 32px;
-        border: 1px solid #edc92c;
-        color:#FFBF32;
+        padding: 8px 5px;
+        border-radius: 100px 0px 0px 100px;
+        background: rgba(236, 236, 238, 0.5);
+        color: #929292;
         border-right: none;
         line-height: 32px;
         display: flex;
         align-items: center;
         top: 87px;
         right: 0;
-        z-index:999999;
+        z-index:999;
         .iconfont {
-            color: #edc92c;
-            margin: 0 0 0 10px;
+            font-size: 12px;
         }
         .block__tag--right {
             font-size: 9px;
             width:100%;
             font-weight: 400;
             text-align: center;
-            color:#FFBF32;
             p {
                 line-height: 16px;
                 margin: 0 0 0 2px;
