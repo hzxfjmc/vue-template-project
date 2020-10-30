@@ -876,7 +876,6 @@ $global-padding: 30px;
                     }
                     .label {
                         display: flex;
-                        padding-left: 5px;
                     }
                 }
             }
