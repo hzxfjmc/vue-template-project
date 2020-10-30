@@ -1,5 +1,6 @@
 <template lang="pug">
     .fund-tag-risk( 
+        v-if="title"
         :class="tagStyle"
         @click="handleClick"
     )  
@@ -36,6 +37,7 @@ export default {
     methods: {
         handleClick() {
             this.$emit('toFundRisk')
+            this.$emit('toFundType')
         }
     }
 }
