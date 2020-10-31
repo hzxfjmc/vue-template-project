@@ -58,7 +58,7 @@ export default {
         background: #fef7e7;
     }
     &.mid-risk {
-        color: #fab553;
+        color: #ffba00;
         background: #fef7e7;
     }
     &.high-risk {
