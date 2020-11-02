@@ -18,9 +18,9 @@
             .block__right
                 .fund_name {{item.fundName}}
                 .fund__list--tag
-                    fund-tag(:title="item.assetType")
-                    fund-tag(:title="item.fundRisk")
-                    fund-tag(:title="item.earningsTypeName")
+                    fund-tag-risk(:title="item.assetType")
+                    fund-tag-risk(:title="item.fundRisk")
+                    fund-tag-risk(:title="item.earningsTypeName")
                     //- .fund_tag
                     //-     em.iconfont.icon-iconsjijinfengxiancopy-copy 
                     //-     span {{item.assetType}}
@@ -38,10 +38,10 @@
 <script>
 import { getStockColorType } from '@/utils/html-utils.js'
 import { jumpUrl } from '@/utils/tools.js'
-import fundTag from '@/biz-components/fund-tag/index.vue'
+import fundTagRisk from '@/biz-components/fund-tag-risk/index.vue'
 export default {
     components: {
-        'fund-tag': fundTag
+        'fund-tag-risk': fundTagRisk
     },
     computed: {
         stockColorType() {
