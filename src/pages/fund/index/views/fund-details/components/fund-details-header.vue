@@ -40,17 +40,17 @@
             span （{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
-        fund-tag-risk(
+        fund-tag-type(
             :title="fundHeaderInfoVO.fundRisk"
             :type="fundHeaderInfoVO.fundRiskType"
             @toFundRisk="toFundRisk"
         )
-        fund-tag-risk(
+        fund-tag-type(
             :title="fundHeaderInfoVO.assetTypeName"
             @toFundType="toFundType"
             )
-        fund-tag-risk(:title="fundHeaderInfoVO.earningsTypeName")
-        fund-tag-risk(:title="startAmount")
+        fund-tag-type(:title="fundHeaderInfoVO.earningsTypeName")
+        fund-tag-type(:title="startAmount")
         //- .block__details--left
         //-     template(v-if="isMonetaryFund")
         //-         span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
@@ -74,14 +74,14 @@ import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 import fundTag from '@/biz-components/fund-tag/index.vue'
-import fundTagRisk from '@/biz-components/fund-tag-risk/index.vue'
+import fundTagType from '@/biz-components/fund-tag-type/index.vue'
 import { jumpUrl } from '@/utils/tools.js'
 import { langType, getUaValue } from '@/utils/html-utils'
 export default {
     components: {
         [Tag.name]: Tag,
         'fund-tag': fundTag,
-        'fund-tag-risk': fundTagRisk,
+        'fund-tag-type': fundTagType,
         star
     },
     i18n: {
