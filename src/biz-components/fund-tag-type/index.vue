@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-    name: 'fund-tag-risk',
+    name: 'fund-tag-type',
     props: {
         title: {
             type: String,
@@ -26,7 +26,7 @@ export default {
             if (this.type <= 2) {
                 return 'low-risk'
             } else if (this.type > 2 && this.type < 5) {
-                return 'mide-risk'
+                return 'mid-risk'
             } else if (this.type === 5) {
                 return 'high-risk'
             } else {
