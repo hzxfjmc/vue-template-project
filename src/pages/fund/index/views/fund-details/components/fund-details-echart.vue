@@ -430,7 +430,7 @@ export default {
                 .position('belongDay*pointData')
                 .color('type', type => {
                     if (type === this.thisFundName) {
-                        return 'l(90) 0:#1890FF 1:#f7f7f7'
+                        return 'l(90) 0:rgba(92,177,255,1) 1:rgba(47,121,255,0)'
                     }
                     return '#FFFFFF'
                 })
@@ -789,7 +789,7 @@ export default {
             line-height: 30px;
             height: 30px;
             font-size: 0.24rem;
-            color: $text-color;
+            color: rgba(25, 25, 25, 0.5);
             margin: 0;
         }
         .date-item:first-child {
