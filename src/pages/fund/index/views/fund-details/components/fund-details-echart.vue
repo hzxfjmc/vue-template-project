@@ -423,6 +423,22 @@ export default {
                         animation: 'lineUpdate'
                     }
                 })
+            this.chart
+                .area({
+                    startOnZero: false
+                })
+                .position('belongDay*pointData')
+                .color('type', type => {
+                    if (type === this.thisFundName) {
+                        return 'l(90) 0:rgba(92,177,255,1) 1:rgba(47,121,255,0)'
+                    }
+                    return '#FFFFFF'
+                })
+                .animate({
+                    update: {
+                        animation: 'lineUpdate'
+                    }
+                })
         },
         initI18nState() {
             this.active = 0
@@ -773,7 +789,7 @@ export default {
             line-height: 30px;
             height: 30px;
             font-size: 0.24rem;
-            color: $text-color;
+            color: rgba(25, 25, 25, 0.5);
             margin: 0;
         }
         .date-item:first-child {
@@ -787,7 +803,8 @@ export default {
             border-bottom-right-radius: 2px;
         }
         .active {
-            background: rgba(25, 25, 25, 0.03);
+            background: #eaf1ff;
+            color: #2f79ff;
         }
     }
 }
