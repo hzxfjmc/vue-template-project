@@ -141,7 +141,7 @@ export default {
             return i18nObj[index]
         },
         InitState() {
-            this.orderDetails = this.$route.params.data
+            this.orderDetails = this.$route.params.data || {}
             this.accountTypeStr = this.$route.params.accountTypeStr
             let date =
                 this.orderDetails.recordType === 1
