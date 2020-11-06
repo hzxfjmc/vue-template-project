@@ -403,7 +403,7 @@ export default {
                 .position('belongDay*pointData')
                 .color('type', type => {
                     if (type === this.thisFundName) {
-                        return 'l(90) 0:rgba(237,244,255,1) 0:rgba(244,249,255,1) 1:rgba(249,252,255,1)'
+                        return 'l(90) 0:rgba(92,177,255,1) 1:rgba(47,121,255,0)'
                     }
                     return 'rgba(0,0,0,0)'
                 })
