@@ -105,7 +105,7 @@ export default {
                 const res = await getBaoCapitalTradeDetails({
                     recordNo: this.$route.params.data.recordNo
                 })
-                this.orderDetails = res
+                this.orderDetails = res || {}
                 this.currency = res.currency
                 this.currencyStr =
                     this.currency == 1 ? this.$t('usd') : this.$t('hkd')

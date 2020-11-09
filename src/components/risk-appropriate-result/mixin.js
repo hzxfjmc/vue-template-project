@@ -64,7 +64,7 @@ export default {
             isShowPage: false,
             allowSubscribe: false,
             fundOverviewInfoVO: {},
-            userInfo: '',
+            userInfo: {},
             fundCode: '',
             number: 0, //剩余测评次数
             showRemainingNum: false, //剩余次数弹窗
@@ -279,7 +279,7 @@ export default {
         async getFundUserInfo() {
             try {
                 const res = await getFundUserInfo()
-                this.userInfo = res
+                this.userInfo = res || {}
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundUserInfo:error:>>>', e)
