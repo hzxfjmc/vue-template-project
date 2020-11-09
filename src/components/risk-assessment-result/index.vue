@@ -68,7 +68,7 @@ export default {
             toCallCS: '如果资料有误需要调整，请联系客服。',
             leftTimes: (monthTimes, yearTimes) =>
                 `本月剩余可测试次数：${monthTimes}次。本年剩余可测试次数：${yearTimes}次。`,
-            retryNextMonth: '请于下个月1号重试',
+            retryNextMonth: '请于下个月1号重试。',
             timesLimit: '*每年可测评次数一共5次，每月可测评次数为3次'
         },
         zhCHT: {
