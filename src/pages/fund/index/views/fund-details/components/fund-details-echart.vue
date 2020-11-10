@@ -403,10 +403,11 @@ export default {
                 .position('belongDay*pointData')
                 .color('type', type => {
                     if (type === this.thisFundName) {
-                        return 'l(90) 0:rgba(92,177,255,1) 1:rgba(47,121,255,0)'
+                        return 'l(90) 0:#e0efff 0.5:#f2f8ff 1:#fbfeff'
                     }
-                    return 'rgba(0,0,0,0)'
+                    return '#fff'
                 })
+                .style({ fillOpacity: 0.8 })
                 .animate({
                     update: {
                         animation: 'lineUpdate'
