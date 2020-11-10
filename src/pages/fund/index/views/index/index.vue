@@ -37,8 +37,8 @@
                             .fund-name.ellipse
                                 span.ellipse {{itemObj.fundName}}
                             .label
-                                fund-tag(:title="itemObj.fundRisk")
-                                fund-tag(:title="$t(itemObj.currency.name)" v-if="$t(itemObj.currency.name)")
+                                fund-tag-type(:title="itemObj.fundRisk" :type="itemObj.fundRiskType")
+                                fund-tag-type(:title="$t(itemObj.currency.name)" v-if="$t(itemObj.currency.name)")
                     .scroll-main__scroll(ref="mainScroll" )
                         ul.scroll-main__scroll--content
                             li.scroll-main__row.border-bottom(
@@ -108,6 +108,7 @@ import { getSource } from '@/service/customer-relationship-server'
 import jsBridge from '@/utils/js-bridge'
 import SortIcon from './components/sort-icon.vue'
 import fundTag from '@/biz-components/fund-tag/index.vue'
+import fundTagType from '@/biz-components/fund-tag-type/index.vue'
 import BScroll from 'better-scroll'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { Popup } from 'vant'
@@ -321,7 +322,8 @@ export default {
         [Button.name]: Button,
         FundHeaderTitle,
         SortIcon,
-        fundTag
+        fundTag,
+        'fund-tag-type': fundTagType
     },
     created() {
         this.assetType = this.$route.query.type

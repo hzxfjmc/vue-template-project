@@ -40,16 +40,17 @@
             span （{{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}}）
             p.number-black {{fundHeaderInfoVO.netPrice}}
     .funds-details-footer
-        fund-tag(
+        fund-tag-type(
+            :title="fundHeaderInfoVO.fundRisk"
+            :type="fundHeaderInfoVO.fundRiskType"
+            @toFundRisk="toFundRisk"
+        )
+        fund-tag-type(
             :title="fundHeaderInfoVO.assetTypeName"
             @toFundType="toFundType"
             )
-        fund-tag(
-            :title="fundHeaderInfoVO.fundRisk"
-            @toFundRisk="toFundRisk"
-            )
-        fund-tag(:title="fundHeaderInfoVO.earningsTypeName")
-        fund-tag(:title="startAmount")
+        fund-tag-type(:title="fundHeaderInfoVO.earningsTypeName")
+        fund-tag-type(:title="startAmount")
         //- .block__details--left
         //-     template(v-if="isMonetaryFund")
         //-         span {{$t('tenKRTN')}}({{fundHeaderInfoVO.currencyType==='HKD'? $t('hkd'):$t('usd')}})：
@@ -73,16 +74,19 @@ import { Tag } from 'vant'
 import './fund-details-header.scss'
 import { getStockColorType } from '@/utils/html-utils.js'
 import fundTag from '@/biz-components/fund-tag/index.vue'
+import fundTagType from '@/biz-components/fund-tag-type/index.vue'
 import { jumpUrl } from '@/utils/tools.js'
 import { langType, getUaValue } from '@/utils/html-utils'
 export default {
     components: {
         [Tag.name]: Tag,
         'fund-tag': fundTag,
+        'fund-tag-type': fundTagType,
         star
     },
     i18n: {
         zhCHS: {
+            description: '衍生品说明',
             Derivatives: '衍生产品',
             Complex: '复杂产品',
             fundPrice: '基金净值',
@@ -107,6 +111,7 @@ export default {
                 '晨星把每只具备3年以上业绩数据的基金归类，在同类基金中，基金按照"晨星风险调整后收益"指标（Morningstar Risk-Adjusted Return）由大到小进行排序：前10%被评为5星；接下来22.5%被评为4星；中间35%被评为3星；随后22.5%被评为2星；最后10%被评为1星。'
         },
         zhCHT: {
+            description: '衍生品說明',
             Derivatives: '衍生產品',
             Complex: '複雜產品',
             fundPrice: '基金價格',
@@ -131,6 +136,7 @@ export default {
                 '晨星把每只具備3年以上業績數據的基金歸類，在同類基金中，基金按照"晨星風險調整後收益"指標（Morningstar Risk-Adjusted Return）由大到小進行排序：前10%被評為5星；接下來22.5%被評為4星；中間35%被評為3星；隨後22.5%被評為2星；最後10%被評為1星。'
         },
         en: {
+            description: 'Derivative Description',
             Derivatives: 'Derivatives',
             Complex: 'Complex',
             fundPrice: 'NAV',

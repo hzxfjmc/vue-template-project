@@ -397,6 +397,23 @@ export default {
                 }
             })
             this.chart
+                .area({
+                    startOnZero: false
+                })
+                .position('belongDay*pointData')
+                .color('type', type => {
+                    if (type === this.thisFundName) {
+                        return 'l(90) 0:#e0efff 0.5:#f2f8ff 1:#fbfeff'
+                    }
+                    return '#fff'
+                })
+                .style({ fillOpacity: 0.8 })
+                .animate({
+                    update: {
+                        animation: 'lineUpdate'
+                    }
+                })
+            this.chart
                 .line()
                 .position('belongDay*pointData')
                 .size('type', type => {
@@ -773,7 +790,7 @@ export default {
             line-height: 30px;
             height: 30px;
             font-size: 0.24rem;
-            color: $text-color;
+            color: rgba(25, 25, 25, 0.5);
             margin: 0;
         }
         .date-item:first-child {
@@ -787,7 +804,8 @@ export default {
             border-bottom-right-radius: 2px;
         }
         .active {
-            background: rgba(25, 25, 25, 0.03);
+            background: #eaf1ff;
+            color: #2f79ff;
         }
     }
 }
