@@ -119,7 +119,7 @@ export default {
             leastNum: 'Remaining Assessment Chance：',
             yearsInfo: 'Reset',
             yearsInfoToCall: 'Please contact CS if there is any adjustment',
-            startRisk: 'Start The Assessment',
+            startRisk: 'Assess',
             times: 'Times',
             toCall: 'Call CS',
             toCancel: 'Cancel',
