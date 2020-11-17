@@ -1,0 +1,22 @@
+.remaining-container {
+  padding-top: 20px;
+  .title {
+    margin-bottom: 20px;
+    text-align: left;
+    &.center {
+      text-align: center;
+    }
+  }
+  .years-info {
+    font-size: 14px;
+    color: $text-color6;
+    margin-bottom: 20px;
+  }
+  .van-dialog__message {
+    white-space: normal;
+  }
+  .text {
+    font-size: 12px;
+    opacity: 0.6;
+  }
+}

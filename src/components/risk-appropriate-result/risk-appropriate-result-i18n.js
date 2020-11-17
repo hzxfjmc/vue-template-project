@@ -32,7 +32,11 @@ export const i18nAppropriateData = {
             4: '增长型(A4)及以上可购买',
             5: '进取型(A5)'
         },
-        subscribe: '仍要继续申购>'
+        subscribe: '仍要继续申购>',
+        leftTimes: (monthTimes, yearTimes) =>
+            `本月剩余可测试次数：${monthTimes}次。本年剩余可测试次数：${yearTimes}次。`,
+        retryNextMonth: '请于下个月1号重试。',
+        timesLimit: '*每年可测评次数一共5次，每月可测评次数为3次'
     },
     zhCHT: {
         matching: '匹配',
@@ -67,7 +71,11 @@ export const i18nAppropriateData = {
             4: '增長型(A4)及以上可購買',
             5: '進取型(A5)'
         },
-        subscribe: '仍要繼續申購>'
+        subscribe: '仍要繼續申購>',
+        leftTimes: (monthTimes, yearTimes) =>
+            `本月剩餘可測試次數：${monthTimes}次。本年剩餘可測試次數：${yearTimes}次。`,
+        retryNextMonth: '請於下個月1號重試',
+        timesLimit: '*每年可測評次數一共5次，每月可測評次數為3次'
     },
     en: {
         matching: 'Matched',
@@ -103,6 +111,11 @@ export const i18nAppropriateData = {
             4: 'Available for growth (or more aggressive) investor',
             5: 'Aggressive'
         },
-        subscribe: 'Still Want to Continue Sub>'
+        subscribe: 'Still Want to Continue Sub>',
+        leftTimes: (monthTimes, yearTimes) =>
+            `The remaining assessment times for this month: ${monthTimes} . The remaining assessment times for this year: ${yearTimes} .`,
+        retryNextMonth: 'Please try again on the 1st of next month',
+        timesLimit:
+            '*A total of 5 assessments per year is available year while total of 3 assessments per month'
     }
 }

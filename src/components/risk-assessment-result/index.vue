@@ -65,7 +65,11 @@ export default {
             expired: '已过期',
             dangerIntro:
                 '您的资料中，满足以上任意一项，为“易受损客户”，“易受损客户”的风评为保守型（A1）。',
-            toCallCS: '如果资料有误需要调整，请联系客服。'
+            toCallCS: '如果资料有误需要调整，请联系客服。',
+            leftTimes: (monthTimes, yearTimes) =>
+                `本月剩余可测试次数：${monthTimes}次。本年剩余可测试次数：${yearTimes}次。`,
+            retryNextMonth: '请于下个月1号重试。',
+            timesLimit: '*每年可测评次数一共5次，每月可测评次数为3次'
         },
         zhCHT: {
             resultHd: '您的風評結果為：',
@@ -92,7 +96,11 @@ export default {
             expired: '已過期',
             dangerIntro:
                 '您的資料中，滿足以上任意一項，為“易受損客戶“，“易受損客戶“的風險承受能力為保守型（A1）。',
-            toCallCS: '如果資料有誤需要調整，請聯系客服。'
+            toCallCS: '如果資料有誤需要調整，請聯系客服。',
+            leftTimes: (monthTimes, yearTimes) =>
+                `本月剩餘可測試次數：${monthTimes}次。本年剩餘可測試次數：${yearTimes}次。`,
+            retryNextMonth: '請於下個月1號重試',
+            timesLimit: '*每年可測評次數一共5次，每月可測評次數為3次'
         },
         en: {
             resultHd: 'Result:',
@@ -111,7 +119,7 @@ export default {
             leastNum: 'Remaining Assessment Chance：',
             yearsInfo: 'Reset',
             yearsInfoToCall: 'Please contact CS if there is any adjustment',
-            startRisk: 'Start The Assessment',
+            startRisk: 'Assess',
             times: 'Times',
             toCall: 'Call CS',
             toCancel: 'Cancel',
@@ -120,7 +128,12 @@ export default {
             dangerIntro:
                 'Your information meet any of the above, the risk tolerance of "vulnerable customers" and "vulnerable customers" is conservative (A1).',
             toCallCS:
-                'If the information is incorrect, please contact customer service for revision.'
+                'If the information is incorrect, please contact customer service for revision.',
+            leftTimes: (monthTimes, yearTimes) =>
+                `The remaining assessment times for this month: ${monthTimes} . The remaining assessment times for this year: ${yearTimes} .`,
+            retryNextMonth: 'Please try again on the 1st of next month',
+            timesLimit:
+                '*A total of 5 assessments per year is available year while total of 3 assessments per month'
         }
     }
 }

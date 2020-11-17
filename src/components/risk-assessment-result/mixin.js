@@ -1,8 +1,11 @@
 import YxContainerBetter from '@/components/yx-container-better'
-import { riskAssessResult } from '@/service/user-server.js'
+import {
+    riskAssessResult,
+    checkRiskAssessTimes
+} from '@/service/user-server.js'
 import jsBridge from '@/utils/js-bridge.js'
 import dayjs from 'dayjs'
-
+import './remain-dialog.scss'
 export default {
     name: 'RiskAssessmentResult',
     components: {
@@ -85,7 +88,7 @@ export default {
             }
         },
         // 操作按钮
-        handleAction() {
+        async handleAction() {
             if (this.isExpried) {
                 // 已过期，直接跳转到风评页面
                 this.$router.replace({
@@ -95,7 +98,75 @@ export default {
                     }
                 })
             } else {
-                this.showRemainingNum = true
+                try {
+                    let { monthTimes, yearTimes } = await checkRiskAssessTimes()
+                    // let monthTimes = 1,
+                    //     yearTimes = 1
+                    if (yearTimes <= 0) {
+                        this.$confirm({
+                            className: 'remaining-container',
+                            message: `
+                            <div class="title center">${this.$t(
+                                'leastNum'
+                            )} 0 ${this.$t('times')}</div>
+                            <div class="years-info">${this.$t(
+                                'yearsInfoToCall'
+                            )}</div>
+                            `,
+                            closeOnClickOverlay: true,
+                            confirmButtonText: this.$t('toCall'),
+                            cancelButtonText: this.$t('toClose')
+                        }).then(() => {
+                            // 拨打客服电话
+                            jsBridge.gotoCustomerService()
+                        })
+                    } else {
+                        if (monthTimes <= 0) {
+                            this.$confirm({
+                                className: 'remaining-container',
+                                message: `
+                            <div class="years-info">${this.$t(
+                                'leftTimes',
+                                monthTimes,
+                                yearTimes
+                            )}${this.$t('retryNextMonth')}</div>
+                            `,
+                                showConfirmButton: false,
+                                cancelButtonText: this.$t('iKnow'),
+                                cancelButtonColor: '#0D50D8',
+                                closeOnClickOverlay: true
+                            })
+                        } else {
+                            this.$confirm({
+                                className: 'remaining-container',
+                                message: `
+                            <div class="title">${this.$t(
+                                'leftTimes',
+                                monthTimes,
+                                yearTimes
+                            )}</div>
+                            <div class="text">${this.$t('timesLimit')}</div>
+                            `,
+                                confirmButtonText: this.$t('startRisk'),
+                                cancelButtonText: this.$t('toCancel'),
+                                closeOnClickOverlay: true
+                            }).then(() => {
+                                // 开始测评
+                                // 跳转到风险测评
+                                this.$router.push({
+                                    path: '/risk-assessment',
+                                    query: {
+                                        notFirstSubmit: true
+                                    }
+                                })
+                            })
+                        }
+                    }
+                    // this.showRemainingNum = true
+                } catch (e) {
+                    console.log(e)
+                    e.msg && this.$toast(e.msg)
+                }
             }
         },
         // 点击易受损客户
