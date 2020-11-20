@@ -25,6 +25,10 @@ export default {
                     userInfo.assessResult &&
                     !vm.$route.query.notFirstSubmit
                 ) {
+                    // 跳转测评结果页条件：
+                    // 1、query 参数不存在 id
+                    // 2、存在测评结果
+                    // 3、是第一次提交
                     window.location.replace(
                         location.origin +
                             '/wealth/fund/index.html#/risk-assessment-result'
