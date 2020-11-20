@@ -3,15 +3,15 @@
         .risk-appropriate-result-container(slot="main")
             .risk-result__header
                 i(:type="riskMatchResult")
-                h2 {{ riskMatchResult > 2 ? $t('matching') : $t('noMatching') }}
-                p {{$t('yoursAppropriate')}}{{ riskMatchResult > 2 ? $t('suitable') : $t('noSuitable') }}{{$t('buyIt')}}
+                h2 {{ riskMatchResult >= MATCH_RESULT.MATCHED ? $t('matching') : $t('noMatching') }}
+                p {{$t('yoursAppropriate')}}{{ riskMatchResult >= MATCH_RESULT.MATCHED ? $t('suitable') : $t('noSuitable') }}{{$t('buyIt')}}
             .risk-result__content
                 .risk-cell
                     span {{$t('yoursAppropriate')}}
                     strong {{ assessResultName || '--'  }}
                 .risk-cell
                     span {{$t('proRisk')}}
-                    strong(v-if="fundType === 1") {{ $t('riskTypeList')[productRiskLevel] || '--' }}
+                    strong(v-if="fundType === PRODUCT_TYPE.BOND || fundType === STRATEGY_FOLLOWUP") {{ $t('riskTypeList')[productRiskLevel] || '--' }}
                     strong(v-else) {{fundRiskTypeLevel}}
             .risk-result__tips(v-if="riskMatchResult === 1")
                 h2
@@ -19,17 +19,6 @@
                     i.iconfont.icon-about_icon
                 p {{$t('meansInfo')}}
 
-            //- van-dialog.remaining-container(
-            //-     v-model="showRemainingNum"
-            //-     :show-cancel-button="true"
-            //-     :confirm-button-text="number === 0 ? $t('toCall') : $t('startRisk')"
-            //-     @confirm="startRiskHandle(number)"
-            //-     :cancel-button-text="number === 0 ? $t('toClose') : $t('toCancel')"
-            //-     @cancel="callOrCancel(number)"
-            //- )
-            //-     .title {{$t('leastNum')}} {{number}} {{$t('times')}}
-            //-     .years-info(v-if="number!==0") {{resetTimes}}
-            //-     .years-info(v-if="number===0") {{$t('yearsInfoToCall')}}
             .block__btn(
                 v-if="allowSubscribeShow"
                 @click="toSubscribePage") {{$t('subscribe')}}

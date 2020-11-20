@@ -8,7 +8,9 @@ import {
 import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
 // import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
+import { getParameter } from '@/utils/tools'
 import '../risk-assessment-result/remain-dialog.scss'
+import { MATCH_RESULT, PRODUCT_TYPE } from './enum.js'
 
 export default {
     name: 'RiskAppropriateResult',
@@ -24,31 +26,23 @@ export default {
                 this.fundOverviewInfoVO.derivativeType === 1 &&
                 this.userInfo.assessResult
             )
+        },
+        isFollowUp() {
+            return getParameter('isFollowUp')
+        },
+        strategyRiskLevel() {
+            return +getParameter('strategyRiskLevel')
         }
-        // resetTimes() {
-        //     return {
-        //         zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
-        //         zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
-        //         en:
-        //             'Resert on 1st January, ' +
-        //             dayjs(this.resetTime).format('YYYY')
-        //     }[this.$i18n.lang]
-        // },
     },
     created() {
-        console.log(this.productRiskLevel, '0000')
-        // 等待预定请求完成后，执行下一步操作
         console.log(window.location.href)
-        if (this.$route.query.direction) {
-            this.handleGetBondDetail()
-        } else {
-            this.getFundDetailFun()
-        }
         this.getFundUserInfo()
         this.handleSetupResult()
     },
     data() {
         return {
+            MATCH_RESULT, // 适当性匹配结果
+            PRODUCT_TYPE, // 产品类型
             isReadProductInfo: true, // 是否阅读了产品资料
             isDisabled: false, // 是否禁止按钮
             riskMatchResult: 0, // 风险匹配结果
@@ -63,10 +57,7 @@ export default {
             fundOverviewInfoVO: {},
             userInfo: {},
             fundCode: '',
-            // number: 0, //剩余测评次数
-            // showRemainingNum: false, //剩余次数弹窗
-            // resetTime: '', //重置时间
-            fundType: 0, //0基金1债券
+            fundType: PRODUCT_TYPE.FUND, //0基金1债券
             damagedStatus: 0, //是否为易受损用户
             fundHeaderInfoVO: {}
         }
@@ -75,7 +66,10 @@ export default {
         // 将多个异步聚合为同步
         async handleSetupResult() {
             let pArr = [this.handleRiskAssessResult()]
-            if (this.$route.query.direction) {
+            if (this.isFollowUp) {
+                this.productRiskLevel = this.strategyRiskLevel
+                this.fundType = PRODUCT_TYPE.STRATEGY_FOLLOWUP
+            } else if (this.$route.query.direction) {
                 pArr.push(this.handleGetBondDetail())
             } else {
                 pArr.push(this.getFundDetailFun())
@@ -84,16 +78,16 @@ export default {
             await Promise.all(pArr)
             if (this.userRiskLevel === 0) {
                 // 尚未风评
-                this.riskMatchResult = 1
+                this.riskMatchResult = MATCH_RESULT.NOT_ASSESSMENT
                 this.btnText = this.$t('startRisk')
             } else if (this.userRiskLevel < this.productRiskLevel) {
                 console.log(this.productRiskLevel, 'productRiskLevel')
                 // 风评级别不够
-                this.riskMatchResult = 2
+                this.riskMatchResult = MATCH_RESULT.NOT_MATCH
                 this.btnText = this.$t('againRisk')
             } else {
                 // 风评级别够了，可以购买
-                this.riskMatchResult = 3
+                this.riskMatchResult = MATCH_RESULT.MATCHED
                 this.btnText = this.$t('sure')
             }
             this.isShowPage = true
@@ -104,8 +98,6 @@ export default {
                 let res = (await riskAssessResult()) || {}
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName = res.assessResultName
-                // this.number = res.validCount
-                // this.resetTime = res.resetTime
                 this.damagedStatus = res.damagedStatus
                 if (res.damagedStatus === 1) {
                     this.$router.replace({
@@ -231,9 +223,8 @@ export default {
                         displayLocation: this.$route.query.displayLocation
                     }
                 })
-            } else if (this.userRiskLevel < 5) {
+            } else if (this.userRiskLevel < this.productRiskLevel) {
                 // 风险等级不够 弹出剩余次数提示
-                // this.showRemainingNum = true
                 try {
                     let { monthTimes, yearTimes } = await checkRiskAssessTimes()
                     // let monthTimes = 1,
@@ -299,7 +290,6 @@ export default {
                             })
                         }
                     }
-                    // this.showRemainingNum = true
                 } catch (e) {
                     console.log(e)
                     e.msg && this.$toast(e.msg)
@@ -358,25 +348,6 @@ export default {
                 console.log('getFundUserInfo:error:>>>', e)
             }
         }
-        // 开始测评或拨打客服电话
-        // startRiskHandle(number) {
-        //     if (number === 0) {
-        //         jsBridge.gotoCustomerService()
-        //     } else {
-        //         // 跳转到风险测评
-        //         this.$router.push({
-        //             path: '/risk-assessment',
-        //             query: {
-        //                 id: this.$route.query.id,
-        //                 fundRiskType: this.$route.query.fundRiskType
-        //             }
-        //         })
-        //     }
-        // },
-        // 关闭
-        // callOrCancel() {
-        //     this.showRemainingNum = false
-        // }
     },
     watch: {
         isReadProductInfo() {
