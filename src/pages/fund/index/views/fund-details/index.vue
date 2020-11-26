@@ -1,6 +1,10 @@
 <template lang="pug">
 .fund-details
     .fund-content(slot="main" ref="content")
+        FundShareHeader(
+            v-if="invate === 'share'"
+            @openApp="handleShare"
+        )
         fundDetailsHeader(
             :price="price"
             :revenue="revenue"
@@ -128,12 +132,6 @@
             van-button.btn.button-width(
                 :class="[flag2? 'fund-footer':'fund-no']"
                 @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
-
-        .fund-footer-contentShare(v-if="invate === 'share'")
-            van-button(
-                class="fund-footer btn button-width"
-                @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
-
         .fund-footer-content(
             v-if="chsFightButton")
             .block__list--header(v-if="shareHeaderShow")
@@ -197,7 +195,8 @@
                     van-button(
                         class="btn"
                         @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
-
+        .fund-footer-content(v-if="invate === 'share'")
+            YxShareFooter
     img(
         v-show="false"
         :src="shareIcon"
@@ -206,6 +205,8 @@
     
 </template>
 <script>
+import FundShareHeader from './components/fund-share-header'
+import YxShareFooter from '@/components/yx-share-footer'
 import NP from 'number-precision'
 import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
@@ -386,7 +387,9 @@ export default {
         FightFundHk,
         FundAnnualizedIncome,
         FundAnalyzeDataColumn,
-        FundInvestCombination
+        FundInvestCombination,
+        YxShareFooter,
+        FundShareHeader
     },
     computed: {
         isMmf() {
