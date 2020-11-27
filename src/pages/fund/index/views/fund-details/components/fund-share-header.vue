@@ -1,6 +1,6 @@
 <template lang="pug">
     .fund__sahre__header(v-if="!closed" :class='lang')
-        van-swipe
+        van-swipe(:autoplay="3000")
             van-swipe-item(v-for="item in fundList" :key="item.fundId")
                 .block__left
                     canvas(
