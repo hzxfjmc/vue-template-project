@@ -342,13 +342,13 @@ export default {
                     if (this.followMarketAccount[this.strategyMarket]) {
                         // 开通了跟投策略相应账户，跳转跟投设置
                         let url = getParameter('followUpPage')
-                        window.location.replace(decodeURI(url))
+                        window.location.replace(decodeURIComponent(url))
                     } else {
                         // 未开通跟投策略相应账户，跳转跟投开户
                         let url =
                             window.location.origin +
-                            `/account/follow-up/index.html?followUpPage=${getParameter(
-                                'followUpPage'
+                            `/account/follow-up/index.html?followUpPage=${encodeURIComponent(
+                                getParameter('followUpPage')
                             )}#/risk-assessment-result`
                         window.location.replace(url)
                     }
