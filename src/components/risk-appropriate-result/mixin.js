@@ -5,13 +5,13 @@ import {
     getFundUserInfo,
     checkRiskAssessTimes
 } from '@/service/user-server.js'
+import { checkFollowInvestmentInfo } from '@/service/user-account-server.js'
 import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
 // import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
 import { getParameter } from '@/utils/tools'
 import '../risk-assessment-result/remain-dialog.scss'
 import { MATCH_RESULT, PRODUCT_TYPE } from './enum.js'
-
 export default {
     name: 'RiskAppropriateResult',
     components: {
@@ -27,8 +27,13 @@ export default {
                 this.userInfo.assessResult
             )
         },
+        // 是否为跟投跳转而来
         isFollowUp() {
             return getParameter('isFollowUp')
+        },
+        // 当前跟投策略所属市场 0 5 67
+        strategyMarket() {
+            return +getParameter('strategyMarket')
         },
         strategyRiskLevel() {
             return +getParameter('strategyRiskLevel')
@@ -41,6 +46,7 @@ export default {
     },
     data() {
         return {
+            followMarketAccount: {}, // 跟投账户开通结果 例子：{0:true,5:true:,67:false}
             MATCH_RESULT, // 适当性匹配结果
             PRODUCT_TYPE, // 产品类型
             isReadProductInfo: true, // 是否阅读了产品资料
@@ -69,6 +75,7 @@ export default {
             if (this.isFollowUp) {
                 this.productRiskLevel = this.strategyRiskLevel
                 this.fundType = PRODUCT_TYPE.STRATEGY_FOLLOWUP
+                pArr.push(this.handleCheckFollowInvestmentInfo())
             } else if (this.$route.query.direction) {
                 pArr.push(this.handleGetBondDetail())
             } else {
@@ -88,7 +95,18 @@ export default {
             } else {
                 // 风评级别够了，可以购买
                 this.riskMatchResult = MATCH_RESULT.MATCHED
-                this.btnText = this.$t('sure')
+                if (this.isFollowUp) {
+                    // 跟投场景，特殊处理
+                    if (this.followMarketAccount[this.strategyMarket]) {
+                        // 开通了跟投策略相应账户，跳转跟投设置
+                        this.btnText = this.$t('followUpSet')
+                    } else {
+                        // 未开通跟投策略相应账户，跳转跟投开户
+                        this.btnText = this.$t('openFollowUpAccount')
+                    }
+                } else {
+                    this.btnText = this.$t('sure')
+                }
             }
             this.isShowPage = true
         },
@@ -103,7 +121,7 @@ export default {
                     this.$router.replace({
                         path: '/risk-assessment-result',
                         query: {
-                            id: this.$route.query.id,
+                            ...this.$route.query,
                             fundRiskType: this.productRiskLevel
                         }
                     })
@@ -114,6 +132,16 @@ export default {
                     this.$alert(e.msg)
                 }
                 console.log('riskAssessResult:error:>>>', e)
+            }
+        },
+        // 获取跟投开户结果
+        async handleCheckFollowInvestmentInfo() {
+            try {
+                let { followMarketAccount } =
+                    (await checkFollowInvestmentInfo()) || {}
+                this.followMarketAccount = followMarketAccount || {}
+            } catch (e) {
+                console.log('checkFollowInvestmentInfo:error:>> ', e)
             }
         },
         //去申购页面
@@ -309,6 +337,21 @@ export default {
                             id: this.$route.query.id
                         }
                     })
+                } else if (this.isFollowUp) {
+                    // 跟投场景
+                    if (this.followMarketAccount[this.strategyMarket]) {
+                        // 开通了跟投策略相应账户，跳转跟投设置
+                        let url = getParameter('followUpPage')
+                        window.location.replace(decodeURI(url))
+                    } else {
+                        // 未开通跟投策略相应账户，跳转跟投开户
+                        let url =
+                            window.location.origin +
+                            `/account/follow-up/index.html?followUpPage=${getParameter(
+                                'followUpPage'
+                            )}#/risk-assessment-result`
+                        window.location.replace(url)
+                    }
                 } else {
                     let data = {
                         query: {

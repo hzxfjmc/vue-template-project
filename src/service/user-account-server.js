@@ -16,3 +16,10 @@ export const getInvestmentCerificationResult = params => {
         params
     )
 }
+
+// 策略跟投-检查跟投策略相关账户数据
+export const checkFollowInvestmentInfo = () => {
+    return axios.getForm(
+        `user-account-server/api/check-follow-investment-info/v1`
+    )
+}

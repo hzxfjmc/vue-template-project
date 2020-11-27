@@ -113,7 +113,7 @@ export default {
                 if (assessRes.damagedStatus === 1) {
                     this.showEasyCustomer = true
                 } else {
-                    this.jumpToResult(assessRes)
+                    this.jumpToResult()
                 }
             } catch (e) {
                 this.canSubmit = false
@@ -126,13 +126,13 @@ export default {
             }
         },
         // 跳转
-        jumpToResult(assessRes) {
+        jumpToResult() {
             let id = this.$route.query.id,
                 strategyId = this.$route.query.strategyId, //策略跟投参数
                 versionId = this.$route.query.versionId, //策略跟投参数
                 isFollowUp = getParameter('isFollowUp'), // url 上是否有 isFollowUp 参数
-                strategyRiskLevel = getParameter('strategyRiskLevel'), // 跟投策略的风险测评
-                followUpPage = getParameter('followUpPage'), // 跟投策略下单页；跟投开户成功后需要跳转用
+                // strategyRiskLevel = getParameter('strategyRiskLevel'), // 跟投策略的风险测评
+                // followUpPage = getParameter('followUpPage'), // 跟投策略下单页；跟投开户成功后需要跳转用
                 direction = this.$route.query.direction, // 只有债券才有这个参数
                 path = '/risk-appropriate-result',
                 query = {
@@ -180,20 +180,19 @@ export default {
                 window.location.replace(url)
             } else if (isFollowUp) {
                 // 跟投开户
-                if (assessRes.assessResult >= strategyRiskLevel) {
-                    // 风险测评通过，跳转跟投开户
-                    let url =
-                        window.location.origin +
-                        `/account/follow-up/index.html?followUpPage=${encodeURI(
-                            followUpPage
-                        )}#/risk-assessment-result`
-                    window.location.replace(url)
-                } else {
-                    // 风险测评不通过，跳转产品适当性匹配
-                    this.$router.replace({
-                        path
-                    })
-                }
+                // if (assessRes.assessResult >= strategyRiskLevel) {
+                //     // 风险测评通过，跳转跟投开户
+                //     let url =
+                //         window.location.origin +
+                //         `/account/follow-up/index.html?followUpPage=${encodeURI(
+                //             followUpPage
+                //         )}#/risk-assessment-result`
+                //     window.location.replace(url)
+                // } else {
+                this.$router.replace({
+                    path // '/risk-appropriate-result'
+                })
+                // }
             } else {
                 // 如果不存在 id 参数，说明是直接从测评结果页跳转的，测试完成，直接跳转出去
                 this.$router.replace({

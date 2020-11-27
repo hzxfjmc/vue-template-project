@@ -9,3 +9,9 @@ export const enumMarketName = {
     1: 'hk',
     2: 'us'
 }
+
+export const EXCHANGE_TYPE = {
+    HK: 0,
+    US: 5,
+    A: 67
+}
