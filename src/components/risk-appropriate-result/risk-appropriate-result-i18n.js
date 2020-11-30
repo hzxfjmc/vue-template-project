@@ -82,8 +82,8 @@ export const i18nAppropriateData = {
         timesLimit: '*每年可測評次數一共5次，每月可測評次數為3次'
     },
     en: {
-        followUpSet: '进行跟投设置',
-        openFollowUpAccount: '开通跟投账户',
+        followUpSet: 'Conduct Follow Trade Setting',
+        openFollowUpAccount: 'Open Follow Trade Account',
         matching: 'Matched',
         noMatching: 'Not Matched',
         yoursAppropriate: 'Your Risk Profile',
