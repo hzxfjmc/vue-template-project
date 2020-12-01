@@ -56,7 +56,11 @@ export const i18n = {
         8: '近五年',
         9: '今年来',
         10: '成立来',
-        loadingText: '数据加载中，请稍后'
+        loadingText: '数据加载中，请稍后',
+        cashPlus: '现金+',
+        fundFilter: '基金筛选',
+        fundCompany: '基金公司',
+        fundNotic: '基金公告'
     },
     zhCHT: {
         fundHold: '基金持倉',

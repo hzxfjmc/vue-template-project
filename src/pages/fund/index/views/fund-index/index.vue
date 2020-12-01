@@ -93,9 +93,11 @@ div
                         .block__tab--Item(
                             @click="handlerNavItem(item)"
                             v-for="(item,index) in tabList" 
-                            :key="index") 
-                            img(:src="item.imgUrl1") 
+                            :key="index"
+                        ) 
+                            img(:src="item.imgUrl") 
                             span {{item.label}}
+                            .new(v-if="[1,4,5].includes(item.value)") new
                 .block-bannar-sub-swiper.second__bannar.block__bannar__Tab(v-if="barnnarList1.length !== 0")
                         van-swipe(:autoplay="3000")
                             van-swipe-item(
@@ -172,7 +174,9 @@ div
                             @click="goBanner(item)") 
                             img(:src="item.picture_url") 
         
-                        
+            fundCompany(
+                :fundCompanyList="fundCompanyList"
+            )
         .block__bottom--p
             img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
             p {{$t('bottomMsg')}}
@@ -205,6 +209,7 @@ import FundCardSwipper from './fund-card-swipper'
 import FundArticle from './fund-article'
 import fundCommonMethods from '../../mixins/fund-common-methods.js'
 import yxSkeleton from '@/components/yx-skeleton'
+import fundCompany from './fund-conpany'
 export default {
     mixins: [fundCommonMethods],
     components: {
@@ -214,7 +219,8 @@ export default {
         FundListItem,
         FundCardSwipper,
         FundArticle,
-        yxSkeleton
+        yxSkeleton,
+        fundCompany
     },
     i18n: i18n,
     filters: {
@@ -225,12 +231,11 @@ export default {
     watch: {
         isGrayAuthority(val) {
             if (val) {
-                this.tabList.push({
-                    imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_pi.png'),
-                    label: '尊享型',
+                this.tabList.splice(3, 0, {
+                    imgUrl: require('@/assets/img/fund/icon-pi.png'),
+                    label: '尊享专区',
                     key: 'exclusive',
-                    value: '5'
+                    value: 4
                 })
             }
         }
@@ -280,6 +285,7 @@ export default {
     },
     data() {
         return {
+            fundCompanyList: [],
             currencyTab: 0,
             moneyShow: true,
             barnnarList: [],
@@ -297,32 +303,28 @@ export default {
             searchButtonShow: false,
             tabList: [
                 {
-                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
-                    label: '股票型',
-                    key: 'fundShares',
-                    value: '1'
+                    imgUrl: require('@/assets/img/fund/icon-cash-plus.png'),
+                    label: '现金+',
+                    key: 'cashPlus',
+                    value: 1
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_xunzhang1.png'),
-                    label: '債劵型',
-                    key: 'fundBond',
-                    value: '2'
+                    imgUrl: require('@/assets/img/fund/icon-fund-filter.png'),
+                    label: '基金筛选',
+                    key: 'fundFilter',
+                    value: 2
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_fenpei1.png'),
-                    label: '混合型',
-                    key: 'fundBlend',
-                    value: '3'
+                    imgUrl: require('@/assets/img/fund/icon-fund-company.png'),
+                    label: '基金公司',
+                    key: 'fundCompany',
+                    value: 3
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon_money.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
-                    label: '貨幣型',
-                    key: 'fundCurrency',
-                    value: '4'
+                    imgUrl: require('@/assets/img/fund/icon-fund-notic.png'),
+                    label: '基金公告',
+                    key: 'fundNotic',
+                    value: 5
                 }
             ],
             choiceFundList: {}, //精选基金
@@ -426,14 +428,30 @@ export default {
         },
         //跳转
         handlerNavItem(item) {
-            if (item.value == 5) {
-                this.openWebView(
-                    `${window.location.origin}/wealth/fund/index.html#/fund-exclusive-area`
-                )
-            } else {
-                this.openWebView(
-                    `${window.location.origin}/wealth/fund/index.html#/index?type=${item.value}`
-                )
+            switch (item.value) {
+                case 1:
+                    this.toYxbao()
+                    break
+                case 2:
+                    this.openWebView(
+                        `${window.location.origin}/wealth/fund/index.html#/index?type=`
+                    )
+                    break
+                case 3:
+                    this.openWebView(
+                        `${window.location.origin}/wealth/fund/index.html#/fund-company`
+                    )
+                    break
+                case 4:
+                    this.openWebView(
+                        `${window.location.origin}/wealth/fund/index.html#/fund-exclusive-area`
+                    )
+                    break
+                case 5:
+                    this.openWebView(
+                        `${window.location.origin}/wealth/fund/index.html#/fund-notic`
+                    )
+                    break
             }
         },
         //App页面跳转

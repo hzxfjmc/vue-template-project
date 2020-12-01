@@ -263,6 +263,27 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fund-details/components/fund-invest-combination/index.vue`
                 )
+        },
+        {
+            name: 'fund-notic',
+            path: '/fund-notic',
+            meta: { title: 'fundNotic', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-notic/index.vue`)
+        },
+        {
+            name: 'fund-notic-detail',
+            path: '/fund-notic-detail',
+            meta: { title: 'fundNoticDetail', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-notic/detail.vue`)
+        },
+        {
+            name: 'fund-company',
+            path: '/fund-company',
+            meta: { title: 'fundCompany', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-company/index.vue`)
         }
     ]
 })
