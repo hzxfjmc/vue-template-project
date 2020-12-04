@@ -83,15 +83,16 @@
         )
             yx-container
                 .main(slot="main")
-                    .block__content(v-for="item in formFilterList")
+                    .block__content(v-for="item in formFilterList" :key="item.key")
                         .title {{$t(item.label)}}
                         .btn__list
                             .btn--item(
-                                v-for="obj in item.btnList"
+                                v-for="obj,index in item.btnList"
+                                :key="index"
                                 @click="handleChoose(obj, item)"
                                 :class="[form[item.label].includes(obj.val) ? 'active': '',]"
                             )
-                                span(:class="{en:isEn}") {{item.label=='establishYears'?obj.key:$t(obj.key)}}
+                                span(:class="{en:isEn}") {{['establishYears', 'companyList'].includes(item.label) ? obj.key : $t(obj.key)}}
                 .bottom(slot="bottom")
                     .block__bottom(:class="{bottom : isPhoneX}")
                         van-button.left(@click="handleReset") {{$t('reset')}}
@@ -99,7 +100,10 @@
 </template>
 <script>
 import { Swipe, SwipeItem, Button } from 'vant'
-import { getFundListV2 } from '@/service/finance-info-server.js'
+import {
+    getFundListV2,
+    getListFundCompany
+} from '@/service/finance-info-server.js'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
 import { jumpUrl, debounce } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
@@ -309,6 +313,10 @@ export default {
                             val: 3
                         }
                     ]
+                },
+                {
+                    label: 'fundCompany',
+                    btnList: this.companyList
                 }
             ]
         }
@@ -408,8 +416,10 @@ export default {
                 currency: [],
                 riskLevel: [],
                 establishYears: [],
-                dividendType: []
+                dividendType: [],
+                companyList: []
             },
+            companyList: [],
             assetType: '',
             code: 0,
             assetTypetab: '',
@@ -514,6 +524,7 @@ export default {
             this.FilterAction()
         },
         FilterAction() {
+            // 交易货币查询
             this.filterList = this.list.filter(item => {
                 if (
                     this.form.currency.length == 0 ||
@@ -522,6 +533,7 @@ export default {
                     return true
                 }
             })
+            // 风险等级
             this.filterList = this.filterList.filter(item => {
                 if (
                     this.form.riskLevel.length == 0 ||
@@ -530,6 +542,7 @@ export default {
                     return true
                 }
             })
+            // 成立年限
             this.filterList = this.filterList.filter(item => {
                 let flag = false
                 for (let i = 0; i < this.form.establishYears.length; i++) {
@@ -545,10 +558,20 @@ export default {
                 }
                 return this.form.establishYears.length == 0 ? true : flag
             })
+            // 分红类型
             this.filterList = this.filterList.filter(item => {
                 if (
                     this.form.dividendType.length == 0 ||
                     this.form.dividendType.includes(item.dividendType)
+                ) {
+                    return true
+                }
+            })
+            // 基金公司
+            this.filterList = this.filterList.filter(item => {
+                if (
+                    this.form.companyList.length == 0 ||
+                    this.form.companyList.includes(item.companyId)
                 ) {
                     return true
                 }
@@ -675,6 +698,20 @@ export default {
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getListFundInfo:error:>>>', e)
+            }
+        },
+        // 获得基金公司列表
+        async getListFundCompany() {
+            try {
+                let data = await getListFundCompany()
+                this.companyList = data.list.map(item => {
+                    return {
+                        key: item.companySampleNameCn,
+                        val: item.companyId
+                    }
+                })
+            } catch (e) {
+                this.message.error(e.msg || '网络开小差了，请稍后再试')
             }
         },
         goNext(fundId, name) {

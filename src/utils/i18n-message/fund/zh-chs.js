@@ -201,6 +201,7 @@ export const zhCHS = {
     exclusiveArea: '尊享专区',
     productList: '优质企业IPO锚定基金',
     fundCompany: '基金公司',
+    companyDetail: '公司详情',
     viewMore: '查看更多',
     fundNotic: '基金公告',
     fundNoticDetail: '基金公告详情'

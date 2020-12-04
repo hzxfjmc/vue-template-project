@@ -284,6 +284,20 @@ export default new Router({
             meta: { title: 'fundCompany', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-company/index.vue`)
+        },
+        {
+            name: 'fund-company-detail',
+            path: '/fund-company-detail',
+            meta: { title: 'companyDetail', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-company/detail.vue`)
+        },
+        {
+            name: 'fund-company-detail2',
+            path: '/fund-company-detail2',
+            meta: { title: 'companyDetail', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-company/detail2.vue`)
         }
     ]
 })

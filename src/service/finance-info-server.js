@@ -187,3 +187,8 @@ export const getFundInvestmentDataV1 = params => {
         params
     )
 }
+
+// 获取基金公司列表
+export const getListFundCompany = params => {
+    return axios.post(`/finance-info-server/api/list-fund-company/v1`, params)
+}

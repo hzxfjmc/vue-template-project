@@ -7,6 +7,7 @@
         .block__content
             .fund__info(v-for="item in fundCompanyList")
                 img(:src="item.src")
+                .name {{$t([item.companySampleNameCn, item.companySampleNameHk, item.companySampleNameEn])}}
 </template>
 <script>
 export default {
@@ -45,9 +46,24 @@ export default {
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
+    .fund__info {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px 0 5px 0;
+        background: #ffffff;
+        box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
+        border-radius: 2px;
+    }
     img {
         width: 102px;
         height: 52px;
+    }
+    .name {
+        padding-top: 3px;
+        width: 83px;
+        height: 31px;
     }
 }
 </style>

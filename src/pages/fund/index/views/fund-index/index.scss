@@ -377,6 +377,14 @@
                 line-height: 8px;
                 font-size: 5px;
             }
+            .red-point {
+                position: absolute;
+                right: 15px;
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                background: #EA3D3D;
+            }
         }
     }
 }

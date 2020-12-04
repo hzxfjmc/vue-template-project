@@ -11,6 +11,15 @@
             title-active-color="#2F79FF")
                 van-tab(:title="$t('list')['fundIntroduce'].label" :name="0")
                     .fund-introduce-content(v-if="active===0")
+                        .fund-company-wrapper(@click="toFundCompany")
+                            .left
+                                .log
+                                    img(:src="companyInfo.logUrl")
+                                .content 
+                                    p.name {{companyInfo.name}}
+                                    p.desc {{companyInfo.longName}}
+                            .right
+                                span.iconfont.icon-iconEBgengduoCopy
                         .fund-introduce-list(
                             v-for="(item,index) of list"
                             :class="[item.flag == 2 ? 'activelist':'']"
@@ -72,14 +81,16 @@
 
 </template>
 <script>
+import { getUaValue } from '@/utils/html-utils'
 import './index.scss'
 import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
 import dividendDetail from './dividend-detail'
 import fundManager from './fund-manager'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import {
     getFundDetail,
-    getFundManagerData
+    getFundManagerData,
+    getListFundCompany
 } from '@/service/finance-info-server.js'
 import Vue from 'vue'
 import { List, Row, Col } from 'vant'
@@ -100,6 +111,7 @@ export default {
     },
     data() {
         return {
+            companyInfo: {},
             list: JSON.parse(JSON.stringify(Introducelit)),
             width: 30,
             showMoney: true,
@@ -136,6 +148,25 @@ export default {
                     this.$alert(e.msg)
                 }
             }
+        },
+        async getListFundCompany() {
+            try {
+                const data = await getListFundCompany({
+                    company: this.companyId
+                })
+                this.companyInfo = data.list[0]
+                let url = await getCosUrl(this.companyInfo.logUrl)
+                this.companyInfo.logUrl = url
+            } catch (e) {
+                if (e.msg) {
+                    this.$alert(e.msg)
+                }
+            }
+        },
+        toFundCompany() {
+            let params = getUaValue('langType')
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-company?id=${this.companyInfo.companyId}`
+            jumpUrl(3, url)
         },
         async initState() {
             try {

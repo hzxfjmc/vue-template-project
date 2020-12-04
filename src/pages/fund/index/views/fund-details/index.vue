@@ -59,6 +59,7 @@
             v-if="fundOverviewInfoVO.fundId"
             :fundOverviewInfoVO="fundOverviewInfoVO"
             :fundCorrelationFileList="fundCorrelationFileList"
+            :companyInfo="companyInfo"
         )
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -206,6 +207,7 @@
     
 </template>
 <script>
+import { getCosUrl } from '@/utils/cos-utils'
 import NP from 'number-precision'
 import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
@@ -229,7 +231,8 @@ import {
     getFundApyPointV1,
     getFundNetPriceHistoryV1,
     getFundRecommendList,
-    getFundFeeConfigV1
+    getFundFeeConfigV1,
+    getListFundCompany
 } from '@/service/finance-info-server.js'
 import {
     getGroupAction,
@@ -461,6 +464,8 @@ export default {
     },
     data() {
         return {
+            companyId: '',
+            companyInfo: {},
             loading: true,
             swipeShow: false,
             shareHeaderShow: true,
@@ -609,6 +614,28 @@ export default {
                     this.appType.Ch ? 1 : 2
                 }#/fund-details?id=${this.$route.query.id}`
             )
+        },
+        async getListFundCompany() {
+            try {
+                let data = await getListFundCompany({
+                    companyId: this.companyId
+                })
+                this.companyInfo = data.list[0]
+                this.companyInfo.name = this.$t([
+                    this.ompanyInfo.companySampleNameCn,
+                    this.companyInfo.companySampleNameHk,
+                    this.companyInfo.companySampleNameEn
+                ])
+                this.companyInfo.longName = this.$t([
+                    this.ompanyInfo.companyNameCn,
+                    this.companyInfo.companyNameHk,
+                    this.companyInfo.companyNameEn
+                ])
+                let url = await getCosUrl(this.companyInfo.iconUrl)
+                this.companyInfo.logUrl = url
+            } catch (e) {
+                this.message.error(e.msg || '网络开小差了，请稍后再试')
+            }
         },
         async getFundFeeConfig() {
             try {
@@ -1030,6 +1057,7 @@ export default {
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.fundOverviewInfoVO.currencyName = this.fundOverviewInfoVO.currency.name
+                this.companyId = this.fundHeaderInfoVO.companyId
                 //赎回按钮是否置灰
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false

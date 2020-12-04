@@ -97,7 +97,8 @@ div
                         ) 
                             img(:src="item.imgUrl") 
                             span {{item.label}}
-                            .new(v-if="[1,4,5].includes(item.value)") new
+                            .new(v-if="item.key === 'cashPlus'") new
+                            .red-point(v-else)
                 .block-bannar-sub-swiper.second__bannar.block__bannar__Tab(v-if="barnnarList1.length !== 0")
                         van-swipe(:autoplay="3000")
                             van-swipe-item(

@@ -21,6 +21,18 @@
             .block__fund--title {{$t('dividend')}}
             .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
                 i.iconfont.icon-iconEBgengduoCopy
+        .block__fund-info(@click="toFundCompany")
+            .left
+                .log
+                    img(:src="companyInfo.logUrl")
+                .content 
+                    p.name {{companyInfo.name}}
+                    p.desc {{companyInfo.longName}}
+            .right
+                span.iconfont.icon-iconEBgengduoCopy
+            
+            
+
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
@@ -133,12 +145,21 @@ export default {
         fundCorrelationFileList: {
             type: Array,
             default: () => []
+        },
+        companyInfo: {
+            type: Object,
+            default: () => {}
         }
     },
     methods: {
         tofundSurvey(val) {
             let params = getUaValue('langType')
             let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}&active=${val}`
+            jumpUrl(3, url)
+        },
+        toFundCompany() {
+            let params = getUaValue('langType')
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-company?id=${this.companyInfo.companyId}`
             jumpUrl(3, url)
         },
         async getFundManagerData() {
@@ -190,9 +211,6 @@ export default {
         .block__fund--title {
             color: $text-color5;
         }
-        &:last-child {
-            border: 0;
-        }
     }
 }
 
@@ -227,6 +245,41 @@ export default {
                 font-size: 15px;
                 line-height: 25px;
             }
+        }
+    }
+}
+.block__fund-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px;
+    .log {
+        width: 102px;
+        height: 52px;
+        padding: 12px;
+        background: #ffffff;
+        box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
+        border-radius: 2px;
+        img {
+            width: 83px;
+            height: 31px;
+        }
+    }
+    .content {
+        .name {
+            font-weight: 600;
+            line-height: 20px;
+        }
+        .desc {
+            padding-left: 15px;
+            font-size: 12px;
+            color: $text-color5;
+        }
+    }
+    .right {
+        span {
+            font-size: 14px;
+            color: #666666;
         }
     }
 }
