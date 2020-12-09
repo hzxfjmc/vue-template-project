@@ -186,7 +186,7 @@ export default {
                 //         window.location.origin +
                 //         `/account/follow-up/index.html?followUpPage=${encodeURI(
                 //             followUpPage
-                //         )}#/risk-assessment-result`
+                //         )}#/`
                 //     window.location.replace(url)
                 // } else {
                 this.$router.replace({

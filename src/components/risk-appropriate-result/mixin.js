@@ -349,7 +349,7 @@ export default {
                             window.location.origin +
                             `/account/follow-up/index.html?followUpPage=${encodeURIComponent(
                                 getParameter('followUpPage')
-                            )}#/risk-assessment-result`
+                            )}#/`
                         window.location.replace(url)
                     }
                 } else {
