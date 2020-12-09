@@ -2,7 +2,7 @@
     .fund-company
         .block__header
             .title {{$t('fundCompany')}}
-            .more {{$t('viewMore')}}
+            .more(@click="toFundCompany") {{$t('viewMore')}}
                 span.iconfont.icon-iconEBgengduoCopy
         .block__content
             .fund__info(v-for="item in fundCompanyList")
@@ -10,12 +10,19 @@
                 .name {{$t([item.companySampleNameCn, item.companySampleNameHk, item.companySampleNameEn])}}
 </template>
 <script>
+import { jumpUrl } from '@/utils/tools'
 export default {
     name: 'fund-company',
     props: {
         fundCompanyList: {
             type: Array,
             default: () => []
+        }
+    },
+    methods: {
+        toFundCompany() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-company`
+            jumpUrl(3, url)
         }
     }
 }

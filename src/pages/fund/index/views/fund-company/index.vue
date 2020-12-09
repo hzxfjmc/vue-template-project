@@ -13,7 +13,7 @@ export default {
         return {
             fundCompanyList: [],
             pageNum: 1,
-            pageSize: 2,
+            pageSize: 20,
             total: 0
         }
     },

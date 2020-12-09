@@ -18,9 +18,9 @@
                 .scroll-header__scroll(ref="headerScroll")
                     ul.scroll-header__scroll--content
                         li.scroll-header__scroll--item(
-                            v-for="value,key in headerList"
+                            v-for="(value,key) in headerList"
                             :class="[isEn && !fundEarningsField.includes(key) ? 'en' : '']"
-                        ) 
+                        )
                             .item--text(@click="handlerSort(key)") {{value}}
                                 .item--sort
                                     SortIcon(
@@ -29,11 +29,11 @@
                                     )
             .scroll-main
                 .scroll-main-box(v-show="filterList && filterList.length > 0")
-                    .scroll-main__fiexed 
+                    .scroll-main__fiexed
                         .scroll-main__fiexed--item.border-bottom(
                             v-for="itemObj in filterList"
                             @click="goNext(itemObj.fundId, itemObj.fundName || itemObj.title)"
-                        ) 
+                        )
                             .fund-name.ellipse
                                 span.ellipse {{itemObj.fundName}}
                             .label
@@ -79,7 +79,7 @@
             v-model="filterPopupShow"
             position="bottom"
             :style="{height: '85%'}"
-            
+
         )
             yx-container
                 .main(slot="main")
@@ -87,7 +87,7 @@
                         .title {{$t(item.label)}}
                         .btn__list
                             .btn--item(
-                                v-for="obj,index in item.btnList"
+                                v-for="(obj,index) in item.btnList"
                                 :key="index"
                                 @click="handleChoose(obj, item)"
                                 :class="[form[item.label].includes(obj.val) ? 'active': '',]"
