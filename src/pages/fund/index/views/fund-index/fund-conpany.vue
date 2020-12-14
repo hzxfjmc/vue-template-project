@@ -5,8 +5,8 @@
             .more(@click="toFundCompany") {{$t('viewMore')}}
                 span.iconfont.icon-iconEBgengduoCopy
         .block__content
-            .fund__info(v-for="item in fundCompanyList")
-                img(:src="item.src")
+            .fund__info(v-for="item in fundCompanyList" @click="toFundCompanyDetail(item.companyId)")
+                img(:src="item.iconUrl")
                 .name {{$t([item.companySampleNameCn, item.companySampleNameHk, item.companySampleNameEn])}}
 </template>
 <script>
@@ -23,12 +23,17 @@ export default {
         toFundCompany() {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-company`
             jumpUrl(3, url)
+        },
+        toFundCompanyDetail(id) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-company-detail?id=${id}`
+            jumpUrl(3, url)
         }
     }
 }
 </script>
 <style lang="scss" scoped>
 .fund-company {
+    padding: 14px;
     max-height: 185px;
     margin: 12px;
     box-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.05);
@@ -38,7 +43,6 @@ export default {
 .block__header {
     display: flex;
     justify-content: space-between;
-    padding: 14px;
     .title {
         font-size: 18px;
         font-weight: 600;
@@ -54,12 +58,7 @@ export default {
     justify-content: space-between;
     flex-wrap: wrap;
     .fund__info {
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        padding: 10px 0 5px 0;
-        background: #ffffff;
+        margin-top: 14px;
         box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
         border-radius: 2px;
     }
@@ -69,8 +68,7 @@ export default {
     }
     .name {
         padding-top: 3px;
-        width: 83px;
-        height: 31px;
+        text-align: center;
     }
 }
 </style>

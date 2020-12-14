@@ -1,8 +1,4 @@
 export const Introducelit = {
-    fundCompanyName: {
-        label: '基金公司',
-        value: ''
-    },
     fundNameCn: {
         label: '基金名称',
         value: ''

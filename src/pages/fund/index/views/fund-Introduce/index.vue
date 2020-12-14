@@ -11,15 +11,14 @@
             title-active-color="#2F79FF")
                 van-tab(:title="$t('list')['fundIntroduce'].label" :name="0")
                     .fund-introduce-content(v-if="active===0")
-                        .fund-company-wrapper(@click="toFundCompany")
-                            .left
-                                .log
-                                    img(:src="companyInfo.logUrl")
-                                .content 
-                                    p.name {{companyInfo.name}}
-                                    p.desc {{companyInfo.longName}}
-                            .right
-                                span.iconfont.icon-iconEBgengduoCopy
+                        .fund-introduce-company
+                            .name {{$t('fundCompany')}}
+                            .content
+                                .left
+                                    img(:src="companyInfo.iconUrl")
+                                    .desc {{companyInfo.fundCompanyName}}
+                                .right(@click="toFundCompany")
+                                    span.iconfont.icon-iconEBgengduoCopy
                         .fund-introduce-list(
                             v-for="(item,index) of list"
                             :class="[item.flag == 2 ? 'activelist':'']"
@@ -89,8 +88,7 @@ import fundManager from './fund-manager'
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import {
     getFundDetail,
-    getFundManagerData,
-    getListFundCompany
+    getFundManagerData
 } from '@/service/finance-info-server.js'
 import Vue from 'vue'
 import { List, Row, Col } from 'vant'
@@ -149,23 +147,9 @@ export default {
                 }
             }
         },
-        async getListFundCompany() {
-            try {
-                const data = await getListFundCompany({
-                    company: this.companyId
-                })
-                this.companyInfo = data.list[0]
-                let url = await getCosUrl(this.companyInfo.logUrl)
-                this.companyInfo.logUrl = url
-            } catch (e) {
-                if (e.msg) {
-                    this.$alert(e.msg)
-                }
-            }
-        },
         toFundCompany() {
             let params = getUaValue('langType')
-            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-company?id=${this.companyInfo.companyId}`
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-company-detail?id=${this.companyInfo.companyId}`
             jumpUrl(3, url)
         },
         async initState() {
@@ -219,6 +203,11 @@ export default {
                         ? this.$refs.content.map(item => item.offsetHeight)
                         : []
                 })
+                let url = await getCosUrl(fundOverviewInfoVO.iconUrl)
+                this.companyInfo.iconUrl = url
+                this.companyInfo.fundCompanyName =
+                    fundOverviewInfoVO.fundCompanyName
+                this.companyInfo.companyId = fundOverviewInfoVO.companyId
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }

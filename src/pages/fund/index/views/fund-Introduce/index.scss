@@ -227,3 +227,31 @@
         }
     }
 }
+.fund-introduce-company {
+    display: flex;
+    flex-direction: column;
+    padding: 5px 10px;
+    .name {
+        width: 100px;
+        color: $text-color5;
+    }
+    .content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 10px;
+        .left {
+            display: flex;
+            line-height: 20px;
+            align-items: center;
+        }
+        .desc {
+            margin-left: 10px;
+            line-height: 20px;
+        }
+    }
+    img {
+        width: 102px;
+        height: 57px;
+    }
+}

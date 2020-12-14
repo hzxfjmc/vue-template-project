@@ -231,8 +231,7 @@ import {
     getFundApyPointV1,
     getFundNetPriceHistoryV1,
     getFundRecommendList,
-    getFundFeeConfigV1,
-    getListFundCompany
+    getFundFeeConfigV1
 } from '@/service/finance-info-server.js'
 import {
     getGroupAction,
@@ -614,28 +613,6 @@ export default {
                     this.appType.Ch ? 1 : 2
                 }#/fund-details?id=${this.$route.query.id}`
             )
-        },
-        async getListFundCompany() {
-            try {
-                let data = await getListFundCompany({
-                    companyId: this.companyId
-                })
-                this.companyInfo = data.list[0]
-                this.companyInfo.name = this.$t([
-                    this.ompanyInfo.companySampleNameCn,
-                    this.companyInfo.companySampleNameHk,
-                    this.companyInfo.companySampleNameEn
-                ])
-                this.companyInfo.longName = this.$t([
-                    this.ompanyInfo.companyNameCn,
-                    this.companyInfo.companyNameHk,
-                    this.companyInfo.companyNameEn
-                ])
-                let url = await getCosUrl(this.companyInfo.iconUrl)
-                this.companyInfo.logUrl = url
-            } catch (e) {
-                this.message.error(e.msg || '网络开小差了，请稍后再试')
-            }
         },
         async getFundFeeConfig() {
             try {
@@ -1057,7 +1034,6 @@ export default {
                 this.fundTradeInfoVO.assetType = res.fundHeaderInfoVO.assetType
                 this.fundRiskType = res.fundOverviewInfoVO.fundRiskType
                 this.fundOverviewInfoVO.currencyName = this.fundOverviewInfoVO.currency.name
-                this.companyId = this.fundHeaderInfoVO.companyId
                 //赎回按钮是否置灰
                 this.flag =
                     (this.fundOverviewInfoVO.tradeAuth & 2) > 0 ? true : false
@@ -1081,6 +1057,12 @@ export default {
                 )
                 this.benchmarkNameObj = res.benchmarkName
                 this.displayBenchmark = res.displayBenchmark
+                // 基金公司信息
+                this.companyId = this.fundOverviewInfoVO.companyId
+                let url = await getCosUrl(this.fundOverviewInfoVO.iconUrl)
+                this.companyInfo.iconUrl = url
+                this.companyInfo.fundCompanyName = this.fundOverviewInfoVO.fundCompanyName
+                this.companyInfo.companyId = this.fundOverviewInfoVO.companyId
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)

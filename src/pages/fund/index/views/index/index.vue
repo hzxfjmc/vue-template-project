@@ -85,14 +85,22 @@
                 .main(slot="main")
                     .block__content(v-for="item in formFilterList" :key="item.key")
                         .title {{$t(item.label)}}
-                        .btn__list
+                        .btn__list(v-if="item.label !== 'fundCompany'")
                             .btn--item(
                                 v-for="(obj,index) in item.btnList"
                                 :key="index"
                                 @click="handleChoose(obj, item)"
                                 :class="[form[item.label].includes(obj.val) ? 'active': '',]"
                             )
-                                span(:class="{en:isEn}") {{['establishYears', 'companyList'].includes(item.label) ? obj.key : $t(obj.key)}}
+                                span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
+                        .btn__list(v-else)
+                              .btn--item(
+                                v-for="(obj,index) in companyList"
+                                :key="index"
+                                @click="handleChoose(obj, item)"
+                                :class="[form[item.label].includes(obj.val) ? 'active': '',]"
+                            )
+                                span(:class="{en:isEn}") {{obj.label}}
                 .bottom(slot="bottom")
                     .block__bottom(:class="{bottom : isPhoneX}")
                         van-button.left(@click="handleReset") {{$t('reset')}}
@@ -315,8 +323,7 @@ export default {
                     ]
                 },
                 {
-                    label: 'fundCompany',
-                    btnList: this.companyList
+                    label: 'fundCompany'
                 }
             ]
         }
@@ -337,6 +344,7 @@ export default {
         this.assetType = this.$route.query.type
         this.currency = this.$route.query.currency
         this.getFundListV2()
+        this.getListFundCompany()
         window.clickSearchCallBack = () => {
             jsBridge.gotoNativeModule('yxzq_goto://search')
         }
@@ -417,7 +425,7 @@ export default {
                 riskLevel: [],
                 establishYears: [],
                 dividendType: [],
-                companyList: []
+                fundCompany: []
             },
             companyList: [],
             assetType: '',
@@ -570,8 +578,8 @@ export default {
             // 基金公司
             this.filterList = this.filterList.filter(item => {
                 if (
-                    this.form.companyList.length == 0 ||
-                    this.form.companyList.includes(item.companyId)
+                    this.form.fundCompany.length == 0 ||
+                    this.form.fundCompany.includes(item.companyId)
                 ) {
                     return true
                 }
@@ -703,15 +711,21 @@ export default {
         // 获得基金公司列表
         async getListFundCompany() {
             try {
-                let data = await getListFundCompany()
-                this.companyList = data.list.map(item => {
-                    return {
-                        key: item.companySampleNameCn,
-                        val: item.companyId
-                    }
+                let data = await getListFundCompany({
+                    pageNum: 1,
+                    pageSize: 20
+                })
+                this.companyList = data.list
+                this.companyList.forEach(item => {
+                    item.label = this.$t([
+                        item.companySampleNameCn,
+                        item.companySampleNameHk,
+                        item.companySampleNameEn
+                    ])
+                    item.val = item.companyId
                 })
             } catch (e) {
-                this.message.error(e.msg || '网络开小差了，请稍后再试')
+                this.$toast(e.msg)
             }
         },
         goNext(fundId, name) {

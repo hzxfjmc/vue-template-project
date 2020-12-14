@@ -2,15 +2,16 @@
     .fund-company-detail
         .fund-company
             .block__header
-                .log
-                    img(:src="companyInfo.logUrl")
-                .name {{companyInfo.longName}}
-            .block__content
-                .desc(:class="{all: !showMore}") PImco太平洋投资管理有限公司由被称为业界称作债券之王的比尔·格罗斯（Bill Gross）创建。PIMCO公司主要业务包括洋投资管理有限公司由洋投资管理有洋投资管理有限公司限管理有限公司限
-                .btn(@click="showMore=!showMore") {{showMore ? '展开' : '收起'}}
+                .log(v-if="companyInfo.iconUrl")
+                    img(:src="companyInfo.iconUrl")
+                .name {{companyInfo.desc}}
+            .block__content(ref="desc")
+                .desc(:class="{all: !showMore}") {{companyInfo.desc}}
+                .btn(@click="showMore=!showMore" v-if="showOpen") {{showMore ? '展开' : '收起'}}
         .bond-index-wrapper
             .yx-scroll-container(
                 :class="{bottom: isPhoneX}"
+                :style="{'margin-top': headerHeight}"
             )
                 .scroll-header.border-bottom(:class="{'small-font': isEn}")
                     .scroll-header__fixed {{$t('A111')}}
@@ -32,6 +33,7 @@
                             .scroll-main__fiexed--item.border-bottom(
                                 v-for="itemObj in filterList"
                                 @click="goNext(itemObj.fundId, itemObj.fundName || itemObj.title)"
+                                :key="itemObj.fundId"
                             ) 
                                 .fund-name.ellipse
                                     span.ellipse {{itemObj.fundName}}
@@ -76,6 +78,8 @@
                     .no-bond {{ $t('noFund') }}
 </template>
 <script>
+import { getListFundCompany } from '@/service/finance-info-server'
+import { getCosUrl } from '@/utils/cos-utils'
 import { getFundListV2 } from '@/service/finance-info-server.js'
 import { jumpUrl, debounce } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
@@ -127,9 +131,11 @@ export default {
     },
     created() {
         this.getFundListV2()
+        this.getListFundCompany()
     },
     data() {
         return {
+            showOpen: false,
             companyInfo: {},
             showMore: true,
             headerList: {
@@ -179,7 +185,8 @@ export default {
             filterList: [],
             pageNum: 1,
             pageSize: 1000,
-            total: 0
+            total: 0,
+            headerHeight: '0px'
         }
     },
     mounted() {
@@ -215,9 +222,34 @@ export default {
                 this.flag === 'header' && mainScroll.scrollTo(pos.x, 0)
             })
         })
-        this.getFundListV2()
     },
     methods: {
+        async getListFundCompany() {
+            try {
+                let data = await getListFundCompany({
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize,
+                    companyId: this.$route.query.id || ''
+                })
+                this.companyInfo = data ? data.list[0] : {}
+                const url = await getCosUrl(this.companyInfo.iconUrl)
+                this.companyInfo.iconUrl = url
+                this.companyInfo.desc = this.$t([
+                    this.companyInfo.companyNameCn,
+                    this.companyInfo.companyNameCn,
+                    this.companyInfo.companyNameCn
+                ])
+                this.$nextTick(() => {
+                    let height = this.$refs.desc.clientHeight
+                    this.headerHeight = `${height + 118}px`
+                    if (height > 112) {
+                        this.showOpen = true
+                    }
+                })
+            } catch (e) {
+                this.$toast(e.msg || '网络开小差了,请稍后重试')
+            }
+        },
         handlerSort(key) {
             if (this.sortMap[key] === 0) {
                 for (let obj in this.sortMap) {
@@ -331,7 +363,6 @@ $global-padding: 30px;
 
 .yx-scroll-container {
     position: relative;
-    top: 220px;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -448,23 +479,38 @@ $global-padding: 30px;
     }
 }
 .fund-company {
+    width: 100%;
     position: fixed;
     z-index: 1000;
     .block__header {
+        display: flex;
+        padding: 30px 0 0 12px;
         width: 100%;
         height: 147px;
         background: url('~@/assets/img/fund/fund_company_bg.png');
         background-size: 100% 100%;
         background-repeat: no-repeat;
+        .name {
+            padding-top: 14px;
+            font-weight: 600;
+            color: #ffffff;
+            line-height: 25px;
+            font-size: 18px;
+        }
+        img {
+            width: 102px;
+            height: 57px;
+        }
     }
     .block__content {
+        width: 100%;
         position: relative;
         display: flex;
         top: -35px;
-        width: 100%;
         padding: 20px 14px;
         background: linear-gradient(180deg, #f3f3f3 0%, #ffffff 100%);
         border-radius: 10px 10px 0px 0px;
+        border-bottom: 6px solid rgba(25, 25, 25, 0.05);
         .desc {
             width: 93%;
             line-height: 24px;

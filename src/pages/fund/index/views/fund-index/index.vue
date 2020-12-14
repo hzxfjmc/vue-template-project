@@ -98,7 +98,7 @@ div
                             img(:src="item.imgUrl")
                             span {{item.label}}
                             .new(v-if="item.key === 'cashPlus'") new
-                            .red-point(v-else)
+                            .red-point(v-if="showRedPointList[index]")
                 .block-bannar-sub-swiper.second__bannar.block__bannar__Tab(v-if="barnnarList1.length !== 0")
                         van-swipe(:autoplay="3000")
                             van-swipe-item(
@@ -184,6 +184,7 @@ div
             a(href="javascript:void(0);" @click="toDeclareAgreement") {{$t('bottomHref')}}
 </template>
 <script>
+import { getCosUrl } from '@/utils/cos-utils'
 import './index.scss'
 import { Swipe, SwipeItem } from 'vant'
 import FundList from './fund-list'
@@ -192,7 +193,8 @@ import {
     getFundHomepageInfo,
     getBaoFundInfo,
     getFundSimpleInfoList,
-    getBaoFundList
+    getBaoFundList,
+    getListFundCompany
 } from '@/service/finance-info-server'
 
 import { getFundTotalPosition } from '@/service/finance-server'
@@ -211,6 +213,7 @@ import FundArticle from './fund-article'
 import fundCommonMethods from '../../mixins/fund-common-methods.js'
 import yxSkeleton from '@/components/yx-skeleton'
 import fundCompany from './fund-conpany'
+import dayjs from 'dayjs'
 export default {
     mixins: [fundCommonMethods],
     components: {
@@ -286,6 +289,9 @@ export default {
     },
     data() {
         return {
+            showRedPointList: [false, false, false, false],
+            pageNum: 1,
+            pageSize: 20,
             fundCompanyList: [],
             currencyTab: 0,
             moneyShow: true,
@@ -349,6 +355,30 @@ export default {
         }
     },
     methods: {
+        async getListFundCompany() {
+            try {
+                let data = await getListFundCompany({
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize
+                })
+                this.fundCompanyList = data.list || []
+                this.fundCompanyList.forEach(async item => {
+                    let url = await getCosUrl(item.iconUrl)
+                    item.iconUrl = url
+                })
+                const showRedPonitCompany =
+                    this.fundCompanyList[this.fundCompanyList.length - 1]
+                        .createTime >
+                    dayjs(new Date())
+                        .add(1, 'day')
+                        .format('YYYY-MM-DD HH:mm:ss')
+                if (showRedPonitCompany) {
+                    this.showRedPointList[2] = true
+                }
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         //获取用户信息
         async getFundUserInfo() {
             try {
@@ -812,6 +842,7 @@ export default {
         }
     },
     async created() {
+        this.getListFundCompany()
         this.getBaoFundInfo()
         this.getBaoFundList()
         this.moneyShow = LS.get('showMoney')

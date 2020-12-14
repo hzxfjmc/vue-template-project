@@ -21,15 +21,13 @@
             .block__fund--title {{$t('dividend')}}
             .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
                 i.iconfont.icon-iconEBgengduoCopy
-        .block__fund-info(@click="toFundCompany")
-            .left
-                .log
-                    img(:src="companyInfo.logUrl")
-                .content 
-                    p.name {{companyInfo.name}}
-                    p.desc {{companyInfo.longName}}
-            .right
-                span.iconfont.icon-iconEBgengduoCopy
+        .fund-introduce-company(@click="toFundCompanyDetail")
+            .content
+                .left
+                    img(:src="companyInfo.iconUrl")
+                    .desc 哈哈哈哈哈哈哈哈哈
+                .right(@click="toFundCompany")
+                    span.iconfont.icon-iconEBgengduoCopy
             
             
 
@@ -157,9 +155,9 @@ export default {
             let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}&active=${val}`
             jumpUrl(3, url)
         },
-        toFundCompany() {
+        toFundCompanyDetail() {
             let params = getUaValue('langType')
-            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-company?id=${this.companyInfo.companyId}`
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-company-detail?id=${this.companyInfo.companyId}`
             jumpUrl(3, url)
         },
         async getFundManagerData() {
@@ -248,39 +246,25 @@ export default {
         }
     }
 }
-.block__fund-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px;
-    .log {
-        width: 102px;
-        height: 52px;
-        padding: 12px;
-        background: #ffffff;
-        box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
-        border-radius: 2px;
-        img {
-            width: 83px;
-            height: 31px;
-        }
-    }
+.fund-introduce-company {
     .content {
-        .name {
-            font-weight: 600;
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left {
+            display: flex;
             line-height: 20px;
+            align-items: center;
         }
         .desc {
-            padding-left: 15px;
-            font-size: 12px;
-            color: $text-color5;
+            margin-left: 15px;
+            line-height: 20px;
         }
     }
-    .right {
-        span {
-            font-size: 14px;
-            color: #666666;
-        }
+    img {
+        width: 102px;
+        height: 57px;
     }
 }
 </style>

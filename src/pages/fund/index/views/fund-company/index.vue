@@ -1,12 +1,17 @@
 <template lang="pug">
     .fund-company
-        .log(v-for="item in fundCompanyList")
-            img(:src="item.iconUrl")
+        .log(
+            v-for="item in fundCompanyList" 
+            @click="toFundCompanyDetail(item.companyId)"
+            :key="item.companyId"
+        )
+            img(:src="item.iconUrl" v-if="item.iconUrl")
             .name {{$t([item.companySampleNameCn, item.companySampleNameHk, item.companySampleNameEn])}}
 </template>
 <script>
 import { getListFundCompany } from '@/service/finance-info-server'
 import { getCosUrl } from '@/utils/cos-utils'
+import { jumpUrl } from '@/utils/tools'
 export default {
     name: 'fund-company',
     data() {
@@ -27,7 +32,7 @@ export default {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
-                this.fundCompanyList = data.list.concat(data.list)
+                this.fundCompanyList = data.list
                 this.total = data.total
                 this.fundCompanyList.forEach(async item => {
                     let url = await getCosUrl(item.iconUrl)
@@ -36,11 +41,15 @@ export default {
             } catch (e) {
                 this.$toast(e.msg || '网络开小差了,请稍后重试')
             }
+        },
+        toFundCompanyDetail(id) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-company-detail?id=${id}`
+            jumpUrl(3, url)
         }
     }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 .fund-company {
     height: 100%;
     padding: 20px 12px;
