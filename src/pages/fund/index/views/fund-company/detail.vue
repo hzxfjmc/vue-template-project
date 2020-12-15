@@ -2,18 +2,18 @@
     .fund-company-detail
         .fund-company
             .block__header
-                .log(v-if="companyInfo.iconUrl")
+                .logo(v-if="companyInfo.iconUrl")
                     img(:src="companyInfo.iconUrl")
-                .name {{companyInfo.desc}}
+                .name {{companyInfo.longName}}
             .block__content(ref="desc")
                 .desc(:class="{all: !showMore}") {{companyInfo.desc}}
-                .btn(@click="showMore=!showMore" v-if="showOpen") {{showMore ? '展开' : '收起'}}
-        .bond-index-wrapper
+                .btn(@click="handleClickOpen" v-if="showOpen") {{showMore ? '展开' : '收起'}}
+        .bond-index-wrapper(v-show="filterList && filterList.length > 0")
             .yx-scroll-container(
                 :class="{bottom: isPhoneX}"
                 :style="{'margin-top': headerHeight}"
             )
-                .scroll-header.border-bottom(:class="{'small-font': isEn}")
+                .scroll-header.border-bottom(:class="{'small-font': isEn}" v-show="headerHeight")
                     .scroll-header__fixed {{$t('A111')}}
                     .scroll-header__scroll(ref="headerScroll")
                         ul.scroll-header__scroll--content
@@ -74,8 +74,11 @@
                                             :class="{en:isEn}"
                                             v-else
                                         ) {{item[key] || '--'}}
-                .no-bond-box(v-if="load")
-                    .no-bond {{ $t('noFund') }}
+        .no-bond-box(v-if="load")
+            .no-bond {{ $t('noFund') }}
+        .view-all(@click="toFundList" v-if="load || this.filterList.length")
+            span {{$t('viewAll')}}
+            span.iconfont.icon-iconEBgengduoCopy
 </template>
 <script>
 import { getListFundCompany } from '@/service/finance-info-server'
@@ -90,13 +93,22 @@ import { getStockColorType } from '@/utils/html-utils.js'
 export default {
     i18n: {
         zhCHS: {
-            noFund: '暂无基金'
+            noFund: '暂无基金',
+            HKD: '港币',
+            USD: '美元',
+            viewAll: '查看全部基金'
         },
         zhCHT: {
-            noFund: '暫無基金'
+            noFund: '暫無基金',
+            HKD: '港幣',
+            USD: '美元',
+            viewAll: '查看全部基金'
         },
         en: {
-            noFund: 'No Data'
+            noFund: 'No Data',
+            HKD: 'HKD',
+            USD: 'USD',
+            viewAll: 'view all fund'
         }
     },
     filters: {
@@ -186,7 +198,7 @@ export default {
             pageNum: 1,
             pageSize: 1000,
             total: 0,
-            headerHeight: '0px'
+            headerHeight: ''
         }
     },
     mounted() {
@@ -234,21 +246,38 @@ export default {
                 this.companyInfo = data ? data.list[0] : {}
                 const url = await getCosUrl(this.companyInfo.iconUrl)
                 this.companyInfo.iconUrl = url
+                this.companyInfo.longName = this.$t([
+                    this.companyInfo.companyNameCn,
+                    this.companyInfo.companyNameHk,
+                    this.companyInfo.companyNameEn
+                ])
                 this.companyInfo.desc = this.$t([
-                    this.companyInfo.companyNameCn,
-                    this.companyInfo.companyNameCn,
-                    this.companyInfo.companyNameCn
+                    this.companyInfo.companyProfileCn,
+                    this.companyInfo.companyProfileHk,
+                    this.companyInfo.companyProfileEn
                 ])
                 this.$nextTick(() => {
                     let height = this.$refs.desc.clientHeight
                     this.headerHeight = `${height + 118}px`
-                    if (height > 112) {
+
+                    if (height >= 112) {
                         this.showOpen = true
                     }
                 })
             } catch (e) {
                 this.$toast(e.msg || '网络开小差了,请稍后重试')
             }
+        },
+        handleClickOpen() {
+            this.showMore = !this.showMore
+            this.$nextTick(() => {
+                let height = this.$refs.desc.clientHeight
+                this.headerHeight = `${height + 118}px`
+            })
+        },
+        toFundList() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/index?type=`
+            jumpUrl(3, url)
         },
         handlerSort(key) {
             if (this.sortMap[key] === 0) {
@@ -307,8 +336,11 @@ export default {
                 this.list.sort((a, b) => {
                     return b.threeYear - a.threeYear
                 })
-                this.filterList = this.list
-                this.load = this.list.length == 0
+                this.filterList = this.list.filter(
+                    item => item.companyId === this.$route.query.id
+                    // item => item.companyId === 4
+                )
+                this.load = this.filterList.length == 0
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getListFundInfo:error:>>>', e)
@@ -342,22 +374,22 @@ $global-padding: 30px;
         line-height: 17px;
         text-align: center;
     }
-    .no-bond-box {
-        padding-top: 150px;
-        .no-bond {
-            width: 130px;
-            height: 120px;
-            margin: 0 auto;
-            padding-top: 100px;
-            background: url('~@/assets/img/bond/icon-nobond.png') center 15px
-                no-repeat;
-            background-size: 110px;
-            color: $text-color3;
-            font-size: 0.28rem;
-            line-height: 20px;
-            text-align: center;
-            box-sizing: border-box;
-        }
+}
+.no-bond-box {
+    padding-top: 300px;
+    .no-bond {
+        width: 130px;
+        height: 120px;
+        margin: 0 auto;
+        padding-top: 100px;
+        background: url('~@/assets/img/bond/icon-nobond.png') center 15px
+            no-repeat;
+        background-size: 110px;
+        color: $text-color3;
+        font-size: 0.28rem;
+        line-height: 20px;
+        text-align: center;
+        box-sizing: border-box;
     }
 }
 
@@ -379,7 +411,7 @@ $global-padding: 30px;
         font-weight: 400;
         line-height: 20px;
         font-size: 14px;
-        z-index: 999;
+        z-index: 1001;
         &.small-font {
             font-size: 12px;
         }
@@ -482,6 +514,7 @@ $global-padding: 30px;
     width: 100%;
     position: fixed;
     z-index: 1000;
+    overflow: hidden;
     .block__header {
         display: flex;
         padding: 30px 0 0 12px;
@@ -490,16 +523,24 @@ $global-padding: 30px;
         background: url('~@/assets/img/fund/fund_company_bg.png');
         background-size: 100% 100%;
         background-repeat: no-repeat;
+        .logo {
+            width: 102px;
+            height: 52px;
+            padding: 8px;
+            background: #fff;
+            border-radius: 2px;
+        }
         .name {
-            padding-top: 14px;
+            height: 25px;
+            margin: 14px 0 0 12px;
             font-weight: 600;
             color: #ffffff;
             line-height: 25px;
             font-size: 18px;
         }
         img {
-            width: 102px;
-            height: 57px;
+            width: 86px;
+            height: 37px;
         }
     }
     .block__content {
@@ -530,6 +571,18 @@ $global-padding: 30px;
             font-size: 12px;
             align-items: flex-end;
         }
+    }
+}
+.view-all {
+    text-align: center;
+    margin: 25px;
+    color: rgba(25, 25, 25, 0.3);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 17px;
+    .iconfont {
+        font-size: 12px;
+        padding-left: 2px;
     }
 }
 .number-red {

@@ -21,12 +21,13 @@
             .block__fund--title {{$t('dividend')}}
             .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
                 i.iconfont.icon-iconEBgengduoCopy
-        .fund-introduce-company(@click="toFundCompanyDetail")
+        .fund-introduce-company
             .content
                 .left
-                    img(:src="companyInfo.iconUrl")
-                    .desc 哈哈哈哈哈哈哈哈哈
-                .right(@click="toFundCompany")
+                    .logo 
+                        img(:src="companyInfo.iconUrl")
+                    .desc {{companyInfo.fundCompanyName}}
+                .right(@click="toFundCompanyDetail")
                     span.iconfont.icon-iconEBgengduoCopy
             
             
@@ -261,10 +262,18 @@ export default {
             margin-left: 15px;
             line-height: 20px;
         }
+        .logo {
+            width: 102;
+            height: 52px;
+            padding: 8px;
+            background: #fff;
+            box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
+            border-radius: 2px;
+        }
     }
     img {
-        width: 102px;
-        height: 57px;
+        width: 86px;
+        height: 37px;
     }
 }
 </style>

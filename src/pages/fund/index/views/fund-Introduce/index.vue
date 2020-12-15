@@ -15,7 +15,8 @@
                             .name {{$t('fundCompany')}}
                             .content
                                 .left
-                                    img(:src="companyInfo.iconUrl")
+                                    .logo
+                                        img(:src="companyInfo.iconUrl")
                                     .desc {{companyInfo.fundCompanyName}}
                                 .right(@click="toFundCompany")
                                     span.iconfont.icon-iconEBgengduoCopy
@@ -221,7 +222,7 @@ export default {
             }
         }
     },
-    mounted() {
+    created() {
         this.active = this.$route.query.active
         this.initState()
         this.initIn18State()

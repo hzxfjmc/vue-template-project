@@ -213,7 +213,6 @@ import FundArticle from './fund-article'
 import fundCommonMethods from '../../mixins/fund-common-methods.js'
 import yxSkeleton from '@/components/yx-skeleton'
 import fundCompany from './fund-conpany'
-import dayjs from 'dayjs'
 export default {
     mixins: [fundCommonMethods],
     components: {
@@ -363,18 +362,14 @@ export default {
                 })
                 this.fundCompanyList = data.list || []
                 this.fundCompanyList.forEach(async item => {
+                    if (item.hasNewPublishedFund) {
+                        // 如果有新的基金发版显示基金筛选和基金公司的红点
+                        this.showRedPointList[0] = true
+                        this.showRedPointList[1] = true
+                    }
                     let url = await getCosUrl(item.iconUrl)
                     item.iconUrl = url
                 })
-                const showRedPonitCompany =
-                    this.fundCompanyList[this.fundCompanyList.length - 1]
-                        .createTime >
-                    dayjs(new Date())
-                        .add(1, 'day')
-                        .format('YYYY-MM-DD HH:mm:ss')
-                if (showRedPonitCompany) {
-                    this.showRedPointList[2] = true
-                }
             } catch (e) {
                 this.$toast(e.msg)
             }

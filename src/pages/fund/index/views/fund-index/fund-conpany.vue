@@ -6,8 +6,9 @@
                 span.iconfont.icon-iconEBgengduoCopy
         .block__content
             .fund__info(v-for="item in fundCompanyList" @click="toFundCompanyDetail(item.companyId)")
-                img(:src="item.iconUrl")
-                .name {{$t([item.companySampleNameCn, item.companySampleNameHk, item.companySampleNameEn])}}
+                .logo
+                    img(:src="item.iconUrl")
+                    .name {{$t([item.companySampleNameCn, item.companySampleNameHk, item.companySampleNameEn])}}
 </template>
 <script>
 import { jumpUrl } from '@/utils/tools'
@@ -62,9 +63,16 @@ export default {
         box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
         border-radius: 2px;
     }
-    img {
+    .logo {
         width: 102px;
-        height: 52px;
+        padding: 8px;
+        background: #fff;
+        box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
+        border-radius: 2px;
+    }
+    img {
+        width: 86px;
+        height: 37px;
     }
     .name {
         padding-top: 3px;
