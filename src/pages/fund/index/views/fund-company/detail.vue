@@ -551,7 +551,7 @@ $global-padding: 30px;
         padding: 20px 14px;
         background: linear-gradient(180deg, #f3f3f3 0%, #ffffff 100%);
         border-radius: 10px 10px 0px 0px;
-        border-bottom: 6px solid rgba(25, 25, 25, 0.05);
+        // border-bottom: 6px solid rgba(25, 25, 25, 0.05);
         .desc {
             width: 93%;
             line-height: 24px;
@@ -574,8 +574,10 @@ $global-padding: 30px;
     }
 }
 .view-all {
+    position: relative;
     text-align: center;
-    margin: 25px;
+    margin-top: 20px;
+    bottom: 20px;
     color: rgba(25, 25, 25, 0.3);
     font-weight: 400;
     font-size: 12px;

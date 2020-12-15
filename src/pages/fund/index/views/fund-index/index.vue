@@ -361,6 +361,7 @@ export default {
                     pageSize: this.pageSize
                 })
                 this.fundCompanyList = data.list || []
+                this.fundCompanyList = this.fundCompanyList.slice(0, 3)
                 this.fundCompanyList.forEach(async item => {
                     if (item.hasNewPublishedFund) {
                         // 如果有新的基金发版显示基金筛选和基金公司的红点

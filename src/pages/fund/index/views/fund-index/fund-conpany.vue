@@ -65,7 +65,7 @@ export default {
     }
     .logo {
         width: 102px;
-        padding: 8px;
+        padding: 8px 8px 0 8px;
         background: #fff;
         box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
         border-radius: 2px;
