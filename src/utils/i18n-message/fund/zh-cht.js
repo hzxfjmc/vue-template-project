@@ -199,5 +199,10 @@ export const zhCHT = {
     NET_PRICE: '淨值型',
     DIVIDEND: '分紅型',
     exclusiveArea: '尊享專區',
-    productList: '優質企業IPO錨定基金'
+    productList: '優質企業IPO錨定基金',
+    fundCompany: '基金公司',
+    companyDetail: '公司詳情',
+    viewMore: '查看更多',
+    fundNotic: '基金公告',
+    fundNoticDetail: '基金公告詳情'
 }
