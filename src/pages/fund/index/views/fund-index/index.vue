@@ -95,7 +95,7 @@ div
                             v-for="(item,index) in tabList"
                             :key="index"
                         )
-                            img(:src="item.imgUrl")
+                            img(:src="item.imgUrl" :class="`item-${index+1}`")
                             span {{item.label}}
                             .new(v-if="item.key === 'cashPlus'") new
                             .red-point(v-if="showRedPointList[index]")
