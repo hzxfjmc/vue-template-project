@@ -206,6 +206,6 @@ export const en = {
     fundCompany: 'Fund Company',
     companyDetail: 'Company Detail',
     viewMore: 'More',
-    fundNotic: 'Fund Notic',
-    fundNoticDetail: 'Fund Notic Detail'
+    fundNotic: 'Fund Notice',
+    fundNoticDetail: 'Fund Notice Detail'
 }

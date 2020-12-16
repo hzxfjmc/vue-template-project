@@ -7,7 +7,7 @@
                 .name {{companyInfo.longName}}
             .block__content(ref="desc")
                 .desc(:class="{all: !showMore}") {{companyInfo.desc}}
-                .btn(@click="handleClickOpen" v-if="showOpen") {{showMore ? '展开' : '收起'}}
+                .btn(@click="handleClickOpen" v-if="showOpen") {{showMore ? $t(['展开','展開','More']):$t(['收起','收起','Less'])}}
         .bond-index-wrapper(v-show="filterList && filterList.length > 0")
             .yx-scroll-container(
                 :class="{bottom: isPhoneX}"

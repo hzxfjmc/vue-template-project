@@ -240,6 +240,7 @@ export default {
                     key: 'exclusive',
                     value: 4
                 })
+                this.initI18n()
             }
         }
     },

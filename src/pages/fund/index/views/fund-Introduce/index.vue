@@ -13,12 +13,12 @@
                     .fund-introduce-content(v-if="active===0")
                         .fund-introduce-company
                             .name {{$t('fundCompany')}}
-                            .content
+                            .content(@click="toFundCompany")
                                 .left
                                     .logo
                                         img(:src="companyInfo.iconUrl")
                                     .desc {{companyInfo.fundCompanyName}}
-                                .right(@click="toFundCompany")
+                                .right
                                     span.iconfont.icon-iconEBgengduoCopy
                         .fund-introduce-list(
                             v-for="(item,index) of list"

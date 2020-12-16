@@ -21,13 +21,13 @@
             .block__fund--title {{$t('dividend')}}
             .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
                 i.iconfont.icon-iconEBgengduoCopy
-        .fund-introduce-company
+        .fund-introduce-company(@click="toFundCompanyDetail")
             .content
                 .left
                     .logo 
                         img(:src="companyInfo.iconUrl")
                     .desc {{companyInfo.fundCompanyName}}
-                .right(@click="toFundCompanyDetail")
+                .right
                     span.iconfont.icon-iconEBgengduoCopy
             
             
