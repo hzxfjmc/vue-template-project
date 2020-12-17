@@ -6,7 +6,7 @@
                     img(:src="companyInfo.iconUrl" v-show="companyInfo.show")
                 .name {{companyInfo.longName}}
             .block__content(ref="desc")
-                .desc(:class="{all: !showMore}") {{companyInfo.desc}}
+                .desc(:class="[showMore && showOpen? 'less': 'all']") {{companyInfo.desc}}
                 .btn(@click="handleClickOpen" v-if="showOpen") {{showMore ? $t(['展开','展開','More']):$t(['收起','收起','Less'])}}
         .bond-index-wrapper(v-show="filterList && filterList.length > 0")
             .yx-scroll-container(
@@ -259,7 +259,7 @@ export default {
                 this.$nextTick(() => {
                     let clientHeight = this.$refs.desc.clientHeight
                     // 超出三行显示展开
-                    if (clientHeight >= 112) {
+                    if (clientHeight > 112) {
                         this.showOpen = true
                     }
                 })
@@ -269,10 +269,6 @@ export default {
         },
         handleClickOpen() {
             this.showMore = !this.showMore
-            // this.$nextTick(() => {
-            //     let height = this.$refs.desc.clientHeight
-            //     this.headerHeight = `${height + 112}px`
-            // })
         },
         toFundList() {
             let url = `${window.location.origin}/wealth/fund/index.html#/index?type=`
@@ -552,10 +548,12 @@ $global-padding: 30px;
             line-height: 24px;
             text-align: justify;
             white-space: pre-line;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-            -webkit-line-clamp: 3;
-            overflow: hidden;
+            &.less {
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 3;
+                overflow: hidden;
+            }
             &.all {
                 display: flex;
             }
