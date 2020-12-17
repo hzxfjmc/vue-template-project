@@ -25,7 +25,7 @@
             .content
                 .left
                     .logo 
-                        img(:src="companyInfo.iconUrl")
+                        img(:src="logoUrl")
                     .desc {{companyInfo.fundCompanyName}}
                 .right
                     span.iconfont.icon-iconEBgengduoCopy
@@ -148,6 +148,10 @@ export default {
         companyInfo: {
             type: Object,
             default: () => {}
+        },
+        logoUrl: {
+            type: String,
+            default: ''
         }
     },
     methods: {
@@ -262,9 +266,16 @@ export default {
             margin-left: 15px;
             line-height: 20px;
         }
+        .logo {
+            width: 102px;
+            height: 52px;
+            background: #fff;
+            border-radius: 2px;
+        }
         img {
             width: 102px;
             height: 52px;
+            border-radius: 2px;
         }
     }
 }

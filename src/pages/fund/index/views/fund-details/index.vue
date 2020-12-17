@@ -60,6 +60,7 @@
             :fundOverviewInfoVO="fundOverviewInfoVO"
             :fundCorrelationFileList="fundCorrelationFileList"
             :companyInfo="companyInfo"
+            :logoUrl="logoUrl"
         )
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -465,6 +466,7 @@ export default {
         return {
             companyId: '',
             companyInfo: {},
+            logoUrl: '',
             loading: true,
             swipeShow: false,
             shareHeaderShow: true,
@@ -1060,6 +1062,7 @@ export default {
                 // 基金公司信息
                 this.companyId = this.fundOverviewInfoVO.companyId
                 let url = await getCosUrl(this.fundOverviewInfoVO.iconUrl)
+                this.logoUrl = url
                 this.companyInfo.iconUrl = url
                 this.companyInfo.fundCompanyName = this.fundOverviewInfoVO.fundCompanyName
                 this.companyInfo.companyId = this.fundOverviewInfoVO.companyId
