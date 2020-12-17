@@ -256,14 +256,13 @@ export default {
                 const url = await getCosUrl(this.companyInfo.iconUrl)
                 this.companyInfo.show = true
                 this.companyInfo.iconUrl = url
-                // this.$nextTick(() => {
-                //     let height = this.$refs.desc.clientHeight
-                //     this.headerHeight = `${height + 112}px`
-
-                //     if (height >= 112) {
-                //         this.showOpen = true
-                //     }
-                // })
+                this.$nextTick(() => {
+                    let clientHeight = this.$refs.desc.clientHeight
+                    // 超出三行显示展开
+                    if (clientHeight >= 112) {
+                        this.showOpen = true
+                    }
+                })
             } catch (e) {
                 this.$toast(e.msg || '网络开小差了,请稍后重试')
             }
