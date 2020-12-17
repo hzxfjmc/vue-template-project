@@ -11,9 +11,8 @@
         .bond-index-wrapper(v-show="filterList && filterList.length > 0")
             .yx-scroll-container(
                 :class="{bottom: isPhoneX}"
-                :style="{'margin-top': headerHeight}"
             )
-                .scroll-header.border-bottom(:class="{'small-font': isEn}" v-show="headerHeight")
+                .scroll-header.border-bottom(:class="{'small-font': isEn}")
                     .scroll-header__fixed {{$t('A111')}}
                     .scroll-header__scroll(ref="headerScroll")
                         ul.scroll-header__scroll--content
@@ -257,24 +256,24 @@ export default {
                 const url = await getCosUrl(this.companyInfo.iconUrl)
                 this.companyInfo.show = true
                 this.companyInfo.iconUrl = url
-                this.$nextTick(() => {
-                    let height = this.$refs.desc.clientHeight
-                    this.headerHeight = `${height + 112}px`
+                // this.$nextTick(() => {
+                //     let height = this.$refs.desc.clientHeight
+                //     this.headerHeight = `${height + 112}px`
 
-                    if (height >= 112) {
-                        this.showOpen = true
-                    }
-                })
+                //     if (height >= 112) {
+                //         this.showOpen = true
+                //     }
+                // })
             } catch (e) {
                 this.$toast(e.msg || '网络开小差了,请稍后重试')
             }
         },
         handleClickOpen() {
             this.showMore = !this.showMore
-            this.$nextTick(() => {
-                let height = this.$refs.desc.clientHeight
-                this.headerHeight = `${height + 112}px`
-            })
+            // this.$nextTick(() => {
+            //     let height = this.$refs.desc.clientHeight
+            //     this.headerHeight = `${height + 112}px`
+            // })
         },
         toFundList() {
             let url = `${window.location.origin}/wealth/fund/index.html#/index?type=`
@@ -365,7 +364,6 @@ $max-item-width: 150px;
 $row-height: 60px;
 $global-padding: 30px;
 .bond-index-wrapper {
-    position: relative;
     display: flex;
     flex-direction: column;
     .no-data {
@@ -377,7 +375,7 @@ $global-padding: 30px;
     }
 }
 .no-bond-box {
-    padding-top: 300px;
+    padding-top: 150px;
     .no-bond {
         width: 130px;
         height: 120px;
@@ -395,7 +393,6 @@ $global-padding: 30px;
 }
 
 .yx-scroll-container {
-    position: relative;
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -403,7 +400,8 @@ $global-padding: 30px;
         margin-bottom: 20px;
     }
     .scroll-header {
-        position: fixed;
+        position: sticky;
+        top: 0;
         background: #fff;
         width: 100%;
         display: flex;
@@ -452,7 +450,6 @@ $global-padding: 30px;
         }
     }
     .scroll-main {
-        margin-top: 40px;
         overflow: hidden;
         flex: 1;
         overflow: scroll;
@@ -513,9 +510,8 @@ $global-padding: 30px;
 }
 .fund-company {
     width: 100%;
-    position: fixed;
     z-index: 1000;
-    overflow: hidden;
+    margin-bottom: -29px;
     .block__header {
         display: flex;
         padding: 30px 0 0 12px;
