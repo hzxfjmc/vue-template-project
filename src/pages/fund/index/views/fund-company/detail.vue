@@ -107,7 +107,7 @@ export default {
             noFund: 'No Data',
             HKD: 'HKD',
             USD: 'USD',
-            viewAll: 'view all fund'
+            viewAll: 'check all fund'
         }
     },
     filters: {

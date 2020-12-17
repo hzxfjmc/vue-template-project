@@ -986,12 +986,14 @@ $global-padding: 30px;
         flex-wrap: wrap;
     }
     .btn--item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         margin-top: 10px;
         width: 109px;
         height: 40px;
+        text-align: center;
+        line-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         border-radius: 4px;
         border: 1px solid rgba(25, 25, 25, 0.05);
         &:nth-child(3n + 2) {
