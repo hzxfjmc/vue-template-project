@@ -6,10 +6,10 @@ div
                 .block-hr
                 .block__assets(v-if="isLogin && openedAccount")
                     .block__top
-                        .block__left--label 
+                        .block__left--label
                             span {{$t('protfolloAssets')}}
                             em(
-                                class="iconfont" 
+                                class="iconfont"
                                 @click="hideNumber"
                                 :class="[moneyShow?'icon-icon-eye':'icon-icon-eye-hide']")
                         .block__right(@click="handlerDialog")
@@ -22,11 +22,11 @@ div
                                 .block--element--number.color-black(
                                     v-if="moneyShow") {{currentPostion.positionTotalAmount|transNumToThousandMark}}
                                 .block--element--number.close--eye(v-else) ******
-                                .block--element--select(:class="code != 1? 'color-blue':'color-black'") 
+                                .block--element--select(:class="code != 1? 'color-blue':'color-black'")
                                     span(@click="handlerCurrency") {{currencyTab===0?$t('hkd'):$t('usd')}}
                                     em(class="iconfont icon-iconxiala" @click="handlerCurrency")
                                     .block--master(
-                                        v-if="chooseCurrencyShow" 
+                                        v-if="chooseCurrencyShow"
                                         @click="chooseCurrencyShow = !chooseCurrencyShow")
                                     .block__currey(v-if="chooseCurrencyShow")
                                         span.border-bottom(
@@ -45,8 +45,8 @@ div
                             p.num(
                                 v-if="moneyShow && currentPostion.weekEarnings==0") {{currentPostion.weekEarnings|transNumToThousandMark}}
                             p.num(v-if="!moneyShow") ****
-                    
-                    .block__left__bottom.border-top-left(v-if="!isWhiteUserBit") 
+
+                    .block__left__bottom.border-top-left(v-if="!isWhiteUserBit")
                         .block__bottom--l.border-right-r(@click="toRouterAccount")
                             p {{$t('fund')}}
                                 em.num(
@@ -74,27 +74,27 @@ div
                             p {{$t('descFund')}}
                             p {{$t('descFund1')}}
                         .block--right(
-                            v-if="!isLogin" 
+                            v-if="!isLogin"
                             @click="toRouterAccount")
                             .block--button
                                 span {{$t('LoginNow')}}
                                 em.iconfont.icon-iconEBgengduoCopy
                         .block--right(
-                            v-else 
+                            v-else
                             @click="toRouterAccount")
                             .block--button
                                 span {{$t('OpenAccount')}}
                                 em.iconfont.icon-iconEBgengduoCopy
                     .block__assets--bottom
                         p {{$t('types')}}
-        
+
                 .block__tab
                     .block__tab--list
                         .block__tab--Item(
                             @click="handlerNavItem(item)"
-                            v-for="(item,index) in tabList" 
-                            :key="index") 
-                            img(:src="item.imgUrl1") 
+                            v-for="(item,index) in tabList"
+                            :key="index")
+                            img(:src="item.imgUrl1")
                             span {{item.label}}
                 .block-bannar-sub-swiper.second__bannar.block__bannar__Tab(v-if="barnnarList1.length !== 0")
                         van-swipe(:autoplay="3000")
@@ -134,14 +134,14 @@ div
                             span.iconfont.icon-warning
                     .right(@click="toYxbao")
                         van-button.block--subscribe {{$t('SubsNow')}}
-            
+
             .block-bannar-sub-swiper.block__bannar__Tab(v-if="barnnarList.length !== 0")
-                van-swipe(:autoplay="3000")  
+                van-swipe(:autoplay="3000")
                     van-swipe-item(
-                        v-for="(item, index) in barnnarList" 
+                        v-for="(item, index) in barnnarList"
                         @click="goBanner(item)"
-                        :key="index") 
-                        img(:src="item.picture_url") 
+                        :key="index")
+                        img(:src="item.picture_url")
             FundList(
                 :code = "code"
                 v-if="choiceFundListShow"
@@ -152,8 +152,8 @@ div
                 :title="robustFundList.masterTitle"
                 v-if="robustFundListShow"
                 :fundlist="robustFundList")
-                
-           
+
+
             FundListItem(
                 :code = "code"
                 :fundlist="blueChipFundList"
@@ -165,14 +165,14 @@ div
                 .block-bannar-sub.block__bannar__Tab(
                     slot="swipper"
                     v-if="barnnarUsList.length !== 0")
-                    van-swipe(:autoplay="3000") 
+                    van-swipe(:autoplay="3000")
                         van-swipe-item(
-                            v-for="(item, index) in barnnarUsList" 
-                            :key="index"  
-                            @click="goBanner(item)") 
-                            img(:src="item.picture_url") 
-        
-                        
+                            v-for="(item, index) in barnnarUsList"
+                            :key="index"
+                            @click="goBanner(item)")
+                            img(:src="item.picture_url")
+
+
         .block__bottom--p
             img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
             p {{$t('bottomMsg')}}
@@ -228,7 +228,7 @@ export default {
                 this.tabList.push({
                     imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
                     imgUrl1: require('@/assets/img/fund/icon_pi.png'),
-                    label: '尊享型',
+                    label: this.$t(['尊享型', '專享型', 'Exclusive']),
                     key: 'exclusive',
                     value: '5'
                 })
