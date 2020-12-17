@@ -33,7 +33,17 @@ export default {
                     pageNum: this.pageNum,
                     pageSize: this.pageSize
                 })
-                this.fundCompanyList = data.list
+                this.fundCompanyList = data.list.sort((a, b) => {
+                    if (this.$i18n.lang === 'en') {
+                        return a.companySampleNameEn.localeCompare(
+                            b.companySampleNameEn
+                        )
+                    } else {
+                        return a.companySampleNameCn.localeCompare(
+                            b.companySampleNameCn
+                        )
+                    }
+                })
                 this.total = data.total
                 this.fundCompanyList.forEach(async item => {
                     let url = await getCosUrl(item.iconUrl)
