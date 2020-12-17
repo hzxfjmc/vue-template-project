@@ -163,7 +163,9 @@ div
                 :title="blueChipFundList.masterTitle"
                 v-if="blueChipFundListShow"
                 :bgColor="code != 1 ? '#2B4F80':'#2F79FF'")
-
+            fundCompany(
+                :fundCompanyList="fundCompanyList"
+            )
             FundArticle
                 .block-bannar-sub.block__bannar__Tab(
                     slot="swipper"
@@ -174,10 +176,6 @@ div
                             :key="index"
                             @click="goBanner(item)")
                             img(:src="item.picture_url")
-
-            fundCompany(
-                :fundCompanyList="fundCompanyList"
-            )
         .block__bottom--p
             img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
             p {{$t('bottomMsg')}}
@@ -370,6 +368,7 @@ export default {
                         this.showRedPointList[1] = true
                     }
                     let url = await getCosUrl(item.iconUrl)
+                    item.show = true
                     item.iconUrl = url
                 })
             } catch (e) {

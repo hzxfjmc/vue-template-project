@@ -1063,6 +1063,7 @@ export default {
                 this.companyInfo.iconUrl = url
                 this.companyInfo.fundCompanyName = this.fundOverviewInfoVO.fundCompanyName
                 this.companyInfo.companyId = this.fundOverviewInfoVO.companyId
+                console.log(this.companyInfo)
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)

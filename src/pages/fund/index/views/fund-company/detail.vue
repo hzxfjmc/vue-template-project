@@ -2,8 +2,8 @@
     .fund-company-detail
         .fund-company
             .block__header
-                .logo(v-if="companyInfo.iconUrl")
-                    img(:src="companyInfo.iconUrl")
+                .logo
+                    img(:src="companyInfo.iconUrl" v-show="companyInfo.show")
                 .name {{companyInfo.longName}}
             .block__content(ref="desc")
                 .desc(:class="{all: !showMore}") {{companyInfo.desc}}
@@ -244,8 +244,6 @@ export default {
                     companyId: this.$route.query.id || ''
                 })
                 this.companyInfo = data ? data.list[0] : {}
-                const url = await getCosUrl(this.companyInfo.iconUrl)
-                this.companyInfo.iconUrl = url
                 this.companyInfo.longName = this.$t([
                     this.companyInfo.companyNameCn,
                     this.companyInfo.companyNameHk,
@@ -256,9 +254,12 @@ export default {
                     this.companyInfo.companyProfileHk,
                     this.companyInfo.companyProfileEn
                 ])
+                const url = await getCosUrl(this.companyInfo.iconUrl)
+                this.companyInfo.show = true
+                this.companyInfo.iconUrl = url
                 this.$nextTick(() => {
                     let height = this.$refs.desc.clientHeight
-                    this.headerHeight = `${height + 118}px`
+                    this.headerHeight = `${height + 112}px`
 
                     if (height >= 112) {
                         this.showOpen = true
@@ -272,7 +273,7 @@ export default {
             this.showMore = !this.showMore
             this.$nextTick(() => {
                 let height = this.$refs.desc.clientHeight
-                this.headerHeight = `${height + 118}px`
+                this.headerHeight = `${height + 112}px`
             })
         },
         toFundList() {
@@ -523,13 +524,6 @@ $global-padding: 30px;
         background: url('~@/assets/img/fund/fund_company_bg.png');
         background-size: 100% 100%;
         background-repeat: no-repeat;
-        .logo {
-            width: 102px;
-            height: 52px;
-            padding: 8px;
-            background: #fff;
-            border-radius: 2px;
-        }
         .name {
             height: 25px;
             margin: 14px 0 0 12px;
@@ -538,9 +532,15 @@ $global-padding: 30px;
             line-height: 25px;
             font-size: 18px;
         }
+        .logo {
+            width: 102px;
+            height: 52px;
+            background: #fff;
+        }
         img {
-            width: 86px;
-            height: 37px;
+            width: 102px;
+            height: 52px;
+            border-radius: 2px;
         }
     }
     .block__content {
@@ -576,7 +576,7 @@ $global-padding: 30px;
 .view-all {
     position: relative;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
     bottom: 20px;
     color: rgba(25, 25, 25, 0.3);
     font-weight: 400;

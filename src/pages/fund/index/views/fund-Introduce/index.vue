@@ -16,7 +16,7 @@
                             .content(@click="toFundCompany")
                                 .left
                                     .logo
-                                        img(:src="companyInfo.iconUrl")
+                                        img(:src="logoUrl" v-if="logoUrl")
                                     .desc {{companyInfo.fundCompanyName}}
                                 .right
                                     span.iconfont.icon-iconEBgengduoCopy
@@ -121,7 +121,8 @@ export default {
             managerList: [],
             contentHeight: [],
             currencyName: '',
-            otherList: JSON.parse(JSON.stringify(otherList))
+            otherList: JSON.parse(JSON.stringify(otherList)),
+            logoUrl: ''
         }
     },
     methods: {
@@ -205,7 +206,7 @@ export default {
                         : []
                 })
                 let url = await getCosUrl(fundOverviewInfoVO.iconUrl)
-                this.companyInfo.iconUrl = url
+                this.logoUrl = url
                 this.companyInfo.fundCompanyName =
                     fundOverviewInfoVO.fundCompanyName
                 this.companyInfo.companyId = fundOverviewInfoVO.companyId
@@ -222,7 +223,7 @@ export default {
             }
         }
     },
-    created() {
+    mounted() {
         this.active = this.$route.query.active
         this.initState()
         this.initIn18State()

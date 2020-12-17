@@ -262,18 +262,10 @@ export default {
             margin-left: 15px;
             line-height: 20px;
         }
-        .logo {
-            width: 102;
+        img {
+            width: 102px;
             height: 52px;
-            padding: 8px;
-            background: #fff;
-            box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
-            border-radius: 2px;
         }
-    }
-    img {
-        width: 86px;
-        height: 37px;
     }
 }
 </style>

@@ -7,7 +7,7 @@
         .block__content
             .fund__info(v-for="item in fundCompanyList" @click="toFundCompanyDetail(item.companyId)")
                 .logo
-                    img(:src="item.iconUrl")
+                    img(:src="item.iconUrl" v-show="item.show")
                     .name {{$t([item.companySampleNameCn, item.companySampleNameHk, item.companySampleNameEn])}}
 </template>
 <script>
@@ -48,6 +48,7 @@ export default {
         font-size: 18px;
         font-weight: 600;
         line-height: 25px;
+        overflow: hidden;
     }
     .more {
         color: rgba(25, 25, 25, 0.65);
@@ -63,20 +64,17 @@ export default {
         box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
         border-radius: 2px;
     }
-    .logo {
-        width: 102px;
-        padding: 8px 8px 0 8px;
-        background: #fff;
-        box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
-        border-radius: 2px;
-    }
     img {
-        width: 86px;
-        height: 37px;
+        width: 102px;
+        height: 52px;
     }
     .name {
+        width: 102px;
         padding-top: 3px;
         text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 }
 </style>
