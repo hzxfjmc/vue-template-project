@@ -259,7 +259,7 @@ export default {
                 this.$nextTick(() => {
                     let clientHeight = this.$refs.desc.clientHeight
                     // 超出三行显示展开
-                    if (clientHeight > 112) {
+                    if (clientHeight > 122) {
                         this.showOpen = true
                     }
                 })
@@ -559,6 +559,7 @@ $global-padding: 30px;
             }
         }
         .btn {
+            width: 30px;
             display: flex;
             color: #2177ff;
             font-size: 12px;
