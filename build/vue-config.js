@@ -233,7 +233,7 @@ module.exports = {
             // 基金信息
             '/finance-info-server': {
                 target: jyApi,
-                // target: 'http://10.210.24.170:8080',
+                // target: 'http://10.210.20.83:8080',
                 changeOrigin: true
             },
             '/zt-group-apiserver': {

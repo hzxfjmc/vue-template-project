@@ -31,7 +31,7 @@
                         .scroll-main__fiexed 
                             .scroll-main__fiexed--item.border-bottom(
                                 v-for="itemObj in filterList"
-                                @click="goNext(itemObj.fundId, itemObj.fundName || itemObj.title)"
+                                @click="goNext(itemObj.fundId, itemObj.fundName || itemObj.title, itemObj.displayLocation)"
                                 :key="itemObj.fundId"
                             ) 
                                 .fund-name.ellipse
@@ -322,7 +322,7 @@ export default {
             try {
                 this.list = []
                 const { list } = await getFundListV2({
-                    displayLocation: 1,
+                    displayLocation: [1, 3],
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
                     assetType: this.assetType
@@ -341,12 +341,17 @@ export default {
                 console.log('getListFundInfo:error:>>>', e)
             }
         },
-        goNext(fundId, name) {
-            let url = `${
-                window.location.origin
-            }/wealth/fund/index.html#/fund-details?id=${fundId}&name=${encodeURIComponent(
-                name
-            )}`
+        goNext(fundId, name, displayLocation) {
+            let url = ''
+            if (displayLocation === 3) {
+                url = `${window.location.origin}/wealth/yxbao/index.html#/yxbao-details?id=${fundId}&displayLocation=3`
+            } else {
+                url = `${
+                    window.location.origin
+                }/wealth/fund/index.html#/fund-details?id=${fundId}&name=${encodeURIComponent(
+                    name
+                )}`
+            }
             debounce(jumpUrl(3, url), 300)
         }
     }
