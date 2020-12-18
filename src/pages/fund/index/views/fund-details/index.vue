@@ -1526,12 +1526,10 @@ export default {
             }&type=share`
             try {
                 let shortUrl = await getShortUrl({
-                    long: encodeURIComponent(link),
-                    type: 1
+                    long: encodeURIComponent(link)
                 })
                 let shortPageUrl = await getShortUrl({
-                    long: encodeURIComponent(pageUrl),
-                    type: 1
+                    long: encodeURIComponent(pageUrl)
                 })
                 let tenKRTN
                 let apy
