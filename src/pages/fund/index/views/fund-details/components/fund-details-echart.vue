@@ -405,7 +405,7 @@ export default {
                     if (type === this.thisFundName) {
                         return 'l(90) 0:#e0efff 0.5:#f2f8ff 1:#fbfeff'
                     }
-                    return '#fff'
+                    return 'rgba(255,255,255,0)'
                 })
                 .style({ fillOpacity: 0.8 })
                 .animate({
