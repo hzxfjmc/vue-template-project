@@ -265,18 +265,18 @@ export default new Router({
                 )
         },
         {
-            name: 'fund-notic',
-            path: '/fund-notic',
-            meta: { title: 'fundNotic', auth: true, cs: true },
+            name: 'fund-notice',
+            path: '/fund-notice',
+            meta: { title: 'fundNotice', auth: true, cs: true },
             component: () =>
-                import(`@/pages/fund/index/views/fund-notic/index.vue`)
+                import(`@/pages/fund/index/views/fund-notice/index.vue`)
         },
         {
-            name: 'fund-notic-detail',
-            path: '/fund-notic-detail',
-            meta: { title: 'fundNoticDetail', auth: true, cs: true },
+            name: 'fund-notice-detail',
+            path: '/fund-notice-detail',
+            meta: { title: 'fundNoticeDetail', auth: true, cs: true },
             component: () =>
-                import(`@/pages/fund/index/views/fund-notic/detail.vue`)
+                import(`@/pages/fund/index/views/fund-notice/detail.vue`)
         },
         {
             name: 'fund-company',

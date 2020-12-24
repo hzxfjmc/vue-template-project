@@ -4,11 +4,11 @@
             .block__header
                 .logo
                     img(:src="companyInfo.iconUrl" v-show="companyInfo.show")
-                .name {{companyInfo.longName}}
+                .name {{companyInfo.companyName}}
             .block__content(ref="desc")
-                .desc(:class="[showMore && showOpen? 'less': 'all']") {{companyInfo.desc}}
+                .desc(:class="[showMore && showOpen? 'less': 'all']") {{companyInfo.companyProfile}}
                 .btn(@click="handleClickOpen" v-if="showOpen") {{showMore ? $t(['展开','展開','More']):$t(['收起','收起','Less'])}}
-        .bond-index-wrapper(v-show="filterList && filterList.length > 0")
+        .bond-index-wrapper
             .yx-scroll-container(
                 :class="{bottom: isPhoneX}"
             )
@@ -197,7 +197,8 @@ export default {
             pageNum: 1,
             pageSize: 1000,
             total: 0,
-            headerHeight: ''
+            headerHeight: '',
+            flag: ''
         }
     },
     mounted() {
@@ -214,8 +215,8 @@ export default {
             let mainScroll = new BScroll(this.$refs.mainScroll, {
                 scrollX: true,
                 // tap: 'tap',
-                // momentum: false,
                 // bounce: false,
+                // momentum: false,
                 // useTransition: false,
                 eventPassthrough: 'vertical',
                 probeType: 3
@@ -243,16 +244,6 @@ export default {
                     companyId: this.$route.query.id || ''
                 })
                 this.companyInfo = data ? data.list[0] : {}
-                this.companyInfo.longName = this.$t([
-                    this.companyInfo.companyNameCn,
-                    this.companyInfo.companyNameHk,
-                    this.companyInfo.companyNameEn
-                ])
-                this.companyInfo.desc = this.$t([
-                    this.companyInfo.companyProfileCn,
-                    this.companyInfo.companyProfileHk,
-                    this.companyInfo.companyProfileEn
-                ])
                 const url = await getCosUrl(this.companyInfo.iconUrl)
                 this.companyInfo.show = true
                 this.companyInfo.iconUrl = url
@@ -395,6 +386,7 @@ $global-padding: 30px;
 .yx-scroll-container {
     display: flex;
     flex: 1;
+    height: 100%;
     flex-direction: column;
     &.bottom {
         margin-bottom: 20px;

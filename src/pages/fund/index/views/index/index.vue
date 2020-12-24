@@ -717,11 +717,7 @@ export default {
                 })
                 this.companyList = data.list
                 this.companyList.forEach(item => {
-                    item.label = this.$t([
-                        item.companySampleNameCn,
-                        item.companySampleNameHk,
-                        item.companySampleNameEn
-                    ])
+                    item.label = item.companySampleName
                     item.val = item.companyId
                 })
             } catch (e) {

@@ -479,7 +479,7 @@ export default {
                     break
                 case 5:
                     this.openWebView(
-                        `${window.location.origin}/wealth/fund/index.html#/fund-notic`
+                        `${window.location.origin}/wealth/fund/index.html#/fund-notice`
                     )
                     break
             }

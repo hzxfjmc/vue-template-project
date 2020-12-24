@@ -203,6 +203,7 @@ export const zhCHS = {
     fundCompany: '基金公司',
     companyDetail: '公司详情',
     viewMore: '查看更多',
-    fundNotic: '基金公告',
-    fundNoticDetail: '基金公告详情'
+    fundNotice: '基金公告',
+    fundNoticeDetail: '基金公告详情',
+    detail: '详情'
 }
