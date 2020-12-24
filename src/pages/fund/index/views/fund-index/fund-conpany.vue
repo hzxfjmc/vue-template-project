@@ -8,7 +8,7 @@
             .fund__info(v-for="item in fundCompanyList" @click="toFundCompanyDetail(item.companyId)")
                 .logo
                     img(:src="item.iconUrl" v-show="item.show")
-                    .name {{$t([item.companySampleNameCn, item.companySampleNameHk, item.companySampleNameEn])}}
+                    .name {{item.companySampleName}}
 </template>
 <script>
 import { jumpUrl } from '@/utils/tools'
