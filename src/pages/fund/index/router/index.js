@@ -291,6 +291,13 @@ export default new Router({
             meta: { title: 'companyDetail', auth: true, cs: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-company/detail.vue`)
+        },
+        {
+            name: 'fund-notice-disclaimers',
+            path: '/fund-notice-disclaimers',
+            meta: { title: 'disclaimers', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-notice/disclaimers.vue`)
         }
     ]
 })

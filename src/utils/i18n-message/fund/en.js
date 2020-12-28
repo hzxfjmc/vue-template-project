@@ -208,5 +208,6 @@ export const en = {
     viewMore: 'More',
     fundNotice: 'Fund Notice',
     fundNoticeDetail: 'Fund Notice Detail',
-    detail: 'Detail'
+    detail: 'Detail',
+    disclaimers: 'Disclaimers'
 }

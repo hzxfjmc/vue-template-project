@@ -13,7 +13,6 @@
             )
                 .left
                     .name {{item.title}}
-                        span {{$t('fundNotic')}}
                     .date {{item.publishDate}}
                 .right(v-if="item.show")
                     img(:src="item.logoUrl ? item.logoUrl : defaultLogo")

@@ -205,5 +205,6 @@ export const zhCHT = {
     viewMore: '查看更多',
     fundNotice: '基金公告',
     fundNoticeDetail: '基金公告詳情',
-    detail: '詳情'
+    detail: '詳情',
+    disclaimers: '免責聲明'
 }

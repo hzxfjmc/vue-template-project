@@ -1,8 +1,10 @@
 <template lang="pug">
     .fund-notice-detail
-        .block__header
-            .title {{$t([noticeInfo.titleCn, noticeInfo.titleHk, noticeInfo.titleEn])}}{{$t('detail')}}
-            .date {{noticeInfo.publishDate}}
+        .block__header(v-if="noticeInfo.title")
+            .title {{noticeInfo.title}}{{$t('detail')}}
+            .info
+                .date {{noticeInfo.publishDate}}
+                .tip(@click="toJumpPage") {{$t('disclaimers')}}
         .fund-file(
             v-for="item,i in noticeInfo.docUrlList" 
             @click="toJumpLink(item)"
@@ -10,22 +12,38 @@
         )
             .file-name {{item | fileName}}
             img(:src="isPdfFile(item) ? pdfPath : htmlPath")
+        .fund-company(v-if="false")
+            .left
+                .logo
+                    img(:src="logoUrl" v-if="logoUrl")
+                .name
+            .right
+                span.iconfont.icon-iconEBgengduoCopy
 
 </template>
 <script>
-import { getFundNotice } from '@/service/finance-info-server'
+import {
+    getFundNotice,
+    getListFundCompany
+} from '@/service/finance-info-server'
 import { getCosUrl } from '@/utils/cos-utils'
+import { jumpUrl } from '@/utils/tools'
 export default {
     name: 'fund-notic',
     data() {
         return {
             noticeInfo: {},
+            companyInfo: {
+                companyName: '',
+                logoUrl: ''
+            },
             pdfPath: require('@/assets/img/fund/pdf.png'),
             htmlPath: require('@/assets/img/fund/html.png')
         }
     },
-    created() {
-        this.getFundNotice()
+    async created() {
+        await this.getFundNotice()
+        await this.getListFundCompany()
     },
     filters: {
         fileName(path) {
@@ -43,12 +61,28 @@ export default {
                 this.$toast(e.msg)
             }
         },
+        async getListFundCompany() {
+            try {
+                let data = await getListFundCompany({
+                    pageNum: 1,
+                    pageSize: 20,
+                    companyId: this.noticeInfo.companyId
+                })
+                console.log(data)
+            } catch (e) {
+                this.$toast(e.msg || '网络开小差了,请稍后重试')
+            }
+        },
+        toJumpPage() {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-notice-disclaimers`
+            jumpUrl(3, url)
+        },
         async toJumpLink(path) {
             try {
                 const res = await getCosUrl(path)
                 window.location.href = res
             } catch (e) {
-                console.log('赎回页面-getCosUrl:error:>>>', e)
+                this.$toast(e.msg || '网络开小差了,请稍后重试')
             }
         },
         isPdfFile(path) {
@@ -71,7 +105,9 @@ export default {
         font-weight: 600;
         line-height: 22px;
     }
-    .date {
+    .info {
+        display: flex;
+        justify-content: space-between;
         margin-top: 6px;
         font-size: 12px;
         font-weight: 400;
@@ -91,5 +127,9 @@ export default {
         width: 33px;
         height: 41px;
     }
+}
+.fund-company {
+    position: absolute;
+    bottom: 20px;
 }
 </style>
