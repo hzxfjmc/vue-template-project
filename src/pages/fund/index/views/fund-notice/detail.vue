@@ -126,8 +126,7 @@ export default {
     }
 }
 .fund-company-notice {
-    padding: 14px 10px;
-    bottom: 20px;
+    padding: 10px 10px 0 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
