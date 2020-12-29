@@ -1,31 +1,35 @@
 <template lang="pug">
     .fund-notice-detail
-        .block__header(v-if="noticeInfo.title")
-            .title {{noticeInfo.title}}{{$t('detail')}}
-            .info
-                .date {{noticeInfo.publishDate}}
-                .tip(@click="toJumpPage") {{$t('disclaimers')}}
-        .fund-file(
-            v-for="item,i in noticeInfo.docUrlList" 
-            @click="toJumpLink(item)"
-            :key="i"
-        )
-            .file-name {{item | fileName}}
-            img(:src="isPdfFile(item) ? pdfPath : htmlPath")
-        .fund-company(v-if="false")
-            .left
-                .logo
-                    img(:src="logoUrl" v-if="logoUrl")
-                .name
-            .right
-                span.iconfont.icon-iconEBgengduoCopy
+        yx-container
+            .block__header(v-if="noticeInfo.title" slot="top")
+                .title {{noticeInfo.title}}{{$t('detail')}}
+                .info
+                    .date {{noticeInfo.publishDate}}
+                    .tip(@click="toJumpPage") {{$t('disclaimers')}}
+            div(slot="main")
+                .fund-file(
+                    v-for="item,i in noticeInfo.docUrlList" 
+                    @click="toJumpLink(item)"
+                    :key="i"
+                )
+                    .file-name {{item | fileName}}
+                    img(:src="isPdfFile(item) ? pdfPath : htmlPath")
+            //- id为-1 时为没有关联基金公司
+            .fund-company-notice(
+                slot="bottom"
+                v-if="noticeInfo.companyId != '-1'" 
+                @click="toFundCompany(noticeInfo.companyId)"
+            )
+                .left
+                    .logo
+                        img(:src="noticeInfo.logoUrl")
+                    .name {{noticeInfo.companyName}}
+                .right
+                    span.iconfont.icon-iconEBgengduoCopy
 
 </template>
 <script>
-import {
-    getFundNotice,
-    getListFundCompany
-} from '@/service/finance-info-server'
+import { getFundNotice } from '@/service/finance-info-server'
 import { getCosUrl } from '@/utils/cos-utils'
 import { jumpUrl } from '@/utils/tools'
 export default {
@@ -33,12 +37,9 @@ export default {
     data() {
         return {
             noticeInfo: {},
-            companyInfo: {
-                companyName: '',
-                logoUrl: ''
-            },
             pdfPath: require('@/assets/img/fund/pdf.png'),
-            htmlPath: require('@/assets/img/fund/html.png')
+            htmlPath: require('@/assets/img/fund/html.png'),
+            defaultLogo: require('@/assets/img/fund/notice_default_logo.png')
         }
     },
     async created() {
@@ -57,21 +58,17 @@ export default {
                     id: this.$route.query.id
                 })
                 this.noticeInfo = data || {}
+                if (this.noticeInfo.iconUrl) {
+                    let url = await getCosUrl(this.noticeInfo.iconUrl)
+                    this.$set(this.noticeInfo, 'logoUrl', url)
+                }
             } catch (e) {
                 this.$toast(e.msg)
             }
         },
-        async getListFundCompany() {
-            try {
-                let data = await getListFundCompany({
-                    pageNum: 1,
-                    pageSize: 20,
-                    companyId: this.noticeInfo.companyId
-                })
-                console.log(data)
-            } catch (e) {
-                this.$toast(e.msg || '网络开小差了,请稍后重试')
-            }
+        toFundCompany(id) {
+            let url = `${window.location.origin}/wealth/fund/index.html#/fund-company-detail?id=${id}`
+            jumpUrl(3, url)
         },
         toJumpPage() {
             let url = `${window.location.origin}/wealth/fund/index.html#/fund-notice-disclaimers`
@@ -128,8 +125,29 @@ export default {
         height: 41px;
     }
 }
-.fund-company {
-    position: absolute;
+.fund-company-notice {
+    padding: 14px 10px;
     bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0px 3px 6px 1px rgba(228, 228, 228, 0.5);
+    .left {
+        display: flex;
+        line-height: 20px;
+        align-items: center;
+    }
+    .name {
+        padding-left: 15px;
+        font-size: 12px;
+    }
+    .logo {
+        width: 102px;
+        height: 52px;
+    }
+    img {
+        width: 102px;
+        height: 52px;
+    }
 }
 </style>

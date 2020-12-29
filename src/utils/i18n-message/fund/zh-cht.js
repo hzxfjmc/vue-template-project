@@ -203,8 +203,8 @@ export const zhCHT = {
     fundCompany: '基金公司',
     companyDetail: '公司詳情',
     viewMore: '查看更多',
-    fundNotice: '基金公告',
-    fundNoticeDetail: '基金公告詳情',
+    fundNotice: '基金通告',
+    fundNoticeDetail: '基金通告詳情',
     detail: '詳情',
     disclaimers: '免責聲明'
 }

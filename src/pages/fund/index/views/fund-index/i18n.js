@@ -123,7 +123,7 @@ export const i18n = {
         cashPlus: '餘款+',
         fundFilter: '基金筛选',
         fundCompany: '基金公司',
-        fundNotic: '基金公告'
+        fundNotic: '基金通告'
     },
     en: {
         unit: 'B ',
