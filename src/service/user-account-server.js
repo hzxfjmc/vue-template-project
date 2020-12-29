@@ -23,3 +23,10 @@ export const checkFollowInvestmentInfo = () => {
         `user-account-server/api/check-follow-investment-info/v1`
     )
 }
+// 机构业务-机构交易员申请业务拦截器
+export const orgTraderApplyInterceptor = params => {
+    return axios.post(
+        `/user-account-server/api/org-trader-apply-interceptor/v1`,
+        params
+    )
+}
