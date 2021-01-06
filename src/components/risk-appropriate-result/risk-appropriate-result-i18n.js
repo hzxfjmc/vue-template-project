@@ -1,7 +1,7 @@
 export const i18nAppropriateData = {
     zhCHS: {
-        followUpSet: '进行跟投设置',
-        openFollowUpAccount: '开通跟投账户',
+        followUpSet: '进行委托账户服务设置',
+        openFollowUpAccount: '开通委托账户服务',
         matching: '匹配',
         noMatching: '不匹配',
         yoursAppropriate: '您的风评取向',
@@ -41,8 +41,8 @@ export const i18nAppropriateData = {
         timesLimit: '*每年可测评次数一共5次，每月可测评次数为3次'
     },
     zhCHT: {
-        followUpSet: '進行跟投設置',
-        openFollowUpAccount: '開通跟投賬戶',
+        followUpSet: '進行委託帳戶服務設定',
+        openFollowUpAccount: '開通委託賬戶服務',
         matching: '匹配',
         noMatching: '不匹配',
         yoursAppropriate: '您的風評取向',
@@ -82,8 +82,8 @@ export const i18nAppropriateData = {
         timesLimit: '*每年可測評次數一共5次，每月可測評次數為3次'
     },
     en: {
-        followUpSet: 'Conduct Follow Trade Setting',
-        openFollowUpAccount: 'Open Follow Trade Account',
+        followUpSet: 'Conduct Entrusted Account Setting',
+        openFollowUpAccount: 'Open Entrusted Account',
         matching: 'Matched',
         noMatching: 'Not Matched',
         yoursAppropriate: 'Your Risk Profile',
