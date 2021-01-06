@@ -101,8 +101,8 @@ export default {
                         // 开通了跟投策略相应账户，跳转跟投设置
                         this.btnText = this.$t('followUpSet')
                     } else {
-                        // 未开通跟投策略相应账户，跳转跟投开户
-                        this.btnText = this.$t('openFollowUpAccount')
+                        // ! 这里需要修改：未开通跟投策略相应账户，跳转发起跟投操作的页面
+                        this.btnText = this.$t('iKnow')
                     }
                 } else {
                     this.btnText = this.$t('sure')
@@ -344,13 +344,15 @@ export default {
                         let url = getParameter('followUpPage')
                         window.location.replace(decodeURIComponent(url))
                     } else {
-                        // 未开通跟投策略相应账户，跳转跟投开户
-                        let url =
-                            window.location.origin +
-                            `/account/follow-up/index.html?followUpPage=${encodeURIComponent(
-                                getParameter('followUpPage')
-                            )}#/`
-                        window.location.replace(url)
+                        // ! 这里需要修改：未开通跟投策略相应账户，跳转发起跟投操作的页面
+                        let url = getParameter('strategyPage')
+
+                        // let url =
+                        //     window.location.origin +
+                        //     `/account/follow-up/index.html?followUpPage=${encodeURIComponent(
+                        //         getParameter('followUpPage')
+                        //     )}#/`
+                        window.location.replace(decodeURIComponent(url))
                     }
                 } else {
                     let data = {

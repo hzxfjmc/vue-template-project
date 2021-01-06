@@ -1,7 +1,7 @@
 export const i18nAppropriateData = {
     zhCHS: {
         followUpSet: '进行委托账户服务设置',
-        openFollowUpAccount: '开通委托账户服务',
+        iKnow: '我知道了',
         matching: '匹配',
         noMatching: '不匹配',
         yoursAppropriate: '您的风评取向',
@@ -42,7 +42,7 @@ export const i18nAppropriateData = {
     },
     zhCHT: {
         followUpSet: '進行委託帳戶服務設定',
-        openFollowUpAccount: '開通委託賬戶服務',
+        iKnow: '我知道了',
         matching: '匹配',
         noMatching: '不匹配',
         yoursAppropriate: '您的風評取向',
@@ -83,7 +83,7 @@ export const i18nAppropriateData = {
     },
     en: {
         followUpSet: 'Conduct Entrusted Account Setting',
-        openFollowUpAccount: 'Open Entrusted Account',
+        iKnow: 'I Know',
         matching: 'Matched',
         noMatching: 'Not Matched',
         yoursAppropriate: 'Your Risk Profile',
