@@ -15,21 +15,39 @@
                 :key="subjectIndex"
                 :title="subjectItem[titleI18n]"
             )
-                van-radio-group(v-model="subjectItem.choiceNum")
-                    van-cell-group
+                template(v-if="subjectIndex===5")
+                    van-checkbox-group(v-model="subjectItem.choiceNum")
                         van-cell(
-                            v-for="(optionItem, optionindex) in subjectItem.option"
-                            :key="optionindex"
-                            :title=`optionItem[textI18n]`
-                            clickable
-                            @click="subjectItem.choiceNum = optionItem.num"
-                        )
-                            van-radio(slot="right-icon" :name="optionItem.num")
-                                i.iconfont(
+                                v-for="(optionItem, optionindex) in subjectItem.option"
+                                :key="optionindex"
+                                :title=`optionItem[textI18n]`
+                                clickable
+                                @click="subjectItem.choiceNum.push(optionItem.num)"
+                            )
+                                van-checkbox(slot="right-icon" :name="optionItem.num")
+                                    i.iconfont(
                                     slot="icon"
                                     slot-scope="props"
-                                    :class="props.checked ? 'icon-xuanzhong' : 'icon-unchecked'"
+                                    :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                 )
+                template(v-else)
+                    van-radio-group(v-model="subjectItem.choiceNum")
+                        van-cell-group
+                            van-cell(
+                                v-for="(optionItem, optionindex) in subjectItem.option"
+                                :key="optionindex"
+                                :title=`optionItem[textI18n]`
+                                clickable
+                                @click="subjectItem.choiceNum = optionItem.num"
+                            )
+                                van-radio(slot="right-icon" :name="optionItem.num")
+                                    i.iconfont(
+                                        slot="icon"
+                                        slot-scope="props"
+                                        :class="props.checked ? 'icon-xuanzhong' : 'icon-unchecked'"
+                                    )
+                .risk-info(v-if="subjectIndex===8")
+                    p {{$t([subjectItem.tips_cn, subjectItem.tips_hk,subjectItem.tips_en])}}
                 .has-child-container(v-if="[6,7].includes(subjectIndex)")
                     van-panel#child-title(
                         v-for="(subjectItem1, subjectIndex) in subjectItem.subject"
