@@ -6,13 +6,15 @@ import {
 } from '@/service/user-server.js'
 import { mapGetters } from 'vuex'
 
-import { RadioGroup, Radio, Panel } from 'vant'
+import { RadioGroup, Radio, Panel, CheckboxGroup, Checkbox } from 'vant'
 export default {
     name: 'RiskAssessment',
     components: {
         [Panel.name]: Panel,
         [RadioGroup.name]: RadioGroup,
         [Radio.name]: Radio,
+        [CheckboxGroup.name]: CheckboxGroup,
+        [Checkbox.name]: Checkbox,
         YxContainerBetter
     },
     async created() {
@@ -27,6 +29,8 @@ export default {
                         subItem.subject.map(i => {
                             i.choiceNum = -1
                         })
+                    } else if (subItem.num === 6) {
+                        subItem.choiceNum = []
                     } else {
                         subItem.choiceNum = -1
                     }
@@ -84,16 +88,22 @@ export default {
                         let arr = []
                         // 有子题目
                         subjectItem.subject.map(i => {
+                            let optionNum = Array.isArray(i.choiceNum)
+                                ? Array.from(new Set(subjectItem.choiceNum))
+                                : [i.choiceNum]
                             arr.push({
                                 subjectNum: i.num,
-                                optionNum: i.choiceNum
+                                optionNum: optionNum
                             })
                         })
                         return arr
                     } else {
+                        let optionNum = Array.isArray(subjectItem.choiceNum)
+                            ? Array.from(new Set(subjectItem.choiceNum))
+                            : [subjectItem.choiceNum]
                         return {
                             subjectNum: subjectItem.num,
-                            optionNum: subjectItem.choiceNum
+                            optionNum: optionNum
                         }
                     }
                 })
