@@ -345,14 +345,16 @@ export default {
                         window.location.replace(decodeURIComponent(url))
                     } else {
                         // ! 这里需要修改：未开通跟投策略相应账户，跳转发起跟投操作的页面
-                        let url = getParameter('strategyPage')
+                        // 因为策略那边是新开webview，这边直接关闭当前webview即可
+                        jsBridge.callApp('command_close_webview')
 
+                        // let url = getParameter('strategyPage')
                         // let url =
                         //     window.location.origin +
                         //     `/account/follow-up/index.html?followUpPage=${encodeURIComponent(
                         //         getParameter('followUpPage')
                         //     )}#/`
-                        window.location.replace(decodeURIComponent(url))
+                        // window.location.replace(decodeURIComponent(url))
                     }
                 } else {
                     let data = {
