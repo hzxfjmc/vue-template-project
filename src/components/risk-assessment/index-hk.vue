@@ -275,7 +275,7 @@ This assessment is important to know about your investment risk profile for choo
 .easy-customer-container {
     padding: 20px 16px;
     text-align: center;
-
+    z-index: 3000;
     .title {
         font-size: 20px;
         color: $primary-color-line;
