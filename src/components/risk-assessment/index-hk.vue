@@ -70,19 +70,22 @@
                                             slot-scope="props"
                                             :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                         )
-            van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
-                .title {{$t('resultTitle') }}
-                .msg-info {{assessDefinition && assessDefinition}}
-                .msg-result {{$t('resultCus')}}
-                .msg-title {{$t('msgTitle')}}
-                .msg-reason(v-for="(item,index) in $t('msgReason')")
-                    .item-reason ({{index+1}}) {{item}}
-                .danger-intro {{$t('dangerIntro')}}
-                .to-call-cs {{$t('toCallCS')}}
-                .btn-know(@click="closeEasyCustomer") {{$t('iKnow')}}
         .van-bottom-btn(slot="bottom")
             van-button.btn(type="info" round size="large" :disabled="submitBtnDisabled" @click="handleSubmit('submit')"
             :class="{ active: !submitBtnDisabled }") {{$t('btnText')}}
+        van-dialog.easy-customer-container(
+            v-model="showEasyCustomer" 
+            :show-confirm-button='false'
+        )
+            .title {{$t('resultTitle') }}
+            .msg-info {{assessDefinition && assessDefinition}}
+            .msg-result {{$t('resultCus')}}
+            .msg-title {{$t('msgTitle')}}
+            .msg-reason(v-for="(item,index) in $t('msgReason')")
+                .item-reason ({{index+1}}) {{item}}
+            .danger-intro {{$t('dangerIntro')}}
+            .to-call-cs {{$t('toCallCS')}}
+            .btn-know(@click="closeEasyCustomer") {{$t('iKnow')}}
 
 </template>
 

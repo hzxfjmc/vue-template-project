@@ -6,6 +6,7 @@
         slot(name="main")
     .yx-bottom
         slot(name="bottom")
+    slot
 </template>
 
 <style lang="scss" scoped>
