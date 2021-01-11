@@ -167,6 +167,7 @@ This assessment is important to know about your investment risk profile for choo
     background-color: $text-color8;
     font-family: 'PingFang SC';
     .risk-assessment-tips {
+        z-index: 999;
         height: 153px;
         background-color: #fff;
         padding: 14px 10px 0;
