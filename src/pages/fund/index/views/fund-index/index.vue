@@ -100,7 +100,7 @@ div
                         van-swipe(:autoplay="3000")
                             van-swipe-item(
                                 v-for="(item, index) in barnnarList1"
-                                @click="goBanner(item)"
+                                @click="goBanner(item, '基金首页运营', 101)"
                                 :key="index")
                                 img(:src="item.picture_url")
                 yx-skeleton(
@@ -139,7 +139,7 @@ div
                 van-swipe(:autoplay="3000")
                     van-swipe-item(
                         v-for="(item, index) in barnnarList"
-                        @click="goBanner(item)"
+                        @click="goBanner(item, '基金中部（现金+下方）', 100)"
                         :key="index")
                         img(:src="item.picture_url")
             FundList(
@@ -169,7 +169,7 @@ div
                         van-swipe-item(
                             v-for="(item, index) in barnnarUsList"
                             :key="index"
-                            @click="goBanner(item)")
+                            @click="goBanner(item, '基金看点', 27)")
                             img(:src="item.picture_url")
 
 
@@ -205,6 +205,7 @@ import FundCardSwipper from './fund-card-swipper'
 import FundArticle from './fund-article'
 import fundCommonMethods from '../../mixins/fund-common-methods.js'
 import yxSkeleton from '@/components/yx-skeleton'
+import { bannerClick } from '@/utils/burying-point'
 export default {
     mixins: [fundCommonMethods],
     components: {
@@ -420,8 +421,9 @@ export default {
             this.moneyShow = !this.moneyShow
             LS.put('showMoney', this.moneyShow)
         },
-        goBanner(item) {
+        goBanner(item, page, id) {
             if (!item.news_jump_type && !item.jump_url) return
+            bannerClick(page, id)
             debounce(jumpUrl(item.news_jump_type, item.jump_url), 300)
         },
         //跳转

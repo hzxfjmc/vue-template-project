@@ -199,3 +199,11 @@ export function clickFundOrder(page, propViewName, id, name) {
         ...commonParam()
     })
 }
+
+// 点击banner埋点
+export function bannerClick(page, id) {
+    sensors.track('yxstock_web_view_click', {
+        prop_view_page: page,
+        prop_view_id: id
+    })
+}
