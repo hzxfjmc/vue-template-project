@@ -105,8 +105,7 @@ export default {
             resultCus: '您为“易受损客户”',
             msgTitle: '什么是“易受损客户”',
             msgReason: [
-                '65岁或以上；或',
-                '教育程度在小学或以下；或',
+                '65岁或以上',
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             dangerIntro:
@@ -126,8 +125,7 @@ export default {
             resultCus: '您為"易受損客戶"',
             msgTitle: '什麼是"易受損客戶"',
             msgReason: [
-                '65歲或以上；或',
-                '教育程度在小學或以下；或',
+                '65歲或以上',
                 '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
             ],
             dangerIntro:
@@ -147,8 +145,7 @@ This assessment is important to know about your investment risk profile for choo
             resultCus: 'You are vulnerable client',
             msgTitle: 'What is vulnerable client',
             msgReason: [
-                '65 years or older, or',
-                'level of education is equal to or below primary school level, or',
+                '65 years or older',
                 'retired and annual income < HK$ 200,000 and net asset value < HK$ 500,000'
             ],
             dangerIntro:
@@ -278,7 +275,7 @@ This assessment is important to know about your investment risk profile for choo
 .easy-customer-container {
     padding: 20px 16px;
     text-align: center;
-
+    z-index: 3000;
     .title {
         font-size: 20px;
         color: $primary-color-line;
