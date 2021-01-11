@@ -76,6 +76,7 @@
         van-dialog.easy-customer-container(
             v-model="showEasyCustomer" 
             :show-confirm-button='false'
+            slot="default"
         )
             .title {{$t('resultTitle') }}
             .msg-info {{assessDefinition && assessDefinition}}
