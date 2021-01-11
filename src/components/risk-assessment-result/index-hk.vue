@@ -50,8 +50,7 @@ export default {
             resultCus: '您为“易受损客户”',
             msgTitle: '什么是“易受损客户”',
             msgReason: [
-                '65岁或以上；或',
-                '教育程度在小学或以下；或',
+                '65岁或以上',
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             leastNum: '剩余可测评次数：',
@@ -81,8 +80,7 @@ export default {
             resultCus: '您為"易受損客戶"',
             msgTitle: '什麼是"易受損客戶"',
             msgReason: [
-                '65歲或以上；或',
-                '教育程度在小學或以下；或',
+                '65歲或以上',
                 '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
             ],
             leastNum: '剩餘可測評次數：',
@@ -112,8 +110,7 @@ export default {
             resultCus: 'You are vulnerable client',
             msgTitle: 'What is vulnerable client',
             msgReason: [
-                '65 years or older, or',
-                'level of education is equal to or below primary school level, or',
+                '65 years or older',
                 'retired and annual income < HK$ 200,000 and net asset value < HK$ 500,000'
             ],
             leastNum: 'Remaining Assessment Chance：',
