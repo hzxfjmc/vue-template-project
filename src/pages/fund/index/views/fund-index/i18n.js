@@ -134,7 +134,7 @@ export const i18n = {
         accountTotal: 'About My Assets',
         fundCurrency: 'MMF',
         fundBond: 'Bond',
-        fundBlend: 'Balanced',
+        fundBlend: 'Allocation',
         fundShares: 'Equity',
         exclusive: 'PI',
         login: 'Please login in',

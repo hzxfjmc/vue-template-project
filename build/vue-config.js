@@ -232,6 +232,7 @@ module.exports = {
             },
             // 基金信息
             '/finance-info-server': {
+                // target: 'http://10.210.20.83:8080',
                 target: jyApi,
                 // target: 'http://10.210.20.83:8082',
                 changeOrigin: true

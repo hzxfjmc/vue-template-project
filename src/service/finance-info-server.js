@@ -205,3 +205,7 @@ export const getListFundNotice = params => {
 export const getFundNotice = params => {
     return axios.post(`/finance-info-server/api/get-fund-notice/v1`, params)
 }
+// 获取基金分享
+export const getShareFundRecommend = () => {
+    return axios.post(`/finance-info-server/api/get-share-fund-recommend/v1`)
+}

@@ -1,6 +1,10 @@
 <template lang="pug">
 .fund-details
     .fund-content(slot="main" ref="content")
+        FundShareHeader(
+            v-if="invate === 'share'"
+            @openApp="handleShare"
+        )
         fundDetailsHeader(
             :price="price"
             :revenue="revenue"
@@ -48,13 +52,13 @@
             v-if="!fightShow && code ===2"
             :userList="userList"
             :swipeShow="swipeShow"
-            :actionInfo = "actionInfo") 
+            :actionInfo = "actionInfo")
 
         FightFund(
             v-if="!fightShow && code === 1"
             :userList="userList"
             :swipeShow="swipeShow"
-            :actionInfo = "actionInfo") 
+            :actionInfo = "actionInfo")
         fundSurvey(
             v-if="fundOverviewInfoVO.fundId"
             :fundOverviewInfoVO="fundOverviewInfoVO"
@@ -87,10 +91,10 @@
                         span(:class="[subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0?'span-lineHeight':'span-lineHeight1']") {{$t('A2')}}
                         em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`,`享認購費${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`,`Enjoy Subs. Fee ${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`])}}
                 //- van-button.button-5width.button-left.btn(
-                //-     :class="[flag?'fund-check':'fund-no']" 
+                //-     :class="[flag?'fund-check':'fund-no']"
                 //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
                 van-button.btn.button-5width(
-                    :class="[flag1?'fund-buy':'fund-no']" 
+                    :class="[flag1?'fund-buy':'fund-no']"
                     @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
         .fund-footer-content(v-if="!RedemptionButton && this.btnShow")
@@ -100,13 +104,13 @@
                 span ）
             .fund-block--content
                 //- van-button.button-6width.button-left.btn(
-                //-     :class="[flag?'fund-check':'fund-no']" 
+                //-     :class="[flag?'fund-check':'fund-no']"
                 //-     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
                 van-button.btn.button-6width(
-                    :class="[flag1?'fund-buy':'fund-no']" 
+                    :class="[flag1?'fund-buy':'fund-no']"
                     @click="toRouter('/fund-subscribe')") {{$t('append')}}
 
-        
+
         .fund-footer-content(v-if="PurchaseButton")
             span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
@@ -130,27 +134,21 @@
             van-button.btn.button-width(
                 :class="[flag2? 'fund-footer':'fund-no']"
                 @click="handleBuyOrSell(1)") {{code === 1 ? $t('buy'):$t('buyHk')}}
-
-        .fund-footer-contentShare(v-if="invate === 'share'")
-            van-button(
-                class="fund-footer btn button-width"
-                @click="handleShare()") {{$t(['APP中打开','APP中打開','Open uSAMRT'])}}
-
         .fund-footer-content(
             v-if="chsFightButton")
             .block__list--header(v-if="shareHeaderShow")
                 .block__footer-avat
-                    img(:src="avatImg") 
+                    img(:src="avatImg")
                 .block__footer--content
                     .block__footer--bottom {{contentmsg}}
                     .block__footer--top
                         span 剩余
                         .vant-count-down
-                            CountDown( 
+                            CountDown(
                                 millisecond
                                 :time="time"
                                 format="DD天 HH:mm:ss")
-                    
+
                 .block__footer-right(v-if="figthComeShow")
                     van-button(
                         @click="handleBuyOrSell(3)"
@@ -158,10 +156,10 @@
             .block__button--list(v-if="figthBtnShow")
                 van-button(
                     class="fund-footer btn button-width1"
-                    @click="handleBuyOrSell(1)" 
+                    @click="handleBuyOrSell(1)"
                     :class="[flag2 ? 'fund-footer':'fund-no']") {{$t('buy')}}
                 .block__fight--btn.btn(
-                    :class="[flag2 ?'fund-footer1':'fund-footer2']" 
+                    :class="[flag2 ?'fund-footer1':'fund-footer2']"
                     @click="handleBuyOrSell(2)")
                     span 发起拼团申购
                     em 申购费最高可返{{100-discount}}%
@@ -188,7 +186,7 @@
                             p  {{$t('togetherScribe')}}
                             p ({{$t('Surplus')}}
                             .vant-count-down
-                                CountDown( 
+                                CountDown(
                                     millisecond
                                     :time="time"
                                     :format="$t('format')")
@@ -199,16 +197,19 @@
                     van-button(
                         class="btn"
                         @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
-
+        .fund-footer-content(v-if="invate === 'share'")
+            YxShareFooter
     img(
         v-show="false"
         :src="shareIcon"
         ref="titlebarIcon")
-           
-    
+
+
 </template>
 <script>
 import { getCosUrl } from '@/utils/cos-utils'
+import FundShareHeader from './components/fund-share-header'
+import YxShareFooter from '@/components/yx-share-footer'
 import NP from 'number-precision'
 import fundDetailsHeader from './components/fund-details-header'
 import fundDetailsEchart from './components/fund-details-echart'
@@ -246,6 +247,11 @@ import LS from '@/utils/local-storage'
 import { transNumToThousandMark, jumpUrl } from '@/utils/tools.js'
 import { getFundPositionV2 } from '@/service/finance-server.js'
 import { getFundUserInfo } from '@/service/user-server.js'
+import {
+    // 构交易员申请业务拦截器
+    orgTraderApplyInterceptor
+} from '@/service/user-account-server.js'
+import { AUTH_CODE } from '@/utils/common/global-enum.js'
 import { Button, Dialog } from 'vant'
 import { getShortUrl } from '@/service/news-shorturl.js'
 import jsBridge from '@/utils/js-bridge'
@@ -389,7 +395,9 @@ export default {
         FightFundHk,
         FundAnnualizedIncome,
         FundAnalyzeDataColumn,
-        FundInvestCombination
+        FundInvestCombination,
+        YxShareFooter,
+        FundShareHeader
     },
     computed: {
         isMmf() {
@@ -1241,6 +1249,21 @@ export default {
             if (params === 1 || params === 4) {
                 LS.remove('groupId')
             }
+
+            let flag = false
+            try {
+                // 机构户权限检验
+                await orgTraderApplyInterceptor({
+                    applyAuthId: AUTH_CODE.FUND_SIGN
+                })
+            } catch (e) {
+                flag = true
+                this.$toast(e.msg)
+                console.log('orgTraderApplyInterceptor:error:>>>', e)
+            }
+            // 若进入catch，说明报错，不具有购买基金权限，不往下走
+            if (flag) return
+
             if (
                 !this.userInfo.assessResult ||
                 new Date().getTime() >
