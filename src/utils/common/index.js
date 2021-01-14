@@ -34,11 +34,12 @@ import { wechatShare } from '@/utils/share/wechat.js'
 // 盈立证券公共库
 import { jsBridge, uSmartInit, htmlUtils, DOMAIN } from 'yx-base-h5'
 
-const { isYouxinIos, isYouxinApp, appType, setTitle } = htmlUtils
+const { isYouxinIos, isYouxinApp, appType, setTitle, setSkin } = htmlUtils
 
 import { getUaValue } from '@/utils/html-utils.js'
 
 import { compareVersion } from '@/utils/tools.js'
+
 // 盈立证券初始化方法
 
 // import { isYouxinIos, isYouxinApp, appType, setTitle } from '../html-utils.js'
@@ -178,6 +179,8 @@ Vue.mixin({
                     if (vm.$t && vm.$t(title)) {
                         title = vm.$t(title)
                     }
+                    // 设置主题色
+                    setSkin()
                     //基金主页不需要关闭下拉刷新
                     if (to.name != 'fund-index' && to.name != 'home') {
                         uSmartInit()

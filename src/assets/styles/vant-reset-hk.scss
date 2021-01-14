@@ -39,3 +39,10 @@ body {
     color: $hk-primary-color;
   }
 }
+
+body[data-theme="pro-theme"] {
+    .van-button--primary {
+        background: #DAAF6F;
+        border: none;
+    }
+}
