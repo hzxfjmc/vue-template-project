@@ -181,6 +181,7 @@ Vue.mixin({
                     }
                     // 设置主题色
                     setSkin()
+
                     //基金主页不需要关闭下拉刷新
                     if (to.name != 'fund-index' && to.name != 'home') {
                         uSmartInit()
