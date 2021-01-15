@@ -167,6 +167,10 @@ const setSearchButton = function() {
         setTitleBarCSButton()
     }
 }
+
+// 设置主题色
+setSkin()
+
 Vue.mixin({
     mixins: [
         {
@@ -179,8 +183,6 @@ Vue.mixin({
                     if (vm.$t && vm.$t(title)) {
                         title = vm.$t(title)
                     }
-                    // 设置主题色
-                    setSkin()
 
                     //基金主页不需要关闭下拉刷新
                     if (to.name != 'fund-index' && to.name != 'home') {

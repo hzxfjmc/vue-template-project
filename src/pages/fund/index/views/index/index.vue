@@ -104,7 +104,7 @@
                 .bottom(slot="bottom")
                     .block__bottom(:class="{bottom : isPhoneX}")
                         van-button.left(@click="handleReset") {{$t('reset')}}
-                        van-button.right(@click="handleClose") {{fundNumStr}}
+                        van-button.right(type="primary" @click="handleClose") {{fundNumStr}}
 </template>
 <script>
 import { Swipe, SwipeItem, Button } from 'vant'
@@ -1022,10 +1022,10 @@ $global-padding: 30px;
         border: none;
         border-radius: 0 !important;
     }
-    .right {
-        background: #0d50d8;
-        color: #fff;
-    }
+    // .right {
+    //     background: #0d50d8;
+    //     color: #fff;
+    // }
 }
 .number-red {
     color: #ea3d3d;
