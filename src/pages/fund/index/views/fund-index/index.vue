@@ -100,7 +100,7 @@ div
                         van-swipe(:autoplay="3000")
                             van-swipe-item(
                                 v-for="(item, index) in barnnarList1"
-                                @click="goBanner(item, '基金首页运营', 101)"
+                                @click="goBanner(item, '基金顶部（分类下方）', 26)"
                                 :key="index")
                                 img(:src="item.picture_url")
                 yx-skeleton(
@@ -205,7 +205,7 @@ import FundCardSwipper from './fund-card-swipper'
 import FundArticle from './fund-article'
 import fundCommonMethods from '../../mixins/fund-common-methods.js'
 import yxSkeleton from '@/components/yx-skeleton'
-import { bannerClick } from '@/utils/burying-point'
+import { bannerClick, bannerExposure } from '@/utils/burying-point'
 export default {
     mixins: [fundCommonMethods],
     components: {
@@ -421,9 +421,9 @@ export default {
             this.moneyShow = !this.moneyShow
             LS.put('showMoney', this.moneyShow)
         },
-        goBanner(item, page, id) {
+        goBanner(item, page, view_id) {
             if (!item.news_jump_type && !item.jump_url) return
-            bannerClick(page, id)
+            bannerClick(page, view_id, item.banner_id)
             debounce(jumpUrl(item.news_jump_type, item.jump_url), 300)
         },
         //跳转
@@ -488,6 +488,17 @@ export default {
                 this.barnnarList1 = res.banner_list
                 this.barnnarUsList = res1.banner_list
                 this.barnnarList = res2.banner_list
+
+                this.barnnarList1.forEach(item => {
+                    bannerExposure('基金顶部（分类下方）', 26, item.banner_id)
+                })
+                this.barnnarUsList.forEach(item => {
+                    bannerExposure('基金看点', 27, item.banner_id)
+                })
+                this.barnnarList.forEach(item => {
+                    bannerExposure('基金中部（现金+下方）', 100, item.banner_id)
+                })
+
                 let fundCodeList = []
                 res3.banner_list.map(item => {
                     if (item.TagContent) {
@@ -586,6 +597,9 @@ export default {
                     }
                 })
                 this.fundBarnnarList = res3.banner_list
+                this.fundBarnnarList.forEach(item => {
+                    bannerExposure('基金首页运营', 101, item.banner_id)
+                })
             } catch (e) {
                 console.log(e)
                 if (flag) {
@@ -816,6 +830,7 @@ export default {
         window.clickSearchCallBack = () => {
             jsBridge.gotoNativeModule('yxzq_goto://search')
         }
+        bannerExposure('')
     }
 }
 </script>

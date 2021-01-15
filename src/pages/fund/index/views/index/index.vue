@@ -112,7 +112,6 @@ import fundTagType from '@/biz-components/fund-tag-type/index.vue'
 import BScroll from 'better-scroll'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { Popup } from 'vant'
-import { bannerClick } from '@/utils/burying-point'
 export default {
     i18n: {
         zhCHS: {
@@ -583,7 +582,6 @@ export default {
             this.filterPopupShow = false
         },
         goBarnner() {
-            bannerClick('基金顶部（分类下方）', 26)
             //大陆版本banner不跳转
             if (this.code === 1) {
                 let obj = [

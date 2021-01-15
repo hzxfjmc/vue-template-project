@@ -201,9 +201,19 @@ export function clickFundOrder(page, propViewName, id, name) {
 }
 
 // 点击banner埋点
-export function bannerClick(page, id) {
+export function bannerClick(page, view_id, ad_id) {
     sensors.track('yxstock_web_view_click', {
         prop_view_page: page,
-        prop_view_id: id
+        prop_view_id: view_id,
+        prop_ad_id: ad_id
+    })
+}
+
+// banner曝光埋点
+export function bannerExposure(page, view_id, ad_id) {
+    sensors.track('yxstock_web_view_exposure', {
+        prop_view_page: page,
+        prop_view_id: view_id,
+        prop_ad_id: ad_id
     })
 }
