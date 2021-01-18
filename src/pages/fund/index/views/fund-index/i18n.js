@@ -121,7 +121,7 @@ export const i18n = {
         10: '成立来',
         loadingText: '數據加載中，請稍後',
         cashPlus: '餘款+',
-        fundFilter: '基金筛选',
+        fundFilter: '基金篩選',
         fundCompany: '基金公司',
         fundNotic: '基金通告'
     },
