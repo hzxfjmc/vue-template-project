@@ -422,8 +422,8 @@ export default {
             LS.put('showMoney', this.moneyShow)
         },
         goBanner(item, page, view_id) {
-            if (!item.news_jump_type && !item.jump_url) return
             bannerClick(page, view_id, item.banner_id)
+            if (!item.news_jump_type && !item.jump_url) return
             debounce(jumpUrl(item.news_jump_type, item.jump_url), 300)
         },
         //跳转
