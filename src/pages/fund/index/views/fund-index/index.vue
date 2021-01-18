@@ -830,7 +830,6 @@ export default {
         window.clickSearchCallBack = () => {
             jsBridge.gotoNativeModule('yxzq_goto://search')
         }
-        bannerExposure('')
     }
 }
 </script>
