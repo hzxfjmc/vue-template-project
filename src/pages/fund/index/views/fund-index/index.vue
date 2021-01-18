@@ -658,13 +658,9 @@ export default {
         async getBaoFundList() {
             try {
                 const res = await getBaoFundList()
-                let sortList = res.sort((pre, curr) => {
-                    if (pre.sevenDaysApy >= curr.sevenDaysApy) {
-                        return 1
-                    } else {
-                        return -1
-                    }
-                })
+                let sortList = res.sort(
+                    (a, b) => b.sevenDaysApy - a.sevenDaysApy
+                )
                 for (let i = 0; i < sortList.length; i++) {
                     if (sortList[i].currency === 1) {
                         this.usdSevenDaysApy = (
