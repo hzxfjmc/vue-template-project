@@ -44,6 +44,7 @@
     .fund-footer-content
         .block__button(v-if="!Number(availableBaoBalance)")
             van-button.btn-color-r(
+                type="primary"
                 @click="jumpPageIntoOut('fund-subscribe',1)"
                 :text="$t('C9')"
             )
@@ -53,6 +54,7 @@
                 @click="jumpPageIntoOut('transfer-out',1)"
             )
             van-button.btn-color-r(
+                type="primary"
                 @click="jumpPageIntoOut('fund-subscribe',1)"
                 :text="$t('C9')"
             )

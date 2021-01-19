@@ -94,7 +94,7 @@
                             )
                                 span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
                         .btn__list(v-else)
-                              .btn--item(
+                            .btn--item(
                                 v-for="(obj,index) in companyList"
                                 :key="index"
                                 @click="handleChoose(obj, item)"
@@ -1008,6 +1008,15 @@ $global-padding: 30px;
         }
         .en {
             font-size: 12px;
+        }
+    }
+}
+body[data-theme='pro-theme'] {
+    .btn--item {
+        &.active {
+            color: #daaf6f;
+            border: 1px solid #daaf6f;
+            background: rgba(218, 175, 111, 0.1);
         }
     }
 }
