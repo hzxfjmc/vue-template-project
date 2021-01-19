@@ -205,7 +205,8 @@ export function bannerClick(page, view_id, ad_id) {
     sensors.track('yxstock_web_view_click', {
         prop_view_page: page,
         prop_view_id: view_id,
-        prop_ad_id: ad_id
+        prop_ad_id: ad_id,
+        ...commonParam()
     })
 }
 
@@ -214,6 +215,7 @@ export function bannerExposure(page, view_id, ad_id) {
     sensors.track('yxstock_web_view_exposure', {
         prop_view_page: page,
         prop_view_id: view_id,
-        prop_ad_id: ad_id
+        prop_ad_id: ad_id,
+        ...commonParam()
     })
 }
