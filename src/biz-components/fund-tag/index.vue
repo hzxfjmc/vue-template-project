@@ -4,7 +4,7 @@
         )
         van-tag(
             @click="toFundType"
-            color="#2177FF"
+            type="primary"
             plain
         ) {{ title }}
 
@@ -37,7 +37,7 @@ export default {
     .van-tag--plain {
         font-size: 0.2rem;
         padding: 1px 5px;
-        color: $hk-text-line-color;
+        // color: $hk-text-line-color;
         text-align: center;
         // @media only screen and (min-resolution: 2dppx) {
         //     font-size: 0.2rem;

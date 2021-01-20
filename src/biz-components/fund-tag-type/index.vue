@@ -53,22 +53,30 @@ export default {
     background: rgba(47, 121, 255, 0.1);
     color: #2177ff;
     margin-right: 5px;
+    &.low-risk,
+    &.mid-risk,
+    &.high-risk {
+        background: #fef7e7 !important;
+    }
     &.low-risk {
-        color: #fab553;
-        background: #fef7e7;
+        color: #fab553 !important;
     }
     &.mid-risk {
-        color: #ffba00;
-        background: #fef7e7;
+        color: #ffba00 !important;
     }
     &.high-risk {
-        background: #fef7e7;
-        color: #ee5c22;
+        color: #ee5c22 !important;
     }
     img {
         width: 9px;
         height: 10px;
         margin-right: 2px;
+    }
+}
+body[data-theme='pro-theme'] {
+    .fund-tag-risk {
+        color: $primary-pro-color;
+        background: $pro-text-color1;
     }
 }
 </style>

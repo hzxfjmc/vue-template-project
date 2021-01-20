@@ -1014,8 +1014,8 @@ $global-padding: 30px;
 body[data-theme='pro-theme'] {
     .btn--item {
         &.active {
-            color: #daaf6f;
-            border: 1px solid #daaf6f;
+            color: $primary-pro-color;
+            border: 1px solid $primary-pro-color;
             background: rgba(218, 175, 111, 0.1);
         }
     }

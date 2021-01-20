@@ -809,4 +809,20 @@ export default {
         }
     }
 }
+body[data-theme='pro-theme'] {
+    .fund-date-list {
+        .active {
+            background: $pro-text-color2;
+            color: $primary-pro-color;
+        }
+    }
+    .block__fund--echart {
+        .activeItem {
+            color: $primary-pro-color;
+            &::after {
+                border-bottom: 4px solid $primary-pro-color;
+            }
+        }
+    }
+}
 </style>

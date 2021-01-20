@@ -198,7 +198,10 @@ body {
 
 body[data-theme="pro-theme"] {
     .van-button--primary {
-        background: #DAAF6F;
+        background: $primary-pro-color;
         border: none;
+    }
+    .van-tag--plain {
+        color: $primary-pro-color !important; 
     }
 }

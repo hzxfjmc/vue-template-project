@@ -1969,4 +1969,9 @@ export default {
     display: flex;
     flex-direction: row;
 }
+body[data-theme='pro-theme'] {
+    // .fund-footer {
+    //     background: $primary-pro-color;
+    // }
+}
 </style>

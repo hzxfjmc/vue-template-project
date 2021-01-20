@@ -312,4 +312,13 @@ export default {
 .block__fund-ch {
     // padding: 10px 12px;
 }
+body[data-theme='pro-theme'] {
+    .block__fund-title {
+        background: linear-gradient(
+            180deg,
+            #ffe1b4 0%,
+            rgba(185, 210, 255, 0) 100%
+        );
+    }
+}
 </style>
