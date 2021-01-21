@@ -34,6 +34,7 @@
 import { Swipe, SwipeItem } from 'vant'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { jumpUrl } from '@/utils/tools.js'
+import { bannerClick } from '@/utils/burying-point'
 import { mapGetters } from 'vuex'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import './swipe.scss'
@@ -68,6 +69,7 @@ export default {
     },
     methods: {
         toRoute(item) {
+            bannerClick('基金首页运营', 101, item.banner_id)
             jumpUrl(item.news_jump_type, item.jump_url)
         }
     },
