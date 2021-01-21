@@ -199,5 +199,12 @@ export const zhCHS = {
     NET_PRICE: '净值型',
     DIVIDEND: '分红型',
     exclusiveArea: '尊享专区',
-    productList: '优质企业IPO锚定基金'
+    productList: '优质企业IPO锚定基金',
+    fundCompany: '基金公司',
+    companyDetail: '公司详情',
+    viewMore: '查看更多',
+    fundNotice: '基金公告',
+    fundNoticeDetail: '基金公告详情',
+    detail: '详情',
+    disclaimers: '免责声明'
 }

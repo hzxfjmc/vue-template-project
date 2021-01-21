@@ -202,5 +202,12 @@ export const en = {
     NET_PRICE: 'Net Type',
     DIVIDEND: 'Bonus type',
     exclusiveArea: 'Excuslive Area',
-    productList: 'productList'
+    productList: 'productList',
+    fundCompany: 'Fund Company',
+    companyDetail: 'Company Detail',
+    viewMore: 'More',
+    fundNotice: 'Fund Notice',
+    fundNoticeDetail: 'Fund Notice Detail',
+    detail: 'Detail',
+    disclaimers: 'Disclaimers'
 }

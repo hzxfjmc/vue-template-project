@@ -93,9 +93,12 @@ div
                         .block__tab--Item(
                             @click="handlerNavItem(item)"
                             v-for="(item,index) in tabList"
-                            :key="index")
-                            img(:src="item.imgUrl1")
+                            :key="index"
+                        )
+                            img(:src="item.imgUrl" :class="`item-${index+1}`")
                             span {{item.label}}
+                            .new(v-if="item.key === 'cashPlus'") new
+                            .red-point(v-if="showRedPointList[index]")
                 .block-bannar-sub-swiper.second__bannar.block__bannar__Tab(v-if="barnnarList1.length !== 0")
                         van-swipe(:autoplay="3000")
                             van-swipe-item(
@@ -160,7 +163,9 @@ div
                 :title="blueChipFundList.masterTitle"
                 v-if="blueChipFundListShow"
                 :bgColor="code != 1 ? '#2B4F80':'#2F79FF'")
-
+            fundCompany(
+                :fundCompanyList="fundCompanyList"
+            )
             FundArticle
                 .block-bannar-sub.block__bannar__Tab(
                     slot="swipper"
@@ -171,14 +176,13 @@ div
                             :key="index"
                             @click="goBanner(item, '基金看点', 27)")
                             img(:src="item.picture_url")
-
-
         .block__bottom--p
             img(:src="appType.Ch?bottomMsgLogoYxzt:bottomMsgLogoUsmart")
             p {{$t('bottomMsg')}}
             a(href="javascript:void(0);" @click="toDeclareAgreement") {{$t('bottomHref')}}
 </template>
 <script>
+import { getCosUrl } from '@/utils/cos-utils'
 import './index.scss'
 import { Swipe, SwipeItem } from 'vant'
 import FundList from './fund-list'
@@ -187,7 +191,8 @@ import {
     getFundHomepageInfo,
     getBaoFundInfo,
     getFundSimpleInfoList,
-    getBaoFundList
+    getBaoFundList,
+    getListFundCompany
 } from '@/service/finance-info-server'
 
 import { getFundTotalPosition } from '@/service/finance-server'
@@ -206,6 +211,7 @@ import FundArticle from './fund-article'
 import fundCommonMethods from '../../mixins/fund-common-methods.js'
 import yxSkeleton from '@/components/yx-skeleton'
 import { bannerClick, bannerExposure } from '@/utils/burying-point'
+import fundCompany from './fund-conpany'
 export default {
     mixins: [fundCommonMethods],
     components: {
@@ -215,7 +221,8 @@ export default {
         FundListItem,
         FundCardSwipper,
         FundArticle,
-        yxSkeleton
+        yxSkeleton,
+        fundCompany
     },
     i18n: i18n,
     filters: {
@@ -226,13 +233,13 @@ export default {
     watch: {
         isGrayAuthority(val) {
             if (val) {
-                this.tabList.push({
-                    imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_pi.png'),
-                    label: this.$t(['尊享型', '專享型', 'Exclusive']),
+                this.tabList.splice(3, 0, {
+                    imgUrl: require('@/assets/img/fund/icon-pi.png'),
+                    label: '尊享专区',
                     key: 'exclusive',
-                    value: '5'
+                    value: 4
                 })
+                this.initI18n()
             }
         }
     },
@@ -281,6 +288,10 @@ export default {
     },
     data() {
         return {
+            showRedPointList: [false, false, false, false],
+            pageNum: 1,
+            pageSize: 1000,
+            fundCompanyList: [],
             currencyTab: 0,
             moneyShow: true,
             barnnarList: [],
@@ -298,32 +309,28 @@ export default {
             searchButtonShow: false,
             tabList: [
                 {
-                    imgUrl: require('@/assets/img/fund/icon_zhexian.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_zhexian1.png'),
-                    label: '股票型',
-                    key: 'fundShares',
-                    value: '1'
+                    imgUrl: require('@/assets/img/fund/icon-cash-plus.png'),
+                    label: '现金+',
+                    key: 'cashPlus',
+                    value: 1
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon_xunzhang.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_xunzhang1.png'),
-                    label: '債劵型',
-                    key: 'fundBond',
-                    value: '2'
+                    imgUrl: require('@/assets/img/fund/icon-fund-filter.png'),
+                    label: '基金筛选',
+                    key: 'fundFilter',
+                    value: 2
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon_fenpei.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_fenpei1.png'),
-                    label: '混合型',
-                    key: 'fundBlend',
-                    value: '3'
+                    imgUrl: require('@/assets/img/fund/icon-fund-company.png'),
+                    label: '基金公司',
+                    key: 'fundCompany',
+                    value: 3
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon_money.png'),
-                    imgUrl1: require('@/assets/img/fund/icon_money1.png'),
-                    label: '貨幣型',
-                    key: 'fundCurrency',
-                    value: '4'
+                    imgUrl: require('@/assets/img/fund/icon-fund-notic.png'),
+                    label: '基金公告',
+                    key: 'fundNotic',
+                    value: 5
                 }
             ],
             choiceFundList: {}, //精选基金
@@ -347,6 +354,31 @@ export default {
         }
     },
     methods: {
+        async getListFundCompany() {
+            try {
+                let data = await getListFundCompany({
+                    pageNum: this.pageNum,
+                    pageSize: this.pageSize
+                })
+                this.fundCompanyList = data.list
+                    .sort((a, b) => {
+                        return b.publishedFundQuantity - a.publishedFundQuantity
+                    })
+                    .slice(0, 3)
+                this.fundCompanyList.forEach(async item => {
+                    if (item.hasNewPublishedFund) {
+                        // 如果有新的基金发版显示基金筛选和基金公司的红点
+                        this.showRedPointList[0] = true
+                        this.showRedPointList[1] = true
+                    }
+                    let url = await getCosUrl(item.iconUrl)
+                    item.show = true
+                    item.iconUrl = url
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
         //获取用户信息
         async getFundUserInfo() {
             try {
@@ -428,14 +460,30 @@ export default {
         },
         //跳转
         handlerNavItem(item) {
-            if (item.value == 5) {
-                this.openWebView(
-                    `${window.location.origin}/wealth/fund/index.html#/fund-exclusive-area`
-                )
-            } else {
-                this.openWebView(
-                    `${window.location.origin}/wealth/fund/index.html#/index?type=${item.value}`
-                )
+            switch (item.value) {
+                case 1:
+                    this.toYxbao()
+                    break
+                case 2:
+                    this.openWebView(
+                        `${window.location.origin}/wealth/fund/index.html#/index?type=`
+                    )
+                    break
+                case 3:
+                    this.openWebView(
+                        `${window.location.origin}/wealth/fund/index.html#/fund-company`
+                    )
+                    break
+                case 4:
+                    this.openWebView(
+                        `${window.location.origin}/wealth/fund/index.html#/fund-exclusive-area`
+                    )
+                    break
+                case 5:
+                    this.openWebView(
+                        `${window.location.origin}/wealth/fund/index.html#/fund-notice`
+                    )
+                    break
             }
         },
         //App页面跳转
@@ -626,13 +674,9 @@ export default {
         async getBaoFundList() {
             try {
                 const res = await getBaoFundList()
-                let sortList = res.sort((pre, curr) => {
-                    if (pre.sevenDaysApy >= curr.sevenDayApy) {
-                        return 1
-                    } else {
-                        return -1
-                    }
-                })
+                let sortList = res.sort(
+                    (a, b) => b.sevenDaysApy - a.sevenDaysApy
+                )
                 for (let i = 0; i < sortList.length; i++) {
                     if (sortList[i].currency === 1) {
                         this.usdSevenDaysApy = (
@@ -809,6 +853,7 @@ export default {
         }
     },
     async created() {
+        this.getListFundCompany()
         this.getBaoFundInfo()
         this.getBaoFundList()
         this.moneyShow = LS.get('showMoney')
