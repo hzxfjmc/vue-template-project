@@ -77,6 +77,9 @@ export default {
         }
     },
     methods: {
+        toggle(index) {
+            this.$refs.checkboxes[index].toggle()
+        },
         // 提交测试题目
         async handleSubmit() {
             if (!this.submitBtnDisabled && this.canSubmit) return
@@ -90,7 +93,7 @@ export default {
                         // 有子题目
                         subjectItem.subject.map(i => {
                             let optionNum = Array.isArray(i.choiceNum)
-                                ? Array.from(new Set(subjectItem.choiceNum))
+                                ? subjectItem.choiceNum // 多选
                                 : [i.choiceNum]
                             arr.push({
                                 subjectNum: i.num,
@@ -100,7 +103,7 @@ export default {
                         return arr
                     } else {
                         let optionNum = Array.isArray(subjectItem.choiceNum)
-                            ? Array.from(new Set(subjectItem.choiceNum))
+                            ? subjectItem.choiceNum
                             : [subjectItem.choiceNum]
                         return {
                             subjectNum: subjectItem.num,

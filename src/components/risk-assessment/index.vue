@@ -22,9 +22,9 @@
                                 :key="optionindex"
                                 :title=`optionItem[textI18n]`
                                 clickable
-                                @click="subjectItem.choiceNum.push(optionItem.num)"
+                                @click="toggle(optionindex)"
                             )
-                                van-checkbox(slot="right-icon" :name="optionItem.num")
+                                van-checkbox(slot="right-icon" :name="optionItem.num" ref="checkboxes")
                                     i.iconfont(
                                     slot="icon"
                                     slot-scope="props"
