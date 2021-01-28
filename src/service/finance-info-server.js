@@ -188,6 +188,23 @@ export const getFundInvestmentDataV1 = params => {
     )
 }
 
+// 获取基金公司列表
+export const getListFundCompany = params => {
+    return axios.post(`/finance-info-server/api/list-fund-company/v1`, params)
+}
+
+// 获取基金公告列表
+export const getListFundNotice = params => {
+    return axios.post(
+        `/finance-info-server/api/list-published-fund-notice/v1`,
+        params
+    )
+}
+
+// 获取基金公告信息详情
+export const getFundNotice = params => {
+    return axios.post(`/finance-info-server/api/get-fund-notice/v1`, params)
+}
 // 获取基金分享
 export const getShareFundRecommend = () => {
     return axios.post(`/finance-info-server/api/get-share-fund-recommend/v1`)

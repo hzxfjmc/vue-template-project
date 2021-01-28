@@ -63,6 +63,8 @@
             v-if="fundOverviewInfoVO.fundId"
             :fundOverviewInfoVO="fundOverviewInfoVO"
             :fundCorrelationFileList="fundCorrelationFileList"
+            :companyInfo="companyInfo"
+            :logoUrl="logoUrl"
         )
         fundTradingRules(:fundTradeInfoVO="fundTradeInfoVO")
         .block__fundheader--tips(@click="toRouterGenerator('/generator')")
@@ -205,6 +207,7 @@
 
 </template>
 <script>
+import { getCosUrl } from '@/utils/cos-utils'
 import FundShareHeader from './components/fund-share-header'
 import YxShareFooter from '@/components/yx-share-footer'
 import NP from 'number-precision'
@@ -469,6 +472,9 @@ export default {
     },
     data() {
         return {
+            companyId: '',
+            companyInfo: {},
+            logoUrl: '',
             loading: true,
             swipeShow: false,
             shareHeaderShow: true,
@@ -1061,6 +1067,14 @@ export default {
                 )
                 this.benchmarkNameObj = res.benchmarkName
                 this.displayBenchmark = res.displayBenchmark
+                // 基金公司信息
+                this.companyId = this.fundOverviewInfoVO.companyId
+                let url = await getCosUrl(this.fundOverviewInfoVO.iconUrl)
+                this.logoUrl = url
+                this.companyInfo.iconUrl = url
+                this.companyInfo.fundCompanyName = this.fundOverviewInfoVO.fundCompanyName
+                this.companyInfo.companyId = this.fundOverviewInfoVO.companyId
+                console.log(this.companyInfo)
             } catch (e) {
                 this.$toast(e.msg)
                 console.log('getFundDetail:error:>>>', e)

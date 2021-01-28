@@ -73,7 +73,7 @@ export default {
         async getFundListV2() {
             try {
                 const { list } = await getFundListV2({
-                    displayLocation: 1,
+                    displayLocation: [1],
                     pageNum: 1,
                     pageSize: 20,
                     classify: 1,

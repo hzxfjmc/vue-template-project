@@ -11,6 +11,15 @@
             title-active-color="#2F79FF")
                 van-tab(:title="$t('list')['fundIntroduce'].label" :name="0")
                     .fund-introduce-content(v-if="active===0")
+                        .fund-introduce-company
+                            .name {{$t('fundCompany')}}
+                            .content(@click="toFundCompany")
+                                .left
+                                    .logo
+                                        img(:src="logoUrl" v-if="logoUrl")
+                                    .desc {{companyInfo.fundCompanyName}}
+                                .right
+                                    span.iconfont.icon-iconEBgengduoCopy
                         .fund-introduce-list(
                             v-for="(item,index) of list"
                             :class="[item.flag == 2 ? 'activelist':'']"
@@ -72,11 +81,12 @@
 
 </template>
 <script>
+import { getUaValue } from '@/utils/html-utils'
 import './index.scss'
 import { Introducelit, i18nIntroducelist, otherList } from './fund-introduce'
 import dividendDetail from './dividend-detail'
 import fundManager from './fund-manager'
-import { transNumToThousandMark } from '@/utils/tools.js'
+import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
 import {
     getFundDetail,
     getFundManagerData
@@ -100,6 +110,7 @@ export default {
     },
     data() {
         return {
+            companyInfo: {},
             list: JSON.parse(JSON.stringify(Introducelit)),
             width: 30,
             showMoney: true,
@@ -110,7 +121,8 @@ export default {
             managerList: [],
             contentHeight: [],
             currencyName: '',
-            otherList: JSON.parse(JSON.stringify(otherList))
+            otherList: JSON.parse(JSON.stringify(otherList)),
+            logoUrl: ''
         }
     },
     methods: {
@@ -136,6 +148,11 @@ export default {
                     this.$alert(e.msg)
                 }
             }
+        },
+        toFundCompany() {
+            let params = getUaValue('langType')
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-company-detail?id=${this.companyInfo.companyId}`
+            jumpUrl(3, url)
         },
         async initState() {
             try {
@@ -188,6 +205,11 @@ export default {
                         ? this.$refs.content.map(item => item.offsetHeight)
                         : []
                 })
+                let url = await getCosUrl(fundOverviewInfoVO.iconUrl)
+                this.logoUrl = url
+                this.companyInfo.fundCompanyName =
+                    fundOverviewInfoVO.fundCompanyName
+                this.companyInfo.companyId = fundOverviewInfoVO.companyId
             } catch (e) {
                 console.log('getFundDetail:error:>>>', e)
             }
