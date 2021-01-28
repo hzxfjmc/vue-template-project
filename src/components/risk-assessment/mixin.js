@@ -76,6 +76,9 @@ export default {
         }
     },
     methods: {
+        toggle(index) {
+            this.$refs.checkboxes[index].toggle()
+        },
         // 提交测试题目
         async handleSubmit() {
             if (!this.submitBtnDisabled && this.canSubmit) return
