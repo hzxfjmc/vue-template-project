@@ -7,6 +7,7 @@ import {
 import { mapGetters } from 'vuex'
 
 import { RadioGroup, Radio, Panel, CheckboxGroup, Checkbox } from 'vant'
+import { getParameter } from '@/utils/tools'
 export default {
     name: 'RiskAssessment',
     components: {
@@ -117,9 +118,9 @@ export default {
                 console.log(assessResult)
 
                 // 拉取风险测评结果
-                let res = await riskAssessResult()
-                this.assessDefinition = res.assessDefinition
-                if (res.damagedStatus === 1) {
+                let assessRes = await riskAssessResult()
+                this.assessDefinition = assessRes.assessDefinition
+                if (assessRes.damagedStatus === 1) {
                     this.showEasyCustomer = true
                 } else {
                     this.jumpToResult()
@@ -139,6 +140,9 @@ export default {
             let id = this.$route.query.id,
                 strategyId = this.$route.query.strategyId, //策略跟投参数
                 versionId = this.$route.query.versionId, //策略跟投参数
+                isFollowUp = getParameter('isFollowUp'), // url 上是否有 isFollowUp 参数
+                // strategyRiskLevel = getParameter('strategyRiskLevel'), // 跟投策略的风险测评
+                // followUpPage = getParameter('followUpPage'), // 跟投策略下单页；跟投开户成功后需要跳转用
                 direction = this.$route.query.direction, // 只有债券才有这个参数
                 path = '/risk-appropriate-result',
                 query = {
@@ -184,6 +188,21 @@ export default {
                     window.location.origin +
                     `/webapp/stock-king/portfolio.html#/create/${strategyId}/${versionId}`
                 window.location.replace(url)
+            } else if (isFollowUp) {
+                // 跟投开户
+                // if (assessRes.assessResult >= strategyRiskLevel) {
+                //     // 风险测评通过，跳转跟投开户
+                //     let url =
+                //         window.location.origin +
+                //         `/account/follow-up/index.html?followUpPage=${encodeURI(
+                //             followUpPage
+                //         )}#/`
+                //     window.location.replace(url)
+                // } else {
+                this.$router.replace({
+                    path // '/risk-appropriate-result'
+                })
+                // }
             } else {
                 // 如果不存在 id 参数，说明是直接从测评结果页跳转的，测试完成，直接跳转出去
                 this.$router.replace({

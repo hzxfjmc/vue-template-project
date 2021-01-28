@@ -5,11 +5,13 @@ import {
     getFundUserInfo,
     checkRiskAssessTimes
 } from '@/service/user-server.js'
+import { checkFollowInvestmentInfo } from '@/service/user-account-server.js'
 import { getBondDetail, getFundDetail } from '@/service/finance-info-server.js'
-import dayjs from 'dayjs'
+// import dayjs from 'dayjs'
 import jsBridge from '@/utils/js-bridge.js'
+import { getParameter } from '@/utils/tools'
 import '../risk-assessment-result/remain-dialog.scss'
-
+import { MATCH_RESULT, PRODUCT_TYPE } from './enum.js'
 export default {
     name: 'RiskAppropriateResult',
     components: {
@@ -25,56 +27,43 @@ export default {
                 this.userInfo.assessResult
             )
         },
-        resetTimes() {
-            return {
-                zhCHS: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
-                zhCHT: dayjs(this.resetTime).format('YYYY年MM月DD日') + '重置',
-                en:
-                    'Resert on 1st January, ' +
-                    dayjs(this.resetTime).format('YYYY')
-            }[this.$i18n.lang]
+        // 是否为跟投跳转而来
+        isFollowUp() {
+            return getParameter('isFollowUp')
         },
-        btnText() {
-            if (this.userRiskLevel === 0) {
-                return this.$t('startRisk')
-            } else if (this.userRiskLevel < this.bondRiskLevel) {
-                return this.$t('againRisk')
-            } else {
-                return this.$t('sure')
-            }
+        // 当前跟投策略所属市场 0 5 67
+        strategyMarket() {
+            return +getParameter('strategyMarket')
+        },
+        strategyRiskLevel() {
+            return +getParameter('strategyRiskLevel')
         }
     },
     created() {
-        console.log(this.bondRiskLevel, '0000')
-        // 等待预定请求完成后，执行下一步操作
         console.log(window.location.href)
-        if (!this.$route.query.fundRiskType) {
-            this.handleGetBondDetail()
-            this.fundType = 1
-        }
         this.getFundUserInfo()
         this.handleSetupResult()
     },
     data() {
         return {
+            followMarketAccount: {}, // 跟投账户开通结果 例子：{0:true,5:true:,67:false}
+            MATCH_RESULT, // 适当性匹配结果
+            PRODUCT_TYPE, // 产品类型
             isReadProductInfo: true, // 是否阅读了产品资料
             isDisabled: false, // 是否禁止按钮
             riskMatchResult: 0, // 风险匹配结果
             productUrl: '', // 产品资料url
             userRiskLevel: 0, // 用户风险测评等级
             assessResultName: '', //测评结果文案
-            bondRiskLevel: this.$route.query.fundRiskType || 100, // 债券/基金风险等级
+            productRiskLevel: this.$route.query.fundRiskType || 100, // 债券/基金风险等级
             fundRiskTypeLevel: this.$route.query.fundRiskType || 100,
-            // btnText: '',
+            btnText: '',
             isShowPage: false,
             allowSubscribe: false,
             fundOverviewInfoVO: {},
             userInfo: {},
             fundCode: '',
-            number: 0, //剩余测评次数
-            showRemainingNum: false, //剩余次数弹窗
-            resetTime: '', //重置时间
-            fundType: 0, //0基金1债券
+            fundType: PRODUCT_TYPE.FUND, //0基金1债券
             damagedStatus: 0, //是否为易受损用户
             fundHeaderInfoVO: {}
         }
@@ -82,41 +71,58 @@ export default {
     methods: {
         // 将多个异步聚合为同步
         async handleSetupResult() {
-            await Promise.all([
-                this.getFundDetailFun(),
-                this.handleRiskAssessResult()
-            ])
+            let pArr = [this.handleRiskAssessResult()]
+            if (this.isFollowUp) {
+                this.productRiskLevel = this.strategyRiskLevel
+                this.fundType = PRODUCT_TYPE.STRATEGY_FOLLOWUP
+                pArr.push(this.handleCheckFollowInvestmentInfo())
+            } else if (this.$route.query.direction) {
+                pArr.push(this.handleGetBondDetail())
+            } else {
+                pArr.push(this.getFundDetailFun())
+            }
+
+            await Promise.all(pArr)
             if (this.userRiskLevel === 0) {
                 // 尚未风评
-                this.riskMatchResult = 1
+                this.riskMatchResult = MATCH_RESULT.NOT_ASSESSMENT
                 this.btnText = this.$t('startRisk')
-            } else if (this.userRiskLevel < this.bondRiskLevel) {
-                console.log(this.bondRiskLevel, 'bondRiskLevel')
+            } else if (this.userRiskLevel < this.productRiskLevel) {
+                console.log(this.productRiskLevel, 'productRiskLevel')
                 // 风评级别不够
-                this.riskMatchResult = 2
+                this.riskMatchResult = MATCH_RESULT.NOT_MATCH
                 this.btnText = this.$t('againRisk')
             } else {
                 // 风评级别够了，可以购买
-                this.riskMatchResult = 3
-                this.btnText = this.$t('sure')
+                this.riskMatchResult = MATCH_RESULT.MATCHED
+                if (this.isFollowUp) {
+                    // 跟投场景，特殊处理
+                    if (this.followMarketAccount[this.strategyMarket]) {
+                        // 开通了跟投策略相应账户，跳转跟投设置
+                        this.btnText = this.$t('followUpSet')
+                    } else {
+                        // ! 这里需要修改：未开通跟投策略相应账户，跳转发起跟投操作的页面
+                        this.btnText = this.$t('iKnow')
+                    }
+                } else {
+                    this.btnText = this.$t('sure')
+                }
             }
             this.isShowPage = true
         },
         // 拉取风险测评结果
         async handleRiskAssessResult() {
             try {
-                let res = await riskAssessResult()
+                let res = (await riskAssessResult()) || {}
                 this.userRiskLevel = res.assessResult || 0 // 用户风险测评等级
                 this.assessResultName = res.assessResultName
-                this.number = res.validCount
-                this.resetTime = res.resetTime
                 this.damagedStatus = res.damagedStatus
                 if (res.damagedStatus === 1) {
                     this.$router.replace({
                         path: '/risk-assessment-result',
                         query: {
-                            id: this.$route.query.id,
-                            fundRiskType: this.bondRiskLevel
+                            ...this.$route.query,
+                            fundRiskType: this.productRiskLevel
                         }
                     })
                 }
@@ -126,6 +132,16 @@ export default {
                     this.$alert(e.msg)
                 }
                 console.log('riskAssessResult:error:>>>', e)
+            }
+        },
+        // 获取跟投开户结果
+        async handleCheckFollowInvestmentInfo() {
+            try {
+                let { followMarketAccount } =
+                    (await checkFollowInvestmentInfo()) || {}
+                this.followMarketAccount = followMarketAccount || {}
+            } catch (e) {
+                console.log('checkFollowInvestmentInfo:error:>> ', e)
             }
         },
         //去申购页面
@@ -199,9 +215,10 @@ export default {
                 let { bondEditableInfo } = await getBondDetail(
                     this.$route.query.id - 0
                 )
+                this.fundType = 1
                 this.productUrl =
                     bondEditableInfo && bondEditableInfo.productOverview // 产品资料url
-                this.bondRiskLevel =
+                this.productRiskLevel =
                     (bondEditableInfo && bondEditableInfo.riskLevelType) || 100 // 债券风险等级
                 console.log('getBondDetail:data:>>> ', bondEditableInfo)
             } catch (error) {
@@ -218,7 +235,7 @@ export default {
             this.fundOverviewInfoVO = res.fundOverviewInfoVO
             this.fundHeaderInfoVO = res.fundHeaderInfoVO
             this.fundRiskTypeLevel = `${res.fundHeaderInfoVO.fundRisk}(R${res.fundHeaderInfoVO.fundRiskType})`
-            this.bondRiskLevel = `${res.fundHeaderInfoVO.fundRiskType}`
+            this.productRiskLevel = `${res.fundHeaderInfoVO.fundRiskType}`
         },
         // 操作按钮
         async handleAction() {
@@ -229,13 +246,13 @@ export default {
                     path: '/risk-assessment',
                     query: {
                         id: this.$route.query.id,
+                        direction: this.$route.query.direction,
                         fundRiskType: this.$route.query.fundRiskType,
                         displayLocation: this.$route.query.displayLocation
                     }
                 })
-            } else if (this.userRiskLevel < this.bondRiskLevel) {
+            } else if (this.userRiskLevel < this.productRiskLevel) {
                 // 风险等级不够 弹出剩余次数提示
-                // this.showRemainingNum = true
                 try {
                     let { monthTimes, yearTimes } = await checkRiskAssessTimes()
                     // let monthTimes = 1,
@@ -294,13 +311,13 @@ export default {
                                 this.$router.push({
                                     path: '/risk-assessment',
                                     query: {
+                                        ...this.$route.query,
                                         notFirstSubmit: true
                                     }
                                 })
                             })
                         }
                     }
-                    // this.showRemainingNum = true
                 } catch (e) {
                     console.log(e)
                     e.msg && this.$toast(e.msg)
@@ -320,6 +337,25 @@ export default {
                             id: this.$route.query.id
                         }
                     })
+                } else if (this.isFollowUp) {
+                    // 跟投场景
+                    if (this.followMarketAccount[this.strategyMarket]) {
+                        // 开通了跟投策略相应账户，跳转跟投设置
+                        let url = getParameter('followUpPage')
+                        window.location.replace(decodeURIComponent(url))
+                    } else {
+                        // ! 这里需要修改：未开通跟投策略相应账户，跳转发起跟投操作的页面
+                        // 因为策略那边是新开webview，这边直接关闭当前webview即可
+                        jsBridge.callApp('command_close_webview')
+
+                        // let url = getParameter('strategyPage')
+                        // let url =
+                        //     window.location.origin +
+                        //     `/account/follow-up/index.html?followUpPage=${encodeURIComponent(
+                        //         getParameter('followUpPage')
+                        //     )}#/`
+                        // window.location.replace(decodeURIComponent(url))
+                    }
                 } else {
                     let data = {
                         query: {
@@ -358,25 +394,6 @@ export default {
                 this.$toast(e.msg)
                 console.log('getFundUserInfo:error:>>>', e)
             }
-        },
-        // 开始测评或拨打客服电话
-        startRiskHandle(number) {
-            if (number === 0) {
-                jsBridge.gotoCustomerService()
-            } else {
-                // 跳转到风险测评
-                this.$router.push({
-                    path: '/risk-assessment',
-                    query: {
-                        id: this.$route.query.id,
-                        fundRiskType: this.$route.query.fundRiskType
-                    }
-                })
-            }
-        },
-        // 关闭
-        callOrCancel() {
-            this.showRemainingNum = false
         }
     },
     watch: {

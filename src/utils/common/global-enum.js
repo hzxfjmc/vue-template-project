@@ -9,6 +9,12 @@ export const enumMarketName = {
     1: 'hk',
     2: 'us'
 }
+
+export const EXCHANGE_TYPE = {
+    HK: 0,
+    US: 5,
+    A: 67
+}
 export const AUTH_CODE = {
     FUND_SIGN: 5, // 基金签名权限
     MARGIN: 6, // 孖展签名权限

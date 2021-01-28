@@ -1,5 +1,7 @@
 export const i18nAppropriateData = {
     zhCHS: {
+        followUpSet: '进行委托账户服务设置',
+        iKnow: '我知道了',
         matching: '匹配',
         noMatching: '不匹配',
         yoursAppropriate: '您的风评取向',
@@ -39,6 +41,8 @@ export const i18nAppropriateData = {
         timesLimit: '*每年可测评次数一共5次，每月可测评次数为3次'
     },
     zhCHT: {
+        followUpSet: '進行委託帳戶服務設定',
+        iKnow: '我知道了',
         matching: '匹配',
         noMatching: '不匹配',
         yoursAppropriate: '您的風評取向',
@@ -78,6 +82,8 @@ export const i18nAppropriateData = {
         timesLimit: '*每年可測評次數一共5次，每月可測評次數為3次'
     },
     en: {
+        followUpSet: 'Conduct Entrusted Account Setting',
+        iKnow: 'I Know',
         matching: 'Matched',
         noMatching: 'Not Matched',
         yoursAppropriate: 'Your Risk Profile',
