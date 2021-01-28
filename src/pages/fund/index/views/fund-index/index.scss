@@ -351,18 +351,57 @@
         display: flex;
         flex-direction: row;
         .block__tab--Item {
+            position: relative;
             width: 25%;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             img {
-                width: 40px;
-                height: 40px;
+                &.item-1 {
+                    width: 30px;
+                    height: 31px;
+                }
+                &.item-2 {
+                    width: 30px;
+                    height: 30px;
+                }
+                &.item-3 {
+                    width: 31px;
+                    height: 31px;
+                }
+                &.item-4 {
+                    width: 34px;
+                    height: 30px;
+                }
+                &.item-5 {
+                    width: 29px;
+                    height: 31px;
+                }
             }
             span {
                 margin:5px 0 0 0;
                 color: $text-color6;
+            }
+            .new {
+                position: absolute;
+                right: 2px;
+                top: -2px;
+                width: 24px;
+                height: 10px;
+                background: #EA3D3D;
+                border-radius: 1px;
+                color: #FFFFFF;
+                line-height: 10px;
+                font-size: 10px;
+            }
+            .red-point {
+                position: absolute;
+                right: 15px;
+                width: 4px;
+                height: 4px;
+                border-radius: 50%;
+                background: #EA3D3D;
             }
         }
     }

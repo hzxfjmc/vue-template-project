@@ -18,9 +18,9 @@
                 .scroll-header__scroll(ref="headerScroll")
                     ul.scroll-header__scroll--content
                         li.scroll-header__scroll--item(
-                            v-for="value,key in headerList"
+                            v-for="(value,key) in headerList"
                             :class="[isEn && !fundEarningsField.includes(key) ? 'en' : '']"
-                        ) 
+                        )
                             .item--text(@click="handlerSort(key)") {{value}}
                                 .item--sort
                                     SortIcon(
@@ -29,11 +29,11 @@
                                     )
             .scroll-main
                 .scroll-main-box(v-show="filterList && filterList.length > 0")
-                    .scroll-main__fiexed 
+                    .scroll-main__fiexed
                         .scroll-main__fiexed--item.border-bottom(
                             v-for="itemObj in filterList"
-                            @click="goNext(itemObj.fundId, itemObj.fundName || itemObj.title)"
-                        ) 
+                            @click="goNext(itemObj.fundId, itemObj.fundName || itemObj.title, itemObj.displayLocation)"
+                        )
                             .fund-name.ellipse
                                 span.ellipse {{itemObj.fundName}}
                             .label
@@ -43,7 +43,7 @@
                         ul.scroll-main__scroll--content
                             li.scroll-main__row.border-bottom(
                                 v-for="item in filterList"
-                                @click="goNext(item.fundId, item.fundName || item.title)"
+                                @click="goNext(item.fundId, item.fundName || item.title, item.displayLocation)"
                             )
                                 template(v-for="key in fundEarningsField")
                                     .scroll-main__row--item(
@@ -79,19 +79,28 @@
             v-model="filterPopupShow"
             position="bottom"
             :style="{height: '85%'}"
-            
+
         )
             yx-container
                 .main(slot="main")
-                    .block__content(v-for="item in formFilterList")
+                    .block__content(v-for="item in formFilterList" :key="item.key")
                         .title {{$t(item.label)}}
-                        .btn__list
+                        .btn__list(v-if="item.label !== 'fundCompany'")
                             .btn--item(
-                                v-for="obj in item.btnList"
+                                v-for="(obj,index) in item.btnList"
+                                :key="index"
                                 @click="handleChoose(obj, item)"
                                 :class="[form[item.label].includes(obj.val) ? 'active': '',]"
                             )
-                                span(:class="{en:isEn}") {{item.label=='establishYears'?obj.key:$t(obj.key)}}
+                                span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
+                        .btn__list(v-else)
+                              .btn--item(
+                                v-for="(obj,index) in companyList"
+                                :key="index"
+                                @click="handleChoose(obj, item)"
+                                :class="[form[item.label].includes(obj.val) ? 'active': '',]"
+                            )
+                                span(:class="{en:isEn}") {{obj.label}}
                 .bottom(slot="bottom")
                     .block__bottom(:class="{bottom : isPhoneX}")
                         van-button.left(@click="handleReset") {{$t('reset')}}
@@ -99,7 +108,10 @@
 </template>
 <script>
 import { Swipe, SwipeItem, Button } from 'vant'
-import { getFundListV2 } from '@/service/finance-info-server.js'
+import {
+    getFundListV2,
+    getListFundCompany
+} from '@/service/finance-info-server.js'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
 import { jumpUrl, debounce } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
@@ -309,6 +321,9 @@ export default {
                             val: 3
                         }
                     ]
+                },
+                {
+                    label: 'fundCompany'
                 }
             ]
         }
@@ -329,6 +344,7 @@ export default {
         this.assetType = this.$route.query.type
         this.currency = this.$route.query.currency
         this.getFundListV2()
+        this.getListFundCompany()
         window.clickSearchCallBack = () => {
             jsBridge.gotoNativeModule('yxzq_goto://search')
         }
@@ -408,8 +424,10 @@ export default {
                 currency: [],
                 riskLevel: [],
                 establishYears: [],
-                dividendType: []
+                dividendType: [],
+                fundCompany: []
             },
+            companyList: [],
             assetType: '',
             code: 0,
             assetTypetab: '',
@@ -514,6 +532,7 @@ export default {
             this.FilterAction()
         },
         FilterAction() {
+            // 交易货币查询
             this.filterList = this.list.filter(item => {
                 if (
                     this.form.currency.length == 0 ||
@@ -522,6 +541,7 @@ export default {
                     return true
                 }
             })
+            // 风险等级
             this.filterList = this.filterList.filter(item => {
                 if (
                     this.form.riskLevel.length == 0 ||
@@ -530,6 +550,7 @@ export default {
                     return true
                 }
             })
+            // 成立年限
             this.filterList = this.filterList.filter(item => {
                 let flag = false
                 for (let i = 0; i < this.form.establishYears.length; i++) {
@@ -545,10 +566,20 @@ export default {
                 }
                 return this.form.establishYears.length == 0 ? true : flag
             })
+            // 分红类型
             this.filterList = this.filterList.filter(item => {
                 if (
                     this.form.dividendType.length == 0 ||
                     this.form.dividendType.includes(item.dividendType)
+                ) {
+                    return true
+                }
+            })
+            // 基金公司
+            this.filterList = this.filterList.filter(item => {
+                if (
+                    this.form.fundCompany.length == 0 ||
+                    this.form.fundCompany.includes(item.companyId)
                 ) {
                     return true
                 }
@@ -661,7 +692,7 @@ export default {
             try {
                 this.list = []
                 const { list } = await getFundListV2({
-                    displayLocation: 1,
+                    displayLocation: [1, 3],
                     pageNum: this.pageNum,
                     pageSize: this.pageSize,
                     assetType: this.assetType
@@ -677,12 +708,33 @@ export default {
                 console.log('getListFundInfo:error:>>>', e)
             }
         },
-        goNext(fundId, name) {
-            let url = `${
-                window.location.origin
-            }/wealth/fund/index.html#/fund-details?id=${fundId}&name=${encodeURIComponent(
-                name
-            )}`
+        // 获得基金公司列表
+        async getListFundCompany() {
+            try {
+                let data = await getListFundCompany({
+                    pageNum: 1,
+                    pageSize: 20
+                })
+                this.companyList = data.list
+                this.companyList.forEach(item => {
+                    item.label = item.companySampleName
+                    item.val = item.companyId
+                })
+            } catch (e) {
+                this.$toast(e.msg)
+            }
+        },
+        goNext(fundId, name, displayLocation) {
+            let url = ''
+            if (displayLocation === 3) {
+                url = `${window.location.origin}/wealth/yxbao/index.html#/yxbao-details?id=${fundId}&displayLocation=3`
+            } else {
+                url = `${
+                    window.location.origin
+                }/wealth/fund/index.html#/fund-details?id=${fundId}&name=${encodeURIComponent(
+                    name
+                )}`
+            }
             debounce(jumpUrl(3, url), 300)
         },
         changeBannarTitle() {
@@ -935,12 +987,14 @@ $global-padding: 30px;
         flex-wrap: wrap;
     }
     .btn--item {
-        display: flex;
-        justify-content: center;
-        align-items: center;
         margin-top: 10px;
         width: 109px;
         height: 40px;
+        text-align: center;
+        line-height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         border-radius: 4px;
         border: 1px solid rgba(25, 25, 25, 0.05);
         &:nth-child(3n + 2) {
