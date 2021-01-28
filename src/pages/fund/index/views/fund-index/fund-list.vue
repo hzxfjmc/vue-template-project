@@ -314,11 +314,7 @@ export default {
 }
 body[data-theme='pro-theme'] {
     .block__fund-title {
-        background: linear-gradient(
-            180deg,
-            #ffe1b4 0%,
-            rgba(185, 210, 255, 0) 100%
-        );
+        background: url('~@/assets/img/fund/fund-title-bg-pro.png') no-repeat;
     }
 }
 </style>
