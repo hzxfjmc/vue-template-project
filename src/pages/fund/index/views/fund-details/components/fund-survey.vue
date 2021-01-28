@@ -21,6 +21,17 @@
             .block__fund--title {{$t('dividend')}}
             .block__fund--content(@click="tofundSurvey(3)") {{dividendDetail}}
                 i.iconfont.icon-iconEBgengduoCopy
+        .fund-introduce-company(@click="toFundCompanyDetail")
+            .content
+                .left
+                    .logo 
+                        img(:src="logoUrl")
+                    .desc {{companyInfo.fundCompanyName}}
+                .right
+                    span.iconfont.icon-iconEBgengduoCopy
+            
+            
+
 </template>
 <script>
 import { jumpUrl, transNumToThousandMark } from '@/utils/tools.js'
@@ -133,12 +144,25 @@ export default {
         fundCorrelationFileList: {
             type: Array,
             default: () => []
+        },
+        companyInfo: {
+            type: Object,
+            default: () => {}
+        },
+        logoUrl: {
+            type: String,
+            default: ''
         }
     },
     methods: {
         tofundSurvey(val) {
             let params = getUaValue('langType')
             let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-introduce?id=${this.fundOverviewInfoVO.fundId}&active=${val}`
+            jumpUrl(3, url)
+        },
+        toFundCompanyDetail() {
+            let params = getUaValue('langType')
+            let url = `${window.location.origin}/wealth/fund/index.html?langType=${params}#/fund-company-detail?id=${this.companyInfo.companyId}`
             jumpUrl(3, url)
         },
         async getFundManagerData() {
@@ -190,9 +214,6 @@ export default {
         .block__fund--title {
             color: $text-color5;
         }
-        &:last-child {
-            border: 0;
-        }
     }
 }
 
@@ -227,6 +248,34 @@ export default {
                 font-size: 15px;
                 line-height: 25px;
             }
+        }
+    }
+}
+.fund-introduce-company {
+    .content {
+        padding: 12px 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .left {
+            display: flex;
+            line-height: 20px;
+            align-items: center;
+        }
+        .desc {
+            margin-left: 15px;
+            line-height: 20px;
+        }
+        .logo {
+            width: 102px;
+            height: 52px;
+            background: #fff;
+            border-radius: 2px;
+        }
+        img {
+            width: 102px;
+            height: 52px;
+            border-radius: 2px;
         }
     }
 }

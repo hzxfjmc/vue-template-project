@@ -168,6 +168,7 @@ import LS from '@/utils/local-storage'
 import { createNamespace } from '@/utils/bem'
 const [bem] = createNamespace('yxbao')
 import { isYouxinApp } from '../../../../../utils/html-utils'
+import { bannerClick, bannerExposure } from '@/utils/burying-point'
 export default {
     components: {
         [Swipe.name]: Swipe,
@@ -287,6 +288,7 @@ export default {
     methods: {
         bem,
         goBanner(item) {
+            bannerClick('现金+首页', 106, item.banner_id)
             jumpUrl(item.news_jump_type, item.jump_url)
         },
         //获取用户信息
@@ -374,6 +376,9 @@ export default {
             try {
                 const res = await bannerAdvertisement(106)
                 this.banner_list = res.banner_list
+                this.banner_list.forEach(item => {
+                    bannerExposure('现金+首页', 106, item.banner_id)
+                })
                 console.log(this.banner_list)
             } catch (e) {
                 this.$toast(e.msg)

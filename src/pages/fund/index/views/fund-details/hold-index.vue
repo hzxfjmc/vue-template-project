@@ -9,7 +9,7 @@
             :tagsShow="tagsShow"
             :initState="holdInitState"
             :fundHeaderInfoVO="fundHeaderInfoVO")
-        
+
         fundDetailsEchart(
           @chooseTime = "getFundApyPoint"
           :benchmarkNameObj="benchmarkNameObj"
@@ -28,7 +28,7 @@
             v-if="!fightShow && code ===2"
             :userList="userList"
             :swipeShow="swipeShow"
-            :actionInfo = "actionInfo") 
+            :actionInfo = "actionInfo")
 
         .fund___list--p
             p {{$t('msg1')}}
@@ -48,13 +48,13 @@
                         em(v-if="subscribeFeeVO.fundFeeLevelVOList[0].feeRate != 0 &&(fundFixedFeeVO.feeDiscount*100) != 0") {{$t([`享申购费${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`,`享認購費${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`,`Enjoy Subs. Fee ${Number(fundFixedFeeVO.feeDiscount*100).toFixed(2)}%`])}}
                 van-button.button-left.btn(
                     v-if="RedemptionButton"
-                    :class="[flag?'fund-check':'fund-no']" 
+                    :class="[flag?'fund-check':'fund-no']"
                     @click="toRouter('/fund-redemption')") {{$t('redeem')}}
                 van-button.btn(
                     v-if="RedemptionButton"
-                    :class="[flag1?'fund-buy':'fund-no']" 
+                    :class="[flag1?'fund-buy':'fund-no']"
                     @click="toRouter('/fund-subscribe')") {{$t('append')}}
-        
+
         .fund-footer-content(v-if="!PurchaseButton && !this.btnShow")
             span.btn.button-width.fund-footer-tip(v-if="showPositionInfo && subscribeFeeVO.defaultFeeRate && subscribeFeeVO.fundFeeLevelVOList.length && (Number(subscribeFeeVO.fundFeeLevelVOList[0] && subscribeFeeVO.fundFeeLevelVOList[0].feeRate)<Number(subscribeFeeVO.defaultFeeRate))" disabled) {{`${$t('subscriptionFee')}：`}}{{discountRate}}
                 span （
@@ -73,17 +73,17 @@
             v-if="chsFightButton")
             .block__list--header(v-if="shareHeaderShow")
                 .block__footer-avat
-                    img(:src="avatImg") 
+                    img(:src="avatImg")
                 .block__footer--content
                     .block__footer--bottom {{contentmsg}}
                     .block__footer--top
                         span 剩余
                         .vant-count-down
-                            CountDown( 
+                            CountDown(
                                 millisecond
                                 :time="time"
                                 format="DD天 HH:mm:ss")
-                    
+
                 .block__footer-right(v-if="figthComeShow")
                     van-button(
                         @click="handleBuyOrSell(3)"
@@ -91,10 +91,10 @@
             .block__button--list(v-if="figthBtnShow")
                 van-button(
                     class="fund-footer btn button-width1"
-                    @click="handleBuyOrSell(1)" 
+                    @click="handleBuyOrSell(1)"
                     :class="[flag2 ? 'fund-footer':'fund-no']") {{$t('buy')}}
                 .block__fight--btn.btn(
-                    :class="[flag2 ?'fund-footer1':'fund-footer2']" 
+                    :class="[flag2 ?'fund-footer1':'fund-footer2']"
                     @click="handleBuyOrSell(2)")
                     span 发起拼团申购
                     em 申购费最高可返{{100-discount}}%
@@ -121,7 +121,7 @@
                             p  {{$t('togetherScribe')}}
                             p ({{$t('Surplus')}}
                             .vant-count-down
-                                CountDown( 
+                                CountDown(
                                     millisecond
                                     :time="time"
                                     :format="$t('format')")
@@ -132,15 +132,15 @@
                     van-button(
                         class="btn"
                         @click="handleBuyOrSell(2)") {{$t('Subscribenow')}}
-       
-    
+
+
     img(
         v-show="false"
         :src="shareIcon"
         ref="titlebarIcon")
-           
-           
-    
+
+
+
 </template>
 <script>
 import NP from 'number-precision'
@@ -526,7 +526,7 @@ export default {
         async getFundFeeConfig() {
             try {
                 let params = {
-                    fundId: this.id
+                    fundId: this.id || this.$route.query.id
                 }
                 let {
                     subscribeFeeVO,

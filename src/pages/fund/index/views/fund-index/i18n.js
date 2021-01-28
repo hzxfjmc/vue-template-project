@@ -56,7 +56,11 @@ export const i18n = {
         8: '近五年',
         9: '今年来',
         10: '成立来',
-        loadingText: '数据加载中，请稍后'
+        loadingText: '数据加载中，请稍后',
+        cashPlus: '现金+',
+        fundFilter: '基金筛选',
+        fundCompany: '基金公司',
+        fundNotic: '基金公告'
     },
     zhCHT: {
         fundHold: '基金持倉',
@@ -115,7 +119,11 @@ export const i18n = {
         8: '近五年',
         9: '今年来',
         10: '成立来',
-        loadingText: '數據加載中，請稍後'
+        loadingText: '數據加載中，請稍後',
+        cashPlus: '餘款+',
+        fundFilter: '基金篩選',
+        fundCompany: '基金公司',
+        fundNotic: '基金通告'
     },
     en: {
         unit: 'B ',
@@ -174,6 +182,10 @@ export const i18n = {
         8: 'Last 5-Year',
         9: 'YTD',
         10: 'Since Inception',
-        loadingText: 'Loading'
+        loadingText: 'Loading',
+        cashPlus: 'CASH +',
+        fundFilter: 'Filter',
+        fundCompany: 'Company',
+        fundNotic: 'Notice'
     }
 }

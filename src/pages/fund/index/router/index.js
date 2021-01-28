@@ -10,7 +10,7 @@ export default new Router({
         {
             name: 'fund-index',
             path: '/',
-            meta: { title: 'home', auth: true, search: true },
+            meta: { title: 'home', auth: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
@@ -136,7 +136,7 @@ export default new Router({
         {
             name: 'home',
             path: '/home',
-            meta: { title: 'home', auth: true, search: true },
+            meta: { title: 'home', auth: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
@@ -164,7 +164,7 @@ export default new Router({
         {
             name: 'fund-index',
             path: '/fund-index',
-            meta: { title: 'home', auth: true, search: true },
+            meta: { title: 'home', auth: true },
             component: () =>
                 import(`@/pages/fund/index/views/fund-index/index.vue`)
         },
@@ -263,6 +263,41 @@ export default new Router({
                 import(
                     `@/pages/fund/index/views/fund-details/components/fund-invest-combination/index.vue`
                 )
+        },
+        {
+            name: 'fund-notice',
+            path: '/fund-notice',
+            meta: { title: 'fundNotice', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-notice/index.vue`)
+        },
+        {
+            name: 'fund-notice-detail',
+            path: '/fund-notice-detail',
+            meta: { title: 'fundNoticeDetail', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-notice/detail.vue`)
+        },
+        {
+            name: 'fund-company',
+            path: '/fund-company',
+            meta: { title: 'fundCompany', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-company/index.vue`)
+        },
+        {
+            name: 'fund-company-detail',
+            path: '/fund-company-detail',
+            meta: { title: 'companyDetail', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-company/detail.vue`)
+        },
+        {
+            name: 'fund-notice-disclaimers',
+            path: '/fund-notice-disclaimers',
+            meta: { title: 'disclaimers', auth: true, cs: true },
+            component: () =>
+                import(`@/pages/fund/index/views/fund-notice/disclaimers.vue`)
         }
     ]
 })
