@@ -15,21 +15,39 @@
                 :key="subjectIndex"
                 :title="subjectItem[titleI18n]"
             )
-                van-radio-group(v-model="subjectItem.choiceNum")
-                    van-cell-group
+                template(v-if="subjectIndex===5")
+                    van-checkbox-group(v-model="subjectItem.choiceNum")
                         van-cell(
-                            v-for="(optionItem, optionindex) in subjectItem.option"
-                            :key="optionindex"
-                            :title=`optionItem[textI18n]`
-                            clickable
-                            @click="subjectItem.choiceNum = optionItem.num"
-                        )
-                            van-radio(slot="right-icon" :name="optionItem.num")
-                                i.iconfont(
+                                v-for="(optionItem, optionindex) in subjectItem.option"
+                                :key="optionindex"
+                                :title=`optionItem[textI18n]`
+                                clickable
+                                @click="subjectItem.choiceNum.push(optionItem.num)"
+                            )
+                                van-checkbox(slot="right-icon" :name="optionItem.num")
+                                    i.iconfont(
                                     slot="icon"
                                     slot-scope="props"
                                     :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                 )
+                template(v-else)
+                    van-radio-group(v-model="subjectItem.choiceNum")
+                        van-cell-group
+                            van-cell(
+                                v-for="(optionItem, optionindex) in subjectItem.option"
+                                :key="optionindex"
+                                :title=`optionItem[textI18n]`
+                                clickable
+                                @click="subjectItem.choiceNum = optionItem.num"
+                            )
+                                van-radio(slot="right-icon" :name="optionItem.num")
+                                    i.iconfont(
+                                        slot="icon"
+                                        slot-scope="props"
+                                        :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
+                                    )
+                .risk-info(v-if="subjectIndex===8")
+                    p {{$t([subjectItem.tips_cn, subjectItem.tips_hk,subjectItem.tips_en])}}
                 .has-child-container(v-if="[6,7].includes(subjectIndex)")
                     van-panel#child-title(
                         v-for="(subjectItem1, subjectIndex) in subjectItem.subject"
@@ -52,19 +70,23 @@
                                             slot-scope="props"
                                             :class="props.checked ? 'icon-selected' : 'icon-unchecked'"
                                         )
-            van-dialog.easy-customer-container(v-model="showEasyCustomer" :show-confirm-button='false')
-                .title {{$t('resultTitle') }}
-                .msg-info {{assessDefinition && assessDefinition}}
-                .msg-result {{$t('resultCus')}}
-                .msg-title {{$t('msgTitle')}}
-                .msg-reason(v-for="(item,index) in $t('msgReason')")
-                    .item-reason ({{index+1}}) {{item}}
-                .danger-intro {{$t('dangerIntro')}}
-                .to-call-cs {{$t('toCallCS')}}
-                .btn-know(@click="closeEasyCustomer") {{$t('iKnow')}}
         .van-bottom-btn(slot="bottom")
             van-button.btn(type="info" round size="large" :disabled="submitBtnDisabled" @click="handleSubmit('submit')"
             :class="{ active: !submitBtnDisabled }") {{$t('btnText')}}
+        van-dialog.easy-customer-container(
+            slot="default"
+            v-model="showEasyCustomer" 
+            :show-confirm-button='false'
+            )
+            .title {{$t('resultTitle') }}
+            .msg-info {{assessDefinition && assessDefinition}}
+            .msg-result {{$t('resultCus')}}
+            .msg-title {{$t('msgTitle')}}
+            .msg-reason(v-for="(item,index) in $t('msgReason')")
+                .item-reason ({{index+1}}) {{item}}
+            .danger-intro {{$t('dangerIntro')}}
+            .to-call-cs {{$t('toCallCS')}}
+            .btn-know(@click="closeEasyCustomer") {{$t('iKnow')}}
 
 </template>
 
@@ -87,8 +109,7 @@ export default {
             resultCus: '您为“易受损客户”',
             msgTitle: '什么是“易受损客户”',
             msgReason: [
-                '65岁或以上；或',
-                '教育程度在小学或以下；或',
+                '65岁或以上',
                 '职业是退休及每年收入<HK$20万及资产净值<HK$50万'
             ],
             dangerIntro:
@@ -108,8 +129,7 @@ export default {
             resultCus: '您為"易受損客戶"',
             msgTitle: '什麼是"易受損客戶"',
             msgReason: [
-                '65歲或以上；或',
-                '教育程度在小學或以下；或',
+                '65歲或以上',
                 '職業是退休及每年收入<HK$20萬及資產淨值<HK$50萬'
             ],
             dangerIntro:
@@ -129,8 +149,7 @@ This assessment is important to know about your investment risk profile for choo
             resultCus: 'You are vulnerable client',
             msgTitle: 'What is vulnerable client',
             msgReason: [
-                '65 years or older, or',
-                'level of education is equal to or below primary school level, or',
+                '65 years or older',
                 'retired and annual income < HK$ 200,000 and net asset value < HK$ 500,000'
             ],
             dangerIntro:
@@ -148,6 +167,7 @@ This assessment is important to know about your investment risk profile for choo
     background-color: $text-color8;
     font-family: 'PingFang SC';
     .risk-assessment-tips {
+        z-index: 999;
         height: 153px;
         background-color: #fff;
         padding: 14px 10px 0;
@@ -253,11 +273,14 @@ This assessment is important to know about your investment risk profile for choo
             border-bottom: none;
         }
     }
+    .risk-info {
+        padding: 0 12px;
+    }
 }
 .easy-customer-container {
     padding: 20px 16px;
     text-align: center;
-
+    z-index: 3000;
     .title {
         font-size: 20px;
         color: $primary-color-line;
