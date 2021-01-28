@@ -92,7 +92,7 @@ export default {
                         // 有子题目
                         subjectItem.subject.map(i => {
                             let optionNum = Array.isArray(i.choiceNum)
-                                ? Array.from(new Set(subjectItem.choiceNum))
+                                ? subjectItem.choiceNum // 多选
                                 : [i.choiceNum]
                             arr.push({
                                 subjectNum: i.num,
@@ -102,7 +102,7 @@ export default {
                         return arr
                     } else {
                         let optionNum = Array.isArray(subjectItem.choiceNum)
-                            ? Array.from(new Set(subjectItem.choiceNum))
+                            ? subjectItem.choiceNum
                             : [subjectItem.choiceNum]
                         return {
                             subjectNum: subjectItem.num,
