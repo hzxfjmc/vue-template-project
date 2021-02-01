@@ -3,11 +3,10 @@ import LS from '../local-storage.js'
 import { API_BASE_URL } from '../DOMAIN.js'
 import getHeadInfo from './get-head-info'
 import qs from 'qs'
-import Vue from 'vue'
 import JSBridge from '@/utils/js-bridge'
 import { compareVersion, guid } from '@/utils/tools'
 // import { Toast } from 'vant'
-import { isYouxinApp } from '@/utils/html-utils.js'
+import { isYouxinApp, lang } from '@/utils/html-utils.js'
 
 // 开发环境使用，打包前注意要注释
 import proxyValid from '@/mock/utils/api-proxy.js'
@@ -25,6 +24,17 @@ let langInfo = {
 
 export const setLangType = type => {
     langInfo.langType = type
+}
+
+const errSysTipMap = {
+    zhCHS: '系统繁忙，请稍后再试',
+    zhCHT: '系統繁忙，請稍後再試',
+    en: 'System is busy. Please try later'
+}
+const errNetTipMap = {
+    zhCHS: '网络繁忙，请稍后重试',
+    zhCHT: '網絡繁忙，請稍後重試',
+    en: 'Network is busy. Please try later'
 }
 
 // // rsa 加密解密 // TODO: 待讨论  生产环境前端不应该暴露公钥出去
@@ -111,11 +121,23 @@ export default class baseRequest {
                 }
             },
             e => {
-                console.log(e, '报错了')
-                let errorNetwork =
-                    Vue.prototype.$t && Vue.prototype.$t('errorNetwork')
+                // console.log(e, '报错了')
+                // let errorNetwork =
+                //     Vue.prototype.$t && Vue.prototype.$t('errorNetwork')
+                // return Promise.reject({
+                //     msg: errorNetwork || '网络开小差了,请稍后重试'
+                // })
+                let errorTip
+                // 网络报错
+                if (typeof e === 'object' && e.message === 'Network Error') {
+                    errorTip = errNetTipMap[lang]
+                } else {
+                    // 后台系统报错
+                    errorTip = errSysTipMap[lang]
+                }
                 return Promise.reject({
-                    msg: errorNetwork || '网络开小差了,请稍后重试'
+                    code: e.code, // 增加判断用，不可删除
+                    msg: errorTip
                 })
             }
         )
