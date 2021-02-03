@@ -1,8 +1,14 @@
 <template lang="pug">
     .sort-container
-        img(
+        img.primary(
+            v-if="!isProApp"
             :class="{'icon-up': value === 2}"
             :src="require(`@/assets/img/fund/fund-list/${value === 0 ? 'default' : 'light'}.png`)" 
+        )
+        img.pro(
+            v-else
+            :class="{'icon-up': value === 2}"
+            :src="require(`@/assets/img/fund/fund-list/${value === 0 ? 'default' : 'light_pro'}.png`)" 
         )
 </template>
 
@@ -10,6 +16,19 @@
 // 0=default， 1=up， 2=down
 export default {
     name: 'sort-icon',
+    data() {
+        return {
+            isProApp: false
+        }
+    },
+    mounted() {
+        this.$nextTick(() => {
+            let body = document.querySelector('body')
+            if (body.getAttribute('data-theme') === 'pro-theme') {
+                this.isProApp = true
+            }
+        })
+    },
     props: {
         value: {
             type: Number,

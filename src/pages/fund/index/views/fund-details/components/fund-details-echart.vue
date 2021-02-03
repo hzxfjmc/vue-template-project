@@ -824,5 +824,10 @@ body[data-theme='pro-theme'] {
             }
         }
     }
+    .legend__category {
+        &.maker-1::before {
+            background-color: #daaf6f;
+        }
+    }
 }
 </style>

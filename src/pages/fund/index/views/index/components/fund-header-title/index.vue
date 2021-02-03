@@ -1,6 +1,6 @@
 <template lang="pug">
 .fund__header--nav
-    .fund__header--subnav(v-if="hkShow")
+    .fund__header--subnav(v-if="chShow")
         .fund__nav--scroll(ref="navTransform")
             .fund__nav--item(
                 v-for="(item,index) in navList" 
@@ -11,7 +11,7 @@
                 @click="handleFilterShow"
             )
                 span.iconfont.icon-fundFilter
-    .fund__header--subnav(v-if="chShow")
+    .fund__header--subnav(v-if="hkShow")
         .fund__nav--scroll.fund__nav--scroll-d(ref="navTransform")
             .fund__nav--subitem(
                 v-for="(item,index) in navList" 
@@ -356,5 +356,13 @@ export default {
     border-right: 10px solid transparent;
     border-bottom: 10px solid #fff;
     position: absolute;
+}
+body[data-theme='pro-theme'] {
+    .active1 {
+        color: #daaf6f;
+        &::after {
+            border-bottom: 4px solid #daaf6f;
+        }
+    }
 }
 </style>
