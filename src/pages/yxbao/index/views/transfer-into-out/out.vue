@@ -658,3 +658,23 @@ h1 {
     }
 }
 </style>
+<style lang="scss" scoped>
+body[data-theme='pro-theme'] {
+    .fund__list--item {
+        .iconfont {
+            color: #daaf6f;
+        }
+    }
+    .icon-icon-checkbox-selected {
+        color: #daaf6f;
+    }
+    .block__footer--check {
+        em {
+            color: #daaf6f;
+        }
+    }
+    .btn {
+        background: #daaf6f;
+    }
+}
+</style>

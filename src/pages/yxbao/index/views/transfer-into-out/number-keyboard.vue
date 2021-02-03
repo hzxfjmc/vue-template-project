@@ -314,3 +314,10 @@ export default {
     }
 }
 </style>
+<style lang="scss" scoped>
+body[data-theme='pro-theme'] {
+    .block__all--out {
+        color: #daaf6f;
+    }
+}
+</style>

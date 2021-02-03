@@ -476,4 +476,19 @@ export default {
 .number-green {
     color: #04ba60;
 }
+body[data-theme='pro-theme'] {
+    .block__top {
+        .active {
+            color: #daaf6f;
+        }
+    }
+    .block-type__list {
+        .active {
+            color: #daaf6f;
+        }
+        span {
+            color: #daaf6f;
+        }
+    }
+}
 </style>
