@@ -195,3 +195,13 @@ body {
 // .van-hairline--top-bottom{
 //     position: absolute !important;
 // }
+
+body[data-theme="pro-theme"] {
+    .van-button--primary {
+        background: $primary-pro-color;
+        border: none;
+    }
+    .van-tag--plain {
+        color: $primary-pro-color !important; 
+    }
+}

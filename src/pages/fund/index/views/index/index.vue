@@ -94,7 +94,7 @@
                             )
                                 span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
                         .btn__list(v-else)
-                              .btn--item(
+                            .btn--item(
                                 v-for="(obj,index) in companyList"
                                 :key="index"
                                 @click="handleChoose(obj, item)"
@@ -104,7 +104,7 @@
                 .bottom(slot="bottom")
                     .block__bottom(:class="{bottom : isPhoneX}")
                         van-button.left(@click="handleReset") {{$t('reset')}}
-                        van-button.right(@click="handleClose") {{fundNumStr}}
+                        van-button.right(type="primary" @click="handleClose") {{fundNumStr}}
 </template>
 <script>
 import { Swipe, SwipeItem, Button } from 'vant'
@@ -1011,6 +1011,15 @@ $global-padding: 30px;
         }
     }
 }
+body[data-theme='pro-theme'] {
+    .btn--item {
+        &.active {
+            color: $primary-pro-color;
+            border: 1px solid $primary-pro-color;
+            background: rgba(218, 175, 111, 0.1);
+        }
+    }
+}
 .block__bottom {
     width: 100%;
     display: flex;
@@ -1022,10 +1031,10 @@ $global-padding: 30px;
         border: none;
         border-radius: 0 !important;
     }
-    .right {
-        background: #0d50d8;
-        color: #fff;
-    }
+    // .right {
+    //     background: #0d50d8;
+    //     color: #fff;
+    // }
 }
 .number-red {
     color: #ea3d3d;

@@ -312,4 +312,9 @@ export default {
 .block__fund-ch {
     // padding: 10px 12px;
 }
+body[data-theme='pro-theme'] {
+    .block__fund-title {
+        background: url('~@/assets/img/fund/fund-title-bg-pro.png') no-repeat;
+    }
+}
 </style>

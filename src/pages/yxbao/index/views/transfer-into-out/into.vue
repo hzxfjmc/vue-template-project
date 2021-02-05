@@ -513,3 +513,23 @@ export default {
     }
 }
 </style>
+<style lang="scss" scoped>
+body[data-theme='pro-theme'] {
+    .detail {
+        color: #daaf6f !important;
+    }
+    .btn {
+        background: #daaf6f;
+    }
+    .block__footer--check {
+        em {
+            color: #daaf6f;
+        }
+    }
+    .fund__list--item {
+        .iconfont {
+            color: #daaf6f;
+        }
+    }
+}
+</style>

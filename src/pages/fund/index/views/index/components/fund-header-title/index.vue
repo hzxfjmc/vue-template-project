@@ -357,4 +357,12 @@ export default {
     border-bottom: 10px solid #fff;
     position: absolute;
 }
+body[data-theme='pro-theme'] {
+    .active1 {
+        color: #daaf6f;
+        &::after {
+            border-bottom: 4px solid #daaf6f;
+        }
+    }
+}
 </style>

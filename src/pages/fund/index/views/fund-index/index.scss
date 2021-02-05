@@ -585,3 +585,31 @@
 .fund-tag{
     margin-right:1px;
 }
+body[data-theme='pro-theme'] {
+    .block__assets {
+        background: linear-gradient(180deg, #333333 0%, #222222 100%);
+        box-shadow: 0px 2px 4px 0px rgba(57, 57, 57, 0.2);
+        color: $primary-pro-color;
+        .color-black {
+            color: $primary-pro-color;
+        }
+        .iconfont {
+            color: $pro-text-color6;
+        }
+        p {
+            color: $primary-pro-color !important;
+        }
+        span {
+            color: $primary-pro-color !important;
+        }
+        .block--button {
+            background: $primary-pro-color !important;
+            span {
+                color: #fff !important;
+            }
+            em {
+                color: #fff !important;
+            }
+        }
+    }
+}

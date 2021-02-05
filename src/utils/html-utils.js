@@ -16,5 +16,6 @@ export const {
     lang,
     getLang,
     getStockColorType,
-    getAppType
+    getAppType,
+    setSkin
 } = htmlUtils

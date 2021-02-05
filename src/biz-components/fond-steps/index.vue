@@ -98,4 +98,11 @@ export default {
         }
     }
 }
+body[data-theme='pro-theme'] {
+    .step-row {
+        .primary-color {
+            background: $primary-pro-color;
+        }
+    }
+}
 </style>
