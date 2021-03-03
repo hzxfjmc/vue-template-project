@@ -1,5 +1,5 @@
 import JSBridge from '../js-bridge'
-import { logjson } from '@/service/news-upload'
+import { logjson } from '@/service/quotes-applogupload'
 import { getUaValue } from '../html-utils'
 import dayjs from 'dayjs'
 import Vue from 'vue'
