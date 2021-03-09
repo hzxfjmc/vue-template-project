@@ -1,7 +1,7 @@
 <template lang="pug">
 .block__order--details
     .block__order--header.border-bottom
-        img(:src="img") 
+        img(:src="orderFailure?imgFailure:img")
         p(v-if="lang === 'en'") {{orderDetails.recordTypeName}} {{orderDetails.recordStatusName}}
         p(v-else) {{orderDetails.recordTypeName}}{{orderDetails.recordStatusName}}
     .block__order-status.border-bottom
@@ -47,7 +47,7 @@
 
     .block__footer--btn
         van-button(@click="toHomePage") {{$t('done')}}
-        
+
 </template>
 <script>
 import transferStep from './transfer-step'
@@ -62,6 +62,13 @@ export default {
             return this.orderDetails.currency === 1
                 ? this.$t('usd')
                 : this.$t('hkd')
+        },
+        orderFailure() {
+            /** 友信宝交易状态 */
+            // PROCESSING(1, "处理中", "處理中", "Processing"),
+            // SUCCESS(2, "成功", "成功", "Success"),
+            // FAILURE(3, "失败", "失敗", "Failure");
+            return this.orderDetails.recordStatus === 3
         }
     },
     components: {
@@ -112,7 +119,8 @@ export default {
                 label: '开始查看收益',
                 time: ''
             },
-            img: `${window.location.origin}/wealth/yxbao/zhuan-succed.png`
+            img: `${window.location.origin}/wealth/yxbao/zhuan-succed.png`,
+            imgFailure: `${window.location.origin}/wealth/yxbao/problem.png`
         }
     },
     created() {
