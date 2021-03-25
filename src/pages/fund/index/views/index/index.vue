@@ -90,7 +90,7 @@
                                 v-for="(obj,index) in item.btnList"
                                 :key="index"
                                 @click="handleChoose(obj, item)"
-                                :class="[form[item.label].includes(obj.val) ? 'active': '',]"
+                                :class="[form[item.label] && form[item.label].includes(obj.val) ? 'active': '',]"
                             )
                                 span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
                         .btn__list(v-else)
@@ -98,7 +98,7 @@
                                 v-for="(obj,index) in companyList"
                                 :key="index"
                                 @click="handleChoose(obj, item)"
-                                :class="[form[item.label].includes(obj.val) ? 'active': '',]"
+                                :class="[form[item.label] && form[item.label].includes(obj.val) ? 'active': '',]"
                             )
                                 span(:class="{en:isEn}") {{obj.label}}
                 .bottom(slot="bottom")
@@ -127,6 +127,9 @@ import { Popup } from 'vant'
 export default {
     i18n: {
         zhCHS: {
+            investmentTitle: '是否定投',
+            yes: '是',
+            no: '否',
             noFund: '暂无基金',
             fundAllType: '全部币种',
             fundHkdType: '港币基金',
@@ -149,6 +152,9 @@ export default {
             reset: '重置'
         },
         zhCHT: {
+            investmentTitle: '是否定投',
+            yes: '是',
+            no: '否',
             noFund: '暫無基金',
             fundAllType: '全部幣種',
             fundHkdType: '港幣基金',
@@ -171,6 +177,9 @@ export default {
             reset: '重設'
         },
         en: {
+            investmentTitle: '是否定投',
+            yes: '是',
+            no: '否',
             noFund: 'No Data',
             fundAllType: 'ALL CURR',
             fundHkdType: 'HKD',
@@ -326,10 +335,10 @@ export default {
                     label: 'fundCompany'
                 },
                 {
-                    label: 'dividendType',
+                    label: 'investmentTitle',
                     btnList: [
-                        { key: '是', val: true },
-                        { key: '否', val: false }
+                        { key: 'yes', val: true },
+                        { key: 'no', val: false }
                     ]
                 }
             ]
