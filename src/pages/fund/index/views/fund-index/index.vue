@@ -316,7 +316,7 @@ export default {
                 },
                 {
                     imgUrl: require('@/assets/img/fund/icon-fund-filter.png'),
-                    label: '基金筛选',
+                    label: '基金分类',
                     key: 'fundFilter',
                     value: 2
                 },
@@ -327,9 +327,9 @@ export default {
                     value: 3
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon-fund-notic.png'),
+                    imgUrl: require('@/assets/img/fund/icon-fund-investment.png'),
                     label: '基金公告',
-                    key: 'fundNotic',
+                    key: 'investment',
                     value: 5
                 }
             ],

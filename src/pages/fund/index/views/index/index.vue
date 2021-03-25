@@ -324,6 +324,13 @@ export default {
                 },
                 {
                     label: 'fundCompany'
+                },
+                {
+                    label: 'dividendType',
+                    btnList: [
+                        { key: '是', val: true },
+                        { key: '否', val: false }
+                    ]
                 }
             ]
         }

@@ -1,5 +1,6 @@
 export const i18n = {
     zhCHS: {
+        investment: '定額投資',
         unit: '亿',
         fundHold: '基金持仓',
         SevenDayIncome: '近七日收益',
@@ -58,11 +59,12 @@ export const i18n = {
         10: '成立来',
         loadingText: '数据加载中，请稍后',
         cashPlus: '现金+',
-        fundFilter: '基金筛选',
+        fundFilter: '基金分类',
         fundCompany: '基金公司',
         fundNotic: '基金公告'
     },
     zhCHT: {
+        investment: '定額投資',
         fundHold: '基金持倉',
         SevenDayIncome: '近七日收益',
         hkd: '港幣',
@@ -126,6 +128,7 @@ export const i18n = {
         fundNotic: '基金通告'
     },
     en: {
+        investment: '定額投資',
         unit: 'B ',
         fundHold: 'Portfolio',
         SevenDayIncome: '7 Days',
