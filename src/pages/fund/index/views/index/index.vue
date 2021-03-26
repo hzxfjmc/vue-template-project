@@ -127,7 +127,6 @@ import { jumpUrl, debounce } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage'
 import { getSource } from '@/service/customer-relationship-server'
-import jsBridge from '@/utils/js-bridge'
 import SortIcon from './components/sort-icon.vue'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import fundTagType from '@/biz-components/fund-tag-type/index.vue'
@@ -368,8 +367,10 @@ export default {
         this.currency = this.$route.query.currency
         this.getFundListV2()
         this.getListFundCompany()
-        window.clickSearchCallBack = () => {
-            jsBridge.gotoNativeModule('yxzq_goto://search')
+        window.clickFundCompanyTitleback = () => {
+            this.$router.push({
+                path: '/fund-company'
+            })
         }
     },
     data() {

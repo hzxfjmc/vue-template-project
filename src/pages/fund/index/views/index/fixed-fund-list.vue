@@ -67,11 +67,10 @@ import {
     getListFundCompany
 } from '@/service/finance-info-server.js'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
-import { jumpUrl, debounce } from '@/utils/tools.js'
+import { jumpUrl, debounce, transNumToThousandMark } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage'
 import { getSource } from '@/service/customer-relationship-server'
-import jsBridge from '@/utils/js-bridge'
 import SortIcon from './components/sort-icon.vue'
 import fundTag from '@/biz-components/fund-tag/index.vue'
 import fundTagType from '@/biz-components/fund-tag-type/index.vue'
@@ -313,8 +312,10 @@ export default {
         this.getFundListV2()
         this.bannerAdvertisement()
         this.getListFundCompany()
-        window.clickSearchCallBack = () => {
-            jsBridge.gotoNativeModule('yxzq_goto://search')
+        window.clickAllFundTitleback = () => {
+            this.$router.push({
+                path: '/index'
+            })
         }
     },
     data() {
@@ -338,7 +339,7 @@ export default {
             sortMap: {
                 initialInvestAmount: 0,
                 currencyName: 0,
-                threeYear: 0,
+                threeYear: 1,
                 morningRating: 0
             },
             currencyShow: false,
@@ -507,7 +508,7 @@ export default {
             this.sortMap = {
                 initialInvestAmount: 0,
                 currencyName: 0,
-                threeYear: 0,
+                threeYear: 1,
                 morningRating: 0
             }
         },
@@ -553,9 +554,9 @@ export default {
                     2: this.$t('HKD')
                 }
                 this.list.map(item => {
-                    item.initialInvestAmount = Number(
+                    item.initialInvestAmount = transNumToThousandMark(
                         item.initialInvestAmount
-                    ).toFixed(2)
+                    )
                     item.currencyName = CURRENCY_ENUM[item.currency.type]
                 })
                 this.filterList = this.list

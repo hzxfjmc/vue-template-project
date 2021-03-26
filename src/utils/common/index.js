@@ -101,11 +101,23 @@ function parentIsAlive(component) {
 }
 
 // 设置title基金公司
+const setAllFundTitle = async function() {
+    if (isYouxinApp) {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 1, //position取值1、2
+            clickCallback: 'clickAllFundTitleback',
+            type: 'text',
+            text: '全部基金'
+        })
+    }
+}
+
+// 设置title基金公司
 const setFundCompanyTitle = async function() {
     if (isYouxinApp) {
         jsBridge.callApp('command_set_titlebar_button', {
             position: 1, //position取值1、2
-            clickCallback: 'clickShareCallback',
+            clickCallback: 'clickFundCompanyTitleback',
             type: 'text',
             text: '基金公司'
         })
@@ -225,6 +237,9 @@ Vue.mixin({
                     }
                     if (to.meta.fundTitle) {
                         setFundCompanyTitle()
+                    }
+                    if (to.meto.AllFundTitle) {
+                        setAllFundTitle()
                     }
 
                     // 自定义分享内容

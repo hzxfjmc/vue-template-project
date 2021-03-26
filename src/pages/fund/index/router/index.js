@@ -23,7 +23,7 @@ export default new Router({
         {
             name: 'fixed-fund-list',
             path: '/fixed-fund-list',
-            meta: { title: 'fundList', auth: true, fundTitle: true },
+            meta: { title: 'fundList', auth: true, AllFundTitle: true },
             component: () =>
                 import(`@/pages/fund/index/views/index/fixed-fund-list.vue`)
         },
