@@ -84,7 +84,7 @@
             yx-container
                 .main(slot="main")
                     .block__content(v-for="item in formFilterList" :key="item.key")
-                        .title {{$t(item.label)}} {{item.label}}
+                        .title {{$t(item.label)}} 
                         .btn__list(v-if="item.label === 'fundCompany'")
                             .btn--item(
                                 v-for="(obj,index) in companyList"

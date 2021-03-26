@@ -238,7 +238,7 @@ Vue.mixin({
                     if (to.meta.fundTitle) {
                         setFundCompanyTitle()
                     }
-                    if (to.meto.AllFundTitle) {
+                    if (to.meta.AllFundTitle) {
                         setAllFundTitle()
                     }
 
