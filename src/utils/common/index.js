@@ -104,7 +104,7 @@ function parentIsAlive(component) {
 const setAllFundTitle = async function() {
     if (isYouxinApp) {
         jsBridge.callApp('command_set_titlebar_button', {
-            position: 1, //position取值1、2
+            position: 2, //position取值1、2
             clickCallback: 'clickAllFundTitleback',
             type: 'text',
             text: '全部基金'
@@ -116,7 +116,7 @@ const setAllFundTitle = async function() {
 const setFundCompanyTitle = async function() {
     if (isYouxinApp) {
         jsBridge.callApp('command_set_titlebar_button', {
-            position: 1, //position取值1、2
+            position: 2, //position取值1、2
             clickCallback: 'clickFundCompanyTitleback',
             type: 'text',
             text: '基金公司'
@@ -265,7 +265,13 @@ Vue.mixin({
                 })
             },
             beforeRouteLeave(to, from, next) {
-                if (from.meta.cs || from.meta.search || from.meta.share) {
+                if (
+                    from.meta.cs ||
+                    from.meta.search ||
+                    from.meta.share ||
+                    from.meta.fundTitle ||
+                    from.meta.AllFundTitle
+                ) {
                     clearTitleBarButton()
                 }
                 next()
