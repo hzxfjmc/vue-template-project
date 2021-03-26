@@ -100,6 +100,18 @@ function parentIsAlive(component) {
     return false
 }
 
+// 设置title基金公司
+const setFundCompanyTitle = async function() {
+    if (isYouxinApp) {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 1, //position取值1、2
+            clickCallback: 'clickShareCallback',
+            type: 'text',
+            text: '基金公司'
+        })
+    }
+}
+
 //设置分享按钮
 const setShareButton = async function() {
     const shareIcon = env.isMainlandBlack
@@ -210,6 +222,9 @@ Vue.mixin({
                     }
                     if (to.meta.search) {
                         setSearchButton()
+                    }
+                    if (to.meta.fundTitle) {
+                        setFundCompanyTitle()
                     }
 
                     // 自定义分享内容

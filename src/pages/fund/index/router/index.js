@@ -17,7 +17,7 @@ export default new Router({
         {
             name: 'index',
             path: '/index',
-            meta: { title: 'fundList', auth: true, search: true },
+            meta: { title: 'fundList', auth: true, fundTitle: true },
             component: () => import(`@/pages/fund/index/views/index/index.vue`)
         },
         {

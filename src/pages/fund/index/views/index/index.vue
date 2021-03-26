@@ -84,16 +84,8 @@
             yx-container
                 .main(slot="main")
                     .block__content(v-for="item in formFilterList" :key="item.key")
-                        .title {{$t(item.label)}}
-                        .btn__list(v-if="item.label !== 'fundCompany'")
-                            .btn--item(
-                                v-for="(obj,index) in item.btnList"
-                                :key="index"
-                                @click="handleChoose(obj, item)"
-                                :class="[form[item.label] && form[item.label].includes(obj.val) ? 'active': '',]"
-                            )
-                                span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
-                        .btn__list(v-else)
+                        .title {{$t(item.label)}} {{item.label}}
+                        .btn__list(v-if="item.label === 'fundCompany'")
                             .btn--item(
                                 v-for="(obj,index) in companyList"
                                 :key="index"
@@ -101,6 +93,24 @@
                                 :class="[form[item.label] && form[item.label].includes(obj.val) ? 'active': '',]"
                             )
                                 span(:class="{en:isEn}") {{obj.label}}
+                        .btn__list(v-else-if="item.label == 'allowFixed'")
+                            .btn--item(
+                                v-for="(obj,index) in item.btnList"
+                                :key="index"
+                                @click="handleChooseAllowFixed(obj, item)"
+                                :class="[allowFixed === obj.val ? 'active': '',]"
+                            )
+                                span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
+                        .btn__list(v-else)
+                            .btn--item(
+                                v-for="(obj,index) in item.btnList"
+                                :key="index"
+                                @click="handleChoose(obj, item)"
+                                :class="[form[item.label] && form[item.label].includes(obj.val) ? 'active': '',]"
+                            )
+                                span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
+                    
+                        
                 .bottom(slot="bottom")
                     .block__bottom(:class="{bottom : isPhoneX}")
                         van-button.left(@click="handleReset") {{$t('reset')}}
@@ -127,7 +137,7 @@ import { Popup } from 'vant'
 export default {
     i18n: {
         zhCHS: {
-            investmentTitle: '是否定投',
+            allowFixed: '是否定投',
             yes: '是',
             no: '否',
             noFund: '暂无基金',
@@ -152,7 +162,7 @@ export default {
             reset: '重置'
         },
         zhCHT: {
-            investmentTitle: '是否定投',
+            allowFixed: '是否定投',
             yes: '是',
             no: '否',
             noFund: '暫無基金',
@@ -177,7 +187,7 @@ export default {
             reset: '重設'
         },
         en: {
-            investmentTitle: '是否定投',
+            allowFixed: '是否定投',
             yes: '是',
             no: '否',
             noFund: 'No Data',
@@ -335,11 +345,8 @@ export default {
                     label: 'fundCompany'
                 },
                 {
-                    label: 'investmentTitle',
-                    btnList: [
-                        { key: 'yes', val: true },
-                        { key: 'no', val: false }
-                    ]
+                    label: 'allowFixed',
+                    btnList: [{ key: 'yes', val: 1 }, { key: 'no', val: 0 }]
                 }
             ]
         }
@@ -367,6 +374,7 @@ export default {
     },
     data() {
         return {
+            allowFixed: null,
             headerList: {
                 threeYear: this.$t(['近三年', '近三年', '3Y']),
                 twoYear: this.$t(['近两年', '近两年', '2Y']),
@@ -441,7 +449,8 @@ export default {
                 riskLevel: [],
                 establishYears: [],
                 dividendType: [],
-                fundCompany: []
+                fundCompany: [],
+                allowFixed: []
             },
             companyList: [],
             assetType: '',
@@ -508,6 +517,11 @@ export default {
                 : this.$t('fundAllType')
     },
     methods: {
+        handleChooseAllowFixed(obj) {
+            this.allowFixed = obj.val
+            this.FilterAction()
+            console.log(this.allowFixed)
+        },
         handlerSort(key) {
             if (this.sortMap[key] === 0) {
                 for (let obj in this.sortMap) {
@@ -600,10 +614,18 @@ export default {
                     return true
                 }
             })
+            //是否定投
+            this.filterList = this.filterList.filter(item => {
+                if (this.allowFixed === item.allowFixed) {
+                    return true
+                }
+            })
+            console.log(this.filterList)
             this.load = this.filterList.length == 0
         },
         handleReset() {
             this.ResetForm()
+            this.allowFixed = null
             this.filterList = this.list
             this.load = this.filterList.length == 0
         },
