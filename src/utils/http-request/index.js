@@ -8,8 +8,6 @@ import { compareVersion, guid } from '@/utils/tools'
 // import { Toast } from 'vant'
 import { isYouxinApp, lang } from '@/utils/html-utils.js'
 
-// 开发环境使用，打包前注意要注释
-import proxyValid from '@/mock/utils/api-proxy.js'
 let token = {
     Authorization: LS.get('userToken') || ''
 }
@@ -92,9 +90,8 @@ export default class baseRequest {
             return config
         })
         this.$http.interceptors.response.use(
-            ({ data, config }) => {
+            ({ data }) => {
                 // 开发环境需要，生产环境需要注释
-                proxyValid(config.url, config.method, data)
                 // 图片流
                 if (typeof data === 'string') {
                     return data
