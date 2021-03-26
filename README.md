@@ -161,6 +161,7 @@ function parentIsAlive (component) {
     return false
 }
 
+
 Vue.mixin({
     mixins: [{
         deactivated () {
