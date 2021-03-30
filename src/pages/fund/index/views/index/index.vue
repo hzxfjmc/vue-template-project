@@ -519,13 +519,7 @@ export default {
     methods: {
         handleChooseAllowFixed(obj) {
             this.allowFixed = obj.val
-            //是否定投
-            this.filterList = this.list.filter(item => {
-                if (this.allowFixed === item.allowFixed) {
-                    return true
-                }
-            })
-            this.load = this.filterList.length == 0
+            this.FilterAction()
         },
         handlerSort(key) {
             if (this.sortMap[key] === 0) {
@@ -620,7 +614,7 @@ export default {
                 }
             })
             if (this.allowFixed || this.allowFixed === 0) {
-                this.filterList = this.list.filter(item => {
+                this.filterList = this.filterList.filter(item => {
                     if (this.allowFixed === item.allowFixed) {
                         return true
                     }

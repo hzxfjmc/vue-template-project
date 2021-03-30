@@ -1,15 +1,16 @@
 <template lang="pug">
     .bond-index-wrapper
-        .block-banner(v-if="bannerList.length != 0")
-            van-swipe(:autoplay="3000") 
-                van-swipe-item(
-                    v-for="(item, index) in bannerList" 
-                    :key="index" 
-                    @click="goBanner(item)") 
-                    img(:src="item.picture_url") 
+         
         .yx-scroll-container(
             :class="{bottom: isPhoneX}"
         )
+            .block-banner(v-if="bannerList.length != 0")
+                van-swipe(:autoplay="3000") 
+                    van-swipe-item(
+                        v-for="(item, index) in bannerList" 
+                        :key="index" 
+                        @click="goBanner(item)") 
+                        img(:src="item.picture_url")
             .scroll-header.border-bottom(
                 :class="[{'small-font': isEn},bannerList.length>0?'top88':'top0']")
                 .scroll-header__fixed {{$t('A111')}}
@@ -25,7 +26,7 @@
                                         :key="key"
                                         :value="sortMap[key]"
                                     )
-            .scroll-main
+            .scroll-main(:class="[bannerList.length>0?'block-margin':'top0']")
                 .scroll-main-box(v-show="filterList && filterList.length > 0")
                     .scroll-main__fiexed
                         .scroll-main__fiexed--item.border-bottom(
@@ -694,6 +695,10 @@ $global-padding: 30px;
 .block-banner {
     width: 100%;
     height: 150px;
+    position: fixed;
+    z-index: 999999;
+    overflow: hidden;
+    top: 0;
     img {
         width: 100%;
         height: 100%;
@@ -774,11 +779,15 @@ $global-padding: 30px;
     .top88 {
         top: 150px;
     }
+    .block-margin {
+        margin: 150px 0 0 0;
+    }
     .scroll-main {
         flex: 1;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
         float: left;
+        // position: absolute;
         background: #fff;
         .scroll-main-box {
             display: flex;
@@ -807,6 +816,7 @@ $global-padding: 30px;
                 flex: 1;
                 overflow: hidden;
                 width: 100%;
+                // margin: 150px 0 0 0;
                 font-weight: 600;
                 .scroll-main__scroll--content {
                     display: inline-block;
