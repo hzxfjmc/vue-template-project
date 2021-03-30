@@ -333,13 +333,9 @@ export default {
                     '起購金額',
                     'Min Subs'
                 ]),
-                currencyName: this.$t(['货币', '货币', '货币']),
+                currencyName: this.$t(['货币', '貨幣', 'Currency']),
                 threeYear: this.$t(['近三年', '近三年', '3Y']),
-                morningRating: this.$t([
-                    '晨星评级',
-                    '晨星評級',
-                    'MorningStar Rating'
-                ])
+                morningRating: this.$t(['晨星评级', '晨星評級', 'MS Rating'])
             },
             sortMap: {
                 initialInvestAmount: 0,

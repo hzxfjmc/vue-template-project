@@ -128,7 +128,7 @@ export const i18n = {
         fundNotic: '基金通告'
     },
     en: {
-        investment: 'Fixed Investment ',
+        investment: 'Periodic Investment',
         unit: 'B ',
         fundHold: 'Portfolio',
         SevenDayIncome: '7 Days',
