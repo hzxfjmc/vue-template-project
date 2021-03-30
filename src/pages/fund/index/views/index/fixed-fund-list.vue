@@ -53,6 +53,9 @@
                                         v-else-if="item[key]<0&&key === 'threeYear'"
                                     ) {{item[key] | formatNum}}%
                                     .scroll-main__row--item(
+                                        v-else-if="key==='initialInvestAmount'"
+                                    ) {{item[key]|transNumToThousandMark}}
+                                    .scroll-main__row--item(
                                         v-else
                                     ) {{item[key] || '--'}}
                                
@@ -157,6 +160,7 @@ export default {
         }
     },
     filters: {
+        transNumToThousandMark,
         formatNum(val) {
             return Number(val * 100).toFixed(2)
         }
@@ -554,9 +558,7 @@ export default {
                     2: this.$t('HKD')
                 }
                 this.list.map(item => {
-                    item.initialInvestAmount = transNumToThousandMark(
-                        item.initialInvestAmount
-                    )
+                    item.initialInvestAmount = Number(item.initialInvestAmount)
                     item.currencyName = CURRENCY_ENUM[item.currency.type]
                 })
                 this.filterList = this.list
