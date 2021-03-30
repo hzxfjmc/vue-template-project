@@ -325,8 +325,8 @@ export default {
             headerList: {
                 initialInvestAmount: this.$t([
                     '起购金额',
-                    '起购金额',
-                    '起购金额'
+                    '起購金額',
+                    'Min Subs'
                 ]),
                 currencyName: this.$t(['货币', '货币', '货币']),
                 threeYear: this.$t(['近三年', '近三年', '3Y']),

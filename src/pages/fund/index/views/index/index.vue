@@ -186,9 +186,9 @@ export default {
             reset: '重設'
         },
         en: {
-            allowFixed: '是否定投',
-            yes: '是',
-            no: '否',
+            allowFixed: 'Whether Scheduled Fund Subscription Investments',
+            yes: 'Yes',
+            no: 'No',
             noFund: 'No Data',
             fundAllType: 'ALL CURR',
             fundHkdType: 'HKD',
