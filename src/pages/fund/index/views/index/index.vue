@@ -519,8 +519,13 @@ export default {
     methods: {
         handleChooseAllowFixed(obj) {
             this.allowFixed = obj.val
-            this.FilterAction()
-            console.log(this.allowFixed)
+            //是否定投
+            this.filterList = this.list.filter(item => {
+                if (this.allowFixed === item.allowFixed) {
+                    return true
+                }
+            })
+            this.load = this.filterList.length == 0
         },
         handlerSort(key) {
             if (this.sortMap[key] === 0) {
@@ -614,13 +619,13 @@ export default {
                     return true
                 }
             })
-            //是否定投
-            this.filterList = this.filterList.filter(item => {
-                if (this.allowFixed === item.allowFixed) {
-                    return true
-                }
-            })
-            console.log(this.filterList)
+            if (this.allowFixed || this.allowFixed === 0) {
+                this.filterList = this.list.filter(item => {
+                    if (this.allowFixed === item.allowFixed) {
+                        return true
+                    }
+                })
+            }
             this.load = this.filterList.length == 0
         },
         handleReset() {
