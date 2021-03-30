@@ -100,6 +100,30 @@ function parentIsAlive(component) {
     return false
 }
 
+// 设置title基金公司
+const setAllFundTitle = async function(text) {
+    if (isYouxinApp) {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 2, //position取值1、2
+            clickCallback: 'clickAllFundTitleback',
+            type: 'text',
+            text: text
+        })
+    }
+}
+
+// 设置title基金公司
+const setFundCompanyTitle = async function(text) {
+    if (isYouxinApp) {
+        jsBridge.callApp('command_set_titlebar_button', {
+            position: 2, //position取值1、2
+            clickCallback: 'clickFundCompanyTitleback',
+            type: 'text',
+            text: text
+        })
+    }
+}
+
 //设置分享按钮
 const setShareButton = async function() {
     const shareIcon = env.isMainlandBlack
@@ -211,6 +235,16 @@ Vue.mixin({
                     if (to.meta.search) {
                         setSearchButton()
                     }
+                    if (to.meta.fundTitle) {
+                        setFundCompanyTitle(
+                            vm.$t(['基金公司', '基金公司', 'Funds Company'])
+                        )
+                    }
+                    if (to.meta.AllFundTitle) {
+                        setAllFundTitle(
+                            vm.$t(['全部基金', '全部基金', 'All Funds'])
+                        )
+                    }
 
                     // 自定义分享内容
                     if (to.meta.ismgm !== 'yes') {
@@ -235,7 +269,13 @@ Vue.mixin({
                 })
             },
             beforeRouteLeave(to, from, next) {
-                if (from.meta.cs || from.meta.search || from.meta.share) {
+                if (
+                    from.meta.cs ||
+                    from.meta.search ||
+                    from.meta.share ||
+                    from.meta.fundTitle ||
+                    from.meta.AllFundTitle
+                ) {
                     clearTitleBarButton()
                 }
                 next()

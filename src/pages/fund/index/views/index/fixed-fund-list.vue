@@ -1,19 +1,18 @@
 <template lang="pug">
     .bond-index-wrapper
-        FundHeaderTitle.fix(
-        :assetType="assetTypetab"
-        @handlerCuenrry="handlerCuenrry"
-        @handleFilterShow="handleFilterShow"
-        )
-        .block__fund--header.index-top
-            .fund__banner.index-top
-                img(:src="bannarTitleUrl" @click="goBarnner")
-            .fund__banner2.index-top(v-if="code != 1 && bannerShow")
-                img(:src="barnnarUrl")
+         
         .yx-scroll-container(
             :class="{bottom: isPhoneX}"
         )
-            .scroll-header.border-bottom(:class="{'small-font': isEn}")
+            .block-banner(v-if="bannerList.length != 0")
+                van-swipe(:autoplay="3000") 
+                    van-swipe-item(
+                        v-for="(item, index) in bannerList" 
+                        :key="index" 
+                        @click="goBanner(item)") 
+                        img(:src="item.picture_url")
+            .scroll-header.border-bottom(
+                :class="[{'small-font': isEn},bannerList.length>0?'top88':'top0']")
                 .scroll-header__fixed {{$t('A111')}}
                 .scroll-header__scroll(ref="headerScroll")
                     ul.scroll-header__scroll--content
@@ -27,7 +26,7 @@
                                         :key="key"
                                         :value="sortMap[key]"
                                     )
-            .scroll-main
+            .scroll-main(:class="[bannerList.length>0?'block-margin':'top0']")
                 .scroll-main-box(v-show="filterList && filterList.length > 0")
                     .scroll-main__fiexed
                         .scroll-main__fiexed--item.border-bottom(
@@ -48,73 +47,22 @@
                                 template(v-for="key in fundEarningsField")
                                     .scroll-main__row--item(
                                         :class="[stockColorType === 1 ? 'number-red' : 'number-green']"
-                                        v-if="item[key]>0"
+                                        v-if="item[key]>0&&key === 'threeYear'"
                                     ) {{item[key] | formatNum}}%
                                     .scroll-main__row--item(
                                         :class="[stockColorType === 1 ? 'number-green' : 'number-red']"
-                                        v-else-if="item[key]<0"
+                                        v-else-if="item[key]<0&&key === 'threeYear'"
                                     ) {{item[key] | formatNum}}%
                                     .scroll-main__row--item(
+                                        v-else-if="key==='initialInvestAmount'"
+                                    ) {{item[key]|transNumToThousandMark}}
+                                    .scroll-main__row--item(
                                         v-else
                                     ) {{item[key] || '--'}}
-                                .scroll-main__row--item.center(
-                                    :class="{en:isEn}"
-                                ) {{item.morningRating || '--'}}
-                                template(v-for="key in fundAnalysisfield")
-                                    .scroll-main__row--item(
-                                        :class="[stockColorType === 1 ? 'number-red' : 'number-green', isEn?'en':'']"
-                                        v-if="item[key]>0"
-                                    ) +{{Number(item[key]).toFixed(2)}}{{key!='sharpeRatio3Yr'?'%':''}}
-                                    .scroll-main__row--item(
-                                        :class="[stockColorType === 1 ? 'number-green' : 'number-red', isEn?'en':'']"
-                                        v-else-if="item[key]<0"
-                                    ) {{Number(item[key]).toFixed(2)}}{{key!='sharpeRatio3Yr'?'%':''}}
-                                    .scroll-main__row--item(
-                                        :class="{en:isEn}"
-                                        v-else
-                                    ) {{item[key] || '--'}}
+                               
             .no-bond-box(v-if="load")
                 .no-bond {{ $t('noFund') }}
-        van-popup(
-            v-model="filterPopupShow"
-            position="bottom"
-            :style="{height: '85%'}"
-
-        )
-            yx-container
-                .main(slot="main")
-                    .block__content(v-for="item in formFilterList" :key="item.key")
-                        .title {{$t(item.label)}} 
-                        .btn__list(v-if="item.label === 'fundCompany'")
-                            .btn--item(
-                                v-for="(obj,index) in companyList"
-                                :key="index"
-                                @click="handleChoose(obj, item)"
-                                :class="[form[item.label] && form[item.label].includes(obj.val) ? 'active': '',]"
-                            )
-                                span(:class="{en:isEn}") {{obj.label}}
-                        .btn__list(v-else-if="item.label == 'allowFixed'")
-                            .btn--item(
-                                v-for="(obj,index) in item.btnList"
-                                :key="index"
-                                @click="handleChooseAllowFixed(obj, item)"
-                                :class="[allowFixed === obj.val ? 'active': '',]"
-                            )
-                                span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
-                        .btn__list(v-else)
-                            .btn--item(
-                                v-for="(obj,index) in item.btnList"
-                                :key="index"
-                                @click="handleChoose(obj, item)"
-                                :class="[form[item.label] && form[item.label].includes(obj.val) ? 'active': '',]"
-                            )
-                                span(:class="{en:isEn}") {{['establishYears'].includes(item.label) ? obj.key : $t(obj.key)}}
-                    
-                        
-                .bottom(slot="bottom")
-                    .block__bottom(:class="{bottom : isPhoneX}")
-                        van-button.left(@click="handleReset") {{$t('reset')}}
-                        van-button.right(type="primary" @click="handleClose") {{fundNumStr}}
+        
 </template>
 <script>
 import { Swipe, SwipeItem, Button } from 'vant'
@@ -123,7 +71,7 @@ import {
     getListFundCompany
 } from '@/service/finance-info-server.js'
 import FundHeaderTitle from './components/fund-header-title/index.vue'
-import { jumpUrl, debounce } from '@/utils/tools.js'
+import { jumpUrl, debounce, transNumToThousandMark } from '@/utils/tools.js'
 import { mapGetters } from 'vuex'
 import LS from '@/utils/local-storage'
 import { getSource } from '@/service/customer-relationship-server'
@@ -133,6 +81,7 @@ import fundTagType from '@/biz-components/fund-tag-type/index.vue'
 import BScroll from 'better-scroll'
 import { getStockColorType } from '@/utils/html-utils.js'
 import { Popup } from 'vant'
+import { bannerAdvertisement } from '@/service/news-configserver.js'
 export default {
     i18n: {
         zhCHS: {
@@ -186,9 +135,9 @@ export default {
             reset: '重設'
         },
         en: {
-            allowFixed: 'Whether Scheduled Fund Subscription Investments',
-            yes: 'Yes',
-            no: 'No',
+            allowFixed: '是否定投',
+            yes: '是',
+            no: '否',
             noFund: 'No Data',
             fundAllType: 'ALL CURR',
             fundHkdType: 'HKD',
@@ -212,6 +161,7 @@ export default {
         }
     },
     filters: {
+        transNumToThousandMark,
         formatNum(val) {
             return Number(val * 100).toFixed(2)
         }
@@ -238,11 +188,10 @@ export default {
             return this.lang === 'en'
         },
         fundEarningsField() {
+            console.log(Object.keys(this.headerList).slice(0, 4))
             return Object.keys(this.headerList).slice(0, 4)
         },
-        fundAnalysisfield() {
-            return Object.keys(this.headerList).slice(5)
-        },
+
         formFilterList() {
             return [
                 {
@@ -366,57 +315,33 @@ export default {
         this.assetType = this.$route.query.type
         this.currency = this.$route.query.currency
         this.getFundListV2()
+        this.bannerAdvertisement()
         this.getListFundCompany()
-        window.clickFundCompanyTitleback = () => {
+        window.clickAllFundTitleback = () => {
             this.$router.push({
-                path: '/fund-company'
+                path: '/index'
             })
         }
     },
     data() {
         return {
+            bannerList: [],
             allowFixed: null,
             headerList: {
+                initialInvestAmount: this.$t([
+                    '起购金额',
+                    '起購金額',
+                    'Min Subs'
+                ]),
+                currencyName: this.$t(['货币', '貨幣', 'Currency']),
                 threeYear: this.$t(['近三年', '近三年', '3Y']),
-                twoYear: this.$t(['近两年', '近两年', '2Y']),
-                oneYear: this.$t(['近一年', '近一年', '1Y']),
-                toYear: this.$t(['今年来', '今年来', 'YTD']),
-                morningRating: this.$t([
-                    '晨星评级',
-                    '晨星評級',
-                    'MorningStar Rating'
-                ]),
-                sharpeRatio3Yr: this.$t([
-                    '夏普比率',
-                    '夏普比率',
-                    'Sharpe Ratio'
-                ]),
-                maxDrawDown3Yr: this.$t([
-                    '最大回撤',
-                    '最大交易回落',
-                    'Max Drawdown'
-                ]),
-                captureRatioUpside3Yr: this.$t([
-                    '上行捕获比',
-                    '上漲獲利比率',
-                    'Upside Capture Ratio'
-                ]),
-                captureRatioDownside3Yr: this.$t([
-                    '下行捕获比',
-                    '下跌防禦比率',
-                    'Downside Capture Ratio'
-                ])
+                morningRating: this.$t(['晨星评级', '晨星評級', 'MS Rating'])
             },
             sortMap: {
+                initialInvestAmount: 0,
+                currencyName: 0,
                 threeYear: 1,
-                twoYear: 0,
-                oneYear: 0,
-                toYear: 0,
-                morningRating: 0,
-                sharpeRatio3Yr: 0,
-                maxDrawDown3Yr: 0,
-                captureRatioUpside3Yr: 0,
-                captureRatioDownside3Yr: 0
+                morningRating: 0
             },
             currencyShow: false,
             barnnarUrl: require('@/assets/img/fund/icon_huobi.png'),
@@ -517,169 +442,78 @@ export default {
                 : this.$t('fundAllType')
     },
     methods: {
-        handleChooseAllowFixed(obj) {
-            this.allowFixed = obj.val
-            this.FilterAction()
+        async bannerAdvertisement() {
+            try {
+                const res = await bannerAdvertisement(124)
+                this.bannerList = res.banner_list
+            } catch (e) {
+                this.$message.error(e.msg)
+            }
         },
+        goBanner(item) {
+            jumpUrl(item.jumpType, item.jumpUrl)
+        },
+
         handlerSort(key) {
-            if (this.sortMap[key] === 0) {
-                for (let obj in this.sortMap) {
-                    if (obj == key) {
-                        this.sortMap[obj] = 1
-                    } else {
-                        this.sortMap[obj] = 0
-                    }
+            if (key === 'currencyName') {
+                if (this.sortMap[key] === 0) {
+                    this.filterList.sort((a, b) => {
+                        return b['currency']['type'] - a['currency']['type']
+                    })
+                    this.sortMap[key] = 1
+                } else if (this.sortMap[key] === 1) {
+                    this.filterList.sort((a, b) => {
+                        return a['currency']['type'] - b['currency']['type']
+                    })
+                    this.sortMap[key] = 2
+                } else {
+                    this.resetSortMap()
+                    this.filterList.sort((a, b) => {
+                        return b.threeYear - a.threeYear
+                    })
                 }
-                this.filterList.sort((a, b) => {
-                    return b[key] - a[key]
-                })
-            } else if (this.sortMap[key] === 1) {
-                for (let obj in this.sortMap) {
-                    if (obj == key) {
-                        this.sortMap[obj] = 2
-                    } else {
-                        this.sortMap[obj] = 0
+            }
+            if (key != 'currencyName') {
+                if (this.sortMap[key] === 0) {
+                    for (let obj in this.sortMap) {
+                        if (obj == key) {
+                            this.sortMap[obj] = 1
+                        } else {
+                            this.sortMap[obj] = 0
+                        }
                     }
+                    this.filterList.sort((a, b) => {
+                        return b[key] - a[key]
+                    })
+                } else if (this.sortMap[key] === 1) {
+                    for (let obj in this.sortMap) {
+                        if (obj == key) {
+                            this.sortMap[obj] = 2
+                        } else {
+                            this.sortMap[obj] = 0
+                        }
+                    }
+                    this.filterList.sort((a, b) => {
+                        return a[key] - b[key]
+                    })
+                } else {
+                    this.resetSortMap()
+                    this.filterList.sort((a, b) => {
+                        return b.threeYear - a.threeYear
+                    })
                 }
-                this.filterList.sort((a, b) => {
-                    return a[key] - b[key]
-                })
-            } else {
-                this.resetSortMap()
-                this.filterList.sort((a, b) => {
-                    return b.threeYear - a.threeYear
-                })
             }
         },
-        async handleChoose(obj, item) {
-            if (this.form[item.label].includes(obj.val)) {
-                let index = this.form[item.label].indexOf(obj.val)
-                this.form[item.label].splice(index, 1)
-            } else {
-                this.form[item.label].push(obj.val)
-            }
-            this.FilterAction()
-        },
-        FilterAction() {
-            // 交易货币查询
-            this.filterList = this.list.filter(item => {
-                if (
-                    this.form.currency.length == 0 ||
-                    this.form.currency.includes(item.currency.type)
-                ) {
-                    return true
-                }
-            })
-            // 风险等级
-            this.filterList = this.filterList.filter(item => {
-                if (
-                    this.form.riskLevel.length == 0 ||
-                    this.form.riskLevel.includes(item.fundRiskType)
-                ) {
-                    return true
-                }
-            })
-            // 成立年限
-            this.filterList = this.filterList.filter(item => {
-                let flag = false
-                for (let i = 0; i < this.form.establishYears.length; i++) {
-                    if (
-                        item.establishYears &&
-                        (item.establishYears >
-                            this.form.establishYears[i].begin &&
-                            item.establishYears <=
-                                this.form.establishYears[i].end)
-                    ) {
-                        flag = true
-                    }
-                }
-                return this.form.establishYears.length == 0 ? true : flag
-            })
-            // 分红类型
-            this.filterList = this.filterList.filter(item => {
-                if (
-                    this.form.dividendType.length == 0 ||
-                    this.form.dividendType.includes(item.dividendType)
-                ) {
-                    return true
-                }
-            })
-            // 基金公司
-            this.filterList = this.filterList.filter(item => {
-                if (
-                    this.form.fundCompany.length == 0 ||
-                    this.form.fundCompany.includes(item.companyId)
-                ) {
-                    return true
-                }
-            })
-            if (this.allowFixed || this.allowFixed === 0) {
-                this.filterList = this.filterList.filter(item => {
-                    if (this.allowFixed === item.allowFixed) {
-                        return true
-                    }
-                })
-            }
-            this.load = this.filterList.length == 0
-        },
-        handleReset() {
-            this.ResetForm()
-            this.allowFixed = null
-            this.filterList = this.list
-            this.load = this.filterList.length == 0
-        },
-        ResetForm() {
-            for (let key in this.form) {
-                this.form[key] = []
-            }
-        },
+
         resetSortMap() {
             this.sortMap = {
+                initialInvestAmount: 0,
+                currencyName: 0,
                 threeYear: 1,
-                twoYear: 0,
-                oneYear: 0,
-                toYear: 0,
-                morningRating: 0,
-                sharpeRatio3Yr: 0,
-                maxDrawDown3Yr: 0,
-                captureRatioUpside3Yr: 0,
-                captureRatioDownside3Yr: 0
+                morningRating: 0
             }
         },
-        handleClose() {
-            this.filterPopupShow = false
-        },
-        goBarnner() {
-            //大陆版本banner不跳转
-            if (this.code === 1) {
-                let obj = [
-                    'http://shence.youxin.com:8106/r/uQ',
-                    'https://m.yxzq.com/marketing/fund-investment/index.html?register-ct=ecp&register-cid=1896#/stock',
-                    'https://m.yxzq.com/marketing/fund-investment/index.html?register-ct=ecp&register-cid=1896#/fund',
-                    'https://m.yxzq.com/marketing/fund-investment/index.html?register-ct=ecp&register-cid=1896#/mixin',
-                    'https://m.yxzq.com/marketing/fund-investment/index.html?register-ct=ecp&register-cid=1896#/money'
-                ]
-                if (this.assetType) {
-                    jumpUrl(3, obj[this.assetType])
-                } else {
-                    jumpUrl(3, obj[0])
-                }
-                return
-            }
-            let jump_url = [
-                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=equity#/`,
-                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=equity#/`,
-                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=bond#/`,
-                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=balanced#/`,
-                `${window.location.origin}/marketing/smart-fund/index.html?tabsName=moneyMarket#/`
-            ]
-            if (this.assetType) {
-                // console.log(jump_url[this.assetType])
-                debounce(jumpUrl(3, jump_url[this.assetType]), 300)
-            } else {
-                debounce(jumpUrl(3, jump_url[0]), 300)
-            }
-        },
+
         //获取用户归属 1大陆 2香港
         async getSource() {
             try {
@@ -700,30 +534,7 @@ export default {
                 this.$toast(e.msg)
             }
         },
-        handlerCuenrry(data) {
-            this.currencyShow = false
-            // 0：tab切换 1：货币切换
-            if (data.flag !== '0') {
-                this.assetType = data.assetType
-            }
-            this.bannerShow = data.assetType === '4' || data.assetType === '2'
-            this.barnnarUrl =
-                data.assetType === '4'
-                    ? require(`@/assets/img/fund/fundImg/${this.lang}/huobi.png`)
-                    : require(`@/assets/img/fund/fundImg/${this.lang}/zhaiquan.png`)
-            if (data.key) {
-                this.bannarTitleUrl =
-                    this.code != 1
-                        ? require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}.png`)
-                        : require(`@/assets/img/fund/fundImg/${this.lang}/${data.key}1.png`)
-            }
-            this.resetSortMap()
-            this.ResetForm()
-            this.getFundListV2()
-        },
-        handleFilterShow() {
-            this.filterPopupShow = true
-        },
+
         // 获取基金列表
         async getFundListV2() {
             try {
@@ -731,12 +542,21 @@ export default {
                 const { list } = await getFundListV2({
                     displayLocation: [1, 3],
                     pageNum: this.pageNum,
+                    allowFixed: 1,
                     pageSize: this.pageSize,
                     assetType: this.assetType
                 })
                 this.list = list
                 this.list.sort((a, b) => {
                     return b.threeYear - a.threeYear
+                })
+                const CURRENCY_ENUM = {
+                    1: this.$t('USD'),
+                    2: this.$t('HKD')
+                }
+                this.list.map(item => {
+                    item.initialInvestAmount = Number(item.initialInvestAmount)
+                    item.currencyName = CURRENCY_ENUM[item.currency.type]
                 })
                 this.filterList = this.list
                 this.load = this.list.length == 0
@@ -809,14 +629,15 @@ $item-width: 105px;
 $max-item-width: 150px;
 $row-height: 60px;
 $global-padding: 30px;
-.bond-index-wrapper {
-    padding-top: 42px;
-}
 .fix {
     position: fixed;
     top: 0;
     width: 100%;
     z-index: 99;
+}
+.block__fund--header {
+    position: fixed;
+    top: 0;
 }
 .bond-index-wrapper {
     // padding-bottom: 77px;
@@ -867,10 +688,16 @@ $global-padding: 30px;
         }
     }
 }
-.fund__banner {
+.block-banner {
     width: 100%;
+    height: 150px;
+    position: fixed;
+    z-index: 999999;
+    overflow: hidden;
+    top: 0;
     img {
         width: 100%;
+        height: 100%;
     }
 }
 .fund__banner2 {
@@ -882,19 +709,19 @@ $global-padding: 30px;
 }
 .index-top {
     z-index: 9;
-    position: relative;
+    // position: relative;
 }
 .yx-scroll-container {
     display: flex;
     flex: 1;
     height: 100%;
     flex-direction: column;
+    // margin: 88px 0 0 0;
     &.bottom {
         margin-bottom: 20px;
     }
     .scroll-header {
         position: sticky;
-        top: 42px;
         background: #fff;
         width: 100%;
         display: flex;
@@ -942,10 +769,21 @@ $global-padding: 30px;
             }
         }
     }
+    .top0 {
+        top: 0px;
+    }
+    .top88 {
+        top: 150px;
+    }
+    .block-margin {
+        margin: 150px 0 0 0;
+    }
     .scroll-main {
         flex: 1;
         overflow: scroll;
         -webkit-overflow-scrolling: touch;
+        float: left;
+        // position: absolute;
         background: #fff;
         .scroll-main-box {
             display: flex;
@@ -974,6 +812,7 @@ $global-padding: 30px;
                 flex: 1;
                 overflow: hidden;
                 width: 100%;
+                // margin: 150px 0 0 0;
                 font-weight: 600;
                 .scroll-main__scroll--content {
                     display: inline-block;

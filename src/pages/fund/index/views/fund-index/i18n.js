@@ -1,5 +1,6 @@
 export const i18n = {
     zhCHS: {
+        investment: '定额投资',
         unit: '亿',
         fundHold: '基金持仓',
         SevenDayIncome: '近七日收益',
@@ -10,7 +11,7 @@ export const i18n = {
         fundBond: '债券型',
         fundBlend: '混合型',
         fundShares: '股票型',
-        exclusive: '尊享型',
+        exclusive: 'PI专区',
         confirm: '确认',
         login: '请登录后进行操作 ',
         loginBtn: '立即登录',
@@ -58,11 +59,12 @@ export const i18n = {
         10: '成立来',
         loadingText: '数据加载中，请稍后',
         cashPlus: '现金+',
-        fundFilter: '基金筛选',
+        fundFilter: '基金分类',
         fundCompany: '基金公司',
         fundNotic: '基金公告'
     },
     zhCHT: {
+        investment: '定額投資',
         fundHold: '基金持倉',
         SevenDayIncome: '近七日收益',
         hkd: '港幣',
@@ -73,7 +75,7 @@ export const i18n = {
         fundBond: '債券型',
         fundBlend: '混合型',
         fundShares: '股票型',
-        exclusive: '尊享型',
+        exclusive: 'PI專區',
         confirm: '確認',
         login: '請登入後進行操作 ',
         loginBtn: '立即登入',
@@ -121,11 +123,12 @@ export const i18n = {
         10: '成立来',
         loadingText: '數據加載中，請稍後',
         cashPlus: '餘款+',
-        fundFilter: '基金篩選',
+        fundFilter: '基金分類',
         fundCompany: '基金公司',
         fundNotic: '基金通告'
     },
     en: {
+        investment: 'Periodic Investment',
         unit: 'B ',
         fundHold: 'Portfolio',
         SevenDayIncome: '7 Days',
@@ -184,7 +187,7 @@ export const i18n = {
         10: 'Since Inception',
         loadingText: 'Loading',
         cashPlus: 'CASH +',
-        fundFilter: 'Filter',
+        fundFilter: 'Fund Classification',
         fundCompany: 'Company',
         fundNotic: 'Notice'
     }
