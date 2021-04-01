@@ -66,7 +66,7 @@ export const en = {
         }
     },
     iknow: 'Got it',
-    investmentResult: 'AIP Result',
+    investmentResult: 'Result',
     myInvestment: 'My AIP',
     InvestmenttransactionRecord: 'AIP Details',
     fundRiskLevels: 'Description of risk level',
@@ -169,7 +169,8 @@ export const en = {
     A90: 'Terminate',
     A91: 'Successfully Modified',
     A92: 'No Change Made',
-    A93: 'AIP cannot be resumed once you terminate it. Comfirm to terminate?',
+    A93:
+        'Periodic Investment cannot be resumed once you terminate it. Comfirm to terminate?',
     A94: 'Confirm to suspend the plan?',
     A95:
         'Please make sure you have enough money in your account on next debit date.',
@@ -188,11 +189,11 @@ export const en = {
     A107: 'Next AIP Date',
     A108: 'Next Debit Date',
     A109: 'AIP',
-    A110: 'Set AIP success',
+    A110: 'Periodic Investment instruction completed',
     A111: 'Fund name',
     A112: 'Amount and Time',
     A113: 'Automatic exchange',
-    A114: 'Finsh',
+    A114: 'Finish',
     Equity: 'Equity',
     Bond: 'Bond',
     Balanced: 'Balanced',
