@@ -29,11 +29,11 @@ export const redeemList = {
     minPositionShare: {
         label: '最低持有份额',
         value: ''
-    },
-    redemptionFee: {
-        label: '赎回费',
-        value: ''
     }
+    // redemptionFee: {
+    //     label: '赎回费',
+    //     value: ''
+    // }
 }
 
 export const managementList = {
@@ -50,6 +50,8 @@ export const i18nTrudeRuleData = {
         time: '日期',
         Description: '说明',
         tradeTitleExplain: '申购费说明',
+        redemptionFeeExplain: '赎回费说明',
+        redemDefaultPeriod: '赎回金额',
         tradeMoneyLable: '申购金额',
         feeLable: '费率',
         tradeDefaultPeriod: '申购金额',
@@ -84,10 +86,10 @@ export const i18nTrudeRuleData = {
         redeemList: {
             minPositionShare: {
                 label: '最低持有份额'
-            },
-            redemptionFee: {
-                label: '赎回费'
             }
+            // redemptionFee: {
+            //     label: '赎回费'
+            // }
         },
         managementList: {
             managementFee: {
@@ -113,6 +115,8 @@ export const i18nTrudeRuleData = {
         time: '日期',
         Description: '說明',
         tradeTitleExplain: '申購費說明',
+        redemptionFeeExplain: '贖回費說明',
+        redemDefaultPeriod: '贖回金額',
         tradeMoneyLable: '認購金額',
         feeLable: '費率',
         tradeDefaultPeriod: '認購金額',
@@ -156,10 +160,10 @@ export const i18nTrudeRuleData = {
         redeemList: {
             minPositionShare: {
                 label: '最低持有份額'
-            },
-            redemptionFee: {
-                label: '贖回費'
             }
+            // redemptionFee: {
+            //     label: '贖回費'
+            // }
         },
         managementList: {
             managementFee: {
@@ -176,6 +180,8 @@ export const i18nTrudeRuleData = {
         time: 'Time',
         Description: 'Description',
         tradeTitleExplain: 'Subs. Fee Description',
+        redemptionFeeExplain: 'Redemption Fee Instruction',
+        redemDefaultPeriod: 'Redemption amount',
         tradeMoneyLable: 'Amount',
         feeLable: 'Rate',
         tradeDefaultPeriod: 'Amount',
@@ -219,10 +225,10 @@ export const i18nTrudeRuleData = {
         redeemList: {
             minPositionShare: {
                 label: 'Min. Holding Unit'
-            },
-            redemptionFee: {
-                label: 'Redemption Fee'
             }
+            // redemptionFee: {
+            //     label: 'Redemption Fee'
+            // }
         },
         managementList: {
             managementFee: {
