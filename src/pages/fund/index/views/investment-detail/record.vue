@@ -34,6 +34,17 @@ import { statusMap } from './common'
 import dayjs from 'dayjs'
 import { getFundFixedRecordPage } from '@/service/finance-server.js'
 export default {
+    i18n: {
+        zhCHS: {
+            nomore1: '无更多内容'
+        },
+        zhCHT: {
+            nomore1: '無更多內容'
+        },
+        en: {
+            nomore1: 'No Record'
+        }
+    },
     components: {
         [List.name]: List
     },
@@ -115,7 +126,7 @@ export default {
                 })
                 this.finishedText = this.$t('nomore1')
                 this.finishedText =
-                    this.total == 0 ? '无更多内容' : this.finishedText
+                    this.total == 0 ? this.$t('nomore1') : this.finishedText
                 console.log(this.recordList)
             } catch (e) {
                 this.$toast(e.msg)

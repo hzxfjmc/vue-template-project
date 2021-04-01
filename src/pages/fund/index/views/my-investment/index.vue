@@ -8,7 +8,7 @@
         v-model="active" 
         sticky
         swipeable) 
-        van-tab(:title="$t(['定投计划','定投計劃','AIP'])")
+        van-tab(:title="$t(['定投计划','定投計劃','Periodic Investment'])")
             van-list.order-record-list(
                 v-model="loading" 
                 :finished="finished" 

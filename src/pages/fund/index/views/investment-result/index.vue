@@ -60,12 +60,12 @@ export default {
                 : this.$t([
                       `${this.fundInfo.fixedCycleValue}日`,
                       `${this.fundInfo.fixedCycleValue}日`,
-                      `${this.fundInfo.fixedCycleValue}th`
+                      `${this.fundInfo.fixedCycleValue}`
                   ])
         this.fundInfo.fixedCycleType =
             this.fundInfo.fixedCycleType === 1
-                ? this.$t(['每周', '每週', 'Weekly'])
-                : this.$t(['每月', '每月', 'Monthly'])
+                ? this.$t(['每周', '每週', 'Weekly on '])
+                : this.$t(['每月', '每月', 'Monthly on '])
     },
     methods: {
         toRouterPath() {
