@@ -16,7 +16,7 @@
         h3.fund-management-title {{$t('tradeTitleExplain')}}
         table.trade-table(cellspacing="0" cellpadding="0")
             tr
-                td {{$t('tradeMoneyLable')}}{{`（${currency}）`}}
+                td {{$t('tradeDefaultPeriod')}}{{`（${currency}）`}}
                 td {{$t('feeLable')}}
             template(v-for="(item,index) in subscribeFeeVO.fundFeeLevelVOList")
                 tr(v-if="subscribeFeeVO.fundFeeLevelVOList.length")
@@ -48,6 +48,28 @@
                 :curStep="3"
                 :stepNames="[sellSubmit.label,sellConfirm.label ,sellProfitLoss.label ]"
                 :stepTimes="[sellSubmit.value,sellConfirm.value ,sellProfitLoss.value ]")
+    .fund-management-list(v-if="showPositionInfo")
+        h3.fund-management-title {{$t('redemptionFeeExplain')}}
+        table.trade-table(cellspacing="0" cellpadding="0")
+            tr
+                td {{$t('redemDefaultPeriod')}}{{`（${currency}）`}}
+                td {{$t('feeLable')}}
+            template(v-for="(item,index) in redeemFeeVO.fundFeeLevelVOList")
+                tr(v-if="redeemFeeVO.fundFeeLevelVOList.length")
+                    td 
+                        span {{unitName(item.minAmount)}}
+                            span(v-if="+item.minAmount") {{$t('million')}}
+                        span {{` ≤ ${$t('redemDefaultPeriod')}`}}
+                        span(v-if="item.maxAmount") {{` < ${unitName(item.maxAmount)}`}}{{$t('million')}}
+                    td
+                        span {{`${discountRate(item.feeRate)}`}}
+                        span(v-if="times(redeemFeeVO.fundFeeLevelVOList[index].feeRate,100)<Number(subscribeFeeVO.defaultFeeRate)")
+                            span （
+                            s {{`${subscribeFeeVO.defaultFeeRate}%`}}
+                            span ） 
+                tr(v-else)
+                    td {{`0 ≤ ${$t('redemDefaultPeriod')}`}}
+                    td {{`${subscribeFeeVO.defaultFeeRate}%`}}
     .fund-management-list
         h3.fund-management-title(class="border-bottom") {{$t('managermentLabel')}}
         FunCell(:cellList="managementList")
@@ -131,6 +153,10 @@ export default {
                 defaultFeeRate: 0,
                 fundFeeLevelVOList: []
             },
+            redeemFeeVO: {
+                defaultFeeRate: 0,
+                fundFeeLevelVOList: []
+            },
             holidayList: [],
             times: NP.times
         }
@@ -150,25 +176,30 @@ export default {
                 let { subscribeFeeVO, redeemFeeVO } = await getFundFeeConfigV1(
                     params
                 )
-                this.redeemList.redemptionFee.value =
-                    redeemFeeVO.fundFeeLevelVOList.length &&
-                    Number(redeemFeeVO.fundFeeLevelVOList[0].feeRate) <
-                        Number(redeemFeeVO.defaultFeeRate)
-                        ? `${(
-                              redeemFeeVO.fundFeeLevelVOList[0].feeRate * 100
-                          ).toFixed(2)}%（<s>${(
-                              redeemFeeVO.defaultFeeRate * 100
-                          ).toFixed(2)}%</s>）`
-                        : `${redeemFeeVO.defaultFeeRate}%`
-                console.log(
-                    this.redeemList.redemptionFee.value,
-                    (redeemFeeVO.fundFeeLevelVOList[0].feeRate * 100).toFixed(
-                        2
-                    ),
-                    redeemFeeVO.defaultFeeRate
-                )
-                this.subscribeFeeVO.defaultFeeRate = `${(
-                    subscribeFeeVO.defaultFeeRate * 100
+                // this.redeemList.redemptionFee.value =
+                //     redeemFeeVO.fundFeeLevelVOList.length &&
+                //     Number(redeemFeeVO.fundFeeLevelVOList[0].feeRate) <
+                //         Number(redeemFeeVO.defaultFeeRate)
+                //         ? `${(
+                //               redeemFeeVO.fundFeeLevelVOList[0].feeRate * 100
+                //           ).toFixed(2)}%（<s>${(
+                //               redeemFeeVO.defaultFeeRate * 100
+                //           ).toFixed(2)}%</s>）`
+                //         : `${redeemFeeVO.defaultFeeRate}%`
+                // console.log(
+                //     this.redeemList.redemptionFee.value,
+                //     (redeemFeeVO.fundFeeLevelVOList[0].feeRate * 100).toFixed(
+                //         2
+                //     ),
+                //     redeemFeeVO.defaultFeeRate
+                // )
+                this.redeemFeeVO.defaultFeeRate = `${(
+                    redeemFeeVO.defaultFeeRate * 100
+                ).toFixed(2)}`
+                this.redeemFeeVO.fundFeeLevelVOList =
+                    redeemFeeVO.fundFeeLevelVOList
+                this.redeemFeeVO.defaultFeeRate = `${(
+                    redeemFeeVO.defaultFeeRate * 100
                 ).toFixed(2)}`
                 this.subscribeFeeVO.fundFeeLevelVOList =
                     subscribeFeeVO.fundFeeLevelVOList
