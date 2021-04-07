@@ -452,7 +452,7 @@ export default {
                         11: 'November',
                         12: 'December'
                     }
-                    this.date = `${day} ${MONTHEUMC[month]}`
+                    this.date = `${day} ${MONTHEUMC[month + 1]}`
                 }
             } catch (e) {
                 this.$toast(e.msg)
