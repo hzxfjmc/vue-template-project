@@ -164,8 +164,8 @@ export default {
             fundHeaderInfoVO: {},
             fixedCycleTypeObj: {
                 key: [
-                    this.$t(['每周', '每週', 'Weekly']),
-                    this.$t(['周一', '週一', 'Mon.'])
+                    this.$t(['每周', '每週', 'Weekly on']),
+                    this.$t(['周一', '週一', 'Monday'])
                 ],
                 type: 1,
                 value: 1
@@ -434,7 +434,7 @@ export default {
                     )
                 } else {
                     let month = new Date(res).getMonth()
-                    let day = new Date(res).getDay()
+                    let day = new Date(res).getDate()
                     if (day < 10) {
                         day = `0${day}`
                     }

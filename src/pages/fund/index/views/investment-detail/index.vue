@@ -369,8 +369,8 @@ export default {
                           ])
                 this.investmentInfo.fixedCycleMonth =
                     this.investmentInfo.fixedCycleType === 1
-                        ? this.$t(['每周', '每週', 'Weekly on'])
-                        : this.$t(['每月', '每月', 'Monthly on'])
+                        ? this.$t(['每周', '每週', 'Weekly on '])
+                        : this.$t(['每月', '每月', 'Monthly on '])
                 this.init()
             } catch (e) {
                 console.log(e)
