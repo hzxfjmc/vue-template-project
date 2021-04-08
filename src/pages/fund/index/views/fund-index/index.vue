@@ -117,7 +117,7 @@ div
             .block--yxbao-container.margin_top(v-if="!isWhiteUserBit")
                 .block--title
                     h3 {{$t('uMoney')}}
-                    em.iconfont.icon-iconEBshoucang2(@click="handlerDesc")
+                    em.iconfont.icon-iconEBshoucang2.umoney-icon(@click="handlerDesc")
                 p.block--desc(v-if="lang != 'en'") {{$t('stockRedemption')}}
                 p.block--desc.block--desc_en(v-else) {{$t('stockRedemption')}}
                 .block--bottom-content
