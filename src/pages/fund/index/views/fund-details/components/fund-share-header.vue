@@ -143,6 +143,7 @@ export default {
             .number {
                 color: #ea3d3d;
                 font-size: 20px;
+                font-family: yxFontDINPro-Medium;
                 line-height: 23px;
             }
             .tag {
