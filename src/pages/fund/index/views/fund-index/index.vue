@@ -70,7 +70,7 @@ div
                         em.iconfont.icon-previewright
                 .block__assets(v-else)
                     .block--assets--header
-                        .block--left
+                        .block--left(:class="[lang === 'en' ? 'block-size':'']")
                             p {{$t('descFund')}}
                             p {{$t('descFund1')}}
                         .block--right(
