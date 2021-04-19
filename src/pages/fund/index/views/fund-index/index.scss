@@ -46,8 +46,11 @@
                 font-weight:bolder;
             }
         }
+        .block-size{
+            font-size:14px;
+        }
         .block--right{
-            width:142px;
+            min-width:120px;
             height:77px;
             background-size:100% 100%;
             position: relative;
