@@ -90,15 +90,26 @@ div
 
                 .block__tab
                     .block__tab--list
-                        .block__tab--Item(
-                            @click="handlerNavItem(item)"
-                            v-for="(item,index) in tabList"
-                            :key="index"
-                        )
-                            img(:src="item.imgUrl" :class="`item-${index+1}`")
-                            span {{item.label}}
-                            .new(v-if="item.key === 'cashPlus'") new
-                            .red-point(v-if="showRedPointList[index]")
+                        template(v-if="appType.Ch")
+                            .block__tab--Item(
+                                @click="handlerNavItem(item)"
+                                v-for="(item,index) in zhtNavList"
+                                :key="index"
+                            )
+                                img(:src="item.imgUrl" :class="`item-${index+1}`")
+                                span {{item.label}}
+                                .new(v-if="item.key === 'cashPlus'") new
+                                .red-point(v-if="showRedPointList[index]")
+                        template(v-else)
+                            .block__tab--Item(
+                                @click="handlerNavItem(item)"
+                                v-for="(item,index) in tabList"
+                                :key="index"
+                            )
+                                img(:src="item.imgUrl" :class="`item-${index+1}`")
+                                span {{item.label}}
+                                .new(v-if="item.key === 'cashPlus'") new
+                                .red-point(v-if="showRedPointList[index]")
                 .block-bannar-sub-swiper.second__bannar.block__bannar__Tab(v-if="barnnarList1.length !== 0")
                         van-swipe(:autoplay="3000")
                             van-swipe-item(
@@ -307,6 +318,38 @@ export default {
             blueChipFundListShow: false,
             robustFundListShow: false,
             searchButtonShow: false,
+            zhtNavList: [
+                {
+                    imgUrl: require('@/assets/img/fund/icon-cash-plus-ch.png'),
+                    label: '现金+',
+                    key: 'cashPlus',
+                    value: 1
+                },
+                {
+                    imgUrl: require('@/assets/img/fund/icon-fund-filter-ch.png'),
+                    label: '基金筛选',
+                    key: 'fundFilter',
+                    value: 2
+                },
+                {
+                    imgUrl: require('@/assets/img/fund/icon-fund-investment-ch.png'),
+                    label: '基金定投',
+                    key: 'investment',
+                    value: 5
+                },
+                {
+                    imgUrl: require('@/assets/img/fund/icon-fund-company-ch.png'),
+                    label: '尊享专区',
+                    key: 'fundCompany',
+                    value: 4
+                },
+                {
+                    imgUrl: require('@/assets/img/fund/icon-fund-investment-ch.png'),
+                    label: '基金公司',
+                    key: 'investment',
+                    value: 3
+                }
+            ], // 大陆nav和香港区分开来
             tabList: [
                 {
                     imgUrl: require('@/assets/img/fund/icon-cash-plus.png'),
@@ -853,6 +896,7 @@ export default {
         }
     },
     async created() {
+        console.log(this.appType)
         this.getListFundCompany()
         this.getBaoFundInfo()
         this.getBaoFundList()
