@@ -361,26 +361,28 @@
             align-items: center;
             text-align: center;
             img {
-                &.item-1 {
-                    width: 30px;
-                    height: 30px;
-                }
-                &.item-2 {
-                    width: 30px;
-                    height: 30px;
-                }
-                &.item-3 {
-                    width: 30px;
-                    height: 30px;
-                }
-                &.item-4 {
-                    width: 30px;
-                    height: 30px;
-                }
-                &.item-5 {
-                    width: 30px;
-                    height: 30px;
-                }
+                width: 36px;
+                height: 36px;
+                // &.item-1 {
+                    // width: 30px;
+                    // height: 30px;
+                // }
+                // &.item-2 {
+                //     width: 30px;
+                //     height: 30px;
+                // }
+                // &.item-3 {
+                //     width: 30px;
+                //     height: 30px;
+                // }
+                // &.item-4 {
+                //     width: 30px;
+                //     height: 30px;
+                // }
+                // &.item-5 {
+                //     width: 30px;
+                //     height: 30px;
+                // }
             }
             span {
                 margin:5px 0 0 0;
