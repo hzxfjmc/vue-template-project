@@ -338,13 +338,13 @@ export default {
                     value: 5
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon-fund-company-ch.png'),
+                    imgUrl: require('@/assets/img/fund/icon-pi-ch.png'),
                     label: '尊享专区',
                     key: 'fundCompany',
                     value: 4
                 },
                 {
-                    imgUrl: require('@/assets/img/fund/icon-fund-investment-ch.png'),
+                    imgUrl: require('@/assets/img/fund/icon-fund-company-ch.png'),
                     label: '基金公司',
                     key: 'investment',
                     value: 3
