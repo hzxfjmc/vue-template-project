@@ -4,7 +4,7 @@ const fs = require('fs')
 module.exports = project => ({
     outputDir: `dist/${project}`,
     // baseUrl: `/webapp/${project}`,
-    publicPath: `/wealth/${project}`,
+    publicPath: `/vue-template-project/${project}`,
     css: {
         loaderOptions: {
             less: {

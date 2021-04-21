@@ -1,14 +1,14 @@
 {
-  "name": "wealth",
+  "name": "vue-template-project",
   "version": "1.0.0",
   "private": true,
   "scripts": {
     "serve": "node build/dev.js",
-    "build": "yarn test && node build/build.js",
+    "build": "node build/build.js",
     "build-zip": "node build/build-zip.js",
     "lint": "vue-cli-service lint",
     "lint:staged": "lint-staged",
-    "doc": "./node_modules/.bin/vuese gen && ./node_modules/.bin/vuese serve --open",
+    "doc": "vuese gen && ./node_modules/.bin/vuese serve --open",
     "test": "jest"
   },
   "dependencies": {
@@ -96,5 +96,13 @@
       "vue-cli-service lint",
       "git add"
     ]
-  }
+  },
+  "description": "hzx",
+  "main": "main.js",
+  "keywords": [
+    "vue",
+    "template"
+  ],
+  "author": "hzxfjmc",
+  "license": "ISC"
 }
